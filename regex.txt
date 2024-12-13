@@ -62,7 +62,7 @@ MUL := DIV (* DIV)*
 DIV := MOD (/ MOD)*
 MOD := ATOM (% ATOM)*
 
-ATOM := TYPE_VALUE | NEW_OBJECT | LITERAL | NEW_ARRAY | \(ATOM\)
+ATOM := TYPE_VALUE | NEW_OBJECT | LITERAL | NEW_ARRAY | \(EXPR\)
 NEW_OBJECT := new LITERAL\((EXPR)?(, EXPR)*\)
 NEW_ARRAY := new LITERAL\[\]({(EXPR)?(, EXPR)*})? TODO: what about uninitialized???
 
