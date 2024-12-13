@@ -6,6 +6,10 @@ import org.jetbrains.annotations.NotNull;
  * Contains all the tokens utilized by {@link it.fulminazzo.javaparser.parser.JavaParser}.
  */
 public enum TokenType {
+
+    // General
+    SPACE("[\r\t\n ]"),
+    EOF("")
     ;
 
     private final @NotNull String regex;
