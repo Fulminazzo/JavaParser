@@ -1,6 +1,6 @@
 package it.fulminazzo.javaparser.parser;
 
-import it.fulminazzo.javaparser.parser.node.BaseValue;
+import it.fulminazzo.javaparser.parser.node.types.*;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.tokenizer.Tokenizer;
 import lombok.NoArgsConstructor;
@@ -33,22 +33,43 @@ public class JavaParser extends Parser {
      *
      * @return the node
      */
-    protected @NotNull BaseValue parseTypeValue() {
+    protected @NotNull BaseTypeLiteral parseTypeValue() {
+        final String read = getTokenizer().lastRead();
+        final BaseTypeLiteral literal;
         switch (lastToken()) {
-            case NUMBER_VALUE:
-            case LONG_VALUE:
-            case DOUBLE_VALUE:
-            case FLOAT_VALUE:
-            case BOOLEAN_VALUE:
-            case CHAR_VALUE:
+            case NUMBER_VALUE: {
+                literal = new NumberLiteral(read);
+                break;
+            }
+            case LONG_VALUE: {
+                literal = new LongLiteral(read);
+                break;
+            }
+            case DOUBLE_VALUE: {
+                literal = new DoubleLiteral(read);
+                break;
+            }
+            case FLOAT_VALUE: {
+                literal = new FloatLiteral(read);
+                break;
+            }
+            case BOOLEAN_VALUE: {
+                literal = new BooleanLiteral(read);
+                break;
+            }
+            case CHAR_VALUE: {
+                literal = new CharLiteral(read);
+                break;
+            }
             case STRING_VALUE: {
-                BaseValue node = new BaseValue(getTokenizer().lastRead());
-                nextSpaceless();
-                return node;
+                literal = new StringLiteral(read);
+                break;
             }
             default:
                 throw new ParserException("Unexpected token: " + lastToken());
         }
+        nextSpaceless();
+        return literal;
     }
 
     /**
