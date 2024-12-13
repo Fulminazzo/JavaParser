@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Represents a general node of the parser.
@@ -32,6 +33,16 @@ public abstract class Node {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        Refl<?> refl = new Refl<>(this);
+        return getClass().getSimpleName() + "(" + refl.getNonStaticFields().stream()
+                .map(refl::getFieldObject)
+                .map(o -> o == null ? "null" : o.toString())
+                .map(Object::toString)
+                .collect(Collectors.joining(", ")) + ")";
     }
 
 }
