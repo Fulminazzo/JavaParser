@@ -13,7 +13,7 @@ public enum TokenType {
     DOUBLE_VALUE("[0-9]+(?:.[0-9]+)?(?:E[-0-9]+)?[Dd]?"),
     FLOAT_VALUE("[0-9]+(?:.[0-9]+)?(?:E[-0-9]+)?[Ff]?"),
     BOOLEAN_VALUE("true|false"),
-    CHAR_VALUE("'([^']|\\[rbftn'\"\\])'"),
+    CHAR_VALUE("'([^\\r\\n\\t \\\\]|\\\\[rbnft\\\\\"'])'"),
     STRING_VALUE("\"((?:[^\"]|\\\")*\")"),
 
     // General
