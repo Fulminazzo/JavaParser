@@ -26,10 +26,12 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * TYPE_VALUE := NUMBER_VALUE | LONG_VALUE | DOUBLE_VALUE | FLOAT_VALUE |
-     *               BOOLEAN_VALUE | CHARACTER_VALUE | STRING_VALUE
+     * TYPE_VALUE := {@link TokenType#NUMBER_VALUE} | {@link TokenType#LONG_VALUE} |
+     *               {@link TokenType#DOUBLE_VALUE} | {@link TokenType#FLOAT_VALUE} |
+     *               {@link TokenType#BOOLEAN_VALUE} | {@link TokenType#CHAR_VALUE} |
+     *               {@link TokenType#STRING_VALUE}
      *
-     * @return the base value
+     * @return the node
      */
     protected @NotNull BaseValue parseTypeValue() {
         switch (lastToken()) {
@@ -50,9 +52,9 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * LITERAL := ([a-zA-Z_][a-zA-Z0-9_.]*)
+     * LITERAL := {@link TokenType#LITERAL}
      *
-     * @return the string
+     * @return the node
      */
     protected @NotNull String parseLiteral() {
         final String literal = getTokenizer().lastRead();
@@ -61,9 +63,9 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * LITERAL_NO_DOT := ([a-zA-Z_][a-zA-Z0-9_]*)
+     * LITERAL_NO_DOT := {@link TokenType#LITERAL_NO_DOT}
      *
-     * @return the string
+     * @return the node
      */
     protected @NotNull String parseLiteralNoDot() {
         final String literalNoDot = getTokenizer().lastRead();
