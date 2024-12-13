@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public enum TokenType {
 
-    // Operations
+    // Binary Operations
     EQUAL("=="),
     NOT_EQUAL("!="),
     LESS_THAN("<"),
@@ -30,6 +30,10 @@ public enum TokenType {
     MULTIPLY("\\*"),
     DIVIDE("/"),
     MODULO("%"),
+
+    // Unary Operations
+    MINUS("\\-"),
+    NOT("!"),
 
     // Type names
     BYTE("byte"),
