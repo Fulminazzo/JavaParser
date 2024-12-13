@@ -1,9 +1,16 @@
 package it.fulminazzo.javaparser.parser;
 
-import it.fulminazzo.javaparser.parser.node.BaseValue;
+import it.fulminazzo.fulmicollection.objects.Refl;
+import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
+import it.fulminazzo.fulmicollection.utils.StringUtils;
 import it.fulminazzo.javaparser.parser.node.Node;
+import it.fulminazzo.javaparser.parser.node.operators.binary.BinaryOperation;
+import it.fulminazzo.javaparser.parser.node.operators.binary.LShift;
+import it.fulminazzo.javaparser.parser.node.operators.binary.RShift;
+import it.fulminazzo.javaparser.parser.node.operators.binary.URShift;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Minus;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Not;
+import it.fulminazzo.javaparser.parser.node.types.*;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.tokenizer.Tokenizer;
 import lombok.NoArgsConstructor;
@@ -26,6 +33,37 @@ public class JavaParser extends Parser {
      */
     public JavaParser(@NotNull InputStream input) {
         super(input);
+    }
+
+    protected @NotNull Node parseExpression() {
+        //TODO: for testing purposes only
+        getTokenizer().nextSpaceless();
+        return parseBinaryOperation(EQUAL);
+    }
+
+    protected @NotNull Node parseBinaryOperation(final @NotNull TokenType operation) {
+        if (operation.ordinal() > MODULO.ordinal()) return parseAtom();
+        else {
+            final TokenType nextOperation = TokenType.values()[operation.ordinal() + 1];
+            Node node = parseBinaryOperation(nextOperation);
+            while (lastToken() == operation) {
+                consume(operation);
+                Node tmp = parseBinaryOperation(nextOperation);
+                Class<? extends BinaryOperation> clazz = findOperationClass(operation.name());
+                node = new Refl<>(clazz, node, tmp).getObject();
+            }
+            return node;
+        }
+    }
+
+    private Class<? extends BinaryOperation> findOperationClass(@NotNull String className) {
+        if (className.equals(URSHIFT.name())) return URShift.class;
+        else if (className.equals(RSHIFT.name())) return RShift.class;
+        else if (className.equals(LSHIFT.name())) return LShift.class;
+        else {
+            className = StringUtils.capitalize(className).replace("_", "");
+            return ReflectionUtils.getClass(BinaryOperation.class.getPackage().getName() + "." + className);
+        }
     }
 
     /**
@@ -69,22 +107,43 @@ public class JavaParser extends Parser {
      *
      * @return the node
      */
-    protected @NotNull BaseValue parseTypeValue() {
+    protected @NotNull BaseTypeLiteral parseTypeValue() {
+        final String read = getTokenizer().lastRead();
+        final BaseTypeLiteral literal;
         switch (lastToken()) {
-            case NUMBER_VALUE:
-            case LONG_VALUE:
-            case DOUBLE_VALUE:
-            case FLOAT_VALUE:
-            case BOOLEAN_VALUE:
-            case CHAR_VALUE:
+            case NUMBER_VALUE: {
+                literal = new NumberLiteral(read);
+                break;
+            }
+            case LONG_VALUE: {
+                literal = new LongLiteral(read);
+                break;
+            }
+            case DOUBLE_VALUE: {
+                literal = new DoubleLiteral(read);
+                break;
+            }
+            case FLOAT_VALUE: {
+                literal = new FloatLiteral(read);
+                break;
+            }
+            case BOOLEAN_VALUE: {
+                literal = new BooleanLiteral(read);
+                break;
+            }
+            case CHAR_VALUE: {
+                literal = new CharLiteral(read);
+                break;
+            }
             case STRING_VALUE: {
-                BaseValue node = new BaseValue(getTokenizer().lastRead());
-                nextSpaceless();
-                return node;
+                literal = new StringLiteral(read);
+                break;
             }
             default:
                 throw new ParserException("Unexpected token: " + lastToken());
         }
+        nextSpaceless();
+        return literal;
     }
 
     /**
