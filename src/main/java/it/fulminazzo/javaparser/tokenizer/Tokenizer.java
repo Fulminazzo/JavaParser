@@ -44,10 +44,15 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
 
     private @NotNull TokenType readTokenType(@NotNull String read) throws IOException {
         while (this.input.available() > 0) {
-            read += (char) this.input.read();
+            char c = (char) this.input.read();
+            read += c;
             if (!isTokenType(read)) {
+                String subString = read.substring(0, read.length() - 1);
+                // Line necessary to properly read DOUBLE_VALUE and FLOAT_VALUE
+                if (TokenType.fromString(subString) == TokenType.NUMBER_VALUE && c == '.')
+                    continue;
                 this.previousRead = read.substring(read.length() - 1);
-                return updateTokenType(read.substring(0, read.length() - 1));
+                return updateTokenType(subString);
             }
         }
         return updateTokenType(read);
