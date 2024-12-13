@@ -29,6 +29,19 @@ public class JavaParser extends Parser {
     }
 
     /**
+     * ATOM := MINUS | NOT | TYPE_VALUE
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseAtom() {
+        switch (lastToken()) {
+            case MINUS: return parseMinus();
+            case NOT: return parseNot();
+            default: return parseTypeValue();
+        }
+    }
+
+    /**
      * MINUS := - EXPR
      *
      * @return the node
