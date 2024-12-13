@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.parser;
 
+import it.fulminazzo.javaparser.parser.node.BaseValue;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.tokenizer.Tokenizer;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,30 @@ public class JavaParser extends Parser {
      */
     public JavaParser(@NotNull InputStream input) {
         super(input);
+    }
+
+    /**
+     * TYPE_VALUE := NUMBER_VALUE | LONG_VALUE | DOUBLE_VALUE | FLOAT_VALUE |
+     *               BOOLEAN_VALUE | CHARACTER_VALUE | STRING_VALUE
+     *
+     * @return the base value
+     */
+    protected @NotNull BaseValue parseTypeValue() {
+        switch (lastToken()) {
+            case NUMBER_VALUE:
+            case LONG_VALUE:
+            case DOUBLE_VALUE:
+            case FLOAT_VALUE:
+            case BOOLEAN_VALUE:
+            case CHAR_VALUE:
+            case STRING_VALUE: {
+                BaseValue node = new BaseValue(getTokenizer().lastRead());
+                nextSpaceless();
+                return node;
+            }
+            default:
+                throw new ParserException("Unexpected token: " + lastToken());
+        }
     }
 
     /**
