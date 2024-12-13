@@ -4,6 +4,10 @@ TODO: lambda
 TODO: switch statement
 TODO: uninitialized array
 TODO: the environment scope should have an owner attribute, in order to check if break is applied in valid context
+TODO: negative numbers
+TODO: not operator
+TODO: this
+TODO: comments
 
 PROGRAM := (SINGLE_STMT\s?)*STMT;?
 
