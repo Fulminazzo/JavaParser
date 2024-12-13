@@ -9,9 +9,13 @@ version = '1.0'
 
 repositories {
     mavenCentral()
+    maven { url = "https://repo.fulminazzo.it/releases" }
 }
 
 dependencies {
+    // FulmiCollection
+    api libs.fulmicollection
+
     // Lombok
     compileOnly libs.lombok
     annotationProcessor libs.lombok
