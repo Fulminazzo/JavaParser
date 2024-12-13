@@ -27,6 +27,17 @@ public class JavaParser {
 
     /**
      * Returns the next {@link TokenType} from the {@link Tokenizer}.
+     * Repeats the reading until {@link TokenType} is not {@link TokenType#SPACE}.
+     * Uses {@link #getTokenizer()}.
+     *
+     * @return the token type
+     */
+    protected @NotNull TokenType nextSpaceless() {
+        return getTokenizer().nextSpaceless();
+    }
+
+    /**
+     * Returns the next {@link TokenType} from the {@link Tokenizer}.
      * Uses {@link #getTokenizer()}.
      *
      * @return the token type
