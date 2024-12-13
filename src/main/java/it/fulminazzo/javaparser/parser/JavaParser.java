@@ -36,7 +36,7 @@ public class JavaParser extends Parser {
     }
 
     protected @NotNull Node parseBinaryOperation(final @NotNull TokenType operation) {
-        if (operation.ordinal() >= MODULO.ordinal()) return parseAtom();
+        if (operation.ordinal() > MODULO.ordinal()) return parseAtom();
         else {
             final TokenType nextOperation = TokenType.values()[operation.ordinal() + 1];
             Node node = parseBinaryOperation(nextOperation);
