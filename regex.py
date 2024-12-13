@@ -66,14 +66,14 @@ ATOM := TYPE_VALUE | NEW_OBJECT | LITERAL | NEW_ARRAY | \(EXPR\)
 NEW_OBJECT := new LITERAL\((EXPR)?(, EXPR)*\)
 NEW_ARRAY := new LITERAL\[\]({(EXPR)?(, EXPR)*})? TODO: what about uninitialized???
 
-TYPE_VALUE := NUMBER | DOUBLE | FLOAT | LONG | BOOLEAN | CHARACTER | STRING
-NUMBER := [0-9]+
-LONG := (?[0-9]+)[Ll]?
-DOUBLE := (?[0-9]+(?:.[0-9]+)?)(?:E[-0-9]+)?[Dd]?
-FLOAT := (?[0-9]+(?:.[0-9]+)?)(?:E[-0-9]+)?[Ff]
-BOOLEAN := (true|false)
-CHARACTER := '([^']|\[rstnfbRSTNFB'"\])'
-STRING := "\"((?:[^\"]|\\\")*)\""
+# TYPE_VALUE := NUMBER | DOUBLE | FLOAT | LONG | BOOLEAN | CHARACTER | STRING
+# NUMBER := [0-9]+
+# LONG := (?[0-9]+)[Ll]?
+# DOUBLE := (?[0-9]+(?:.[0-9]+)?)(?:E[-0-9]+)?[Dd]?
+# FLOAT := (?[0-9]+(?:.[0-9]+)?)(?:E[-0-9]+)?[Ff]
+# BOOLEAN := (true|false)
+# CHARACTER := '([^']|\[rstnfbRSTNFB'"\])'
+# STRING := "\"((?:[^\"]|\\\")*)\""
 
 TYPE := byte | short | int | double | float | long | boolean | char
 
