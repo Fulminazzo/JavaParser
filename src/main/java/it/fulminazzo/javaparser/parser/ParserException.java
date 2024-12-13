@@ -1,4 +1,4 @@
-package it.fulminazzo.parser;
+package it.fulminazzo.javaparser.parser;
 
 import org.jetbrains.annotations.NotNull;
 
