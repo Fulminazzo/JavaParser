@@ -61,8 +61,8 @@ public class JavaParser extends Parser {
         else if (className.equals(RSHIFT.name())) return RShift.class;
         else if (className.equals(LSHIFT.name())) return LShift.class;
         else {
-        className = StringUtils.capitalize(className);
-        return ReflectionUtils.getClass(BinaryOperation.class.getPackage().getName() + "." + className);
+            className = StringUtils.capitalize(className).replace("_", "");
+            return ReflectionUtils.getClass(BinaryOperation.class.getPackage().getName() + "." + className);
         }
     }
 
