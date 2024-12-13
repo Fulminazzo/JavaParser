@@ -35,6 +35,12 @@ public class JavaParser extends Parser {
         super(input);
     }
 
+    protected @NotNull Node parseExpression() {
+        //TODO: for testing purposes only
+        getTokenizer().nextSpaceless();
+        return parseBinaryOperation(EQUAL);
+    }
+
     protected @NotNull Node parseBinaryOperation(final @NotNull TokenType operation) {
         if (operation.ordinal() > MODULO.ordinal()) return parseAtom();
         else {
