@@ -7,6 +7,15 @@ import org.jetbrains.annotations.NotNull;
  */
 public enum TokenType {
 
+    // Type values
+    NUMBER_VALUE("[0-9]+"),
+    LONG_VALUE("[0-9]+[Ll]?"),
+    DOUBLE_VALUE("[0-9]+(?:.[0-9]+)?(?:E[-0-9]+)?[Dd]?"),
+    FLOAT_VALUE("[0-9]+(?:.[0-9]+)?(?:E[-0-9]+)?[Ff]?"),
+    BOOLEAN_VALUE("true|false"),
+    CHAR_VALUE("'([^']|\\[rbftn'\"\\])'"),
+    STRING_VALUE("\"((?:[^\"]|\\\")*\")"),
+
     // General
     SPACE("[\r\t\n ]"),
     EOF("")
