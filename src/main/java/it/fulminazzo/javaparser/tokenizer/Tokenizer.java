@@ -6,12 +6,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 
+/**
+ * A converter from raw {@link InputStream} to {@link TokenType}.
+ */
 public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
     private final @NotNull InputStream input;
     private @NotNull TokenType lastToken = TokenType.EOF;
     private @NotNull String lastRead = "";
     private String previousRead = "";
 
+    /**
+     * Instantiates a new Tokenizer.
+     *
+     * @param input the input stream
+     */
     public Tokenizer(final @NotNull InputStream input) {
         this.input = input;
     }
@@ -82,10 +90,20 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
         }
     }
 
+    /**
+     * Gets the last token type.
+     *
+     * @return the token type
+     */
     public @NotNull TokenType lastToken() {
         return this.lastToken;
     }
 
+    /**
+     * Gets the last read string.
+     *
+     * @return the string
+     */
     public @NotNull String lastRead() {
         return this.lastRead;
     }
