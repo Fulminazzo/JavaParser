@@ -1,4 +1,4 @@
-package it.fulminazzo.parser;
+package it.fulminazzo.javaparser.parser;
 
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.tokenizer.Tokenizer;
