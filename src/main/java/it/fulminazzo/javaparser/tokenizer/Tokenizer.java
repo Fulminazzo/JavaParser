@@ -21,8 +21,7 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
         try {
             return this.input.available() > 0 || this.lastToken != TokenType.EOF;
         } catch (IOException e) {
-            //TODO:
-            throw new RuntimeException(e);
+            throw new TokenizerException(e);
         }
     }
 
@@ -37,8 +36,7 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
             }
             return eof();
         } catch (IOException e) {
-            //TODO:
-            throw new RuntimeException(e);
+            throw new TokenizerException(e);
         }
     }
 
