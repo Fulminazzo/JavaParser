@@ -15,6 +15,9 @@ class TokenTypeTest extends Specification {
 
         where:
         expected        | token
+        ADD             | "+"
+        SUBTRACT        | "-"
+        MULTIPLY        | "*"
         NUMBER_VALUE    | "1234567890"
         LONG_VALUE      | "1234567890L"
         LONG_VALUE      | "1234567890l"

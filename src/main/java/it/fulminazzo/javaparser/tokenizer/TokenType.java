@@ -25,9 +25,9 @@ public enum TokenType {
     RSHIFT(">>"),
     URSHIFT(">>>"),
 
-    ADD("+"),
+    ADD("\\+"),
     SUBTRACT("-"),
-    MULTIPLY("*"),
+    MULTIPLY("\\*"),
     DIVIDE("/"),
     MODULO("%"),
 
