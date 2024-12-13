@@ -1,0 +1,31 @@
+plugins {
+    id 'java-library'
+    id 'groovy'
+    id 'io.freefair.lombok' version libs.versions.delombok
+}
+
+group = 'it.fulminazzo'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Lombok
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
+    testCompileOnly libs.lombok
+    testAnnotationProcessor libs.lombok
+
+    // JetBrains Annotations
+    compileOnly libs.annotations
+    testCompileOnly libs.annotations
+
+    testImplementation libs.spock
+    testRuntimeOnly libs.byte.buddy
+}
+
+test {
+    useJUnitPlatform()
+}
