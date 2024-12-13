@@ -1,4 +1,4 @@
-package it.fulminazzo.parser.node;
+package it.fulminazzo.javaparser.parser.node;
 
 /**
  * Represents a general node of the parser.
