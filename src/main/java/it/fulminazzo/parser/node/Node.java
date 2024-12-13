@@ -1,4 +1,4 @@
-package it.fulminazzo.parser.expr;
+package it.fulminazzo.parser.node;
 
 /**
  * Represents a general node of the parser.
