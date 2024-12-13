@@ -41,6 +41,7 @@ public class JavaParser extends Parser {
             final TokenType nextOperation = TokenType.values()[operation.ordinal() + 1];
             Node node = parseBinaryOperation(nextOperation);
             while (lastToken() == operation) {
+                consume(operation);
                 Node tmp = parseBinaryOperation(nextOperation);
                 Class<? extends BinaryOperation> clazz = findOperationClass(operation.name());
                 node = new Refl<>(clazz, node, tmp).getObject();
