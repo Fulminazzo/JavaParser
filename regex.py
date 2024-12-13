@@ -4,8 +4,6 @@ TODO: lambda
 TODO: switch statement
 TODO: uninitialized array
 TODO: the environment scope should have an owner attribute, in order to check if break is applied in valid context
-TODO: negative numbers
-TODO: not operator
 TODO: this
 TODO: comments
 
@@ -60,8 +58,10 @@ ADD := SUB (+ SUB)*
 SUB := MUL (- MUL)*
 MUL := DIV (* DIV)*
 DIV := MOD (/ MOD)*
-MOD := ATOM (% ATOM)*
+MOD := MINUS (% MINUS)*
 
+MINUS := -EXPR
+NOT := !EXPR
 ATOM := TYPE_VALUE | NEW_OBJECT | LITERAL | NEW_ARRAY | \(EXPR\)
 NEW_OBJECT := new LITERAL\((EXPR)?(, EXPR)*\)
 NEW_ARRAY := new LITERAL\[\]({(EXPR)?(, EXPR)*})? TODO: what about uninitialized???
