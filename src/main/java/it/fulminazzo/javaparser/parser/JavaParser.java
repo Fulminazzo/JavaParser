@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.parser;
 
 import it.fulminazzo.javaparser.parser.node.BaseValue;
 import it.fulminazzo.javaparser.parser.node.Node;
+import it.fulminazzo.javaparser.parser.node.operators.unary.Minus;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Not;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.tokenizer.Tokenizer;
@@ -25,6 +26,16 @@ public class JavaParser extends Parser {
      */
     public JavaParser(@NotNull InputStream input) {
         super(input);
+    }
+
+    /**
+     * MINUS := - EXPR
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseMinus() {
+        consume(MINUS);
+        return new Minus(parseExpression());
     }
 
     /**
