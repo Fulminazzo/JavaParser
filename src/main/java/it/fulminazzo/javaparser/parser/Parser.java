@@ -69,14 +69,14 @@ abstract class Parser {
     }
 
     /**
-     * Wrapper for {@link #match(TokenType)} and {@link #next()} combined execution.
+     * Wrapper for {@link #match(TokenType)} and {@link #nextSpaceless()} combined execution.
      *
      * @param tokenType the expected token type
      * @return the newly read token type
      */
     protected @NotNull TokenType consume(final @NotNull TokenType tokenType) {
         match(tokenType);
-        return next();
+        return nextSpaceless();
     }
 
     /**
