@@ -77,5 +77,5 @@ STRING := "\"((?:[^\"]|\\\")*)\""
 
 TYPE := byte | short | int | double | float | long | boolean | char
 
-LITERAL := ([a-zA-Z_][a-zA-Z0-9_.]*) # Uses dot to match "new it.fulminazzo.FulmiCollection()" and similar
-LITERAL_NO_DOT := ([a-zA-Z_][a-zA-Z0-9_]*)
+#LITERAL := ([a-zA-Z_][a-zA-Z0-9_.]*) # Uses dot to match "new it.fulminazzo.FulmiCollection()" and similar
+#LITERAL_NO_DOT := ([a-zA-Z_][a-zA-Z0-9_]*)
