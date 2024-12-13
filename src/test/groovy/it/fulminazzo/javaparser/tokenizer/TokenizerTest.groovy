@@ -6,7 +6,7 @@ import static it.fulminazzo.javaparser.tokenizer.TokenType.*
 
 class TokenizerTest extends Specification {
 
-    def "test tokenizer read"() {
+    def "test tokenizer next"() {
         given:
         def input = "10 20.0 'c' \"Hello\"".bytes
         def tokenizer = new Tokenizer(new ByteArrayInputStream(input))
@@ -20,6 +20,19 @@ class TokenizerTest extends Specification {
                    CHAR_VALUE, SPACE, STRING_VALUE, EOF]
         tokenizer.lastToken() == EOF
         tokenizer.lastRead() == ""
+    }
+
+    def "test tokenizer next spaceless"() {
+        given:
+        def input = "         10".bytes
+        def tokenizer = new Tokenizer(new ByteArrayInputStream(input))
+
+        when:
+        tokenizer.nextSpaceless()
+
+        then:
+        tokenizer.lastToken() == NUMBER_VALUE
+        tokenizer.lastRead() == "10"
     }
 
 }

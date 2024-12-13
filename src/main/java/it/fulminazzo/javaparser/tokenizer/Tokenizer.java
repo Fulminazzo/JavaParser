@@ -24,6 +24,11 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
         this.input = input;
     }
 
+    /**
+     * Verifies that input still has available data.
+     *
+     * @return true if it does
+     */
     @Override
     public boolean hasNext() {
         try {
@@ -33,6 +38,24 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
         }
     }
 
+    /**
+     * Reads from the input the next {@link TokenType}.
+     * Repeats readings until a token different from {@link TokenType#SPACE} is found.
+     *
+     * @return the token type
+     */
+    public @NotNull TokenType nextSpaceless() {
+        do {
+            next();
+        } while (this.lastToken == TokenType.SPACE);
+        return this.lastToken;
+    }
+
+    /**
+     * Reads from the input the next {@link TokenType}.
+     *
+     * @return the token type
+     */
     @Override
     public @NotNull TokenType next() {
         try {
