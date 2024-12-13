@@ -44,7 +44,7 @@ class JavaParserTest extends Specification {
         expected = new GreaterThanEqual(expected, new NumberLiteral("4"))
         expected = new GreaterThan(expected, new NumberLiteral("3"))
         expected = new LessThanEqual(expected, new NumberLiteral("2"))
-        expected = new LessThanEqual(expected, new NumberLiteral("1"))
+        expected = new LessThan(expected, new NumberLiteral("1"))
         expected = new NotEqual(expected, new BooleanLiteral("false"))
         expected = new Equal(expected, new BooleanLiteral("true"))
         def parser = new JavaParser()
