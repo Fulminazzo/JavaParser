@@ -7,6 +7,16 @@ import org.jetbrains.annotations.NotNull;
  */
 public enum TokenType {
 
+    // Type names
+    BYTE("byte"),
+    CHAR("char"),
+    SHORT("short"),
+    INT("int"),
+    LONG("long"),
+    DOUBLE("double"),
+    FLOAT("float"),
+    BOOLEAN("boolean"),
+
     // Type values
     NUMBER_VALUE("[0-9]+"),
     LONG_VALUE("[0-9]+[Ll]?"),
