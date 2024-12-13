@@ -16,10 +16,10 @@ public enum TokenType {
     GREATER_THAN_EQUAL(">="),
 
     AND("&&"),
-    OR("||"),
+    OR("\\|\\|"),
 
     BIT_AND("&"),
-    BIT_OR("|"),
+    BIT_OR("\\|"),
     BIT_XOR("\\^"),
     LSHIFT("<<"),
     RSHIFT(">>"),
