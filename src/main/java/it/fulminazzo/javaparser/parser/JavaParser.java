@@ -1,6 +1,13 @@
 package it.fulminazzo.javaparser.parser;
 
+import it.fulminazzo.fulmicollection.objects.Refl;
+import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
+import it.fulminazzo.fulmicollection.utils.StringUtils;
 import it.fulminazzo.javaparser.parser.node.Node;
+import it.fulminazzo.javaparser.parser.node.operators.binary.BinaryOperation;
+import it.fulminazzo.javaparser.parser.node.operators.binary.LShift;
+import it.fulminazzo.javaparser.parser.node.operators.binary.RShift;
+import it.fulminazzo.javaparser.parser.node.operators.binary.URShift;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Minus;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Not;
 import it.fulminazzo.javaparser.parser.node.types.*;
@@ -35,10 +42,20 @@ public class JavaParser extends Parser {
             Node node = parseBinaryOperation(nextOperation);
             while (lastToken() == operation) {
                 Node tmp = parseBinaryOperation(nextOperation);
-                //TODO: implement
-                node = new Operation(node, tmp);
+                Class<? extends BinaryOperation> clazz = findOperationClass(operation.name());
+                node = new Refl<>(clazz, node, tmp).getObject();
             }
             return node;
+        }
+    }
+
+    private Class<? extends BinaryOperation> findOperationClass(@NotNull String className) {
+        if (className.equals(URSHIFT.name())) return URShift.class;
+        else if (className.equals(RSHIFT.name())) return RShift.class;
+        else if (className.equals(LSHIFT.name())) return LShift.class;
+        else {
+        className = StringUtils.capitalize(className);
+        return ReflectionUtils.getClass(BinaryOperation.class.getPackage().getName() + "." + className);
         }
     }
 
