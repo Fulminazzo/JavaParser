@@ -3,6 +3,7 @@ TODO: diamond operator
 TODO: lambda
 TODO: switch statement
 TODO: uninitialized array
+TODO: the environment scope should have an owner attribute, in order to check if break is applied in valid context
 
 PROGRAM := (SINGLE_STMT\s?)*STMT;?
 
