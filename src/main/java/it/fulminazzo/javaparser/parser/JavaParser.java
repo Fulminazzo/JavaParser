@@ -28,6 +28,20 @@ public class JavaParser extends Parser {
         super(input);
     }
 
+    protected @NotNull Node parseBinaryOperation(final @NotNull TokenType operation) {
+        if (operation.ordinal() >= MODULO.ordinal()) return parseAtom();
+        else {
+            final TokenType nextOperation = TokenType.values()[operation.ordinal() + 1];
+            Node node = parseBinaryOperation(nextOperation);
+            while (lastToken() == operation) {
+                Node tmp = parseBinaryOperation(nextOperation);
+                //TODO: implement
+                node = new Operation(node, tmp);
+            }
+            return node;
+        }
+    }
+
     /**
      * ATOM := MINUS | NOT | TYPE_VALUE
      *
