@@ -7,6 +7,30 @@ import org.jetbrains.annotations.NotNull;
  */
 public enum TokenType {
 
+    // Operations
+    EQUAL("=="),
+    NOT_EQUAL("!="),
+    LESS_THAN("<"),
+    LESS_THAN_EQUAL("<="),
+    GREATER_THAN(">"),
+    GREATER_THAN_EQUAL(">="),
+
+    AND("&&"),
+    OR("||"),
+
+    BIT_AND("&"),
+    BIT_OR("|"),
+    BIT_XOR("^"),
+    LSHIFT("<<"),
+    RSHIFT(">>"),
+    URSHIFT(">>>"),
+
+    ADD("+"),
+    SUBTRACT("-"),
+    MULTIPLY("*"),
+    DIVIDE("/"),
+    MODULO("%"),
+
     // Type names
     BYTE("byte"),
     CHAR("char"),
