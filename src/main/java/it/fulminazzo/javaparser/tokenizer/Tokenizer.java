@@ -19,7 +19,7 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
     @Override
     public boolean hasNext() {
         try {
-            return this.input.available() > 0;
+            return this.input.available() > 0 || this.lastToken != TokenType.EOF;
         } catch (IOException e) {
             //TODO:
             throw new RuntimeException(e);
@@ -35,7 +35,7 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
                 read += (char) this.input.read();
                 if (isTokenType(read)) return readTokenType(read);
             }
-            return TokenType.EOF;
+            return eof();
         } catch (IOException e) {
             //TODO:
             throw new RuntimeException(e);
@@ -61,6 +61,12 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
     private @NotNull TokenType updateTokenType(final @NotNull String read) {
         this.lastRead = read;
         this.lastToken = TokenType.fromString(read);
+        return this.lastToken;
+    }
+
+    private @NotNull TokenType eof() {
+        this.lastRead = "";
+        this.lastToken = TokenType.EOF;
         return this.lastToken;
     }
 
