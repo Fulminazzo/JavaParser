@@ -1,6 +1,9 @@
 package it.fulminazzo.javaparser.parser;
 
-import it.fulminazzo.javaparser.parser.node.types.*;
+import it.fulminazzo.javaparser.parser.node.BaseValue;
+import it.fulminazzo.javaparser.parser.node.Node;
+import it.fulminazzo.javaparser.parser.node.operators.unary.Minus;
+import it.fulminazzo.javaparser.parser.node.operators.unary.Not;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.tokenizer.Tokenizer;
 import lombok.NoArgsConstructor;
@@ -26,6 +29,39 @@ public class JavaParser extends Parser {
     }
 
     /**
+     * ATOM := MINUS | NOT | TYPE_VALUE
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseAtom() {
+        switch (lastToken()) {
+            case MINUS: return parseMinus();
+            case NOT: return parseNot();
+            default: return parseTypeValue();
+        }
+    }
+
+    /**
+     * MINUS := - EXPR
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseMinus() {
+        consume(MINUS);
+        return new Minus(parseExpression());
+    }
+
+    /**
+     * NOT := ! EXPR
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseNot() {
+        consume(NOT);
+        return new Not(parseExpression());
+    }
+
+    /**
      * TYPE_VALUE := {@link TokenType#NUMBER_VALUE} | {@link TokenType#LONG_VALUE} |
      *               {@link TokenType#DOUBLE_VALUE} | {@link TokenType#FLOAT_VALUE} |
      *               {@link TokenType#BOOLEAN_VALUE} | {@link TokenType#CHAR_VALUE} |
@@ -33,43 +69,22 @@ public class JavaParser extends Parser {
      *
      * @return the node
      */
-    protected @NotNull BaseTypeLiteral parseTypeValue() {
-        final String read = getTokenizer().lastRead();
-        final BaseTypeLiteral literal;
+    protected @NotNull BaseValue parseTypeValue() {
         switch (lastToken()) {
-            case NUMBER_VALUE: {
-                literal = new NumberLiteral(read);
-                break;
-            }
-            case LONG_VALUE: {
-                literal = new LongLiteral(read);
-                break;
-            }
-            case DOUBLE_VALUE: {
-                literal = new DoubleLiteral(read);
-                break;
-            }
-            case FLOAT_VALUE: {
-                literal = new FloatLiteral(read);
-                break;
-            }
-            case BOOLEAN_VALUE: {
-                literal = new BooleanLiteral(read);
-                break;
-            }
-            case CHAR_VALUE: {
-                literal = new CharLiteral(read);
-                break;
-            }
+            case NUMBER_VALUE:
+            case LONG_VALUE:
+            case DOUBLE_VALUE:
+            case FLOAT_VALUE:
+            case BOOLEAN_VALUE:
+            case CHAR_VALUE:
             case STRING_VALUE: {
-                literal = new StringLiteral(read);
-                break;
+                BaseValue node = new BaseValue(getTokenizer().lastRead());
+                nextSpaceless();
+                return node;
             }
             default:
                 throw new ParserException("Unexpected token: " + lastToken());
         }
-        nextSpaceless();
-        return literal;
     }
 
     /**
