@@ -10,18 +10,18 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 /**
- * A parser to read Java code using {@link Tokenizer} and {@link TokenType}.
+ * A general parser with an internal {@link Tokenizer}.
  */
 @NoArgsConstructor
-public class JavaParser {
+abstract class Parser {
     private @Nullable Tokenizer tokenizer;
 
     /**
-     * Instantiates a new Java parser.
+     * Instantiates a new Parser.
      *
      * @param input the input
      */
-    public JavaParser(final @NotNull InputStream input) {
+    public Parser(final @NotNull InputStream input) {
         setInput(input);
     }
 
