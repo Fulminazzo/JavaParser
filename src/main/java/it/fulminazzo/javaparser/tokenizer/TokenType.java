@@ -20,7 +20,7 @@ public enum TokenType {
 
     BIT_AND("&"),
     BIT_OR("|"),
-    BIT_XOR("^"),
+    BIT_XOR("\\^"),
     LSHIFT("<<"),
     RSHIFT(">>"),
     URSHIFT(">>>"),
