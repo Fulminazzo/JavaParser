@@ -32,10 +32,18 @@ public class JavaParser extends Parser {
         super(input);
     }
 
+    /**
+     * EXPR := RE_ASSIGN | EQUAL
+     *
+     * @return the node
+     */
     protected @NotNull Node parseExpression() {
         //TODO: for testing purposes only
         getTokenizer().nextSpaceless();
-        return parseBinaryOperation(EQUAL);
+        switch (lastToken()) {
+            case LITERAL: return parseReAssign();
+            default: return parseBinaryOperation(EQUAL);
+        }
     }
 
     /**
