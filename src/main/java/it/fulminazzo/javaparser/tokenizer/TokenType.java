@@ -15,6 +15,7 @@ public enum TokenType {
     IF("if"),
     ELSE("else"),
     WHILE("while"),
+    DO("do"),
 
     // Expr
     ASSIGN("="),
