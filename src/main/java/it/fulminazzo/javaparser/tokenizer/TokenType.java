@@ -11,6 +11,7 @@ public enum TokenType {
     RETURN("return"),
     BREAK("break"),
     CONTINUE("continue"),
+    NEW("new"),
 
     // Expr
     ASSIGN("="),
