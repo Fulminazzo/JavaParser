@@ -151,7 +151,8 @@ public class JavaParser extends Parser {
                 break;
             }
             default:
-                throw new ParserException("Unexpected token: " + lastToken());
+                // Probably something else, return the literal itself
+                return literal;
         }
         return new ReAssign(literal, expr);
     }
