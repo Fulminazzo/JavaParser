@@ -11,6 +11,10 @@ import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Minus;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Not;
+import it.fulminazzo.javaparser.parser.node.statements.Break;
+import it.fulminazzo.javaparser.parser.node.statements.Continue;
+import it.fulminazzo.javaparser.parser.node.statements.Return;
+import it.fulminazzo.javaparser.parser.node.statements.Statement;
 import it.fulminazzo.javaparser.parser.node.types.*;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.tokenizer.Tokenizer;
@@ -42,6 +46,26 @@ public class JavaParser extends Parser {
         //TODO: temporary method
         //TODO: for testing purposes only
         getTokenizer().nextSpaceless();
+    }
+
+    /**
+     * STATEMENT := new Return(EXPR) | break | continue | METHOD_CALL | RE_ASSIGN
+     *
+     * @return
+     */
+    protected @NotNull Statement parseStatement() {
+        final Node exp;
+        switch (lastToken()) {
+            case RETURN: return new Return(parseExpression());
+            case BREAK: return new Break();
+            case CONTINUE: return new Continue();
+            case LITERAL: {
+                exp = parseExpression();
+                break;
+            }
+            default: throw new ParserException("Unexpected token: " + lastToken());
+        }
+        return new Statement(exp);
     }
 
     /**
