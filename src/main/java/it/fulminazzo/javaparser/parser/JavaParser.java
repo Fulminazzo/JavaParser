@@ -26,6 +26,7 @@ import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -50,6 +51,16 @@ public class JavaParser extends Parser {
         //TODO: temporary method
         //TODO: for testing purposes only
         getTokenizer().nextSpaceless();
+    }
+
+    /**
+     * BLOCK := CODE_BLOCK | SINGLE_STMT
+     *
+     * @return the node
+     */
+    protected @NotNull CodeBlock parseBlock() {
+        if (lastToken() == OPEN_BRACE) return parseCodeBlock();
+        else return new CodeBlock(parseSingleStatement());
     }
 
     /**
