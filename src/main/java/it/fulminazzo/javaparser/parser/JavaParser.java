@@ -98,7 +98,10 @@ public class JavaParser extends Parser {
     protected @NotNull Statement parseStatement() {
         final Node exp;
         switch (lastToken()) {
-            case RETURN: return new Return(parseExpression());
+            case RETURN: {
+                consume(RETURN);
+                return new Return(parseExpression());
+            }
             case BREAK: return new Break();
             case CONTINUE: return new Continue();
             case FOR: return parseForStatement();
