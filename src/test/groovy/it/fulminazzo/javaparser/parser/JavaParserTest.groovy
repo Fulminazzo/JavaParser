@@ -14,6 +14,7 @@ import it.fulminazzo.javaparser.parser.node.statements.Continue
 import it.fulminazzo.javaparser.parser.node.statements.IfStatement
 import it.fulminazzo.javaparser.parser.node.statements.Return
 import it.fulminazzo.javaparser.parser.node.statements.Statement
+import it.fulminazzo.javaparser.parser.node.statements.WhileStatement
 import it.fulminazzo.javaparser.parser.node.types.BooleanLiteral
 import it.fulminazzo.javaparser.parser.node.types.IntType
 import it.fulminazzo.javaparser.parser.node.types.Literal
@@ -190,6 +191,20 @@ class JavaParserTest extends Specification {
         expected = new IfStatement(
                 new BooleanLiteral("true"), new CodeBlock(new Continue()), expected
         )
+
+        when:
+        this.parser.startReading()
+        def output = this.parser.parseSingleStatement()
+
+        then:
+        output == expected
+    }
+
+    def "test while statement"() {
+        given:
+        def code = "while (true) continue;"
+        this.parser.setInput(code)
+        def expected = new WhileStatement(new BooleanLiteral("true"), new CodeBlock(new Continue()))
 
         when:
         this.parser.startReading()
