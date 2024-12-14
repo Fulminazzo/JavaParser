@@ -147,6 +147,7 @@ public class JavaParser extends Parser {
         consume(OPEN_PAR);
         Node expression = parseExpression();
         consume(CLOSE_PAR);
+        consume(SEMICOLON);
         return new DoStatement(expression, codeBlock);
     }
 
