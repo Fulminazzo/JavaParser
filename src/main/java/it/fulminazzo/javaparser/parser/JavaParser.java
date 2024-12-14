@@ -89,7 +89,9 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * STMT := new Return(EXPR) | break | continue | METHOD_CALL | RE_ASSIGN
+     * STMT := new Return(EXPR) | break | continue |
+     *         IF_STMT | WHILE_STMT |
+     *         METHOD_CALL | RE_ASSIGN
      *
      * @return the node
      */
@@ -100,6 +102,7 @@ public class JavaParser extends Parser {
             case BREAK: return new Break();
             case CONTINUE: return new Continue();
             case IF: return parseIfStatement();
+            case WHILE: return parseWhileStatement();
             case LITERAL: {
                 exp = parseExpression();
                 break;
@@ -127,6 +130,20 @@ public class JavaParser extends Parser {
             else return new IfStatement(expression, codeBlock, parseCodeBlock());
         }
         return new IfStatement(expression, codeBlock, new Statement());
+    }
+
+    /**
+     * WHILE := while \( EXPR \) BLOCK
+     *
+     * @return the node
+     */
+    protected @NotNull WhileStatement parseWhileStatement() {
+        consume(WHILE);
+        consume(OPEN_PAR);
+        Node expression = parseExpression();
+        consume(CLOSE_PAR);
+        CodeBlock codeBlock = parseBlock();
+        return new WhileStatement(expression, codeBlock);
     }
 
     /**
