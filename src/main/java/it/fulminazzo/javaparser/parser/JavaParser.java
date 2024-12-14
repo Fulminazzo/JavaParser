@@ -41,6 +41,32 @@ public class JavaParser extends Parser {
         return parseBinaryOperation(EQUAL);
     }
 
+    /**
+     * EQUAL := NOT_EQUAL (== NOT_EQUAL)* <br/>
+     * NOT_EQUAL := LESS_THAN (!= LESS_THAN)* <br/>
+     * LESS_THAN := LESS_THAN_OR_EQUAL (< LESS_THAN_OR_EQUAL)* <br/>
+     * LESS_THAN_OR_EQUAL := GREATER_THAN (<= GREATER_THAN)* <br/>
+     * GREATER_THAN := GREATER_THAN_OR_EQUAL (> GREATER_THAN_OR_EQUAL)* <br/>
+     * GREATER_THAN_OR_EQUAL := AND (>= AND)* <br/>
+     * AND := OR (&& OR)* <br/>
+     * OR := BIT_AND (|| BIT_AND)* <br/>
+     * <br/>
+     * BIT_AND := BIT_OR (& BIT_OR)* <br/>
+     * BIT_OR := BIT_XOR (| BIT_XOR)* <br/>
+     * BIT_XOR := LSHIFT (^ LSHIFT)* <br/>
+     * LSHIFT := RSHIFT (<< RSHIFT)* <br/>
+     * RSHIFT := URSHIFT (>> URSHIFT)* <br/>
+     * URSHIFT := ADD (>>> ADD)* <br/>
+     * <br/>
+     * ADD := SUB (+ SUB)* <br/>
+     * SUB := MUL (- MUL)* <br/>
+     * MUL := DIV (* DIV)* <br/>
+     * DIV := MOD (/ MOD)* <br/>
+     * MOD := MINUS (% MINUS)* <br/>
+     *
+     * @param operation the {@link TokenType} that corresponds to the operation
+     * @return the node
+     */
     protected @NotNull Node parseBinaryOperation(final @NotNull TokenType operation) {
         if (operation.ordinal() > MODULO.ordinal()) return parseAtom();
         else {
