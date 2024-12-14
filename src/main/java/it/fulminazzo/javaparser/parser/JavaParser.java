@@ -115,26 +115,6 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * IF_STMT := if \( EXPR \) BLOCK (else IF_STMT)* (else BLOCK)?
-     *
-     * @return the node
-     */
-    protected @NotNull IfStatement parseIfStatement() {
-        consume(IF);
-        consume(OPEN_PAR);
-        Node expression = parseExpression();
-        consume(CLOSE_PAR);
-        CodeBlock codeBlock = parseBlock();
-        if (lastToken() == ELSE) {
-            consume(ELSE);
-            if (lastToken() == IF)
-                return new IfStatement(expression, codeBlock, parseIfStatement());
-            else return new IfStatement(expression, codeBlock, parseCodeBlock());
-        }
-        return new IfStatement(expression, codeBlock, new Statement());
-    }
-
-    /**
      * FOR := for \( ASSIGNMENT; EXPR; EXPR \) BLOCK
      *
      * @return the node
@@ -179,6 +159,26 @@ public class JavaParser extends Parser {
         consume(CLOSE_PAR);
         CodeBlock codeBlock = parseBlock();
         return new WhileStatement(expression, codeBlock);
+    }
+
+    /**
+     * IF_STMT := if \( EXPR \) BLOCK (else IF_STMT)* (else BLOCK)?
+     *
+     * @return the node
+     */
+    protected @NotNull IfStatement parseIfStatement() {
+        consume(IF);
+        consume(OPEN_PAR);
+        Node expression = parseExpression();
+        consume(CLOSE_PAR);
+        CodeBlock codeBlock = parseBlock();
+        if (lastToken() == ELSE) {
+            consume(ELSE);
+            if (lastToken() == IF)
+                return new IfStatement(expression, codeBlock, parseIfStatement());
+            else return new IfStatement(expression, codeBlock, parseCodeBlock());
+        }
+        return new IfStatement(expression, codeBlock, new Statement());
     }
 
     /**
