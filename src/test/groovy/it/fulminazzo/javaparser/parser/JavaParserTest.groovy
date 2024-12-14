@@ -1,6 +1,5 @@
 package it.fulminazzo.javaparser.parser
 
-import com.sun.xml.internal.bind.v2.util.FlattenIterator
 import it.fulminazzo.javaparser.parser.node.operators.binary.*
 import it.fulminazzo.javaparser.parser.node.types.BooleanLiteral
 import it.fulminazzo.javaparser.parser.node.types.Literal
@@ -71,7 +70,7 @@ class JavaParserTest extends Specification {
         def output = parser.parseExpression()
 
         then:
-        expected == output
+        output == expected
     }
 
 }
