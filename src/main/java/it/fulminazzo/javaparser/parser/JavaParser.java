@@ -9,6 +9,7 @@ import it.fulminazzo.javaparser.parser.node.MethodInvocation;
 import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray;
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray;
+import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.operators.binary.*;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment;
@@ -49,6 +50,19 @@ public class JavaParser extends Parser {
         //TODO: temporary method
         //TODO: for testing purposes only
         getTokenizer().nextSpaceless();
+    }
+
+    /**
+     * CODE_BLOCK := \{ SINGLE_STMT* \}
+     *
+     * @return the node
+     */
+    protected @NotNull CodeBlock parseCodeBlock() {
+        consume(OPEN_BRACE);
+        final LinkedList<Statement> statements = new LinkedList<>();
+        while (lastToken() != CLOSE_BRACE) statements.add(parseSingleStatement());
+        consume(CLOSE_BRACE);
+        return new CodeBlock(statements);
     }
 
     /**
