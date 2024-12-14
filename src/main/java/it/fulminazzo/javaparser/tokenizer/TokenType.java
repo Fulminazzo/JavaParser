@@ -9,6 +9,9 @@ public enum TokenType {
 
     // Expr
     ASSIGN("="),
+    OPEN_PAR("("),
+    CLOSE_PAR(")"),
+    COMMA(","),
 
     // Binary Operations
     EQUAL("=="),
