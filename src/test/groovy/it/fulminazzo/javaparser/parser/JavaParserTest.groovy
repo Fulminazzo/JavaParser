@@ -2,10 +2,12 @@ package it.fulminazzo.javaparser.parser
 
 import it.fulminazzo.javaparser.parser.node.MethodCall
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
+import it.fulminazzo.javaparser.parser.node.arrays.StaticArray
 import it.fulminazzo.javaparser.parser.node.operators.binary.*
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
 import it.fulminazzo.javaparser.parser.node.types.BooleanLiteral
+import it.fulminazzo.javaparser.parser.node.types.IntType
 import it.fulminazzo.javaparser.parser.node.types.Literal
 import it.fulminazzo.javaparser.parser.node.types.NumberLiteral
 import spock.lang.Specification
@@ -112,6 +114,20 @@ class JavaParserTest extends Specification {
                 ])
         )
         def code = "var(a, 1, true)"
+        this.parser.setInput(code)
+
+        when:
+        this.parser.startReading()
+        def output = this.parser.parseExpression()
+
+        then:
+        output == expected
+    }
+
+    def "test static array initialization"() {
+        given:
+        def expected = new StaticArray(new IntType(), new NumberLiteral("0"))
+        def code = "new int[0]"
         this.parser.setInput(code)
 
         when:
