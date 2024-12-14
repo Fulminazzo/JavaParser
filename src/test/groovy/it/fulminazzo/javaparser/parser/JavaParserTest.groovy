@@ -9,16 +9,20 @@ import it.fulminazzo.javaparser.parser.node.types.NumberLiteral
 import spock.lang.Specification
 
 class JavaParserTest extends Specification {
+    JavaParser parser
+
+    void setup() {
+        this.parser = new JavaParser()
+    }
 
     def "test simple parseBinaryOperation"() {
         given:
         def code = "1 + 2"
         def expected = new Add(new NumberLiteral("1"), new NumberLiteral("2"))
-        def parser = new JavaParser()
-        parser.setInput(code)
+        this.parser.setInput(code)
 
         when:
-        def output = parser.parseExpression()
+        def output = this.parser.parseExpression()
 
         then:
         output == expected
@@ -50,11 +54,10 @@ class JavaParserTest extends Specification {
         expected = new LessThan(expected, new NumberLiteral("1"))
         expected = new NotEqual(expected, new BooleanLiteral("false"))
         expected = new Equal(expected, new BooleanLiteral("true"))
-        def parser = new JavaParser()
-        parser.setInput(code)
+        this.parser.setInput(code)
 
         when:
-        def output = parser.parseExpression()
+        def output = this.parser.parseExpression()
 
         then:
         output == expected
@@ -65,11 +68,10 @@ class JavaParserTest extends Specification {
         def code = "var += 2"
         def expected = new Literal("var")
         expected = new ReAssign(expected, new Add(expected, new NumberLiteral("2")))
-        def parser = new JavaParser()
-        parser.setInput(code)
+        this.parser.setInput(code)
 
         when:
-        def output = parser.parseExpression()
+        def output = this.parser.parseExpression()
 
         then:
         output == expected
@@ -77,11 +79,10 @@ class JavaParserTest extends Specification {
 
     def "test increment or decrement"() {
         given:
-        def parser = new JavaParser()
-        parser.setInput(code)
+        this.parser.setInput(code)
 
         when:
-        def output = parser.parseExpression()
+        def output = this.parser.parseExpression()
 
         then:
         output == expected
