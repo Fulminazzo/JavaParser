@@ -7,6 +7,8 @@ import it.fulminazzo.javaparser.parser.node.Assignment;
 import it.fulminazzo.javaparser.parser.node.MethodCall;
 import it.fulminazzo.javaparser.parser.node.MethodInvocation;
 import it.fulminazzo.javaparser.parser.node.Node;
+import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray;
+import it.fulminazzo.javaparser.parser.node.arrays.StaticArray;
 import it.fulminazzo.javaparser.parser.node.operators.binary.*;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment;
@@ -85,16 +87,38 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * NEW_OBJECT := new LITERAL METHOD_INVOCATION
+     * NEW_OBJECT := new LITERAL METHOD_INVOCATION | new LITERAL\[\]\{ (EXPR)? (, EXPR)* \} | new LITERAL\[NUMBER_VALUE\]
      *
      * @return the node
      */
-    protected @NotNull NewObject parseNewObject() {
+    protected @NotNull Node parseNewObject() {
         match(NEW);
         next(); // Necessary space
         Literal literal = parseLiteral();
-        MethodInvocation invocation = parseMethodInvocation();
-        return new NewObject(literal, invocation);
+        switch (lastToken()) {
+            case OPEN_BRACKET: {
+                consume(OPEN_BRACKET);
+                if (lastToken() == NUMBER_VALUE) {
+                    NumberLiteral size = (NumberLiteral) parseTypeValue();
+                    consume(CLOSE_BRACKET);
+                    return new StaticArray(literal, size);
+                } else {
+                    consume(CLOSE_BRACKET);
+                    List<Node> parameters = new LinkedList<>();
+                    consume(OPEN_BRACE);
+                    while (lastToken() != CLOSE_BRACE) {
+                        parameters.add(parseExpression());
+                        if (lastToken() == COMMA) consume(COMMA);
+                    }
+                    consume(CLOSE_BRACE);
+                    return new DynamicArray(literal, parameters);
+                }
+            }
+            default: {
+                MethodInvocation invocation = parseMethodInvocation();
+                return new NewObject(literal, invocation);
+            }
+        }
     }
 
     /**
