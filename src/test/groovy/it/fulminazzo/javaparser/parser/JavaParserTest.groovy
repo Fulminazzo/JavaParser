@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.parser
 
 import it.fulminazzo.javaparser.parser.node.MethodCall
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
+import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray
 import it.fulminazzo.javaparser.parser.node.operators.binary.*
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
@@ -128,6 +129,22 @@ class JavaParserTest extends Specification {
         given:
         def expected = new StaticArray(new IntType(), new NumberLiteral("0"))
         def code = "new int[0]"
+        this.parser.setInput(code)
+
+        when:
+        this.parser.startReading()
+        def output = this.parser.parseExpression()
+
+        then:
+        output == expected
+    }
+
+    def "test dynamic array initialization"() {
+        given:
+        def expected = new DynamicArray(new IntType(), [
+                new NumberLiteral("1")
+        ])
+        def code = "new int[]{1}"
         this.parser.setInput(code)
 
         when:
