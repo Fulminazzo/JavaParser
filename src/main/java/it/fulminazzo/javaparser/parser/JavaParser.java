@@ -4,10 +4,7 @@ import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.fulmicollection.utils.StringUtils;
 import it.fulminazzo.javaparser.parser.node.Node;
-import it.fulminazzo.javaparser.parser.node.operators.binary.BinaryOperation;
-import it.fulminazzo.javaparser.parser.node.operators.binary.LShift;
-import it.fulminazzo.javaparser.parser.node.operators.binary.RShift;
-import it.fulminazzo.javaparser.parser.node.operators.binary.URShift;
+import it.fulminazzo.javaparser.parser.node.operators.binary.*;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Minus;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Not;
 import it.fulminazzo.javaparser.parser.node.types.*;
@@ -39,6 +36,45 @@ public class JavaParser extends Parser {
         //TODO: for testing purposes only
         getTokenizer().nextSpaceless();
         return parseBinaryOperation(EQUAL);
+    }
+
+    /**
+     * RE_ASSIGN := LITERAL (+|-|*|/|%|&|\||^|<<|>>|>>>)?= EXPR
+     *
+     * @return the node
+     */
+    protected @NotNull ReAssign parseReAssign() {
+        final Node literal = parseLiteral();
+        consume(LITERAL);
+        final Node expr;
+        final TokenType token = lastToken();
+        switch (token) {
+            case ADD:
+            case SUBTRACT:
+            case MULTIPLY:
+            case DIVIDE:
+            case MODULO:
+            case BIT_AND:
+            case BIT_OR:
+            case BIT_XOR:
+            case LSHIFT:
+            case RSHIFT:
+            case URSHIFT: {
+                consume(token);
+                consume(ASSIGN);
+                Node tmp = parseExpression();
+                expr = generateBinaryOperationFromToken(token, literal, tmp);
+                break;
+            }
+            case ASSIGN: {
+                consume(ASSIGN);
+                expr = parseExpression();
+                break;
+            }
+            default:
+                throw new ParserException("Unexpected token: " + lastToken());
+        }
+        return new ReAssign(literal, expr);
     }
 
     /**
