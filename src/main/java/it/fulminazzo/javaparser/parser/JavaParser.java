@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser.parser;
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.fulmicollection.utils.StringUtils;
+import it.fulminazzo.javaparser.parser.node.MethodCall;
 import it.fulminazzo.javaparser.parser.node.MethodInvocation;
 import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.operators.binary.*;
@@ -46,11 +47,27 @@ public class JavaParser extends Parser {
         //TODO: for testing purposes only
         getTokenizer().nextSpaceless();
         switch (lastToken()) {
-            case LITERAL: return parseReAssign();
+            case LITERAL: {
+                final Literal literal = parseLiteral();
+                switch (lastToken()) {
+                    case OPEN_PAR: return parseMethodCall(literal);
+                    default: return parseReAssign(literal);
+                }
+            }
             case ADD: return parseIncrement();
             case SUBTRACT: return parseDecrement();
             default: return parseBinaryOperation(EQUAL);
         }
+    }
+
+    /**
+     * METHOD_CALL := LITERAL . METHOD_INVOCATION
+     *
+     * @param literal the literal to start from
+     * @return the node
+     */
+    protected @NotNull MethodCall parseMethodCall(final @NotNull Literal literal) {
+        return new MethodCall(literal, parseMethodInvocation());
     }
 
     /**
@@ -94,10 +111,10 @@ public class JavaParser extends Parser {
     /**
      * RE_ASSIGN := LITERAL (+|-|*|/|%|&|\||^|<<|>>|>>>)?= EXPR | LITERAL(++|--)
      *
+     * @param literal the literal to start from
      * @return the node
      */
-    protected @NotNull Node parseReAssign() {
-        final Node literal = parseLiteral();
+    protected @NotNull Node parseReAssign(final @NotNull Literal literal) {
         final Node expr;
         final TokenType token = lastToken();
         switch (token) {
