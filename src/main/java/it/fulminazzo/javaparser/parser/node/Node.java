@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.parser.node;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
@@ -43,6 +44,20 @@ public abstract class Node {
                 .map(o -> o == null ? "null" : o.toString())
                 .map(Object::toString)
                 .collect(Collectors.joining(", ")) + ")";
+    }
+
+    /**
+     * Fixes the current object {@link #toString()} method
+     * by removing brackets deriving from internal lists.
+     *
+     * @return the output
+     */
+    protected @NotNull String parseSingleListClassPrint() {
+        String output = super.toString();
+        final String className = getClass().getSimpleName();
+        output = output.substring(className.length() + 2);
+        output = output.substring(0, output.length() - 2);
+        return String.format("%s(%s)", className, output);
     }
 
 }
