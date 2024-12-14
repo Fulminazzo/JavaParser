@@ -2,11 +2,13 @@ package it.fulminazzo.javaparser.parser.node.types;
 
 import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a general base type literal.
  */
+@Getter
 public abstract class BaseTypeLiteral extends Node {
     protected final @NotNull String rawValue;
 
