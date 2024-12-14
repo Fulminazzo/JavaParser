@@ -7,6 +7,9 @@ import org.jetbrains.annotations.NotNull;
  */
 public enum TokenType {
 
+    // Expr
+    ASSIGN("="),
+
     // Binary Operations
     EQUAL("=="),
     NOT_EQUAL("!="),
