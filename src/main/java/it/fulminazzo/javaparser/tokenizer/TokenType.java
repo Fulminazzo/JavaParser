@@ -59,7 +59,6 @@ public enum TokenType {
 
     // General
     LITERAL("[a-zA-Z][a-zA-Z0-9_.]*"),
-    LITERAL_NO_DOT("[a-zA-Z][a-zA-Z0-9_]*"),
     SPACE("[\r\t\n ]"),
     EOF("")
     ;
