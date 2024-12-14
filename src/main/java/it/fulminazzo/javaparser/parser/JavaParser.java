@@ -67,7 +67,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ATOM := MINUS | NOT | TYPE_VALUE
+     * ATOM := MINUS | NOT | LITERAL | TYPE_VALUE
      *
      * @return the node
      */
@@ -75,6 +75,7 @@ public class JavaParser extends Parser {
         switch (lastToken()) {
             case MINUS: return parseMinus();
             case NOT: return parseNot();
+            case LITERAL: return parseLiteral();
             default: return parseTypeValue();
         }
     }
