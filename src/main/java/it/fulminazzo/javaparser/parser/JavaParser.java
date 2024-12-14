@@ -5,6 +5,8 @@ import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.fulmicollection.utils.StringUtils;
 import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.operators.binary.*;
+import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement;
+import it.fulminazzo.javaparser.parser.node.operators.unary.Increment;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Minus;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Not;
 import it.fulminazzo.javaparser.parser.node.types.*;
@@ -47,17 +49,25 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * RE_ASSIGN := LITERAL (+|-|*|/|%|&|\||^|<<|>>|>>>)?= EXPR
+     * RE_ASSIGN := LITERAL (+|-|*|/|%|&|\||^|<<|>>|>>>)?= EXPR | LITERAL(++|--)
      *
      * @return the node
      */
-    protected @NotNull ReAssign parseReAssign() {
+    protected @NotNull Node parseReAssign() {
         final Node literal = parseLiteral();
         final Node expr;
         final TokenType token = lastToken();
         switch (token) {
             case ADD:
-            case SUBTRACT:
+            case SUBTRACT: {
+                consume(token);
+                if (lastToken() == token) {
+                    consume(token);
+                    if (token == ADD) return new Increment(literal, false);
+                    else return new Decrement(literal, false);
+                } else expr = parseOperationReAssign(token, literal);
+                break;
+            }
             case MULTIPLY:
             case DIVIDE:
             case MODULO:
