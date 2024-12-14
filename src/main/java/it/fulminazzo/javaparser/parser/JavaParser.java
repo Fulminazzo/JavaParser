@@ -94,6 +94,7 @@ public class JavaParser extends Parser {
     protected @NotNull Node parseNewObject() {
         match(NEW);
         next(); // Necessary space
+        consume(SPACE);
         Literal literal = parseLiteral();
         switch (lastToken()) {
             case OPEN_BRACKET: {
