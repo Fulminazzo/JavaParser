@@ -12,6 +12,8 @@ public enum TokenType {
     BREAK("break"),
     CONTINUE("continue"),
     NEW("new"),
+    IF("if"),
+    ELSE("else"),
 
     // Expr
     ASSIGN("="),
