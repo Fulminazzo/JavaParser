@@ -38,6 +38,10 @@ public abstract class Node {
 
     @Override
     public @NotNull String toString() {
+        return print();
+    }
+
+    private @NotNull String print() {
         Refl<?> refl = new Refl<>(this);
         return getClass().getSimpleName() + "(" + refl.getNonStaticFields().stream()
                 .map(refl::getFieldObject)
@@ -53,7 +57,7 @@ public abstract class Node {
      * @return the output
      */
     protected @NotNull String parseSingleListClassPrint() {
-        String output = super.toString();
+        String output = print();
         final String className = getClass().getSimpleName();
         output = output.substring(className.length() + 2);
         output = output.substring(0, output.length() - 2);
