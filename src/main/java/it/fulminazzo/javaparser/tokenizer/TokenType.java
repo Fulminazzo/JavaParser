@@ -14,6 +14,7 @@ public enum TokenType {
     NEW("new"),
     IF("if"),
     ELSE("else"),
+    WHILE("while"),
 
     // Expr
     ASSIGN("="),
