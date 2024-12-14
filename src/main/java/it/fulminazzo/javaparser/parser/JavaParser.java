@@ -57,6 +57,7 @@ public class JavaParser extends Parser {
      */
     protected @NotNull Increment parseIncrement() {
         consume(ADD);
+        consume(ADD);
         return new Increment(parseLiteral(), true);
     }
 
@@ -66,6 +67,7 @@ public class JavaParser extends Parser {
      * @return the node
      */
     protected @NotNull Decrement parseDecrement() {
+        consume(SUBTRACT);
         consume(SUBTRACT);
         return new Decrement(parseLiteral(), true);
     }
