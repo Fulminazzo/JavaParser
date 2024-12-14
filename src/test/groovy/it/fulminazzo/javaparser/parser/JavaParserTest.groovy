@@ -1,5 +1,7 @@
 package it.fulminazzo.javaparser.parser
 
+import it.fulminazzo.javaparser.parser.node.MethodCall
+import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.operators.binary.*
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
@@ -93,6 +95,26 @@ class JavaParserTest extends Specification {
         "++var" | new Increment(new Literal("var"), true)
         "var--" | new Decrement(new Literal("var"), false)
         "--var" | new Decrement(new Literal("var"), true)
+    }
+
+    def "test method call"() {
+        given:
+        def expected = new MethodCall(
+                new Literal("var"),
+                new MethodInvocation([
+                        new Literal("a"),
+                        new NumberLiteral("1"),
+                        new BooleanLiteral("true")
+                ])
+        )
+        def code = "var(a, 1, true)"
+        this.parser.setInput(code)
+
+        when:
+        def output = this.parser.parseExpression()
+
+        then:
+        output == expected
     }
 
 }
