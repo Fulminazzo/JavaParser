@@ -44,8 +44,30 @@ public class JavaParser extends Parser {
         getTokenizer().nextSpaceless();
         switch (lastToken()) {
             case LITERAL: return parseReAssign();
+            case ADD: return parseIncrement();
+            case SUBTRACT: return parseDecrement();
             default: return parseBinaryOperation(EQUAL);
         }
+    }
+
+    /**
+     * INCREMENT := ++LITERAL
+     *
+     * @return the node
+     */
+    protected @NotNull Increment parseIncrement() {
+        consume(ADD);
+        return new Increment(parseLiteral(), true);
+    }
+
+    /**
+     * DECREMENT := --LITERAL
+     *
+     * @return the node
+     */
+    protected @NotNull Decrement parseDecrement() {
+        consume(SUBTRACT);
+        return new Decrement(parseLiteral(), true);
     }
 
     /**
