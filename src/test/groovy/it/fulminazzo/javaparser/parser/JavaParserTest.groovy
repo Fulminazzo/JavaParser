@@ -1,13 +1,18 @@
 package it.fulminazzo.javaparser.parser
 
+
 import it.fulminazzo.javaparser.parser.node.MethodCall
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray
+import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.operators.binary.*
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
 import it.fulminazzo.javaparser.parser.node.statements.Break
+import it.fulminazzo.javaparser.parser.node.statements.Continue
+import it.fulminazzo.javaparser.parser.node.statements.IfStatement
+import it.fulminazzo.javaparser.parser.node.statements.Return
 import it.fulminazzo.javaparser.parser.node.statements.Statement
 import it.fulminazzo.javaparser.parser.node.types.BooleanLiteral
 import it.fulminazzo.javaparser.parser.node.types.IntType
@@ -172,6 +177,26 @@ class JavaParserTest extends Specification {
         code     | expected
         "break;" | new Break()
         ";"      | new Statement()
+    }
+
+    def "test if statement"() {
+        given:
+        def code = "if (true) continue; else if (false) break; else return 1;"
+        this.parser.setInput(code)
+        def expected = new IfStatement(
+                new BooleanLiteral("false"), new CodeBlock(new Break()),
+                new CodeBlock(new Return(new NumberLiteral("1")))
+        )
+        expected = new IfStatement(
+                new BooleanLiteral("true"), new CodeBlock(new Continue()), expected
+        )
+
+        when:
+        this.parser.startReading()
+        def output = this.parser.parseSingleStatement()
+
+        then:
+        output == expected
     }
 
 }
