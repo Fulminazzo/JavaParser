@@ -24,6 +24,7 @@ class JavaParserTest extends Specification {
         this.parser.setInput(code)
 
         when:
+        this.parser.startReading()
         def output = this.parser.parseExpression()
 
         then:
@@ -59,6 +60,7 @@ class JavaParserTest extends Specification {
         this.parser.setInput(code)
 
         when:
+        this.parser.startReading()
         def output = this.parser.parseExpression()
 
         then:
@@ -73,6 +75,7 @@ class JavaParserTest extends Specification {
         this.parser.setInput(code)
 
         when:
+        this.parser.startReading()
         def output = this.parser.parseExpression()
 
         then:
@@ -84,6 +87,7 @@ class JavaParserTest extends Specification {
         this.parser.setInput(code)
 
         when:
+        this.parser.startReading()
         def output = this.parser.parseExpression()
 
         then:
@@ -111,6 +115,7 @@ class JavaParserTest extends Specification {
         this.parser.setInput(code)
 
         when:
+        this.parser.startReading()
         def output = this.parser.parseExpression()
 
         then:
