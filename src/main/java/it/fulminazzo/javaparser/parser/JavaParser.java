@@ -38,14 +38,18 @@ public class JavaParser extends Parser {
         super(input);
     }
 
+    protected void startReading() {
+        //TODO: temporary method
+        //TODO: for testing purposes only
+        getTokenizer().nextSpaceless();
+    }
+
     /**
      * EXPR := RE_ASSIGN | EQUAL
      *
      * @return the node
      */
     protected @NotNull Node parseExpression() {
-        //TODO: for testing purposes only
-        getTokenizer().nextSpaceless();
         switch (lastToken()) {
             case LITERAL: {
                 final Literal literal = parseLiteral();
