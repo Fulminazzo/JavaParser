@@ -15,10 +15,7 @@ import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Minus;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Not;
-import it.fulminazzo.javaparser.parser.node.statements.Break;
-import it.fulminazzo.javaparser.parser.node.statements.Continue;
-import it.fulminazzo.javaparser.parser.node.statements.Return;
-import it.fulminazzo.javaparser.parser.node.statements.Statement;
+import it.fulminazzo.javaparser.parser.node.statements.*;
 import it.fulminazzo.javaparser.parser.node.types.*;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.tokenizer.Tokenizer;
@@ -102,6 +99,7 @@ public class JavaParser extends Parser {
             case RETURN: return new Return(parseExpression());
             case BREAK: return new Break();
             case CONTINUE: return new Continue();
+            case IF: return parseIfStatement();
             case LITERAL: {
                 exp = parseExpression();
                 break;
@@ -109,6 +107,26 @@ public class JavaParser extends Parser {
             default: throw new ParserException("Unexpected token: " + lastToken());
         }
         return new Statement(exp);
+    }
+
+    /**
+     * IF_STMT := if \( EXPR \) BLOCK (else IF_STMT)* (else BLOCK)?
+     *
+     * @return the node
+     */
+    protected @NotNull IfStatement parseIfStatement() {
+        consume(IF);
+        consume(OPEN_PAR);
+        Node expression = parseExpression();
+        consume(CLOSE_PAR);
+        CodeBlock codeBlock = parseBlock();
+        if (lastToken() == ELSE) {
+            consume(ELSE);
+            if (lastToken() == IF)
+                return new IfStatement(expression, codeBlock, parseIfStatement());
+            else return new IfStatement(expression, codeBlock, parseCodeBlock());
+        }
+        return new IfStatement(expression, codeBlock, new Statement());
     }
 
     /**
