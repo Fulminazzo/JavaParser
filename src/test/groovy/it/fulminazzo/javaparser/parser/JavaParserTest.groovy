@@ -1,6 +1,6 @@
 package it.fulminazzo.javaparser.parser
 
-
+import it.fulminazzo.javaparser.parser.node.Assignment
 import it.fulminazzo.javaparser.parser.node.MethodCall
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray
@@ -12,6 +12,7 @@ import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
 import it.fulminazzo.javaparser.parser.node.statements.Break
 import it.fulminazzo.javaparser.parser.node.statements.Continue
 import it.fulminazzo.javaparser.parser.node.statements.DoStatement
+import it.fulminazzo.javaparser.parser.node.statements.ForStatement
 import it.fulminazzo.javaparser.parser.node.statements.IfStatement
 import it.fulminazzo.javaparser.parser.node.statements.Return
 import it.fulminazzo.javaparser.parser.node.statements.Statement
@@ -195,11 +196,32 @@ class JavaParserTest extends Specification {
         where:
         code | expected
         "if (true) continue; else if (false) break; else return 1;" | new IfStatement(
-                    new BooleanLiteral("true"), new CodeBlock(new Continue()), new IfStatement(
-                    new BooleanLiteral("false"), new CodeBlock(new Break()),
-                    new CodeBlock(new Return(new NumberLiteral("1")))))
+                new BooleanLiteral("true"), new CodeBlock(new Continue()), new IfStatement(
+                new BooleanLiteral("false"), new CodeBlock(new Break()),
+                new CodeBlock(new Return(new NumberLiteral("1")))))
         "while (true) continue;" | new WhileStatement(new BooleanLiteral("true"), new CodeBlock(new Continue()))
         "do continue; while (true);" | new DoStatement(new BooleanLiteral("true"), new CodeBlock(new Continue()))
+    }
+
+    def "test for statements"() {
+        given:
+        this.parser.setInput(code)
+
+        when:
+        this.parser.startReading()
+        def output = this.parser.parseSingleStatement()
+
+        then:
+        output == expected
+
+        where:
+        code | expected
+        "for (int i = 0; true; i++) continue;" | new ForStatement(
+                new Assignment(new Literal("int"), new ReAssign(new Literal("i"), new NumberLiteral("0"))),
+                new BooleanLiteral("true"),
+                new Increment(new Literal("i"), false),
+                new CodeBlock(new Continue())
+        )
     }
 
 }
