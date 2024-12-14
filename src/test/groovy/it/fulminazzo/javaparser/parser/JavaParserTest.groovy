@@ -1,6 +1,8 @@
 package it.fulminazzo.javaparser.parser
 
 import it.fulminazzo.javaparser.parser.node.operators.binary.*
+import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
+import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
 import it.fulminazzo.javaparser.parser.node.types.BooleanLiteral
 import it.fulminazzo.javaparser.parser.node.types.Literal
 import it.fulminazzo.javaparser.parser.node.types.NumberLiteral
@@ -71,6 +73,25 @@ class JavaParserTest extends Specification {
 
         then:
         output == expected
+    }
+
+    def "test increment or decrement"() {
+        given:
+        def parser = new JavaParser()
+        parser.setInput(code)
+
+        when:
+        def output = parser.parseExpression()
+
+        then:
+        output == expected
+
+        where:
+        code    | expected
+        "var++" | new Increment(new Literal("var"), false)
+        "++var" | new Increment(new Literal("var"), true)
+        "var--" | new Decrement(new Literal("var"), false)
+        "--var" | new Decrement(new Literal("var"), true)
     }
 
 }
