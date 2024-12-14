@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
  * Represents a {@link it.fulminazzo.javaparser.tokenizer.TokenType#RETURN} statement.
  */
 public class Return extends Statement {
-    private final @NotNull Node expr;
 
     /**
      * Instantiates a new Return.
@@ -15,7 +14,7 @@ public class Return extends Statement {
      * @param expr the returned exception
      */
     public Return(final @NotNull Node expr) {
-        this.expr = expr;
+        super(expr);
     }
 
 }
