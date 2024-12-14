@@ -52,7 +52,23 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * STATEMENT := new Return(EXPR) | break | continue | METHOD_CALL | RE_ASSIGN
+     * SINGLE_STMT := STMT?;
+     *
+     * @return the node
+     */
+    protected @NotNull Statement parseSingleStatement() {
+        final Statement statement;
+        if (lastToken() == SEMICOLON) statement = new Statement();
+        else {
+            statement = parseStatement();
+            nextSpaceless();
+        }
+        consume(SEMICOLON);
+        return statement;
+    }
+
+    /**
+     * STMT := new Return(EXPR) | break | continue | METHOD_CALL | RE_ASSIGN
      *
      * @return the node
      */

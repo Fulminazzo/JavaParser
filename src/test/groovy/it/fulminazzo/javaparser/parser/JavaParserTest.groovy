@@ -7,6 +7,8 @@ import it.fulminazzo.javaparser.parser.node.arrays.StaticArray
 import it.fulminazzo.javaparser.parser.node.operators.binary.*
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
+import it.fulminazzo.javaparser.parser.node.statements.Break
+import it.fulminazzo.javaparser.parser.node.statements.Statement
 import it.fulminazzo.javaparser.parser.node.types.BooleanLiteral
 import it.fulminazzo.javaparser.parser.node.types.IntType
 import it.fulminazzo.javaparser.parser.node.types.Literal
@@ -153,6 +155,23 @@ class JavaParserTest extends Specification {
 
         then:
         output == expected
+    }
+
+    def "test parseSingleStatement"() {
+        given:
+        this.parser.setInput(code)
+
+        when:
+        this.parser.startReading()
+        def output = this.parser.parseSingleStatement()
+
+        then:
+        output == expected
+
+        where:
+        code     | expected
+        "break;" | new Break()
+        ";"      | new Statement()
     }
 
 }
