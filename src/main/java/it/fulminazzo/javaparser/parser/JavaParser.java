@@ -45,7 +45,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * EXPR := RE_ASSIGN | EQUAL
+     * EXPR := METHOD_CALL | RE_ASSIGN | INCREMENT | DECREMENT | EQUAL
      *
      * @return the node
      */
