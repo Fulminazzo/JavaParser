@@ -7,6 +7,11 @@ import org.jetbrains.annotations.NotNull;
  */
 public enum TokenType {
 
+    // Statement
+    RETURN("return"),
+    BREAK("break"),
+    CONTINUE("continue"),
+
     // Expr
     ASSIGN("="),
     OPEN_PAR("\\("),
