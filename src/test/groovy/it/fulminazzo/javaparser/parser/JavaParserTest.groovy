@@ -11,6 +11,7 @@ import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
 import it.fulminazzo.javaparser.parser.node.statements.Break
 import it.fulminazzo.javaparser.parser.node.statements.Continue
+import it.fulminazzo.javaparser.parser.node.statements.DoStatement
 import it.fulminazzo.javaparser.parser.node.statements.IfStatement
 import it.fulminazzo.javaparser.parser.node.statements.Return
 import it.fulminazzo.javaparser.parser.node.statements.Statement
@@ -180,17 +181,9 @@ class JavaParserTest extends Specification {
         ";"      | new Statement()
     }
 
-    def "test if statement"() {
+    def "test flow control statements"() {
         given:
-        def code = "if (true) continue; else if (false) break; else return 1;"
         this.parser.setInput(code)
-        def expected = new IfStatement(
-                new BooleanLiteral("false"), new CodeBlock(new Break()),
-                new CodeBlock(new Return(new NumberLiteral("1")))
-        )
-        expected = new IfStatement(
-                new BooleanLiteral("true"), new CodeBlock(new Continue()), expected
-        )
 
         when:
         this.parser.startReading()
@@ -198,20 +191,15 @@ class JavaParserTest extends Specification {
 
         then:
         output == expected
-    }
 
-    def "test while statement"() {
-        given:
-        def code = "while (true) continue;"
-        this.parser.setInput(code)
-        def expected = new WhileStatement(new BooleanLiteral("true"), new CodeBlock(new Continue()))
-
-        when:
-        this.parser.startReading()
-        def output = this.parser.parseSingleStatement()
-
-        then:
-        output == expected
+        where:
+        code | expected
+        "if (true) continue; else if (false) break; else return 1;" | new IfStatement(
+                    new BooleanLiteral("true"), new CodeBlock(new Continue()), new IfStatement(
+                    new BooleanLiteral("false"), new CodeBlock(new Break()),
+                    new CodeBlock(new Return(new NumberLiteral("1")))))
+        "while (true) continue;" | new WhileStatement(new BooleanLiteral("true"), new CodeBlock(new Continue()))
+        "do continue; while (true);" | new DoStatement(new BooleanLiteral("true"), new CodeBlock(new Continue()))
     }
 
 }
