@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser.parser;
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.fulmicollection.utils.StringUtils;
+import it.fulminazzo.javaparser.parser.node.MethodInvocation;
 import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.operators.binary.*;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement;
@@ -16,6 +17,8 @@ import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStream;
+import java.util.LinkedList;
+import java.util.List;
 
 import static it.fulminazzo.javaparser.tokenizer.TokenType.*;
 
@@ -48,6 +51,22 @@ public class JavaParser extends Parser {
             case SUBTRACT: return parseDecrement();
             default: return parseBinaryOperation(EQUAL);
         }
+    }
+
+    /**
+     * METHOD_INVOCATION := \( (EXPR)? (, EXPR)* \)
+     *
+     * @return the node
+     */
+    protected @NotNull MethodInvocation parseMethodInvocation() {
+        List<Node> parameters = new LinkedList<>();
+        consume(OPEN_PAR);
+        while (lastToken() != CLOSE_PAR) {
+            parameters.add(parseExpression());
+            if (lastToken() == COMMA) consume(COMMA);
+        }
+        consume(CLOSE_PAR);
+        return new MethodInvocation(parameters);
     }
 
     /**
