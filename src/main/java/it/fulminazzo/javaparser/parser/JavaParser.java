@@ -179,7 +179,7 @@ public class JavaParser extends Parser {
             consume(ELSE);
             if (lastToken() == IF)
                 return new IfStatement(expression, codeBlock, parseIfStatement());
-            else return new IfStatement(expression, codeBlock, parseCodeBlock());
+            else return new IfStatement(expression, codeBlock, parseBlock());
         }
         return new IfStatement(expression, codeBlock, new Statement());
     }
