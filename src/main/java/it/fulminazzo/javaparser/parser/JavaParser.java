@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser.parser;
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.fulmicollection.utils.StringUtils;
+import it.fulminazzo.javaparser.parser.node.Assignment;
 import it.fulminazzo.javaparser.parser.node.MethodCall;
 import it.fulminazzo.javaparser.parser.node.MethodInvocation;
 import it.fulminazzo.javaparser.parser.node.Node;
@@ -69,22 +70,33 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * EXPR := METHOD_CALL | RE_ASSIGN | INCREMENT | DECREMENT | EQUAL
+     * EXPR := ASSIGNMENT | INCREMENT | DECREMENT | EQUAL
      *
      * @return the node
      */
     protected @NotNull Node parseExpression() {
         switch (lastToken()) {
-            case LITERAL: {
-                final Literal literal = parseLiteral();
-                switch (lastToken()) {
-                    case OPEN_PAR: return parseMethodCall(literal);
-                    default: return parseReAssign(literal);
-                }
-            }
+            case LITERAL: return parseAssignment();
             case ADD: return parseIncrement();
             case SUBTRACT: return parseDecrement();
             default: return parseBinaryOperation(EQUAL);
+        }
+    }
+
+    /**
+     * ASSIGNMENT := (EXPR)? RE_ASSIGN | METHOD_CALL
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseAssignment() {
+        final Literal literal = parseLiteral();
+        switch (lastToken()) {
+            case LITERAL: {
+                final Literal second = parseLiteral();
+                return new Assignment(literal, parseReAssign(second));
+            }
+            case OPEN_PAR: return parseMethodCall(literal);
+            default: return parseReAssign(literal);
         }
     }
 
