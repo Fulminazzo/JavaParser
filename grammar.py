@@ -2,7 +2,6 @@ TODO: casts
 TODO: diamond operator
 TODO: lambda
 TODO: switch statement
-TODO: uninitialized array
 TODO: the environment scope should have an owner attribute, in order to check if break is applied in valid context
 TODO: this
 TODO: comments
@@ -37,8 +36,8 @@ SWITCH_STMT := TODO:
 # FIELD_GET := LITERAL.LITERAL_NO_DOT # Literal!
 # RE_ASSIGN := LITERAL_NO_DOT (+|-|*|/|%|&|\||^|<<|>>|>>>)?= EXPR
 
-#INCREASE_ASSIGN := ++LITERAL_NO_DOT | LITERAL_NO_DOT++
-#DECREASE_ASSIGN := --LITERAL_NO_DOT | LITERAL_NO_DOT--
+# INCREASE_ASSIGN := ++LITERAL_NO_DOT | LITERAL_NO_DOT++
+# DECREASE_ASSIGN := --LITERAL_NO_DOT | LITERAL_NO_DOT--
 
 # EQUAL := NOT_EQUAL (== NOT_EQUAL)*
 # NOT_EQUAL := LESS_THAN (!= LESS_THAN)*
@@ -62,9 +61,9 @@ SWITCH_STMT := TODO:
 # DIV := MOD (/ MOD)*
 # MOD := MINUS (% MINUS)*
 
-ATOM := LITERAL | TYPE_VALUE | NEW_OBJECT | LITERAL | NEW_ARRAY | \(EXPR\) | -EXPR | !EXPR
+# ATOM := LITERAL | TYPE_VALUE | NEW_OBJECT | LITERAL | NEW_ARRAY | \(EXPR\) | -EXPR | !EXPR
 # NEW_OBJECT := new LITERAL METHOD_INVOCATION
-NEW_ARRAY := new LITERAL\[\]({(EXPR)?(, EXPR)*})? TODO: what about uninitialized???
+# NEW_ARRAY := new LITERAL\[\]({(EXPR)?(, EXPR)*})? TODO: what about uninitialized???
 
 # TYPE_VALUE := NUMBER | DOUBLE | FLOAT | LONG | BOOLEAN | CHARACTER | STRING
 # NUMBER := [0-9]+
