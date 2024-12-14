@@ -75,11 +75,17 @@ public class JavaParser extends Parser {
             while (lastToken() == operation) {
                 consume(operation);
                 Node tmp = parseBinaryOperation(nextOperation);
-                Class<? extends BinaryOperation> clazz = findOperationClass(operation.name());
-                node = new Refl<>(clazz, node, tmp).getObject();
+                node = generateBinaryOperationFromToken(operation, node, tmp);
             }
             return node;
         }
+    }
+
+    private @NotNull Node generateBinaryOperationFromToken(final @NotNull TokenType operation,
+                                                           final @NotNull Node left,
+                                                           final @NotNull Node right) {
+        Class<? extends BinaryOperation> clazz = findOperationClass(operation.name());
+        return new Refl<>(clazz, left, right).getObject();
     }
 
     private Class<? extends BinaryOperation> findOperationClass(@NotNull String className) {
