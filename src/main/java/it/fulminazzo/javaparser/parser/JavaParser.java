@@ -51,7 +51,7 @@ public class JavaParser extends Parser {
     /**
      * STATEMENT := new Return(EXPR) | break | continue | METHOD_CALL | RE_ASSIGN
      *
-     * @return
+     * @return the node
      */
     protected @NotNull Statement parseStatement() {
         final Node exp;
