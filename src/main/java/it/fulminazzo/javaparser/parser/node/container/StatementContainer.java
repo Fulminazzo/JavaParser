@@ -21,4 +21,9 @@ abstract class StatementContainer extends Node {
         this.statements = statements;
     }
 
+    @Override
+    public @NotNull String toString() {
+        return parseSingleListClassPrint();
+    }
+
 }

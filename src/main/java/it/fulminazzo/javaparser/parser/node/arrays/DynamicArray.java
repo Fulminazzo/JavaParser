@@ -27,4 +27,9 @@ public class DynamicArray extends Array {
         return this.parameters.size();
     }
 
+    @Override
+    public @NotNull String toString() {
+        return parseSingleListClassPrint();
+    }
+
 }
