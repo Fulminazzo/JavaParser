@@ -53,7 +53,6 @@ public class JavaParser extends Parser {
      */
     protected @NotNull ReAssign parseReAssign() {
         final Node literal = parseLiteral();
-        consume(LITERAL);
         final Node expr;
         final TokenType token = lastToken();
         switch (token) {
