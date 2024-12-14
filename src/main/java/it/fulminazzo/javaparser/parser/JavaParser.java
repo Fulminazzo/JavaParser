@@ -89,6 +89,25 @@ public class JavaParser extends Parser {
     }
 
     /**
+     * TYPE := byte | char | short | int | long | double | float | boolean
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseType() {
+        switch (lastToken()) {
+            case BYTE: return new ByteType();
+            case CHAR: return new CharType();
+            case SHORT: return new ShortType();
+            case INT: return new IntType();
+            case LONG: return new LongType();
+            case DOUBLE: return new DoubleType();
+            case FLOAT: return new FloatType();
+            case BOOLEAN: return new BooleanType();
+            default: throw new ParserException("Unexpected token: " + lastToken());
+        }
+    }
+
+    /**
      * METHOD_CALL := LITERAL . METHOD_INVOCATION
      *
      * @param literal the literal to start from
