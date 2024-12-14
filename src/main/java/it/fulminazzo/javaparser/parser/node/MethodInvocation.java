@@ -19,4 +19,13 @@ public class MethodInvocation extends Node {
         this.parameters = parameters;
     }
 
+    @Override
+    public @NotNull String toString() {
+        String output = super.toString();
+        final String className = getClass().getSimpleName();
+        output = output.substring(className.length() + 2);
+        output = output.substring(0, output.length() - 2);
+        return String.format("%s(%s)", className, output);
+    }
+
 }
