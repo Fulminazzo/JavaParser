@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.parser.node.arrays;
 
 import it.fulminazzo.javaparser.parser.node.Node;
+import it.fulminazzo.javaparser.parser.node.types.NumberLiteral;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -15,9 +16,9 @@ public class StaticArray extends Array {
      * @param type the type of the array
      * @param size the size
      */
-    public StaticArray(final @NotNull Node type, final int size) {
+    public StaticArray(final @NotNull Node type, final @NotNull NumberLiteral size) {
         super(type);
-        this.size = size;
+        this.size = Integer.parseInt(size.getRawValue());
     }
 
     @Override
