@@ -17,6 +17,10 @@ public enum TokenType {
     ASSIGN("="),
     OPEN_PAR("\\("),
     CLOSE_PAR("\\)"),
+    OPEN_BRACKET("\\["),
+    CLOSE_BRACKET("\\]"),
+    OPEN_BRACE("\\{"),
+    CLOSE_BRACE("\\}"),
     COMMA(","),
 
     // Binary Operations
