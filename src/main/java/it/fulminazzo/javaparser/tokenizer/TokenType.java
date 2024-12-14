@@ -12,10 +12,11 @@ public enum TokenType {
     BREAK("break"),
     CONTINUE("continue"),
     NEW("new"),
+    FOR("for"),
+    DO("do"),
+    WHILE("while"),
     IF("if"),
     ELSE("else"),
-    WHILE("while"),
-    DO("do"),
 
     // Expr
     ASSIGN("="),
