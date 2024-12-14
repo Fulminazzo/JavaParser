@@ -1,7 +1,9 @@
 package it.fulminazzo.javaparser.parser
 
+import com.sun.xml.internal.bind.v2.util.FlattenIterator
 import it.fulminazzo.javaparser.parser.node.operators.binary.*
 import it.fulminazzo.javaparser.parser.node.types.BooleanLiteral
+import it.fulminazzo.javaparser.parser.node.types.Literal
 import it.fulminazzo.javaparser.parser.node.types.NumberLiteral
 import spock.lang.Specification
 
@@ -55,6 +57,21 @@ class JavaParserTest extends Specification {
 
         then:
         output == expected
+    }
+
+    def "test parseReAssign with operation"() {
+        given:
+        def code = "var += 2"
+        def expected = new Literal("var")
+        expected = new ReAssign(expected, new Add(expected, new NumberLiteral("2")))
+        def parser = new JavaParser()
+        parser.setInput(code)
+
+        when:
+        def output = parser.parseExpression()
+
+        then:
+        expected == output
     }
 
 }
