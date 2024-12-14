@@ -68,9 +68,7 @@ public class JavaParser extends Parser {
             case RSHIFT:
             case URSHIFT: {
                 consume(token);
-                consume(ASSIGN);
-                Node tmp = parseExpression();
-                expr = generateBinaryOperationFromToken(token, literal, tmp);
+                expr = parseOperationReAssign(token, literal);
                 break;
             }
             case ASSIGN: {
@@ -82,6 +80,13 @@ public class JavaParser extends Parser {
                 throw new ParserException("Unexpected token: " + lastToken());
         }
         return new ReAssign(literal, expr);
+    }
+
+    private @NotNull Node parseOperationReAssign(final @NotNull TokenType token,
+                                                 final @NotNull Node literal) {
+        consume(ASSIGN);
+        Node tmp = parseExpression();
+        return generateBinaryOperationFromToken(token, literal, tmp);
     }
 
     /**
