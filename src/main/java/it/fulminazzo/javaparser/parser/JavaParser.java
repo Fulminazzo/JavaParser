@@ -76,11 +76,25 @@ public class JavaParser extends Parser {
      */
     protected @NotNull Node parseExpression() {
         switch (lastToken()) {
+            case NEW: return parseNewObject();
             case LITERAL: return parseAssignment();
             case ADD: return parseIncrement();
             case SUBTRACT: return parseDecrement();
             default: return parseBinaryOperation(EQUAL);
         }
+    }
+
+    /**
+     * NEW_OBJECT := new LITERAL METHOD_INVOCATION
+     *
+     * @return the node
+     */
+    protected @NotNull NewObject parseNewObject() {
+        match(NEW);
+        next(); // Necessary space
+        Literal literal = parseLiteral();
+        MethodInvocation invocation = parseMethodInvocation();
+        return new NewObject(literal, invocation);
     }
 
     /**
