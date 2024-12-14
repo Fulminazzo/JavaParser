@@ -37,7 +37,7 @@ public abstract class Node {
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         Refl<?> refl = new Refl<>(this);
         return getClass().getSimpleName() + "(" + refl.getNonStaticFields().stream()
                 .map(refl::getFieldObject)
