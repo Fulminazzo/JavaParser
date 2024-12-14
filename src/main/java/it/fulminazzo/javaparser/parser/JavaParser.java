@@ -151,21 +151,10 @@ public class JavaParser extends Parser {
      *
      * @return the node
      */
-    protected @NotNull String parseLiteral() {
+    protected @NotNull Literal parseLiteral() {
         final String literal = getTokenizer().lastRead();
         consume(LITERAL);
-        return literal;
-    }
-
-    /**
-     * LITERAL_NO_DOT := {@link TokenType#LITERAL_NO_DOT}
-     *
-     * @return the node
-     */
-    protected @NotNull String parseLiteralNoDot() {
-        final String literalNoDot = getTokenizer().lastRead();
-        consume(LITERAL_NO_DOT);
-        return literalNoDot;
+        return new Literal(literal);
     }
 
 }
