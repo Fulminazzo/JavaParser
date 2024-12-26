@@ -9,6 +9,16 @@ import java.util.function.Function
 class TestUtils {
 
     /**
+     * Converts the name of an {@link Enum} object to a method name compatible format.
+     *
+     * @param enumObject the enum object
+     * @return the method name
+     */
+    static <E extends Enum<E>> String convertEnumName(@NotNull E enumObject) {
+        "${StringUtils.capitalize(enumObject.name())}".replace('_', '')
+    }
+
+    /**
      * Generates a method associated with the given enum object.
      * Useful in some tests.
      *
@@ -31,8 +41,7 @@ class TestUtils {
         def cwd = System.getProperty('user.dir')
         def classPath = "${targetClass.canonicalName.replace('.', File.separator)}"
         def file = new File(cwd, "src/main/java/${classPath}.java")
-        def enumName = StringUtils.capitalize(enumObject.name()).replace('_', '')
-        def methodName = nameGenerator.apply(enumName)
+        def methodName = nameGenerator.apply(convertEnumName(enumObject))
 
         def lines = file.readLines()
         def toWrite = lines.subList(0, lines.size() - 2)
