@@ -13,4 +13,21 @@ class EnvironmentTest extends Specification {
         this.environment.exitScope()
     }
 
+    def 'test declare, isDeclared, lookup and update'() {
+        given:
+        def varName = 'var'
+
+        when:
+        this.environment.declare(varName, 1)
+        def declared = this.environment.isDeclared(varName)
+        def first = this.environment.lookup(varName)
+        this.environment.update(varName, 2)
+        def second = this.environment.lookup(varName)
+
+        then:
+        declared
+        first == 1
+        second == 2
+    }
+
 }
