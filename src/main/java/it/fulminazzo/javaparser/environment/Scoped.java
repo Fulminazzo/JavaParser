@@ -48,7 +48,7 @@ interface Scoped<T> {
      * @param value the value
      * @throws ScopeException thrown if the variable is already declared
      */
-    void define(@NotNull String name, @NotNull T value) throws ScopeException;
+    void declare(@NotNull String name, @NotNull T value) throws ScopeException;
 
     /**
      * Updates the value of a variable.
