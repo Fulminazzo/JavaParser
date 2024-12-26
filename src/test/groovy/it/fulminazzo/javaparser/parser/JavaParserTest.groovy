@@ -18,7 +18,7 @@ import it.fulminazzo.javaparser.parser.node.statements.Return
 import it.fulminazzo.javaparser.parser.node.statements.Statement
 import it.fulminazzo.javaparser.parser.node.statements.WhileStatement
 import it.fulminazzo.javaparser.parser.node.types.BooleanLiteral
-import it.fulminazzo.javaparser.parser.node.types.IntType
+
 import it.fulminazzo.javaparser.parser.node.types.Literal
 import it.fulminazzo.javaparser.parser.node.types.NumberLiteral
 import spock.lang.Specification
@@ -137,7 +137,7 @@ class JavaParserTest extends Specification {
 
     def "test static array initialization"() {
         given:
-        def expected = new StaticArray(new IntType(), new NumberLiteral("0"))
+        def expected = new StaticArray(new Literal("int"), new NumberLiteral("0"))
         def code = "new int[0]"
         this.parser.setInput(code)
 
@@ -151,7 +151,7 @@ class JavaParserTest extends Specification {
 
     def "test dynamic array initialization"() {
         given:
-        def expected = new DynamicArray(new IntType(), [
+        def expected = new DynamicArray(new Literal("int"), [
                 new NumberLiteral("1")
         ])
         def code = "new int[]{1}"
