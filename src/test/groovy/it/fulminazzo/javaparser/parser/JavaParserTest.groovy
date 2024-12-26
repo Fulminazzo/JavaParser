@@ -9,16 +9,8 @@ import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.operators.binary.*
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
-import it.fulminazzo.javaparser.parser.node.statements.Break
-import it.fulminazzo.javaparser.parser.node.statements.Continue
-import it.fulminazzo.javaparser.parser.node.statements.DoStatement
-import it.fulminazzo.javaparser.parser.node.statements.ForStatement
-import it.fulminazzo.javaparser.parser.node.statements.IfStatement
-import it.fulminazzo.javaparser.parser.node.statements.Return
-import it.fulminazzo.javaparser.parser.node.statements.Statement
-import it.fulminazzo.javaparser.parser.node.statements.WhileStatement
+import it.fulminazzo.javaparser.parser.node.statements.*
 import it.fulminazzo.javaparser.parser.node.types.BooleanLiteral
-
 import it.fulminazzo.javaparser.parser.node.types.Literal
 import it.fulminazzo.javaparser.parser.node.types.NumberLiteral
 import spock.lang.Specification
@@ -220,6 +212,36 @@ class JavaParserTest extends Specification {
                 new Assignment(new Literal("int"), new ReAssign(new Literal("i"), new NumberLiteral("0"))),
                 new BooleanLiteral("true"),
                 new Increment(new Literal("i"), false),
+                new CodeBlock(new Continue())
+        )
+        "for (; true; i++) continue;" | new ForStatement(
+                new Statement(),
+                new BooleanLiteral("true"),
+                new Increment(new Literal("i"), false),
+                new CodeBlock(new Continue())
+        )
+        "for (int i = 0; ; i++) continue;" | new ForStatement(
+                new Assignment(new Literal("int"), new ReAssign(new Literal("i"), new NumberLiteral("0"))),
+                new Statement(),
+                new Increment(new Literal("i"), false),
+                new CodeBlock(new Continue())
+        )
+        "for (int i = 0; true; ) continue;" | new ForStatement(
+                new Assignment(new Literal("int"), new ReAssign(new Literal("i"), new NumberLiteral("0"))),
+                new BooleanLiteral("true"),
+                new Statement(),
+                new CodeBlock(new Continue())
+        )
+        "for (; ; i++) continue;" | new ForStatement(
+                new Statement(),
+                new Statement(),
+                new Increment(new Literal("i"), false),
+                new CodeBlock(new Continue())
+        )
+        "for (int i = 0; ; ) continue;" | new ForStatement(
+                new Assignment(new Literal("int"), new ReAssign(new Literal("i"), new NumberLiteral("0"))),
+                new Statement(),
+                new Statement(),
                 new CodeBlock(new Continue())
         )
     }
