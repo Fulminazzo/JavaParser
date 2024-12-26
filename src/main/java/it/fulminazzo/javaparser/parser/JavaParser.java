@@ -118,6 +118,16 @@ public class JavaParser extends Parser {
     }
 
     /**
+     * SWITCH_STMT := switch ...
+     *
+     * @return the node
+     */
+    protected @NotNull Statement parseSwitchStatement() {
+        //TODO:
+        throw new UnsupportedOperationException("Not implemented");
+    }
+
+    /**
      * FOR_STMT := for \( ASSIGNMENT?; EXPR?; EXPR? \) BLOCK | ENHANCED_FOR
      *
      * @return the node
