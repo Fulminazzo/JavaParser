@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * A basic scope containing name value pairs of variables.
@@ -22,6 +23,17 @@ class Scope<T> implements Scoped<T> {
     public Scope(final @NotNull ScopeType scopeType) {
         this.internalMap = new LinkedHashMap<>();
         this.scopeType = scopeType;
+    }
+
+    /**
+     * Searches for the given variable name.
+     * If none is found, returns an empty {@link Optional}.
+     *
+     * @param name the name
+     * @return the optional containing the value
+     */
+    public @NotNull Optional<T> find(@NotNull final String name) {
+        return !this.internalMap.containsKey(name) ? Optional.empty() : Optional.of(this.internalMap.get(name));
     }
 
     @Override
