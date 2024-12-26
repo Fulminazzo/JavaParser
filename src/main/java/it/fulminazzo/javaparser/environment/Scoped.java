@@ -18,7 +18,7 @@ interface Scoped<T> {
      * @param name the name
      * @return the optional containing the value
      */
-    @NotNull Optional<T> find(@NotNull final String name);
+    @NotNull Optional<T> search(@NotNull final String name);
 
     /**
      * Finds the variable with the given name and returns its value.
@@ -28,7 +28,7 @@ interface Scoped<T> {
      * @throws ScopeException thrown if the variable is not declared
      */
     default @NotNull T lookup(@NotNull String name) throws ScopeException {
-        return find(name).orElseThrow(() -> noSuchVariable(name));
+        return search(name).orElseThrow(() -> noSuchVariable(name));
     }
 
     /**

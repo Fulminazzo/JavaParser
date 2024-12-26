@@ -26,19 +26,19 @@ class Scope<T> implements Scoped<T> {
     }
 
     @Override
-    public @NotNull Optional<T> find(@NotNull final String name) {
+    public @NotNull Optional<T> search(@NotNull final String name) {
         return !this.internalMap.containsKey(name) ? Optional.empty() : Optional.of(this.internalMap.get(name));
     }
 
     @Override
     public void define(@NotNull String name, @NotNull T value) throws ScopeException {
-        if (find(name).isPresent()) throw alreadyDeclaredVariable(name);
+        if (search(name).isPresent()) throw alreadyDeclaredVariable(name);
         else this.internalMap.put(name, value);
     }
 
     @Override
     public void update(@NotNull String name, @NotNull T value) throws ScopeException {
-        if (find(name).isPresent()) this.internalMap.put(name, value);
+        if (search(name).isPresent()) this.internalMap.put(name, value);
         else throw noSuchVariable(name);
     }
 
