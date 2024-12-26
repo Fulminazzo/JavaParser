@@ -53,11 +53,6 @@ public class Environment<T> implements Scoped<T> {
     }
 
     @Override
-    public @NotNull T lookup(@NotNull String name) throws ScopeException {
-        return null;
-    }
-
-    @Override
     public void define(@NotNull String name, @NotNull T value) throws ScopeException {
 
     }
