@@ -12,14 +12,14 @@ class TestUtils {
      * Generates a method associated with the given enum object.
      * Useful in some tests.
      *
-     * @param targetClass   the class where to write the method
-     * @param enumObject    the target enum object
-     * @param commentGenerator       the comment to prepend to the method (optional)
-     * @param modifiers     modifiers to prepend to the method (optional)
-     * @param returnType    the return type of the method
-     * @param nameGenerator a generator function to obtain the method name
-     * @param exception     an exception thrown by the method (optional)
-     * @param bodyGenerator the body of the method (optional)
+     * @param targetClass       the class where to write the method
+     * @param enumObject        the target enum object
+     * @param commentGenerator  the comment to prepend to the method (optional)
+     * @param modifiers         modifiers to prepend to the method (optional)
+     * @param returnType        the return type of the method
+     * @param nameGenerator     a generator function to obtain the method name
+     * @param exception         an exception thrown by the method (optional)
+     * @param bodyGenerator     the body of the method (optional)
      */
     static <E extends Enum<E>> void generateMethod(@NotNull Class targetClass, @NotNull E enumObject,
                                                    @Nullable Function<E, List<String>> commentGenerator,
