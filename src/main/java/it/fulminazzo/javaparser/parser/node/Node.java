@@ -2,7 +2,6 @@ package it.fulminazzo.javaparser.parser.node;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.javaparser.visitors.Visitor;
-import jdk.nashorn.internal.ir.visitor.NodeVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
