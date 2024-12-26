@@ -40,7 +40,8 @@ class EnvironmentTest extends Specification implements Scoped {
         this.environment.declare(varName, 2)
 
         then:
-        thrown(ScopeException)
+        def e = thrown(ScopeException)
+        e.message == alreadyDeclaredVariable(varName).message
     }
 
     def 'test lookup without declare'() {
@@ -51,7 +52,8 @@ class EnvironmentTest extends Specification implements Scoped {
         this.environment.lookup(varName)
 
         then:
-        thrown(ScopeException)
+        def e = thrown(ScopeException)
+        e.message == noSuchVariable(varName).message
     }
 
     def 'test update without declare'() {
@@ -62,7 +64,8 @@ class EnvironmentTest extends Specification implements Scoped {
         this.environment.update(varName, 1)
 
         then:
-        thrown(ScopeException)
+        def e = thrown(ScopeException)
+        e.message == noSuchVariable(varName).message
     }
 
     // Unused methods
