@@ -13,8 +13,9 @@ interface Scoped<T> {
      * Throws an exception for a variable not declared.
      *
      * @param name the name of the variable
+     * @throws ScopeException the scope exception
      */
-    default void noSuchVariable(final @NotNull String name) {
+    default void noSuchVariable(final @NotNull String name) throws ScopeException {
         throw new ScopeException("No such variable: " + name);
     }
 
@@ -22,8 +23,9 @@ interface Scoped<T> {
      * Throws an exception for a variable already declared.
      *
      * @param name the name of the variable
+     * @throws ScopeException the scope exception
      */
-    default void alreadyDeclaredVariable(final @NotNull String name) {
+    default void alreadyDeclaredVariable(final @NotNull String name) throws ScopeException {
         throw new ScopeException("Variable already declared: " + name);
     }
 
