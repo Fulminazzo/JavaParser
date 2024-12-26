@@ -21,6 +21,16 @@ interface Scoped<T> {
     @NotNull Optional<T> search(@NotNull final String name);
 
     /**
+     * Checks if a variable with the given name is declared.
+     *
+     * @param name the name
+     * @return true if it is
+     */
+    default boolean isDeclared(final @NotNull String name) {
+        return search(name).isPresent();
+    }
+
+    /**
      * Finds the variable with the given name and returns its value.
      *
      * @param name the name of the variable

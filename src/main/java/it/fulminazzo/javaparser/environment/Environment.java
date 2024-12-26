@@ -54,14 +54,14 @@ public class Environment<T> implements Scoped<T> {
 
     @Override
     public void define(@NotNull String name, @NotNull T value) throws ScopeException {
-        if (search(name).isPresent()) throw alreadyDeclaredVariable(name);
+        if (isDeclared(name)) throw alreadyDeclaredVariable(name);
         else lastScope().define(name, value);
     }
 
     @Override
     public void update(@NotNull String name, @NotNull T value) throws ScopeException {
         for (Scope<T> scope : this.scopes)
-            if (scope.search(name).isPresent()) {
+            if (scope.isDeclared(name)) {
                 scope.update(name, value);
                 return;
             }
