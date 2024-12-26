@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a for statement.
  */
-public class ForStatement extends Statement{
+public class ForStatement extends Statement {
     private final @NotNull Node assignment;
     private final @NotNull Node increment;
     private final @NotNull CodeBlock code;
