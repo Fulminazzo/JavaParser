@@ -56,4 +56,11 @@ interface Scoped<T> {
         throw new ScopeException("Variable already declared: " + name);
     }
 
+    /**
+     * Returns the scope type of the current scope.
+     *
+     * @return the scope type
+     */
+    @NotNull ScopeType scopeType();
+
 }
