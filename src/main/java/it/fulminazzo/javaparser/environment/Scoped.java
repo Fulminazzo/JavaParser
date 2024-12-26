@@ -10,6 +10,33 @@ import org.jetbrains.annotations.NotNull;
 interface Scoped<T> {
 
     /**
+     * Finds the variable with the given name and returns its value.
+     *
+     * @param name the name of the variable
+     * @return the value of the variable
+     * @throws ScopeException thrown if the variable is not declared
+     */
+    @NotNull T lookup(@NotNull String name) throws ScopeException;
+
+    /**
+     * Defines a variable with the given name and value.
+     *
+     * @param name  the name
+     * @param value the value
+     * @throws ScopeException thrown if the variable is already declared
+     */
+    void define(@NotNull String name, @NotNull T value) throws ScopeException;
+
+    /**
+     * Updates the value of a variable.
+     *
+     * @param name  the name of the variable
+     * @param value the new value
+     * @throws ScopeException thrown if the variable is not declared
+     */
+    void update(@NotNull String name, @NotNull T value) throws ScopeException;
+
+    /**
      * Throws an exception for a variable not declared.
      *
      * @param name the name of the variable
