@@ -127,10 +127,13 @@ public class JavaParser extends Parser {
         consume(OPEN_PAR);
         Node assignment = lastToken() == SEMICOLON ? new Statement() : parseAssignment();
         consume(SEMICOLON);
+
         Node condition = lastToken() == SEMICOLON ? new Statement() : parseExpression();
         consume(SEMICOLON);
+
         Node increment = lastToken() == CLOSE_PAR ? new Statement() : parseExpression();
         consume(CLOSE_PAR);
+
         CodeBlock block = parseBlock();
         return new ForStatement(assignment, condition, increment, block);
     }
