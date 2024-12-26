@@ -14,6 +14,11 @@ class EnvironmentTest extends Specification implements Scoped {
         this.environment.exitScope()
     }
 
+    def 'test scope type'() {
+        expect:
+        this.environment.scopeType() == ScopeType.CODE_BLOCK
+    }
+
     def 'test declare, isDeclared, lookup and update'() {
         given:
         def varName = 'var'
