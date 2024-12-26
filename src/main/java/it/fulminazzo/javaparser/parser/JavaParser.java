@@ -118,14 +118,23 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * FOR := for \( ASSIGNMENT?; EXPR?; EXPR? \) BLOCK
+     * FOR := for \( ASSIGNMENT?; EXPR?; EXPR? \) BLOCK | ENHANCED_FOR
      *
      * @return the node
      */
-    protected @NotNull ForStatement parseForStatement() {
+    protected @NotNull Statement parseForStatement() {
         consume(FOR);
         consume(OPEN_PAR);
-        Node assignment = lastToken() == SEMICOLON ? new Statement() : parseAssignment();
+
+        Node assignment;
+        if (lastToken() != SEMICOLON) {
+            final Literal literal = parseLiteral();
+            if (lastToken() == LITERAL) {
+                final Literal second = parseLiteral();
+                if (lastToken() == COLON) return parseEnhancedForStatement(literal, second);
+                else assignment = new Assignment(literal, parseReAssign(second));
+            } else assignment = parseAssignmentPartial(literal);
+        } else assignment = new Statement();
         consume(SEMICOLON);
 
         Node condition = lastToken() == SEMICOLON ? new Statement() : parseExpression();
