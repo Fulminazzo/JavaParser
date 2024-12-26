@@ -1,8 +1,9 @@
 package it.fulminazzo.javaparser.environment
 
+import org.jetbrains.annotations.NotNull
 import spock.lang.Specification
 
-class EnvironmentTest extends Specification {
+class EnvironmentTest extends Specification implements Scoped {
     private Environment<Integer> environment
 
     void setup() {
@@ -62,6 +63,27 @@ class EnvironmentTest extends Specification {
 
         then:
         thrown(ScopeException)
+    }
+
+    // Unused methods
+    @Override
+    Optional search(@NotNull String name) {
+        return null
+    }
+
+    @Override
+    void declare(@NotNull String name, @NotNull Object value) throws ScopeException {
+
+    }
+
+    @Override
+    void update(@NotNull String name, @NotNull Object value) throws ScopeException {
+
+    }
+
+    @Override
+    ScopeType scopeType() {
+        return null
     }
 
 }
