@@ -243,13 +243,25 @@ public class JavaParser extends Parser {
      */
     protected @NotNull Node parseAssignment() {
         final Literal literal = parseLiteral();
+        return parseAssignmentPartial(literal);
+    }
+
+    /**
+     * Support function for {@link #parseAssignment()}
+     *
+     * @param literal the literal
+     * @return the node
+     */
+    protected @NotNull Node parseAssignmentPartial(final @NotNull Literal literal) {
         switch (lastToken()) {
             case LITERAL: {
                 final Literal second = parseLiteral();
                 return new Assignment(literal, parseReAssign(second));
             }
-            case OPEN_PAR: return parseMethodCall(literal);
-            default: return parseReAssign(literal);
+            case OPEN_PAR:
+                return parseMethodCall(literal);
+            default:
+                return parseReAssign(literal);
         }
     }
 
