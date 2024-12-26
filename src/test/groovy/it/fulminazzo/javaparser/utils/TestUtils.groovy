@@ -14,7 +14,7 @@ class TestUtils {
      *
      * @param targetClass   the class where to write the method
      * @param enumObject    the target enum object
-     * @param comment       a comment to prepend to the method (optional)
+     * @param commentGenerator       the comment to prepend to the method (optional)
      * @param modifiers     modifiers to prepend to the method (optional)
      * @param returnType    the return type of the method
      * @param nameGenerator a generator function to obtain the method name
@@ -22,8 +22,10 @@ class TestUtils {
      * @param bodyGenerator the body of the method (optional)
      */
     static <E extends Enum<E>> void generateMethod(@NotNull Class targetClass, @NotNull E enumObject,
-                                                   @Nullable List<String> comment, @Nullable String modifiers,
-                                                   @NotNull String returnType, @NotNull Function<String, String> nameGenerator,
+                                                   @Nullable Function<E, List<String>> commentGenerator,
+                                                   @Nullable String modifiers,
+                                                   @NotNull String returnType,
+                                                   @NotNull Function<String, String> nameGenerator,
                                                    @Nullable Class<? extends Exception> exception,
                                                    @Nullable Function<E, List<String>> bodyGenerator) {
         def cwd = System.getProperty('user.dir')
@@ -36,9 +38,9 @@ class TestUtils {
         def toWrite = lines.subList(0, lines.size() - 2)
         toWrite.add('')
         // Comment
-        if (comment != null) {
+        if (commentGenerator != null) {
             toWrite.add('    /**')
-            toWrite.add(comment.collect { '    ' + it }.join('\n'))
+            toWrite.add(commentGenerator.apply(enumObject).collect { '    ' + it }.join('\n'))
             toWrite.add('     */')
         }
         def methodDeclaration = "${returnType} ${methodName}()"
