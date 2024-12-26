@@ -64,7 +64,16 @@ public class Environment<T> implements Scoped<T> {
 
     @Override
     public @NotNull ScopeType scopeType() {
-        return this.scopes.getLast().scopeType();
+        return lastScope().scopeType();
+    }
+
+    /**
+     * Returns the last declared {@link Scope}.
+     *
+     * @return the scope
+     */
+    Scope<T> lastScope() {
+        return this.scopes.getLast();
     }
 
 }
