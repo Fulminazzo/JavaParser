@@ -37,23 +37,23 @@ interface Scoped<T> {
     void update(@NotNull String name, @NotNull T value) throws ScopeException;
 
     /**
-     * Throws an exception for a variable not declared.
+     * Returns an exception for a variable not declared.
      *
      * @param name the name of the variable
-     * @throws ScopeException the scope exception
+     * @return the scope exception
      */
-    default void noSuchVariable(final @NotNull String name) throws ScopeException {
-        throw new ScopeException("No such variable: " + name);
+    default @NotNull ScopeException noSuchVariable(final @NotNull String name) {
+        return new ScopeException("No such variable: " + name);
     }
 
     /**
-     * Throws an exception for a variable already declared.
+     * Returns an exception for a variable already declared.
      *
      * @param name the name of the variable
-     * @throws ScopeException the scope exception
+     * @return the scope exception
      */
-    default void alreadyDeclaredVariable(final @NotNull String name) throws ScopeException {
-        throw new ScopeException("Variable already declared: " + name);
+    default @NotNull ScopeException alreadyDeclaredVariable(final @NotNull String name) {
+        return new ScopeException("Variable already declared: " + name);
     }
 
     /**
