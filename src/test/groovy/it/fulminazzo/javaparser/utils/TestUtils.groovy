@@ -22,7 +22,7 @@ class TestUtils {
      * @param bodyGenerator the body of the method (optional)
      */
     static <E extends Enum<E>> void generateMethod(@NotNull Class targetClass, @NotNull E enumObject,
-                                                   @Nullable String comment, @Nullable String modifiers,
+                                                   @Nullable List<String> comment, @Nullable String modifiers,
                                                    @NotNull String returnType, @NotNull Function<String, String> nameGenerator,
                                                    @Nullable Class<? extends Exception> exception,
                                                    @Nullable Function<E, List<String>> bodyGenerator) {
@@ -38,7 +38,7 @@ class TestUtils {
         // Comment
         if (comment != null) {
             toWrite.add('    /**')
-            toWrite.add(comment)
+            toWrite.add(comment.collect { '    ' + it }.join('\n'))
             toWrite.add('     */')
         }
         def methodDeclaration = "${returnType} ${methodName}()"
