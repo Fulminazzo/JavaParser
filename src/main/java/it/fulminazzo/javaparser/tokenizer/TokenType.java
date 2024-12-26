@@ -28,6 +28,7 @@ public enum TokenType {
     CLOSE_BRACE("\\}"),
     COMMA(","),
     SEMICOLON(";"),
+    COLON(":"),
 
     // Binary Operations
     EQUAL("=="),
