@@ -90,7 +90,7 @@ public class JavaParser extends Parser {
 
     /**
      * STMT := new Return(EXPR) | break | continue |
-     *         FOR_STMT | DO_STMT | WHILE_STMT | IF_STMT
+     *         SWITCH_STMT | FOR_STMT | DO_STMT | WHILE_STMT | IF_STMT
      *         METHOD_CALL | RE_ASSIGN
      *
      * @return the node
@@ -104,6 +104,7 @@ public class JavaParser extends Parser {
             }
             case BREAK: return new Break();
             case CONTINUE: return new Continue();
+            case SWITCH: return parseSwitchStatement();
             case FOR: return parseForStatement();
             case DO: return parseDoStatement();
             case WHILE: return parseWhileStatement();
