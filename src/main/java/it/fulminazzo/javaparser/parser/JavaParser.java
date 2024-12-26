@@ -210,7 +210,7 @@ public class JavaParser extends Parser {
         next(); // Necessary space
         consume(SPACE);
         Node literal = parseAtom();
-        switch (nextSpaceless()) {
+        switch (lastToken()) {
             case OPEN_BRACKET: {
                 consume(OPEN_BRACKET);
                 if (lastToken() == NUMBER_VALUE) {
