@@ -21,6 +21,7 @@ class VisitorTest extends Specification {
             .find { Arrays.equals(parameters.collect { f -> f.type } , it.parameterTypes) }
 
         then:
+        if (method == null) writeMethod(methodName, parameters)
         method != null
 
         where:
@@ -29,6 +30,25 @@ class VisitorTest extends Specification {
                 .collect { new Refl<>(it) }
                 .collect { it.nonStaticFields }
                 .collect{ it.toArray() }
+    }
+
+    static writeMethod(def methodName, Object[] fieldParameters) {
+        def cwd = System.getProperty('user.dir')
+        def path = "${VisitorTest.class.package.name.replace('.', File.separator)}"
+        def file = new File(cwd, "src/main/java/${path}${File.separator}${Visitor.class.simpleName}.java")
+
+        def lines = file.readLines()
+        def toWrite = lines.subList(0, lines.size() - 2)
+        def stringParameters = fieldParameters.collect {
+            "@NotNull ${it.type.simpleName} ${it.name}"
+        }.join(', ')
+        toWrite.add("    T ${methodName}(${stringParameters});")
+        toWrite.add('\n}')
+
+        file.delete()
+        toWrite.each { file << "${it}\n" }
+
+        println "Updated ${Visitor.class.simpleName} class with method ${methodName}"
     }
 
     static nodeClasses() {
