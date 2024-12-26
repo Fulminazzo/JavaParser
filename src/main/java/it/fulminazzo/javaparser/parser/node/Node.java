@@ -1,6 +1,8 @@
 package it.fulminazzo.javaparser.parser.node;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
+import it.fulminazzo.javaparser.visitors.Visitor;
+import jdk.nashorn.internal.ir.visitor.NodeVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,6 +14,24 @@ import java.util.stream.Collectors;
  * Represents a general node of the parser.
  */
 public abstract class Node {
+
+    /**
+     * Allows the visitor to visit this node.
+     * It does so by looking for a <code>visit%NodeName%</code> method.
+     *
+     * @param visitor the visitor
+     * @return the node converted
+     * @param <T> the type returned by the visitor
+     */
+    public <T> T accept(final @NotNull Visitor<T> visitor) {
+        String methodName = "visit" + getClass().getSimpleName();
+        Refl<?> node = new Refl<>(this);
+        return new Refl<>(visitor).invokeMethod(methodName,
+                node.getNonStaticFields().stream()
+                        .map(node::getFieldObject)
+                        .toArray(Object[]::new)
+                );
+    }
 
     @Override
     public int hashCode() {
