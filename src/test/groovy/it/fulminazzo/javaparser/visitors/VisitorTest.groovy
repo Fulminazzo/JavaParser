@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.visitors
 
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.fulmicollection.utils.ClassUtils
+import it.fulminazzo.fulmicollection.utils.ReflectionUtils
 import it.fulminazzo.javaparser.parser.node.Node
 import spock.lang.Specification
 
@@ -39,7 +40,9 @@ class VisitorTest extends Specification {
         def lines = file.readLines()
         def toWrite = lines.subList(0, lines.size() - 2)
         def stringParameters = fieldParameters.collect {
-            "@NotNull ${it.type.simpleName} ${it.name}"
+            def value = "${it.type.simpleName} ${it.name}"
+            if (!ReflectionUtils.isPrimitive(it.type)) value = '@NotNull ' + value
+            return value
         }.join(', ')
         toWrite.add("    T ${methodName}(${stringParameters});\n")
         toWrite.add('\n}')
