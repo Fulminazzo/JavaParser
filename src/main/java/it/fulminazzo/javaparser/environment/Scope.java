@@ -31,12 +31,6 @@ class Scope<T> implements Scoped<T> {
     }
 
     @Override
-    public @NotNull T lookup(@NotNull String name) throws ScopeException {
-        if (!this.internalMap.containsKey(name)) noSuchVariable(name);
-        return this.internalMap.get(name);
-    }
-
-    @Override
     public void define(@NotNull String name, @NotNull T value) throws ScopeException {
         if (this.internalMap.containsKey(name)) alreadyDeclaredVariable(name);
         this.internalMap.put(name, value);

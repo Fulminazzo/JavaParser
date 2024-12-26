@@ -27,7 +27,9 @@ interface Scoped<T> {
      * @return the value of the variable
      * @throws ScopeException thrown if the variable is not declared
      */
-    @NotNull T lookup(@NotNull String name) throws ScopeException;
+    default @NotNull T lookup(@NotNull String name) throws ScopeException {
+        return find(name).orElseThrow(() -> noSuchVariable(name));
+    }
 
     /**
      * Defines a variable with the given name and value.
