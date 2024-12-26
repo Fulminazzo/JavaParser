@@ -5,38 +5,38 @@ import spock.lang.Specification
 
 class NodeTest extends Specification {
 
-    def "test hashCode"() {
+    def 'test hashCode'() {
         given:
-        def node = new MockNode("MockNode", 1)
+        def node = new MockNode('MockNode', 1)
 
         expect:
-        node.hashCode() == "MockNode".hashCode() + 1.hashCode()
+        node.hashCode() == 'MockNode'.hashCode() + 1.hashCode()
     }
 
-    def "test equals"() {
+    def 'test equals'() {
         given:
-        def node = new MockNode("MockNode", 1)
-        def other = new MockNode("MockNode", 1)
+        def node = new MockNode('MockNode', 1)
+        def other = new MockNode('MockNode', 1)
 
         expect:
         node == other
     }
 
-    def "test not equals"() {
+    def 'test not equals'() {
         given:
-        def node = new MockNode("MockNode", 1)
-        def other = new MockNode("MockNode", 2)
+        def node = new MockNode('MockNode', 1)
+        def other = new MockNode('MockNode', 2)
 
         expect:
         node != other
     }
 
-    def "test toString"() {
+    def 'test toString'() {
         given:
-        def node = new MockNode("MockNode", 1)
+        def node = new MockNode('MockNode', 1)
 
         expect:
-        node.toString() == "MockNode(MockNode, 1)"
+        node.toString() == 'MockNode(MockNode, 1)'
     }
 
 }
