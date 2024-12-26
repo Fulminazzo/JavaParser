@@ -111,7 +111,7 @@ interface Scoped<T> {
 
     /**
      * Checks that the scope type is {@link ScopeType#SWITCH}.
-     *
+     * 
      * @return this object
      * @throws ScopeException thrown if the current scope type does not match
      */
@@ -121,7 +121,7 @@ interface Scoped<T> {
 
     /**
      * Checks that the scope type is {@link ScopeType#CASE}.
-     *
+     * 
      * @return this object
      * @throws ScopeException thrown if the current scope type does not match
      */
@@ -131,7 +131,7 @@ interface Scoped<T> {
 
     /**
      * Checks that the scope type is {@link ScopeType#FOR}.
-     *
+     * 
      * @return this object
      * @throws ScopeException thrown if the current scope type does not match
      */
@@ -141,7 +141,7 @@ interface Scoped<T> {
 
     /**
      * Checks that the scope type is {@link ScopeType#WHILE}.
-     *
+     * 
      * @return this object
      * @throws ScopeException thrown if the current scope type does not match
      */
@@ -151,7 +151,7 @@ interface Scoped<T> {
 
     /**
      * Checks that the scope type is {@link ScopeType#DO}.
-     *
+     * 
      * @return this object
      * @throws ScopeException thrown if the current scope type does not match
      */
