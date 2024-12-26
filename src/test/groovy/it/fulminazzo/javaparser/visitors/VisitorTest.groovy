@@ -18,7 +18,7 @@ class VisitorTest extends Specification {
         def method = Visitor.class.getDeclaredMethods()
             .findAll { it.name == methodName }
             .findAll { it.parameterCount == parameters.length }
-            .find { Arrays.equals(parameters.collect { f -> f.type } , it.parameterTypes) }
+            .find { parameters.collect { f -> f.type } == it.parameterTypes.toList() }
 
         then:
         if (method == null) writeMethod(methodName, parameters)
