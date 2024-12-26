@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser.environment;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
+import java.util.Optional;
 
 /**
  * Represents a container for {@link Scope}s.
@@ -40,6 +41,15 @@ public class Environment<T> implements Scoped<T> {
         if (this.scopes.size() < 2) throw new IllegalStateException("Cannot exit from main scope");
         this.scopes.pop();
         return this;
+    }
+
+    @Override
+    public @NotNull Optional<T> search(@NotNull final String name) {
+        return this.scopes.stream()
+                .map(s -> s.search(name))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .findFirst();
     }
 
     @Override
