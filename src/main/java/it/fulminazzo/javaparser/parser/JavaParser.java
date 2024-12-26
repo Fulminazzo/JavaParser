@@ -118,7 +118,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * FOR := for \( ASSIGNMENT; EXPR; EXPR \) BLOCK
+     * FOR := for \( ASSIGNMENT?; EXPR?; EXPR? \) BLOCK
      *
      * @return the node
      */
