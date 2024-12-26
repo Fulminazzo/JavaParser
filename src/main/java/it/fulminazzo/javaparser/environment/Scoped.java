@@ -76,4 +76,64 @@ interface Scoped<T> {
         return this;
     }
 
+    /**
+     * Checks that the scope type is {@link ScopeType#CODE_BLOCK}.
+     *
+     * @return this object
+     * @throws ScopeException thrown if the current scope type does not match
+     */
+    default Scoped<T> checkCodeBlock() throws ScopeException {
+        return checkScopeType(ScopeType.CODE_BLOCK);
+    }
+
+    /**
+     * Checks that the scope type is {@link ScopeType#SWITCH}.
+     *
+     * @return this object
+     * @throws ScopeException thrown if the current scope type does not match
+     */
+    default Scoped<T> checkSwitch() throws ScopeException {
+        return checkScopeType(ScopeType.SWITCH);
+    }
+
+    /**
+     * Checks that the scope type is {@link ScopeType#CASE}.
+     *
+     * @return this object
+     * @throws ScopeException thrown if the current scope type does not match
+     */
+    default Scoped<T> checkCase() throws ScopeException {
+        return checkScopeType(ScopeType.CASE);
+    }
+
+    /**
+     * Checks that the scope type is {@link ScopeType#FOR}.
+     *
+     * @return this object
+     * @throws ScopeException thrown if the current scope type does not match
+     */
+    default Scoped<T> checkFor() throws ScopeException {
+        return checkScopeType(ScopeType.FOR);
+    }
+
+    /**
+     * Checks that the scope type is {@link ScopeType#WHILE}.
+     *
+     * @return this object
+     * @throws ScopeException thrown if the current scope type does not match
+     */
+    default Scoped<T> checkWhile() throws ScopeException {
+        return checkScopeType(ScopeType.WHILE);
+    }
+
+    /**
+     * Checks that the scope type is {@link ScopeType#DO}.
+     *
+     * @return this object
+     * @throws ScopeException thrown if the current scope type does not match
+     */
+    default Scoped<T> checkDo() throws ScopeException {
+        return checkScopeType(ScopeType.DO);
+    }
+
 }
