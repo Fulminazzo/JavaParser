@@ -42,4 +42,15 @@ class EnvironmentTest extends Specification {
         thrown(ScopeException)
     }
 
+    def 'test lookup without declare'() {
+        given:
+        def varName = 'var'
+
+        when:
+        this.environment.lookup(varName)
+
+        then:
+        thrown(ScopeException)
+    }
+
 }
