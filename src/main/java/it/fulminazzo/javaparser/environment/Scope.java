@@ -25,13 +25,7 @@ class Scope<T> implements Scoped<T> {
         this.scopeType = scopeType;
     }
 
-    /**
-     * Searches for the given variable name.
-     * If none is found, returns an empty {@link Optional}.
-     *
-     * @param name the name
-     * @return the optional containing the value
-     */
+    @Override
     public @NotNull Optional<T> find(@NotNull final String name) {
         return !this.internalMap.containsKey(name) ? Optional.empty() : Optional.of(this.internalMap.get(name));
     }

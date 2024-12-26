@@ -2,12 +2,23 @@ package it.fulminazzo.javaparser.environment;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+
 /**
  * An object that can hold values in the form (name, value) pair.
  *
  * @param <T> the type of the values
  */
 interface Scoped<T> {
+
+    /**
+     * Searches for the given variable name.
+     * If none is found, returns an empty {@link Optional}.
+     *
+     * @param name the name
+     * @return the optional containing the value
+     */
+    @NotNull Optional<T> find(@NotNull final String name);
 
     /**
      * Finds the variable with the given name and returns its value.
