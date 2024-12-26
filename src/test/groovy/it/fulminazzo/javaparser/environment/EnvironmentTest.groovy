@@ -30,4 +30,16 @@ class EnvironmentTest extends Specification {
         second == 2
     }
 
+    def 'test declare twice'() {
+        given:
+        def varName = 'var'
+
+        when:
+        this.environment.declare(varName, 1)
+        this.environment.declare(varName, 2)
+
+        then:
+        thrown(ScopeException)
+    }
+
 }
