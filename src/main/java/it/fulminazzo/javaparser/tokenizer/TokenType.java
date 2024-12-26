@@ -12,6 +12,7 @@ public enum TokenType {
     BREAK("break"),
     CONTINUE("continue"),
     NEW("new"),
+    SWITCH("switch"),
     FOR("for"),
     DO("do"),
     WHILE("while"),
