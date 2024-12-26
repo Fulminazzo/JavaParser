@@ -60,7 +60,12 @@ public class Environment<T> implements Scoped<T> {
 
     @Override
     public void update(@NotNull String name, @NotNull T value) throws ScopeException {
-
+        for (Scope<T> scope : this.scopes)
+            if (scope.search(name).isPresent()) {
+                scope.update(name, value);
+                return;
+            }
+        throw noSuchVariable(name);
     }
 
     @Override
