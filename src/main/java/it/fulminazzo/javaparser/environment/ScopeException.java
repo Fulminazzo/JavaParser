@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * An exception thrown by {@link Scoped} objects.
  */
-class ScopeException extends Exception {
+public class ScopeException extends Exception {
 
     /**
      * Instantiates a new Scope exception.
