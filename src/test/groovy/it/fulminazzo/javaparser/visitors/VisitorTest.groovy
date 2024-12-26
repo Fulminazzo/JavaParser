@@ -2,7 +2,6 @@ package it.fulminazzo.javaparser.visitors
 
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.fulmicollection.utils.ClassUtils
-import it.fulminazzo.javaparser.parser.node.Assignment
 import it.fulminazzo.javaparser.parser.node.Node
 import spock.lang.Specification
 
@@ -42,7 +41,7 @@ class VisitorTest extends Specification {
         def stringParameters = fieldParameters.collect {
             "@NotNull ${it.type.simpleName} ${it.name}"
         }.join(', ')
-        toWrite.add("    T ${methodName}(${stringParameters});")
+        toWrite.add("    T ${methodName}(${stringParameters});\n")
         toWrite.add('\n}')
 
         file.delete()
