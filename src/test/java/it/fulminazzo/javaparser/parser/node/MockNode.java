@@ -1,5 +1,8 @@
 package it.fulminazzo.javaparser.parser.node;
 
+import lombok.Getter;
+
+@Getter
 public class MockNode extends Node {
     final static String IGNORE = "Should be ignored";
     final String name;
