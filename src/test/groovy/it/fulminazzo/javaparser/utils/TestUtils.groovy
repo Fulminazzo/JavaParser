@@ -24,7 +24,7 @@ class TestUtils {
     static <E extends Enum<E>> void generateMethod(@NotNull Class targetClass, @NotNull E enumObject,
                                                    @Nullable String comment, @Nullable String modifiers,
                                                    @NotNull String returnType, @NotNull Function<String, String> nameGenerator,
-                                                   @Nullable String exception,
+                                                   @Nullable Class<? extends Exception> exception,
                                                    @Nullable Function<E, String> bodyGenerator) {
         def cwd = System.getProperty('user.dir')
         def classPath = "${targetClass.canonicalName.replace('.', File.separator)}"
@@ -44,7 +44,7 @@ class TestUtils {
         // Modifiers
         if (modifiers != null) methodDeclaration = "${modifiers} ${methodDeclaration}"
         // Exception
-        if (exception != null) methodDeclaration += " throws ${exception}"
+        if (exception != null) methodDeclaration += " throws ${exception.simpleName}"
         // Body
         if (bodyGenerator == null) methodDeclaration += ";"
         else methodDeclaration += " {\n${bodyGenerator.apply(enumObject)}\n    }\n"
