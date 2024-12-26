@@ -118,7 +118,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * FOR := for \( ASSIGNMENT?; EXPR?; EXPR? \) BLOCK | ENHANCED_FOR
+     * FOR_STMT := for \( ASSIGNMENT?; EXPR?; EXPR? \) BLOCK | ENHANCED_FOR
      *
      * @return the node
      */
@@ -148,7 +148,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ENHANCED_FOR := for \( LITERAL LITERAL : EXPR \) BLOCK
+     * ENHANCED_FOR_STMT := for \( LITERAL LITERAL : EXPR \) BLOCK
      *
      * @return the node
      */
@@ -162,7 +162,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * DO := do BLOCK while \( EXPR \)
+     * DO_STMT := do BLOCK while \( EXPR \)
      *
      * @return the node
      */
@@ -178,7 +178,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * WHILE := while \( EXPR \) BLOCK
+     * WHILE_STMT := while \( EXPR \) BLOCK
      *
      * @return the node
      */
