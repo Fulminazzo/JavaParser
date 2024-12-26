@@ -120,16 +120,6 @@ interface Scoped<T> {
     }
 
     /**
-     * Checks that the scope type is {@link ScopeType#CASE}.
-     * 
-     * @return this object
-     * @throws ScopeException thrown if the current scope type does not match
-     */
-    default Scoped<T> checkCase() throws ScopeException {
-        return checkScopeType(ScopeType.CASE);
-    }
-
-    /**
      * Checks that the scope type is {@link ScopeType#FOR}.
      * 
      * @return this object

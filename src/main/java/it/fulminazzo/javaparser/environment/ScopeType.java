@@ -8,7 +8,6 @@ package it.fulminazzo.javaparser.environment;
 public enum ScopeType {
     CODE_BLOCK,
     SWITCH,
-    CASE,
     FOR,
     WHILE,
     DO
