@@ -139,6 +139,20 @@ public class JavaParser extends Parser {
     }
 
     /**
+     * ENHANCED_FOR := for \( LITERAL LITERAL : EXPR \) BLOCK
+     *
+     * @return the node
+     */
+    private @NotNull EnhancedForStatement parseEnhancedForStatement(final @NotNull Literal type,
+                                                                    final @NotNull Literal variable) {
+        consume(COLON);
+        Node expr = parseExpression();
+        consume(CLOSE_PAR);
+        CodeBlock block = parseBlock();
+        return new EnhancedForStatement(type, variable, expr, block);
+    }
+
+    /**
      * DO := do BLOCK while \( EXPR \)
      *
      * @return the node
