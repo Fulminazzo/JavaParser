@@ -18,6 +18,7 @@ public class Environment<T> implements Scoped<T> {
      */
     public Environment() {
         this.scopes = new LinkedList<>();
+        enterScope(ScopeType.CODE_BLOCK);
     }
 
     /**
