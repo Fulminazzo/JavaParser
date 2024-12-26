@@ -34,22 +34,24 @@ class TestUtils {
 
         def lines = file.readLines()
         def toWrite = lines.subList(0, lines.size() - 2)
+        toWrite.add('')
         // Comment
         if (comment != null) {
-            toWrite.add('\n    /**')
+            toWrite.add('    /**')
             toWrite.add(comment)
             toWrite.add('     */')
         }
         def methodDeclaration = "${returnType} ${methodName}()"
         // Modifiers
         if (modifiers != null) methodDeclaration = "${modifiers} ${methodDeclaration}"
+        methodDeclaration = "    ${methodDeclaration}"
         // Exception
         if (exception != null) methodDeclaration += " throws ${exception.simpleName}"
         // Body
         if (bodyGenerator == null) methodDeclaration += ";"
-        else methodDeclaration += " {\n${bodyGenerator.apply(enumObject)}\n    }\n"
+        else methodDeclaration += " {\n${bodyGenerator.apply(enumObject)}\n    }"
 
-        toWrite.add(methodDeclaration)
+        toWrite.add(methodDeclaration + '\n')
         toWrite.add('}')
 
         file.delete()
