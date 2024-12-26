@@ -40,7 +40,7 @@ class TestUtils {
         // Comment
         if (commentGenerator != null) {
             toWrite.add('    /**')
-            toWrite.add(commentGenerator.apply(enumObject).collect { '    ' + it }.join('\n'))
+            toWrite.add(commentGenerator.apply(enumObject).collect { '     * ' + it }.join('\n'))
             toWrite.add('     */')
         }
         def methodDeclaration = "${returnType} ${methodName}()"
