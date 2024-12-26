@@ -53,4 +53,15 @@ class EnvironmentTest extends Specification {
         thrown(ScopeException)
     }
 
+    def 'test update without declare'() {
+        given:
+        def varName = 'var'
+
+        when:
+        this.environment.update(varName, 1)
+
+        then:
+        thrown(ScopeException)
+    }
+
 }
