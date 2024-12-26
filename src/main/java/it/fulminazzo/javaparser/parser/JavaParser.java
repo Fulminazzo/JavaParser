@@ -125,11 +125,11 @@ public class JavaParser extends Parser {
     protected @NotNull ForStatement parseForStatement() {
         consume(FOR);
         consume(OPEN_PAR);
-        Node assignment = parseAssignment();
+        Node assignment = lastToken() == SEMICOLON ? new Statement() : parseAssignment();
         consume(SEMICOLON);
-        Node condition = parseExpression();
+        Node condition = lastToken() == SEMICOLON ? new Statement() : parseExpression();
         consume(SEMICOLON);
-        Node increment = parseExpression();
+        Node increment = lastToken() == CLOSE_PAR ? new Statement() : parseExpression();
         consume(CLOSE_PAR);
         CodeBlock block = parseBlock();
         return new ForStatement(assignment, condition, increment, block);
