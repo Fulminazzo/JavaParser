@@ -244,6 +244,12 @@ class JavaParserTest extends Specification {
                 new Statement(),
                 new CodeBlock(new Continue())
         )
+        "for (int i : arr) continue;" | new EnhancedForStatement(
+                new Literal("int"),
+                new Literal("i"),
+                new Literal("arr"),
+                new CodeBlock(new Continue())
+        )
     }
 
 }
