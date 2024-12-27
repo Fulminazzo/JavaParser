@@ -75,6 +75,7 @@ class TokenizerTest extends Specification {
         then:
         tokenizer.lastToken() == NUMBER_VALUE
         tokenizer.lastRead() == '10'
+        tokenizer.nextSpaceless() == EOF
     }
 
     def 'test tokenizer next'() {

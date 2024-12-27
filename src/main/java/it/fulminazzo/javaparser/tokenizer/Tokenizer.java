@@ -103,6 +103,7 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
                 return updateTokenType(subString);
             }
         }
+        this.previousRead = "";
         return updateTokenType(read);
     }
 
