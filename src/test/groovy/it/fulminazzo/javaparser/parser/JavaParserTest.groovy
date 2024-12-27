@@ -193,11 +193,12 @@ class JavaParserTest extends Specification {
         '--var' | new Decrement(new Literal('var'), true)
     }
 
-    def 'test parseReAssign with operation: #code'() {
+    def 'test parseReAssign with operation: #operation'() {
         given:
+        def code = "var ${operation}= 2"
         def expected = new Literal('var')
-        def operation = expectedClass.newInstance(expected, new NumberLiteral('2'))
-        expected = new ReAssign(expected, operation)
+        def operationNode = expectedClass.newInstance(expected, new NumberLiteral('2'))
+        expected = new ReAssign(expected, operationNode)
         this.parser.setInput(code)
 
         when:
@@ -208,18 +209,18 @@ class JavaParserTest extends Specification {
         output == expected
 
         where:
-        code         | expectedClass
-        'var += 2'   | Add.class
-        'var -= 2'   | Subtract.class
-        'var *= 2'   | Multiply.class
-        'var /= 2'   | Divide.class
-        'var %= 2'   | Modulo.class
-        'var &= 2'   | BitAnd.class
-        'var |= 2'   | BitOr.class
-        'var ^= 2'   | BitXor.class
-        'var <<= 2'  | LShift.class
-        'var >>= 2'  | RShift.class
-        'var >>>= 2' | URShift.class
+        operation    | expectedClass
+        '+'          | Add.class
+        '-'          | Subtract.class
+        '*'          | Multiply.class
+        '/'          | Divide.class
+        '%'          | Modulo.class
+        '&'          | BitAnd.class
+        '|'          | BitOr.class
+        '^'          | BitXor.class
+        '<<'         | LShift.class
+        '>>'         | RShift.class
+        '>>>'        | URShift.class
     }
 
     def 'test complex parseBinaryOperation'() {
