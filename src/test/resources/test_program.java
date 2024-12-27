@@ -60,3 +60,6 @@ i ^= 2;
 i <<= 1;
 i >>= 1;
 i >>>= 1;
+
+// Method call
+System.out.printf("%s %s\n", "Hello", "world");
