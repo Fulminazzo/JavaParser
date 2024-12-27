@@ -82,7 +82,7 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
         try {
             if (this.line == -1) this.line = 1;
             if (this.column == -1) this.column = 0;
-            for (char c : this.lastRead.toCharArray()) updateLineCount(c);
+            for (char c : this.previousRead.toCharArray()) updateLineCount(c);
             String read = this.previousRead;
             if (isTokenType(read)) return readTokenType(read);
             while (this.input.available() > 0) {
