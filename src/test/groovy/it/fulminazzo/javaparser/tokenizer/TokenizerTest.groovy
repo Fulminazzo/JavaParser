@@ -6,6 +6,21 @@ import static it.fulminazzo.javaparser.tokenizer.TokenType.*
 
 class TokenizerTest extends Specification {
 
+    def 'test tokenizer hasNext method exception'() {
+        given:
+        def input = Mock(ByteArrayInputStream)
+        input.available() >> {
+            throw new IOException('Closed stream')
+        }
+        def tokenizer = new Tokenizer(input)
+
+        when:
+        tokenizer.hasNext()
+
+        then:
+        thrown(TokenizerException)
+    }
+
     def 'test tokenizer read until next line'() {
         given:
         def input = 'This should be totally ignored\n10'.bytes
@@ -46,21 +61,6 @@ class TokenizerTest extends Specification {
                    CHAR_VALUE, SPACE, STRING_VALUE, EOF]
         tokenizer.lastToken() == EOF
         tokenizer.lastRead() == ''
-    }
-
-    def 'test tokenizer hasNext method exception'() {
-        given:
-        def input = Mock(ByteArrayInputStream)
-        input.available() >> {
-            throw new IOException('Closed stream')
-        }
-        def tokenizer = new Tokenizer(input)
-
-        when:
-        tokenizer.hasNext()
-
-        then:
-        thrown(TokenizerException)
     }
 
     def 'test tokenizer next method exception'() {
