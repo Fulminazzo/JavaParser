@@ -39,6 +39,7 @@ class JavaParserTest extends Specification {
 
         where:
         code     | expected
+        'return 1;' | new Return(new NumberLiteral('1'))
         'break;' | new Break()
         ';'      | new Statement()
     }
