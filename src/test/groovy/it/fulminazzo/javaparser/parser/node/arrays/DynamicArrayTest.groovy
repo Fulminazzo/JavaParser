@@ -23,4 +23,12 @@ class DynamicArrayTest extends Specification {
         size == 3
     }
 
+    def 'test toString'() {
+        when:
+        def output = this.array.toString()
+
+        then:
+        output == 'DynamicArray(Literal(int), {NumberLiteral(1), NumberLiteral(2), NumberLiteral(3)})'
+    }
+
 }
