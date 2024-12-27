@@ -28,7 +28,7 @@ public class Environment<T> implements Scoped<T> {
      * @return this environment
      */
     public Environment<T> enterScope(final @NotNull ScopeType scopeType) {
-        this.scopes.push(new Scope<>(scopeType));
+        this.scopes.addFirst(new Scope<>(scopeType));
         return this;
     }
 
@@ -40,7 +40,7 @@ public class Environment<T> implements Scoped<T> {
      */
     public Environment<T> exitScope() {
         if (isMainScope()) throw new IllegalStateException("Cannot exit from main scope");
-        this.scopes.pop();
+        this.scopes.removeFirst();
         return this;
     }
 
@@ -89,7 +89,7 @@ public class Environment<T> implements Scoped<T> {
      * @return the scope
      */
     Scope<T> lastScope() {
-        return this.scopes.getLast();
+        return this.scopes.getFirst();
     }
 
 }
