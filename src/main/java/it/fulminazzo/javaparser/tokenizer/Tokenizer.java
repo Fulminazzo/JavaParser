@@ -39,6 +39,24 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
     }
 
     /**
+     * Reads until the character <code>\n</code> is met.
+     * Then, it invokes {@link #nextSpaceless()}.
+     *
+     * @return the token type.
+     */
+    public @NotNull TokenType readUntilNextLine() {
+        try {
+            String read = this.previousRead;
+            while (this.input.available() > 0 && !read.endsWith("\n"))
+                read += (char) this.input.read();
+            this.lastRead = read;
+            return nextSpaceless();
+        } catch (IOException e) {
+            throw new TokenizerException(e);
+        }
+    }
+
+    /**
      * Reads from the input the next {@link TokenType}.
      * Repeats readings until a token different from {@link TokenType#SPACE} is found.
      *
