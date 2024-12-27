@@ -33,7 +33,7 @@ Long lW = 5L;
 Float fW = 6.0f;
 Double dW = 7.0d;
 Boolean boW = true;
-String string = "Hello world";
+String sW = "Hello world";
 
 // Binary operations
 i = i + 1 - 1 * 1 / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1
@@ -63,3 +63,10 @@ i >>>= 1;
 
 // Method call
 System.out.printf("%s %s\n", "Hello", "world");
+
+// New keyword
+String string = new String("Hello");
+int[] staticArray = new int[1];
+int[] dynamicArray = new int[]{1, 2};
+String[] stringStaticArray = new String[1];
+String[] stringDynamicArray = new String[]{"1", "2"};
