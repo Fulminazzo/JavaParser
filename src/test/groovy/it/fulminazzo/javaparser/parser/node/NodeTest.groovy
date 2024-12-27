@@ -39,4 +39,12 @@ class NodeTest extends Specification {
         node.toString() == "MockNode(MockNode, 1)"
     }
 
+    def "test toString null"() {
+        given:
+        def node = new MockNode(null, 1)
+
+        expect:
+        node.toString() == "MockNode(null, 1)"
+    }
+
 }
