@@ -22,10 +22,11 @@ public interface Visitor<T> {
      * Converts assignment and its fields to this visitor type.
      *
      * @param type       the type
-     * @param assignment the assignment
+     * @param name       the name
+     * @param value       the value
      * @return the assignment
      */
-    T visitAssignment(@NotNull Literal type, @NotNull Node assignment);
+    T visitAssignment(@NotNull Literal type, @NotNull Literal name, @NotNull Node value);
 
     /**
      * Converts method call and its fields to this visitor type.
