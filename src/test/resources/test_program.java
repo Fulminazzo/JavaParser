@@ -10,8 +10,14 @@ boolean bo = true;
 
 // Re-assignments
 i = -4;
+l = i;
 l = 5;
+f = i;
+f = l;
 f = 6;
+d = i;
+d = l;
+d = f;
 d = 7;
 d = 7.0f;
 d = 7.0;
