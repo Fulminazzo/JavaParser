@@ -6,6 +6,19 @@ import static it.fulminazzo.javaparser.tokenizer.TokenType.*
 
 class TokenizerTest extends Specification {
 
+    def 'test tokenizer read until next line'() {
+        given:
+        def input = 'This should be totally ignored\n10'.bytes
+        def tokenizer = new Tokenizer(new ByteArrayInputStream(input))
+
+        when:
+        tokenizer.readUntilNextLine()
+
+        then:
+        tokenizer.lastToken() == NUMBER_VALUE
+        tokenizer.lastRead() == '10'
+    }
+
     def 'test tokenizer next spaceless'() {
         given:
         def input = '         10'.bytes
