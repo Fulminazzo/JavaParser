@@ -16,7 +16,11 @@ final class ParserException extends RuntimeException {
      */
     public ParserException(final @NotNull String message,
                            final @NotNull Parser parser) {
-        super(message);
+        super(String.format("At line %s, column %s: %s",
+                parser.getTokenizer().line(),
+                parser.getTokenizer().column(),
+                message)
+        );
     }
 
     /**
