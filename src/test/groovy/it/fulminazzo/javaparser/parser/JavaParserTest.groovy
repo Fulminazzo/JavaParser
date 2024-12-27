@@ -29,7 +29,7 @@ class JavaParserTest extends Specification {
         this.parser.tokenizer.nextSpaceless()
     }
 
-    def 'test parseSingleStatement'() {
+    def 'test parseSingleStatement: code'() {
         when:
         startReading(code)
         def output = this.parser.parseSingleStatement()
