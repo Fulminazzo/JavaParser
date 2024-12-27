@@ -43,6 +43,26 @@ class JavaParserTest extends Specification {
         ';'      | new Statement()
     }
 
+    def 'test parse comments'() {
+        given:
+        def code = "${comment}return 1;"
+
+        when:
+        startReading(code)
+        def output = this.parser.parseSingleStatement()
+
+        then:
+        output == new Return(new NumberLiteral('1'))
+
+        where:
+        comment << [
+                '//First line\n',
+                '//First line\n//Second line\n//Third line\n',
+                '/*\nComment block\n*/',
+                '/**\n *Javadoc block\n */'
+        ]
+    }
+
     def 'test for statements'() {
         when:
         startReading(code)
