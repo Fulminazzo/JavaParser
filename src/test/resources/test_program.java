@@ -91,3 +91,13 @@ if (true) {
 } else {
     n = 3;
 }
+
+// While statement
+n = 10;
+while (n > 0) {
+    n--;
+}
+
+n = 10;
+while (n > 0) n--;
+
