@@ -242,6 +242,7 @@ public class JavaParser extends Parser {
         consume(SPACE);
         Node literal = parseAtom();
         switch (lastToken()) {
+            // array
             case OPEN_BRACKET: {
                 consume(OPEN_BRACKET);
                 if (lastToken() == NUMBER_VALUE) {
