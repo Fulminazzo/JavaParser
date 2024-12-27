@@ -6,14 +6,16 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Exception used to notify about errors coming from {@link JavaParser}.
  */
-public class ParserException extends RuntimeException {
+class ParserException extends RuntimeException {
 
     /**
      * Instantiates a new Parser exception.
      *
      * @param message the message of the exception
+     * @param parser  the parser that generated the exception
      */
-    public ParserException(final @NotNull String message) {
+    public ParserException(final @NotNull String message,
+                           final @NotNull Parser parser) {
         super(message);
     }
 
@@ -21,9 +23,11 @@ public class ParserException extends RuntimeException {
      * Instantiates a new Parser exception with message "<i>Unexpected token %tokenType%</i>".
      *
      * @param tokenType the token type
+     * @param parser  the parser that generated the exception
      */
-    public ParserException(final @NotNull TokenType tokenType) {
-        this("Unexpected token: "  + tokenType);
+    public ParserException(final @NotNull TokenType tokenType,
+                           final @NotNull Parser parser) {
+        this("Unexpected token: "  + tokenType, parser);
     }
 
 }
