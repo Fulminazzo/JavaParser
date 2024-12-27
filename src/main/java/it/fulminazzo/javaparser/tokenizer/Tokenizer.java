@@ -81,7 +81,7 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
     public @NotNull TokenType next() {
         try {
             if (this.line == -1) this.line = 1;
-            if (this.column == -1) this.column = 1;
+            if (this.column == -1) this.column = 0;
             String read = this.previousRead;
             if (isTokenType(read)) return readTokenType(read);
             while (this.input.available() > 0) {
