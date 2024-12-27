@@ -456,14 +456,32 @@ public class JavaParser extends Parser {
         }
     }
 
-    private @NotNull Node generateBinaryOperationFromToken(final @NotNull TokenType operation,
-                                                           final @NotNull Node left,
-                                                           final @NotNull Node right) {
-        Class<? extends BinaryOperation> clazz = findOperationClass(operation.name());
+    /**
+     * Creates a new {@link BinaryOperation} object from the given {@link TokenType}.
+     * <br>
+     * Uses {@link #findBinaryOperationClass(String)} to search the most appropriate class.
+     *
+     * @param operation the token that identifies the binary operation
+     * @param left      the left operand
+     * @param right     the right operand
+     * @return the node object
+     */
+    protected @NotNull Node generateBinaryOperationFromToken(final @NotNull TokenType operation,
+                                                             final @NotNull Node left,
+                                                             final @NotNull Node right) {
+        Class<? extends BinaryOperation> clazz = findBinaryOperationClass(operation.name());
         return new Refl<>(clazz, left, right).getObject();
     }
 
-    private Class<? extends BinaryOperation> findOperationClass(@NotNull String className) {
+    /**
+     * Finds the most appropriate {@link BinaryOperation} class from the given string.
+     * <br>
+     * Throws {@link IllegalArgumentException} if not found.
+     *
+     * @param className the class name
+     * @return the class
+     */
+    protected Class<? extends BinaryOperation> findBinaryOperationClass(@NotNull String className) {
         if (className.equals(URSHIFT.name())) return URShift.class;
         else if (className.equals(RSHIFT.name())) return RShift.class;
         else if (className.equals(LSHIFT.name())) return LShift.class;
