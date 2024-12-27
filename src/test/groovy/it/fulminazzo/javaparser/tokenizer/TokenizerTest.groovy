@@ -6,9 +6,9 @@ import static it.fulminazzo.javaparser.tokenizer.TokenType.*
 
 class TokenizerTest extends Specification {
 
-    def "test tokenizer next"() {
+    def 'test tokenizer next'() {
         given:
-        def input = "10 20.0 'c' \"Hello\"".bytes
+        def input = '10 20.0 \'c\' \"Hello\"'.bytes
         def tokenizer = new Tokenizer(new ByteArrayInputStream(input))
 
         when:
@@ -19,12 +19,12 @@ class TokenizerTest extends Specification {
         output == [NUMBER_VALUE, SPACE, DOUBLE_VALUE, SPACE,
                    CHAR_VALUE, SPACE, STRING_VALUE, EOF]
         tokenizer.lastToken() == EOF
-        tokenizer.lastRead() == ""
+        tokenizer.lastRead() == ''
     }
 
-    def "test tokenizer next spaceless"() {
+    def 'test tokenizer next spaceless'() {
         given:
-        def input = "         10".bytes
+        def input = '         10'.bytes
         def tokenizer = new Tokenizer(new ByteArrayInputStream(input))
 
         when:
@@ -32,7 +32,37 @@ class TokenizerTest extends Specification {
 
         then:
         tokenizer.lastToken() == NUMBER_VALUE
-        tokenizer.lastRead() == "10"
+        tokenizer.lastRead() == '10'
+    }
+
+    def 'test tokenizer hasNext method exception'() {
+        given:
+        def input = Mock(ByteArrayInputStream)
+        input.available() >> {
+            throw new IOException('Closed stream')
+        }
+        def tokenizer = new Tokenizer(input)
+
+        when:
+        tokenizer.hasNext()
+
+        then:
+        thrown(TokenizerException)
+    }
+
+    def 'test tokenizer next method exception'() {
+        given:
+        def input = Mock(ByteArrayInputStream)
+        input.available() >> {
+            throw new IOException('Closed stream')
+        }
+        def tokenizer = new Tokenizer(input)
+
+        when:
+        tokenizer.next()
+
+        then:
+        thrown(TokenizerException)
     }
 
 }

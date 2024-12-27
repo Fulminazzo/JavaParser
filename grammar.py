@@ -1,10 +1,10 @@
 TODO: casts
 TODO: diamond operator
 TODO: lambda
-# TODO: switch statement
-TODO: the environment scope should have an owner attribute, in order to check if break is applied in valid context
 TODO: this
 TODO: comments
+TODO: try, catch and throws
+TODO: null
 
 PROGRAM := (SINGLE_STMT\s?)*STMT;?
 
