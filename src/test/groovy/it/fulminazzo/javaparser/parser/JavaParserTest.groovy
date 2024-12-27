@@ -1,6 +1,5 @@
 package it.fulminazzo.javaparser.parser
 
-
 import it.fulminazzo.javaparser.parser.node.Assignment
 import it.fulminazzo.javaparser.parser.node.MethodCall
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
@@ -230,20 +229,6 @@ class JavaParserTest extends Specification {
         output == expected
     }
 
-    def 'test parse assignment: #code'() {
-        when:
-        startReading(code)
-        def output = this.parser.parseAssignment()
-
-        then:
-        output == expected
-
-        where:
-        code         | expected
-        'int i = 1;' | new Assignment(new Literal('int'), new Literal('i'), new NumberLiteral('1'))
-        'int i;'     | new Assignment(new Literal('int'), new Literal('i'), new EmptyLiteral())
-    }
-
     def 'test method call'() {
         given:
         def expected = new MethodCall(
@@ -262,6 +247,20 @@ class JavaParserTest extends Specification {
 
         then:
         output == expected
+    }
+
+    def 'test parse assignment: #code'() {
+        when:
+        startReading(code)
+        def output = this.parser.parseAssignment()
+
+        then:
+        output == expected
+
+        where:
+        code         | expected
+        'int i = 1;' | new Assignment(new Literal('int'), new Literal('i'), new NumberLiteral('1'))
+        'int i;'     | new Assignment(new Literal('int'), new Literal('i'), new EmptyLiteral())
     }
 
     def 'test increment or decrement: #code'() {
