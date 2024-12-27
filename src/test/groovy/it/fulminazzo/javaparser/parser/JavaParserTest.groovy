@@ -174,7 +174,7 @@ class JavaParserTest extends Specification {
         output == expected
     }
 
-    def 'test increment or decrement'() {
+    def 'test increment or decrement: #code'() {
         given:
         this.parser.setInput(code)
 
