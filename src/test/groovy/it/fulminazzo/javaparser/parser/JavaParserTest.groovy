@@ -30,11 +30,8 @@ class JavaParserTest extends Specification {
     }
 
     def 'test parseSingleStatement'() {
-        given:
-        this.parser.setInput(code)
-
         when:
-        startReading()
+        startReading(code)
         def output = this.parser.parseSingleStatement()
 
         then:
@@ -47,11 +44,8 @@ class JavaParserTest extends Specification {
     }
 
     def 'test flow control statements'() {
-        given:
-        this.parser.setInput(code)
-
         when:
-        startReading()
+        startReading(code)
         def output = this.parser.parseSingleStatement()
 
         then:
@@ -68,11 +62,8 @@ class JavaParserTest extends Specification {
     }
 
     def 'test for statements'() {
-        given:
-        this.parser.setInput(code)
-
         when:
-        startReading()
+        startReading(code)
         def output = this.parser.parseSingleStatement()
 
         then:
@@ -128,10 +119,9 @@ class JavaParserTest extends Specification {
         given:
         def expected = new StaticArray(new Literal('int'), new NumberLiteral('0'))
         def code = 'new int[0]'
-        this.parser.setInput(code)
 
         when:
-        startReading()
+        startReading(code)
         def output = this.parser.parseExpression()
 
         then:
@@ -144,10 +134,9 @@ class JavaParserTest extends Specification {
                 new NumberLiteral('1')
         ])
         def code = 'new int[]{1}'
-        this.parser.setInput(code)
 
         when:
-        startReading()
+        startReading(code)
         def output = this.parser.parseExpression()
 
         then:
@@ -156,8 +145,7 @@ class JavaParserTest extends Specification {
 
     def 'test parse assignment: #code'() {
         when:
-        this.parser.setInput(code)
-        startReading()
+        startReading(code)
         def output = this.parser.parseAssignment()
 
         then:
@@ -180,10 +168,9 @@ class JavaParserTest extends Specification {
                 ])
         )
         def code = 'var(a, 1, true)'
-        this.parser.setInput(code)
 
         when:
-        startReading()
+        startReading(code)
         def output = this.parser.parseExpression()
 
         then:
@@ -191,11 +178,8 @@ class JavaParserTest extends Specification {
     }
 
     def 'test increment or decrement: #code'() {
-        given:
-        this.parser.setInput(code)
-
         when:
-        startReading()
+        startReading(code)
         def output = this.parser.parseExpression()
 
         then:
@@ -215,10 +199,9 @@ class JavaParserTest extends Specification {
         def expected = new Literal('var')
         def operationNode = expectedClass.newInstance(expected, new NumberLiteral('2'))
         expected = new ReAssign(expected, operationNode)
-        this.parser.setInput(code)
 
         when:
-        startReading()
+        startReading(code)
         def output = this.parser.parseAssignment()
 
         then:
@@ -265,10 +248,9 @@ class JavaParserTest extends Specification {
         expected = new LessThan(expected, new NumberLiteral('1'))
         expected = new NotEqual(expected, new BooleanLiteral('false'))
         expected = new Equal(expected, new BooleanLiteral('true'))
-        this.parser.setInput(code)
 
         when:
-        startReading()
+        startReading(code)
         def output = this.parser.parseExpression()
 
         then:
@@ -282,10 +264,9 @@ class JavaParserTest extends Specification {
                 new NumberLiteral('1'), 
                 new NumberLiteral('2')
         )
-        this.parser.setInput(code)
 
         when:
-        startReading()
+        startReading(code)
         def output = this.parser.parseExpression()
 
         then:
@@ -306,19 +287,16 @@ class JavaParserTest extends Specification {
         '>>>'        | URShift.class
     }
 
-    def 'test parseAtom: #text'() {
-        given:
-        this.parser.setInput(text)
-
+    def 'test parseAtom: #code'() {
         when:
-        startReading()
+        startReading(code)
         def parsed = this.parser.parseAtom()
 
         then:
         parsed == expected
 
         where:
-        text    | expected
+        code    | expected
         '-1'    | new Minus(new NumberLiteral('1'))
         '!true' | new Not(new BooleanLiteral('true'))
         'false' | new BooleanLiteral('false')
@@ -328,10 +306,9 @@ class JavaParserTest extends Specification {
     def 'test minus'() {
         given:
         def expected = new Minus(new NumberLiteral('1'))
-        this.parser.setInput('-1')
 
         when:
-        startReading()
+        startReading('-1')
         def parsed = this.parser.parseMinus()
 
         then:
@@ -341,10 +318,9 @@ class JavaParserTest extends Specification {
     def 'test not'() {
         given:
         def expected = new Not(new BooleanLiteral('true'))
-        this.parser.setInput('!true')
 
         when:
-        startReading()
+        startReading('!true')
         def parsed = this.parser.parseNot()
 
         then:
@@ -352,11 +328,8 @@ class JavaParserTest extends Specification {
     }
 
     def 'test parse type value of literal #literal'() {
-        given:
-        this.parser.setInput(literal)
-
         when:
-        startReading()
+        startReading(literal)
         def parsed = this.parser.parseTypeValue()
 
         then:
@@ -375,11 +348,8 @@ class JavaParserTest extends Specification {
     }
 
     def 'test parse type of invalid'() {
-        given:
-        this.parser.setInput('invalid')
-        startReading()
-
         when:
+        startReading('invalid')
         this.parser.parseTypeValue()
 
         then:
