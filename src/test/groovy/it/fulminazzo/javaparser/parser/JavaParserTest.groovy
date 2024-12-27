@@ -253,6 +253,25 @@ class JavaParserTest extends Specification {
         )
     }
 
+    def 'test parseAtom: #text'() {
+        given:
+        this.parser.setInput(text)
+
+        when:
+        this.parser.tokenizer.nextSpaceless()
+        def parsed = this.parser.parseAtom()
+
+        then:
+        parsed == expected
+
+        where:
+        text    | expected
+        '-1'    | new Minus(new NumberLiteral('1'))
+        '!true' | new Not(new BooleanLiteral('true'))
+        'false' | new BooleanLiteral('false')
+        'int'   | new Literal('int')
+    }
+
     def 'test minus'() {
         given:
         def expected = new Minus(new NumberLiteral('1'))
