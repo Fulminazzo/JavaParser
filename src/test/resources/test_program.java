@@ -70,3 +70,24 @@ int[] staticArray = new int[1];
 int[] dynamicArray = new int[]{1, 2};
 String[] stringStaticArray = new String[1];
 String[] stringDynamicArray = new String[]{"1", "2"};
+
+// If statement
+int n;
+
+if (true) {
+    n = 1;
+}
+
+if (true) {
+    n = 1;
+} else if (false) {
+    n = 2;
+}
+
+if (true) {
+    n = 1;
+} else if (false) {
+    n = 2;
+} else {
+    n = 3;
+}
