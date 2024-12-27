@@ -51,11 +51,11 @@ class JavaParserTest extends Specification {
         output == expected
 
         where:
-        code     | expected
+        code        | expected
         'return 1;' | new Return(new NumberLiteral('1'))
-        'return 1' | new Return(new NumberLiteral('1'))
-        'break;' | new Break()
-        ';'      | new Statement()
+        'return 1'  | new Return(new NumberLiteral('1'))
+        'break;'    | new Break()
+        ';'         | new Statement()
     }
 
     def 'test parse comments'() {
