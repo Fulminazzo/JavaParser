@@ -23,6 +23,10 @@ class JavaParserTest extends Specification {
         this.parser = new JavaParser()
     }
 
+    void startReading() {
+        this.parser.tokenizer.nextSpaceless()
+    }
+
     def 'test simple parseBinaryOperation'() {
         given:
         def code = '1 + 2'
@@ -30,7 +34,7 @@ class JavaParserTest extends Specification {
         this.parser.setInput(code)
 
         when:
-        this.parser.startReading()
+        startReading()
         def output = this.parser.parseExpression()
 
         then:
@@ -66,7 +70,7 @@ class JavaParserTest extends Specification {
         this.parser.setInput(code)
 
         when:
-        this.parser.startReading()
+        startReading()
         def output = this.parser.parseExpression()
 
         then:
@@ -93,7 +97,7 @@ class JavaParserTest extends Specification {
         this.parser.setInput(code)
 
         when:
-        this.parser.startReading()
+        startReading()
         def output = this.parser.parseExpression()
 
         then:
@@ -121,7 +125,7 @@ class JavaParserTest extends Specification {
         this.parser.setInput(code)
 
         when:
-        this.parser.startReading()
+        startReading()
         def output = this.parser.parseExpression()
 
         then:
@@ -135,7 +139,7 @@ class JavaParserTest extends Specification {
         this.parser.setInput(code)
 
         when:
-        this.parser.startReading()
+        startReading()
         def output = this.parser.parseExpression()
 
         then:
@@ -151,7 +155,7 @@ class JavaParserTest extends Specification {
         this.parser.setInput(code)
 
         when:
-        this.parser.startReading()
+        startReading()
         def output = this.parser.parseExpression()
 
         then:
@@ -163,7 +167,7 @@ class JavaParserTest extends Specification {
         this.parser.setInput(code)
 
         when:
-        this.parser.startReading()
+        startReading()
         def output = this.parser.parseSingleStatement()
 
         then:
@@ -180,7 +184,7 @@ class JavaParserTest extends Specification {
         this.parser.setInput(code)
 
         when:
-        this.parser.startReading()
+        startReading()
         def output = this.parser.parseSingleStatement()
 
         then:
@@ -201,7 +205,7 @@ class JavaParserTest extends Specification {
         this.parser.setInput(code)
 
         when:
-        this.parser.startReading()
+        startReading()
         def output = this.parser.parseSingleStatement()
 
         then:
@@ -258,7 +262,7 @@ class JavaParserTest extends Specification {
         this.parser.setInput(text)
 
         when:
-        this.parser.tokenizer.nextSpaceless()
+        startReading()
         def parsed = this.parser.parseAtom()
 
         then:
@@ -278,7 +282,7 @@ class JavaParserTest extends Specification {
         this.parser.setInput('-1')
 
         when:
-        this.parser.tokenizer.nextSpaceless()
+        startReading()
         def parsed = this.parser.parseMinus()
 
         then:
@@ -291,7 +295,7 @@ class JavaParserTest extends Specification {
         this.parser.setInput('!true')
 
         when:
-        this.parser.tokenizer.nextSpaceless()
+        startReading()
         def parsed = this.parser.parseNot()
 
         then:
@@ -303,7 +307,7 @@ class JavaParserTest extends Specification {
         this.parser.setInput(literal)
 
         when:
-        this.parser.tokenizer.nextSpaceless()
+        startReading()
         def parsed = this.parser.parseTypeValue()
 
         then:
@@ -324,7 +328,7 @@ class JavaParserTest extends Specification {
     def 'test parse type of invalid'() {
         given:
         this.parser.setInput('invalid')
-        this.parser.tokenizer.nextSpaceless()
+        startReading()
 
         when:
         this.parser.parseTypeValue()
