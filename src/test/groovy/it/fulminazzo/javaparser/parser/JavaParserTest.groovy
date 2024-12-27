@@ -209,7 +209,7 @@ class JavaParserTest extends Specification {
         where:
         code | expected
         "for (int i = 0; true; i++) continue;" | new ForStatement(
-                new Assignment(new Literal("int"), new ReAssign(new Literal("i"), new NumberLiteral("0"))),
+                new Assignment(new Literal("int"), new Literal("i"), new NumberLiteral("0")),
                 new BooleanLiteral("true"),
                 new Increment(new Literal("i"), false),
                 new CodeBlock(new Continue())
@@ -221,13 +221,13 @@ class JavaParserTest extends Specification {
                 new CodeBlock(new Continue())
         )
         "for (int i = 0; ; i++) continue;" | new ForStatement(
-                new Assignment(new Literal("int"), new ReAssign(new Literal("i"), new NumberLiteral("0"))),
+                new Assignment(new Literal("int"), new Literal("i"), new NumberLiteral("0")),
                 new Statement(),
                 new Increment(new Literal("i"), false),
                 new CodeBlock(new Continue())
         )
         "for (int i = 0; true; ) continue;" | new ForStatement(
-                new Assignment(new Literal("int"), new ReAssign(new Literal("i"), new NumberLiteral("0"))),
+                new Assignment(new Literal("int"), new Literal("i"), new NumberLiteral("0")),
                 new BooleanLiteral("true"),
                 new Statement(),
                 new CodeBlock(new Continue())
@@ -239,7 +239,7 @@ class JavaParserTest extends Specification {
                 new CodeBlock(new Continue())
         )
         "for (int i = 0; ; ) continue;" | new ForStatement(
-                new Assignment(new Literal("int"), new ReAssign(new Literal("i"), new NumberLiteral("0"))),
+                new Assignment(new Literal("int"), new Literal("i"), new NumberLiteral("0")),
                 new Statement(),
                 new Statement(),
                 new CodeBlock(new Continue())

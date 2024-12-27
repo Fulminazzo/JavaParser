@@ -143,7 +143,7 @@ public class JavaParser extends Parser {
             if (lastToken() == LITERAL) {
                 final Literal second = parseLiteral();
                 if (lastToken() == COLON) return parseEnhancedForStatement(literal, second);
-                else assignment = new Assignment(literal, parseReAssign(second));
+                else assignment = parseAssignmentStrict(literal, second);
             } else assignment = parseAssignmentPartial(literal);
         } else assignment = new Statement();
         consume(SEMICOLON);
@@ -274,7 +274,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ASSIGNMENT := (EXPR)? RE_ASSIGN | METHOD_CALL
+     * ASSIGNMENT := ASSIGNMENT_STRICT | (EXPR)? RE_ASSIGN | METHOD_CALL
      *
      * @return the node
      */
@@ -291,15 +291,29 @@ public class JavaParser extends Parser {
      */
     protected @NotNull Node parseAssignmentPartial(final @NotNull Literal literal) {
         switch (lastToken()) {
-            case LITERAL: {
-                final Literal second = parseLiteral();
-                return new Assignment(literal, parseReAssign(second));
-            }
+            case LITERAL: return parseAssignmentStrict(literal, parseLiteral());
             case OPEN_PAR:
                 return parseMethodCall(literal);
             default:
                 return parseReAssign(literal);
         }
+    }
+
+    /**
+     * ASSIGNMENT_STRICT := LITERAL LITERAL (= EXPR)?
+     *
+     * @param type     the type
+     * @param variable the variable
+     * @return the node
+     */
+    protected @NotNull Assignment parseAssignmentStrict(final @NotNull Literal type,
+                                                        final @NotNull Literal variable) {
+        Node exp = new EmptyLiteral();
+        if (lastToken() == ASSIGN) {
+            consume(ASSIGN);
+            exp = parseExpression();
+        }
+        return new Assignment(type, variable, exp);
     }
 
     /**
