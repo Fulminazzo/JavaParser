@@ -229,6 +229,22 @@ class JavaParserTest extends Specification {
         output == expected
     }
 
+    def 'test parse new object'() {
+        given:
+        def expected = new NewObject(
+                new Literal('String'),
+                new MethodInvocation([new StringLiteral('\"Hello"')])
+        )
+        def code = 'new String(\"Hello\")'
+
+        when:
+        startReading(code)
+        def output = this.parser.parseExpression()
+
+        then:
+        output == expected
+    }
+
     def 'test method call'() {
         given:
         def expected = new MethodCall(
