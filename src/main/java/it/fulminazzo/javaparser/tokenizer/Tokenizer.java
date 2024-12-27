@@ -100,7 +100,7 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
     private void updateLineCount(char c) {
         if (c == '\n') {
             this.line++;
-            this.column = 1;
+            this.column = 0;
         } else this.column++;
     }
 
