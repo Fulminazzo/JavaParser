@@ -125,7 +125,7 @@ class TokenizerTest extends Specification {
         line | column | code
         -1   | -1     | ''
         1    | 1      | '1'
-        1    | 7      | 'return'
+        1    | 6      | 'return'
         2    | 5      | '    \nbreak\n'
     }
 
