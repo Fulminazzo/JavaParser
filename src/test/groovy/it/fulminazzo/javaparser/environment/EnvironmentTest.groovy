@@ -18,6 +18,7 @@ class EnvironmentTest extends Specification implements Scoped {
     def 'test inner scope type should be able to see #type scope type'() {
         given:
         this.environment.enterScope(ScopeType.CODE_BLOCK)
+        ScopeType.values().each { this.environment.enterScope(it) }
         this.environment.enterScope(type)
         this.environment.enterScope(ScopeType.CODE_BLOCK)
         this.environment.enterScope(ScopeType.CODE_BLOCK)
