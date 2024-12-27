@@ -63,6 +63,24 @@ class JavaParserTest extends Specification {
         ]
     }
 
+    def 'test endless comments'() {
+        when:
+        startReading(code)
+        this.parser.parseSingleStatement()
+
+        then:
+        def e = thrown(ParserException)
+        e.message == 'Unexpected token: EOF'
+
+        where:
+        code << [
+                '//First line',
+                '//First line\n//Second line\n//Third line',
+                '/*\nComment block\n',
+                '/**\n *Javadoc block\n '
+        ]
+    }
+
     def 'test for statements'() {
         when:
         startReading(code)
