@@ -83,6 +83,16 @@ public class Environment<T> implements Scoped<T> {
         return lastScope().scopeType();
     }
 
+    @Override
+    public Environment<T> checkScopeType(@NotNull ScopeType scopeType) throws ScopeException {
+        for (Scope<T> scope : this.scopes)
+            try {
+                scope.checkScopeType(scopeType);
+                return this;
+            } catch (ScopeException ignored) {}
+        throw scopeTypeMismatch(scopeType);
+    }
+
     /**
      * Returns the last declared {@link Scope}.
      *
