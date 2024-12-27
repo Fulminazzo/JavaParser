@@ -9,6 +9,7 @@ import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.operators.binary.*
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
+import it.fulminazzo.javaparser.parser.node.operators.unary.Minus
 import it.fulminazzo.javaparser.parser.node.operators.unary.Not
 import it.fulminazzo.javaparser.parser.node.statements.*
 import it.fulminazzo.javaparser.parser.node.types.*
@@ -250,6 +251,19 @@ class JavaParserTest extends Specification {
                 new Literal('arr'),
                 new CodeBlock(new Continue())
         )
+    }
+
+    def 'test minus'() {
+        given:
+        def expected = new Minus(new NumberLiteral('1'))
+        this.parser.setInput('-1')
+
+        when:
+        this.parser.tokenizer.nextSpaceless()
+        def parsed = this.parser.parseMinus()
+
+        then:
+        parsed == expected
     }
 
     def 'test not'() {
