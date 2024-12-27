@@ -111,6 +111,43 @@ class JavaParserTest extends Specification {
         'do continue; while (true);' | new DoStatement(new BooleanLiteral('true'), new CodeBlock(new Continue()))
     }
 
+    def 'test if statement: #code'() {
+        when:
+        startReading(code)
+        def output = this.parser.parseSingleStatement()
+
+        then:
+        output == expected
+
+        where:
+        code | expected
+        'if (true) continue;' | new IfStatement(
+                new BooleanLiteral('true'),
+                new CodeBlock(new Continue()),
+                new Statement(new EmptyLiteral())
+        )
+        'if (true) continue; else if (false) break;' | new IfStatement(
+                new BooleanLiteral('true'),
+                new CodeBlock(new Continue()),
+                new IfStatement(
+                        new BooleanLiteral('false'),
+                        new CodeBlock(new Break()),
+                        new Statement(new EmptyLiteral())
+                )
+        )
+        'if (true) continue; else if (false) break; else return 1;' | new IfStatement(
+                new BooleanLiteral('true'),
+                new CodeBlock(new Continue()),
+                new IfStatement(
+                        new BooleanLiteral('false'),
+                        new CodeBlock(new Break()),
+                        new CodeBlock(
+                                new Return(new NumberLiteral('1'))
+                        )
+                )
+        )
+    }
+
     def 'test static array initialization'() {
         given:
         def expected = new StaticArray(new Literal('int'), new NumberLiteral('0'))
