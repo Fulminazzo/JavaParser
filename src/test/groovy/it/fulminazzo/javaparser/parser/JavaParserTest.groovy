@@ -29,6 +29,19 @@ class JavaParserTest extends Specification {
         this.parser.tokenizer.nextSpaceless()
     }
 
+    def 'parse test_program file'() {
+        given:
+        def file = new File(System.getProperty('user.dir'), 'build/resources/test/test_program.java')
+        def parser = new JavaParser(file.newInputStream())
+
+        when:
+        parser.tokenizer.nextSpaceless()
+        parser.parseProgram()
+
+        then:
+        noExceptionThrown()
+    }
+
     def 'test parseSingleStatement: code'() {
         when:
         startReading(code)
