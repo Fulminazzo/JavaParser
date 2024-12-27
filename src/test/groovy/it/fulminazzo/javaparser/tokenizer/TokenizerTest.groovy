@@ -109,4 +109,24 @@ class TokenizerTest extends Specification {
         thrown(TokenizerException)
     }
 
+    def 'test line and column methods reading code: #code'() {
+        given:
+        def input = new ByteArrayInputStream(code.bytes)
+        def tokenizer = new Tokenizer(input)
+
+        when:
+        tokenizer.nextSpaceless()
+
+        then:
+        tokenizer.line() == line
+        tokenizer.column() == column
+
+        where:
+        line | column | code
+        -1   | -1     | ''
+        1    | 1      | '1'
+        1    | 6      | 'return'
+        2    | 5      | '    \nbreak\n'
+    }
+
 }
