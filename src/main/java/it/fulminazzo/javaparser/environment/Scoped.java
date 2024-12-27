@@ -80,6 +80,16 @@ interface Scoped<T> {
     }
 
     /**
+     * Returns an exception for a wrong scope type.
+     *
+     * @param scopeType the scope type
+     * @return the scope exception
+     */
+    default @NotNull ScopeException scopeTypeMismatch(@NotNull ScopeType scopeType) {
+        return new ScopeException("Scope type mismatch: " + scopeType() + " != " + scopeType);
+    }
+
+    /**
      * Returns the scope type of the current scope.
      *
      * @return the scope type
@@ -94,8 +104,7 @@ interface Scoped<T> {
      * @throws ScopeException thrown if the current scope type does not match
      */
     default Scoped<T> checkScopeType(final @NotNull ScopeType scopeType) throws ScopeException {
-        if (!scopeType().equals(scopeType))
-            throw new ScopeException("Scope type mismatch: " + scopeType() + " != " + scopeType);
+        if (!scopeType().equals(scopeType)) throw scopeTypeMismatch(scopeType);
         return this;
     }
 
