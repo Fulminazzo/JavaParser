@@ -93,6 +93,7 @@ class EnvironmentTest extends Specification implements Scoped {
     }
 
     // Unused methods
+    @NotNull
     @Override
     Optional search(@NotNull String name) {
         return null
