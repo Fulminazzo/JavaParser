@@ -22,13 +22,22 @@ class NodeTest extends Specification {
         node == other
     }
 
-    def "test not equals"() {
+    @SuppressWarnings('ChangeToOperator')
+    def "test node not equals #other"() {
         given:
         def node = new MockNode("MockNode", 1)
-        def other = new MockNode("MockNode", 2)
 
         expect:
-        node != other
+        // Necessary for 100% coverage
+        !node.equals(other)
+
+        where:
+        other << [
+                new MockNode("MockNode", 2),
+                "Invalid object",
+                new Node() {},
+                null
+        ]
     }
 
     def "test toString"() {
