@@ -11,7 +11,8 @@ class EnvironmentTest extends Specification implements Scoped {
     }
 
     void cleanup() {
-        this.environment.exitScope()
+        // Exit all scopes
+        while (!this.environment.isMainScope()) this.environment.exitScope()
     }
 
     def 'test scope type'() {
