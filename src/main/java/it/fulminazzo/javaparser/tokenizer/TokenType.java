@@ -7,6 +7,11 @@ import org.jetbrains.annotations.NotNull;
  */
 public enum TokenType {
 
+    // Miscellaneous
+    INLINE_COMMENT("\\/\\/"),
+    COMMENT_BLOCK_START("\\/\\*"),
+    COMMENT_BLOCK_END("\\*\\/"),
+
     // Statement
     RETURN("return"),
     BREAK("break"),
