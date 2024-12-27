@@ -101,3 +101,12 @@ while (n > 0) {
 n = 10;
 while (n > 0) n--;
 
+// Do statement
+n = 10;
+do {
+    n--;
+} while (n > 0);
+
+n = 10;
+do n--;
+while (n > 0);
