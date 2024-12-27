@@ -21,6 +21,21 @@ class TokenizerTest extends Specification {
         thrown(TokenizerException)
     }
 
+    def 'simulate reading of empty comment'() {
+        given:
+        def input = '//\n10'.bytes
+        def tokenizer = new Tokenizer(new ByteArrayInputStream(input))
+
+        when:
+        def initialToken = tokenizer.nextSpaceless()
+        def finalToken = tokenizer.readUntilNextLine()
+
+        then:
+        initialToken == COMMENT_INLINE
+        finalToken == NUMBER_VALUE
+        tokenizer.lastRead() == '10'
+    }
+
     def 'test tokenizer read until next line'() {
         given:
         def input = 'This should be totally ignored\n10'.bytes
