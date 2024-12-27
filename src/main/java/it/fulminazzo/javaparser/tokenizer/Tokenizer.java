@@ -80,10 +80,14 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
     @Override
     public @NotNull TokenType next() {
         try {
+            if (this.line == -1) this.line = 1;
+            if (this.column == -1) this.column = 1;
             String read = this.previousRead;
             if (isTokenType(read)) return readTokenType(read);
             while (this.input.available() > 0) {
-                read += (char) this.input.read();
+                char c = (char) this.input.read();
+                updateLineCount(c);
+                read += c;
                 if (isTokenType(read)) return readTokenType(read);
             }
             return eof();
@@ -92,9 +96,17 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
         }
     }
 
+    private void updateLineCount(char c) {
+        if (c == '\n') {
+            this.line++;
+            this.column = 1;
+        } else this.column++;
+    }
+
     private @NotNull TokenType readTokenType(@NotNull String read) throws IOException {
         while (this.input.available() > 0) {
             char c = (char) this.input.read();
+            updateLineCount(c);
             read += c;
             if (!isTokenType(read)) {
                 String subString = read.substring(0, read.length() - 1);
