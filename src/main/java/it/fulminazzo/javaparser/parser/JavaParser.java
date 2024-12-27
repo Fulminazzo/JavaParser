@@ -92,7 +92,7 @@ public class JavaParser extends Parser {
             return parseSingleStatement();
         } else if (lastToken() == COMMENT_BLOCK_START) {
             while (nextSpaceless() != COMMENT_BLOCK_END)
-                if (lastToken() == EOF) throw new ParserException(EOF);
+                if (lastToken() == EOF) throw new ParserException(EOF, this);
             consume(COMMENT_BLOCK_END);
             return parseSingleStatement();
         }
@@ -137,7 +137,7 @@ public class JavaParser extends Parser {
                 consume(SEMICOLON);
                 break;
             }
-            default: throw new ParserException(lastToken());
+            default: throw new ParserException(lastToken(), this);
         }
         return new Statement(exp);
     }
@@ -591,7 +591,7 @@ public class JavaParser extends Parser {
                 break;
             }
             default:
-                throw new ParserException(lastToken());
+                throw new ParserException(lastToken(), this);
         }
         nextSpaceless();
         return literal;

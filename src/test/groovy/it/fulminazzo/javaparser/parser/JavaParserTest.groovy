@@ -85,7 +85,7 @@ class JavaParserTest extends Specification {
 
         then:
         def e = thrown(ParserException)
-        e.message == new ParserException(TokenType.EOF).message
+        e.message == new ParserException(TokenType.EOF, this.parser).message
 
         where:
         code << [
@@ -454,7 +454,7 @@ class JavaParserTest extends Specification {
 
         then:
         def e = thrown(ParserException)
-        e.message == new ParserException(TokenType.LITERAL).message
+        e.message == new ParserException(TokenType.LITERAL, this.parser).message
     }
 
 }
