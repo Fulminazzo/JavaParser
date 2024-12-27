@@ -124,3 +124,12 @@ for (int k = 0; k < 10; ) break;
 for (int k = 0; ; ) break;
 for (; ; j++) break;
 for (; j < 10;) break;
+
+// Enhanced for statement
+int[] array = new int[]{1, 2, 3, 4, 5};
+
+for (int a : array) System.out.println(a);
+for (int a : array) {
+    System.out.println(a);
+}
+
