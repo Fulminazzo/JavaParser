@@ -1,0 +1,26 @@
+package it.fulminazzo.javaparser.parser.node.arrays
+
+import it.fulminazzo.javaparser.parser.node.types.Literal
+import it.fulminazzo.javaparser.parser.node.types.NumberLiteral
+import spock.lang.Specification
+
+class DynamicArrayTest extends Specification {
+    private DynamicArray array
+
+    void setup() {
+        this.array = new DynamicArray(new Literal('int'), Arrays.asList(
+                new NumberLiteral('1'),
+                new NumberLiteral('2'),
+                new NumberLiteral('3'),
+        ))
+    }
+
+    def 'test size method'() {
+        when:
+        def size = this.array.size()
+
+        then:
+        size == 3
+    }
+
+}
