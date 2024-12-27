@@ -28,155 +28,6 @@ class JavaParserTest extends Specification {
         this.parser.tokenizer.nextSpaceless()
     }
 
-    def 'test simple parseBinaryOperation'() {
-        given:
-        def code = '1 + 2'
-        def expected = new Add(new NumberLiteral('1'), new NumberLiteral('2'))
-        this.parser.setInput(code)
-
-        when:
-        startReading()
-        def output = this.parser.parseExpression()
-
-        then:
-        output == expected
-    }
-
-    def 'test parseBinaryOperation'() {
-        given:
-        def code = '18 % 17 / 16 * 15 - 14 + 13 ' +
-                '>>> 12 >> 11 << 10 ' +
-                '^ 9 | 8 & 7 || 6 && 5 ' +
-                '>= 4 > 3 <= 2 < 1 ' +
-                '!= false == true'
-        def expected = new Modulo(new NumberLiteral('18'), new NumberLiteral('17'))
-        expected = new Divide(expected, new NumberLiteral('16'))
-        expected = new Multiply(expected, new NumberLiteral('15'))
-        expected = new Subtract(expected, new NumberLiteral('14'))
-        expected = new Add(expected, new NumberLiteral('13'))
-        expected = new URShift(expected, new NumberLiteral('12'))
-        expected = new RShift(expected, new NumberLiteral('11'))
-        expected = new LShift(expected, new NumberLiteral('10'))
-        expected = new BitXor(expected, new NumberLiteral('9'))
-        expected = new BitOr(expected, new NumberLiteral('8'))
-        expected = new BitAnd(expected, new NumberLiteral('7'))
-        expected = new Or(expected, new NumberLiteral('6'))
-        expected = new And(expected, new NumberLiteral('5'))
-        expected = new GreaterThanEqual(expected, new NumberLiteral('4'))
-        expected = new GreaterThan(expected, new NumberLiteral('3'))
-        expected = new LessThanEqual(expected, new NumberLiteral('2'))
-        expected = new LessThan(expected, new NumberLiteral('1'))
-        expected = new NotEqual(expected, new BooleanLiteral('false'))
-        expected = new Equal(expected, new BooleanLiteral('true'))
-        this.parser.setInput(code)
-
-        when:
-        startReading()
-        def output = this.parser.parseExpression()
-
-        then:
-        output == expected
-    }
-
-    def 'test parseReAssign with operation: #code'() {
-        given:
-        def expected = new Literal('var')
-        def operation = expectedClass.newInstance(expected, new NumberLiteral('2'))
-        expected = new ReAssign(expected, operation)
-        this.parser.setInput(code)
-
-        when:
-        startReading()
-        def output = this.parser.parseAssignment()
-
-        then:
-        output == expected
-
-        where:
-        code         | expectedClass
-        'var += 2'   | Add.class
-        'var -= 2'   | Subtract.class
-        'var *= 2'   | Multiply.class
-        'var /= 2'   | Divide.class
-        'var %= 2'   | Modulo.class
-        'var &= 2'   | BitAnd.class
-        'var |= 2'   | BitOr.class
-        'var ^= 2'   | BitXor.class
-        'var <<= 2'  | LShift.class
-        'var >>= 2'  | RShift.class
-        'var >>>= 2' | URShift.class
-    }
-
-    def 'test increment or decrement'() {
-        given:
-        this.parser.setInput(code)
-
-        when:
-        startReading()
-        def output = this.parser.parseExpression()
-
-        then:
-        output == expected
-
-        where:
-        code    | expected
-        'var++' | new Increment(new Literal('var'), false)
-        '++var' | new Increment(new Literal('var'), true)
-        'var--' | new Decrement(new Literal('var'), false)
-        '--var' | new Decrement(new Literal('var'), true)
-    }
-
-    def 'test method call'() {
-        given:
-        def expected = new MethodCall(
-                new Literal('var'),
-                new MethodInvocation([
-                        new Literal('a'),
-                        new NumberLiteral('1'),
-                        new BooleanLiteral('true')
-                ])
-        )
-        def code = 'var(a, 1, true)'
-        this.parser.setInput(code)
-
-        when:
-        startReading()
-        def output = this.parser.parseExpression()
-
-        then:
-        output == expected
-    }
-
-    def 'test static array initialization'() {
-        given:
-        def expected = new StaticArray(new Literal('int'), new NumberLiteral('0'))
-        def code = 'new int[0]'
-        this.parser.setInput(code)
-
-        when:
-        startReading()
-        def output = this.parser.parseExpression()
-
-        then:
-        output == expected
-    }
-
-    def 'test dynamic array initialization'() {
-        given:
-        def expected = new DynamicArray(new Literal('int'), [
-                new NumberLiteral('1')
-        ])
-        def code = 'new int[]{1}'
-        this.parser.setInput(code)
-
-        when:
-        startReading()
-        def output = this.parser.parseExpression()
-
-        then:
-        output == expected
-    }
-
     def 'test parseSingleStatement'() {
         given:
         this.parser.setInput(code)
@@ -270,6 +121,155 @@ class JavaParserTest extends Specification {
                 new Literal('arr'),
                 new CodeBlock(new Continue())
         )
+    }
+
+    def 'test static array initialization'() {
+        given:
+        def expected = new StaticArray(new Literal('int'), new NumberLiteral('0'))
+        def code = 'new int[0]'
+        this.parser.setInput(code)
+
+        when:
+        startReading()
+        def output = this.parser.parseExpression()
+
+        then:
+        output == expected
+    }
+
+    def 'test dynamic array initialization'() {
+        given:
+        def expected = new DynamicArray(new Literal('int'), [
+                new NumberLiteral('1')
+        ])
+        def code = 'new int[]{1}'
+        this.parser.setInput(code)
+
+        when:
+        startReading()
+        def output = this.parser.parseExpression()
+
+        then:
+        output == expected
+    }
+
+    def 'test method call'() {
+        given:
+        def expected = new MethodCall(
+                new Literal('var'),
+                new MethodInvocation([
+                        new Literal('a'),
+                        new NumberLiteral('1'),
+                        new BooleanLiteral('true')
+                ])
+        )
+        def code = 'var(a, 1, true)'
+        this.parser.setInput(code)
+
+        when:
+        startReading()
+        def output = this.parser.parseExpression()
+
+        then:
+        output == expected
+    }
+
+    def 'test increment or decrement'() {
+        given:
+        this.parser.setInput(code)
+
+        when:
+        startReading()
+        def output = this.parser.parseExpression()
+
+        then:
+        output == expected
+
+        where:
+        code    | expected
+        'var++' | new Increment(new Literal('var'), false)
+        '++var' | new Increment(new Literal('var'), true)
+        'var--' | new Decrement(new Literal('var'), false)
+        '--var' | new Decrement(new Literal('var'), true)
+    }
+
+    def 'test parseReAssign with operation: #code'() {
+        given:
+        def expected = new Literal('var')
+        def operation = expectedClass.newInstance(expected, new NumberLiteral('2'))
+        expected = new ReAssign(expected, operation)
+        this.parser.setInput(code)
+
+        when:
+        startReading()
+        def output = this.parser.parseAssignment()
+
+        then:
+        output == expected
+
+        where:
+        code         | expectedClass
+        'var += 2'   | Add.class
+        'var -= 2'   | Subtract.class
+        'var *= 2'   | Multiply.class
+        'var /= 2'   | Divide.class
+        'var %= 2'   | Modulo.class
+        'var &= 2'   | BitAnd.class
+        'var |= 2'   | BitOr.class
+        'var ^= 2'   | BitXor.class
+        'var <<= 2'  | LShift.class
+        'var >>= 2'  | RShift.class
+        'var >>>= 2' | URShift.class
+    }
+
+    def 'test parseBinaryOperation'() {
+        given:
+        def code = '18 % 17 / 16 * 15 - 14 + 13 ' +
+                '>>> 12 >> 11 << 10 ' +
+                '^ 9 | 8 & 7 || 6 && 5 ' +
+                '>= 4 > 3 <= 2 < 1 ' +
+                '!= false == true'
+        def expected = new Modulo(new NumberLiteral('18'), new NumberLiteral('17'))
+        expected = new Divide(expected, new NumberLiteral('16'))
+        expected = new Multiply(expected, new NumberLiteral('15'))
+        expected = new Subtract(expected, new NumberLiteral('14'))
+        expected = new Add(expected, new NumberLiteral('13'))
+        expected = new URShift(expected, new NumberLiteral('12'))
+        expected = new RShift(expected, new NumberLiteral('11'))
+        expected = new LShift(expected, new NumberLiteral('10'))
+        expected = new BitXor(expected, new NumberLiteral('9'))
+        expected = new BitOr(expected, new NumberLiteral('8'))
+        expected = new BitAnd(expected, new NumberLiteral('7'))
+        expected = new Or(expected, new NumberLiteral('6'))
+        expected = new And(expected, new NumberLiteral('5'))
+        expected = new GreaterThanEqual(expected, new NumberLiteral('4'))
+        expected = new GreaterThan(expected, new NumberLiteral('3'))
+        expected = new LessThanEqual(expected, new NumberLiteral('2'))
+        expected = new LessThan(expected, new NumberLiteral('1'))
+        expected = new NotEqual(expected, new BooleanLiteral('false'))
+        expected = new Equal(expected, new BooleanLiteral('true'))
+        this.parser.setInput(code)
+
+        when:
+        startReading()
+        def output = this.parser.parseExpression()
+
+        then:
+        output == expected
+    }
+
+    def 'test simple parseBinaryOperation'() {
+        given:
+        def code = '1 + 2'
+        def expected = new Add(new NumberLiteral('1'), new NumberLiteral('2'))
+        this.parser.setInput(code)
+
+        when:
+        startReading()
+        def output = this.parser.parseExpression()
+
+        then:
+        output == expected
     }
 
     def 'test parseAtom: #text'() {
