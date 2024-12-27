@@ -70,7 +70,7 @@ class JavaParserTest extends Specification {
 
         then:
         def e = thrown(ParserException)
-        e.message == 'Unexpected token: EOF'
+        e.message == new ParserException(TokenType.EOF).message
 
         where:
         code << [
@@ -439,7 +439,7 @@ class JavaParserTest extends Specification {
 
         then:
         def e = thrown(ParserException)
-        e.message == "Unexpected token: ${TokenType.LITERAL}"
+        e.message == new ParserException(TokenType.LITERAL).message
     }
 
 }

@@ -119,7 +119,7 @@ public class JavaParser extends Parser {
                 exp = parseExpression();
                 break;
             }
-            default: throw new ParserException("Unexpected token: " + lastToken());
+            default: throw new ParserException(lastToken());
         }
         return new Statement(exp);
     }
@@ -573,7 +573,7 @@ public class JavaParser extends Parser {
                 break;
             }
             default:
-                throw new ParserException("Unexpected token: " + lastToken());
+                throw new ParserException(lastToken());
         }
         nextSpaceless();
         return literal;
