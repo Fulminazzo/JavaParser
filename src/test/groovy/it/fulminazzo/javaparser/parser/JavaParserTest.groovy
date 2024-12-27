@@ -11,8 +11,13 @@ import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
 import it.fulminazzo.javaparser.parser.node.statements.*
 import it.fulminazzo.javaparser.parser.node.types.BooleanLiteral
+import it.fulminazzo.javaparser.parser.node.types.CharLiteral
+import it.fulminazzo.javaparser.parser.node.types.DoubleLiteral
+import it.fulminazzo.javaparser.parser.node.types.FloatLiteral
 import it.fulminazzo.javaparser.parser.node.types.Literal
+import it.fulminazzo.javaparser.parser.node.types.LongLiteral
 import it.fulminazzo.javaparser.parser.node.types.NumberLiteral
+import it.fulminazzo.javaparser.parser.node.types.StringLiteral
 import spock.lang.Specification
 
 class JavaParserTest extends Specification {
@@ -250,6 +255,30 @@ class JavaParserTest extends Specification {
                 new Literal("arr"),
                 new CodeBlock(new Continue())
         )
+    }
+
+    def 'test parse type value of literal #literal'() {
+        given:
+        def parser = new JavaParser()
+        parser.setInput(literal)
+        parser.tokenizer.nextSpaceless()
+
+        when:
+        def parsed = parser.parseTypeValue()
+
+        then:
+        parsed == expected
+
+        where:
+        literal           | expected
+        '1'               | new NumberLiteral('1')
+        '1L'              | new LongLiteral('1L')
+        '1D'              | new DoubleLiteral('1D')
+        '1F'              | new FloatLiteral('1F')
+        'true'            | new BooleanLiteral('true')
+        'false'           | new BooleanLiteral('false')
+        '\'a\''           | new CharLiteral('\'a\'')
+        '\"Hello world\"' | new StringLiteral('\"Hello world\"')
     }
 
 }
