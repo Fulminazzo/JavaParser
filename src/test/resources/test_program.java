@@ -7,7 +7,6 @@ long l = 5L;
 float f = 6.0f;
 double d = 7.0d;
 boolean bo = true;
-String string = "Hello world";
 
 // Re-assignments
 i = -4;
@@ -18,3 +17,15 @@ d = 7.0f;
 d = 7.0;
 bo = false;
 bo = !bo;
+
+// Assignment of all wrapper types
+Byte bW = 1;
+Short sW = 2;
+Character cW = 'c';
+Integer iW = 4;
+Long lW = 5L;
+Float fW = 6.0f;
+Double dW = 7.0d;
+Boolean boW = true;
+String string = "Hello world";
+
