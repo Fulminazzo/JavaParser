@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Exception used to notify about errors coming from {@link JavaParser}.
  */
-class ParserException extends RuntimeException {
+final class ParserException extends RuntimeException {
 
     /**
      * Instantiates a new Parser exception.
