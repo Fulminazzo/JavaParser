@@ -86,11 +86,7 @@ public class JavaParser extends Parser {
         }
 
         if (lastToken() == SEMICOLON) statement = new Statement();
-        else {
-            statement = parseStatement();
-            nextSpaceless();
-        }
-        consume(SEMICOLON);
+        else statement = parseStatement();
         return statement;
     }
 
@@ -106,10 +102,19 @@ public class JavaParser extends Parser {
         switch (lastToken()) {
             case RETURN: {
                 consume(RETURN);
+                if (lastToken() == SEMICOLON) consume(SEMICOLON);
                 return new Return(parseExpression());
             }
-            case BREAK: return new Break();
-            case CONTINUE: return new Continue();
+            case BREAK: {
+                consume(BREAK);
+                consume(SEMICOLON);
+                return new Break();
+            }
+            case CONTINUE: {
+                consume(CONTINUE);
+                consume(SEMICOLON);
+                return new Continue();
+            }
             case SWITCH: return parseSwitchStatement();
             case FOR: return parseForStatement();
             case DO: return parseDoStatement();
@@ -117,6 +122,7 @@ public class JavaParser extends Parser {
             case IF: return parseIfStatement();
             case LITERAL: {
                 exp = parseExpression();
+                consume(SEMICOLON);
                 break;
             }
             default: throw new ParserException(lastToken());
