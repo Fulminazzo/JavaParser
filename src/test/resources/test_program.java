@@ -96,6 +96,8 @@ if (true) {
 n = 10;
 while (n > 0) {
     n--;
+    if (n > 0) break;
+    else continue;
 }
 
 n = 10;
@@ -105,6 +107,8 @@ while (n > 0) n--;
 n = 10;
 do {
     n--;
+    if (n > 0) break;
+    else continue;
 } while (n > 0);
 
 n = 10;
@@ -114,9 +118,12 @@ while (n > 0);
 // For statement
 int j;
 for (j = 1; j < 10; j++) {
-    break;
+    if (j == 9) continue;
+    else break;
 }
-for (int k = 0; k < 10; k++) break;
+for (int k = 0; k < 10; k++)
+    if (j == 9) continue;
+    else break;
 
 for (; j < 10; j++) break;
 for (int k = 0; ; k++) break;
@@ -131,5 +138,7 @@ int[] array = new int[]{1, 2, 3, 4, 5};
 for (int a : array) System.out.println(a);
 for (int a : array) {
     System.out.println(a);
+    if (a == 5) break;
+    else continue;
 }
 
