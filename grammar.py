@@ -2,7 +2,6 @@ TODO: casts
 TODO: diamond operator
 TODO: lambda
 TODO: this
-TODO: comments
 TODO: try, catch and throws
 TODO: null
 
