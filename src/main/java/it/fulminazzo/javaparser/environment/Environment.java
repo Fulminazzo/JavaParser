@@ -39,9 +39,18 @@ public class Environment<T> implements Scoped<T> {
      * @return this environment
      */
     public Environment<T> exitScope() {
-        if (this.scopes.size() < 2) throw new IllegalStateException("Cannot exit from main scope");
+        if (isMainScope()) throw new IllegalStateException("Cannot exit from main scope");
         this.scopes.pop();
         return this;
+    }
+
+    /**
+     * Checks whether the current scope is the main one.
+     *
+     * @return true if it is
+     */
+    public boolean isMainScope() {
+        return this.scopes.size() < 2;
     }
 
     @Override
