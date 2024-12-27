@@ -143,7 +143,10 @@ public class JavaParser extends Parser {
             if (lastToken() == LITERAL) {
                 final Literal second = parseLiteral();
                 if (lastToken() == COLON) return parseEnhancedForStatement(literal, second);
-                else assignment = new Assignment(literal, parseReAssign(second));
+                else {
+                    consume(ASSIGN);
+                    assignment = new Assignment(literal, second, parseExpression());
+                }
             } else assignment = parseAssignmentPartial(literal);
         } else assignment = new Statement();
         consume(SEMICOLON);
@@ -293,7 +296,8 @@ public class JavaParser extends Parser {
         switch (lastToken()) {
             case LITERAL: {
                 final Literal second = parseLiteral();
-                return new Assignment(literal, parseReAssign(second));
+                consume(ASSIGN);
+                return new Assignment(literal, second, parseExpression());
             }
             case OPEN_PAR:
                 return parseMethodCall(literal);
