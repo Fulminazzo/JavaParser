@@ -222,7 +222,7 @@ class JavaParserTest extends Specification {
         'var >>>= 2' | URShift.class
     }
 
-    def 'test parseBinaryOperation'() {
+    def 'test complex parseBinaryOperation'() {
         given:
         def code = '18 % 17 / 16 * 15 - 14 + 13 ' +
                 '>>> 12 >> 11 << 10 ' +
