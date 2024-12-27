@@ -82,6 +82,7 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
         try {
             if (this.line == -1) this.line = 1;
             if (this.column == -1) this.column = 0;
+            for (char c : this.lastRead.toCharArray()) updateLineCount(c);
             String read = this.previousRead;
             if (isTokenType(read)) return readTokenType(read);
             while (this.input.available() > 0) {
@@ -105,6 +106,8 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
 
     private @NotNull TokenType readTokenType(@NotNull String read) throws IOException {
         while (this.input.available() > 0) {
+            int previousLine = this.line;
+            int previousColumn = this.column;
             char c = (char) this.input.read();
             updateLineCount(c);
             read += c;
@@ -113,6 +116,8 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
                 // Line necessary to properly read DOUBLE_VALUE and FLOAT_VALUE
                 if (TokenType.fromString(subString) == TokenType.NUMBER_VALUE && c == '.')
                     continue;
+                this.line = previousLine;
+                this.column = previousColumn;
                 this.previousRead = read.substring(read.length() - 1);
                 return updateTokenType(subString);
             }
