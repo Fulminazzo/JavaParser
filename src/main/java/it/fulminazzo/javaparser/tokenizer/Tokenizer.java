@@ -106,8 +106,7 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
 
     private boolean isTokenType(final @NotNull String read) {
         try {
-            TokenType.fromString(read);
-            return true;
+            return TokenType.fromString(read) != TokenType.EOF;
         } catch (IllegalArgumentException e) {
             return false;
         }
