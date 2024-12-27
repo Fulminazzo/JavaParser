@@ -33,7 +33,7 @@ Long lW = 5L;
 Float fW = 6.0f;
 Double dW = 7.0d;
 Boolean boW = true;
-String sW = "Hello world";
+String stW = "Hello world";
 
 // Binary operations
 i = i + 1 - 1 * 1 / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
