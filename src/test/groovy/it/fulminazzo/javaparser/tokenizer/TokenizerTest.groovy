@@ -35,4 +35,19 @@ class TokenizerTest extends Specification {
         tokenizer.lastRead() == '10'
     }
 
+    def 'test tokenizer hasNext method exception'() {
+        given:
+        def input = Mock(ByteArrayInputStream)
+        input.available() >> {
+            throw new IOException('Closed stream')
+        }
+        def tokenizer = new Tokenizer(input)
+
+        when:
+        tokenizer.hasNext()
+
+        then:
+        thrown(TokenizerException)
+    }
+
 }
