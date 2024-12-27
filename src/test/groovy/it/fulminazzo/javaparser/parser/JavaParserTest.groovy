@@ -10,14 +10,8 @@ import it.fulminazzo.javaparser.parser.node.operators.binary.*
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
 import it.fulminazzo.javaparser.parser.node.statements.*
-import it.fulminazzo.javaparser.parser.node.types.BooleanLiteral
-import it.fulminazzo.javaparser.parser.node.types.CharLiteral
-import it.fulminazzo.javaparser.parser.node.types.DoubleLiteral
-import it.fulminazzo.javaparser.parser.node.types.FloatLiteral
-import it.fulminazzo.javaparser.parser.node.types.Literal
-import it.fulminazzo.javaparser.parser.node.types.LongLiteral
-import it.fulminazzo.javaparser.parser.node.types.NumberLiteral
-import it.fulminazzo.javaparser.parser.node.types.StringLiteral
+import it.fulminazzo.javaparser.parser.node.types.*
+import it.fulminazzo.javaparser.tokenizer.TokenType
 import spock.lang.Specification
 
 class JavaParserTest extends Specification {
@@ -279,6 +273,19 @@ class JavaParserTest extends Specification {
         'false'           | new BooleanLiteral('false')
         '\'a\''           | new CharLiteral('\'a\'')
         '\"Hello world\"' | new StringLiteral('\"Hello world\"')
+    }
+
+    def 'test parse type of invalid'() {
+        given:
+        this.parser.setInput('invalid')
+        this.parser.tokenizer.nextSpaceless()
+
+        when:
+        this.parser.parseTypeValue()
+
+        then:
+        def e = thrown(ParserException)
+        e.message == "Unexpected token: ${TokenType.LITERAL}"
     }
 
 }
