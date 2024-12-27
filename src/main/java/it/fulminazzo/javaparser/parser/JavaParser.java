@@ -73,6 +73,18 @@ public class JavaParser extends Parser {
      */
     protected @NotNull Statement parseSingleStatement() {
         final Statement statement;
+        // Read comments
+        @NotNull Tokenizer tokenizer = this.getTokenizer();
+        if (lastToken() == COMMENT_INLINE) {
+            tokenizer.readUntilNextLine();
+            return parseSingleStatement();
+        } else if (lastToken() == COMMENT_BLOCK_START) {
+            do nextSpaceless();
+            while (lastToken() != COMMENT_BLOCK_END);
+            consume(COMMENT_BLOCK_END);
+            return parseSingleStatement();
+        }
+
         if (lastToken() == SEMICOLON) statement = new Statement();
         else {
             statement = parseStatement();
