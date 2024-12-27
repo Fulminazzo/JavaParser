@@ -42,6 +42,7 @@ f = f + 1 - 1 * 1 / 1 % 1;
 d = d + 1 - 1 * 1 / 1 % 1;
 bo = true == false != true && false || true;
 bo = d == f != i && bo || false;
+//TODO: (i < d)
 bo = i < d || i <= d || f >= d || f > d;
 
 // Re-Assignment operations
