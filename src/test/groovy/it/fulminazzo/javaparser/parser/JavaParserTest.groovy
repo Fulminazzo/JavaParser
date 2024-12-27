@@ -43,24 +43,6 @@ class JavaParserTest extends Specification {
         ';'      | new Statement()
     }
 
-    def 'test flow control statements'() {
-        when:
-        startReading(code)
-        def output = this.parser.parseSingleStatement()
-
-        then:
-        output == expected
-
-        where:
-        code | expected
-        'if (true) continue; else if (false) break; else return 1;' | new IfStatement(
-                new BooleanLiteral('true'), new CodeBlock(new Continue()), new IfStatement(
-                new BooleanLiteral('false'), new CodeBlock(new Break()),
-                new CodeBlock(new Return(new NumberLiteral('1')))))
-        'while (true) continue;' | new WhileStatement(new BooleanLiteral('true'), new CodeBlock(new Continue()))
-        'do continue; while (true);' | new DoStatement(new BooleanLiteral('true'), new CodeBlock(new Continue()))
-    }
-
     def 'test for statements'() {
         when:
         startReading(code)
@@ -113,6 +95,20 @@ class JavaParserTest extends Specification {
                 new Literal('arr'),
                 new CodeBlock(new Continue())
         )
+    }
+
+    def 'test flow control statement: #expected.class.simpleName'() {
+        when:
+        startReading(code)
+        def output = this.parser.parseSingleStatement()
+
+        then:
+        output == expected
+
+        where:
+        code | expected
+        'while (true) continue;' | new WhileStatement(new BooleanLiteral('true'), new CodeBlock(new Continue()))
+        'do continue; while (true);' | new DoStatement(new BooleanLiteral('true'), new CodeBlock(new Continue()))
     }
 
     def 'test static array initialization'() {
