@@ -253,12 +253,11 @@ class JavaParserTest extends Specification {
 
     def 'test parse type value of literal #literal'() {
         given:
-        def parser = new JavaParser()
-        parser.setInput(literal)
-        parser.tokenizer.nextSpaceless()
+        this.parser.setInput(literal)
 
         when:
-        def parsed = parser.parseTypeValue()
+        this.parser.tokenizer.nextSpaceless()
+        def parsed = this.parser.parseTypeValue()
 
         then:
         parsed == expected
