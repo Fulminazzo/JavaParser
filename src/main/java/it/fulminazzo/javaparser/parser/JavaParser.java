@@ -10,6 +10,7 @@ import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray;
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
+import it.fulminazzo.javaparser.parser.node.container.JavaProgram;
 import it.fulminazzo.javaparser.parser.node.operators.binary.*;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment;
@@ -41,6 +42,17 @@ public class JavaParser extends Parser {
      */
     public JavaParser(@NotNull InputStream input) {
         super(input);
+    }
+
+    /**
+     * JAVA_PROGRAM := SINGLE_STMT*
+     *
+     * @return the node
+     */
+    public @NotNull JavaProgram parseProgram() {
+        final LinkedList<Statement> statements = new LinkedList<>();
+        while (lastToken() != EOF) statements.add(parseSingleStatement());
+        return new JavaProgram(statements);
     }
 
     /**
