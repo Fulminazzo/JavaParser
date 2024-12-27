@@ -110,3 +110,17 @@ do {
 n = 10;
 do n--;
 while (n > 0);
+
+// For statement
+int j;
+for (j = 1; j < 10; j++) {
+    break;
+}
+for (int k = 0; k < 10; k++) break;
+
+for (; j < 10; j++) break;
+for (int k = 0; ; k++) break;
+for (int k = 0; k < 10; ) break;
+for (int k = 0; ; ) break;
+for (; ; j++) break;
+for (; j < 10;) break;
