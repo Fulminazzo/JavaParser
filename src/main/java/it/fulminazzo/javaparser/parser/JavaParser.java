@@ -43,12 +43,6 @@ public class JavaParser extends Parser {
         super(input);
     }
 
-    protected void startReading() {
-        //TODO: temporary method
-        //TODO: for testing purposes only
-        getTokenizer().nextSpaceless();
-    }
-
     /**
      * BLOCK := CODE_BLOCK | SINGLE_STMT
      *
