@@ -24,7 +24,8 @@ class JavaParserTest extends Specification {
         this.parser = new JavaParser()
     }
 
-    void startReading() {
+    void startReading(final String code) {
+        this.parser.setInput(code)
         this.parser.tokenizer.nextSpaceless()
     }
 
