@@ -153,6 +153,21 @@ class JavaParserTest extends Specification {
         output == expected
     }
 
+    def 'test parse assignment: #code'() {
+        when:
+        this.parser.setInput(code)
+        startReading()
+        def output = this.parser.parseAssignment()
+
+        then:
+        output == expected
+
+        where:
+        code         | expected
+        'int i = 1;' | new Assignment(new Literal('int'), new Literal('i'), new NumberLiteral('1'))
+        'int i;'     | new Assignment(new Literal('int'), new Literal('i'), new EmptyLiteral())
+    }
+
     def 'test method call'() {
         given:
         def expected = new MethodCall(
