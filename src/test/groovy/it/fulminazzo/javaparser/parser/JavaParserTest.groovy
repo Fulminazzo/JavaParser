@@ -9,6 +9,7 @@ import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.operators.binary.*
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
+import it.fulminazzo.javaparser.parser.node.operators.unary.Not
 import it.fulminazzo.javaparser.parser.node.statements.*
 import it.fulminazzo.javaparser.parser.node.types.*
 import it.fulminazzo.javaparser.tokenizer.TokenType
@@ -249,6 +250,19 @@ class JavaParserTest extends Specification {
                 new Literal('arr'),
                 new CodeBlock(new Continue())
         )
+    }
+
+    def 'test not'() {
+        given:
+        def expected = new Not(new BooleanLiteral('true'))
+        this.parser.setInput('!true')
+
+        when:
+        this.parser.tokenizer.nextSpaceless()
+        def parsed = this.parser.parseNot()
+
+        then:
+        parsed == expected
     }
 
     def 'test parse type value of literal #literal'() {
