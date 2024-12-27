@@ -222,6 +222,19 @@ class JavaParserTest extends Specification {
         '>>>'        | URShift.class
     }
 
+    def 'test parseReAssign with no operation'() {
+        given:
+        def code = 'var = 1'
+        def expected = new ReAssign(new Literal('var'), new NumberLiteral('1'))
+
+        when:
+        startReading(code)
+        def output = this.parser.parseAssignment()
+
+        then:
+        output == expected
+    }
+
     def 'test complex parseBinaryOperation'() {
         given:
         def code = '18 % 17 / 16 * 15 - 14 + 13 ' +
