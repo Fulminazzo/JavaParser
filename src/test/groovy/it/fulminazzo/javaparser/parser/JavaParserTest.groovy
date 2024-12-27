@@ -117,11 +117,11 @@ class JavaParserTest extends Specification {
                 new Literal('var'),
                 new MethodInvocation([
                         new Literal('a'),
-                        new NumberLiteral("1"),
-                        new BooleanLiteral("true")
+                        new NumberLiteral('1'),
+                        new BooleanLiteral('true')
                 ])
         )
-        def code = "var(a, 1, true)"
+        def code = 'var(a, 1, true)'
         this.parser.setInput(code)
 
         when:
@@ -132,10 +132,10 @@ class JavaParserTest extends Specification {
         output == expected
     }
 
-    def "test static array initialization"() {
+    def 'test static array initialization'() {
         given:
-        def expected = new StaticArray(new Literal("int"), new NumberLiteral("0"))
-        def code = "new int[0]"
+        def expected = new StaticArray(new Literal('int'), new NumberLiteral('0'))
+        def code = 'new int[0]'
         this.parser.setInput(code)
 
         when:
@@ -146,12 +146,12 @@ class JavaParserTest extends Specification {
         output == expected
     }
 
-    def "test dynamic array initialization"() {
+    def 'test dynamic array initialization'() {
         given:
-        def expected = new DynamicArray(new Literal("int"), [
-                new NumberLiteral("1")
+        def expected = new DynamicArray(new Literal('int'), [
+                new NumberLiteral('1')
         ])
-        def code = "new int[]{1}"
+        def code = 'new int[]{1}'
         this.parser.setInput(code)
 
         when:
@@ -162,7 +162,7 @@ class JavaParserTest extends Specification {
         output == expected
     }
 
-    def "test parseSingleStatement"() {
+    def 'test parseSingleStatement'() {
         given:
         this.parser.setInput(code)
 
@@ -175,11 +175,11 @@ class JavaParserTest extends Specification {
 
         where:
         code     | expected
-        "break;" | new Break()
-        ";"      | new Statement()
+        'break;' | new Break()
+        ';'      | new Statement()
     }
 
-    def "test flow control statements"() {
+    def 'test flow control statements'() {
         given:
         this.parser.setInput(code)
 
@@ -192,15 +192,15 @@ class JavaParserTest extends Specification {
 
         where:
         code | expected
-        "if (true) continue; else if (false) break; else return 1;" | new IfStatement(
-                new BooleanLiteral("true"), new CodeBlock(new Continue()), new IfStatement(
-                new BooleanLiteral("false"), new CodeBlock(new Break()),
-                new CodeBlock(new Return(new NumberLiteral("1")))))
-        "while (true) continue;" | new WhileStatement(new BooleanLiteral("true"), new CodeBlock(new Continue()))
-        "do continue; while (true);" | new DoStatement(new BooleanLiteral("true"), new CodeBlock(new Continue()))
+        'if (true) continue; else if (false) break; else return 1;' | new IfStatement(
+                new BooleanLiteral('true'), new CodeBlock(new Continue()), new IfStatement(
+                new BooleanLiteral('false'), new CodeBlock(new Break()),
+                new CodeBlock(new Return(new NumberLiteral('1')))))
+        'while (true) continue;' | new WhileStatement(new BooleanLiteral('true'), new CodeBlock(new Continue()))
+        'do continue; while (true);' | new DoStatement(new BooleanLiteral('true'), new CodeBlock(new Continue()))
     }
 
-    def "test for statements"() {
+    def 'test for statements'() {
         given:
         this.parser.setInput(code)
 
@@ -213,46 +213,46 @@ class JavaParserTest extends Specification {
 
         where:
         code | expected
-        "for (int i = 0; true; i++) continue;" | new ForStatement(
-                new Assignment(new Literal("int"), new Literal("i"), new NumberLiteral("0")),
-                new BooleanLiteral("true"),
-                new Increment(new Literal("i"), false),
+        'for (int i = 0; true; i++) continue;' | new ForStatement(
+                new Assignment(new Literal('int'), new Literal('i'), new NumberLiteral('0')),
+                new BooleanLiteral('true'),
+                new Increment(new Literal('i'), false),
                 new CodeBlock(new Continue())
         )
-        "for (; true; i++) continue;" | new ForStatement(
+        'for (; true; i++) continue;' | new ForStatement(
                 new Statement(),
-                new BooleanLiteral("true"),
-                new Increment(new Literal("i"), false),
+                new BooleanLiteral('true'),
+                new Increment(new Literal('i'), false),
                 new CodeBlock(new Continue())
         )
-        "for (int i = 0; ; i++) continue;" | new ForStatement(
-                new Assignment(new Literal("int"), new Literal("i"), new NumberLiteral("0")),
+        'for (int i = 0; ; i++) continue;' | new ForStatement(
+                new Assignment(new Literal('int'), new Literal('i'), new NumberLiteral('0')),
                 new Statement(),
-                new Increment(new Literal("i"), false),
+                new Increment(new Literal('i'), false),
                 new CodeBlock(new Continue())
         )
-        "for (int i = 0; true; ) continue;" | new ForStatement(
-                new Assignment(new Literal("int"), new Literal("i"), new NumberLiteral("0")),
-                new BooleanLiteral("true"),
-                new Statement(),
-                new CodeBlock(new Continue())
-        )
-        "for (; ; i++) continue;" | new ForStatement(
-                new Statement(),
-                new Statement(),
-                new Increment(new Literal("i"), false),
-                new CodeBlock(new Continue())
-        )
-        "for (int i = 0; ; ) continue;" | new ForStatement(
-                new Assignment(new Literal("int"), new Literal("i"), new NumberLiteral("0")),
-                new Statement(),
+        'for (int i = 0; true; ) continue;' | new ForStatement(
+                new Assignment(new Literal('int'), new Literal('i'), new NumberLiteral('0')),
+                new BooleanLiteral('true'),
                 new Statement(),
                 new CodeBlock(new Continue())
         )
-        "for (int i : arr) continue;" | new EnhancedForStatement(
-                new Literal("int"),
-                new Literal("i"),
-                new Literal("arr"),
+        'for (; ; i++) continue;' | new ForStatement(
+                new Statement(),
+                new Statement(),
+                new Increment(new Literal('i'), false),
+                new CodeBlock(new Continue())
+        )
+        'for (int i = 0; ; ) continue;' | new ForStatement(
+                new Assignment(new Literal('int'), new Literal('i'), new NumberLiteral('0')),
+                new Statement(),
+                new Statement(),
+                new CodeBlock(new Continue())
+        )
+        'for (int i : arr) continue;' | new EnhancedForStatement(
+                new Literal('int'),
+                new Literal('i'),
+                new Literal('arr'),
                 new CodeBlock(new Continue())
         )
     }
