@@ -1,6 +1,5 @@
 package it.fulminazzo.javaparser.parser.node;
 
-import it.fulminazzo.javaparser.parser.node.operators.binary.ReAssign;
 import it.fulminazzo.javaparser.parser.node.types.Literal;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,18 +8,22 @@ import org.jetbrains.annotations.NotNull;
  */
 public class Assignment extends Node {
     private final @NotNull Literal type;
-    private final @NotNull Node assignment;
+    private final @NotNull Literal name;
+    private final @NotNull Node value;
 
     /**
      * Instantiates a new Assignment.
      *
-     * @param type       the type
-     * @param assignment the assignment
+     * @param type  the type
+     * @param name  the name
+     * @param value the value
      */
     public Assignment(final @NotNull Literal type,
-                      final @NotNull Node assignment) {
+                      final @NotNull Literal name,
+                      final @NotNull Node value) {
         this.type = type;
-        this.assignment = assignment;
+        this.name = name;
+        this.value = value;
     }
 
 }
