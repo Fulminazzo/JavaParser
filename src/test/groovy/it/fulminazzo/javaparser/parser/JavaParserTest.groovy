@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.parser
 
+
 import it.fulminazzo.javaparser.parser.node.Assignment
 import it.fulminazzo.javaparser.parser.node.MethodCall
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
@@ -77,19 +78,33 @@ class JavaParserTest extends Specification {
         output == expected
     }
 
-    def 'test parseReAssign with operation'() {
+    def 'test parseReAssign with operation: #code'() {
         given:
-        def code = 'var += 2'
         def expected = new Literal('var')
-        expected = new ReAssign(expected, new Add(expected, new NumberLiteral('2')))
+        def operation = expectedClass.newInstance(expected, new NumberLiteral('2'))
+        expected = new ReAssign(expected, operation)
         this.parser.setInput(code)
 
         when:
-        this.parser.startReading()
-        def output = this.parser.parseExpression()
+        startReading()
+        def output = this.parser.parseAssignment()
 
         then:
         output == expected
+
+        where:
+        code         | expectedClass
+        'var += 2'   | Add.class
+        'var -= 2'   | Subtract.class
+        'var *= 2'   | Multiply.class
+        'var /= 2'   | Divide.class
+        'var %= 2'   | Modulo.class
+        'var &= 2'   | BitAnd.class
+        'var |= 2'   | BitOr.class
+        'var ^= 2'   | BitXor.class
+        'var <<= 2'  | LShift.class
+        'var >>= 2'  | RShift.class
+        'var >>>= 2' | URShift.class
     }
 
     def 'test increment or decrement'() {
