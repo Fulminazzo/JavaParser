@@ -1,3 +1,11 @@
+/**
+ * This file represents an example of Java program with all the allowed statements from the parser.
+ */
+
+/*
+    This file will be used as final test from parsers and visitors to verify the validity of the program.
+ */
+
 // Assignment of all primitive types
 byte b = 1;
 short s = 2;
