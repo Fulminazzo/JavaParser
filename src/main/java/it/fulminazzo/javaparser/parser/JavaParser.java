@@ -79,8 +79,8 @@ public class JavaParser extends Parser {
             tokenizer.readUntilNextLine();
             return parseSingleStatement();
         } else if (lastToken() == COMMENT_BLOCK_START) {
-            do nextSpaceless();
-            while (lastToken() != COMMENT_BLOCK_END);
+            while (nextSpaceless() != COMMENT_BLOCK_END)
+                if (lastToken() == EOF) throw new ParserException(EOF);
             consume(COMMENT_BLOCK_END);
             return parseSingleStatement();
         }
