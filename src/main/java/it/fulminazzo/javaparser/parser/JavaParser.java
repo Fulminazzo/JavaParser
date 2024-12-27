@@ -480,7 +480,7 @@ public class JavaParser extends Parser {
      */
     protected @NotNull Node parseAtom() {
         switch (lastToken()) {
-            case MINUS: return parseMinus();
+            case SUBTRACT: return parseMinus();
             case NOT: return parseNot();
             case LITERAL: return parseLiteral();
             default: return parseTypeValue();
@@ -493,7 +493,7 @@ public class JavaParser extends Parser {
      * @return the node
      */
     protected @NotNull Node parseMinus() {
-        consume(MINUS);
+        consume(SUBTRACT);
         return new Minus(parseExpression());
     }
 

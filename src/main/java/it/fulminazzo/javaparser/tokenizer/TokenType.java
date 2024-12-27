@@ -56,7 +56,6 @@ public enum TokenType {
     MODULO("%"),
 
     // Unary Operations
-    MINUS("\\-"),
     NOT("!"),
 
     // Type values
