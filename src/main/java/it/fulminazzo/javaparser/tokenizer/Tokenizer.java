@@ -14,6 +14,8 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
     private @NotNull TokenType lastToken = TokenType.EOF;
     private @NotNull String lastRead = "";
     private String previousRead = "";
+    private int line = -1;
+    private int column = -1;
 
     /**
      * Instantiates a new Tokenizer.
@@ -116,6 +118,8 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
     private @NotNull TokenType eof() {
         this.lastRead = "";
         this.lastToken = TokenType.EOF;
+        this.line = -1;
+        this.column = -1;
         return this.lastToken;
     }
 
@@ -148,6 +152,26 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
      */
     public @NotNull String lastRead() {
         return this.lastRead;
+    }
+
+    /**
+     * Gets the last line read.
+     * <code>-1</code> in case of {@link TokenType#EOF}.
+     *
+     * @return the line
+     */
+    public int line() {
+        return this.line;
+    }
+
+    /**
+     * Gets the last column read
+     * <code>-1</code> in case of {@link TokenType#EOF}.
+     *
+     * @return the column
+     */
+    public int column() {
+        return this.column;
     }
 
 }
