@@ -50,6 +50,7 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
             while (this.input.available() > 0 && !read.endsWith("\n"))
                 read += (char) this.input.read();
             this.lastRead = read;
+            this.previousRead = "";
             return nextSpaceless();
         } catch (IOException e) {
             throw new TokenizerException(e);
