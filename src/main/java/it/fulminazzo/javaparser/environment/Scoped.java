@@ -87,7 +87,7 @@ interface Scoped<T> {
     @NotNull ScopeType scopeType();
 
     /**
-     * Checks that the scope type is the one given.
+     * Checks that the current scope is equal (or inside) the given {@link ScopeType}.
      *
      * @param scopeType the scope type
      * @return this object
