@@ -258,10 +258,13 @@ class JavaParserTest extends Specification {
         output == expected
     }
 
-    def 'test simple parseBinaryOperation'() {
+    def 'test simple parseBinaryOperation (#operation)'() {
         given:
-        def code = '1 + 2'
-        def expected = new Add(new NumberLiteral('1'), new NumberLiteral('2'))
+        def code = "1 ${operation} 2"
+        def expected = expectedClass.newInstance(
+                new NumberLiteral('1'), 
+                new NumberLiteral('2')
+        )
         this.parser.setInput(code)
 
         when:
@@ -270,6 +273,20 @@ class JavaParserTest extends Specification {
 
         then:
         output == expected
+
+        where:
+        operation    | expectedClass
+        '+'          | Add.class
+        '-'          | Subtract.class
+        '*'          | Multiply.class
+        '/'          | Divide.class
+        '%'          | Modulo.class
+        '&'          | BitAnd.class
+        '|'          | BitOr.class
+        '^'          | BitXor.class
+        '<<'         | LShift.class
+        '>>'         | RShift.class
+        '>>>'        | URShift.class
     }
 
     def 'test parseAtom: #text'() {
