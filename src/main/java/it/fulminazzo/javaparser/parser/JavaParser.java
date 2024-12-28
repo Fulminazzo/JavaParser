@@ -22,6 +22,7 @@ import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.tokenizer.Tokenizer;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.InputStream;
 import java.util.LinkedList;
@@ -318,19 +319,8 @@ public class JavaParser extends Parser {
             StaticArray array = null;
             while (lastToken() == OPEN_BRACKET) {
                 consume(OPEN_BRACKET);
-                NumberValueLiteral size;
-                if (lastToken() != CLOSE_BRACKET) size = (NumberValueLiteral) parseTypeValue();
-                else size = createLiteral(NumberValueLiteral.class, "0");
+                array = parseStaticArray(array, literal);
                 consume(CLOSE_BRACKET);
-                if (array == null) array = new StaticArray(literal, size);
-                else {
-                    // Update only the most internal type
-                    Refl<?> curr = new Refl<>(array);
-                    Node type;
-                    while ((type = curr.getFieldObject("type")).is(StaticArray.class))
-                        curr = new Refl<>(type);
-                    curr.setFieldObject("type", new StaticArray(literal, size));
-                }
             }
             return array;
         } else {
@@ -338,6 +328,31 @@ public class JavaParser extends Parser {
             MethodInvocation invocation = parseMethodInvocation();
             return new NewObject(literal, invocation);
         }
+    }
+
+    /**
+     * Support method for parsing {@link StaticArray} in {@link #parseNewObject()}.
+     * Does NOT check for {@link TokenType#OPEN_BRACKET} or {@link TokenType#CLOSE_BRACKET}.
+     *
+     * @param array the previously parsed {@link StaticArray}
+     * @param type  the type of the elements
+     * @return the newly parsed {@link StaticArray}
+     */
+    protected @NotNull StaticArray parseStaticArray(@Nullable StaticArray array,
+                                                    final @NotNull Node type) {
+        NumberValueLiteral size;
+        if (lastToken() != CLOSE_BRACKET) size = (NumberValueLiteral) parseTypeValue();
+        else size = createLiteral(NumberValueLiteral.class, "0");
+        if (array == null) array = new StaticArray(type, size);
+        else {
+            // Update only the most internal component type
+            Refl<?> curr = new Refl<>(array);
+            Node componentType;
+            while ((componentType = curr.getFieldObject("type")).is(StaticArray.class))
+                curr = new Refl<>(componentType);
+            curr.setFieldObject("type", new StaticArray(type, size));
+        }
+        return array;
     }
 
     /**
