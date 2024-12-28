@@ -95,6 +95,17 @@ public enum TokenType {
     }
 
     /**
+     * Checks whether the current token is declared between <b>start</b> and <b>end</b> (INCLUSIVE).
+     *
+     * @param start the start token
+     * @param end   the end token
+     * @return true if it is
+     */
+    public boolean between(final @NotNull TokenType start, final @NotNull TokenType end) {
+        return ordinal() >= start.ordinal() && ordinal() <= end.ordinal();
+    }
+
+    /**
      * Verifies if the given token matches with the whole regex.
      *
      * @param token the token
