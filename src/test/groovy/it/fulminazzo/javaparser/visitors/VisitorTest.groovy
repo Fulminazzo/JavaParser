@@ -7,7 +7,8 @@ import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.MockNode
 import it.fulminazzo.javaparser.parser.node.Node
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
-import it.fulminazzo.javaparser.parser.node.types.Literal
+import it.fulminazzo.javaparser.parser.node.literals.Literal
+import it.fulminazzo.javaparser.parser.node.statements.Statement
 import org.jetbrains.annotations.NotNull
 import spock.lang.Specification
 
@@ -85,13 +86,17 @@ class VisitorTest extends Specification {
             return "${name}${version}"
         }
 
+        /**
+         * UNUSED METHODS
+         */
+
         @Override
-        String visitAssignment(@NotNull Literal type, @NotNull Node assignment) {
+        String visitAssignment(@NotNull Node type, @NotNull Literal name, @NotNull Node value) {
             return null
         }
 
         @Override
-        String visitMethodCall(@NotNull Literal executor, @NotNull MethodInvocation invocation) {
+        String visitMethodCall(@NotNull Node executor, @NotNull MethodInvocation invocation) {
             return null
         }
 
@@ -111,7 +116,27 @@ class VisitorTest extends Specification {
         }
 
         @Override
-        String visitCodeBlock(@NotNull LinkedList<Node> statements) {
+        String visitCodeBlock(@NotNull LinkedList<Statement> statements) {
+            return null
+        }
+
+        @Override
+        String visitJavaProgram(@NotNull LinkedList<Statement> statements) {
+            return null
+        }
+
+        @Override
+        String visitArrayLiteral(@NotNull Node type) {
+            return null
+        }
+
+        @Override
+        String visitEmptyLiteral() {
+            return null
+        }
+
+        @Override
+        String visitLiteralImpl(@NotNull String value) {
             return null
         }
 
@@ -137,6 +162,11 @@ class VisitorTest extends Specification {
 
         @Override
         String visitBitXor(@NotNull Node left, @NotNull Node right) {
+            return null
+        }
+
+        @Override
+        String visitCast(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
@@ -266,7 +296,7 @@ class VisitorTest extends Specification {
         }
 
         @Override
-        String visitIfStatement(@NotNull CodeBlock code, Node thenBranch, @NotNull Node expr) {
+        String visitIfStatement(@NotNull CodeBlock code, @NotNull Node thenBranch, @NotNull Node expr) {
             return null
         }
 
@@ -286,48 +316,39 @@ class VisitorTest extends Specification {
         }
 
         @Override
-        String visitBooleanLiteral(String rawValue) {
+        String visitBooleanValueLiteral(@NotNull String rawValue) {
             return null
         }
 
         @Override
-        String visitCharLiteral(String rawValue) {
+        String visitCharValueLiteral(@NotNull String rawValue) {
             return null
         }
 
         @Override
-        String visitDoubleLiteral(String rawValue) {
+        String visitDoubleValueLiteral(@NotNull String rawValue) {
             return null
         }
 
         @Override
-        String visitEmptyLiteral() {
+        String visitFloatValueLiteral(@NotNull String rawValue) {
             return null
         }
 
         @Override
-        String visitFloatLiteral(String rawValue) {
+        String visitLongValueLiteral(@NotNull String rawValue) {
             return null
         }
 
         @Override
-        String visitLiteral(String rawValue) {
+        String visitNumberValueLiteral(@NotNull String rawValue) {
             return null
         }
 
         @Override
-        String visitLongLiteral(String rawValue) {
-            return null
-        }
-
-        @Override
-        String visitNumberLiteral(String rawValue) {
-            return null
-        }
-
-        @Override
-        String visitStringLiteral(String rawValue) {
+        String visitStringValueLiteral(@NotNull String rawValue) {
             return null
         }
     }
+
 }
