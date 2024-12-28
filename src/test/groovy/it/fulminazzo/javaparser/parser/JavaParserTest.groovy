@@ -35,7 +35,6 @@ class JavaParserTest extends Specification {
         def parser = new JavaParser(file.newInputStream())
 
         when:
-        parser.tokenizer.nextSpaceless()
         parser.parseProgram()
 
         then:

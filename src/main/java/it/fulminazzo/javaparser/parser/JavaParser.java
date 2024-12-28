@@ -51,7 +51,7 @@ public class JavaParser extends Parser {
      */
     public @NotNull JavaProgram parseProgram() {
         final LinkedList<Statement> statements = new LinkedList<>();
-        while (lastToken() != EOF) statements.add(parseSingleStatement());
+        while (nextSpaceless() != EOF) statements.add(parseSingleStatement());
         return new JavaProgram(statements);
     }
 
