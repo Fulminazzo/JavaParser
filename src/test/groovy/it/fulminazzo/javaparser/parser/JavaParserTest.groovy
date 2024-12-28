@@ -307,13 +307,14 @@ class JavaParserTest extends Specification {
 
         then:
         output == expected
+        output.isBefore() == before
 
         where:
-        code    | expected
-        'var++' | new Increment(new Literal('var'), false)
-        '++var' | new Increment(new Literal('var'), true)
-        'var--' | new Decrement(new Literal('var'), false)
-        '--var' | new Decrement(new Literal('var'), true)
+        code    | expected                                 | before
+        'var++' | new Increment(new Literal('var'), false) | false
+        '++var' | new Increment(new Literal('var'), true)  | true
+        'var--' | new Decrement(new Literal('var'), false) | false
+        '--var' | new Decrement(new Literal('var'), true)  | true
     }
 
     def 'test parseReAssign with operation: #operation'() {
