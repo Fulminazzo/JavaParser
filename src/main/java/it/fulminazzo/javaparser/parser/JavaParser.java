@@ -287,6 +287,16 @@ public class JavaParser extends Parser {
                 expression = parseMethodCall();
             }
         }
+        return parseArrayLiteral(expression);
+    }
+
+    /**
+     * ARRAY_LITERAL := LITERAL(\[\])*
+     *
+     * @param expression the expression to start from
+     * @return the node
+     */
+    protected @NotNull Node parseArrayLiteral(@NotNull Node expression) {
         if (expression.is(Literal.class))
             while (lastToken() == OPEN_BRACKET) {
                 consume(OPEN_BRACKET);
