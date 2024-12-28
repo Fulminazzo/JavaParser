@@ -114,8 +114,9 @@ public class JavaParser extends Parser {
         switch (lastToken()) {
             case RETURN: {
                 consume(RETURN);
+                Statement returnNode = new Return(parseExpression());
                 if (lastToken() == SEMICOLON) consume(SEMICOLON);
-                return new Return(parseExpression());
+                return returnNode;
             }
             case BREAK: {
                 consume(BREAK);
