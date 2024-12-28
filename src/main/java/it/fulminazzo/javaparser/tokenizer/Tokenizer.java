@@ -112,9 +112,12 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
             read += c;
             if (!isTokenType(read)) {
                 String subString = read.substring(0, read.length() - 1);
-                // Line necessary to properly read DOUBLE_VALUE and FLOAT_VALUE
-                if (TokenType.fromString(subString) == TokenType.NUMBER_VALUE && c == '.')
-                    continue;
+                // Line necessary to properly read LITERAL, DOUBLE_VALUE and FLOAT_VALUE
+                if (c == '.') {
+                    TokenType previous = TokenType.fromString(subString);
+                    if (previous == TokenType.NUMBER_VALUE || previous == TokenType.LITERAL)
+                        continue;
+                }
                 this.line = previousLine;
                 this.column = previousColumn;
                 this.previousRead = read.substring(read.length() - 1);
