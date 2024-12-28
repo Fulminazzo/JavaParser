@@ -1,4 +1,3 @@
-TODO: casts
 TODO: diamond operator
 TODO: lambda
 TODO: this
@@ -18,9 +17,9 @@ TODO: null
 # SWITCH_STMT := switch ...
 # FOR_STMT := for \( ASSIGNMENT?; EXPR?; EXPR? \) BLOCK | ENHANCED_FOR_STMT
 # ENHANCED_FOR_STMT := for \( LITERAL(\[\])? LITERAL : EXPR \) BLOCK
-# DO_STMT := do BLOCK while \( EXPR \)
-# WHILE_STMT := while \( EXPR \) BLOCK
-# IF_STMT := if \( EXPR \) BLOCK (else IF_STMT)* (else BLOCK)?
+# DO_STMT := do BLOCK while PAR_EXPR
+# WHILE_STMT := while PAR_EXPR BLOCK
+# IF_STMT := if PAR_EXPR BLOCK (else IF_STMT)* (else BLOCK)?
 # ASSIGNMENT := LITERAL(\[\])? LITERAL (=EXPR?) | LITERAL = EXPR | EXPR
 
 # EXPR := NEW_OBJECT | INCREMENT | DECREMENT | METHOD_CALL
@@ -53,7 +52,10 @@ TODO: null
 # DIV := MOD ( (/ MOD)* | (/= MOD) )
 # MOD := ATOM ( (% ATOM)* | (%= ATOM) )
 
-# ATOM := \(EXPR\) | MINUS | NOT | LITERAL | TYPE_VALUE
+# ATOM := CAST | MINUS | NOT | LITERAL | TYPE_VALUE
+
+# CAST := (PAR_EXPR)* PAR_EXPR
+# PAR_EXPR := \( EXPR \)
 
 # MINUS := - EXPR
 # NOT := ! EXPR
