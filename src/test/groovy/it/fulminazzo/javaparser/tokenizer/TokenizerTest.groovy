@@ -6,17 +6,21 @@ import static it.fulminazzo.javaparser.tokenizer.TokenType.*
 
 class TokenizerTest extends Specification {
 
-    static Tokenizer generateTokenizer(String input) {
+    Tokenizer generateTokenizer(String input) {
         return new Tokenizer(new ByteArrayInputStream(input.bytes))
     }
 
-    def 'test tokenizer hasNext method exception'() {
-        given:
+    Tokenizer generateExceptionTokenizer() {
         def input = Mock(ByteArrayInputStream)
         input.available() >> {
             throw new IOException('Closed stream')
         }
-        def tokenizer = new Tokenizer(input)
+        return new Tokenizer(input)
+    }
+
+    def 'test tokenizer hasNext method exception'() {
+        given:
+        def tokenizer = generateExceptionTokenizer()
 
         when:
         tokenizer.hasNext()
@@ -53,11 +57,7 @@ class TokenizerTest extends Specification {
 
     def 'test tokenizer read until next line method exception'() {
         given:
-        def input = Mock(ByteArrayInputStream)
-        input.available() >> {
-            throw new IOException('Closed stream')
-        }
-        def tokenizer = new Tokenizer(input)
+        def tokenizer = generateExceptionTokenizer()
 
         when:
         tokenizer.readUntilNextLine()
@@ -108,11 +108,7 @@ class TokenizerTest extends Specification {
 
     def 'test tokenizer next method exception'() {
         given:
-        def input = Mock(ByteArrayInputStream)
-        input.available() >> {
-            throw new IOException('Closed stream')
-        }
-        def tokenizer = new Tokenizer(input)
+        def tokenizer = generateExceptionTokenizer()
 
         when:
         tokenizer.next()
