@@ -41,6 +41,20 @@ class JavaParserTest extends Specification {
         noExceptionThrown()
     }
 
+    def 'test parseBlock: #code'() {
+        when:
+        startReading(code)
+        def output = this.parser.parseBlock()
+
+        then:
+        output == expected
+
+        where:
+        code              | expected
+        '{\ncontinue;\n}' | new CodeBlock(new Continue())
+        'continue;'       | new CodeBlock(new Continue())
+    }
+
     def 'test parseSingleStatement: #code'() {
         when:
         startReading(code)
