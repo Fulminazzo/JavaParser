@@ -12,14 +12,14 @@ import java.util.Arrays;
 /**
  * Represents a {@link TokenType#LITERAL} token in the program.
  */
-public class Literal extends ValueLiteral {
+public class LiteralImpl extends ValueLiteral {
 
     /**
      * Instantiates a new Literal.
      *
      * @param rawValue the raw value
      */
-    public Literal(final @NotNull String rawValue) throws NodeException {
+    public LiteralImpl(final @NotNull String rawValue) throws NodeException {
         super(rawValue, TokenType.LITERAL);
     }
 
