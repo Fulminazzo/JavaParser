@@ -86,6 +86,15 @@ public enum TokenType {
     }
 
     /**
+     * Gets the regex used by the current type.
+     *
+     * @return the regex
+     */
+    public @NotNull String regex() {
+        return this.regex;
+    }
+
+    /**
      * Verifies if the given token matches with the whole regex.
      *
      * @param token the token
