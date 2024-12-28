@@ -196,7 +196,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * DO_STMT := do BLOCK while \( EXPR \)
+     * DO_STMT := do BLOCK while PAR_EXPR
      *
      * @return the node
      */
@@ -204,37 +204,31 @@ public class JavaParser extends Parser {
         consume(DO);
         CodeBlock codeBlock = parseBlock();
         consume(WHILE);
-        consume(OPEN_PAR);
-        Node expression = parseExpression();
-        consume(CLOSE_PAR);
+        Node expression = parseParenthesizedExpr();
         consume(SEMICOLON);
         return new DoStatement(expression, codeBlock);
     }
 
     /**
-     * WHILE_STMT := while \( EXPR \) BLOCK
+     * WHILE_STMT := while PAR_EXPR BLOCK
      *
      * @return the node
      */
     protected @NotNull WhileStatement parseWhileStatement() {
         consume(WHILE);
-        consume(OPEN_PAR);
-        Node expression = parseExpression();
-        consume(CLOSE_PAR);
+        Node expression = parseParenthesizedExpr();
         CodeBlock codeBlock = parseBlock();
         return new WhileStatement(expression, codeBlock);
     }
 
     /**
-     * IF_STMT := if \( EXPR \) BLOCK (else IF_STMT)* (else BLOCK)?
+     * IF_STMT := if PAR_EXPR BLOCK (else IF_STMT)* (else BLOCK)?
      *
      * @return the node
      */
     protected @NotNull IfStatement parseIfStatement() {
         consume(IF);
-        consume(OPEN_PAR);
-        Node expression = parseExpression();
-        consume(CLOSE_PAR);
+        Node expression = parseParenthesizedExpr();
         CodeBlock codeBlock = parseBlock();
         if (lastToken() == ELSE) {
             consume(ELSE);
@@ -503,23 +497,30 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ATOM := \(EXPR\) | MINUS | NOT | LITERAL | TYPE_VALUE
+     * ATOM := PAR_EXPR | MINUS | NOT | LITERAL | TYPE_VALUE
      *
      * @return the node
      */
     protected @NotNull Node parseAtom() {
         switch (lastToken()) {
-            case OPEN_PAR: {
-                consume(OPEN_PAR);
-                Node expr = parseExpression();
-                consume(CLOSE_PAR);
-                return expr;
-            }
+            case OPEN_PAR: return parseParenthesizedExpr();
             case SUBTRACT: return parseMinus();
             case NOT: return parseNot();
             case LITERAL: return parseLiteral();
             default: return parseTypeValue();
         }
+    }
+
+    /**
+     * PAR_EXPR := \( EXPR \)
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseParenthesizedExpr() {
+        consume(OPEN_PAR);
+        Node expr = parseExpression();
+        consume(CLOSE_PAR);
+        return expr;
     }
 
     /**
