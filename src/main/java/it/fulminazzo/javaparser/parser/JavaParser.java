@@ -445,13 +445,14 @@ public class JavaParser extends Parser {
                 } else if (operation == SUBTRACT && lastToken == SUBTRACT) {
                     consume(SUBTRACT);
                     return new Decrement(node, false);
-                } else {
+                } else if (lastToken == ASSIGN) {
+                    consume(ASSIGN);
                     Node nextOperationNode = parseBinaryOperation(nextOperation);
                     Node newNode = generateBinaryOperationFromToken(operation, node, nextOperationNode);
-                    if (lastToken == ASSIGN) {
-                        node = new ReAssign(node, newNode);
-                        break;
-                    } else node = newNode;
+                    node = new ReAssign(node, newNode);
+                } else {
+                    Node nextOperationNode = parseBinaryOperation(nextOperation);
+                    node = generateBinaryOperationFromToken(operation, node, nextOperationNode);
                 }
             }
             return node;
