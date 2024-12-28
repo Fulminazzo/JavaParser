@@ -277,10 +277,12 @@ public class JavaParser extends Parser {
                 break;
             }
             case ADD: {
+                consume(ADD);
                 expression = parseIncrement();
                 break;
             }
             case SUBTRACT: {
+                consume(SUBTRACT);
                 expression = parseDecrement();
                 break;
             }
@@ -395,7 +397,6 @@ public class JavaParser extends Parser {
      */
     protected @NotNull Increment parseIncrement() {
         consume(ADD);
-        consume(ADD);
         return new Increment(parseAtom(), true);
     }
 
@@ -405,7 +406,6 @@ public class JavaParser extends Parser {
      * @return the node
      */
     protected @NotNull Node parseDecrement() {
-        consume(SUBTRACT);
         if (lastToken() != SUBTRACT) return new Minus(parseExpression());
         consume(SUBTRACT);
         return new Decrement(parseAtom(), true);
