@@ -378,12 +378,13 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * DECREMENT := --LITERAL
+     * DECREMENT := --LITERAL | MINUS
      *
      * @return the node
      */
-    protected @NotNull Decrement parseDecrement() {
+    protected @NotNull Node parseDecrement() {
         consume(SUBTRACT);
+        if (lastToken() != SUBTRACT) return new Minus(parseExpression());
         consume(SUBTRACT);
         return new Decrement(parseLiteral(), true);
     }
