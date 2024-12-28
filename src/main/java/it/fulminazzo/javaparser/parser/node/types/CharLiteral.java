@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a {@link TokenType#CHAR_VALUE} literal.
  */
-public class CharLiteral extends BaseTypeLiteral {
+public class CharLiteral extends ValueLiteral {
 
     /**
      * Instantiates a new Char literal.

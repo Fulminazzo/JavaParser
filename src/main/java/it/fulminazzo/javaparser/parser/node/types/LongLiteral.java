@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a {@link TokenType#LONG_VALUE} literal.
  */
-public class LongLiteral extends BaseTypeLiteral {
+public class LongLiteral extends ValueLiteral {
 
     /**
      * Instantiates a new Long literal.

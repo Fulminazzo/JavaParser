@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a {@link TokenType#BOOLEAN_VALUE} literal.
  */
-public class BooleanLiteral extends BaseTypeLiteral {
+public class BooleanLiteral extends ValueLiteral {
 
     /**
      * Instantiates a new Boolean literal.

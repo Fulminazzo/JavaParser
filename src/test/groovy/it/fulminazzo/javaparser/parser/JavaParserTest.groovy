@@ -592,7 +592,7 @@ class JavaParserTest extends Specification {
         thrown(IllegalArgumentException)
     }
 
-    static class MockLiteral extends BaseTypeLiteral {
+    static class MockLiteral extends ValueLiteral {
 
         MockLiteral(@NotNull String rawValue, @NotNull TokenType type) throws NodeException {
             super(rawValue, type)

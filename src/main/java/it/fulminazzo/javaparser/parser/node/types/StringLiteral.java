@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a {@link TokenType#STRING_VALUE} literal.
  */
-public class StringLiteral extends BaseTypeLiteral {
+public class StringLiteral extends ValueLiteral {
 
     /**
      * Instantiates a new String literal.

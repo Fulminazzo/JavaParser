@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a {@link TokenType#DOUBLE_VALUE} literal.
  */
-public class DoubleLiteral extends BaseTypeLiteral {
+public class DoubleLiteral extends ValueLiteral {
 
     /**
      * Instantiates a new Double literal.

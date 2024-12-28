@@ -7,20 +7,20 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents a general base type literal.
+ * Represents a literal which holds a raw value from the TYPE_VALUE directive.
  */
 @Getter
-public abstract class BaseTypeLiteral extends Node {
+public abstract class ValueLiteral extends Node {
     protected final @NotNull String rawValue;
 
     /**
-     * Instantiates a new Base type literal.
+     * Instantiates a new Value literal.
      *
      * @param rawValue  the raw value
-     * @param type the type
+     * @param type      the type
      */
-    public BaseTypeLiteral(final @NotNull String rawValue,
-                           final @NotNull TokenType type) throws NodeException {
+    public ValueLiteral(final @NotNull String rawValue,
+                        final @NotNull TokenType type) throws NodeException {
         if (type.matches(rawValue)) this.rawValue = rawValue;
         else throw new NodeException();
     }

@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a {@link TokenType#FLOAT_VALUE} literal.
  */
-public class FloatLiteral extends BaseTypeLiteral {
+public class FloatLiteral extends ValueLiteral {
 
     /**
      * Instantiates a new Float literal.

@@ -11,7 +11,7 @@ import java.util.Arrays;
 /**
  * Represents a {@link TokenType#LITERAL} token in the program.
  */
-public class Literal extends BaseTypeLiteral {
+public class Literal extends ValueLiteral {
 
     /**
      * Instantiates a new Literal.

@@ -571,9 +571,9 @@ public class JavaParser extends Parser {
      *
      * @return the node
      */
-    protected @NotNull BaseTypeLiteral parseTypeValue() {
+    protected @NotNull ValueLiteral parseTypeValue() {
         final String read = getTokenizer().lastRead();
-        final BaseTypeLiteral literal;
+        final ValueLiteral literal;
         switch (lastToken()) {
             case NUMBER_VALUE: {
                 literal = createLiteral(NumberLiteral.class, read);
@@ -611,7 +611,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * Creates a new {@link BaseTypeLiteral} from the given class and rawValue.
+     * Creates a new {@link ValueLiteral} from the given class and rawValue.
      * Throws {@link ParserException} in case a {@link NodeException} occurs.
      *
      * @param literalType the type of the literal
@@ -619,8 +619,8 @@ public class JavaParser extends Parser {
      * @return the literal
      * @param <L> the type of the literal
      */
-    protected <L extends BaseTypeLiteral> @NotNull L createLiteral(final @NotNull Class<L> literalType,
-                                                                   final @NotNull String rawValue) {
+    protected <L extends ValueLiteral> @NotNull L createLiteral(final @NotNull Class<L> literalType,
+                                                                final @NotNull String rawValue) {
         try {
             return new Refl<>(literalType, rawValue).getObject();
         } catch (RuntimeException e) {
