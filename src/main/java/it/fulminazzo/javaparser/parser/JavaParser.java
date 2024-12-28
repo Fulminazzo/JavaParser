@@ -443,12 +443,12 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * EQUAL := NOT_EQUAL (== NOT_EQUAL)* <br/>
+     * EQUAL := NOT_EQUAL (== NOT_EQUAL)*
      *
      * @return the node
      */
-    protected @NotNull Node parseBinaryOperation() {
-        return parseBinaryOperation(EQUAL);
+    protected @NotNull Node parseBinaryComparison() {
+        return parseBinaryComparison(EQUAL);
     }
 
     /**
@@ -459,8 +459,35 @@ public class JavaParser extends Parser {
      * GREATER_THAN := GREATER_THAN_OR_EQUAL (> GREATER_THAN_OR_EQUAL)* <br/>
      * GREATER_THAN_OR_EQUAL := AND (>= AND)* <br/>
      * AND := OR (&& OR)* <br/>
-     * OR := BIT_AND (|| BIT_AND)* <br/>
-     * <br/>
+     * OR := BIT_AND (|| BIT_AND)*
+     *
+     * @param comparison the {@link TokenType} that corresponds to the comparison
+     * @return the node
+     */
+    protected @NotNull Node parseBinaryComparison(final @NotNull TokenType comparison) {
+        if (comparison.ordinal() > OR.ordinal()) return parseBinaryOperation();
+        else {
+            final TokenType nextOperation = TokenType.values()[comparison.ordinal() + 1];
+            Node node = parseBinaryComparison(nextOperation);
+            while (lastToken() == comparison) {
+                consume(comparison);
+                Node tmp = parseBinaryComparison(nextOperation);
+                node = generateBinaryOperationFromToken(comparison, node, tmp);
+            }
+            return node;
+        }
+    }
+
+    /**
+     * BIT_AND := BIT_OR (& BIT_OR)*
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseBinaryOperation() {
+        return parseBinaryOperation(BIT_AND);
+    }
+
+    /**
      * BIT_AND := BIT_OR (& BIT_OR)* <br/>
      * BIT_OR := BIT_XOR (| BIT_XOR)* <br/>
      * BIT_XOR := LSHIFT (^ LSHIFT)* <br/>
@@ -472,7 +499,7 @@ public class JavaParser extends Parser {
      * SUB := MUL (- MUL)* <br/>
      * MUL := DIV (* DIV)* <br/>
      * DIV := MOD (/ MOD)* <br/>
-     * MOD := MINUS (% MINUS)* <br/>
+     * MOD := MINUS (% MINUS)*
      *
      * @param operation the {@link TokenType} that corresponds to the operation
      * @return the node
