@@ -63,9 +63,9 @@ public class Environment<T> implements Scoped<T> {
     }
 
     @Override
-    public void declare(@NotNull String name, @NotNull T value) throws ScopeException {
+    public void declare(@NotNull Info<T> info, @NotNull String name, @NotNull T value) throws ScopeException {
         if (isDeclared(name)) throw alreadyDeclaredVariable(name);
-        else lastScope().declare(name, value);
+        else lastScope().declare(info, name, value);
     }
 
     @Override

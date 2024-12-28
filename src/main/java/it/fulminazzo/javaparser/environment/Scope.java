@@ -31,7 +31,7 @@ class Scope<T> implements Scoped<T> {
     }
 
     @Override
-    public void declare(@NotNull String name, @NotNull T value) throws ScopeException {
+    public void declare(@NotNull Info<T> info, @NotNull String name, @NotNull T value) throws ScopeException {
         if (isDeclared(name)) throw alreadyDeclaredVariable(name);
         else this.internalMap.put(name, value);
     }

@@ -44,11 +44,12 @@ interface Scoped<T> {
     /**
      * Defines a variable with the given name and value.
      *
+     * @param info  the information of the value
      * @param name  the name
      * @param value the value
      * @throws ScopeException thrown if the variable is already declared
      */
-    void declare(@NotNull String name, @NotNull T value) throws ScopeException;
+    void declare(@NotNull Info<T> info, @NotNull String name, @NotNull T value) throws ScopeException;
 
     /**
      * Updates the value of a variable.
@@ -120,7 +121,7 @@ interface Scoped<T> {
 
     /**
      * Checks that the scope type is {@link ScopeType#SWITCH}.
-     * 
+     *
      * @return this object
      * @throws ScopeException thrown if the current scope type does not match
      */
@@ -130,7 +131,7 @@ interface Scoped<T> {
 
     /**
      * Checks that the scope type is {@link ScopeType#FOR}.
-     * 
+     *
      * @return this object
      * @throws ScopeException thrown if the current scope type does not match
      */
@@ -140,7 +141,7 @@ interface Scoped<T> {
 
     /**
      * Checks that the scope type is {@link ScopeType#WHILE}.
-     * 
+     *
      * @return this object
      * @throws ScopeException thrown if the current scope type does not match
      */
@@ -150,7 +151,7 @@ interface Scoped<T> {
 
     /**
      * Checks that the scope type is {@link ScopeType#DO}.
-     * 
+     *
      * @return this object
      * @throws ScopeException thrown if the current scope type does not match
      */
