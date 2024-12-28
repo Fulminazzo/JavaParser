@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.parser.node.literals;
 
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
+import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.NodeException;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import org.jetbrains.annotations.NotNull;
@@ -8,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a {@link TokenType#LITERAL} token in the program.
  */
-public interface Literal {
+public interface Literal extends Node {
 
     /**
      * Splits the literal by checking if the character '.' is present.
