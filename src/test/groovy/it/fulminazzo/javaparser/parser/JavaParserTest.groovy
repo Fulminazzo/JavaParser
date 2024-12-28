@@ -41,7 +41,7 @@ class JavaParserTest extends Specification {
         noExceptionThrown()
     }
 
-    def 'test parseSingleStatement: code'() {
+    def 'test parseSingleStatement: #code'() {
         when:
         startReading(code)
         def output = this.parser.parseSingleStatement()
