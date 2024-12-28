@@ -6,6 +6,11 @@ package it.fulminazzo.javaparser.environment;
  * <code>break</code> statements being executed in the correct context.
  */
 public enum ScopeType {
+    /**
+     * Represents the MAIN scope when starting the program.
+     * Should NOT be duplicated.
+     */
+    MAIN,
     CODE_BLOCK,
     SWITCH,
     FOR,
