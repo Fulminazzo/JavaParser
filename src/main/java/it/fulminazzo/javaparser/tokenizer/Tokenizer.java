@@ -58,8 +58,7 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
      */
     public @NotNull TokenType readUntil(final @NotNull TokenType tokenType) {
         try {
-            for (char c : this.previousRead.toCharArray()) updateLineCount(c);
-            String read = this.previousRead;
+            String read = getPreviousRead();
             while (this.input.available() > 0 && !read.matches("(.|\n)*" + tokenType.regex() + "$"))
                 read += updateLineCount(this.input.read());
             this.lastRead = read;
@@ -93,8 +92,7 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
         try {
             if (this.line == -1) this.line = 1;
             if (this.column == -1) this.column = 0;
-            for (char c : this.previousRead.toCharArray()) updateLineCount(c);
-            String read = this.previousRead;
+            String read = getPreviousRead();
             if (isTokenType(read)) return readTokenType(read);
             while (this.input.available() > 0) {
                 read += updateLineCount(this.input.read());
@@ -125,6 +123,11 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
         }
         this.previousRead = "";
         return updateTokenType(read);
+    }
+
+    private String getPreviousRead() {
+        for (char c : this.previousRead.toCharArray()) updateLineCount(c);
+        return this.previousRead;
     }
 
     private char updateLineCount(int c) {
