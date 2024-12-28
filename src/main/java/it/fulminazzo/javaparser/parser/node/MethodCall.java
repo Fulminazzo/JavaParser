@@ -1,13 +1,12 @@
 package it.fulminazzo.javaparser.parser.node;
 
-import it.fulminazzo.javaparser.parser.node.types.Literal;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a method call invocation.
  */
 public class MethodCall extends Node {
-    private final @NotNull Literal executor;
+    private final @NotNull Node executor;
     private final @NotNull MethodInvocation invocation;
 
     /**
@@ -16,7 +15,7 @@ public class MethodCall extends Node {
      * @param executor   the executor
      * @param invocation the invocation
      */
-    public MethodCall(final @NotNull Literal executor,
+    public MethodCall(final @NotNull Node executor,
                       final @NotNull MethodInvocation invocation) {
         this.executor = executor;
         this.invocation = invocation;
