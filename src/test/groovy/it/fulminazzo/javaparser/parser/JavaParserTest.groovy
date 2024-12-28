@@ -245,10 +245,14 @@ class JavaParserTest extends Specification {
         given:
         def expected = new StaticArray(
                 new StaticArray(
-                        new StaticArray(Literal.of('int'), new NumberValueLiteral('2')),
-                        new NumberValueLiteral('1')),
-                new NumberValueLiteral('0'))
-        def code = 'new int[][1][2]'
+                        new StaticArray(
+                                new StaticArray(
+                                        new StaticArray(Literal.of('int'), new NumberValueLiteral('2')),
+                                        new NumberValueLiteral('1')),
+                                new NumberValueLiteral('0')
+                        ), new NumberValueLiteral('0')
+                ), new NumberValueLiteral('0'))
+        def code = 'new int[][][][1][2]'
 
         when:
         startReading(code)
