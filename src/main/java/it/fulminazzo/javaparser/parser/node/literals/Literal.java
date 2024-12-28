@@ -1,8 +1,9 @@
-package it.fulminazzo.javaparser.parser.node.values;
+package it.fulminazzo.javaparser.parser.node.literals;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.parser.node.NodeException;
+import it.fulminazzo.javaparser.parser.node.values.ValueLiteral;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import org.jetbrains.annotations.NotNull;
 

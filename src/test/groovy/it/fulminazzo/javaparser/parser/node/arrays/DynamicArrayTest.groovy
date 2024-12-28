@@ -1,6 +1,6 @@
 package it.fulminazzo.javaparser.parser.node.arrays
 
-import it.fulminazzo.javaparser.parser.node.values.Literal
+import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.values.NumberLiteral
 import spock.lang.Specification
 

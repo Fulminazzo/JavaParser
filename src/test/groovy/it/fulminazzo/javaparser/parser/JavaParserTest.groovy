@@ -7,6 +7,9 @@ import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
+import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
+import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
+import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.operators.binary.*
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
