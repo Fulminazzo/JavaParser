@@ -298,8 +298,8 @@ public class JavaParser extends Parser {
 
     /**
      * NEW_OBJECT := new EXPR METHOD_INVOCATION |
-     *               new EXPR\[\]\{ (EXPR)? (, EXPR)* \} |
-     *               new EXPR\[NUMBER_VALUE\]
+     *               new EXPR(\[\])+\{ (EXPR)? (, EXPR)* \} |
+     *               new EXPR(\[NUMBER_VALUE\])+
      *
      * @return the node
      */

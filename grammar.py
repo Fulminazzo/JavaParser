@@ -23,9 +23,9 @@ TODO: null
 # ASSIGNMENT := LITERAL(\[\])? LITERAL (=EXPR?) | LITERAL = EXPR | EXPR
 
 # EXPR := NEW_OBJECT | INCREMENT | DECREMENT | METHOD_CALL
-# NEW_OBJECT := new LITERAL METHOD_INVOCATION |
-#               new LITERAL\[\]\{ (EXPR)? (, EXPR)* \} |
-#               new LITERAL\[NUMBER_VALUE\]
+# NEW_OBJECT := new EXPR METHOD_INVOCATION |
+#               new EXPR(\[\])+\{ (EXPR)? (, EXPR)* \} |
+#               new EXPR(\[NUMBER_VALUE\])+
 # INCREMENT := ++ATOM
 # DECREMENT := --ATOM | MINUS
 # METHOD_CALL := EQUAL ( METHOD_INVOCATION )*
