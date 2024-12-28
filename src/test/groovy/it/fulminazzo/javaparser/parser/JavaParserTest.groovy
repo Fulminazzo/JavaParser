@@ -430,6 +430,26 @@ class JavaParserTest extends Specification {
         output == expected
     }
 
+    def 'test parenthesized operation'() {
+        given:
+        def expected = new Divide(
+                new Add(
+                        new NumberLiteral('1'),
+                        new NumberLiteral('1')),
+                new Subtract(
+                        new NumberLiteral('1'),
+                        new NumberLiteral('1')
+                ))
+        def code = '(1 + 1) / (1 - 1)'
+
+        when:
+        startReading(code)
+        def output = this.parser.parseExpression()
+
+        then:
+        output == expected
+    }
+
     def 'test simple parseBinaryOperation (#operation)'() {
         given:
         def code = "1 ${operation} 2"
