@@ -58,6 +58,7 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
      */
     public @NotNull TokenType readUntil(final @NotNull TokenType tokenType) {
         try {
+            for (char c : this.previousRead.toCharArray()) updateLineCount(c);
             String read = this.previousRead;
             while (this.input.available() > 0 && !read.matches("(.|\n)*" + tokenType.regex() + "$"))
                 read += updateLineCount(this.input.read());
