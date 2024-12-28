@@ -32,8 +32,8 @@ class LiteralImpl extends TokenizedNode implements Literal {
         String last = tmp[tmp.length - 1];
         String first = String.join(".", Arrays.copyOfRange(tmp, 0, tmp.length - 1));
         return new Tuple<>(
-                new Refl<>(Literal.class, first).getObject(),
-                new Refl<>(Literal.class, last).getObject()
+                new Refl<>(LiteralImpl.class, first).getObject(),
+                new Refl<>(LiteralImpl.class, last).getObject()
         );
     }
 
