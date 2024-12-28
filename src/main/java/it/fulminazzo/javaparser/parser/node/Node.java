@@ -1,17 +1,11 @@
 package it.fulminazzo.javaparser.parser.node;
 
-import it.fulminazzo.fulmicollection.objects.Refl;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.lang.reflect.Field;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * Represents a general node of the parser.
  */
-public abstract class Node {
+public interface Node {
 
     /**
      * Checks whether the current node is of the specified type.
@@ -19,59 +13,6 @@ public abstract class Node {
      * @param nodeType the node type
      * @return true if it is
      */
-    public boolean is(final @NotNull Class<? extends Node> nodeType) {
-        return nodeType.isInstance(this);
-    }
-
-    @Override
-    public int hashCode() {
-        Refl<?> refl = new Refl<>(this);
-        return refl.getNonStaticFields().stream()
-                .map(refl::getFieldObject)
-                .filter(Objects::nonNull)
-                .mapToInt(Object::hashCode)
-                .sum();
-    }
-
-    @Override
-    public boolean equals(final @Nullable Object o) {
-        if (o != null && getClass() == o.getClass()) {
-            Refl<?> refl = new Refl<>(this);
-            Refl<?> other = new Refl<>(o);
-            for (final Field field : refl.getNonStaticFields())
-                if (!Objects.equals(refl.getFieldObject(field), other.getFieldObject(field)))
-                    return false;
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public @NotNull String toString() {
-        return print();
-    }
-
-    private @NotNull String print() {
-        Refl<?> refl = new Refl<>(this);
-        return getClass().getSimpleName() + "(" + refl.getNonStaticFields().stream()
-                .map(refl::getFieldObject)
-                .map(o -> o == null ? "null" : o.toString())
-                .map(Object::toString)
-                .collect(Collectors.joining(", ")) + ")";
-    }
-
-    /**
-     * Fixes the current object {@link #toString()} method
-     * by removing brackets deriving from internal lists.
-     *
-     * @return the output
-     */
-    protected @NotNull String parseSingleListClassPrint() {
-        String output = print();
-        final String className = getClass().getSimpleName();
-        output = output.substring(className.length() + 2);
-        output = output.substring(0, output.length() - 2);
-        return String.format("%s(%s)", className, output);
-    }
+    boolean is(final @NotNull Class<? extends Node> nodeType);
 
 }
