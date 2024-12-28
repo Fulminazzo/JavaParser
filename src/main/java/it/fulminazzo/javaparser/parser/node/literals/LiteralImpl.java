@@ -12,7 +12,7 @@ import java.util.Arrays;
 /**
  * Represents a {@link TokenType#LITERAL} token in the program.
  */
-public class LiteralImpl extends TokenizedNode {
+class LiteralImpl extends TokenizedNode {
     private final @NotNull String value;
 
     /**
