@@ -4,7 +4,7 @@ import it.fulminazzo.javaparser.parser.node.Node;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * The operation associated with {@link it.fulminazzo.javaparser.tokenizer.TokenType#MINUS}.
+ * The operation associated with {@link it.fulminazzo.javaparser.tokenizer.TokenType#SUBTRACT}.
  */
 public class Minus extends UnaryOperation {
 
