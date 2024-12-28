@@ -105,14 +105,14 @@ public enum TokenType {
     }
 
     /**
-     * Checks whether the current token is declared between <b>start</b> and <b>end</b> (INCLUSIVE).
+     * Checks whether the current token is declared between <b>start</b> and <b>end</b> (NON-INCLUSIVE).
      *
      * @param start the start token
      * @param end   the end token
      * @return true if it is
      */
     public boolean between(final @NotNull TokenType start, final @NotNull TokenType end) {
-        return ordinal() >= start.ordinal() && ordinal() <= end.ordinal();
+        return after(start) && end.after(this);
     }
 
     /**

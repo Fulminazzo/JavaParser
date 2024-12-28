@@ -6,9 +6,9 @@ import static it.fulminazzo.javaparser.tokenizer.TokenType.*
 
 class TokenTypeTest extends Specification {
 
-    def 'test #token between NUMBER_VALUE and LITERAL'() {
+    def 'test #token between NOT and SPACE'() {
         expect:
-        token.between(NUMBER_VALUE, LITERAL)
+        token.between(NOT, SPACE)
 
         where:
         token << [
