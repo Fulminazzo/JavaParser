@@ -256,7 +256,7 @@ public class JavaParser extends Parser {
             case NEW: return parseNewObject();
             case ADD: return parseIncrement();
             case SUBTRACT: return parseDecrement();
-            default: return parseBinaryOperation(EQUAL);
+            default: return parseBinaryComparison();
         }
     }
 
