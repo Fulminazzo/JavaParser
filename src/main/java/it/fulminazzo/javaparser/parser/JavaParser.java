@@ -307,7 +307,7 @@ public class JavaParser extends Parser {
         match(NEW);
         next(); // Necessary space
         consume(SPACE);
-        Node literal = parseAtom();
+        Node literal = parseLiteral();
         switch (lastToken()) {
             // array
             case OPEN_BRACKET: {
