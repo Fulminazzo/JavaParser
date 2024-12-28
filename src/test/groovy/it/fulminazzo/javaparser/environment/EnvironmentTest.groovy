@@ -2,10 +2,9 @@ package it.fulminazzo.javaparser.environment
 
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.utils.TestUtils
-import org.jetbrains.annotations.NotNull
 import spock.lang.Specification
 
-class EnvironmentTest extends Specification implements Scoped {
+class EnvironmentTest extends Specification {
     private Environment<Integer> environment
 
     void setup() {
@@ -70,7 +69,7 @@ class EnvironmentTest extends Specification implements Scoped {
 
         then:
         def e = thrown(ScopeException)
-        e.message == alreadyDeclaredVariable(varName).message
+        e.message == this.environment.alreadyDeclaredVariable(varName).message
     }
 
     def 'test lookup without declare'() {
@@ -82,7 +81,7 @@ class EnvironmentTest extends Specification implements Scoped {
 
         then:
         def e = thrown(ScopeException)
-        e.message == noSuchVariable(varName).message
+        e.message == this.environment.noSuchVariable(varName).message
     }
 
     def 'test update without declare'() {
@@ -94,29 +93,7 @@ class EnvironmentTest extends Specification implements Scoped {
 
         then:
         def e = thrown(ScopeException)
-        e.message == noSuchVariable(varName).message
-    }
-
-    // Unused methods
-    @NotNull
-    @Override
-    Optional search(@NotNull String name) {
-        return null
-    }
-
-    @Override
-    void declare(@NotNull String name, @NotNull Object value) throws ScopeException {
-
-    }
-
-    @Override
-    void update(@NotNull String name, @NotNull Object value) throws ScopeException {
-
-    }
-
-    @Override
-    ScopeType scopeType() {
-        return null
+        e.message == this.environment.noSuchVariable(varName).message
     }
 
 }
