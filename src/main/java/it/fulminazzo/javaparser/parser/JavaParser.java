@@ -269,7 +269,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * EXPR := NEW_OBJECT | INCREMENT | DECREMENT | METHOD_CALL
+     * EXPR := NEW_OBJECT | INCREMENT | DECREMENT | METHOD_CALL | LITERAL(\[\])*
      *
      * @return the node
      */
@@ -292,6 +292,12 @@ public class JavaParser extends Parser {
                 expression = parseMethodCall();
             }
         }
+        if (expression.is(Literal.class))
+            while (lastToken() == OPEN_BRACKET) {
+                consume(OPEN_BRACKET);
+                consume(CLOSE_BRACKET);
+                expression = new ArrayLiteral(expression);
+            }
         return expression;
     }
 
