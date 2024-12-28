@@ -1,14 +1,9 @@
 package it.fulminazzo.javaparser.parser.node.literals;
 
-import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
-import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.NodeException;
-import it.fulminazzo.javaparser.parser.node.TokenizedNode;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
 
 /**
  * Represents a {@link TokenType#LITERAL} token in the program.
@@ -32,5 +27,16 @@ public interface Literal {
      * @return true if it is
      */
     boolean isDotted();
+
+    /**
+     * Creates a new {@link Literal} from the given value.
+     *
+     * @param value the value
+     * @return the literal
+     * @throws NodeException in case the given value is invalid
+     */
+    static @NotNull Literal newLiteral(final @NotNull String value) throws NodeException {
+        return new LiteralImpl(value);
+    }
 
 }
