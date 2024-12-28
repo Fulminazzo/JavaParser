@@ -102,9 +102,9 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * STMT := new Return(EXPR) | break | continue |
+     * STMT := return EXPR; | break; | continue; |
      *         SWITCH_STMT | FOR_STMT | DO_STMT | WHILE_STMT | IF_STMT
-     *         METHOD_CALL | RE_ASSIGN
+     *         ASSIGNMENT;
      *
      * @return the node
      */
@@ -132,12 +132,10 @@ public class JavaParser extends Parser {
             case DO: return parseDoStatement();
             case WHILE: return parseWhileStatement();
             case IF: return parseIfStatement();
-            case LITERAL: {
-                exp = parseExpression();
+            default: {
+                exp = parseAssignment();
                 consume(SEMICOLON);
-                break;
             }
-            default: throw new ParserException(lastToken(), this);
         }
         return new Statement(exp);
     }
