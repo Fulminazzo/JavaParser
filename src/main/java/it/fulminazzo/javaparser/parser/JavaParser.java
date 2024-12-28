@@ -3,10 +3,7 @@ package it.fulminazzo.javaparser.parser;
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.fulmicollection.utils.StringUtils;
-import it.fulminazzo.javaparser.parser.node.Assignment;
-import it.fulminazzo.javaparser.parser.node.MethodCall;
-import it.fulminazzo.javaparser.parser.node.MethodInvocation;
-import it.fulminazzo.javaparser.parser.node.Node;
+import it.fulminazzo.javaparser.parser.node.*;
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray;
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
@@ -615,7 +612,7 @@ public class JavaParser extends Parser {
 
     /**
      * Creates a new {@link BaseTypeLiteral} from the given class and rawValue.
-     * Throws {@link ParserException} in case a {@link LiteralException} occurs.
+     * Throws {@link ParserException} in case a {@link NodeException} occurs.
      *
      * @param literalType the type of the literal
      * @param rawValue    the raw value
@@ -628,7 +625,7 @@ public class JavaParser extends Parser {
             return new Refl<>(literalType, rawValue).getObject();
         } catch (RuntimeException e) {
             Throwable cause = e.getCause();
-            if (cause instanceof LiteralException)
+            if (cause instanceof NodeException)
                 throw new ParserException(String.format("Invalid value '%s' provided for value type %s",
                         rawValue, lastToken().name()), this);
             else throw e;

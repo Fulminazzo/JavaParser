@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.parser.node.types;
 
+import it.fulminazzo.javaparser.parser.node.NodeException;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,7 +14,7 @@ public class CharLiteral extends BaseTypeLiteral {
      *
      * @param rawValue the raw value
      */
-    public CharLiteral(final @NotNull String rawValue) throws LiteralException {
+    public CharLiteral(final @NotNull String rawValue) throws NodeException {
         super(rawValue, TokenType.CHAR_VALUE);
     }
 

@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.parser
 
 import it.fulminazzo.javaparser.parser.node.Assignment
+import it.fulminazzo.javaparser.parser.node.NodeException
 import it.fulminazzo.javaparser.parser.node.MethodCall
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray
@@ -593,7 +594,7 @@ class JavaParserTest extends Specification {
 
     static class MockLiteral extends BaseTypeLiteral {
 
-        MockLiteral(@NotNull String rawValue, @NotNull TokenType type) throws LiteralException {
+        MockLiteral(@NotNull String rawValue, @NotNull TokenType type) throws NodeException {
             super(rawValue, type)
             throw new IllegalArgumentException()
         }

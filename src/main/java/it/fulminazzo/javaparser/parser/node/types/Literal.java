@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.parser.node.types;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
+import it.fulminazzo.javaparser.parser.node.NodeException;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,7 +18,7 @@ public class Literal extends BaseTypeLiteral {
      *
      * @param rawValue the raw value
      */
-    public Literal(final @NotNull String rawValue) throws LiteralException {
+    public Literal(final @NotNull String rawValue) throws NodeException {
         super(rawValue, TokenType.LITERAL);
     }
 
