@@ -256,7 +256,9 @@ class JavaParserTest extends Specification {
 
     def 'test dynamic array initialization'() {
         given:
-        def expected = new DynamicArray(Literal.of('int'), [
+        def expected = new DynamicArray(new ArrayLiteral(new ArrayLiteral(new ArrayLiteral(
+                Literal.of('int')
+        ))), [
                 new NumberValueLiteral('1'),
                 new NumberValueLiteral('2')
         ])
