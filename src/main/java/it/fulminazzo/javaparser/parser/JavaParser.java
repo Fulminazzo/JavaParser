@@ -240,18 +240,13 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ASSIGNMENT := LITERAL(\[\])? LITERAL (=EXPR?) | LITERAL = EXPR | EXPR
+     * ASSIGNMENT := LITERAL(\[\])* LITERAL (=EXPR?) | LITERAL = EXPR | EXPR
      *
      * @return the node
      */
     protected @NotNull Node parseAssignment() {
         Node expression = parseExpression();
         if (expression.is(Literal.class)) {
-            if (lastToken() == OPEN_BRACKET) {
-                consume(OPEN_BRACKET);
-                consume(CLOSE_BRACKET);
-                expression = new ArrayLiteral(expression);
-            }
             if (lastToken() == LITERAL || expression.is(ArrayLiteral.class)) {
                 Literal name = parseLiteral();
                 Node value = new EmptyLiteral();
