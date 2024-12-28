@@ -609,4 +609,26 @@ public class JavaParser extends Parser {
         return new Literal(literal);
     }
 
+    /**
+     * Creates a new {@link BaseTypeLiteral} from the given class and rawValue.
+     * Throws {@link ParserException} in case a {@link LiteralException} occurs.
+     *
+     * @param literalType the type of the literal
+     * @param rawValue    the raw value
+     * @return the literal
+     * @param <L> the type of the literal
+     */
+    protected <L extends BaseTypeLiteral> @NotNull L createLiteral(final @NotNull Class<L> literalType,
+                                                                   final @NotNull String rawValue) {
+        try {
+            return new Refl<>(literalType, rawValue).getObject();
+        } catch (RuntimeException e) {
+            Throwable cause = e.getCause();
+            if (cause instanceof LiteralException)
+                throw new ParserException(String.format("Invalid value '%s' provided for value type %s",
+                        rawValue, lastToken().name()), this);
+            else throw e;
+        }
+    }
+
 }
