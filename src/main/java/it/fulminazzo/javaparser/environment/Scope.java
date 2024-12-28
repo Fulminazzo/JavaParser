@@ -27,7 +27,7 @@ class Scope<T> implements Scoped<T> {
 
     @Override
     public @NotNull Optional<T> search(@NotNull final String name) {
-        return !this.internalMap.containsKey(name) ? Optional.empty() : Optional.of(this.internalMap.get(name));
+        return getKey(name).map(this.internalMap::get);
     }
 
     @Override
