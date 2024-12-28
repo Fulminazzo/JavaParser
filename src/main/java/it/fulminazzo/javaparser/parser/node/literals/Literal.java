@@ -35,7 +35,7 @@ public interface Literal {
      * @return the literal
      * @throws NodeException in case the given value is invalid
      */
-    static @NotNull Literal newLiteral(final @NotNull String value) throws NodeException {
+    static @NotNull Literal of(final @NotNull String value) throws NodeException {
         return new LiteralImpl(value);
     }
 

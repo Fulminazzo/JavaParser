@@ -8,7 +8,7 @@ class StaticArrayTest extends Specification {
 
     def 'test size method'() {
         given:
-        def array = new StaticArray(Literal.newLiteral('int'), new NumberValueLiteral('3'))
+        def array = new StaticArray(Literal.of('int'), new NumberValueLiteral('3'))
 
         when:
         def size = array.size()

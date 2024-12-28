@@ -8,7 +8,7 @@ class LiteralTest extends Specification {
 
     def 'test split of #string should return: (#key, #value)'() {
         given:
-        def literal = Literal.newLiteral(string)
+        def literal = Literal.of(string)
 
         when:
         def split = literal.splitLastDot()
@@ -19,8 +19,8 @@ class LiteralTest extends Specification {
 
         where:
         string             | key                       | value
-        'hello.dear.world' | Literal.newLiteral('hello.dear') | Literal.newLiteral('world')
-        'hello'            | Literal.newLiteral('hello')      | null
+        'hello.dear.world' | Literal.of('hello.dear') | Literal.of('world')
+        'hello'            | Literal.of('hello')      | null
     }
 
 }

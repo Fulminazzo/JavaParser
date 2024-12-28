@@ -10,7 +10,7 @@ class MethodInvocationTest extends Specification {
 
     def 'test method invocation print'() {
         given:
-        def literals = [Literal.newLiteral('a'), new NumberValueLiteral('2'), new BooleanValueLiteral('true')]
+        def literals = [Literal.of('a'), new NumberValueLiteral('2'), new BooleanValueLiteral('true')]
         def methodInvocation = new MethodInvocation(literals)
 
         when:
