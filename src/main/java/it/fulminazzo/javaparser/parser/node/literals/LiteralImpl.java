@@ -3,7 +3,7 @@ package it.fulminazzo.javaparser.parser.node.literals;
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.parser.node.NodeException;
-import it.fulminazzo.javaparser.parser.node.values.ValueLiteral;
+import it.fulminazzo.javaparser.parser.node.TokenizedNode;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,7 +12,8 @@ import java.util.Arrays;
 /**
  * Represents a {@link TokenType#LITERAL} token in the program.
  */
-public class LiteralImpl extends ValueLiteral {
+public class LiteralImpl extends TokenizedNode {
+    private final @NotNull String value;
 
     /**
      * Instantiates a new Literal.
@@ -21,6 +22,7 @@ public class LiteralImpl extends ValueLiteral {
      */
     public LiteralImpl(final @NotNull String rawValue) throws NodeException {
         super(rawValue, TokenType.LITERAL);
+        this.value = rawValue;
     }
 
     /**
