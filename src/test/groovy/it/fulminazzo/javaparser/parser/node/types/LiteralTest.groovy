@@ -5,17 +5,21 @@ import spock.lang.Specification
 
 class LiteralTest extends Specification {
 
-    def 'test literal split'() {
+    def 'test split of #string should return: (#key, #value)'() {
         given:
-        def string = 'hello.dear.world'
         def literal = new Literal(string)
 
         when:
         def split = literal.splitLastDot()
 
         then:
-        split.getKey() == new Literal('hello.dear')
-        split.getValue() == new Literal('world')
+        split.getKey() == key
+        split.getValue() == value
+
+        where:
+        string             | key                       | value
+        'hello.dear.world' | new Literal('hello.dear') | new Literal('world')
+        'hello'            | new Literal('hello')      | null
     }
 
 }
