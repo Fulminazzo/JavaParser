@@ -488,18 +488,17 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * BIT_AND := BIT_OR (& BIT_OR)* <br/>
-     * BIT_OR := BIT_XOR (| BIT_XOR)* <br/>
-     * BIT_XOR := LSHIFT (^ LSHIFT)* <br/>
-     * LSHIFT := RSHIFT (<< RSHIFT)* <br/>
-     * RSHIFT := URSHIFT (>> URSHIFT)* <br/>
-     * URSHIFT := ADD (>>> ADD)* <br/>
-     * <br/>
-     * ADD := SUB (+ SUB)* <br/>
-     * SUB := MUL (- MUL)* <br/>
-     * MUL := DIV (* DIV)* <br/>
-     * DIV := MOD (/ MOD)* <br/>
-     * MOD := MINUS (% MINUS)*
+     * BIT_AND := BIT_OR ( (& BIT_OR)* | (&= BIT_OR) )
+     * BIT_OR := BIT_XOR ( (| BIT_XOR)* | (|= BIT_XOR) )
+     * BIT_XOR := LSHIFT ( (^ LSHIFT)* | (^= LSHIFT) )
+     * LSHIFT := RSHIFT ( (<< RSHIFT)* | (<<= RSHIFT) )
+     * RSHIFT := URSHIFT ( (>> URSHIFT)* | (>>= URSHIFT) )
+     * URSHIFT := ADD ( (>>> ADD)* | (>>>= ADD) )
+     * ADD := SUB ( (+ SUB)* | (+= SUB) )
+     * SUB := MUL ( (- MUL)* | (-= MUL) )
+     * MUL := DIV ( (* DIV)* | (*= DIV) )
+     * DIV := MOD ( (/ MOD)* | (/= MOD) )
+     * MOD := MINUS ( (% MINUS)* | (%= MINUS) )
      *
      * @param operation the {@link TokenType} that corresponds to the operation
      * @return the node
@@ -511,8 +510,13 @@ public class JavaParser extends Parser {
             Node node = parseBinaryOperation(nextOperation);
             while (lastToken() == operation) {
                 consume(operation);
-                Node tmp = parseBinaryOperation(nextOperation);
-                node = generateBinaryOperationFromToken(operation, node, tmp);
+                TokenType lastToken = lastToken();
+                Node nextOperationNode = parseBinaryOperation(nextOperation);
+                Node newNode = generateBinaryOperationFromToken(operation, node, nextOperationNode);
+                if (lastToken == ASSIGN) {
+                    node = new ReAssign(node, newNode);
+                    break;
+                } else node = newNode;
             }
             return node;
         }
