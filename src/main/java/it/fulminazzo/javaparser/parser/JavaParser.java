@@ -307,9 +307,9 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * NEW_OBJECT := new EXPR METHOD_INVOCATION |
-     *               new EXPR(\[\])+\{ (EXPR)? (, EXPR)* \} |
-     *               new EXPR(\[NUMBER_VALUE\])+
+     * NEW_OBJECT := new LITERAL METHOD_INVOCATION |
+     *               new ARRAY_TYPE{ (EXPR)? (, EXPR)* \} |
+     *               new LITERAL(\[NUMBER_VALUE\])*
      *
      * @return the node
      */
@@ -317,7 +317,7 @@ public class JavaParser extends Parser {
         match(NEW);
         next(); // Necessary space
         consume(SPACE);
-        Node literal = parseExpression();
+        Node literal = parseLiteral();
 
         if (literal.is(ArrayLiteral.class)) {
             // Dynamic array initialization
