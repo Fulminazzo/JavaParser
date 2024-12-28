@@ -297,32 +297,6 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * METHOD_CALL := LITERAL . METHOD_INVOCATION
-     *
-     * @param literal the literal to start from
-     * @return the node
-     */
-    protected @NotNull MethodCall parseMethodCall(final @NotNull Literal literal) {
-        return new MethodCall(literal, parseMethodInvocation());
-    }
-
-    /**
-     * METHOD_INVOCATION := \( (EXPR)? (, EXPR)* \)
-     *
-     * @return the node
-     */
-    protected @NotNull MethodInvocation parseMethodInvocation() {
-        List<Node> parameters = new LinkedList<>();
-        consume(OPEN_PAR);
-        while (lastToken() != CLOSE_PAR) {
-            parameters.add(parseExpression());
-            if (lastToken() == COMMA) consume(COMMA);
-        }
-        consume(CLOSE_PAR);
-        return new MethodInvocation(parameters);
-    }
-
-    /**
      * INCREMENT := ++LITERAL
      *
      * @return the node
@@ -367,6 +341,36 @@ public class JavaParser extends Parser {
             }
         }
         return expression;
+    }
+
+    /**
+     * METHOD_CALL := EQUAL \(\. METHOD_INVOCATION \)*
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseMethodCall() {
+        Node node = parseBinaryComparison();
+        while (lastToken() == DOT) {
+            consume(DOT);
+            node = new MethodCall(node, parseMethodInvocation());
+        }
+        return node;
+    }
+
+    /**
+     * METHOD_INVOCATION := \( (EXPR)? (, EXPR)* \)
+     *
+     * @return the node
+     */
+    protected @NotNull MethodInvocation parseMethodInvocation() {
+        List<Node> parameters = new LinkedList<>();
+        consume(OPEN_PAR);
+        while (lastToken() != CLOSE_PAR) {
+            parameters.add(parseExpression());
+            if (lastToken() == COMMA) consume(COMMA);
+        }
+        consume(CLOSE_PAR);
+        return new MethodInvocation(parameters);
     }
 
     /**
