@@ -183,7 +183,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ENHANCED_FOR_STMT := for \( LITERAL(\[\])? LITERAL : EXPR \) BLOCK
+     * ENHANCED_FOR_STMT := for \( LITERAL(\[\])* LITERAL : EXPR \) BLOCK
      *
      * @return the node
      */
