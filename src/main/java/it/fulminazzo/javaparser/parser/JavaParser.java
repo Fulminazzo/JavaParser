@@ -518,8 +518,11 @@ public class JavaParser extends Parser {
      */
     protected @NotNull Node parseCast() {
         Node expr = parseParenthesizedExpr();
-        do expr = new Cast(expr, parseExpression());
-        while (lastToken() == OPEN_PAR);
+        int tokenNumber = lastToken().ordinal();
+        if (tokenNumber >= EQUAL.ordinal() && tokenNumber < SPACE.ordinal() ||
+                tokenNumber == OPEN_PAR.ordinal())
+            do expr = new Cast(expr, parseExpression());
+            while (lastToken() == OPEN_PAR);
         return expr;
     }
 
