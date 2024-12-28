@@ -124,31 +124,31 @@ class JavaParserTest extends Specification {
         where:
         code | expected
         'for (int i = 0; true; i++) continue;' | new ForStatement(
-                new Assignment(new Literal('int'), new Literal('i'), new NumberValueLiteral('0')),
+                new Assignment(Literal.newLiteral('int'), Literal.newLiteral('i'), new NumberValueLiteral('0')),
                 new BooleanValueLiteral('true'),
-                new Increment(new Literal('i'), false),
+                new Increment(Literal.newLiteral('i'), false),
                 new CodeBlock(new Continue())
         )
         'for (i = 0; true; i++) continue;' | new ForStatement(
-                new ReAssign(new Literal('i'), new NumberValueLiteral('0')),
+                new ReAssign(Literal.newLiteral('i'), new NumberValueLiteral('0')),
                 new BooleanValueLiteral('true'),
-                new Increment(new Literal('i'), false),
+                new Increment(Literal.newLiteral('i'), false),
                 new CodeBlock(new Continue())
         )
         'for (; true; i++) continue;' | new ForStatement(
                 new Statement(),
                 new BooleanValueLiteral('true'),
-                new Increment(new Literal('i'), false),
+                new Increment(Literal.newLiteral('i'), false),
                 new CodeBlock(new Continue())
         )
         'for (int i = 0; ; i++) continue;' | new ForStatement(
-                new Assignment(new Literal('int'), new Literal('i'), new NumberValueLiteral('0')),
+                new Assignment(Literal.newLiteral('int'), Literal.newLiteral('i'), new NumberValueLiteral('0')),
                 new Statement(),
-                new Increment(new Literal('i'), false),
+                new Increment(Literal.newLiteral('i'), false),
                 new CodeBlock(new Continue())
         )
         'for (int i = 0; true; ) continue;' | new ForStatement(
-                new Assignment(new Literal('int'), new Literal('i'), new NumberValueLiteral('0')),
+                new Assignment(Literal.newLiteral('int'), Literal.newLiteral('i'), new NumberValueLiteral('0')),
                 new BooleanValueLiteral('true'),
                 new Statement(),
                 new CodeBlock(new Continue())
@@ -156,19 +156,19 @@ class JavaParserTest extends Specification {
         'for (; ; i++) continue;' | new ForStatement(
                 new Statement(),
                 new Statement(),
-                new Increment(new Literal('i'), false),
+                new Increment(Literal.newLiteral('i'), false),
                 new CodeBlock(new Continue())
         )
         'for (int i = 0; ; ) continue;' | new ForStatement(
-                new Assignment(new Literal('int'), new Literal('i'), new NumberValueLiteral('0')),
+                new Assignment(Literal.newLiteral('int'), Literal.newLiteral('i'), new NumberValueLiteral('0')),
                 new Statement(),
                 new Statement(),
                 new CodeBlock(new Continue())
         )
         'for (int i : arr) continue;' | new EnhancedForStatement(
-                new Literal('int'),
-                new Literal('i'),
-                new Literal('arr'),
+                Literal.newLiteral('int'),
+                Literal.newLiteral('i'),
+                Literal.newLiteral('arr'),
                 new CodeBlock(new Continue())
         )
     }
@@ -227,9 +227,9 @@ class JavaParserTest extends Specification {
     def 'test array assignment'() {
         given:
         def expected = new Assignment(
-                new ArrayLiteral(new Literal('int')),
-                new Literal('arr'),
-                new StaticArray(new Literal('int'), new NumberValueLiteral('0'))
+                new ArrayLiteral(Literal.newLiteral('int')),
+                Literal.newLiteral('arr'),
+                new StaticArray(Literal.newLiteral('int'), new NumberValueLiteral('0'))
         )
         def code = 'int[] arr = new int[0]'
 
@@ -243,7 +243,7 @@ class JavaParserTest extends Specification {
 
     def 'test static array initialization'() {
         given:
-        def expected = new StaticArray(new Literal('int'), new NumberValueLiteral('0'))
+        def expected = new StaticArray(Literal.newLiteral('int'), new NumberValueLiteral('0'))
         def code = 'new int[0]'
 
         when:
@@ -256,7 +256,7 @@ class JavaParserTest extends Specification {
 
     def 'test dynamic array initialization'() {
         given:
-        def expected = new DynamicArray(new Literal('int'), [
+        def expected = new DynamicArray(Literal.newLiteral('int'), [
                 new NumberValueLiteral('1'),
                 new NumberValueLiteral('2')
         ])
@@ -273,7 +273,7 @@ class JavaParserTest extends Specification {
     def 'test parse new object'() {
         given:
         def expected = new NewObject(
-                new Literal('String'),
+                Literal.newLiteral('String'),
                 new MethodInvocation([new StringValueLiteral('\"Hello"')])
         )
         def code = 'new String(\"Hello\")'
@@ -289,7 +289,7 @@ class JavaParserTest extends Specification {
     def 'test execution of printf'() {
         given:
         def expected = new Statement(new MethodCall(
-                new Literal('System.out.printf'),
+                Literal.newLiteral('System.out.printf'),
                 new MethodInvocation([
                         new StringValueLiteral('\"%s, %s!\"'),
                         new StringValueLiteral('\"Hello\"'),
@@ -309,9 +309,9 @@ class JavaParserTest extends Specification {
     def 'test method call'() {
         given:
         def expected = new MethodCall(
-                new Literal('var'),
+                Literal.newLiteral('var'),
                 new MethodInvocation([
-                        new Literal('a'),
+                        Literal.newLiteral('a'),
                         new NumberValueLiteral('1'),
                         new BooleanValueLiteral('true')
                 ])
@@ -336,8 +336,8 @@ class JavaParserTest extends Specification {
 
         where:
         code         | expected
-        'int i = 1;' | new Assignment(new Literal('int'), new Literal('i'), new NumberValueLiteral('1'))
-        'int i;'     | new Assignment(new Literal('int'), new Literal('i'), new EmptyLiteral())
+        'int i = 1;' | new Assignment(Literal.newLiteral('int'), Literal.newLiteral('i'), new NumberValueLiteral('1'))
+        'int i;'     | new Assignment(Literal.newLiteral('int'), Literal.newLiteral('i'), new EmptyLiteral())
     }
 
     def 'test increment or decrement: #code'() {
@@ -351,16 +351,16 @@ class JavaParserTest extends Specification {
 
         where:
         code    | expected                                 | before
-        'var++' | new Increment(new Literal('var'), false) | false
-        '++var' | new Increment(new Literal('var'), true)  | true
-        'var--' | new Decrement(new Literal('var'), false) | false
-        '--var' | new Decrement(new Literal('var'), true)  | true
+        'var++' | new Increment(Literal.newLiteral('var'), false) | false
+        '++var' | new Increment(Literal.newLiteral('var'), true)  | true
+        'var--' | new Decrement(Literal.newLiteral('var'), false) | false
+        '--var' | new Decrement(Literal.newLiteral('var'), true)  | true
     }
 
     def 'test parseReAssign with operation: #operation'() {
         given:
         def code = "var ${operation}= 2"
-        def expected = new Literal('var')
+        def expected = Literal.newLiteral('var')
         def operationNode = expectedClass.newInstance(expected, new NumberValueLiteral('2'))
         expected = new ReAssign(expected, operationNode)
 
@@ -389,7 +389,7 @@ class JavaParserTest extends Specification {
     def 'test parseReAssign with no operation'() {
         given:
         def code = 'var = 1'
-        def expected = new ReAssign(new Literal('var'), new NumberValueLiteral('1'))
+        def expected = new ReAssign(Literal.newLiteral('var'), new NumberValueLiteral('1'))
 
         when:
         startReading(code)
@@ -498,14 +498,14 @@ class JavaParserTest extends Specification {
         '!true' | new Not(new BooleanValueLiteral('true'))
         '(1 + 1)'| new Add(new NumberValueLiteral('1'), new NumberValueLiteral('1'))
         'false' | new BooleanValueLiteral('false')
-        'int'   | new Literal('int')
+        'int'   | Literal.newLiteral('int')
     }
 
     def 'test cast'() {
         given:
         def expected = new Cast(
-                new Literal('double'),
-                new Cast(new Literal('int'), new NumberValueLiteral('1'))
+                Literal.newLiteral('double'),
+                new Cast(Literal.newLiteral('int'), new NumberValueLiteral('1'))
         )
         def code = '(double) (int) 1'
 

@@ -8,7 +8,7 @@ class DynamicArrayTest extends Specification {
     private DynamicArray array
 
     void setup() {
-        this.array = new DynamicArray(new Literal('int'), Arrays.asList(
+        this.array = new DynamicArray(Literal.newLiteral('int'), Arrays.asList(
                 new NumberValueLiteral('1'),
                 new NumberValueLiteral('2'),
                 new NumberValueLiteral('3'),
