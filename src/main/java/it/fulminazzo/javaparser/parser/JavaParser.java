@@ -342,16 +342,14 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * METHOD_CALL := EQUAL \(\. METHOD_INVOCATION \)*
+     * METHOD_CALL := EQUAL ( METHOD_INVOCATION )*
      *
      * @return the node
      */
     protected @NotNull Node parseMethodCall() {
         Node node = parseBinaryComparison();
-        while (lastToken() == DOT) {
-            consume(DOT);
+        while (lastToken() == OPEN_PAR)
             node = new MethodCall(node, parseMethodInvocation());
-        }
         return node;
     }
 
