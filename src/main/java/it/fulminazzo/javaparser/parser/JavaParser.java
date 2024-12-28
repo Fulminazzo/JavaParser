@@ -274,12 +274,25 @@ public class JavaParser extends Parser {
      * @return the node
      */
     protected @NotNull Node parseExpression() {
+        Node expression;
         switch (lastToken()) {
-            case NEW: return parseNewObject();
-            case ADD: return parseIncrement();
-            case SUBTRACT: return parseDecrement();
-            default: return parseMethodCall();
+            case NEW: {
+                expression = parseNewObject();
+                break;
+            }
+            case ADD: {
+                expression = parseIncrement();
+                break;
+            }
+            case SUBTRACT: {
+                expression = parseDecrement();
+                break;
+            }
+            default: {
+                expression = parseMethodCall();
+            }
         }
+        return expression;
     }
 
     /**
