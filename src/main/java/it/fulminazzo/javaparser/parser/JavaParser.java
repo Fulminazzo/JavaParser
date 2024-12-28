@@ -80,7 +80,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * SINGLE_STMT := STMT?;
+     * SINGLE_STMT := STMT | ;
      *
      * @return the node
      */
@@ -96,8 +96,10 @@ public class JavaParser extends Parser {
             return parseSingleStatement();
         }
 
-        if (lastToken() == SEMICOLON) statement = new Statement();
-        else statement = parseStatement();
+        if (lastToken() == SEMICOLON) {
+            consume(SEMICOLON);
+            statement = new Statement();
+        } else statement = parseStatement();
         return statement;
     }
 
@@ -151,7 +153,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * FOR_STMT := for \( ASSIGNMENT?; EXPR?; EXPR? \) BLOCK | ENHANCED_FOR
+     * FOR_STMT := for \( ASSIGNMENT?; EXPR?; EXPR? \) BLOCK | ENHANCED_FOR_STMT
      *
      * @return the node
      */
@@ -181,7 +183,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ENHANCED_FOR_STMT := for \( LITERAL LITERAL : EXPR \) BLOCK
+     * ENHANCED_FOR_STMT := for \( LITERAL(\[\])? LITERAL : EXPR \) BLOCK
      *
      * @return the node
      */
@@ -244,7 +246,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * EXPR := INCREMENT | DECREMENT | METHOD_CALL
+     * EXPR := NEW_OBJECT | INCREMENT | DECREMENT | METHOD_CALL
      *
      * @return the node
      */
@@ -258,7 +260,9 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * NEW_OBJECT := new LITERAL METHOD_INVOCATION | new LITERAL\[\]\{ (EXPR)? (, EXPR)* \} | new LITERAL\[NUMBER_VALUE\]
+     * NEW_OBJECT := new LITERAL METHOD_INVOCATION |
+     *               new LITERAL\[\]\{ (EXPR)? (, EXPR)* \} |
+     *               new LITERAL\[NUMBER_VALUE\]
      *
      * @return the node
      */
@@ -295,18 +299,18 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * INCREMENT := ++LITERAL
+     * INCREMENT := ++ATOM
      *
      * @return the node
      */
     protected @NotNull Increment parseIncrement() {
         consume(ADD);
         consume(ADD);
-        return new Increment(parseLiteral(), true);
+        return new Increment(parseAtom(), true);
     }
 
     /**
-     * DECREMENT := --LITERAL | MINUS
+     * DECREMENT := --ATOM | MINUS
      *
      * @return the node
      */
@@ -314,7 +318,7 @@ public class JavaParser extends Parser {
         consume(SUBTRACT);
         if (lastToken() != SUBTRACT) return new Minus(parseExpression());
         consume(SUBTRACT);
-        return new Decrement(parseLiteral(), true);
+        return new Decrement(parseAtom(), true);
     }
 
     /**
@@ -430,7 +434,7 @@ public class JavaParser extends Parser {
      * SUB := MUL ( (- MUL)* | (-= MUL) | -- )
      * MUL := DIV ( (* DIV)* | (*= DIV) )
      * DIV := MOD ( (/ MOD)* | (/= MOD) )
-     * MOD := MINUS ( (% MINUS)* | (%= MINUS) )
+     * MOD := ATOM ( (% ATOM)* | (%= ATOM) )
      *
      * @param operation the {@link TokenType} that corresponds to the operation
      * @return the node
