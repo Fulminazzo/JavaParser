@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.parser.node.types;
 
+import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import org.jetbrains.annotations.NotNull;
@@ -30,15 +31,14 @@ public class Literal extends BaseTypeLiteral {
      * @return the tuple
      */
     public @NotNull Tuple<Literal, Literal> splitLastDot() {
-        try {
-            if (!isDotted()) return new Tuple<>(this, null);
-            String[] tmp = this.rawValue.split("\\.");
-            String last = tmp[tmp.length - 1];
-            String first = String.join(".", Arrays.copyOfRange(tmp, 0, tmp.length - 1));
-            return new Tuple<>(new Literal(first), new Literal(last));
-        } catch (LiteralException e) {
-            throw new IllegalStateException();
-        }
+        if (!isDotted()) return new Tuple<>(this, null);
+        String[] tmp = this.rawValue.split("\\.");
+        String last = tmp[tmp.length - 1];
+        String first = String.join(".", Arrays.copyOfRange(tmp, 0, tmp.length - 1));
+        return new Tuple<>(
+                new Refl<>(Literal.class, first).getObject(),
+                new Refl<>(Literal.class, last).getObject()
+        );
     }
 
     /**
