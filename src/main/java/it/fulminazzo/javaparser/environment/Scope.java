@@ -12,7 +12,7 @@ import java.util.Optional;
  * @param <T> the type of the value
  */
 class Scope<T> implements Scoped<T> {
-    private final Map<String, T> internalMap;
+    private final Map<ObjectData<T>, T> internalMap;
     private final ScopeType scopeType;
 
     /**
@@ -33,7 +33,7 @@ class Scope<T> implements Scoped<T> {
     @Override
     public void declare(@NotNull Info<T> info, @NotNull String name, @NotNull T value) throws ScopeException {
         if (isDeclared(name)) throw alreadyDeclaredVariable(name);
-        else this.internalMap.put(name, value);
+        else this.internalMap.put(new ObjectData<>(info, name), value);
     }
 
     @Override
