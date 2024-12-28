@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents an array literal, an expression of the type <code>.*\[\]</code>.
  */
-public class ArrayLiteral extends NodeImpl {
+public class ArrayLiteral extends NodeImpl implements Literal {
     private final @NotNull Node type;
 
     /**
