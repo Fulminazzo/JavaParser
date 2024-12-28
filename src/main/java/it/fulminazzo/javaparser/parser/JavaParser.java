@@ -497,18 +497,30 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ATOM := PAR_EXPR | MINUS | NOT | LITERAL | TYPE_VALUE
+     * ATOM := CAST | MINUS | NOT | LITERAL | TYPE_VALUE
      *
      * @return the node
      */
     protected @NotNull Node parseAtom() {
         switch (lastToken()) {
-            case OPEN_PAR: return parseParenthesizedExpr();
+            case OPEN_PAR: return parseCast();
             case SUBTRACT: return parseMinus();
             case NOT: return parseNot();
             case LITERAL: return parseLiteral();
             default: return parseTypeValue();
         }
+    }
+
+    /**
+     * CAST := (PAR_EXPR)* PAR_EXPR
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseCast() {
+        Node expr = parseParenthesizedExpr();
+        while (lastToken() == OPEN_PAR)
+            expr = new Cast(expr, parseParenthesizedExpr());
+        return expr;
     }
 
     /**
