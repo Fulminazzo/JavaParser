@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
  * Represents an assignment statement.
  */
 public class Assignment extends Node {
-    private final @NotNull Literal type;
+    private final @NotNull Node type;
     private final @NotNull Literal name;
     private final @NotNull Node value;
 
@@ -18,7 +18,7 @@ public class Assignment extends Node {
      * @param name  the name
      * @param value the value
      */
-    public Assignment(final @NotNull Literal type,
+    public Assignment(final @NotNull Node type,
                       final @NotNull Literal name,
                       final @NotNull Node value) {
         this.type = type;

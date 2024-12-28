@@ -299,49 +299,6 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ASSIGNMENT := ASSIGNMENT_STRICT | (EXPR)? RE_ASSIGN | METHOD_CALL
-     *
-     * @return the node
-     */
-    protected @NotNull Node parseAssignment() {
-        final Literal literal = parseLiteral();
-        return parseAssignmentPartial(literal);
-    }
-
-    /**
-     * Support function for {@link #parseAssignment()}
-     *
-     * @param literal the literal
-     * @return the node
-     */
-    protected @NotNull Node parseAssignmentPartial(final @NotNull Literal literal) {
-        switch (lastToken()) {
-            case LITERAL: return parseAssignmentStrict(literal, parseLiteral());
-            case OPEN_PAR:
-                return parseMethodCall(literal);
-            default:
-                return parseReAssign(literal);
-        }
-    }
-
-    /**
-     * ASSIGNMENT_STRICT := LITERAL LITERAL (= EXPR)?
-     *
-     * @param type     the type
-     * @param variable the variable
-     * @return the node
-     */
-    protected @NotNull Assignment parseAssignmentStrict(final @NotNull Literal type,
-                                                        final @NotNull Literal variable) {
-        Node exp = new EmptyLiteral();
-        if (lastToken() == ASSIGN) {
-            consume(ASSIGN);
-            exp = parseExpression();
-        }
-        return new Assignment(type, variable, exp);
-    }
-
-    /**
      * METHOD_CALL := LITERAL . METHOD_INVOCATION
      *
      * @param literal the literal to start from
@@ -391,55 +348,27 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * RE_ASSIGN := LITERAL (+|-|*|/|%|&|\||^|<<|>>|>>>)?= EXPR | LITERAL(++|--)
+     * ASSIGNMENT := LITERAL LITERAL (=EXPR?) | LITERAL = EXPR | NOT_EQUAL
      *
-     * @param literal the literal to start from
      * @return the node
      */
-    protected @NotNull Node parseReAssign(final @NotNull Literal literal) {
-        final Node expr;
-        final TokenType token = lastToken();
-        switch (token) {
-            case ADD:
-            case SUBTRACT: {
-                consume(token);
-                if (lastToken() == token) {
-                    consume(token);
-                    if (token == ADD) return new Increment(literal, false);
-                    else return new Decrement(literal, false);
-                } else expr = parseOperationReAssign(token, literal);
-                break;
-            }
-            case MULTIPLY:
-            case DIVIDE:
-            case MODULO:
-            case BIT_AND:
-            case BIT_OR:
-            case BIT_XOR:
-            case LSHIFT:
-            case RSHIFT:
-            case URSHIFT: {
-                consume(token);
-                expr = parseOperationReAssign(token, literal);
-                break;
-            }
-            case ASSIGN: {
+    protected @NotNull Node parseAssignment() {
+        Node expression = parseExpression();
+        if (expression instanceof Literal) {
+            if (lastToken() == LITERAL) {
+                Literal name = parseLiteral();
+                Node value = new EmptyLiteral();
+                if (lastToken() == ASSIGN) {
+                    consume(ASSIGN);
+                    value = parseExpression();
+                }
+                expression = new Assignment(expression, name, value);
+            } else {
                 consume(ASSIGN);
-                expr = parseExpression();
-                break;
+                expression = new ReAssign(expression, parseExpression());
             }
-            default:
-                // Probably something else, return the literal itself
-                return literal;
         }
-        return new ReAssign(literal, expr);
-    }
-
-    private @NotNull Node parseOperationReAssign(final @NotNull TokenType token,
-                                                 final @NotNull Node literal) {
-        consume(ASSIGN);
-        Node tmp = parseExpression();
-        return generateBinaryOperationFromToken(token, literal, tmp);
+        return expression;
     }
 
     /**
