@@ -244,7 +244,7 @@ class JavaParserTest extends Specification {
     def 'test static array initialization'() {
         given:
         def expected = new StaticArray(Literal.of('int'), new NumberValueLiteral('0'))
-        def code = 'new int[0]'
+        def code = 'new int[0][1][2]'
 
         when:
         startReading(code)
@@ -260,7 +260,7 @@ class JavaParserTest extends Specification {
                 new NumberValueLiteral('1'),
                 new NumberValueLiteral('2')
         ])
-        def code = 'new int[]{1, 2}'
+        def code = 'new int[][][]{1, 2}'
 
         when:
         startReading(code)
