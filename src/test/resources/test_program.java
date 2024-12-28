@@ -8,13 +8,21 @@
 
 // Assignment of all primitive types
 byte b = 1;
+byte bCast = (byte) b;
 short s = 2;
+short sCast = (short) s;
 char c = 'c';
+char cCast = (char) c;
 int i = 4;
+int iCast = (int) i;
 long l = 5L;
+long lCast = (long) l;
 float f = 6.0f;
+float fCast = (float) f;
 double d = 7.0d;
+double dCast = (double) d;
 boolean bo = true;
+boolean boCast = (boolean) bo;
 
 // Re-assignments
 i = -4;
@@ -34,14 +42,23 @@ bo = !bo;
 
 // Assignment of all wrapper types
 Byte bW = 1;
+Byte bWCast = (Byte) bW;
 Short sW = 2;
+Short sWCast = (Short) sW;
 Character cW = 'c';
+Character cWCast = (Character) cW;
 Integer iW = 4;
+Integer iWCast = (Integer) iW;
 Long lW = 5L;
+Long lWCast = (Long) lW;
 Float fW = 6.0f;
+Float fWCast = (Float) fW;
 Double dW = 7.0d;
+Double dWCast = (Double) dW;
 Boolean boW = true;
+Boolean boWCast = (Boolean) boW;
 String stW = "Hello world";
+String stWCast = (String) stW;
 
 // Binary operations
 i = i + 1 - 1 * 1 / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
@@ -91,10 +108,15 @@ System.out.printf("%s %s\n", "Hello", "world");
 
 // New keyword
 String string = new String("Hello");
+String stringCast = (String) string;
 int[] staticArray = new int[1];
+int[] staticArrayCast = (int[]) staticArray;
 int[] dynamicArray = new int[]{1, 2};
+int[] dynamicArrayCast = (int[]) dynamicArray;
 String[] stringStaticArray = new String[1];
+String[] stringStaticArrayCast = (String[]) stringStaticArray;
 String[] stringDynamicArray = new String[]{"1", "2"};
+String[] stringDynamicArrayCast = (String[]) stringDynamicArray;
 
 // If statement
 int n;
@@ -159,6 +181,7 @@ for (; j < 10;) break;
 
 // Enhanced for statement
 int[] array = new int[]{1, 2, 3, 4, 5};
+int[] arrayCast = (int[]) array;
 
 for (int a : array) System.out.println(a);
 for (int a : array) {
