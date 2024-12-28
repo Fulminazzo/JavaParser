@@ -246,7 +246,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * EXPR := INCREMENT | DECREMENT | EQUAL
+     * EXPR := INCREMENT | DECREMENT | METHOD_CALL
      *
      * @return the node
      */
@@ -255,7 +255,7 @@ public class JavaParser extends Parser {
             case NEW: return parseNewObject();
             case ADD: return parseIncrement();
             case SUBTRACT: return parseDecrement();
-            default: return parseBinaryComparison();
+            default: return parseMethodCall();
         }
     }
 
