@@ -318,7 +318,9 @@ public class JavaParser extends Parser {
             StaticArray array = null;
             while (lastToken() == OPEN_BRACKET) {
                 consume(OPEN_BRACKET);
-                NumberValueLiteral size = (NumberValueLiteral) parseTypeValue();
+                NumberValueLiteral size;
+                if (lastToken() != CLOSE_BRACKET) size = (NumberValueLiteral) parseTypeValue();
+                else size = createLiteral(NumberValueLiteral.class, "0");
                 consume(CLOSE_BRACKET);
                 if (array == null) array = new StaticArray(literal, size);
                 else {
