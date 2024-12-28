@@ -14,6 +14,7 @@ import it.fulminazzo.javaparser.parser.node.operators.unary.Not
 import it.fulminazzo.javaparser.parser.node.statements.*
 import it.fulminazzo.javaparser.parser.node.types.*
 import it.fulminazzo.javaparser.tokenizer.TokenType
+import org.jetbrains.annotations.NotNull
 import spock.lang.Specification
 
 class JavaParserTest extends Specification {
@@ -490,6 +491,38 @@ class JavaParserTest extends Specification {
         then:
         def e = thrown(ParserException)
         e.message == new ParserException(TokenType.LITERAL, this.parser).message
+    }
+
+    def 'test parse literal'() {
+        when:
+        def literal = this.parser.createLiteral(BooleanLiteral, 'true')
+
+        then:
+        literal == new BooleanLiteral('true')
+    }
+
+    def 'test parse literal LiteralException'() {
+        when:
+        this.parser.createLiteral(BooleanLiteral, 'a')
+
+        then:
+        thrown(ParserException)
+    }
+
+    def 'test parse literal RuntimeException'() {
+        when:
+        this.parser.createLiteral(MockLiteral, 'a')
+
+        then:
+        thrown(IllegalArgumentException)
+    }
+
+    static class MockLiteral extends BaseTypeLiteral {
+
+        MockLiteral(@NotNull String rawValue, @NotNull TokenType type) throws LiteralException {
+            super(rawValue, type)
+            throw new IllegalArgumentException()
+        }
     }
 
 }
