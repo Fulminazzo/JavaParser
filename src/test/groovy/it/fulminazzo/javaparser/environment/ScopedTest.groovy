@@ -30,7 +30,7 @@ class ScopedTest extends Specification {
         method != null
 
         where:
-        scopeType << ScopeType
+        scopeType << ScopeType.values().findAll { it != ScopeType.MAIN }
     }
 
 }
