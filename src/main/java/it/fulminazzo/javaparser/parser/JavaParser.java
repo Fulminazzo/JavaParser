@@ -395,7 +395,7 @@ public class JavaParser extends Parser {
      * @return the node
      */
     protected @NotNull Node parseBinaryComparison(final @NotNull TokenType comparison) {
-        if (comparison.ordinal() > OR.ordinal()) return parseBinaryOperation();
+        if (comparison.after(OR)) return parseBinaryOperation();
         else {
             final TokenType nextOperation = TokenType.values()[comparison.ordinal() + 1];
             Node node = parseBinaryComparison(nextOperation);
@@ -434,7 +434,7 @@ public class JavaParser extends Parser {
      * @return the node
      */
     protected @NotNull Node parseBinaryOperation(final @NotNull TokenType operation) {
-        if (operation.ordinal() > MODULO.ordinal()) return parseAtom();
+        if (operation.after(MODULO)) return parseAtom();
         else {
             final TokenType nextOperation = TokenType.values()[operation.ordinal() + 1];
             Node node = parseBinaryOperation(nextOperation);
@@ -518,9 +518,7 @@ public class JavaParser extends Parser {
      */
     protected @NotNull Node parseCast() {
         Node expr = parseParenthesizedExpr();
-        int tokenNumber = lastToken().ordinal();
-        if ((tokenNumber >= NOT.ordinal() && tokenNumber <= LITERAL.ordinal()) ||
-                tokenNumber == OPEN_PAR.ordinal())
+        if (lastToken().between(NOT, LITERAL) || lastToken() == OPEN_PAR)
             expr = new Cast(expr, parseAtom());
         return expr;
     }
