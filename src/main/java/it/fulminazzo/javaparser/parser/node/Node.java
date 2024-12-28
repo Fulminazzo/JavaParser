@@ -13,6 +13,16 @@ import java.util.stream.Collectors;
  */
 public abstract class Node {
 
+    /**
+     * Checks whether the current node is of the specified type.
+     *
+     * @param nodeType the node type
+     * @return true if it is
+     */
+    public boolean is(final @NotNull Class<? extends Node> nodeType) {
+        return nodeType.isInstance(this);
+    }
+
     @Override
     public int hashCode() {
         Refl<?> refl = new Refl<>(this);
