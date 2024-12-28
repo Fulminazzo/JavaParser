@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.parser.node;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
+import it.fulminazzo.javaparser.visitors.Visitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,6 +13,17 @@ import java.util.stream.Collectors;
  * Represents the most basic implementation of {@link Node}.
  */
 public abstract class NodeImpl implements Node {
+
+    @Override
+    public <T> T accept(final @NotNull Visitor<T> visitor) {
+        String methodName = "visit" + getClass().getSimpleName();
+        Refl<?> node = new Refl<>(this);
+        return new Refl<>(visitor).invokeMethod(methodName,
+                node.getNonStaticFields().stream()
+                        .map(node::getFieldObject)
+                        .toArray(Object[]::new)
+        );
+    }
 
     @Override
     public boolean is(final @NotNull Class<? extends Node> nodeType) {

@@ -1,6 +1,5 @@
 package it.fulminazzo.javaparser.parser.node;
 
-import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.javaparser.visitors.Visitor;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,15 +16,7 @@ public interface Node {
      * @return the node converted
      * @param <T> the type returned by the visitor
      */
-    default  <T> T accept(final @NotNull Visitor<T> visitor) {
-        String methodName = "visit" + getClass().getSimpleName();
-        Refl<?> node = new Refl<>(this);
-        return new Refl<>(visitor).invokeMethod(methodName,
-                node.getNonStaticFields().stream()
-                        .map(node::getFieldObject)
-                        .toArray(Object[]::new)
-        );
-    }
+    <T> T accept(final @NotNull Visitor<T> visitor);
 
     /**
      * Checks whether the current node is of the specified type.
