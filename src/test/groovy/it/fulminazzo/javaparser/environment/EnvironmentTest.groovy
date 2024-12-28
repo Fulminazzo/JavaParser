@@ -36,30 +36,30 @@ class EnvironmentTest extends Specification {
         thrown(IllegalStateException)
     }
 
-    def 'test inner scope type should be able to see #type scope type'() {
+    def 'test inner scope type should be able to see #scopeType scope type'() {
         given:
         this.environment.enterScope(ScopeType.CODE_BLOCK)
         ScopeType.values().each { this.environment.enterScope(it) }
-        this.environment.enterScope(type)
+        this.environment.enterScope(scopeType)
         this.environment.enterScope(ScopeType.CODE_BLOCK)
         this.environment.enterScope(ScopeType.CODE_BLOCK)
         this.environment.enterScope(ScopeType.CODE_BLOCK)
 
         when:
-        this.environment.checkScopeType(type)
-        new Refl<>(this.environment).invokeMethod("check" +
-                TestUtils.convertEnumName(type))
+        this.environment.checkScopeType(scopeType)
+        if (scopeType != ScopeType.MAIN)
+            new Refl<>(this.environment).invokeMethod("check" + TestUtils.convertEnumName(scopeType))
 
         then:
         notThrown(ScopeException)
 
         where:
-        type << ScopeType
+        scopeType << ScopeType.values().findAll { it != ScopeType.MAIN }
     }
 
     def 'test scope type'() {
         expect:
-        this.environment.scopeType() == ScopeType.CODE_BLOCK
+        this.environment.scopeType() == ScopeType.MAIN
     }
 
     def 'test declare, isDeclared, lookup and update'() {
