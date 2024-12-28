@@ -18,7 +18,7 @@ public class Environment<T> implements Scoped<T> {
      */
     public Environment() {
         this.scopes = new LinkedList<>();
-        enterScope(ScopeType.CODE_BLOCK);
+        enterScope(ScopeType.MAIN);
     }
 
     /**
@@ -50,7 +50,7 @@ public class Environment<T> implements Scoped<T> {
      * @return true if it is
      */
     public boolean isMainScope() {
-        return this.scopes.size() < 2;
+        return scopeType() == ScopeType.MAIN;
     }
 
     @Override
