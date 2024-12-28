@@ -28,4 +28,14 @@ class ScopeTest extends Specification {
         e.getMessage() == this.scope.noSuchVariable('var').message
     }
 
+    def 'update should throw ScopeException on invalid variable'() {
+        when:
+        this.scope.declare(new WrapperInfo<>(String), 'var', '1')
+        this.scope.update('var', 10)
+
+        then:
+        def e = thrown(ScopeException)
+        e.getMessage() == 'Object 10 is incompatible with WrapperInfo(String)'
+    }
+
 }
