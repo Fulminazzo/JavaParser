@@ -28,7 +28,7 @@ class DynamicArrayTest extends Specification {
         def output = this.array.toString()
 
         then:
-        output == 'DynamicArray(Literal(int), {NumberLiteral(1), NumberLiteral(2), NumberLiteral(3)})'
+        output == 'DynamicArray(Literal(int), {NumberValueLiteral(1), NumberValueLiteral(2), NumberValueLiteral(3)})'
     }
 
 }

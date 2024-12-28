@@ -17,7 +17,7 @@ class MethodInvocationTest extends Specification {
         def output = methodInvocation.toString()
 
         then:
-        output == 'MethodInvocation(Literal(a), NumberLiteral(2), BooleanLiteral(true))'
+        output == 'MethodInvocation(Literal(a), NumberValueLiteral(2), BooleanValueLiteral(true))'
     }
 
 }
