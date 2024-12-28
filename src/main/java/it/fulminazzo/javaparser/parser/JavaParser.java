@@ -304,25 +304,36 @@ public class JavaParser extends Parser {
         consume(SPACE);
         Node literal = parseLiteral();
 
-        if (literal.is(ArrayLiteral.class)) {
-            // dynamic array initialization
-            List<Node> parameters = new LinkedList<>();
-            consume(OPEN_BRACE);
-            while (lastToken() != CLOSE_BRACE) {
-                parameters.add(parseExpression());
-                if (lastToken() == COMMA) consume(COMMA);
-            }
-            consume(CLOSE_BRACE);
-            return new DynamicArray(literal, parameters);
-        } else if (lastToken() == OPEN_BRACKET) {
-            // static array initialization
-            StaticArray array = null;
+        if (lastToken() == OPEN_BRACKET) {
+            // array initialization
             while (lastToken() == OPEN_BRACKET) {
                 consume(OPEN_BRACKET);
-                array = parseStaticArray(array, literal);
-                consume(CLOSE_BRACKET);
+                if (lastToken() == CLOSE_BRACKET) {
+                    consume(CLOSE_BRACKET);
+                    literal = new ArrayLiteral(literal);
+                } else break;
             }
-            return array;
+
+            if (lastToken() == OPEN_BRACE) {
+                // dynamic array initialization
+                List<Node> parameters = new LinkedList<>();
+                consume(OPEN_BRACE);
+                while (lastToken() != CLOSE_BRACE) {
+                    parameters.add(parseExpression());
+                    if (lastToken() == COMMA) consume(COMMA);
+                }
+                consume(CLOSE_BRACE);
+                return new DynamicArray(literal, parameters);
+            } else {
+                // static array initialization
+                StaticArray array = null;
+                while (lastToken() == OPEN_BRACKET) {
+                    consume(OPEN_BRACKET);
+                    array = parseStaticArray(array, literal);
+                    consume(CLOSE_BRACKET);
+                }
+                return array;
+            }
         } else {
             // new object
             MethodInvocation invocation = parseMethodInvocation();
