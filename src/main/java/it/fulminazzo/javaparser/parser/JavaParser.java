@@ -252,7 +252,7 @@ public class JavaParser extends Parser {
      */
     protected @NotNull Node parseAssignment() {
         Node expression = parseExpression();
-        if (expression instanceof Literal) {
+        if (expression.is(Literal.class)) {
             if (lastToken() == OPEN_BRACKET) {
                 consume(OPEN_BRACKET);
                 consume(CLOSE_BRACKET);
