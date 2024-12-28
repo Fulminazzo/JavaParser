@@ -291,6 +291,42 @@ public class JavaParser extends Parser {
     }
 
     /**
+     * NEW_OBJECT := new LITERAL METHOD_INVOCATION |
+     *               new ARRAY_LITERAL{ (EXPR)? (, EXPR)* \} |
+     *               new LITERAL(\[NUMBER_VALUE\])+
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseNewObject() {
+        match(NEW);
+        next(); // Necessary space
+        consume(SPACE);
+        Node literal = parseLiteral();
+
+        if (literal.is(ArrayLiteral.class)) {
+            // dynamic array initialization
+            List<Node> parameters = new LinkedList<>();
+            consume(OPEN_BRACE);
+            while (lastToken() != CLOSE_BRACE) {
+                parameters.add(parseExpression());
+                if (lastToken() == COMMA) consume(COMMA);
+            }
+            consume(CLOSE_BRACE);
+            return new DynamicArray(literal, parameters);
+        } else if (lastToken() == OPEN_BRACKET) {
+            // static array initialization
+            consume(OPEN_BRACKET);
+            NumberValueLiteral size = (NumberValueLiteral) parseTypeValue();
+            consume(CLOSE_BRACKET);
+            return new StaticArray(literal, size);
+        } else {
+            // new object
+            MethodInvocation invocation = parseMethodInvocation();
+            return new NewObject(literal, invocation);
+        }
+    }
+
+    /**
      * ARRAY_LITERAL := LITERAL(\[\])*
      *
      * @param expression the expression to start from
@@ -304,42 +340,6 @@ public class JavaParser extends Parser {
                 expression = new ArrayLiteral(expression);
             }
         return expression;
-    }
-
-    /**
-     * NEW_OBJECT := new LITERAL METHOD_INVOCATION |
-     *               new ARRAY_TYPE{ (EXPR)? (, EXPR)* \} |
-     *               new LITERAL(\[NUMBER_VALUE\])*
-     *
-     * @return the node
-     */
-    protected @NotNull Node parseNewObject() {
-        match(NEW);
-        next(); // Necessary space
-        consume(SPACE);
-        Node literal = parseLiteral();
-
-        if (literal.is(ArrayLiteral.class)) {
-            // Dynamic array initialization
-            List<Node> parameters = new LinkedList<>();
-            consume(OPEN_BRACE);
-            while (lastToken() != CLOSE_BRACE) {
-                parameters.add(parseExpression());
-                if (lastToken() == COMMA) consume(COMMA);
-            }
-            consume(CLOSE_BRACE);
-            return new DynamicArray(literal, parameters);
-        } else if (lastToken() == OPEN_BRACKET) {
-            // Static array initialization
-            consume(OPEN_BRACKET);
-            NumberValueLiteral size = (NumberValueLiteral) parseTypeValue();
-            consume(CLOSE_BRACKET);
-            return new StaticArray(literal, size);
-        } else {
-            // new object
-            MethodInvocation invocation = parseMethodInvocation();
-            return new NewObject(literal, invocation);
-        }
     }
 
     /**
