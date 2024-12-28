@@ -355,14 +355,7 @@ public class JavaParser extends Parser {
         if (lastToken() != CLOSE_BRACKET) size = (NumberValueLiteral) parseTypeValue();
         else size = createLiteral(NumberValueLiteral.class, "0");
         if (array == null) array = new StaticArray(type, size);
-        else {
-            // Update only the most internal component type
-            Refl<?> curr = new Refl<>(array);
-            Node componentType;
-            while ((componentType = curr.getFieldObject("type")).is(StaticArray.class))
-                curr = new Refl<>(componentType);
-            curr.setFieldObject("type", new StaticArray(type, size));
-        }
+        else array.updateComponentType(new StaticArray(type, size));
         return array;
     }
 
