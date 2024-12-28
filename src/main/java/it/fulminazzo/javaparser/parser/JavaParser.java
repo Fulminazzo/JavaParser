@@ -503,12 +503,18 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ATOM := MINUS | NOT | LITERAL | TYPE_VALUE
+     * ATOM := \(EXPR\) | MINUS | NOT | LITERAL | TYPE_VALUE
      *
      * @return the node
      */
     protected @NotNull Node parseAtom() {
         switch (lastToken()) {
+            case OPEN_PAR: {
+                consume(OPEN_PAR);
+                Node expr = parseExpression();
+                consume(CLOSE_PAR);
+                return expr;
+            }
             case SUBTRACT: return parseMinus();
             case NOT: return parseNot();
             case LITERAL: return parseLiteral();

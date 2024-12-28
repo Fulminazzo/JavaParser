@@ -472,6 +472,7 @@ class JavaParserTest extends Specification {
         code    | expected
         '-1'    | new Minus(new NumberLiteral('1'))
         '!true' | new Not(new BooleanLiteral('true'))
+        '(1 + 1)'| new Add(new NumberLiteral('1'), new NumberLiteral('1'))
         'false' | new BooleanLiteral('false')
         'int'   | new Literal('int')
     }

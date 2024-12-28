@@ -53,7 +53,7 @@ TODO: null
 # DIV := MOD ( (/ MOD)* | (/= MOD) )
 # MOD := ATOM ( (% ATOM)* | (%= ATOM) )
 
-# ATOM := MINUS | NOT | LITERAL | TYPE_VALUE
+# ATOM := \(EXPR\) | MINUS | NOT | LITERAL | TYPE_VALUE
 
 # MINUS := - EXPR
 # NOT := ! EXPR
