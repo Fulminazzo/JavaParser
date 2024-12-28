@@ -11,11 +11,11 @@ public class Cast extends BinaryOperation {
     /**
      * Instantiates a new Cast operation.
      *
-     * @param left  the first operand
-     * @param right the second operand
+     * @param type       the type to cast to
+     * @param expression the expression to cast
      */
-    public Cast(@NotNull Node left, @NotNull Node right) {
-        super(left, right);
+    public Cast(@NotNull Node type, @NotNull Node expression) {
+        super(type, expression);
     }
 
 }
