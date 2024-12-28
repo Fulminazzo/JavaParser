@@ -73,7 +73,7 @@ public enum TokenType {
     STRING_VALUE("\"((?:[^\"]|\\\")*\")"),
 
     // General
-    LITERAL("[a-zA-Z][a-zA-Z0-9_.]*[a-zA-Z0-9_]"),
+    LITERAL("[a-zA-Z_](?:[a-zA-Z0-9._]*[a-zA-Z0-9_])*"),
     SPACE("[\r\t\n ]"),
     EOF("")
     ;
