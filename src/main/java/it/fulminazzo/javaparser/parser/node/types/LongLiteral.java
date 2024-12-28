@@ -13,7 +13,7 @@ public class LongLiteral extends BaseTypeLiteral {
      *
      * @param rawValue the raw value
      */
-    public LongLiteral(final @NotNull String rawValue) {
+    public LongLiteral(final @NotNull String rawValue) throws LiteralException {
         super(rawValue, TokenType.LONG_VALUE);
     }
 

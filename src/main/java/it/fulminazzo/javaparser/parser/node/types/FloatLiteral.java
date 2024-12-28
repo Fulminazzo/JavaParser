@@ -13,7 +13,7 @@ public class FloatLiteral extends BaseTypeLiteral {
      *
      * @param rawValue the raw value
      */
-    public FloatLiteral(final @NotNull String rawValue) {
+    public FloatLiteral(final @NotNull String rawValue) throws LiteralException {
         super(rawValue, TokenType.FLOAT_VALUE);
     }
 

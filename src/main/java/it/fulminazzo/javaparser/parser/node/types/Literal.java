@@ -16,7 +16,7 @@ public class Literal extends BaseTypeLiteral {
      *
      * @param rawValue the raw value
      */
-    public Literal(final @NotNull String rawValue) {
+    public Literal(final @NotNull String rawValue) throws LiteralException {
         super(rawValue, TokenType.LITERAL);
     }
 
@@ -30,11 +30,15 @@ public class Literal extends BaseTypeLiteral {
      * @return the tuple
      */
     public @NotNull Tuple<Literal, Literal> splitLastDot() {
-        if (!isDotted()) return new Tuple<>(this, null);
-        String[] tmp = this.rawValue.split("\\.");
-        String last = tmp[tmp.length - 1];
-        String first = String.join(".", Arrays.copyOfRange(tmp, 0, tmp.length - 1));
-        return new Tuple<>(new Literal(first), new Literal(last));
+        try {
+            if (!isDotted()) return new Tuple<>(this, null);
+            String[] tmp = this.rawValue.split("\\.");
+            String last = tmp[tmp.length - 1];
+            String first = String.join(".", Arrays.copyOfRange(tmp, 0, tmp.length - 1));
+            return new Tuple<>(new Literal(first), new Literal(last));
+        } catch (LiteralException e) {
+            throw new IllegalStateException();
+        }
     }
 
     /**

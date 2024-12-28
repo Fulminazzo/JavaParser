@@ -13,7 +13,7 @@ public class StringLiteral extends BaseTypeLiteral {
      *
      * @param rawValue the raw value
      */
-    public StringLiteral(final @NotNull String rawValue) {
+    public StringLiteral(final @NotNull String rawValue) throws LiteralException {
         super(rawValue, TokenType.STRING_VALUE);
     }
 
