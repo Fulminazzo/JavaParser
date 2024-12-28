@@ -248,7 +248,7 @@ class JavaParserTest extends Specification {
                         new StaticArray(Literal.of('int'), new NumberValueLiteral('2')),
                         new NumberValueLiteral('1')),
                 new NumberValueLiteral('0'))
-        def code = 'new int[0][1][2]'
+        def code = 'new int[][1][2]'
 
         when:
         startReading(code)
