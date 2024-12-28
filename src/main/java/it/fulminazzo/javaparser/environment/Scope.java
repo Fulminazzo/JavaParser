@@ -38,8 +38,9 @@ class Scope<T> implements Scoped<T> {
 
     @Override
     public void update(@NotNull String name, @NotNull T value) throws ScopeException {
-        if (isDeclared(name)) this.internalMap.put(name, value);
-        else throw noSuchVariable(name);
+        ObjectData<T> key = getKey(name).orElseThrow(() -> noSuchVariable(name));
+        if (key.info.compatibleWith(value)) this.internalMap.put(key, value);
+        else throw new ScopeException(String.format("Object %s is incompatible with %s", value, key.info));
     }
 
     @Override
