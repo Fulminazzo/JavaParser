@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.parser;
 
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Exception used to notify about errors coming from {@link JavaParser}.
@@ -15,10 +16,10 @@ final class ParserException extends RuntimeException {
      * @param parser  the parser that generated the exception
      */
     public ParserException(final @NotNull String message,
-                           final @NotNull Parser parser) {
+                           final @Nullable Parser parser) {
         super(String.format("At line %s, column %s: %s",
-                parser.getTokenizer().line(),
-                parser.getTokenizer().column(),
+                parser == null ? "0" : parser.getTokenizer().line(),
+                parser == null ? "0" : parser.getTokenizer().column(),
                 message)
         );
     }

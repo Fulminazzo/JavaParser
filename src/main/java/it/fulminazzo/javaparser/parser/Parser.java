@@ -105,7 +105,7 @@ abstract class Parser {
      */
     protected @NotNull Tokenizer getTokenizer() {
         if (this.tokenizer == null)
-            throw new ParserException("No input was provided!", this);
+            throw new ParserException("No input was provided!", null);
         return this.tokenizer;
     }
 
