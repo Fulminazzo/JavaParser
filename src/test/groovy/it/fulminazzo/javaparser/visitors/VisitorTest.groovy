@@ -75,6 +75,7 @@ class VisitorTest extends Specification {
                 .findAll { !Modifier.isAbstract(it.modifiers) }
                 .findAll { !it.isInterface() }
                 .findAll { !it.simpleName.contains('Test') }
+                .findAll { !it.simpleName.contains('Exception') }
                 .findAll { !it.simpleName.contains('Mock') }
     }
 
