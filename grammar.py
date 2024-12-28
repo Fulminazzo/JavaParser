@@ -54,7 +54,7 @@ TODO: null
 
 # ATOM := CAST | MINUS | NOT | LITERAL | TYPE_VALUE
 
-# CAST := (PAR_EXPR)* PAR_EXPR
+# CAST := (PAR_EXPR)* (EXPR | PAR_EXPR)
 # PAR_EXPR := \( EXPR \)
 
 # MINUS := - EXPR
