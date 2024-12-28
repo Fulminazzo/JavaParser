@@ -220,6 +220,23 @@ class JavaParserTest extends Specification {
         )
     }
 
+    def 'test array assignment'() {
+        given:
+        def expected = new Assignment(
+                new Literal('int[]'),
+                new Literal('arr'),
+                new StaticArray(new Literal('int'), new NumberLiteral('0'))
+        )
+        def code = 'int[] arr = new int[0]'
+
+        when:
+        startReading(code)
+        def output = this.parser.parseAssignment()
+
+        then:
+        output == expected
+    }
+
     def 'test static array initialization'() {
         given:
         def expected = new StaticArray(new Literal('int'), new NumberLiteral('0'))
