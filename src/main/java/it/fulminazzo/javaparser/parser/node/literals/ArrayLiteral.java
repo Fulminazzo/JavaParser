@@ -1,12 +1,13 @@
 package it.fulminazzo.javaparser.parser.node.literals;
 
 import it.fulminazzo.javaparser.parser.node.Node;
+import it.fulminazzo.javaparser.parser.node.NodeImpl;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents an array literal, an expression of the type <code>.*\[\]</code>.
  */
-public class ArrayLiteral extends Node {
+public class ArrayLiteral extends NodeImpl {
     private final @NotNull Node type;
 
     /**
