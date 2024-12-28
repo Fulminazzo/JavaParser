@@ -326,7 +326,8 @@ public class JavaParser extends Parser {
                 return new DynamicArray(literal, parameters);
             } else {
                 // static array initialization
-                StaticArray array = null;
+                StaticArray array = parseStaticArray(null, literal);
+                consume(CLOSE_BRACKET);
                 while (lastToken() == OPEN_BRACKET) {
                     consume(OPEN_BRACKET);
                     array = parseStaticArray(array, literal);
