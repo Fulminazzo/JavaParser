@@ -42,4 +42,12 @@ class LiteralImpl extends TokenizedNode implements Literal {
         return this.value.contains(".");
     }
 
+    @Override
+    public @NotNull String toString() {
+        String clazzName = getClass().getSimpleName();
+        // Remove 'Impl' suffix
+        return clazzName.substring(0, clazzName.length() - 4) +
+                super.toString().substring(clazzName.length());
+    }
+
 }
