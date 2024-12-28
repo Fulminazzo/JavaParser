@@ -444,6 +444,15 @@ public class JavaParser extends Parser {
 
     /**
      * EQUAL := NOT_EQUAL (== NOT_EQUAL)* <br/>
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseBinaryOperation() {
+        return parseBinaryOperation(EQUAL);
+    }
+
+    /**
+     * EQUAL := NOT_EQUAL (== NOT_EQUAL)* <br/>
      * NOT_EQUAL := LESS_THAN (!= LESS_THAN)* <br/>
      * LESS_THAN := LESS_THAN_OR_EQUAL (< LESS_THAN_OR_EQUAL)* <br/>
      * LESS_THAN_OR_EQUAL := GREATER_THAN (<= GREATER_THAN)* <br/>
