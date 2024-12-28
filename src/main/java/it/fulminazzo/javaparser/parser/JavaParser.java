@@ -318,14 +318,19 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ASSIGNMENT := LITERAL LITERAL (=EXPR?) | LITERAL = EXPR | NOT_EQUAL
+     * ASSIGNMENT := LITERAL(\[\])? LITERAL (=EXPR?) | LITERAL = EXPR | NOT_EQUAL
      *
      * @return the node
      */
     protected @NotNull Node parseAssignment() {
         Node expression = parseExpression();
         if (expression instanceof Literal) {
-            if (lastToken() == LITERAL) {
+            if (lastToken() == OPEN_BRACKET) {
+                consume(OPEN_BRACKET);
+                consume(CLOSE_BRACKET);
+                expression = new ArrayLiteral(expression);
+            }
+            if (lastToken() == LITERAL || expression.is(ArrayLiteral.class)) {
                 Literal name = parseLiteral();
                 Node value = new EmptyLiteral();
                 if (lastToken() == ASSIGN) {
