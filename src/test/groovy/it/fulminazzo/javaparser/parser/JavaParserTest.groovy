@@ -111,6 +111,12 @@ class JavaParserTest extends Specification {
                 new Increment(new Literal('i'), false),
                 new CodeBlock(new Continue())
         )
+        'for (i = 0; true; i++) continue;' | new ForStatement(
+                new ReAssign(new Literal('i'), new NumberLiteral('0')),
+                new BooleanLiteral('true'),
+                new Increment(new Literal('i'), false),
+                new CodeBlock(new Continue())
+        )
         'for (; true; i++) continue;' | new ForStatement(
                 new Statement(),
                 new BooleanLiteral('true'),
