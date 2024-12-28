@@ -532,7 +532,7 @@ public class JavaParser extends Parser {
      */
     protected @NotNull Node parseCast() {
         Node expr = parseParenthesizedExpr();
-        if (lastToken().between(NOT, LITERAL) || lastToken() == OPEN_PAR)
+        if (lastToken().between(MODULO, SPACE) || lastToken() == OPEN_PAR)
             expr = new Cast(expr, parseAtom());
         return expr;
     }
