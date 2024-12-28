@@ -1,13 +1,16 @@
 package it.fulminazzo.javaparser.parser.node;
 
 import it.fulminazzo.javaparser.parser.node.types.Literal;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents an assignment statement.
  */
 public class Assignment extends Node {
+    @Getter
     private final @NotNull Node type;
+    @Getter
     private final @NotNull Literal name;
     private final @NotNull Node value;
 
