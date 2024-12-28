@@ -6,6 +6,18 @@ import static it.fulminazzo.javaparser.tokenizer.TokenType.*
 
 class TokenTypeTest extends Specification {
 
+    def 'test #token between NUMBER_VALUE and LITERAL'() {
+        expect:
+        token.between(NUMBER_VALUE, LITERAL)
+
+        where:
+        token << [
+                NUMBER_VALUE, LONG_VALUE, DOUBLE_VALUE,
+                FLOAT_VALUE, BOOLEAN_VALUE, CHAR_VALUE,
+                STRING_VALUE, LITERAL
+        ]
+    }
+
     def 'test fromString: #token should be #expected'() {
         when:
         def tokenType = fromString(token)
