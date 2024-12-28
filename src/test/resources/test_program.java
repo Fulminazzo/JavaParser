@@ -45,11 +45,27 @@ String stW = "Hello world";
 
 // Binary operations
 i = i + 1 - 1 * 1 / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
+i = i - 1 * 1 / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
+i = i * 1 / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
+i = i / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
+i = i % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
+i = i & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
+i = i | 1 ^ 1 << 2 >> 1 >>> 1;
+i = i ^ 1 << 2 >> 1 >>> 1;
+i = i << 2 >> 1 >>> 1;
+i = i >> 1 >>> 1;
+i = i >>> 1;
 l = l + 1 - 1 * 1 / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
 f = f + 1 - 1 * 1 / 1 % 1;
 d = d + 1 - 1 * 1 / 1 % 1;
 bo = true == false != true && false || true;
+bo = false != true && false || true;
+bo = true && false || true;
+bo = false || true;
 bo = d == f != i && bo || false;
+bo = f != i && bo || false;
+bo = i && bo || false;
+bo = bo || false;
 //TODO: (i < d)
 bo = i < d || i <= d || f >= d || f > d;
 
