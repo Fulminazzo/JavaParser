@@ -246,6 +246,35 @@ public class JavaParser extends Parser {
     }
 
     /**
+     * ASSIGNMENT := LITERAL(\[\])? LITERAL (=EXPR?) | LITERAL = EXPR | EXPR
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseAssignment() {
+        Node expression = parseExpression();
+        if (expression instanceof Literal) {
+            if (lastToken() == OPEN_BRACKET) {
+                consume(OPEN_BRACKET);
+                consume(CLOSE_BRACKET);
+                expression = new ArrayLiteral(expression);
+            }
+            if (lastToken() == LITERAL || expression.is(ArrayLiteral.class)) {
+                Literal name = parseLiteral();
+                Node value = new EmptyLiteral();
+                if (lastToken() == ASSIGN) {
+                    consume(ASSIGN);
+                    value = parseExpression();
+                }
+                expression = new Assignment(expression, name, value);
+            } else {
+                consume(ASSIGN);
+                expression = new ReAssign(expression, parseExpression());
+            }
+        }
+        return expression;
+    }
+
+    /**
      * EXPR := NEW_OBJECT | INCREMENT | DECREMENT | METHOD_CALL
      *
      * @return the node
@@ -319,35 +348,6 @@ public class JavaParser extends Parser {
         if (lastToken() != SUBTRACT) return new Minus(parseExpression());
         consume(SUBTRACT);
         return new Decrement(parseAtom(), true);
-    }
-
-    /**
-     * ASSIGNMENT := LITERAL(\[\])? LITERAL (=EXPR?) | LITERAL = EXPR | NOT_EQUAL
-     *
-     * @return the node
-     */
-    protected @NotNull Node parseAssignment() {
-        Node expression = parseExpression();
-        if (expression instanceof Literal) {
-            if (lastToken() == OPEN_BRACKET) {
-                consume(OPEN_BRACKET);
-                consume(CLOSE_BRACKET);
-                expression = new ArrayLiteral(expression);
-            }
-            if (lastToken() == LITERAL || expression.is(ArrayLiteral.class)) {
-                Literal name = parseLiteral();
-                Node value = new EmptyLiteral();
-                if (lastToken() == ASSIGN) {
-                    consume(ASSIGN);
-                    value = parseExpression();
-                }
-                expression = new Assignment(expression, name, value);
-            } else {
-                consume(ASSIGN);
-                expression = new ReAssign(expression, parseExpression());
-            }
-        }
-        return expression;
     }
 
     /**
@@ -537,6 +537,17 @@ public class JavaParser extends Parser {
     }
 
     /**
+     * LITERAL := {@link TokenType#LITERAL}
+     *
+     * @return the node
+     */
+    protected @NotNull Literal parseLiteral() {
+        final String literal = getTokenizer().lastRead();
+        consume(LITERAL);
+        return createLiteral(Literal.class, literal);
+    }
+
+    /**
      * TYPE_VALUE := {@link TokenType#NUMBER_VALUE} | {@link TokenType#LONG_VALUE} |
      *               {@link TokenType#DOUBLE_VALUE} | {@link TokenType#FLOAT_VALUE} |
      *               {@link TokenType#BOOLEAN_VALUE} | {@link TokenType#CHAR_VALUE} |
@@ -581,17 +592,6 @@ public class JavaParser extends Parser {
         }
         nextSpaceless();
         return literal;
-    }
-
-    /**
-     * LITERAL := {@link TokenType#LITERAL}
-     *
-     * @return the node
-     */
-    protected @NotNull Literal parseLiteral() {
-        final String literal = getTokenizer().lastRead();
-        consume(LITERAL);
-        return createLiteral(Literal.class, literal);
     }
 
     /**
