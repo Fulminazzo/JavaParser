@@ -564,31 +564,31 @@ public class JavaParser extends Parser {
         final BaseTypeLiteral literal;
         switch (lastToken()) {
             case NUMBER_VALUE: {
-                literal = new NumberLiteral(read);
+                literal = createLiteral(NumberLiteral.class, read);
                 break;
             }
             case LONG_VALUE: {
-                literal = new LongLiteral(read);
+                literal = createLiteral(LongLiteral.class, read);
                 break;
             }
             case DOUBLE_VALUE: {
-                literal = new DoubleLiteral(read);
+                literal = createLiteral(DoubleLiteral.class, read);
                 break;
             }
             case FLOAT_VALUE: {
-                literal = new FloatLiteral(read);
+                literal = createLiteral(FloatLiteral.class, read);
                 break;
             }
             case BOOLEAN_VALUE: {
-                literal = new BooleanLiteral(read);
+                literal = createLiteral(BooleanLiteral.class, read);
                 break;
             }
             case CHAR_VALUE: {
-                literal = new CharLiteral(read);
+                literal = createLiteral(CharLiteral.class, read);
                 break;
             }
             case STRING_VALUE: {
-                literal = new StringLiteral(read);
+                literal = createLiteral(StringLiteral.class, read);
                 break;
             }
             default:
@@ -606,7 +606,7 @@ public class JavaParser extends Parser {
     protected @NotNull Literal parseLiteral() {
         final String literal = getTokenizer().lastRead();
         consume(LITERAL);
-        return new Literal(literal);
+        return createLiteral(Literal.class, literal);
     }
 
     /**
