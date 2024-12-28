@@ -223,7 +223,7 @@ class JavaParserTest extends Specification {
     def 'test array assignment'() {
         given:
         def expected = new Assignment(
-                new Literal('int[]'),
+                new ArrayLiteral(new Literal('int')),
                 new Literal('arr'),
                 new StaticArray(new Literal('int'), new NumberLiteral('0'))
         )
