@@ -12,7 +12,7 @@ import java.util.Arrays;
 /**
  * Represents a {@link TokenType#LITERAL} token in the program.
  */
-class LiteralImpl extends TokenizedNode {
+class LiteralImpl extends TokenizedNode implements Literal {
     private final @NotNull String value;
 
     /**
@@ -25,18 +25,10 @@ class LiteralImpl extends TokenizedNode {
         this.value = rawValue;
     }
 
-    /**
-     * Splits the literal by checking if the character '.' is present.
-     * If it is not, it will return a {@link Tuple} with key this {@link Literal} and value null.
-     * If it is, it will return a {@link Tuple} with key every string until the last '.' and value the remainder.
-     * <br/>
-     * For example, "hello.dear.world" will be split to ("hello.dear", "world")
-     *
-     * @return the tuple
-     */
+    @Override
     public @NotNull Tuple<Literal, Literal> splitLastDot() {
         if (!isDotted()) return new Tuple<>(this, null);
-        String[] tmp = this.rawValue.split("\\.");
+        String[] tmp = this.value.split("\\.");
         String last = tmp[tmp.length - 1];
         String first = String.join(".", Arrays.copyOfRange(tmp, 0, tmp.length - 1));
         return new Tuple<>(
@@ -45,13 +37,9 @@ class LiteralImpl extends TokenizedNode {
         );
     }
 
-    /**
-     * Checks if the character '.' is present in the given literal.
-     *
-     * @return true if it is
-     */
+    @Override
     public boolean isDotted() {
-        return this.rawValue.contains(".");
+        return this.value.contains(".");
     }
 
 }
