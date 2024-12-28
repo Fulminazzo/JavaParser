@@ -183,7 +183,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ENHANCED_FOR_STMT := for \( LITERAL(\[\])* LITERAL : EXPR \) BLOCK
+     * ENHANCED_FOR_STMT := for \( ARRAY_LITERAL LITERAL : EXPR \) BLOCK
      *
      * @return the node
      */
@@ -240,7 +240,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ASSIGNMENT := LITERAL(\[\])* LITERAL (=EXPR?) | LITERAL = EXPR | EXPR
+     * ASSIGNMENT := ARRAY_LITERAL LITERAL (=EXPR?) | LITERAL = EXPR | EXPR
      *
      * @return the node
      */
@@ -264,7 +264,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * EXPR := NEW_OBJECT | INCREMENT | DECREMENT | METHOD_CALL | LITERAL(\[\])*
+     * EXPR := NEW_OBJECT | INCREMENT | DECREMENT | METHOD_CALL | ARRAY_LITERAL
      *
      * @return the node
      */
