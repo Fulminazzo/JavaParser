@@ -563,7 +563,12 @@ public class JavaParser extends Parser {
     protected @NotNull Literal parseLiteral() {
         final String literal = getTokenizer().lastRead();
         consume(LITERAL);
-        return createLiteral(Literal.class, literal);
+        try {
+            return Literal.of(literal);
+        } catch (NodeException e) {
+            throw new ParserException(String.format("Invalid value '%s' provided for value type %s",
+                    literal, lastToken().name()), this);
+        }
     }
 
     /**
