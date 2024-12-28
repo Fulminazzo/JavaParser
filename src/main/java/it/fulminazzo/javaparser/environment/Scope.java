@@ -48,6 +48,16 @@ class Scope<T> implements Scoped<T> {
     }
 
     /**
+     * Searches the internal map for the associated {@link ObjectData} with the given name.
+     *
+     * @param name the name
+     * @return an optional containing the data (if found)
+     */
+    public @NotNull Optional<ObjectData<T>> getKey(@NotNull String name) {
+        return this.internalMap.keySet().stream().filter(d -> d.name.equals(name)).findFirst();
+    }
+
+    /**
      * Represents the information of an object.
      *
      * @param <O> the type of the object
