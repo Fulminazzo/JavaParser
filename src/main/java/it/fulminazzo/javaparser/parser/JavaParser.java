@@ -587,6 +587,15 @@ public class JavaParser extends Parser {
         Node expr = parseParenthesizedExpr();
         if (lastToken().between(MODULO, SPACE) || lastToken() == OPEN_PAR)
             expr = new Cast(expr, parseAtom());
+        else if (lastToken() == ADD) {
+            consume(ADD);
+            if (lastToken() == ADD) expr = new Cast(expr, parseIncrement());
+        } else if (lastToken() == SUBTRACT) {
+            consume(SUBTRACT);
+            if (lastToken() == SUBTRACT) expr = new Cast(expr, parseDecrement());
+            else if (lastToken().between(MODULO, SPACE) || lastToken() == OPEN_PAR)
+                expr = new Cast(expr, new Minus(parseAtom()));
+        }
         return expr;
     }
 
