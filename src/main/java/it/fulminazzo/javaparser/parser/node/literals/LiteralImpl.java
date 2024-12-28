@@ -26,23 +26,6 @@ class LiteralImpl extends TokenizedNode implements Literal {
     }
 
     @Override
-    public @NotNull Tuple<Literal, Literal> splitLastDot() {
-        if (!isDotted()) return new Tuple<>(this, null);
-        String[] tmp = this.value.split("\\.");
-        String last = tmp[tmp.length - 1];
-        String first = String.join(".", Arrays.copyOfRange(tmp, 0, tmp.length - 1));
-        return new Tuple<>(
-                new Refl<>(LiteralImpl.class, first).getObject(),
-                new Refl<>(LiteralImpl.class, last).getObject()
-        );
-    }
-
-    @Override
-    public boolean isDotted() {
-        return this.value.contains(".");
-    }
-
-    @Override
     public @NotNull String toString() {
         String clazzName = getClass().getSimpleName();
         // Remove 'Impl' suffix
