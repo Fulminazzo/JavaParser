@@ -5,17 +5,26 @@ import spock.lang.Specification
 import static it.fulminazzo.javaparser.tokenizer.TokenType.*
 
 class TokenTypeTest extends Specification {
+    static final BETWEEN_TOKENS = [
+            NUMBER_VALUE, LONG_VALUE, DOUBLE_VALUE,
+            FLOAT_VALUE, BOOLEAN_VALUE, CHAR_VALUE,
+            STRING_VALUE, LITERAL
+    ]
 
     def 'test #token between NOT and SPACE'() {
         expect:
         token.between(NOT, SPACE)
 
         where:
-        token << [
-                NUMBER_VALUE, LONG_VALUE, DOUBLE_VALUE,
-                FLOAT_VALUE, BOOLEAN_VALUE, CHAR_VALUE,
-                STRING_VALUE, LITERAL
-        ]
+        token << BETWEEN_TOKENS
+    }
+
+    def 'test #token not between NOT and SPACE'() {
+        expect:
+        !token.between(NOT, SPACE)
+
+        where:
+        token << values().findAll { !(it in BETWEEN_TOKENS) }
     }
 
     def 'test fromString: #token should be #expected'() {
