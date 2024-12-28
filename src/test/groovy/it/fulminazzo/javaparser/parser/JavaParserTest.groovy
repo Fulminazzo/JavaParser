@@ -282,6 +282,26 @@ class JavaParserTest extends Specification {
         output == expected
     }
 
+    def 'test execution of printf'() {
+        given:
+        def expected = new Statement(new MethodCall(
+                new Literal('System.out.printf'),
+                new MethodInvocation([
+                        new StringLiteral('\"%s, %s!\"'),
+                        new StringLiteral('\"Hello\"'),
+                        new StringLiteral('\"world\"')
+                ])
+        ))
+        def code = 'System.out.printf(\"%s, %s!\", \"Hello\", \"world\");'
+
+        when:
+        startReading(code)
+        def output = this.parser.parseStatement()
+
+        then:
+        output == expected
+    }
+
     def 'test method call'() {
         given:
         def expected = new MethodCall(
