@@ -11,8 +11,8 @@ class ScopeTest extends Specification {
 
     def 'declare should throw ScopeException on already declared variable'() {
         when:
-        this.scope.declare('var', '1')
-        this.scope.declare('var', '1')
+        this.scope.declare(new WrapperInfo<>(String), 'var', '1')
+        this.scope.declare(new WrapperInfo<>(String), 'var', '1')
 
         then:
         def e = thrown(ScopeException)

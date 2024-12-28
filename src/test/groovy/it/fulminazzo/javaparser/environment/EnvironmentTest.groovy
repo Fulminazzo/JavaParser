@@ -67,7 +67,7 @@ class EnvironmentTest extends Specification {
         def varName = 'var'
 
         when:
-        this.environment.declare(varName, 1)
+        this.environment.declare(new WrapperInfo<>(Integer), varName, 1)
         def declared = this.environment.isDeclared(varName)
         def first = this.environment.lookup(varName)
         this.environment.update(varName, 2)
@@ -84,8 +84,8 @@ class EnvironmentTest extends Specification {
         def varName = 'var'
 
         when:
-        this.environment.declare(varName, 1)
-        this.environment.declare(varName, 2)
+        this.environment.declare(new WrapperInfo<>(Integer), varName, 1)
+        this.environment.declare(new WrapperInfo<>(Integer), varName, 2)
 
         then:
         def e = thrown(ScopeException)
