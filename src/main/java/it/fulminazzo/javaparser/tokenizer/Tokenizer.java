@@ -44,12 +44,22 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
      * Reads until the character <code>\n</code> is met.
      * Then, it invokes {@link #nextSpaceless()}.
      *
-     * @return the token type.
+     * @return the newly read token type.
      */
     public @NotNull TokenType readUntilNextLine() {
+        return readUntil(TokenType.NEW_LINE);
+    }
+
+    /**
+     * Reads until the given {@link TokenType} is met.
+     * Then, it invokes {@link #nextSpaceless()}.
+     *
+     * @return the newly read token type.
+     */
+    public @NotNull TokenType readUntil(final @NotNull TokenType tokenType) {
         try {
             String read = this.previousRead;
-            while (this.input.available() > 0 && !read.endsWith("\n"))
+            while (this.input.available() > 0 && !read.matches("(.|\n)*" + tokenType.regex() + "$"))
                 read += updateLineCount(this.input.read());
             this.lastRead = read;
             this.previousRead = "";
