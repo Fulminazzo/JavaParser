@@ -1,4 +1,3 @@
-TODO: casts
 TODO: diamond operator
 TODO: lambda
 TODO: this
@@ -53,9 +52,11 @@ TODO: null
 # DIV := MOD ( (/ MOD)* | (/= MOD) )
 # MOD := ATOM ( (% ATOM)* | (%= ATOM) )
 
-# ATOM := PAR_EXPR | MINUS | NOT | LITERAL | TYPE_VALUE
+# ATOM := CAST | MINUS | NOT | LITERAL | TYPE_VALUE
 
+# CAST := (PAR_EXPR)* PAR_EXPR
 # PAR_EXPR := \( EXPR \)
+
 # MINUS := - EXPR
 # NOT := ! EXPR
 
