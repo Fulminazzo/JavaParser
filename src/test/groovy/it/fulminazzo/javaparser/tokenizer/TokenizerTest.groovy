@@ -78,6 +78,19 @@ class TokenizerTest extends Specification {
         tokenizer.nextSpaceless() == EOF
     }
 
+    def 'test tokenizer invalid dot'() {
+        given:
+        def input = '!.'.bytes
+        def tokenizer = new Tokenizer(new ByteArrayInputStream(input))
+
+        when:
+        tokenizer.next()
+        def output = tokenizer.lastToken()
+
+        then:
+        output == NOT
+    }
+
     def 'test tokenizer next'() {
         given:
         def input = '10 20.0 \'c\' \"Hello\"'.bytes
