@@ -519,10 +519,9 @@ public class JavaParser extends Parser {
     protected @NotNull Node parseCast() {
         Node expr = parseParenthesizedExpr();
         int tokenNumber = lastToken().ordinal();
-        if (tokenNumber >= EQUAL.ordinal() && tokenNumber < SPACE.ordinal() ||
+        if ((tokenNumber >= NOT.ordinal() && tokenNumber <= LITERAL.ordinal()) ||
                 tokenNumber == OPEN_PAR.ordinal())
-            do expr = new Cast(expr, parseExpression());
-            while (lastToken() == OPEN_PAR);
+            expr = new Cast(expr, parseAtom());
         return expr;
     }
 
