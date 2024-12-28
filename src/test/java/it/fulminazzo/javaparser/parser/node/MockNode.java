@@ -3,7 +3,7 @@ package it.fulminazzo.javaparser.parser.node;
 import lombok.Getter;
 
 @Getter
-public class MockNode extends Node {
+public class MockNode extends NodeImpl {
     final static String IGNORE = "Should be ignored";
     final String name;
     final int version;

@@ -29,7 +29,11 @@ public class DynamicArray extends Array {
 
     @Override
     public @NotNull String toString() {
-        return parseSingleListClassPrint();
+        return String.format("%s(%s, %s)", getClass().getSimpleName(),
+                this.type, this.parameters.toString()
+                        .replace("[", "{")
+                        .replace("]", "}")
+        );
     }
 
 }

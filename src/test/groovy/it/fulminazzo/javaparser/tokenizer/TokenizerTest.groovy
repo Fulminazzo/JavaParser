@@ -6,10 +6,94 @@ import static it.fulminazzo.javaparser.tokenizer.TokenType.*
 
 class TokenizerTest extends Specification {
 
-    def "test tokenizer next"() {
+    Tokenizer generateTokenizer(String input) {
+        return new Tokenizer(new ByteArrayInputStream(input.bytes))
+    }
+
+    Tokenizer generateExceptionTokenizer() {
+        def input = Mock(ByteArrayInputStream)
+        input.available() >> {
+            throw new IOException('Closed stream')
+        }
+        return new Tokenizer(input)
+    }
+
+    def 'test tokenizer hasNext method exception'() {
         given:
-        def input = "10 20.0 'c' \"Hello\"".bytes
-        def tokenizer = new Tokenizer(new ByteArrayInputStream(input))
+        def tokenizer = generateExceptionTokenizer()
+
+        when:
+        tokenizer.hasNext()
+
+        then:
+        thrown(TokenizerException)
+    }
+
+    def 'simulate reading of empty comment'() {
+        given:
+        def tokenizer = generateTokenizer('//\n10')
+
+        when:
+        def initialToken = tokenizer.nextSpaceless()
+        def finalToken = tokenizer.readUntilNextLine()
+
+        then:
+        initialToken == COMMENT_INLINE
+        finalToken == NUMBER_VALUE
+        tokenizer.lastRead() == '10'
+    }
+
+    def 'test tokenizer read until next line'() {
+        given:
+        def tokenizer = generateTokenizer('This should be totally ignored\n10')
+
+        when:
+        tokenizer.readUntilNextLine()
+
+        then:
+        tokenizer.lastToken() == NUMBER_VALUE
+        tokenizer.lastRead() == '10'
+    }
+
+    def 'test tokenizer read until next line method exception'() {
+        given:
+        def tokenizer = generateExceptionTokenizer()
+
+        when:
+        tokenizer.readUntilNextLine()
+
+        then:
+        thrown(TokenizerException)
+    }
+
+    def 'test tokenizer next spaceless'() {
+        given:
+        def tokenizer = generateTokenizer('         10')
+
+        when:
+        tokenizer.nextSpaceless()
+
+        then:
+        tokenizer.lastToken() == NUMBER_VALUE
+        tokenizer.lastRead() == '10'
+        tokenizer.nextSpaceless() == EOF
+    }
+
+    def 'test tokenizer invalid dot'() {
+        given:
+        def tokenizer = generateTokenizer('!.')
+
+        when:
+        tokenizer.next()
+        def output = tokenizer.lastToken()
+
+        then:
+        output == NOT
+    }
+
+    def 'test tokenizer next'() {
+        given:
+        def tokenizer = generateTokenizer('10 20.0 \'c\' \"Hello\"')
 
         when:
         def output = []
@@ -19,20 +103,37 @@ class TokenizerTest extends Specification {
         output == [NUMBER_VALUE, SPACE, DOUBLE_VALUE, SPACE,
                    CHAR_VALUE, SPACE, STRING_VALUE, EOF]
         tokenizer.lastToken() == EOF
-        tokenizer.lastRead() == ""
+        tokenizer.lastRead() == ''
     }
 
-    def "test tokenizer next spaceless"() {
+    def 'test tokenizer next method exception'() {
         given:
-        def input = "         10".bytes
-        def tokenizer = new Tokenizer(new ByteArrayInputStream(input))
+        def tokenizer = generateExceptionTokenizer()
+
+        when:
+        tokenizer.next()
+
+        then:
+        thrown(TokenizerException)
+    }
+
+    def 'test line and column methods reading code: #code'() {
+        given:
+        def tokenizer = generateTokenizer(code)
 
         when:
         tokenizer.nextSpaceless()
 
         then:
-        tokenizer.lastToken() == NUMBER_VALUE
-        tokenizer.lastRead() == "10"
+        tokenizer.line() == line
+        tokenizer.column() == column
+
+        where:
+        line | column | code
+        -1   | -1     | ''
+        1    | 1      | '1'
+        1    | 6      | 'return'
+        2    | 5      | '    \nbreak\n'
     }
 
 }

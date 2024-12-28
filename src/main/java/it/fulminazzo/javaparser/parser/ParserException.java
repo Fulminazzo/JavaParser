@@ -1,19 +1,38 @@
 package it.fulminazzo.javaparser.parser;
 
+import it.fulminazzo.javaparser.tokenizer.TokenType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Exception used to notify about errors coming from {@link JavaParser}.
  */
-public class ParserException extends RuntimeException {
+final class ParserException extends RuntimeException {
 
     /**
      * Instantiates a new Parser exception.
      *
      * @param message the message of the exception
+     * @param parser  the parser that generated the exception
      */
-    public ParserException(final @NotNull String message) {
-        super(message);
+    public ParserException(final @NotNull String message,
+                           final @Nullable Parser parser) {
+        super(String.format("At line %s, column %s: %s",
+                parser == null ? "0" : parser.getTokenizer().line(),
+                parser == null ? "0" : parser.getTokenizer().column(),
+                message)
+        );
+    }
+
+    /**
+     * Instantiates a new Parser exception with message "<i>Unexpected token %tokenType%</i>".
+     *
+     * @param tokenType the token type
+     * @param parser  the parser that generated the exception
+     */
+    public ParserException(final @NotNull TokenType tokenType,
+                           final @NotNull Parser parser) {
+        this("Unexpected token: "  + tokenType, parser);
     }
 
 }

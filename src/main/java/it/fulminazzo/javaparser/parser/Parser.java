@@ -65,7 +65,7 @@ abstract class Parser {
     protected void match(final @NotNull TokenType tokenType) {
         TokenType lastToken = lastToken();
         if (lastToken != tokenType)
-            throw new ParserException("Expected token " + tokenType + " but found " + lastToken);
+            throw new ParserException("Expected token " + tokenType + " but found " + lastToken, this);
     }
 
     /**
@@ -105,7 +105,7 @@ abstract class Parser {
      */
     protected @NotNull Tokenizer getTokenizer() {
         if (this.tokenizer == null)
-            throw new ParserException("No input was provided!");
+            throw new ParserException("No input was provided!", null);
         return this.tokenizer;
     }
 

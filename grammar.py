@@ -1,43 +1,36 @@
-TODO: casts
 TODO: diamond operator
 TODO: lambda
-# TODO: switch statement
-TODO: the environment scope should have an owner attribute, in order to check if break is applied in valid context
 TODO: this
-TODO: comments
+TODO: try, catch and throws
+TODO: null
 
-PROGRAM := (SINGLE_STMT\s?)*STMT;?
+# JAVA_PROGRAM := SINGLE_STMT*
 
-# SINGLE_STMT: STMT?;
-# BLOCK := {PROGRAM}
-# CODE_BLOCK := (SINGLE_STMT | BLOCK)
+# BLOCK := CODE_BLOCK | SINGLE_STMT
+# CODE_BLOCK := \{ SINGLE_STMT* \}
+# SINGLE_STMT := STMT | ;
 
-# STMT := RETURN_STMT | METHOD_STMT | ASSIGN_STMT | RE_ASSIGN_STMT |
-#         FOR_STMT | IF_STMT | WHILE_STMT | DO_STMT | SWITCH_STMT
-# 		INCREASE_ASSIGN_STMT | DECREASE_ASSIGN_STMT | BREAK_STMT | CONTINUE_STMT
-# RETURN_STMT := return EXPR;?
-# BREAK_STMT := break;
-# CONTINUE_STMT := continue;
-# METHOD_STMT := METHOD_CALL;
-# ASSIGN_STMT := (LITERAL|TYPE)(\[\])? RE_ASSIGN;
-# RE_ASSIGN_STMT := RE_ASSIGN;
-# INCREASE_ASSIGN_STMT := INCREASE_ASSIGN;
-# DECREASE_ASSIGN_STMT := DECREASE_ASSIGN;
+# STMT := return EXPR; | break; | continue; |
+#         SWITCH_STMT | FOR_STMT | DO_STMT | WHILE_STMT | IF_STMT
+#         ASSIGNMENT;
 
-# FOR_STMT := (for \(ASSIGN_STMT?; EXPR?; EXPR?\) | for \(LITERAL LITERAL_NO_DOT : EXPR\)) CODE_BLOCK
-# IF_STMT := if \(EXPR\) CODE_BLOCK (else IF_STMT)* (else CODE_BLOCK)?
-# WHILE_STMT := while \(EXPR\) CODE_BLOCK
-# DO_STMT := do CODE_BLOCK while \(EXPR\)
-# SWITCH_STMT := TODO:
+# SWITCH_STMT := switch ...
+# FOR_STMT := for \( ASSIGNMENT?; EXPR?; EXPR? \) BLOCK | ENHANCED_FOR_STMT
+# ENHANCED_FOR_STMT := for \( ARRAY_LITERAL LITERAL : EXPR \) BLOCK
+# DO_STMT := do BLOCK while PAR_EXPR
+# WHILE_STMT := while PAR_EXPR BLOCK
+# IF_STMT := if PAR_EXPR BLOCK (else IF_STMT)* (else BLOCK)?
+# ASSIGNMENT := ARRAY_LITERAL LITERAL (=EXPR?) | LITERAL = EXPR | EXPR
 
-# EXPR := EQUAL | METHOD_CALL | FIELD_GET | RE_ASSIGN | INCREASE_ASSIGN | DECREASE_ASSIGN
-# METHOD_CALL := LITERAL.LITERAL_NO_DOT METHOD_INVOCATION
-# METHOD_INVOCATION := \((EXPR)?(, EXPR)*\)
-# FIELD_GET := LITERAL.LITERAL_NO_DOT # Literal!
-# RE_ASSIGN := LITERAL_NO_DOT (+|-|*|/|%|&|\||^|<<|>>|>>>)?= EXPR
-
-# INCREASE_ASSIGN := ++LITERAL_NO_DOT | LITERAL_NO_DOT++
-# DECREASE_ASSIGN := --LITERAL_NO_DOT | LITERAL_NO_DOT--
+# EXPR := NEW_OBJECT | INCREMENT | DECREMENT | METHOD_CALL | ARRAY_LITERAL
+# NEW_OBJECT := new LITERAL METHOD_INVOCATION |
+#               new ARRAY_LITERAL{ (EXPR)? (, EXPR)* \} |
+#               new LITERAL(\[NUMBER_VALUE\])+
+# ARRAY_LITERAL := LITERAL(\[\])*
+# INCREMENT := ++ATOM
+# DECREMENT := --ATOM | MINUS
+# METHOD_CALL := EQUAL ( METHOD_INVOCATION )*
+# METHOD_INVOCATION := \( (EXPR)? (, EXPR)* \)
 
 # EQUAL := NOT_EQUAL (== NOT_EQUAL)*
 # NOT_EQUAL := LESS_THAN (!= LESS_THAN)*
@@ -48,31 +41,35 @@ PROGRAM := (SINGLE_STMT\s?)*STMT;?
 # AND := OR (&& OR)*
 # OR := BIT_AND (|| BIT_AND)*
 
-# BIT_AND := BIT_OR (& BIT_OR)*
-# BIT_OR := BIT_XOR (| BIT_XOR)*
-# BIT_XOR := LSHIFT (^ LSHIFT)*
-# LSHIFT := RSHIFT (<< RSHIFT)*
-# RSHIFT := URSHIFT (>> URSHIFT)*
-# URSHIFT := ADD (>>> ADD)*
+# BIT_AND := BIT_OR ( (& BIT_OR)* | (&= BIT_OR) )
+# BIT_OR := BIT_XOR ( (| BIT_XOR)* | (|= BIT_XOR) )
+# BIT_XOR := LSHIFT ( (^ LSHIFT)* | (^= LSHIFT) )
+# LSHIFT := RSHIFT ( (<< RSHIFT)* | (<<= RSHIFT) )
+# RSHIFT := URSHIFT ( (>> URSHIFT)* | (>>= URSHIFT) )
+# URSHIFT := ADD ( (>>> ADD)* | (>>>= ADD) )
+# ADD := SUB ( (+ SUB)* | (+= SUB) | ++ )
+# SUB := MUL ( (- MUL)* | (-= MUL) | -- )
+# MUL := DIV ( (* DIV)* | (*= DIV) )
+# DIV := MOD ( (/ MOD)* | (/= MOD) )
+# MOD := ATOM ( (% ATOM)* | (%= ATOM) )
 
-# ADD := SUB (+ SUB)*
-# SUB := MUL (- MUL)*
-# MUL := DIV (* DIV)*
-# DIV := MOD (/ MOD)*
-# MOD := MINUS (% MINUS)*
+# ATOM := CAST | MINUS | NOT | LITERAL | TYPE_VALUE
 
-# ATOM := LITERAL | TYPE_VALUE | NEW_OBJECT | LITERAL | NEW_ARRAY | \(EXPR\) | -EXPR | !EXPR
-# NEW_OBJECT := new LITERAL METHOD_INVOCATION
-# NEW_ARRAY := new LITERAL\[\]({(EXPR)?(, EXPR)*})?
+# CAST := (PAR_EXPR)* (EXPR | PAR_EXPR)
+# PAR_EXPR := \( EXPR \)
 
-# TYPE_VALUE := NUMBER | DOUBLE | FLOAT | LONG | BOOLEAN | CHARACTER | STRING
-# NUMBER := [0-9]+
-# LONG := (?[0-9]+)[Ll]?
-# DOUBLE := (?[0-9]+(?:.[0-9]+)?)(?:E[-0-9]+)?[Dd]?
-# FLOAT := (?[0-9]+(?:.[0-9]+)?)(?:E[-0-9]+)?[Ff]
-# BOOLEAN := (true|false)
-# CHARACTER := '([^']|\[rstnfbRSTNFB'"\])'
-# STRING := "\"((?:[^\"]|\\\")*)\""
+# MINUS := - EXPR
+# NOT := ! EXPR
 
-#LITERAL := ([a-zA-Z_][a-zA-Z0-9_.]*) # Uses dot to match "new it.fulminazzo.FulmiCollection()" and similar
-#LITERAL_NO_DOT := ([a-zA-Z_][a-zA-Z0-9_]*)
+# LITERAL := [a-zA-Z_](?:[a-zA-Z0-9._]*[a-zA-Z0-9_])*
+
+# TYPE_VALUE := NUMBER_VALUE | LONG_VALUE |
+#               DOUBLE_VALUE | FLOAT_VALUE |
+#               BOOLEAN_VALUE | CHAR_VALUE | STRING_VALUE
+# NUMBER_VALUE := [0-9]+
+# LONG_VALUE := [0-9]+[Ll]?
+# DOUBLE_VALUE := [0-9]+(?:.[0-9]+)?(?:E[-0-9]+)?[Dd]?
+# FLOAT_VALUE := [0-9]+(?:.[0-9]+)?(?:E[-0-9]+)?[Ff]?
+# BOOLEAN_VALUE := true|false
+# CHAR_VALUE := '([^\r\n\t \\]|\\[rbnft\\"'])'
+# STRING_VALUE := "((?:[^"]|\")*")

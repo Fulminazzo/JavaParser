@@ -7,6 +7,11 @@ import org.jetbrains.annotations.NotNull;
  */
 public enum TokenType {
 
+    // Miscellaneous
+    COMMENT_INLINE("\\/\\/"),
+    COMMENT_BLOCK_START("\\/\\*"),
+    COMMENT_BLOCK_END("\\*\\/"),
+
     // Statement
     RETURN("return"),
     BREAK("break"),
@@ -56,7 +61,6 @@ public enum TokenType {
     MODULO("%"),
 
     // Unary Operations
-    MINUS("\\-"),
     NOT("!"),
 
     // Type values
@@ -69,8 +73,9 @@ public enum TokenType {
     STRING_VALUE("\"((?:[^\"]|\\\")*\")"),
 
     // General
-    LITERAL("[a-zA-Z][a-zA-Z0-9_.]*"),
+    LITERAL("[a-zA-Z_](?:[a-zA-Z0-9._]*[a-zA-Z0-9_])*"),
     SPACE("[\r\t\n ]"),
+    NEW_LINE("\n"),
     EOF("")
     ;
 
@@ -78,6 +83,36 @@ public enum TokenType {
 
     TokenType(final @NotNull String regex) {
         this.regex = regex;
+    }
+
+    /**
+     * Gets the regex used by the current type.
+     *
+     * @return the regex
+     */
+    public @NotNull String regex() {
+        return this.regex;
+    }
+
+    /**
+     * Checks whether the current token is declared after <b>token</b> (NON-INCLUSIVE).
+     *
+     * @param token the token
+     * @return true if it is
+     */
+    public boolean after(final @NotNull TokenType token) {
+        return ordinal() > token.ordinal();
+    }
+
+    /**
+     * Checks whether the current token is declared between <b>start</b> and <b>end</b> (NON-INCLUSIVE).
+     *
+     * @param start the start token
+     * @param end   the end token
+     * @return true if it is
+     */
+    public boolean between(final @NotNull TokenType start, final @NotNull TokenType end) {
+        return after(start) && end.after(this);
     }
 
     /**
