@@ -315,10 +315,22 @@ public class JavaParser extends Parser {
             return new DynamicArray(literal, parameters);
         } else if (lastToken() == OPEN_BRACKET) {
             // static array initialization
-            consume(OPEN_BRACKET);
-            NumberValueLiteral size = (NumberValueLiteral) parseTypeValue();
-            consume(CLOSE_BRACKET);
-            return new StaticArray(literal, size);
+            StaticArray array = null;
+            while (lastToken() == OPEN_BRACKET) {
+                consume(OPEN_BRACKET);
+                NumberValueLiteral size = (NumberValueLiteral) parseTypeValue();
+                consume(CLOSE_BRACKET);
+                if (array == null) array = new StaticArray(literal, size);
+                else {
+                    // Update only the most internal type
+                    Refl<?> curr = new Refl<>(array);
+                    Node type;
+                    while ((type = curr.getFieldObject("type")).is(StaticArray.class))
+                        curr = new Refl<>(type);
+                    curr.setFieldObject("type", new StaticArray(literal, size));
+                }
+            }
+            return array;
         } else {
             // new object
             MethodInvocation invocation = parseMethodInvocation();
