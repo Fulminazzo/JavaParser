@@ -477,6 +477,22 @@ class JavaParserTest extends Specification {
         'int'   | new Literal('int')
     }
 
+    def 'test cast'() {
+        given:
+        def expected = new Cast(
+                new Literal('double'),
+                new Cast(new Literal('int'), new NumberLiteral('1'))
+        )
+        def code = '(double) (int) 1'
+
+        when:
+        startReading(code)
+        def parsed = this.parser.parseCast()
+
+        then:
+        parsed == expected
+    }
+
     def 'test minus'() {
         given:
         def expected = new Minus(new NumberLiteral('1'))
