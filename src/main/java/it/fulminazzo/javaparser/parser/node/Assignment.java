@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents an assignment statement.
  */
-public class Assignment extends Node {
+public class Assignment extends NodeImpl {
     @Getter
     private final @NotNull Node type;
     @Getter

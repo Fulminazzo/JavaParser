@@ -1,12 +1,13 @@
 package it.fulminazzo.javaparser.parser.node.arrays;
 
 import it.fulminazzo.javaparser.parser.node.Node;
+import it.fulminazzo.javaparser.parser.node.NodeImpl;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a general array declaration.
  */
-abstract class Array extends Node{
+abstract class Array extends NodeImpl {
     protected final @NotNull Node type;
 
     /**

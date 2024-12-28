@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a method call invocation.
  */
-public class MethodCall extends Node {
+public class MethodCall extends NodeImpl {
     private final @NotNull Node executor;
     private final @NotNull MethodInvocation invocation;
 

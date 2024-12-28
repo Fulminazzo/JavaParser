@@ -1,6 +1,6 @@
 package it.fulminazzo.javaparser.parser.node;
 
-class MockNode extends Node {
+class MockNode extends NodeImpl {
     final static String IGNORE = "Should be ignored";
     final String name;
     final int version;

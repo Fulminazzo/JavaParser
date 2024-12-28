@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
  * and throw a {@link NodeException} in case of error.
  */
 @Getter
-public abstract class TokenizedNode extends Node {
+public abstract class TokenizedNode extends NodeImpl {
 
     /**
      * Instantiates a new Tokenized node.
