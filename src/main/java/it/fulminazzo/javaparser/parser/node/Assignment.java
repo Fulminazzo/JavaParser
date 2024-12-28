@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.parser.node;
 
+import it.fulminazzo.javaparser.parser.node.types.EmptyLiteral;
 import it.fulminazzo.javaparser.parser.node.types.Literal;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -27,6 +28,17 @@ public class Assignment extends Node {
         this.type = type;
         this.name = name;
         this.value = value;
+    }
+
+    /**
+     * Checks whether the current assignment is initialized.
+     * An uninitialized assignment is of type:
+     * <code>LITERAL LITERAL;</code>
+     *
+     * @return true if it is
+     */
+    public boolean isInitialized() {
+        return !this.value.is(EmptyLiteral.class);
     }
 
 }
