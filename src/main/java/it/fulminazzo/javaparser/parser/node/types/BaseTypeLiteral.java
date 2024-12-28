@@ -19,9 +19,9 @@ public abstract class BaseTypeLiteral extends Node {
      * @param type the type
      */
     public BaseTypeLiteral(final @NotNull String rawValue,
-                           final @NotNull TokenType type) {
+                           final @NotNull TokenType type) throws LiteralException {
         if (type.matches(rawValue)) this.rawValue = rawValue;
-        else throw new IllegalArgumentException("Invalid raw value: " + rawValue);
+        else throw new LiteralException();
     }
 
 }
