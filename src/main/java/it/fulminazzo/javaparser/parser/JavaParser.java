@@ -163,12 +163,12 @@ public class JavaParser extends Parser {
 
         Node assignment;
         if (lastToken() != SEMICOLON) {
-            final Literal literal = parseLiteral();
-            if (lastToken() == LITERAL) {
-                final Literal second = parseLiteral();
-                if (lastToken() == COLON) return parseEnhancedForStatement(literal, second);
-                else assignment = parseAssignmentStrict(literal, second);
-            } else assignment = parseAssignmentPartial(literal);
+            assignment = parseAssignment();
+            if (assignment.is(Assignment.class)) {
+                Assignment ass = (Assignment) assignment;
+                if (!ass.isInitialized() && lastToken() == COLON)
+                    return parseEnhancedForStatement(ass);
+            }
         } else assignment = new Statement();
         consume(SEMICOLON);
 
@@ -187,13 +187,12 @@ public class JavaParser extends Parser {
      *
      * @return the node
      */
-    private @NotNull EnhancedForStatement parseEnhancedForStatement(final @NotNull Literal type,
-                                                                    final @NotNull Literal variable) {
+    private @NotNull EnhancedForStatement parseEnhancedForStatement(final @NotNull Assignment assignment) {
         consume(COLON);
         Node expr = parseExpression();
         consume(CLOSE_PAR);
         CodeBlock block = parseBlock();
-        return new EnhancedForStatement(type, variable, expr, block);
+        return new EnhancedForStatement(assignment.getType(), assignment.getName(), expr, block);
     }
 
     /**
