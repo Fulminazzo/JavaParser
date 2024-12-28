@@ -32,6 +32,7 @@ public enum TokenType {
     CLOSE_BRACKET("\\]"),
     OPEN_BRACE("\\{"),
     CLOSE_BRACE("\\}"),
+    DOT("\\."),
     COMMA(","),
     SEMICOLON(";"),
     COLON(":"),
