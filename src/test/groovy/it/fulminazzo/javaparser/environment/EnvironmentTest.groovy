@@ -16,6 +16,18 @@ class EnvironmentTest extends Specification {
         while (!this.environment.isMainScope()) this.environment.exitScope()
     }
 
+    def 'test main scope should not be anything else'() {
+        when:
+        this.environment.checkScopeType(scopeType)
+
+        then:
+        def e = thrown(ScopeException)
+        e.message == this.environment.scopeTypeMismatch(scopeType).message
+
+        where:
+        scopeType << ScopeType.values().findAll { it != ScopeType.MAIN }
+    }
+
     def 'test exit of main scope should throw exception'() {
         when:
         this.environment.exitScope()
