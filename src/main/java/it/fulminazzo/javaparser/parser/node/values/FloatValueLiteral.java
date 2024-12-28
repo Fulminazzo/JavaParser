@@ -5,17 +5,17 @@ import it.fulminazzo.javaparser.tokenizer.TokenType;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents a {@link TokenType#NUMBER_VALUE} literal.
+ * Represents a {@link TokenType#FLOAT_VALUE} literal.
  */
-public class NumberLiteral extends ValueLiteral {
+public class FloatValueLiteral extends ValueLiteral {
 
     /**
-     * Instantiates a new Number literal.
+     * Instantiates a new Float literal.
      *
      * @param rawValue the raw value
      */
-    public NumberLiteral(final @NotNull String rawValue) throws NodeException {
-        super(rawValue, TokenType.NUMBER_VALUE);
+    public FloatValueLiteral(final @NotNull String rawValue) throws NodeException {
+        super(rawValue, TokenType.FLOAT_VALUE);
     }
 
 }

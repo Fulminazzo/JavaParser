@@ -7,14 +7,14 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a {@link TokenType#STRING_VALUE} literal.
  */
-public class StringLiteral extends ValueLiteral {
+public class StringValueLiteral extends ValueLiteral {
 
     /**
      * Instantiates a new String literal.
      *
      * @param rawValue the raw value
      */
-    public StringLiteral(final @NotNull String rawValue) throws NodeException {
+    public StringValueLiteral(final @NotNull String rawValue) throws NodeException {
         super(rawValue, TokenType.STRING_VALUE);
     }
 

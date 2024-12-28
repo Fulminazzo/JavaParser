@@ -5,17 +5,17 @@ import it.fulminazzo.javaparser.tokenizer.TokenType;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents a {@link TokenType#LONG_VALUE} literal.
+ * Represents a {@link TokenType#DOUBLE_VALUE} literal.
  */
-public class LongLiteral extends ValueLiteral {
+public class DoubleValueLiteral extends ValueLiteral {
 
     /**
-     * Instantiates a new Long literal.
+     * Instantiates a new Double literal.
      *
      * @param rawValue the raw value
      */
-    public LongLiteral(final @NotNull String rawValue) throws NodeException {
-        super(rawValue, TokenType.LONG_VALUE);
+    public DoubleValueLiteral(final @NotNull String rawValue) throws NodeException {
+        super(rawValue, TokenType.DOUBLE_VALUE);
     }
 
 }

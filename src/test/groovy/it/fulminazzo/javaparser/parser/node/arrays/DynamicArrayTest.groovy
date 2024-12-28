@@ -1,7 +1,7 @@
 package it.fulminazzo.javaparser.parser.node.arrays
 
 import it.fulminazzo.javaparser.parser.node.literals.Literal
-import it.fulminazzo.javaparser.parser.node.values.NumberLiteral
+import it.fulminazzo.javaparser.parser.node.values.NumberValueLiteral
 import spock.lang.Specification
 
 class DynamicArrayTest extends Specification {
@@ -9,9 +9,9 @@ class DynamicArrayTest extends Specification {
 
     void setup() {
         this.array = new DynamicArray(new Literal('int'), Arrays.asList(
-                new NumberLiteral('1'),
-                new NumberLiteral('2'),
-                new NumberLiteral('3'),
+                new NumberValueLiteral('1'),
+                new NumberValueLiteral('2'),
+                new NumberValueLiteral('3'),
         ))
     }
 

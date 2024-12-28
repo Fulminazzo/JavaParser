@@ -299,7 +299,7 @@ public class JavaParser extends Parser {
             case OPEN_BRACKET: {
                 consume(OPEN_BRACKET);
                 if (lastToken() == NUMBER_VALUE) {
-                    NumberLiteral size = (NumberLiteral) parseTypeValue();
+                    NumberValueLiteral size = (NumberValueLiteral) parseTypeValue();
                     consume(CLOSE_BRACKET);
                     return new StaticArray(literal, size);
                 } else {
@@ -579,31 +579,31 @@ public class JavaParser extends Parser {
         final ValueLiteral literal;
         switch (lastToken()) {
             case NUMBER_VALUE: {
-                literal = createLiteral(NumberLiteral.class, read);
+                literal = createLiteral(NumberValueLiteral.class, read);
                 break;
             }
             case LONG_VALUE: {
-                literal = createLiteral(LongLiteral.class, read);
+                literal = createLiteral(LongValueLiteral.class, read);
                 break;
             }
             case DOUBLE_VALUE: {
-                literal = createLiteral(DoubleLiteral.class, read);
+                literal = createLiteral(DoubleValueLiteral.class, read);
                 break;
             }
             case FLOAT_VALUE: {
-                literal = createLiteral(FloatLiteral.class, read);
+                literal = createLiteral(FloatValueLiteral.class, read);
                 break;
             }
             case BOOLEAN_VALUE: {
-                literal = createLiteral(BooleanLiteral.class, read);
+                literal = createLiteral(BooleanValueLiteral.class, read);
                 break;
             }
             case CHAR_VALUE: {
-                literal = createLiteral(CharLiteral.class, read);
+                literal = createLiteral(CharValueLiteral.class, read);
                 break;
             }
             case STRING_VALUE: {
-                literal = createLiteral(StringLiteral.class, read);
+                literal = createLiteral(StringValueLiteral.class, read);
                 break;
             }
             default:
