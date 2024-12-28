@@ -497,7 +497,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ATOM := CAST | MINUS | NOT | LITERAL | TYPE_VALUE
+     * ATOM := CAST MINUS | NOT | LITERAL | TYPE_VALUE
      *
      * @return the node
      */
@@ -512,14 +512,14 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * CAST := (PAR_EXPR)* PAR_EXPR
+     * CAST := (PAR_EXPR)* (EXPR | PAR_EXPR)
      *
      * @return the node
      */
     protected @NotNull Node parseCast() {
         Node expr = parseParenthesizedExpr();
-        while (lastToken() == OPEN_PAR)
-            expr = new Cast(expr, parseParenthesizedExpr());
+        do expr = new Cast(expr, parseExpression());
+        while (lastToken() == OPEN_PAR);
         return expr;
     }
 
