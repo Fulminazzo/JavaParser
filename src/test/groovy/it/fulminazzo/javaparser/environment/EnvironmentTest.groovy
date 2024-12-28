@@ -8,7 +8,7 @@ class EnvironmentTest extends Specification {
     private Environment<Integer> environment
 
     void setup() {
-        this.environment = new Environment().enterScope(ScopeType.CODE_BLOCK)
+        this.environment = new Environment()
     }
 
     void cleanup() {
