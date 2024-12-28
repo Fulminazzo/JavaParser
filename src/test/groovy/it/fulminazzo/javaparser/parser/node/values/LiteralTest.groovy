@@ -1,4 +1,4 @@
-package it.fulminazzo.javaparser.parser.node.types
+package it.fulminazzo.javaparser.parser.node.values
 
 import spock.lang.Specification
 

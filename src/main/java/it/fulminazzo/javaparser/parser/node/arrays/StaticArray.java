@@ -1,7 +1,7 @@
 package it.fulminazzo.javaparser.parser.node.arrays;
 
 import it.fulminazzo.javaparser.parser.node.Node;
-import it.fulminazzo.javaparser.parser.node.types.NumberLiteral;
+import it.fulminazzo.javaparser.parser.node.values.NumberLiteral;
 import org.jetbrains.annotations.NotNull;
 
 /**

@@ -1,4 +1,4 @@
-package it.fulminazzo.javaparser.parser.node.types;
+package it.fulminazzo.javaparser.parser.node.values;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;

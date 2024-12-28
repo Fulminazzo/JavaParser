@@ -1,7 +1,7 @@
 package it.fulminazzo.javaparser.parser.node.arrays
 
-import it.fulminazzo.javaparser.parser.node.types.Literal
-import it.fulminazzo.javaparser.parser.node.types.NumberLiteral
+import it.fulminazzo.javaparser.parser.node.values.Literal
+import it.fulminazzo.javaparser.parser.node.values.NumberLiteral
 import spock.lang.Specification
 
 class DynamicArrayTest extends Specification {

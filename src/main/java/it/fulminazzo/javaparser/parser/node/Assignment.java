@@ -1,7 +1,7 @@
 package it.fulminazzo.javaparser.parser.node;
 
-import it.fulminazzo.javaparser.parser.node.types.EmptyLiteral;
-import it.fulminazzo.javaparser.parser.node.types.Literal;
+import it.fulminazzo.javaparser.parser.node.values.EmptyLiteral;
+import it.fulminazzo.javaparser.parser.node.values.Literal;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 

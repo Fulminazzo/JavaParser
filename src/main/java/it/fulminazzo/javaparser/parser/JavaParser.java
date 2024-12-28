@@ -14,7 +14,7 @@ import it.fulminazzo.javaparser.parser.node.operators.unary.Increment;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Minus;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Not;
 import it.fulminazzo.javaparser.parser.node.statements.*;
-import it.fulminazzo.javaparser.parser.node.types.*;
+import it.fulminazzo.javaparser.parser.node.values.*;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.tokenizer.Tokenizer;
 import lombok.NoArgsConstructor;
