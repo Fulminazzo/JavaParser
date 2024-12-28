@@ -95,6 +95,16 @@ public enum TokenType {
     }
 
     /**
+     * Checks whether the current token is declared after <b>token</b> (NON-INCLUSIVE).
+     *
+     * @param token the token
+     * @return true if it is
+     */
+    public boolean after(final @NotNull TokenType token) {
+        return ordinal() > token.ordinal();
+    }
+
+    /**
      * Checks whether the current token is declared between <b>start</b> and <b>end</b> (INCLUSIVE).
      *
      * @param start the start token
