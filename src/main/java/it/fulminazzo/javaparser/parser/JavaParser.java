@@ -494,8 +494,8 @@ public class JavaParser extends Parser {
      * LSHIFT := RSHIFT ( (<< RSHIFT)* | (<<= RSHIFT) )
      * RSHIFT := URSHIFT ( (>> URSHIFT)* | (>>= URSHIFT) )
      * URSHIFT := ADD ( (>>> ADD)* | (>>>= ADD) )
-     * ADD := SUB ( (+ SUB)* | (+= SUB) )
-     * SUB := MUL ( (- MUL)* | (-= MUL) )
+     * ADD := SUB ( (+ SUB)* | (+= SUB) | ++ )
+     * SUB := MUL ( (- MUL)* | (-= MUL) | -- )
      * MUL := DIV ( (* DIV)* | (*= DIV) )
      * DIV := MOD ( (/ MOD)* | (/= MOD) )
      * MOD := MINUS ( (% MINUS)* | (%= MINUS) )
@@ -511,12 +511,20 @@ public class JavaParser extends Parser {
             while (lastToken() == operation) {
                 consume(operation);
                 TokenType lastToken = lastToken();
-                Node nextOperationNode = parseBinaryOperation(nextOperation);
-                Node newNode = generateBinaryOperationFromToken(operation, node, nextOperationNode);
-                if (lastToken == ASSIGN) {
-                    node = new ReAssign(node, newNode);
-                    break;
-                } else node = newNode;
+                if (operation == ADD && lastToken == ADD) {
+                    consume(ADD);
+                    return new Increment(node, false);
+                } else if (operation == SUBTRACT && lastToken == SUBTRACT) {
+                    consume(SUBTRACT);
+                    return new Decrement(node, false);
+                } else {
+                    Node nextOperationNode = parseBinaryOperation(nextOperation);
+                    Node newNode = generateBinaryOperationFromToken(operation, node, nextOperationNode);
+                    if (lastToken == ASSIGN) {
+                        node = new ReAssign(node, newNode);
+                        break;
+                    } else node = newNode;
+                }
             }
             return node;
         }
