@@ -64,7 +64,7 @@ public enum ClassObjectType implements ClassType {
 
     @Override
     public Class<?> toJavaClass() {
-        return ReflectionUtils.getClass("java.lang." + StringUtils.decapitalize(name()));
+        return ReflectionUtils.getClass("java.lang." + StringUtils.capitalize(name()));
     }
 
     @Override
