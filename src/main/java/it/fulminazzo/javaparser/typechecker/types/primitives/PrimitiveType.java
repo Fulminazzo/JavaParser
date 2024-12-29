@@ -11,14 +11,14 @@ import org.jetbrains.annotations.NotNull;
  *
  * @param <I> the type
  */
-abstract class PrimitiveType<I extends Type> extends ClassType<I> implements EnumType {
+class PrimitiveType<I extends Type> extends ClassType<I> implements EnumType {
 
     /**
      * Instantiates a new Primitive type.
      *
      * @param internalType the internal type
      */
-    PrimitiveType(final @NotNull I internalType) {
+    public PrimitiveType(final @NotNull I internalType) {
         super(internalType);
     }
 
