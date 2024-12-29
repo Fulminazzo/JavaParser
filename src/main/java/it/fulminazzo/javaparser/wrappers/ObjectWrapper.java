@@ -1,4 +1,6 @@
-package it.fulminazzo.javaparser;
+package it.fulminazzo.javaparser.wrappers;
+
+import java.util.Objects;
 
 /**
  * Represents a wrapper for an object.
@@ -20,12 +22,12 @@ public class ObjectWrapper<O> {
 
     @Override
     public int hashCode() {
-        return getClass().hashCode() + this.object.hashCode();
+        return getClass().hashCode() ^ this.object.hashCode();
     }
 
     @Override
     public boolean equals(Object o) {
-        return o != null && getClass().equals(o.getClass()) && this.object.equals(((ObjectWrapper<?>) o).object);
+        return o != null && getClass().equals(o.getClass()) && Objects.equals(this.object, ((ObjectWrapper<?>) o).object);
     }
 
     @Override

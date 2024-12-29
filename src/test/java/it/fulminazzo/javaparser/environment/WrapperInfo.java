@@ -1,6 +1,6 @@
 package it.fulminazzo.javaparser.environment;
 
-import it.fulminazzo.javaparser.ObjectWrapper;
+import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
 class WrapperInfo<T> extends ObjectWrapper<Class<T>> implements Info {

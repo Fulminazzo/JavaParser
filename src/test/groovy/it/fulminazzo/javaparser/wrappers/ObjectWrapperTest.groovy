@@ -1,4 +1,4 @@
-package it.fulminazzo.javaparser
+package it.fulminazzo.javaparser.wrappers
 
 import spock.lang.Specification
 
@@ -8,12 +8,15 @@ class ObjectWrapperTest extends Specification {
 
     void setup() {
         this.string = 'Hello, world!'
-        this.wrapper = new MockWrapper(string)
+        this.wrapper = new MockWrapper(this.string)
     }
 
     def 'test hashCode'() {
+        given:
+        int code = MockWrapper.hashCode() ^ this.string.hashCode()
+
         expect:
-        this.wrapper.hashCode() == MockWrapper.hashCode() + this.string.hashCode()
+        this.wrapper.hashCode() == code
     }
 
     def 'test equality'() {
