@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
+import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -9,31 +10,38 @@ public enum PrimitiveType implements ClassType {
     /**
      * <code>byte</code>
      */
-    BYTE(ValueType.CHAR, ValueType.NUMBER),
+    BYTE(ValueType.CHAR, ValueType.NUMBER,
+            ObjectType.BYTE),
     /**
      * <code>char</code>
      */
-    CHAR(ValueType.CHAR, ValueType.NUMBER),
+    CHAR(ValueType.CHAR, ValueType.NUMBER,
+            ObjectType.CHARACTER),
     /**
      * <code>short</code>
      */
-    SHORT(ValueType.CHAR, ValueType.NUMBER),
+    SHORT(ValueType.CHAR, ValueType.NUMBER,
+            ObjectType.BYTE, ObjectType.SHORT),
     /**
      * <code>int</code>
      */
-    INT(ValueType.CHAR, ValueType.NUMBER),
+    INT(ValueType.CHAR, ValueType.NUMBER, ObjectType.BYTE,
+            ObjectType.CHARACTER, ObjectType.SHORT, ObjectType.INTEGER),
     /**
      * <code>long</code>
      */
-    LONG(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG),
+    LONG(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG, ObjectType.BYTE,
+            ObjectType.CHARACTER, ObjectType.SHORT, ObjectType.INTEGER, ObjectType.LONG),
     /**
      * <code>float</code>
      */
-    FLOAT(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG, ValueType.FLOAT),
+    FLOAT(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG, ValueType.FLOAT, ObjectType.BYTE,
+            ObjectType.CHARACTER, ObjectType.SHORT, ObjectType.INTEGER, ObjectType.LONG, ObjectType.FLOAT),
     /**
      * <code>double</code>
      */
-    DOUBLE(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG, ValueType.FLOAT, ValueType.DOUBLE),
+    DOUBLE(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG, ValueType.FLOAT, ValueType.DOUBLE, ObjectType.BYTE,
+            ObjectType.CHARACTER, ObjectType.SHORT, ObjectType.INTEGER, ObjectType.LONG, ObjectType.FLOAT, ObjectType.DOUBLE),
     /**
      * <code>boolean</code>
      */
