@@ -1,7 +1,6 @@
 package it.fulminazzo.javaparser.typechecker.types
 
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException
-import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
 
 import static it.fulminazzo.javaparser.typechecker.types.ValueType.*
@@ -25,8 +24,7 @@ class PrimitiveTypeTest extends Specification {
 
     def 'test check empty'() {
         when:
-        Method method = Type.getDeclaredMethod('check', Type[].class)
-        method.invoke(DOUBLE, new Type[0])
+        DOUBLE.check()
 
         then:
         def ex = thrown(IllegalArgumentException)
