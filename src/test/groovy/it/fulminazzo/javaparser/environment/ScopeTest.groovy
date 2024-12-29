@@ -9,6 +9,18 @@ class ScopeTest extends Specification {
         this.scope = new Scope<>(ScopeType.CODE_BLOCK)
     }
 
+    def 'test lookupInfo not declared'() {
+        given:
+        def varName = 'var'
+
+        when:
+        this.scope.lookupInfo(varName)
+
+        then:
+        def e = thrown(ScopeException)
+        e.message == this.scope.noSuchVariable(varName).message
+    }
+
     def 'declare should throw ScopeException on already declared variable'() {
         when:
         this.scope.declare(new WrapperInfo<>(String), 'var', '1')
