@@ -8,13 +8,37 @@ import static it.fulminazzo.javaparser.typechecker.types.ValueType.*;
  * Represents a primitive {@link Type} name.
  */
 public enum PrimitiveType implements ClassType {
+    /**
+     * <code>byte</code>
+     */
     BYTE(ValueType.CHAR, NUMBER),
+    /**
+     * <code>char</code>
+     */
     CHAR(ValueType.CHAR, NUMBER),
+    /**
+     * <code>short</code>
+     */
     SHORT(ValueType.CHAR, NUMBER),
+    /**
+     * <code>int</code>
+     */
     INT(ValueType.CHAR, NUMBER),
+    /**
+     * <code>long</code>
+     */
     LONG(ValueType.CHAR, NUMBER, ValueType.LONG),
+    /**
+     * <code>float</code>
+     */
     FLOAT(ValueType.CHAR, NUMBER, ValueType.LONG, ValueType.FLOAT),
+    /**
+     * <code>double</code>
+     */
     DOUBLE(ValueType.CHAR, NUMBER, ValueType.LONG, ValueType.FLOAT, ValueType.DOUBLE),
+    /**
+     * <code>boolean</code>
+     */
     BOOLEAN(ValueType.BOOLEAN),
     ;
 
