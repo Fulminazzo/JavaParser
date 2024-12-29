@@ -20,4 +20,17 @@ public abstract class ClassType<I extends Type> implements Type, Info<I> {
         this.internalType = internalType;
     }
 
+    /**
+     * Verifies that the current class type is compatible with the provided type.
+     *
+     * @param type the other type
+     * @return true if it is
+     */
+    public abstract boolean compatibleWith(final @NotNull Type type);
+
+    @Override
+    public boolean compatibleWith(@NotNull Object object) {
+        return object instanceof Type && compatibleWith((Type) object);
+    }
+
 }
