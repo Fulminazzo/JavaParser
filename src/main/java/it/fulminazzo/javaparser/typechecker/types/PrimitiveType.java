@@ -4,6 +4,9 @@ import org.jetbrains.annotations.NotNull;
 
 import static it.fulminazzo.javaparser.typechecker.types.ValueType.*;
 
+/**
+ * Represents a primitive {@link Type} name.
+ */
 public enum PrimitiveType implements ClassType {
     BYTE(ValueType.CHAR, NUMBER),
     CHAR(ValueType.CHAR, NUMBER),
