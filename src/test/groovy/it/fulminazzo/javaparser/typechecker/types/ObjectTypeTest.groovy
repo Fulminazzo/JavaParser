@@ -49,4 +49,14 @@ class ObjectTypeTest extends Specification {
                 'it.fulminazzo.javaparser.typechecker.types.ObjectTypeTest'
     }
 
+    def 'test of method invalid class'() {
+        when:
+        def className = 'unknown'
+        def type = ObjectType.of(className)
+
+        then:
+        def ex = thrown(TypeException)
+        ex.message.contains(className)
+    }
+
 }
