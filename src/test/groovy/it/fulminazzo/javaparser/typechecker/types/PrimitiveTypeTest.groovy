@@ -1,11 +1,30 @@
 package it.fulminazzo.javaparser.typechecker.types
 
+
+import it.fulminazzo.javaparser.typechecker.TypeCheckerException
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
 
-import static it.fulminazzo.javaparser.typechecker.types.ValueType.*;
+import java.lang.reflect.Method
+
+import static it.fulminazzo.javaparser.typechecker.types.ValueType.*
 
 class PrimitiveTypeTest extends Specification {
+
+    def 'test check invalid #types'() {
+        when:
+        DOUBLE.check(types)
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.getMessage() == TypeCheckerException.invalidType(STRING, DOUBLE).message
+
+        where:
+        types << [
+                STRING,
+                new Type[]{STRING, BOOLEAN, FLOAT}
+        ]
+    }
 
     def 'test BYTE compatible with #type'() {
         expect:
