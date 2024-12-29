@@ -11,7 +11,18 @@ import java.util.Map;
  * Represents an {@link Object} value, declared from its associated class canonical name.
  */
 @Getter(AccessLevel.PACKAGE)
-public class ObjectType implements Type {
+public final class ObjectType implements Type {
+    public static final ObjectType BYTE = new ObjectType(Byte.class);
+    public static final ObjectType CHARACTER = new ObjectType(Character.class);
+    public static final ObjectType SHORT = new ObjectType(Short.class);
+    public static final ObjectType INTEGER = new ObjectType(Integer.class);
+    public static final ObjectType LONG = new ObjectType(Long.class);
+    public static final ObjectType FLOAT = new ObjectType(Float.class);
+    public static final ObjectType DOUBLE = new ObjectType(Double.class);
+    public static final ObjectType BOOLEAN = new ObjectType(Boolean.class);
+    public static final ObjectType STRING = new ObjectType(String.class);
+    public static final ObjectType OBJECT = new ObjectType(Object.class);
+
     private static final String[] IMPLIED_PACKAGES = new String[]{
             String.class.getPackage().getName(),
             Map.class.getPackage().getName(),
