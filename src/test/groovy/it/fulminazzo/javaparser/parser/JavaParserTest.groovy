@@ -10,6 +10,7 @@ import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
+import it.fulminazzo.javaparser.parser.node.literals.NullLiteral
 import it.fulminazzo.javaparser.parser.node.operators.binary.*
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
@@ -509,6 +510,22 @@ class JavaParserTest extends Specification {
         '(1 + 1)'| new Add(new NumberValueLiteral('1'), new NumberValueLiteral('1'))
         'false' | new BooleanValueLiteral('false')
         'int'   | Literal.of('int')
+    }
+
+    def 'test null cast'() {
+        given:
+        def expected = new Cast(
+                Literal.of('Double'),
+                new NullLiteral()
+        )
+        def code = '(Double) null'
+
+        when:
+        startReading(code)
+        def parsed = this.parser.parseCast()
+
+        then:
+        parsed == expected
     }
 
     def 'test cast'() {
