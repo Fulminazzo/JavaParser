@@ -59,6 +59,62 @@ class OperationUtilsTest extends Specification {
         BOOLEAN | BOOLEAN
     }
 
+    def 'test execute binary bit operation: #a * #b -> #c'() {
+        expect:
+        OperationUtils.executeBinaryBitOperation(a, b) == c
+
+        where:
+        a      | b      | c
+        // Char
+        CHAR    | CHAR    | NUMBER
+        CHAR    | NUMBER  | NUMBER
+        CHAR    | LONG    | LONG
+        // Number
+        NUMBER  | CHAR    | NUMBER
+        NUMBER  | NUMBER  | NUMBER
+        NUMBER  | LONG    | LONG
+        // Long
+        LONG    | CHAR    | LONG
+        LONG    | NUMBER  | LONG
+        LONG    | LONG    | LONG
+        // Boolean
+        BOOLEAN | BOOLEAN | BOOLEAN
+    }
+
+    def 'test invalid execute binary bit operation: #a * #b'() {
+        when:
+        OperationUtils.executeBinaryBitOperation(a, b)
+
+        then:
+        thrown(TypeCheckerException)
+
+        where:
+        a       | b
+        // Double
+        DOUBLE  | CHAR
+        DOUBLE  | NUMBER
+        DOUBLE  | LONG
+        DOUBLE  | FLOAT
+        DOUBLE  | DOUBLE
+        DOUBLE  | BOOLEAN
+        // Float
+        FLOAT   | CHAR
+        FLOAT   | NUMBER
+        FLOAT   | LONG
+        FLOAT   | FLOAT
+        FLOAT   | DOUBLE
+        FLOAT   | BOOLEAN
+        // Boolean
+        BOOLEAN | CHAR
+        BOOLEAN | NUMBER
+        BOOLEAN | LONG
+        BOOLEAN | FLOAT
+        BOOLEAN | DOUBLE
+        CHAR    | BOOLEAN
+        NUMBER  | BOOLEAN
+        LONG    | BOOLEAN
+    }
+
     def 'test execute binary operation (non-decimal): #a * #b -> #c'() {
         expect:
         OperationUtils.executeBinaryOperation(a, b) == c
