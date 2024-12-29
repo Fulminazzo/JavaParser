@@ -64,4 +64,22 @@ class OperationUtilsTest extends Specification {
         FLOAT  | DOUBLE | DOUBLE
     }
 
+    def 'test checkType invalid'() {
+        when:
+        OperationUtils.checkType(DOUBLE, STRING, BOOLEAN, FLOAT)
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.getMessage() == TypeCheckerException.invalidType(STRING, DOUBLE).message
+
+    }
+
+    def 'test checkType empty'() {
+        when:
+        OperationUtils.checkType(DOUBLE)
+
+        then:
+        thrown(IllegalArgumentException)
+    }
+
 }
