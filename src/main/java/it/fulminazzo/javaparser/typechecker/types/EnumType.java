@@ -44,7 +44,11 @@ public class EnumType {
     public static <E extends EnumType> @NotNull E valueOf(final @NotNull Class<?> fieldsContainer,
                                                           final @NotNull Class<E> returnType,
                                                           final @NotNull String name) {
-
+        for (final E value : values(fieldsContainer, returnType))
+            if (value.name().equals(name))
+                return value;
+        throw new IllegalArgumentException(String.format("No enum constant %s.%s",
+                fieldsContainer.getCanonicalName(), name));
     }
 
 
