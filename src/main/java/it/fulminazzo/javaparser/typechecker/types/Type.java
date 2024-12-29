@@ -9,6 +9,16 @@ import org.jetbrains.annotations.NotNull;
 public interface Type {
 
     /**
+     * Checks whether the current type is equal to the one given.
+     *
+     * @param type the type
+     * @return true if it is
+     */
+    default boolean is(final @NotNull Type type) {
+        return equals(type);
+    }
+
+    /**
      * Checks that the current type is of the specified one.
      * Throws {@link TypeCheckerException} in case it is not.
      *
@@ -17,7 +27,7 @@ public interface Type {
      * @return the current type cast to the expected one
      */
     default <T extends Type> T check(final @NotNull T type) {
-        if (equals(type)) return type;
+        if (is(type)) return type;
         else throw TypeCheckerException.invalidType(type, this);
     }
 
@@ -30,7 +40,7 @@ public interface Type {
      */
     default Type check(final Type @NotNull ... expectedTypes) {
         for (Type expectedType : expectedTypes)
-            if (equals(expectedType)) return this;
+            if (is(expectedType)) return this;
         throw TypeCheckerException.invalidType(expectedTypes[0], this);
     }
 

@@ -66,7 +66,7 @@ public enum ClassObjectType implements ClassType {
         else {
             // Either STRING or OBJECT
             if (this == STRING)
-                return ValueType.STRING.equals(type) || ObjectType.STRING.equals(type);
+                return ValueType.STRING.is(type) || ObjectType.STRING.is(type);
             else return true;
         }
     }
