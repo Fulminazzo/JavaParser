@@ -1,6 +1,10 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
+import it.fulminazzo.fulmicollection.objects.Refl;
 import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 /**
  * Represents a general class which provides various <code>static final</code> fields of the same type.
@@ -14,7 +18,12 @@ public abstract class EnumType extends TypeImpl {
      * @return the name
      */
     public @NotNull String name() {
-
+        Refl<?> refl = new Refl<>(getClass());
+        for (final Field f : refl.getFields(f -> f.getType().isAssignableFrom(getClass()) &&
+                Modifier.isStatic(f.getModifiers()))) {
+            if (equals(refl.getFieldObject(f))) return f.getName();
+        }
+        throw new IllegalStateException("Unreachable code");
     }
 
     /**
