@@ -2,7 +2,7 @@ package it.fulminazzo.javaparser.typechecker.types;
 
 import org.jetbrains.annotations.NotNull;
 
-import static it.fulminazzo.javaparser.typechecker.types.ValueTypes.*;
+import static it.fulminazzo.javaparser.typechecker.types.ValueType.*;
 
 public enum PrimitiveType implements ClassType {
     BYTE(CHAR_TYPE, NUMBER_TYPE),

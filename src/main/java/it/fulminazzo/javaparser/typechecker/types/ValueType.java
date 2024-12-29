@@ -3,7 +3,7 @@ package it.fulminazzo.javaparser.typechecker.types;
 /**
  * Contains all the values accepted by Java.
  */
-public enum ValueTypes implements Type {
+public enum ValueType implements Type {
     CHAR_TYPE,
     NUMBER_TYPE,
     LONG_TYPE,
