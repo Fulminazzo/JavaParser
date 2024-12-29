@@ -2,8 +2,6 @@ package it.fulminazzo.javaparser.typechecker.types;
 
 import org.jetbrains.annotations.NotNull;
 
-import static it.fulminazzo.javaparser.typechecker.types.ValueType.*;
-
 /**
  * Represents a primitive {@link Type} name.
  */
@@ -11,31 +9,31 @@ public enum PrimitiveType implements ClassType {
     /**
      * <code>byte</code>
      */
-    BYTE(ValueType.CHAR, NUMBER),
+    BYTE(ValueType.CHAR, ValueType.NUMBER),
     /**
      * <code>char</code>
      */
-    CHAR(ValueType.CHAR, NUMBER),
+    CHAR(ValueType.CHAR, ValueType.NUMBER),
     /**
      * <code>short</code>
      */
-    SHORT(ValueType.CHAR, NUMBER),
+    SHORT(ValueType.CHAR, ValueType.NUMBER),
     /**
      * <code>int</code>
      */
-    INT(ValueType.CHAR, NUMBER),
+    INT(ValueType.CHAR, ValueType.NUMBER),
     /**
      * <code>long</code>
      */
-    LONG(ValueType.CHAR, NUMBER, ValueType.LONG),
+    LONG(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG),
     /**
      * <code>float</code>
      */
-    FLOAT(ValueType.CHAR, NUMBER, ValueType.LONG, ValueType.FLOAT),
+    FLOAT(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG, ValueType.FLOAT),
     /**
      * <code>double</code>
      */
-    DOUBLE(ValueType.CHAR, NUMBER, ValueType.LONG, ValueType.FLOAT, ValueType.DOUBLE),
+    DOUBLE(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG, ValueType.FLOAT, ValueType.DOUBLE),
     /**
      * <code>boolean</code>
      */

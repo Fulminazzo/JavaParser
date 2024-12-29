@@ -5,8 +5,6 @@ import it.fulminazzo.javaparser.typechecker.types.Type;
 import it.fulminazzo.javaparser.typechecker.types.ValueType;
 import org.jetbrains.annotations.NotNull;
 
-import static it.fulminazzo.javaparser.typechecker.types.ValueType.NUMBER;
-
 /**
  * Represents an {@link Object} class type.
  */
@@ -14,31 +12,31 @@ public enum ClassObjectType implements ClassType {
     /**
      * {@link java.lang.Byte}
      */
-    BYTE(ValueType.CHAR, NUMBER),
+    BYTE(ValueType.CHAR, ValueType.NUMBER),
     /**
      * {@link java.lang.Character}
      */
-    CHARACTER(ValueType.CHAR, NUMBER),
+    CHARACTER(ValueType.CHAR, ValueType.NUMBER),
     /**
      * {@link java.lang.Short}
      */
-    SHORT(ValueType.CHAR, NUMBER),
+    SHORT(ValueType.CHAR, ValueType.NUMBER),
     /**
      * {@link java.lang.Integer}
      */
-    INTEGER(ValueType.CHAR, NUMBER),
+    INTEGER(ValueType.CHAR, ValueType.NUMBER),
     /**
      * {@link java.lang.Long}
      */
-    LONG(ValueType.CHAR, NUMBER, ValueType.LONG),
+    LONG(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG),
     /**
      * {@link java.lang.Float}
      */
-    FLOAT(ValueType.CHAR, NUMBER, ValueType.LONG, ValueType.FLOAT),
+    FLOAT(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG, ValueType.FLOAT),
     /**
      * {@link java.lang.Double}
      */
-    DOUBLE(ValueType.CHAR, NUMBER, ValueType.LONG, ValueType.FLOAT, ValueType.DOUBLE),
+    DOUBLE(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG, ValueType.FLOAT, ValueType.DOUBLE),
     /**
      * {@link java.lang.Boolean}
      */
