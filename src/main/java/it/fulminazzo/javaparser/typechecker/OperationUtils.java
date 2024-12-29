@@ -19,6 +19,26 @@ public final class OperationUtils {
     };
 
     /**
+     * Simulates a direct comparison between the two given operands.
+     * If they are both {@link ValueType}, then they are checked to verify if they are compatible.
+     * If only one of them is {@link ValueType}, or they are not compatible,
+     * a {@link TypeCheckerException} is thrown.
+     *
+     * @param left  the left operand
+     * @param right the right operand
+     * @return {@link ValueType#BOOLEAN}
+     */
+    public static @NotNull Type executeObjectComparison(final @NotNull Type left,
+                                                        final @NotNull Type right) {
+        if (left.isValue() && right.isValue()) {
+            if (left.is(ValueType.STRING)) right.check(ValueType.STRING);
+            else if (left.is(ValueType.BOOLEAN)) right.check(ValueType.BOOLEAN);
+            else return executeBinaryComparison(left, right);
+        }
+        return ValueType.BOOLEAN;
+    }
+
+    /**
      * Checks whether the given operands are eligible for comparison (i.e. are {@link #DECIMAL_TYPES}).
      * Throws {@link TypeCheckerException} in case of an invalid type received as operand.
      *
