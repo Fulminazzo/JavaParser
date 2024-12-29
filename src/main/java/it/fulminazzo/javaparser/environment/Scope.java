@@ -12,7 +12,7 @@ import java.util.Optional;
  * @param <T> the type of the value
  */
 class Scope<T> implements Scoped<T> {
-    private final Map<ObjectData<T>, T> internalMap;
+    private final Map<ObjectData, T> internalMap;
     private final ScopeType scopeType;
 
     /**
@@ -33,12 +33,12 @@ class Scope<T> implements Scoped<T> {
     @Override
     public void declare(@NotNull Info info, @NotNull String name, @NotNull T value) throws ScopeException {
         if (isDeclared(name)) throw alreadyDeclaredVariable(name);
-        else this.internalMap.put(new ObjectData<>(info, name), value);
+        else this.internalMap.put(new ObjectData(info, name), value);
     }
 
     @Override
     public void update(@NotNull String name, @NotNull T value) throws ScopeException {
-        ObjectData<T> key = getKey(name).orElseThrow(() -> noSuchVariable(name));
+        ObjectData key = getKey(name).orElseThrow(() -> noSuchVariable(name));
         if (key.info.compatibleWith(value)) this.internalMap.put(key, value);
         else throw new ScopeException(String.format("Cannot assign %s to %s", value, key.info));
     }
@@ -54,16 +54,15 @@ class Scope<T> implements Scoped<T> {
      * @param name the name
      * @return an optional containing the data (if found)
      */
-    public @NotNull Optional<ObjectData<T>> getKey(@NotNull String name) {
+    public @NotNull Optional<ObjectData> getKey(@NotNull String name) {
         return this.internalMap.keySet().stream().filter(d -> d.name.equals(name)).findFirst();
     }
 
     /**
      * Represents the information of an object.
      *
-     * @param <O> the type of the object
      */
-    static class ObjectData<O> {
+    static class ObjectData {
         private final @NotNull Info info;
         private final @NotNull String name;
 
@@ -86,7 +85,7 @@ class Scope<T> implements Scoped<T> {
         @Override
         public boolean equals(Object o) {
             if (o instanceof ObjectData) {
-                ObjectData<?> other = (ObjectData<?>) o;
+                ObjectData other = (ObjectData) o;
                 return this.info.equals(other.info) && this.name.equals(other.name);
             }
             return false;
