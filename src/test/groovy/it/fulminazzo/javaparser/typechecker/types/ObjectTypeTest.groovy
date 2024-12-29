@@ -16,10 +16,16 @@ class ObjectTypeTest extends Specification {
     def 'test inequality'() {
         given:
         def first = ObjectType.of('String')
-        def second = ObjectType.of('Object')
 
         expect:
         first != second
+
+        where:
+        second << [
+                ObjectType.of('Object'),
+                PrimitiveType.BYTE,
+                ValueType.STRING
+        ]
     }
 
     def 'test toString of type #raw'() {
