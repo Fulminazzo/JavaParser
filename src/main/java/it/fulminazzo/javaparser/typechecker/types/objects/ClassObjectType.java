@@ -14,39 +14,39 @@ public enum ClassObjectType implements ClassType {
     /**
      * {@link java.lang.Byte}
      */
-    BYTE(),
+    BYTE(PrimitiveType.BYTE),
     /**
      * {@link java.lang.Character}
      */
-    CHARACTER(),
+    CHARACTER(PrimitiveType.CHAR),
     /**
      * {@link java.lang.Short}
      */
-    SHORT(),
+    SHORT(PrimitiveType.SHORT),
     /**
      * {@link java.lang.Integer}
      */
-    INTEGER(),
+    INTEGER(PrimitiveType.INT),
     /**
      * {@link java.lang.Long}
      */
-    LONG(),
+    LONG(PrimitiveType.LONG),
     /**
      * {@link java.lang.Float}
      */
-    FLOAT(),
+    FLOAT(PrimitiveType.FLOAT),
     /**
      * {@link java.lang.Double}
      */
-    DOUBLE(),
+    DOUBLE(PrimitiveType.DOUBLE),
     /**
      * {@link java.lang.Boolean}
      */
-    BOOLEAN(),
+    BOOLEAN(PrimitiveType.BOOLEAN),
     /**
      * {@link java.lang.String}
      */
-    STRING(),
+    STRING,
     /**
      * {@link java.lang.Object}
      */
