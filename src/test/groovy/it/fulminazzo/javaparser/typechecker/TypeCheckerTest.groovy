@@ -20,7 +20,7 @@ class TypeCheckerTest extends Specification {
 
     def 'test equal'() {
         given:
-        Type type = this.typeChecker.visitEqual(NUMBER_LIT, NUMBER_LIT)
+        def type = this.typeChecker.visitEqual(NUMBER_LIT, NUMBER_LIT)
 
         expect:
         type == ValueType.BOOLEAN
@@ -28,7 +28,7 @@ class TypeCheckerTest extends Specification {
 
     def 'test not equal'() {
         given:
-        Type type = this.typeChecker.visitNotEqual(NUMBER_LIT, NUMBER_LIT)
+        def type = this.typeChecker.visitNotEqual(NUMBER_LIT, NUMBER_LIT)
 
         expect:
         type == ValueType.BOOLEAN
@@ -36,7 +36,7 @@ class TypeCheckerTest extends Specification {
 
     def 'test less than'() {
         given:
-        Type type = this.typeChecker.visitLessThan(NUMBER_LIT, NUMBER_LIT)
+        def type = this.typeChecker.visitLessThan(NUMBER_LIT, NUMBER_LIT)
 
         expect:
         type == ValueType.BOOLEAN
@@ -44,7 +44,7 @@ class TypeCheckerTest extends Specification {
 
     def 'test less than equal'() {
         given:
-        Type type = this.typeChecker.visitLessThanEqual(NUMBER_LIT, NUMBER_LIT)
+        def type = this.typeChecker.visitLessThanEqual(NUMBER_LIT, NUMBER_LIT)
 
         expect:
         type == ValueType.BOOLEAN
@@ -52,7 +52,7 @@ class TypeCheckerTest extends Specification {
 
     def 'test greater than'() {
         given:
-        Type type = this.typeChecker.visitGreaterThan(NUMBER_LIT, NUMBER_LIT)
+        def type = this.typeChecker.visitGreaterThan(NUMBER_LIT, NUMBER_LIT)
 
         expect:
         type == ValueType.BOOLEAN
@@ -60,7 +60,7 @@ class TypeCheckerTest extends Specification {
 
     def 'test greater than equal'() {
         given:
-        Type type = this.typeChecker.visitGreaterThanEqual(NUMBER_LIT, NUMBER_LIT)
+        def type = this.typeChecker.visitGreaterThanEqual(NUMBER_LIT, NUMBER_LIT)
 
         expect:
         type == ValueType.BOOLEAN
@@ -68,7 +68,7 @@ class TypeCheckerTest extends Specification {
 
     def 'test valid and'() {
         given:
-        Type type = this.typeChecker.visitAnd(BOOL_LIT, BOOL_LIT)
+        def type = this.typeChecker.visitAnd(BOOL_LIT, BOOL_LIT)
 
         expect:
         type == ValueType.BOOLEAN
@@ -90,7 +90,7 @@ class TypeCheckerTest extends Specification {
 
     def 'test valid or'() {
         given:
-        Type type = this.typeChecker.visitOr(BOOL_LIT, BOOL_LIT)
+        def type = this.typeChecker.visitOr(BOOL_LIT, BOOL_LIT)
 
         expect:
         type == ValueType.BOOLEAN
