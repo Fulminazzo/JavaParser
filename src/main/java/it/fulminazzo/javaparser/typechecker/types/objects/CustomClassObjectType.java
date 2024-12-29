@@ -23,14 +23,14 @@ class CustomClassObjectType extends TypeWrapper implements ClassType {
     public boolean compatibleWith(@NotNull Type type) {
         if (type instanceof ObjectType) {
             ObjectType objectType = (ObjectType) type;
-            return this.internalType.equals(objectType);
+            return this.object.equals(objectType);
         }
         return false;
     }
 
     @Override
     public String toString() {
-        return this.internalType.toString().replace("Type", "ClassType");
+        return this.object.toString().replace("Type", "ClassType");
     }
 
 }

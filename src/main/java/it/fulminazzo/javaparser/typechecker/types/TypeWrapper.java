@@ -1,14 +1,12 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
-import lombok.Getter;
+import it.fulminazzo.javaparser.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a wrapper for {@link Type} objects.
  */
-@Getter
-public abstract class TypeWrapper {
-    protected final Type internalType;
+public abstract class TypeWrapper extends ObjectWrapper<Type> {
 
     /**
      * Instantiates a new Type wrapper.
@@ -16,17 +14,16 @@ public abstract class TypeWrapper {
      * @param internalType the internal type
      */
     public TypeWrapper(final @NotNull Type internalType) {
-        this.internalType = internalType;
+        super(internalType);
     }
 
-    @Override
-    public int hashCode() {
-        return getClass().hashCode() + this.internalType.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return o != null && getClass().equals(o.getClass()) && this.internalType.equals(((TypeWrapper) o).internalType);
+    /**
+     * Gets internal type.
+     *
+     * @return the internal type
+     */
+    public Type getInternalType() {
+        return this.object;
     }
 
 }
