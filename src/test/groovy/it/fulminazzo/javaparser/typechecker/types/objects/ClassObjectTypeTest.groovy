@@ -179,5 +179,27 @@ class ClassObjectTypeTest extends Specification {
                 STRING
         ]
     }
+
+    def 'test STRING compatible with #type'() {
+        expect:
+        ClassObjectType.STRING.compatibleWith(type)
+
+        where:
+        type << [
+                BOOLEAN
+        ]
+    }
+
+    def 'test STRING incompatible with #type'() {
+        expect:
+        !ClassObjectType.STRING.compatibleWith(type)
+
+        where:
+        type << [
+                CHAR, NUMBER, LONG,
+                DOUBLE, FLOAT,
+                STRING
+        ]
+    }
     
 }
