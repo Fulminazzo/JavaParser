@@ -3,7 +3,6 @@ package it.fulminazzo.javaparser.typechecker.types.primitives;
 import it.fulminazzo.javaparser.typechecker.types.ClassType;
 import it.fulminazzo.javaparser.typechecker.types.EnumType;
 import it.fulminazzo.javaparser.typechecker.types.Type;
-import it.fulminazzo.javaparser.typechecker.types.values.ValueTypes;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -29,7 +28,7 @@ class PrimitiveType<I extends Type> extends ClassType<I> implements EnumType {
 
     @Override
     public @NotNull String name() {
-        return name(ValueTypes.class);
+        return name(PrimitiveTypes.class);
     }
 
     @Override
