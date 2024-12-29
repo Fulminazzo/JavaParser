@@ -316,6 +316,11 @@ class VisitorTest extends Specification {
         }
 
         @Override
+        String visitNullLiteral() {
+            return null
+        }
+
+        @Override
         String visitBooleanValueLiteral(@NotNull String rawValue) {
             return null
         }

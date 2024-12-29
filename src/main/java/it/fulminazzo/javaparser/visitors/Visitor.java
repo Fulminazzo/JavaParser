@@ -418,6 +418,13 @@ public interface Visitor<T> {
     T visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expr);
 
     /**
+     * Converts null literal and its fields to this visitor type.
+     *
+     * @return the null literal
+     */
+    T visitNullLiteral();
+
+    /**
      * Converts boolean value literal and its fields to this visitor type.
      *
      * @param rawValue the raw value
