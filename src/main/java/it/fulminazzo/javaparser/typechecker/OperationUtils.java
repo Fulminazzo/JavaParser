@@ -13,6 +13,18 @@ import org.jetbrains.annotations.NotNull;
 public final class OperationUtils {
 
     /**
+     * Computes the returned {@link Type} for a binary operation that supports <b>NON-decimal</b> types.
+     *
+     * @param left  the left operand
+     * @param right the right operand
+     * @return the computed type
+     */
+    public static @NotNull Type executeBinaryOperation(final @NotNull Type left,
+                                                       final @NotNull Type right) {
+        return executeBinaryOperationDecimal(left, right);
+    }
+
+    /**
      * Computes the returned {@link Type} for a binary operation that supports <b>decimal</b> types.
      *
      * @param left  the left operand
