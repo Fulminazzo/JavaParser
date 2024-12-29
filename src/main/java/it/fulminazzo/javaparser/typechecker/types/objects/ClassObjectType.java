@@ -1,5 +1,7 @@
 package it.fulminazzo.javaparser.typechecker.types.objects;
 
+import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
+import it.fulminazzo.fulmicollection.utils.StringUtils;
 import it.fulminazzo.javaparser.typechecker.types.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -58,6 +60,11 @@ public enum ClassObjectType implements ClassType {
 
     ClassObjectType(final @Nullable PrimitiveType associatedType) {
         this.associatedType = associatedType;
+    }
+
+    @Override
+    public Class<?> toJavaClass() {
+        return ReflectionUtils.getClass("java.lang." + StringUtils.decapitalize(name()));
     }
 
     @Override
