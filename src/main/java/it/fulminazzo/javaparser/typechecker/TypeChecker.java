@@ -210,14 +210,12 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitDecrement(boolean before, @NotNull Node operand) {
-        // TODO:
-        return null;
+        return operand.accept(this).check(getDecimalTypes());
     }
 
     @Override
     public Type visitIncrement(boolean before, @NotNull Node operand) {
-        // TODO:
-        return null;
+        return operand.accept(this).check(getDecimalTypes());
     }
 
     @Override

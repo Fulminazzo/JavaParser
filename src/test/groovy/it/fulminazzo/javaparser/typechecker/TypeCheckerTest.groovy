@@ -25,6 +25,38 @@ class TypeCheckerTest extends Specification {
         this.typeChecker = new TypeChecker()
     }
 
+    def 'test decrement for #literal should return #expected'() {
+        given:
+        def type = this.typeChecker.visitDecrement(true, literal)
+
+        expect:
+        type == expected
+
+        where:
+        literal     | expected
+        NUMBER_LIT  | ValueType.NUMBER
+        CHAR_LIT    | ValueType.CHAR
+        LONG_LIT    | ValueType.LONG
+        FLOAT_LIT   | ValueType.FLOAT
+        DOUBLE_LIT  | ValueType.DOUBLE
+    }
+
+    def 'test increment for #literal should return #expected'() {
+        given:
+        def type = this.typeChecker.visitIncrement(false, literal)
+
+        expect:
+        type == expected
+
+        where:
+        literal     | expected
+        NUMBER_LIT  | ValueType.NUMBER
+        CHAR_LIT    | ValueType.CHAR
+        LONG_LIT    | ValueType.LONG
+        FLOAT_LIT   | ValueType.FLOAT
+        DOUBLE_LIT  | ValueType.DOUBLE
+    }
+
     def 'test equal'() {
         given:
         def type = this.typeChecker.visitEqual(NUMBER_LIT, NUMBER_LIT)
