@@ -42,4 +42,20 @@ public final class OperationUtils {
         else return ValueType.NUMBER;
     }
 
+    /**
+     * Checks whether the given type is equal to one of the expected ones.
+     * Throws a {@link TypeCheckerException} in case no match is found.
+     *
+     * @param type          the type
+     * @param expectedTypes the expected types
+     */
+    public static void checkType(final @NotNull Type type,
+                                 final Type @NotNull ... expectedTypes) {
+        if (expectedTypes.length == 0)
+            throw new IllegalArgumentException(String.format("Cannot compare type %s with no types", type));
+        for (Type expectedType : expectedTypes)
+            if (type.equals(expectedType)) return;
+        throw TypeCheckerException.invalidType(expectedTypes[0], type);
+    }
+
 }
