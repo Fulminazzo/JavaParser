@@ -4,10 +4,8 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Holds the information of an object.
- *
- * @param <T> the type of the object
  */
-public interface Info<T> {
+public interface Info {
 
     /**
      * Verifies that the object is compatible with the provided one.

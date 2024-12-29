@@ -2,7 +2,7 @@ package it.fulminazzo.javaparser.environment;
 
 import org.jetbrains.annotations.NotNull;
 
-class WrapperInfo<T> implements Info<T> {
+class WrapperInfo<T> implements Info {
     private final Class<T> internalClass;
 
     public WrapperInfo(final @NotNull Class<T> internalClass) {
