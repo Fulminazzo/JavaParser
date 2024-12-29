@@ -6,6 +6,59 @@ import static it.fulminazzo.javaparser.typechecker.types.ValueType.*
 
 class OperationUtilsTest extends Specification {
 
+    def 'test execute binary comparison: #a * #b'() {
+        expect:
+        OperationUtils.executeBinaryComparison(a, b)
+
+        where:
+        a      | b
+        // Char
+        CHAR   | CHAR
+        CHAR   | NUMBER
+        CHAR   | LONG
+        CHAR   | FLOAT
+        CHAR   | DOUBLE
+        // Number
+        NUMBER | CHAR
+        NUMBER | NUMBER
+        NUMBER | LONG
+        NUMBER | FLOAT
+        NUMBER | DOUBLE
+        // Long
+        LONG   | CHAR
+        LONG   | NUMBER
+        LONG   | LONG
+        LONG   | FLOAT
+        LONG   | DOUBLE
+        // Double
+        DOUBLE | CHAR
+        DOUBLE | NUMBER
+        DOUBLE | LONG
+        DOUBLE | FLOAT
+        DOUBLE | DOUBLE
+        // Float
+        FLOAT  | CHAR
+        FLOAT  | NUMBER
+        FLOAT  | LONG
+        FLOAT  | FLOAT
+        FLOAT  | DOUBLE
+    }
+
+    def 'test invalid execute binary comparison: #a * #b'() {
+        when:
+        OperationUtils.executeBinaryComparison(a, b)
+
+        then:
+        thrown(TypeCheckerException)
+
+        where:
+        a       | b
+        STRING  | STRING
+        BOOLEAN | STRING
+        STRING  | BOOLEAN
+        BOOLEAN | BOOLEAN
+    }
+
     def 'test execute binary operation (non-decimal): #a * #b -> #c'() {
         expect:
         OperationUtils.executeBinaryOperation(a, b) == c
@@ -100,7 +153,6 @@ class OperationUtilsTest extends Specification {
         BOOLEAN | STRING
         STRING  | BOOLEAN
         BOOLEAN | BOOLEAN
-
     }
 
     def 'test checkType invalid'() {
