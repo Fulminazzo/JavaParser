@@ -1,9 +1,11 @@
 package it.fulminazzo.javaparser.typechecker.types.objects;
 
 import it.fulminazzo.javaparser.typechecker.types.ClassType;
+import it.fulminazzo.javaparser.typechecker.types.PrimitiveType;
 import it.fulminazzo.javaparser.typechecker.types.Type;
 import it.fulminazzo.javaparser.typechecker.types.ValueType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Represents an {@link Object} class type.
@@ -47,10 +49,14 @@ public enum ClassObjectType implements ClassType {
     STRING(),
     ;
 
-    private final Type @NotNull [] compatibleTypes;
+    private final @Nullable PrimitiveType associatedType;
 
     ClassObjectType() {
+        this(null);
+    }
 
+    ClassObjectType(final @Nullable PrimitiveType associatedType) {
+        this.associatedType = associatedType;
     }
 
     @Override
