@@ -11,13 +11,13 @@ import org.jetbrains.annotations.NotNull;
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ValueTypes {
-    public static final Type BOOLEAN_TYPE = new BooleanValueType();
-    public static final Type CHAR_TYPE = new CharValueType();
-    public static final Type DOUBLE_TYPE = new DoubleValueType();
-    public static final Type FLOAT_TYPE = new FloatValueType();
-    public static final Type LONG_TYPE = new LongValueType();
-    public static final Type NUMBER_TYPE = new NumberValueType();
-    public static final Type STRING_TYPE = new StringValueType();
+    public static final BooleanValueType BOOLEAN_TYPE = new BooleanValueType();
+    public static final CharValueType CHAR_TYPE = new CharValueType();
+    public static final DoubleValueType DOUBLE_TYPE = new DoubleValueType();
+    public static final FloatValueType FLOAT_TYPE = new FloatValueType();
+    public static final LongValueType LONG_TYPE = new LongValueType();
+    public static final NumberValueType NUMBER_TYPE = new NumberValueType();
+    public static final StringValueType STRING_TYPE = new StringValueType();
 
     /**
      * Gets all the types in this class.
