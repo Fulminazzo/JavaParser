@@ -89,8 +89,7 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitAdd(@NotNull Node left, @NotNull Node right) {
-        // TODO:
-        return null;
+        return OperationUtils.executeBinaryOperationDecimal(left.accept(this), right.accept(this));
     }
 
     @Override
@@ -123,8 +122,7 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitDivide(@NotNull Node left, @NotNull Node right) {
-        // TODO:
-        return null;
+        return OperationUtils.executeBinaryOperationDecimal(left.accept(this), right.accept(this));
     }
 
     @Override
@@ -159,14 +157,12 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitModulo(@NotNull Node left, @NotNull Node right) {
-        // TODO:
-        return null;
+        return OperationUtils.executeBinaryOperationDecimal(left.accept(this), right.accept(this));
     }
 
     @Override
     public Type visitMultiply(@NotNull Node left, @NotNull Node right) {
-        // TODO:
-        return null;
+        return OperationUtils.executeBinaryOperationDecimal(left.accept(this), right.accept(this));
     }
 
     @Override
@@ -200,8 +196,7 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitSubtract(@NotNull Node left, @NotNull Node right) {
-        // TODO:
-        return null;
+        return OperationUtils.executeBinaryOperationDecimal(left.accept(this), right.accept(this));
     }
 
     @Override
