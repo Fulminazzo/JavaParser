@@ -1,9 +1,6 @@
 package it.fulminazzo.javaparser.typechecker.types.objects;
 
-import it.fulminazzo.javaparser.typechecker.types.ClassType;
-import it.fulminazzo.javaparser.typechecker.types.PrimitiveType;
-import it.fulminazzo.javaparser.typechecker.types.Type;
-import it.fulminazzo.javaparser.typechecker.types.ValueType;
+import it.fulminazzo.javaparser.typechecker.types.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -71,6 +68,22 @@ public enum ClassObjectType implements ClassType {
             if (this == STRING)
                 return ValueType.STRING.equals(type) || ObjectType.STRING.equals(type);
             else return true;
+        }
+    }
+
+    /**
+     * Gets a new {@link ClassType} from the given class name.
+     *
+     * @param className the class name
+     * @return the class type
+     * @throws TypeException the exception thrown in case the class is not found
+     */
+    public static ClassType of(final @NotNull String className) throws TypeException {
+        ObjectType type = ObjectType.of(className);
+        try {
+            return ClassObjectType.valueOf(type.getInnerClass().getSimpleName().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return new CustomClassObjectType(type);
         }
     }
 

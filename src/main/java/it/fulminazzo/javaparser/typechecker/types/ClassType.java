@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
 import it.fulminazzo.javaparser.environment.Info;
+import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -19,6 +20,17 @@ public interface ClassType extends Type, Info {
     @Override
     default boolean compatibleWith(@NotNull Object object) {
         return object instanceof Type && compatibleWith((Type) object);
+    }
+
+    /**
+     * Gets a new {@link ClassType} from the given class name.
+     *
+     * @param className the class name
+     * @return the class type
+     * @throws TypeException the exception thrown in case the class is not found
+     */
+    static ClassType of(final @NotNull String className) throws TypeException {
+        return ClassObjectType.of(className);
     }
 
 }
