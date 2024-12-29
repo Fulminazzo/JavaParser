@@ -31,4 +31,32 @@ class CustomClassObjectTypeTest extends Specification {
         ].flatten()
     }
 
+    def 'test equality'() {
+        given:
+        def className = getClass().canonicalName
+        def type = ObjectType.of(className)
+        def first = new CustomClassObjectType(type)
+        def second = new CustomClassObjectType(type)
+
+        expect:
+        first == second
+        first.hashCode() == second.hashCode()
+    }
+
+    def 'test inequality'() {
+        given:
+        def className = getClass().canonicalName
+        def classType = new CustomClassObjectType(ObjectType.of(className))
+
+        expect:
+        classType != type
+
+        where:
+        type << [
+                PrimitiveType.values(),
+                ClassObjectType.values(),
+                new CustomClassObjectType(ObjectType.STRING)
+        ].flatten()
+    }
+
 }
