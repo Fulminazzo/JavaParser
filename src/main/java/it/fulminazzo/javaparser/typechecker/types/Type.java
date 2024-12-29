@@ -3,6 +3,8 @@ package it.fulminazzo.javaparser.typechecker.types;
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+
 /**
  * Represents a general type parsed by the {@link it.fulminazzo.javaparser.typechecker.TypeChecker}.
  */
@@ -18,13 +20,13 @@ public interface Type {
     }
 
     /**
-     * Checks whether the current type is equal to the one given.
+     * Checks whether the current type is equal to any of the ones given.
      *
-     * @param type the type
-     * @return true if it is
+     * @param types the types
+     * @return true if it is for at least one of them
      */
-    default boolean is(final @NotNull Type type) {
-        return equals(type);
+    default boolean is(final Type @NotNull ... types) {
+        return Arrays.asList(types).contains(this);
     }
 
     /**
