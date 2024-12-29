@@ -22,4 +22,24 @@ class ObjectTypeTest extends Specification {
         first != second
     }
 
+    def 'test toString of type #raw'() {
+        given:
+        def type = ObjectType.of(raw)
+
+        when:
+        def string = type.toString()
+
+        then:
+        string == "Type(${expected})"
+
+        where:
+        raw                | expected
+        'String'           | 'String'
+        'java.lang.String' | 'String'
+        'Map'              | 'Map'
+        'java.util.Map'    | 'Map'
+        'it.fulminazzo.javaparser.typechecker.types.ObjectTypeTest' |
+                'it.fulminazzo.javaparser.typechecker.types.ObjectTypeTest'
+    }
+
 }
