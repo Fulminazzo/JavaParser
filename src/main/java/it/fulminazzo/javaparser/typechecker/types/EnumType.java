@@ -34,6 +34,11 @@ public abstract class EnumType extends TypeImpl {
         throw new IllegalStateException("Unreachable code");
     }
 
+    @Override
+    public String toString() {
+        return name();
+    }
+
     /**
      * Returns all the static fields of the given type.
      *

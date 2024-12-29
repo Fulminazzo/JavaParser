@@ -7,9 +7,11 @@ class ValueTypesTest extends Specification {
     def 'test name method of #type'() {
         when:
         def name = type.name()
+        def toString = type.toString()
 
         then:
         name == expected
+        toString == expected
 
         where:
         type                    | expected
