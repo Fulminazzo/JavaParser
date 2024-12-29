@@ -1,11 +1,40 @@
 package it.fulminazzo.javaparser.typechecker.types
 
+import it.fulminazzo.fulmicollection.objects.Refl
+import it.fulminazzo.javaparser.typechecker.OperationUtils
+import it.fulminazzo.javaparser.typechecker.TypeCheckerException
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
+
+import java.lang.reflect.Method
 
 import static it.fulminazzo.javaparser.typechecker.types.ValueType.*;
 
 class PrimitiveTypeTest extends Specification {
+
+    def 'test check invalid'() {
+        when:
+        DOUBLE.check(DOUBLE, types)
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.getMessage() == TypeCheckerException.invalidType(STRING, DOUBLE).message
+
+        where:
+        types << [
+                STRING,
+                [STRING, BOOLEAN, FLOAT]
+        ]
+    }
+
+    def 'test check empty'() {
+        when:
+        Method method = Type.getDeclaredMethod('checkType', Type[].class)
+        method.invoke(DOUBLE)
+
+        then:
+        thrown(IllegalArgumentException)
+    }
 
     def 'test BYTE compatible with #type'() {
         expect:
