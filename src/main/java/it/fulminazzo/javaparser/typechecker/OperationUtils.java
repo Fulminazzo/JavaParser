@@ -15,8 +15,26 @@ public final class OperationUtils {
             ValueType.NUMBER, ValueType.CHAR, ValueType.LONG
     };
     private static final Type[] DECIMAL_TYPES = new Type[]{
-            ValueType.NUMBER, ValueType.CHAR, ValueType.LONG, ValueType.FLOAT, ValueType.DOUBLE
+            ValueType.DOUBLE, ValueType.FLOAT, ValueType.NUMBER, ValueType.CHAR, ValueType.LONG
     };
+
+    /**
+     * Get the numeric types (non-decimals).
+     *
+     * @return the types
+     */
+    public static Type @NotNull [] getNumericTypes() {
+        return NON_DECIMAL_TYPES.clone();
+    }
+
+    /**
+     * Get the numeric types (with decimals).
+     *
+     * @return the types
+     */
+    public static Type[] getDecimalTypes() {
+        return DECIMAL_TYPES.clone();
+    }
 
     /**
      * Simulates a direct comparison between the two given operands.
@@ -48,8 +66,8 @@ public final class OperationUtils {
      */
     public static @NotNull Type executeBinaryComparison(final @NotNull Type left,
                                                         final @NotNull Type right) {
-        left.check(DECIMAL_TYPES);
-        right.check(DECIMAL_TYPES);
+        left.check(getDecimalTypes());
+        right.check(getDecimalTypes());
         return ValueType.BOOLEAN;
     }
 
@@ -65,7 +83,7 @@ public final class OperationUtils {
     public static @NotNull Type executeBinaryBitOperation(final @NotNull Type left,
                                                           final @NotNull Type right) {
         if (left.equals(ValueType.BOOLEAN) && right.equals(ValueType.BOOLEAN)) return ValueType.BOOLEAN;
-        else return executeBinaryOperationDecimal(left.check(NON_DECIMAL_TYPES), right.check(NON_DECIMAL_TYPES));
+        else return executeBinaryOperationDecimal(left.check(getNumericTypes()), right.check(getNumericTypes()));
     }
 
     /**
@@ -78,7 +96,7 @@ public final class OperationUtils {
      */
     public static @NotNull Type executeBinaryOperation(final @NotNull Type left,
                                                        final @NotNull Type right) {
-        return executeBinaryOperationDecimal(left.check(NON_DECIMAL_TYPES), right.check(NON_DECIMAL_TYPES));
+        return executeBinaryOperationDecimal(left.check(getNumericTypes()), right.check(getNumericTypes()));
     }
 
     /**
@@ -91,7 +109,7 @@ public final class OperationUtils {
      */
     public static @NotNull Type executeBinaryOperationDecimal(final @NotNull Type left,
                                                               final @NotNull Type right) {
-        if (left.check(DECIMAL_TYPES).equals(ValueType.DOUBLE) || right.check(DECIMAL_TYPES).equals(ValueType.DOUBLE))
+        if (left.check(getDecimalTypes()).equals(ValueType.DOUBLE) || right.check(getDecimalTypes()).equals(ValueType.DOUBLE))
             return ValueType.DOUBLE;
         else if (left.equals(ValueType.FLOAT) || right.equals(ValueType.FLOAT))
             return ValueType.FLOAT;
