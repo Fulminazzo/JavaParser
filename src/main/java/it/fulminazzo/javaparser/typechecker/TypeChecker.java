@@ -281,8 +281,7 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitReturn(@NotNull Node expr) {
-        // TODO:
-        return null;
+        return expr.accept(this);
     }
 
     @Override
