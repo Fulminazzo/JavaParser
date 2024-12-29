@@ -7,6 +7,7 @@ import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.parser.node.statements.Statement;
 import it.fulminazzo.javaparser.typechecker.types.Type;
+import it.fulminazzo.javaparser.typechecker.types.ValueType;
 import it.fulminazzo.javaparser.visitors.Visitor;
 import org.jetbrains.annotations.NotNull;
 
@@ -304,43 +305,37 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitBooleanValueLiteral(@NotNull String rawValue) {
-        // TODO:
-        return null;
+        return ValueType.BOOLEAN;
     }
 
     @Override
     public Type visitCharValueLiteral(@NotNull String rawValue) {
-        // TODO:
-        return null;
+        return ValueType.CHAR;
     }
 
     @Override
     public Type visitDoubleValueLiteral(@NotNull String rawValue) {
-        // TODO:
-        return null;
+        return ValueType.DOUBLE;
     }
 
     @Override
     public Type visitFloatValueLiteral(@NotNull String rawValue) {
-        // TODO:
-        return null;
+        return ValueType.FLOAT;
     }
 
     @Override
     public Type visitLongValueLiteral(@NotNull String rawValue) {
-        // TODO:
-        return null;
+        return ValueType.LONG;
     }
 
     @Override
     public Type visitNumberValueLiteral(@NotNull String rawValue) {
-        // TODO:
-        return null;
+        return ValueType.NUMBER;
     }
 
     @Override
     public Type visitStringValueLiteral(@NotNull String rawValue) {
-        // TODO:
-        return null;
+        return ValueType.STRING;
     }
+
 }
