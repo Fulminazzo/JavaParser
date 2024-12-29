@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.typechecker
 
 import it.fulminazzo.javaparser.parser.node.values.BooleanValueLiteral
+import it.fulminazzo.javaparser.parser.node.values.LongValueLiteral
 import it.fulminazzo.javaparser.parser.node.values.NumberValueLiteral
 import it.fulminazzo.javaparser.typechecker.types.Type
 import it.fulminazzo.javaparser.typechecker.types.ValueType
@@ -9,7 +10,8 @@ import spock.lang.Specification
 class TypeCheckerTest extends Specification {
     private static final BOOL_LIT = new BooleanValueLiteral('true')
     private static final NUMBER_LIT = new NumberValueLiteral('1')
-    
+    private static final LONG_LIT = new LongValueLiteral('1L')
+
     private TypeChecker typeChecker
 
     void setup() {
@@ -106,6 +108,48 @@ class TypeCheckerTest extends Specification {
         BOOL_LIT   | NUMBER_LIT
         NUMBER_LIT | BOOL_LIT
         NUMBER_LIT | NUMBER_LIT
+    }
+
+    def 'test visit bit and of #first and #second should return #expected'() {
+        when:
+        def type = this.typeChecker.visitBitAnd(first, second)
+
+        then:
+        type == expected
+
+        where:
+        first      | second     | expected
+        BOOL_LIT   | BOOL_LIT   | ValueType.BOOLEAN
+        NUMBER_LIT | NUMBER_LIT | ValueType.NUMBER
+        LONG_LIT   | LONG_LIT   | ValueType.LONG
+    }
+
+    def 'test visit bit or of #first and #second should return #expected'() {
+        when:
+        def type = this.typeChecker.visitBitOr(first, second)
+
+        then:
+        type == expected
+
+        where:
+        first      | second     | expected
+        BOOL_LIT   | BOOL_LIT   | ValueType.BOOLEAN
+        NUMBER_LIT | NUMBER_LIT | ValueType.NUMBER
+        LONG_LIT   | LONG_LIT   | ValueType.LONG
+    }
+
+    def 'test visit bit xor of #first and #second should return #expected'() {
+        when:
+        def type = this.typeChecker.visitBitXor(first, second)
+
+        then:
+        type == expected
+
+        where:
+        first      | second     | expected
+        BOOL_LIT   | BOOL_LIT   | ValueType.BOOLEAN
+        NUMBER_LIT | NUMBER_LIT | ValueType.NUMBER
+        LONG_LIT   | LONG_LIT   | ValueType.LONG
     }
 
 }
