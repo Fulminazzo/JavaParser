@@ -1,4 +1,4 @@
-package it.fulminazzo.javaparser;
+package it.fulminazzo.javaparser.wrappers;
 
 /**
  * Represents a wrapper for an object.

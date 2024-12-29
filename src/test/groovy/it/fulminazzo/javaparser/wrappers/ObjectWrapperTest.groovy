@@ -1,4 +1,5 @@
-package it.fulminazzo.javaparser
+package it.fulminazzo.javaparser.wrappers
+
 
 import spock.lang.Specification
 
