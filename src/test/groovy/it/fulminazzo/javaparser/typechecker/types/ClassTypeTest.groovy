@@ -3,7 +3,10 @@ package it.fulminazzo.javaparser.typechecker.types
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
+import org.jetbrains.annotations.NotNull
 import spock.lang.Specification
+
+import java.lang.reflect.Method
 
 class ClassTypeTest extends Specification {
 
@@ -30,4 +33,29 @@ class ClassTypeTest extends Specification {
         ].flatten()
     }
 
+    def 'test compatibleWith type called from Object method'() {
+        given:
+        def type = new MockType()
+        def classType = new MockClassType()
+
+        when:
+        Method method = ClassType.getDeclaredMethod('compatibleWith', Object.class)
+
+        then:
+        type.isAssignableFrom(classType)
+        method.invoke(classType, type)
+    }
+
+    static class MockType implements Type {
+
+    }
+
+    static class MockClassType implements ClassType {
+
+        @Override
+        boolean compatibleWith(@NotNull Type type) {
+            return type instanceof MockType
+        }
+
+    }
 }
