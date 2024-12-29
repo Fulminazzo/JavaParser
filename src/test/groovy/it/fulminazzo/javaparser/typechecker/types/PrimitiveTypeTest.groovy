@@ -1,20 +1,19 @@
 package it.fulminazzo.javaparser.typechecker.types
 
-import it.fulminazzo.fulmicollection.objects.Refl
-import it.fulminazzo.javaparser.typechecker.OperationUtils
+
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
 
 import java.lang.reflect.Method
 
-import static it.fulminazzo.javaparser.typechecker.types.ValueType.*;
+import static it.fulminazzo.javaparser.typechecker.types.ValueType.*
 
 class PrimitiveTypeTest extends Specification {
 
-    def 'test check invalid'() {
+    def 'test check invalid #types'() {
         when:
-        DOUBLE.check(DOUBLE, types)
+        DOUBLE.check(types)
 
         then:
         def e = thrown(TypeCheckerException)
@@ -23,17 +22,18 @@ class PrimitiveTypeTest extends Specification {
         where:
         types << [
                 STRING,
-                [STRING, BOOLEAN, FLOAT]
+                new Type[]{STRING, BOOLEAN, FLOAT}
         ]
     }
 
     def 'test check empty'() {
         when:
-        Method method = Type.getDeclaredMethod('checkType', Type[].class)
-        method.invoke(DOUBLE)
+        Method method = Type.getDeclaredMethod('check', Type[].class)
+        method.invoke(DOUBLE, new Type[0])
 
         then:
-        thrown(IllegalArgumentException)
+        def ex = thrown(IllegalArgumentException)
+        ex.message == "Cannot compare type ${DOUBLE} with no types"
     }
 
     def 'test BYTE compatible with #type'() {
