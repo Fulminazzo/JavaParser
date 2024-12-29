@@ -11,6 +11,7 @@ class ObjectTypeTest extends Specification {
 
         expect:
         first == second
+        first.hashCode() == second.hashCode()
     }
 
     def 'test inequality'() {
