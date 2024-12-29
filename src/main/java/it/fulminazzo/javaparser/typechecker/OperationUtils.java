@@ -19,6 +19,20 @@ public final class OperationUtils {
     };
 
     /**
+     * Checks whether the given operands are eligible for comparison (i.e. are {@link #DECIMAL_TYPES}).
+     *
+     * @param left  the left operand
+     * @param right the right operand
+     * @return {@link ValueType#BOOLEAN}
+     */
+    public static @NotNull Type executeBinaryComparison(final @NotNull Type left,
+                                                        final @NotNull Type right) {
+        checkType(left, DECIMAL_TYPES);
+        checkType(right, DECIMAL_TYPES);
+        return ValueType.BOOLEAN;
+    }
+
+    /**
      * Computes the returned {@link Type} for a binary operation that supports <b>NON-decimal</b> types.
      *
      * @param left  the left operand
