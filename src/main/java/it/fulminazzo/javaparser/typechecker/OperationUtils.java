@@ -34,6 +34,21 @@ public final class OperationUtils {
     }
 
     /**
+     * Computes the returned {@link Type} for a binary bit operation that supports <b>NON-decimal</b> types.
+     * If both {@link Type}s are {@link ValueType#BOOLEAN}, then {@link ValueType#BOOLEAN} is returned.
+     * Throws {@link TypeCheckerException} in case of an invalid type received as operand.
+     *
+     * @param left  the left operand
+     * @param right the right operand
+     * @return the computed type
+     */
+    public static @NotNull Type executeBinaryBitOperation(final @NotNull Type left,
+                                                          final @NotNull Type right) {
+        if (left.equals(ValueType.BOOLEAN) && right.equals(ValueType.BOOLEAN)) return ValueType.BOOLEAN;
+        else return executeBinaryOperationDecimal(left.check(NON_DECIMAL_TYPES), right.check(NON_DECIMAL_TYPES));
+    }
+
+    /**
      * Computes the returned {@link Type} for a binary operation that supports <b>NON-decimal</b> types.
      * Throws {@link TypeCheckerException} in case of an invalid type received as operand.
      *
