@@ -1,4 +1,5 @@
-package it.fulminazzo.javaparser.typechecker.types.primitives
+package it.fulminazzo.javaparser.typechecker.types
+
 
 import spock.lang.Specification
 

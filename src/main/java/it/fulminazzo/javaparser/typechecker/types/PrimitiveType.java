@@ -1,7 +1,5 @@
-package it.fulminazzo.javaparser.typechecker.types.primitives;
+package it.fulminazzo.javaparser.typechecker.types;
 
-import it.fulminazzo.javaparser.typechecker.types.ClassType;
-import it.fulminazzo.javaparser.typechecker.types.Type;
 import org.jetbrains.annotations.NotNull;
 
 public enum PrimitiveType implements ClassType {
