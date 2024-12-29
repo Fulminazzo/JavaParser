@@ -248,5 +248,22 @@ class ClassObjectTypeTest extends Specification {
                 ObjectType.DOUBLE, ObjectType.BOOLEAN
         ]
     }
+
+    def 'test OBJECT compatible with #type'() {
+        expect:
+        ClassObjectType.OBJECT.compatibleWith(type)
+
+        where:
+        type << [
+                CHAR, NUMBER, LONG,
+                DOUBLE, FLOAT,
+                BOOLEAN, STRING,
+                ObjectType.BYTE, ObjectType.CHARACTER,
+                ObjectType.SHORT, ObjectType.INTEGER,
+                ObjectType.LONG, ObjectType.FLOAT,
+                ObjectType.DOUBLE, ObjectType.BOOLEAN,
+                ObjectType.STRING, ObjectType.OBJECT
+        ]
+    }
     
 }
