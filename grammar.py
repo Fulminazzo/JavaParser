@@ -53,7 +53,7 @@ TODO: null
 # DIV := MOD ( (/ MOD)* | (/= MOD) )
 # MOD := ATOM ( (% ATOM)* | (%= ATOM) )
 
-# ATOM := CAST | MINUS | NOT | LITERAL | TYPE_VALUE
+# ATOM := CAST | MINUS | NOT | NULL | LITERAL | TYPE_VALUE
 
 # CAST := (PAR_EXPR)* (EXPR | PAR_EXPR)
 # PAR_EXPR := \( EXPR \)

@@ -42,23 +42,40 @@ bo = !bo;
 
 // Assignment of all wrapper types
 Byte bW = 1;
+Byte bWNull = null;
 Byte bWCast = (Byte) bW;
+Byte bWCastNull = (Byte) null;
 Short sW = 2;
+Short sWNull = null;
 Short sWCast = (Short) sW;
+Short sWCastNull = (Short) null;
 Character cW = 'c';
+Character cWNull = null;
 Character cWCast = (Character) cW;
+Character cWCastNull = (Character) null;
 Integer iW = 4;
+Integer iWNull = null;
 Integer iWCast = (Integer) iW;
+Integer iWCastNull = (Integer) null;
 Long lW = 5L;
+Long lWNull = null;
 Long lWCast = (Long) lW;
+Long lWCastNull = (Long) null;
 Float fW = 6.0f;
+Float fWNull = null;
 Float fWCast = (Float) fW;
+Float fWCastNull = (Float) null;
 Double dW = 7.0d;
+Double dWNull = null;
 Double dWCast = (Double) dW;
+Double dWCastNull = (Double) null;
 Boolean boW = true;
+Boolean boWNull = null;
 Boolean boWCast = (Boolean) boW;
+Boolean boWCastNull = (Boolean) null;
 String stW = "Hello world";
 String stWCast = (String) stW;
+String stWCastNull = (String) null;
 
 // Binary operations
 i = i + 1 - 1 * 1 / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
