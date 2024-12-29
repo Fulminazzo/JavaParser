@@ -38,4 +38,36 @@ class ScopeTest extends Specification {
         e.getMessage() == 'Object 10 is incompatible with WrapperInfo(String)'
     }
 
+    def 'test object data equality'() {
+        given:
+        def data = new Scope.ObjectData(new WrapperInfo<>(String), 'var')
+
+        expect:
+        data == new Scope.ObjectData(new WrapperInfo<>(String), 'var')
+    }
+
+    def 'test object data should not be equal to #other'() {
+        given:
+        def data = new Scope.ObjectData(new WrapperInfo<>(String), 'var')
+
+        expect:
+        data != other
+
+        where:
+        other << [
+                new Scope.ObjectData(new WrapperInfo<>(Integer), 'var'),
+                new Scope.ObjectData(new WrapperInfo<>(String), 'other'),
+                new Scope.ObjectData(new WrapperInfo<>(Integer), 'other'),
+                new WrapperInfo<>(Integer)
+        ]
+    }
+
+    def 'test object data toString'() {
+        given:
+        def data = new Scope.ObjectData(new WrapperInfo<>(String), 'var')
+
+        expect:
+        data.toString() == "${Scope.ObjectData.simpleName}(${new WrapperInfo<>(String).toString()}, var)"
+    }
+
 }
