@@ -4,6 +4,22 @@ import spock.lang.Specification
 
 class ValueTypesTest extends Specification {
 
+    def 'test name method of #type'() {
+        when:
+        def name = type.name()
 
+        then:
+        name == expected
+
+        where:
+        type                    | expected
+        ValueTypes.BOOLEAN_TYPE | "BOOLEAN_TYPE"
+        ValueTypes.CHAR_TYPE    | "CHAR_TYPE"
+        ValueTypes.DOUBLE_TYPE  | "DOUBLE_TYPE"
+        ValueTypes.FLOAT_TYPE   | "FLOAT_TYPE"
+        ValueTypes.LONG_TYPE    | "LONG_TYPE"
+        ValueTypes.NUMBER_TYPE  | "NUMBER_TYPE"
+        ValueTypes.STRING_TYPE  | "STRING_TYPE"
+    }
 
 }
