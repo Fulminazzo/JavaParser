@@ -12,45 +12,45 @@ public enum ClassObjectType implements ClassType {
     /**
      * {@link java.lang.Byte}
      */
-    BYTE(ValueType.CHAR, ValueType.NUMBER),
+    BYTE(),
     /**
      * {@link java.lang.Character}
      */
-    CHARACTER(ValueType.CHAR, ValueType.NUMBER),
+    CHARACTER(),
     /**
      * {@link java.lang.Short}
      */
-    SHORT(ValueType.CHAR, ValueType.NUMBER),
+    SHORT(),
     /**
      * {@link java.lang.Integer}
      */
-    INTEGER(ValueType.CHAR, ValueType.NUMBER),
+    INTEGER(),
     /**
      * {@link java.lang.Long}
      */
-    LONG(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG),
+    LONG(),
     /**
      * {@link java.lang.Float}
      */
-    FLOAT(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG, ValueType.FLOAT),
+    FLOAT(),
     /**
      * {@link java.lang.Double}
      */
-    DOUBLE(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG, ValueType.FLOAT, ValueType.DOUBLE),
+    DOUBLE(),
     /**
      * {@link java.lang.Boolean}
      */
-    BOOLEAN(ValueType.BOOLEAN),
+    BOOLEAN(),
     /**
      * {@link java.lang.String}
      */
-    STRING(ValueType.STRING),
+    STRING(),
     ;
 
     private final Type @NotNull [] compatibleTypes;
 
-    ClassObjectType(final Type @NotNull ... compatibleTypes) {
-        this.compatibleTypes = compatibleTypes;
+    ClassObjectType() {
+
     }
 
     @Override
