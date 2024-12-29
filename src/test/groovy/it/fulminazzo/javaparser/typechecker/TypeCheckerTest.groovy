@@ -1,14 +1,15 @@
 package it.fulminazzo.javaparser.typechecker
 
 import it.fulminazzo.javaparser.parser.node.values.BooleanValueLiteral
+import it.fulminazzo.javaparser.parser.node.values.CharValueLiteral
 import it.fulminazzo.javaparser.parser.node.values.LongValueLiteral
 import it.fulminazzo.javaparser.parser.node.values.NumberValueLiteral
-import it.fulminazzo.javaparser.typechecker.types.Type
 import it.fulminazzo.javaparser.typechecker.types.ValueType
 import spock.lang.Specification
 
 class TypeCheckerTest extends Specification {
     private static final BOOL_LIT = new BooleanValueLiteral('true')
+    private static final CHAR_LIT = new CharValueLiteral('\'a\'')
     private static final NUMBER_LIT = new NumberValueLiteral('1')
     private static final LONG_LIT = new LongValueLiteral('1L')
 
@@ -120,6 +121,7 @@ class TypeCheckerTest extends Specification {
         where:
         first      | second     | expected
         BOOL_LIT   | BOOL_LIT   | ValueType.BOOLEAN
+        CHAR_LIT   | CHAR_LIT   | ValueType.NUMBER
         NUMBER_LIT | NUMBER_LIT | ValueType.NUMBER
         LONG_LIT   | LONG_LIT   | ValueType.LONG
     }
@@ -134,6 +136,7 @@ class TypeCheckerTest extends Specification {
         where:
         first      | second     | expected
         BOOL_LIT   | BOOL_LIT   | ValueType.BOOLEAN
+        CHAR_LIT   | CHAR_LIT   | ValueType.NUMBER
         NUMBER_LIT | NUMBER_LIT | ValueType.NUMBER
         LONG_LIT   | LONG_LIT   | ValueType.LONG
     }
@@ -148,6 +151,7 @@ class TypeCheckerTest extends Specification {
         where:
         first      | second     | expected
         BOOL_LIT   | BOOL_LIT   | ValueType.BOOLEAN
+        CHAR_LIT   | CHAR_LIT   | ValueType.NUMBER
         NUMBER_LIT | NUMBER_LIT | ValueType.NUMBER
         LONG_LIT   | LONG_LIT   | ValueType.LONG
     }
