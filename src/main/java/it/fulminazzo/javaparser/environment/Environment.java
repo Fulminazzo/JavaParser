@@ -63,6 +63,15 @@ public class Environment<T> implements Scoped<T> {
     }
 
     @Override
+    public @NotNull Info lookupInfo(@NotNull String name) throws ScopeException {
+        for (Scope<T> scope : this.scopes)
+            try {
+                return scope.lookupInfo(name);
+            } catch (ScopeException ignored) {}
+        throw noSuchVariable(name);
+    }
+
+    @Override
     public void declare(@NotNull Info info, @NotNull String name, @NotNull T value) throws ScopeException {
         if (isDeclared(name)) throw alreadyDeclaredVariable(name);
         else lastScope().declare(info, name, value);

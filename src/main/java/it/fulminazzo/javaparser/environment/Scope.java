@@ -32,6 +32,11 @@ class Scope<T> implements Scoped<T> {
     }
 
     @Override
+    public @NotNull Info lookupInfo(@NotNull String name) throws ScopeException {
+        return getKey(name).map(ObjectData::getInfo).orElseThrow(() -> noSuchVariable(name));
+    }
+
+    @Override
     public void declare(@NotNull Info info, @NotNull String name, @NotNull T value) throws ScopeException {
         if (isDeclared(name)) throw alreadyDeclaredVariable(name);
         else this.internalMap.put(new ObjectData(info, name), value);
