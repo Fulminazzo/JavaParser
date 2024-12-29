@@ -23,6 +23,11 @@ abstract class PrimitiveType<I extends Type> extends ClassType<I> implements Enu
     }
 
     @Override
+    public boolean compatibleWith(@NotNull Type type) {
+        return this.internalType.equals(type);
+    }
+
+    @Override
     public @NotNull String name() {
         return name(ValueTypes.class);
     }
