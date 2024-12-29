@@ -31,7 +31,7 @@ class Scope<T> implements Scoped<T> {
     }
 
     @Override
-    public void declare(@NotNull Info<T> info, @NotNull String name, @NotNull T value) throws ScopeException {
+    public void declare(@NotNull Info info, @NotNull String name, @NotNull T value) throws ScopeException {
         if (isDeclared(name)) throw alreadyDeclaredVariable(name);
         else this.internalMap.put(new ObjectData<>(info, name), value);
     }
@@ -64,7 +64,7 @@ class Scope<T> implements Scoped<T> {
      * @param <O> the type of the object
      */
     static class ObjectData<O> {
-        private final @NotNull Info<O> info;
+        private final @NotNull Info info;
         private final @NotNull String name;
 
         /**
@@ -73,7 +73,7 @@ class Scope<T> implements Scoped<T> {
          * @param info the info
          * @param name the name
          */
-        public ObjectData(final @NotNull Info<O> info, final @NotNull String name) {
+        public ObjectData(final @NotNull Info info, final @NotNull String name) {
             this.info = info;
             this.name = name;
         }
