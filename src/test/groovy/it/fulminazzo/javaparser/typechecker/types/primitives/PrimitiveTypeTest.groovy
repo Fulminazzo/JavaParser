@@ -4,11 +4,11 @@ import spock.lang.Specification
 
 import static it.fulminazzo.javaparser.typechecker.types.values.ValueTypes.*;
 
-class PrimitiveTypesTest extends Specification {
+class PrimitiveTypeTest extends Specification {
 
     def 'test BYTE compatible with #type'() {
         expect:
-        PrimitiveTypes.BYTE.compatibleWith(type)
+        PrimitiveType.BYTE.compatibleWith(type)
 
         where:
         type << [
@@ -18,7 +18,7 @@ class PrimitiveTypesTest extends Specification {
 
     def 'test BYTE incompatible with #type'() {
         expect:
-        !PrimitiveTypes.BYTE.compatibleWith(type)
+        !PrimitiveType.BYTE.compatibleWith(type)
 
         where:
         type << [
@@ -30,7 +30,7 @@ class PrimitiveTypesTest extends Specification {
 
     def 'test CHAR compatible with #type'() {
         expect:
-        PrimitiveTypes.CHAR.compatibleWith(type)
+        PrimitiveType.CHAR.compatibleWith(type)
 
         where:
         type << [
@@ -40,7 +40,7 @@ class PrimitiveTypesTest extends Specification {
 
     def 'test CHAR incompatible with #type'() {
         expect:
-        !PrimitiveTypes.CHAR.compatibleWith(type)
+        !PrimitiveType.CHAR.compatibleWith(type)
 
         where:
         type << [
@@ -52,7 +52,7 @@ class PrimitiveTypesTest extends Specification {
 
     def 'test SHORT compatible with #type'() {
         expect:
-        PrimitiveTypes.SHORT.compatibleWith(type)
+        PrimitiveType.SHORT.compatibleWith(type)
 
         where:
         type << [
@@ -62,7 +62,7 @@ class PrimitiveTypesTest extends Specification {
 
     def 'test SHORT incompatible with #type'() {
         expect:
-        !PrimitiveTypes.SHORT.compatibleWith(type)
+        !PrimitiveType.SHORT.compatibleWith(type)
 
         where:
         type << [
@@ -74,7 +74,7 @@ class PrimitiveTypesTest extends Specification {
 
     def 'test INT compatible with #type'() {
         expect:
-        PrimitiveTypes.INT.compatibleWith(type)
+        PrimitiveType.INT.compatibleWith(type)
 
         where:
         type << [
@@ -84,7 +84,7 @@ class PrimitiveTypesTest extends Specification {
 
     def 'test INT incompatible with #type'() {
         expect:
-        !PrimitiveTypes.INT.compatibleWith(type)
+        !PrimitiveType.INT.compatibleWith(type)
 
         where:
         type << [
@@ -96,7 +96,7 @@ class PrimitiveTypesTest extends Specification {
 
     def 'test LONG compatible with #type'() {
         expect:
-        PrimitiveTypes.LONG.compatibleWith(type)
+        PrimitiveType.LONG.compatibleWith(type)
 
         where:
         type << [
@@ -106,7 +106,7 @@ class PrimitiveTypesTest extends Specification {
 
     def 'test LONG incompatible with #type'() {
         expect:
-        !PrimitiveTypes.LONG.compatibleWith(type)
+        !PrimitiveType.LONG.compatibleWith(type)
 
         where:
         type << [
@@ -117,7 +117,7 @@ class PrimitiveTypesTest extends Specification {
 
     def 'test FLOAT compatible with #type'() {
         expect:
-        PrimitiveTypes.FLOAT.compatibleWith(type)
+        PrimitiveType.FLOAT.compatibleWith(type)
 
         where:
         type << [
@@ -128,7 +128,7 @@ class PrimitiveTypesTest extends Specification {
 
     def 'test FLOAT incompatible with #type'() {
         expect:
-        !PrimitiveTypes.FLOAT.compatibleWith(type)
+        !PrimitiveType.FLOAT.compatibleWith(type)
 
         where:
         type << [
@@ -139,7 +139,7 @@ class PrimitiveTypesTest extends Specification {
 
     def 'test DOUBLE compatible with #type'() {
         expect:
-        PrimitiveTypes.DOUBLE.compatibleWith(type)
+        PrimitiveType.DOUBLE.compatibleWith(type)
 
         where:
         type << [
@@ -150,7 +150,7 @@ class PrimitiveTypesTest extends Specification {
 
     def 'test DOUBLE incompatible with #type'() {
         expect:
-        !PrimitiveTypes.DOUBLE.compatibleWith(type)
+        !PrimitiveType.DOUBLE.compatibleWith(type)
 
         where:
         type << [
@@ -160,7 +160,7 @@ class PrimitiveTypesTest extends Specification {
 
     def 'test BOOLEAN compatible with #type'() {
         expect:
-        PrimitiveTypes.BOOLEAN.compatibleWith(type)
+        PrimitiveType.BOOLEAN.compatibleWith(type)
 
         where:
         type << [
@@ -170,7 +170,7 @@ class PrimitiveTypesTest extends Specification {
 
     def 'test BOOLEAN incompatible with #type'() {
         expect:
-        !PrimitiveTypes.BOOLEAN.compatibleWith(type)
+        !PrimitiveType.BOOLEAN.compatibleWith(type)
 
         where:
         type << [
@@ -191,50 +191,50 @@ class PrimitiveTypesTest extends Specification {
 
         where:
         type                   | expected
-        PrimitiveTypes.BYTE    | "BYTE"
-        PrimitiveTypes.CHAR    | "CHAR"
-        PrimitiveTypes.SHORT   | "SHORT"
-        PrimitiveTypes.INT     | "INT"
-        PrimitiveTypes.LONG    | "LONG"
-        PrimitiveTypes.FLOAT   | "FLOAT"
-        PrimitiveTypes.DOUBLE  | "DOUBLE"
-        PrimitiveTypes.BOOLEAN | "BOOLEAN"
+        PrimitiveType.BYTE    | "BYTE"
+        PrimitiveType.CHAR    | "CHAR"
+        PrimitiveType.SHORT   | "SHORT"
+        PrimitiveType.INT     | "INT"
+        PrimitiveType.LONG    | "LONG"
+        PrimitiveType.FLOAT   | "FLOAT"
+        PrimitiveType.DOUBLE  | "DOUBLE"
+        PrimitiveType.BOOLEAN | "BOOLEAN"
     }
 
     def 'test values method'() {
         when:
-        def values = PrimitiveTypes.values()
+        def values = PrimitiveType.values()
 
         then:
         values == [
-                PrimitiveTypes.BYTE,
-                PrimitiveTypes.CHAR,
-                PrimitiveTypes.SHORT,
-                PrimitiveTypes.INT,
-                PrimitiveTypes.LONG,
-                PrimitiveTypes.FLOAT,
-                PrimitiveTypes.DOUBLE,
-                PrimitiveTypes.BOOLEAN,
+                PrimitiveType.BYTE,
+                PrimitiveType.CHAR,
+                PrimitiveType.SHORT,
+                PrimitiveType.INT,
+                PrimitiveType.LONG,
+                PrimitiveType.FLOAT,
+                PrimitiveType.DOUBLE,
+                PrimitiveType.BOOLEAN,
         ].toArray()
     }
 
     def 'test value of #name'() {
         when:
-        def actual = PrimitiveTypes.valueOf(name)
+        def actual = PrimitiveType.valueOf(name)
 
         then:
         actual == expected
 
         where:
         expected | name
-        PrimitiveTypes.BOOLEAN | "BOOLEAN"
-        PrimitiveTypes.CHAR    | "CHAR"
-        PrimitiveTypes.DOUBLE  | "DOUBLE"
-        PrimitiveTypes.FLOAT   | "FLOAT"
-        PrimitiveTypes.LONG    | "LONG"
-        PrimitiveTypes.INT     | "INT"
-        PrimitiveTypes.SHORT   | "SHORT"
-        PrimitiveTypes.BYTE    | "BYTE"
+        PrimitiveType.BOOLEAN | "BOOLEAN"
+        PrimitiveType.CHAR    | "CHAR"
+        PrimitiveType.DOUBLE  | "DOUBLE"
+        PrimitiveType.FLOAT   | "FLOAT"
+        PrimitiveType.LONG    | "LONG"
+        PrimitiveType.INT     | "INT"
+        PrimitiveType.SHORT   | "SHORT"
+        PrimitiveType.BYTE    | "BYTE"
     }
 
 }

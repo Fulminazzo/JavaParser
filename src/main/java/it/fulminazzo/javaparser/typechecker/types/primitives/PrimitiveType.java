@@ -4,12 +4,12 @@ import it.fulminazzo.javaparser.typechecker.types.ClassType;
 import it.fulminazzo.javaparser.typechecker.types.Type;
 import org.jetbrains.annotations.NotNull;
 
-public enum PrimitiveTypes implements ClassType {
+public enum PrimitiveType implements ClassType {
     ;
 
     private final Type @NotNull [] compatibleTypes;
 
-    PrimitiveTypes(final Type @NotNull ... compatibleTypes) {
+    PrimitiveType(final Type @NotNull ... compatibleTypes) {
         this.compatibleTypes = compatibleTypes;
     }
 
