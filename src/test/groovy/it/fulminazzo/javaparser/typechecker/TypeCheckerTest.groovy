@@ -285,4 +285,12 @@ class TypeCheckerTest extends Specification {
         DOUBLE_LIT  | DOUBLE_LIT  | ValueType.DOUBLE
     }
 
+    def 'test visit not'() {
+        given:
+        def type = this.typeChecker.visitNot(BOOL_LIT)
+
+        expect:
+        type == ValueType.BOOLEAN
+    }
+
 }

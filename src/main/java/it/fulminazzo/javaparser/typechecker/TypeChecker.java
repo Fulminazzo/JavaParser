@@ -228,8 +228,7 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitNot(@NotNull Node operand) {
-        // TODO:
-        return null;
+        return operand.accept(this).check(BOOLEAN);
     }
 
     @Override
