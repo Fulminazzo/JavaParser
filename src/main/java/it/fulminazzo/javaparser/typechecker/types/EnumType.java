@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
  * Represents a general class which provides various <code>static final</code> fields of the same type.
  * It provides useful methods for the lookup and retrieval of certain fields, similar to {@link Enum}.
  */
-public class EnumType {
+public abstract class EnumType extends TypeImpl {
 
     /**
      * Returns the name of the current object based on its field name.
