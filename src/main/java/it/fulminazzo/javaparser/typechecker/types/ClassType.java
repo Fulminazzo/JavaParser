@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @param <I> the type
  */
-public abstract class ClassType<I extends Type> extends Type implements Info<I> {
+public abstract class ClassType<I extends Type> implements Type, Info<I> {
     protected final @NotNull I internalType;
 
     /**
