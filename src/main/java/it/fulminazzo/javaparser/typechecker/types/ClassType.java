@@ -8,17 +8,14 @@ import org.jetbrains.annotations.NotNull;
  *
  * @param <I> the type
  */
-public abstract class ClassType<I extends Type> extends TypeImpl implements Type, Info<I> {
-    protected final @NotNull I internalType;
+public interface ClassType<I extends Type> extends Type, Info<I> {
 
     /**
-     * Instantiates a new Class type.
+     * Gets internal type.
      *
-     * @param internalType the internal type
+     * @return the internal type
      */
-    public ClassType(final @NotNull I internalType) {
-        this.internalType = internalType;
-    }
+    I getInternalType();
 
     /**
      * Verifies that the current class type is compatible with the provided type.
@@ -26,10 +23,10 @@ public abstract class ClassType<I extends Type> extends TypeImpl implements Type
      * @param type the other type
      * @return true if it is
      */
-    public abstract boolean compatibleWith(final @NotNull Type type);
+    boolean compatibleWith(final @NotNull Type type);
 
     @Override
-    public boolean compatibleWith(@NotNull Object object) {
+    default boolean compatibleWith(@NotNull Object object) {
         return object instanceof Type && compatibleWith((Type) object);
     }
 
