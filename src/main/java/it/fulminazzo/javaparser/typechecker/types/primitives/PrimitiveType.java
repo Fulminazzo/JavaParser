@@ -1,7 +1,9 @@
 package it.fulminazzo.javaparser.typechecker.types.primitives;
 
 import it.fulminazzo.javaparser.typechecker.types.ClassType;
+import it.fulminazzo.javaparser.typechecker.types.EnumType;
 import it.fulminazzo.javaparser.typechecker.types.Type;
+import it.fulminazzo.javaparser.typechecker.types.values.ValueTypes;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -9,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @param <I> the type
  */
-public abstract class PrimitiveType<I extends Type> extends ClassType<I> {
+abstract class PrimitiveType<I extends Type> extends ClassType<I> implements EnumType {
 
     /**
      * Instantiates a new Primitive type.
@@ -18,6 +20,16 @@ public abstract class PrimitiveType<I extends Type> extends ClassType<I> {
      */
     PrimitiveType(final @NotNull I internalType) {
         super(internalType);
+    }
+
+    @Override
+    public @NotNull String name() {
+        return name(ValueTypes.class);
+    }
+
+    @Override
+    public String toString() {
+        return name();
     }
 
 }
