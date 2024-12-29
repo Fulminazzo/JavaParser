@@ -1,9 +1,9 @@
 package it.fulminazzo.javaparser.typechecker.types.objects;
 
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
-import it.fulminazzo.javaparser.ObjectWrapper;
 import it.fulminazzo.javaparser.typechecker.types.Type;
 import it.fulminazzo.javaparser.typechecker.types.TypeException;
+import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
