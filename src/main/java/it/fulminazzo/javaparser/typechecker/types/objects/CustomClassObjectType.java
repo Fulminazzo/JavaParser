@@ -28,4 +28,19 @@ class CustomClassObjectType implements ClassType {
         return false;
     }
 
+    @Override
+    public int hashCode() {
+        return getClass().hashCode() + this.internalType.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof CustomClassObjectType && this.internalType.equals(((CustomClassObjectType) o).internalType);
+    }
+
+    @Override
+    public String toString() {
+        return this.internalType.toString().replace("Type", "ClassType");
+    }
+
 }
