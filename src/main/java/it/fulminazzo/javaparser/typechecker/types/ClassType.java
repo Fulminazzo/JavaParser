@@ -24,13 +24,20 @@ public interface ClassType extends Type, Info {
 
     /**
      * Gets a new {@link ClassType} from the given class name.
+     * Tries first to obtain from {@link PrimitiveType}.
+     * If it fails, uses the fields of {@link ClassObjectType}.
+     * Otherwise, a new type is created.
      *
      * @param className the class name
      * @return the class type
      * @throws TypeException the exception thrown in case the class is not found
      */
     static ClassType of(final @NotNull String className) throws TypeException {
-        return ClassObjectType.of(className);
+        try {
+            return PrimitiveType.valueOf(className.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return ClassObjectType.of(className);
+        }
     }
 
 }
