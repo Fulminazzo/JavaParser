@@ -13,7 +13,7 @@ public interface Type {
      * @param classType the class type
      * @return true if it is
      */
-    default boolean isAssignableFrom(final @NotNull ClassType<?> classType) {
+    default boolean isAssignableFrom(final @NotNull ClassType classType) {
         return classType.compatibleWith(this);
     }
 
