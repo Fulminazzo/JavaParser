@@ -1,5 +1,8 @@
-package it.fulminazzo.javaparser.typechecker.types
+package it.fulminazzo.javaparser.typechecker.types.objects
 
+import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
+import it.fulminazzo.javaparser.typechecker.types.TypeException
+import it.fulminazzo.javaparser.typechecker.types.ValueType
 import spock.lang.Specification
 
 class ObjectTypeTest extends Specification {
@@ -40,13 +43,12 @@ class ObjectTypeTest extends Specification {
         string == "Type(${expected})"
 
         where:
-        raw                | expected
-        'String'           | 'String'
-        'java.lang.String' | 'String'
-        'Map'              | 'Map'
-        'java.util.Map'    | 'Map'
-        'it.fulminazzo.javaparser.typechecker.types.ObjectTypeTest' |
-                'it.fulminazzo.javaparser.typechecker.types.ObjectTypeTest'
+        raw                           | expected
+        'String'                      | 'String'
+        'java.lang.String'            | 'String'
+        'Map'                         | 'Map'
+        'java.util.Map'               | 'Map'
+        getClass().getCanonicalName() | getClass().getCanonicalName()
     }
 
     def 'test of method invalid class'() {

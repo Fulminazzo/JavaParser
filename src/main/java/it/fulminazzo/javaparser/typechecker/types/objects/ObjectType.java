@@ -1,6 +1,8 @@
-package it.fulminazzo.javaparser.typechecker.types;
+package it.fulminazzo.javaparser.typechecker.types.objects;
 
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
+import it.fulminazzo.javaparser.typechecker.types.Type;
+import it.fulminazzo.javaparser.typechecker.types.TypeException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
