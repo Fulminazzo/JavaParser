@@ -17,8 +17,16 @@ public abstract class EnumType extends TypeImpl {
      *
      * @return the name
      */
-    public @NotNull String name() {
-        Refl<?> refl = new Refl<>(getClass());
+    public abstract @NotNull String name();
+
+    /**
+     * Returns the name of the current object based on its field name.
+     *
+     * @param fieldsContainer the class where the field is stored
+     * @return the name
+     */
+    protected @NotNull String name(final @NotNull Class<?> fieldsContainer) {
+        Refl<?> refl = new Refl<>(fieldsContainer);
         for (final Field f : refl.getFields(f -> f.getType().isAssignableFrom(getClass()) &&
                 Modifier.isStatic(f.getModifiers()))) {
             if (equals(refl.getFieldObject(f))) return f.getName();
