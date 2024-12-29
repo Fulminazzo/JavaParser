@@ -222,8 +222,7 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitMinus(@NotNull Node operand) {
-        // TODO:
-        return null;
+        return operand.accept(this).check(OperationUtils.getDecimalTypes());
     }
 
     @Override
