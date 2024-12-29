@@ -12,8 +12,11 @@ class ObjectWrapperTest extends Specification {
     }
 
     def 'test hashCode'() {
+        given:
+        int code = MockWrapper.hashCode() ^ this.string.hashCode()
+
         expect:
-        this.wrapper.hashCode() == MockWrapper.hashCode() + this.string.hashCode()
+        this.wrapper.hashCode() == code
     }
 
     def 'test equality'() {
