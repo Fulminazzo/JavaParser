@@ -136,14 +136,12 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitGreaterThan(@NotNull Node left, @NotNull Node right) {
-        // TODO:
-        return null;
+        return OperationUtils.executeBinaryComparison(left.accept(this), right.accept(this));
     }
 
     @Override
     public Type visitGreaterThanEqual(@NotNull Node left, @NotNull Node right) {
-        // TODO:
-        return null;
+        return OperationUtils.executeBinaryComparison(left.accept(this), right.accept(this));
     }
 
     @Override
@@ -154,14 +152,12 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitLessThan(@NotNull Node left, @NotNull Node right) {
-        // TODO:
-        return null;
+        return OperationUtils.executeBinaryComparison(left.accept(this), right.accept(this));
     }
 
     @Override
     public Type visitLessThanEqual(@NotNull Node left, @NotNull Node right) {
-        // TODO:
-        return null;
+        return OperationUtils.executeBinaryComparison(left.accept(this), right.accept(this));
     }
 
     @Override
