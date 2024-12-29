@@ -36,4 +36,27 @@ class TypeCheckerTest extends Specification {
         new NumberValueLiteral('1')     | new NumberValueLiteral('1')
     }
 
+    def 'test valid or'() {
+        given:
+        Type type = this.typeChecker.visitOr(new BooleanValueLiteral('true'),
+                new BooleanValueLiteral('true'))
+
+        expect:
+        type == ValueType.BOOLEAN
+    }
+
+    def 'test invalid or'() {
+        when:
+        this.typeChecker.visitOr(first, second)
+
+        then:
+        thrown(TypeCheckerException)
+
+        where:
+        first                           | second
+        new BooleanValueLiteral('true') | new NumberValueLiteral('1')
+        new NumberValueLiteral('1')     | new BooleanValueLiteral('false')
+        new NumberValueLiteral('1')     | new NumberValueLiteral('1')
+    }
+
 }
