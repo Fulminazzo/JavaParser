@@ -1,6 +1,5 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
-import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -10,42 +9,35 @@ public enum PrimitiveType implements ClassType {
     /**
      * <code>byte</code>
      */
-    BYTE(ValueType.CHAR, ValueType.NUMBER,
-            ObjectType.BYTE),
+    BYTE(ValueType.CHAR, ValueType.NUMBER),
     /**
      * <code>char</code>
      */
-    CHAR(ValueType.CHAR, ValueType.NUMBER,
-            ObjectType.CHARACTER),
+    CHAR(ValueType.CHAR, ValueType.NUMBER),
     /**
      * <code>short</code>
      */
-    SHORT(ValueType.CHAR, ValueType.NUMBER,
-            ObjectType.BYTE, ObjectType.SHORT),
+    SHORT(ValueType.CHAR, ValueType.NUMBER),
     /**
      * <code>int</code>
      */
-    INT(ValueType.CHAR, ValueType.NUMBER, ObjectType.BYTE,
-            ObjectType.CHARACTER, ObjectType.SHORT, ObjectType.INTEGER),
+    INT(ValueType.CHAR, ValueType.NUMBER),
     /**
      * <code>long</code>
      */
-    LONG(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG, ObjectType.BYTE,
-            ObjectType.CHARACTER, ObjectType.SHORT, ObjectType.INTEGER, ObjectType.LONG),
+    LONG(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG),
     /**
      * <code>float</code>
      */
-    FLOAT(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG, ValueType.FLOAT, ObjectType.BYTE,
-            ObjectType.CHARACTER, ObjectType.SHORT, ObjectType.INTEGER, ObjectType.LONG, ObjectType.FLOAT),
+    FLOAT(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG, ValueType.FLOAT),
     /**
      * <code>double</code>
      */
-    DOUBLE(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG, ValueType.FLOAT, ValueType.DOUBLE, ObjectType.BYTE,
-            ObjectType.CHARACTER, ObjectType.SHORT, ObjectType.INTEGER, ObjectType.LONG, ObjectType.FLOAT, ObjectType.DOUBLE),
+    DOUBLE(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG, ValueType.FLOAT, ValueType.DOUBLE),
     /**
      * <code>boolean</code>
      */
-    BOOLEAN(ValueType.BOOLEAN, ObjectType.BOOLEAN),
+    BOOLEAN(ValueType.BOOLEAN),
     ;
 
     private final Type @NotNull [] compatibleTypes;

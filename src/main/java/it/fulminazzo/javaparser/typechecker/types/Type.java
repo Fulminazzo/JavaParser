@@ -9,6 +9,15 @@ import org.jetbrains.annotations.NotNull;
 public interface Type {
 
     /**
+     * Checks whether the current type is a basic value of Java (from {@link ValueType}).
+     *
+     * @return true if it is
+     */
+    default boolean isValue() {
+        return this instanceof ValueType;
+    }
+
+    /**
      * Checks whether the current type is equal to the one given.
      *
      * @param type the type
