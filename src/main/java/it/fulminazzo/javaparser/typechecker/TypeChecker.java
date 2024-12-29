@@ -102,20 +102,17 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitBitAnd(@NotNull Node left, @NotNull Node right) {
-        // TODO:
-        return null;
+        return OperationUtils.executeBinaryBitOperation(left.accept(this), right.accept(this));
     }
 
     @Override
     public Type visitBitOr(@NotNull Node left, @NotNull Node right) {
-        // TODO:
-        return null;
+        return OperationUtils.executeBinaryBitOperation(left.accept(this), right.accept(this));
     }
 
     @Override
     public Type visitBitXor(@NotNull Node left, @NotNull Node right) {
-        // TODO:
-        return null;
+        return OperationUtils.executeBinaryBitOperation(left.accept(this), right.accept(this));
     }
 
     @Override
