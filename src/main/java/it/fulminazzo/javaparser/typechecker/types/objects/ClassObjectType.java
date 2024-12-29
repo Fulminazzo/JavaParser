@@ -61,9 +61,12 @@ public enum ClassObjectType implements ClassType {
 
     @Override
     public boolean compatibleWith(@NotNull Type type) {
-        for (Type compatibleType : this.compatibleTypes)
-            if (compatibleType.equals(type)) return true;
-        return false;
+        if (this.associatedType != null) return this.associatedType.compatibleWith(type);
+        else {
+            // Either STRING or OBJECT
+            if (this == STRING) return ValueType.STRING.equals(type);
+            else return true;
+        }
     }
 
 }
