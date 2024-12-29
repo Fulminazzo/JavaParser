@@ -20,6 +20,7 @@ public final class OperationUtils {
 
     /**
      * Checks whether the given operands are eligible for comparison (i.e. are {@link #DECIMAL_TYPES}).
+     * Throws {@link TypeCheckerException} in case of an invalid type received as operand.
      *
      * @param left  the left operand
      * @param right the right operand
@@ -34,6 +35,7 @@ public final class OperationUtils {
 
     /**
      * Computes the returned {@link Type} for a binary operation that supports <b>NON-decimal</b> types.
+     * Throws {@link TypeCheckerException} in case of an invalid type received as operand.
      *
      * @param left  the left operand
      * @param right the right operand
@@ -48,6 +50,7 @@ public final class OperationUtils {
 
     /**
      * Computes the returned {@link Type} for a binary operation that supports <b>decimal</b> types.
+     * Throws {@link TypeCheckerException} in case of an invalid type received as operand.
      *
      * @param left  the left operand
      * @param right the right operand
