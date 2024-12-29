@@ -39,8 +39,8 @@ class Scope<T> implements Scoped<T> {
     @Override
     public void update(@NotNull String name, @NotNull T value) throws ScopeException {
         ObjectData key = getKey(name).orElseThrow(() -> noSuchVariable(name));
-        if (key.info.compatibleWith(value)) this.internalMap.put(key, value);
-        else throw new ScopeException(String.format("Cannot assign %s to %s", value, key.info));
+        if (key.getInfo().compatibleWith(value)) this.internalMap.put(key, value);
+        else throw new ScopeException(String.format("Cannot assign %s to %s", value, key.getInfo()));
     }
 
     @Override
@@ -55,7 +55,7 @@ class Scope<T> implements Scoped<T> {
      * @return an optional containing the data (if found)
      */
     public @NotNull Optional<ObjectData> getKey(@NotNull String name) {
-        return this.internalMap.keySet().stream().filter(d -> d.name.equals(name)).findFirst();
+        return this.internalMap.keySet().stream().filter(d -> d.getName().equals(name)).findFirst();
     }
 
     /**
@@ -75,6 +75,14 @@ class Scope<T> implements Scoped<T> {
         public ObjectData(final @NotNull Info info, final @NotNull String name) {
             this.info = info;
             this.name = name;
+        }
+
+        public @NotNull Info getInfo() {
+            return info;
+        }
+
+        public @NotNull String getName() {
+            return name;
         }
 
         @Override
