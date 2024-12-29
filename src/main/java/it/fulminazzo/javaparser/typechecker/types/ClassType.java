@@ -34,10 +34,10 @@ public interface ClassType extends Type, Info {
      */
     static ClassType of(final @NotNull String className) throws TypeException {
         try {
-            return PrimitiveType.valueOf(className.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            return ClassObjectType.of(className);
-        }
+            String lowerCase = className.toLowerCase();
+            if (lowerCase.equals(className)) return PrimitiveType.valueOf(className.toUpperCase());
+        } catch (IllegalArgumentException ignored) {}
+        return ClassObjectType.of(className);
     }
 
 }
