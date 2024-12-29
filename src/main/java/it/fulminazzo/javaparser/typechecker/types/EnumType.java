@@ -48,8 +48,7 @@ public interface EnumType extends Type {
                                                      final @NotNull Class<E> returnType) {
         Refl<?> refl = new Refl<>(fieldsContainer);
         List<E> values = new ArrayList<>();
-        for (final Field f : refl.getFields(f -> f.getType().isAssignableFrom(returnType) &&
-                Modifier.isStatic(f.getModifiers())))
+        for (final Field f : getFields(fieldsContainer))
             values.add(refl.getFieldObject(f));
         return values.toArray((E[]) Array.newInstance(returnType, values.size()));
     }
