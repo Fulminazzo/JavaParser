@@ -7,6 +7,9 @@ import it.fulminazzo.javaparser.typechecker.types.ValueType
 import spock.lang.Specification
 
 class TypeCheckerTest extends Specification {
+    private static final BOOL_LIT = new BooleanValueLiteral('true')
+    private static final NUMBER_LIT = new NumberValueLiteral('1')
+    
     private TypeChecker typeChecker
 
     void setup() {
@@ -15,8 +18,7 @@ class TypeCheckerTest extends Specification {
 
     def 'test valid and'() {
         given:
-        Type type = this.typeChecker.visitAnd(new BooleanValueLiteral('true'),
-                new BooleanValueLiteral('true'))
+        Type type = this.typeChecker.visitAnd(BOOL_LIT, BOOL_LIT)
 
         expect:
         type == ValueType.BOOLEAN
@@ -30,16 +32,15 @@ class TypeCheckerTest extends Specification {
         thrown(TypeCheckerException)
 
         where:
-        first                           | second
-        new BooleanValueLiteral('true') | new NumberValueLiteral('1')
-        new NumberValueLiteral('1')     | new BooleanValueLiteral('false')
-        new NumberValueLiteral('1')     | new NumberValueLiteral('1')
+        first      | second
+        BOOL_LIT   | NUMBER_LIT
+        NUMBER_LIT | BOOL_LIT
+        NUMBER_LIT | NUMBER_LIT
     }
 
     def 'test valid or'() {
         given:
-        Type type = this.typeChecker.visitOr(new BooleanValueLiteral('true'),
-                new BooleanValueLiteral('true'))
+        Type type = this.typeChecker.visitOr(BOOL_LIT, BOOL_LIT)
 
         expect:
         type == ValueType.BOOLEAN
@@ -53,10 +54,10 @@ class TypeCheckerTest extends Specification {
         thrown(TypeCheckerException)
 
         where:
-        first                           | second
-        new BooleanValueLiteral('true') | new NumberValueLiteral('1')
-        new NumberValueLiteral('1')     | new BooleanValueLiteral('false')
-        new NumberValueLiteral('1')     | new NumberValueLiteral('1')
+        first      | second
+        BOOL_LIT   | NUMBER_LIT
+        NUMBER_LIT | BOOL_LIT
+        NUMBER_LIT | NUMBER_LIT
     }
 
 }
