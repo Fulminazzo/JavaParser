@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.environment;
 
+import it.fulminazzo.javaparser.wrappers.BiObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedHashMap;
@@ -62,9 +63,7 @@ class Scope<T> implements Scoped<T> {
      * Represents the information of an object.
      *
      */
-    static class ObjectData {
-        private final @NotNull Info info;
-        private final @NotNull String name;
+    static class ObjectData extends BiObjectWrapper<Info, String> {
 
         /**
          * Instantiates a new Object data.
@@ -73,35 +72,15 @@ class Scope<T> implements Scoped<T> {
          * @param name the name
          */
         public ObjectData(final @NotNull Info info, final @NotNull String name) {
-            this.info = info;
-            this.name = name;
+            super(info, name);
         }
 
         public @NotNull Info getInfo() {
-            return info;
+            return this.first;
         }
 
         public @NotNull String getName() {
-            return name;
-        }
-
-        @Override
-        public int hashCode() {
-            return this.info.hashCode() + this.name.hashCode();
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (o instanceof ObjectData) {
-                ObjectData other = (ObjectData) o;
-                return this.info.equals(other.info) && this.name.equals(other.name);
-            }
-            return false;
-        }
-
-        @Override
-        public String toString() {
-            return String.format("%s(%s, %s)", getClass().getSimpleName(), this.info, this.name);
+            return this.second;
         }
 
     }
