@@ -5,18 +5,18 @@ import it.fulminazzo.javaparser.typechecker.types.Type;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents a general primitive type.
+ * Contains all the primitive {@link Type} allowed by the language.
  *
  * @param <I> the type
  */
-abstract class PrimitiveType<I extends Type> extends ClassType<I> {
+public abstract class PrimitiveType<I extends Type> extends ClassType<I> {
 
     /**
      * Instantiates a new Primitive type.
      *
      * @param internalType the internal type
      */
-    public PrimitiveType(final @NotNull I internalType) {
+    PrimitiveType(final @NotNull I internalType) {
         super(internalType);
     }
 
