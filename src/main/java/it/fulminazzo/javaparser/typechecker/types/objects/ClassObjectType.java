@@ -47,6 +47,10 @@ public enum ClassObjectType implements ClassType {
      * {@link java.lang.String}
      */
     STRING(),
+    /**
+     * {@link java.lang.Object}
+     */
+    OBJECT,
     ;
 
     private final @Nullable PrimitiveType associatedType;
