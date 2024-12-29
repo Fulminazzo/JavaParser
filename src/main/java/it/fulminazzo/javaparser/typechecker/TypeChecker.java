@@ -95,8 +95,9 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitAnd(@NotNull Node left, @NotNull Node right) {
-        // TODO:
-        return null;
+        left.accept(this).check(ValueType.BOOLEAN);
+        right.accept(this).check(ValueType.BOOLEAN);
+        return ValueType.BOOLEAN;
     }
 
     @Override
@@ -185,8 +186,9 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitOr(@NotNull Node left, @NotNull Node right) {
-        // TODO:
-        return null;
+        left.accept(this).check(ValueType.BOOLEAN);
+        right.accept(this).check(ValueType.BOOLEAN);
+        return ValueType.BOOLEAN;
     }
 
     @Override
