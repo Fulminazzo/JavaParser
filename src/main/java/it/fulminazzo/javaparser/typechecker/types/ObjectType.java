@@ -4,11 +4,17 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
+
 /**
  * Represents an {@link Object} value, declared from its associated class canonical name.
  */
 @Getter(AccessLevel.PACKAGE)
 public class ObjectType implements Type {
+    private static final String[] IMPLIED_PACKAGES = new String[]{
+            String.class.getPackage().getName(),
+            Map.class.getPackage().getName(),
+    };
     private final @NotNull Class<?> innerClass;
 
     private ObjectType(final @NotNull Class<?> innerClass) {
