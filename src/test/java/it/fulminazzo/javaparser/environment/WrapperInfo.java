@@ -1,32 +1,22 @@
 package it.fulminazzo.javaparser.environment;
 
+import it.fulminazzo.javaparser.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
-class WrapperInfo<T> implements Info {
-    private final Class<T> internalClass;
+class WrapperInfo<T> extends ObjectWrapper<Class<T>> implements Info {
 
     public WrapperInfo(final @NotNull Class<T> internalClass) {
-        this.internalClass = internalClass;
+        super(internalClass);
     }
 
     @Override
     public boolean compatibleWith(@NotNull Object object) {
-        return object.getClass().isAssignableFrom(this.internalClass);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return o instanceof WrapperInfo && this.internalClass.equals(((WrapperInfo<?>) o).internalClass);
-    }
-
-    @Override
-    public int hashCode() {
-        return this.internalClass.hashCode();
+        return object.getClass().isAssignableFrom(this.object);
     }
 
     @Override
     public String toString() {
-        return "WrapperInfo(" + this.internalClass.getSimpleName() + ")";
+        return "WrapperInfo(" + this.object.getSimpleName() + ")";
     }
 
 }
