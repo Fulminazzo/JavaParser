@@ -186,7 +186,7 @@ class ClassObjectTypeTest extends Specification {
 
         where:
         type << [
-                BOOLEAN
+                STRING
         ]
     }
 
@@ -198,7 +198,7 @@ class ClassObjectTypeTest extends Specification {
         type << [
                 CHAR, NUMBER, LONG,
                 DOUBLE, FLOAT,
-                STRING
+                BOOLEAN
         ]
     }
     
