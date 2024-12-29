@@ -19,7 +19,7 @@ abstract class TypeImpl implements Type {
 
     @Override
     public String toString() {
-        return StringUtils.capitalize(getClass().getSimpleName());
+        return StringUtils.decapitalize(getClass().getSimpleName());
     }
 
 }
