@@ -26,6 +26,29 @@ class OperationUtilsTest extends Specification {
         LONG   | LONG   | LONG
     }
 
+    def 'test invalid execute binary operation (non-decimal): #a * #b'() {
+        when:
+        OperationUtils.executeBinaryOperation(a, b)
+
+        then:
+        thrown(TypeCheckerException)
+
+        where:
+        a      | b
+        // Double
+        DOUBLE | CHAR
+        DOUBLE | NUMBER
+        DOUBLE | LONG
+        DOUBLE | FLOAT
+        DOUBLE | DOUBLE
+        // Float
+        FLOAT  | CHAR
+        FLOAT  | NUMBER
+        FLOAT  | LONG
+        FLOAT  | FLOAT
+        FLOAT  | DOUBLE
+    }
+
     def 'test execute binary operation decimal: #a * #b -> #c'() {
         expect:
         OperationUtils.executeBinaryOperationDecimal(a, b) == c
@@ -62,6 +85,22 @@ class OperationUtilsTest extends Specification {
         FLOAT  | LONG   | FLOAT
         FLOAT  | FLOAT  | FLOAT
         FLOAT  | DOUBLE | DOUBLE
+    }
+
+    def 'test invalid execute binary operation decimal: #a * #b'() {
+        when:
+        OperationUtils.executeBinaryOperationDecimal(a, b)
+
+        then:
+        thrown(TypeCheckerException)
+
+        where:
+        a       | b
+        STRING  | STRING
+        BOOLEAN | STRING
+        STRING  | BOOLEAN
+        BOOLEAN | BOOLEAN
+
     }
 
     def 'test checkType invalid'() {
