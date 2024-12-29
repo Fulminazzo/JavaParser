@@ -24,4 +24,20 @@ class ValueTypesTest extends Specification {
         ValueTypes.STRING_TYPE  | "STRING_TYPE"
     }
 
+    def 'test values method'() {
+        when:
+        def values = ValueTypes.values()
+
+        then:
+        values == [
+                ValueTypes.BOOLEAN_TYPE,
+                ValueTypes.CHAR_TYPE,
+                ValueTypes.DOUBLE_TYPE,
+                ValueTypes.FLOAT_TYPE,
+                ValueTypes.LONG_TYPE,
+                ValueTypes.NUMBER_TYPE,
+                ValueTypes.STRING_TYPE
+        ].toArray()
+    }
+
 }
