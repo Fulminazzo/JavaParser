@@ -13,14 +13,14 @@ import java.util.List;
  * Represents a general class which provides various <code>static final</code> fields of the same type.
  * It provides useful methods for the lookup and retrieval of certain fields, similar to {@link Enum}.
  */
-public abstract class EnumType extends TypeImpl {
+public interface EnumType extends Type {
 
     /**
      * Returns the name of the current object based on its field name.
      *
      * @return the name
      */
-    public abstract @NotNull String name();
+    @NotNull String name();
 
     /**
      * Returns the name of the current object based on its field name.
@@ -28,18 +28,13 @@ public abstract class EnumType extends TypeImpl {
      * @param fieldsContainer the class where the field is stored
      * @return the name
      */
-    protected @NotNull String name(final @NotNull Class<?> fieldsContainer) {
+    default @NotNull String name(final @NotNull Class<?> fieldsContainer) {
         Refl<?> refl = new Refl<>(fieldsContainer);
         for (final Field f : refl.getFields(f -> f.getType().isAssignableFrom(getClass()) &&
                 Modifier.isStatic(f.getModifiers()))) {
             if (equals(refl.getFieldObject(f))) return f.getName();
         }
         throw new IllegalStateException("Unreachable code");
-    }
-
-    @Override
-    public String toString() {
-        return name();
     }
 
     /**
@@ -51,8 +46,8 @@ public abstract class EnumType extends TypeImpl {
      * @return an array containing all the fields
      */
     @SuppressWarnings("unchecked")
-    public static <E extends EnumType> E @NotNull [] values(final @NotNull Class<?> fieldsContainer,
-                                                            final @NotNull Class<E> returnType) {
+    static <E extends EnumType> E @NotNull [] values(final @NotNull Class<?> fieldsContainer,
+                                                     final @NotNull Class<E> returnType) {
         Refl<?> refl = new Refl<>(fieldsContainer);
         List<E> values = new ArrayList<>();
         for (final Field f : refl.getFields(f -> f.getType().isAssignableFrom(returnType) &&
@@ -72,9 +67,9 @@ public abstract class EnumType extends TypeImpl {
      * @param name            the name of the field
      * @return the field if found
      */
-    public static <E extends EnumType> @NotNull E valueOf(final @NotNull Class<?> fieldsContainer,
-                                                          final @NotNull Class<E> returnType,
-                                                          final @NotNull String name) {
+    static <E extends EnumType> @NotNull E valueOf(final @NotNull Class<?> fieldsContainer,
+                                                   final @NotNull Class<E> returnType,
+                                                   final @NotNull String name) {
         for (final E value : values(fieldsContainer, returnType))
             if (value.name().equals(name))
                 return value;
