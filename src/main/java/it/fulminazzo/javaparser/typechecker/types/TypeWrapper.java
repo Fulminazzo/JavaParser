@@ -24,7 +24,7 @@ public abstract class TypeWrapper {
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof TypeWrapper && this.internalType.equals(((TypeWrapper) o).internalType);
+        return o != null && getClass().equals(o.getClass()) && this.internalType.equals(((TypeWrapper) o).internalType);
     }
 
 }
