@@ -11,6 +11,12 @@ import org.jetbrains.annotations.NotNull;
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class OperationUtils {
+    private static final Type[] NON_DECIMAL_TYPES = new Type[]{
+            ValueType.NUMBER, ValueType.CHAR, ValueType.LONG
+    };
+    private static final Type[] DECIMAL_TYPES = new Type[]{
+            ValueType.NUMBER, ValueType.CHAR, ValueType.LONG, ValueType.FLOAT, ValueType.DOUBLE
+    };
 
     /**
      * Computes the returned {@link Type} for a binary operation that supports <b>NON-decimal</b> types.
