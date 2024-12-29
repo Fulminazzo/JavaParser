@@ -10,6 +10,13 @@ import org.jetbrains.annotations.NotNull;
 public interface ClassType extends Type, Info {
 
     /**
+     * Gets the actual class represented by this type.
+     *
+     * @return the class
+     */
+    Class<?> toJavaClass();
+
+    /**
      * Verifies that the current class type is compatible with the provided type.
      *
      * @param type the other type
