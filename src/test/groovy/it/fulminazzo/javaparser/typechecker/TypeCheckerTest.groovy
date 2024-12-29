@@ -156,4 +156,46 @@ class TypeCheckerTest extends Specification {
         LONG_LIT   | LONG_LIT   | ValueType.LONG
     }
 
+    def 'test visit lshift of #first and #second should return #expected'() {
+        when:
+        def type = this.typeChecker.visitLShift(first, second)
+
+        then:
+        type == expected
+
+        where:
+        first      | second     | expected
+        CHAR_LIT   | CHAR_LIT   | ValueType.NUMBER
+        NUMBER_LIT | NUMBER_LIT | ValueType.NUMBER
+        LONG_LIT   | LONG_LIT   | ValueType.LONG
+    }
+
+    def 'test visit rshift of #first and #second should return #expected'() {
+        when:
+        def type = this.typeChecker.visitRShift(first, second)
+
+        then:
+        type == expected
+
+        where:
+        first      | second     | expected
+        CHAR_LIT   | CHAR_LIT   | ValueType.NUMBER
+        NUMBER_LIT | NUMBER_LIT | ValueType.NUMBER
+        LONG_LIT   | LONG_LIT   | ValueType.LONG
+    }
+
+    def 'test visit urshift of #first and #second should return #expected'() {
+        when:
+        def type = this.typeChecker.visitURShift(first, second)
+
+        then:
+        type == expected
+
+        where:
+        first      | second     | expected
+        CHAR_LIT   | CHAR_LIT   | ValueType.NUMBER
+        NUMBER_LIT | NUMBER_LIT | ValueType.NUMBER
+        LONG_LIT   | LONG_LIT   | ValueType.LONG
+    }
+
 }
