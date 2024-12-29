@@ -3,8 +3,11 @@ package it.fulminazzo.javaparser.typechecker.types;
 import it.fulminazzo.fulmicollection.objects.Refl;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents a general class which provides various <code>static final</code> fields of the same type.
@@ -47,9 +50,15 @@ public abstract class EnumType extends TypeImpl {
      * @param returnType      the type of the returned fields
      * @return an array containing all the fields
      */
+    @SuppressWarnings("unchecked")
     public static <E extends EnumType> E @NotNull [] values(final @NotNull Class<?> fieldsContainer,
                                                             final @NotNull Class<E> returnType) {
-
+        Refl<?> refl = new Refl<>(fieldsContainer);
+        List<E> values = new ArrayList<>();
+        for (final Field f : refl.getFields(f -> f.getType().isAssignableFrom(returnType) &&
+                Modifier.isStatic(f.getModifiers())))
+            values.add(refl.getFieldObject(f));
+        return values.toArray((E[]) Array.newInstance(returnType, values.size()));
     }
 
     /**
