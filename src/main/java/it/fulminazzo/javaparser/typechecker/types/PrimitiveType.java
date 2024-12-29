@@ -45,7 +45,7 @@ public enum PrimitiveType implements ClassType {
     /**
      * <code>boolean</code>
      */
-    BOOLEAN(ValueType.BOOLEAN),
+    BOOLEAN(ValueType.BOOLEAN, ObjectType.BOOLEAN),
     ;
 
     private final Type @NotNull [] compatibleTypes;
