@@ -59,7 +59,7 @@ class OperationUtilsTest extends Specification {
         // Float
         FLOAT  | CHAR   | FLOAT
         FLOAT  | NUMBER | FLOAT
-        FLOAT  | LONG   | LONG
+        FLOAT  | LONG   | FLOAT
         FLOAT  | FLOAT  | FLOAT
         FLOAT  | DOUBLE | DOUBLE
     }
