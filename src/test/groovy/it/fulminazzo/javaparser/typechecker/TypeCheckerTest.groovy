@@ -6,6 +6,7 @@ import it.fulminazzo.javaparser.parser.node.values.DoubleValueLiteral
 import it.fulminazzo.javaparser.parser.node.values.FloatValueLiteral
 import it.fulminazzo.javaparser.parser.node.values.LongValueLiteral
 import it.fulminazzo.javaparser.parser.node.values.NumberValueLiteral
+import it.fulminazzo.javaparser.parser.node.values.StringValueLiteral
 import it.fulminazzo.javaparser.typechecker.types.ValueType
 import spock.lang.Specification
 
@@ -16,6 +17,7 @@ class TypeCheckerTest extends Specification {
     private static final LONG_LIT = new LongValueLiteral('1L')
     private static final FLOAT_LIT = new FloatValueLiteral('1.0f')
     private static final DOUBLE_LIT = new DoubleValueLiteral('1.0d')
+    private static final STRING_LIT = new StringValueLiteral('\"Hello, world!\"')
 
     private TypeChecker typeChecker
 
@@ -216,6 +218,7 @@ class TypeCheckerTest extends Specification {
         LONG_LIT    | LONG_LIT    | ValueType.LONG
         FLOAT_LIT   | FLOAT_LIT   | ValueType.FLOAT
         DOUBLE_LIT  | DOUBLE_LIT  | ValueType.DOUBLE
+        STRING_LIT  | STRING_LIT  | ValueType.STRING
     }
 
     def 'test visit subtract of #first and #second should return #expected'() {
