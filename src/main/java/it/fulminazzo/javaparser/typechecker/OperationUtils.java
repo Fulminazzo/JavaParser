@@ -15,7 +15,7 @@ public final class OperationUtils {
             ValueType.NUMBER, ValueType.CHAR, ValueType.LONG
     };
     private static final Type[] DECIMAL_TYPES = new Type[]{
-            ValueType.NUMBER, ValueType.CHAR, ValueType.LONG, ValueType.FLOAT, ValueType.DOUBLE
+            ValueType.DOUBLE, ValueType.FLOAT, ValueType.NUMBER, ValueType.CHAR, ValueType.LONG
     };
 
     /**
