@@ -1,10 +1,97 @@
 package it.fulminazzo.javaparser.typechecker
 
+import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
 
 import static it.fulminazzo.javaparser.typechecker.types.ValueType.*
 
 class OperationUtilsTest extends Specification {
+
+    def 'test execute object comparison: #a * #b'() {
+        expect:
+        OperationUtils.executeObjectComparison(a, b)
+
+        where:
+        a       | b
+        // String
+        STRING  | STRING
+        // Boolean
+        BOOLEAN | BOOLEAN
+        // Char
+        CHAR    | CHAR
+        CHAR    | NUMBER
+        CHAR    | LONG
+        CHAR    | FLOAT
+        CHAR    | DOUBLE
+        // Number
+        NUMBER  | CHAR
+        NUMBER  | NUMBER
+        NUMBER  | LONG
+        NUMBER  | FLOAT
+        NUMBER  | DOUBLE
+        // Long
+        LONG    | CHAR
+        LONG    | NUMBER
+        LONG    | LONG
+        LONG    | FLOAT
+        LONG    | DOUBLE
+        // Double
+        DOUBLE  | CHAR
+        DOUBLE  | NUMBER
+        DOUBLE  | LONG
+        DOUBLE  | FLOAT
+        DOUBLE  | DOUBLE
+        // Float
+        FLOAT   | CHAR
+        FLOAT   | NUMBER
+        FLOAT   | LONG
+        FLOAT   | FLOAT
+        FLOAT   | DOUBLE
+        // Custom
+        STRING | ObjectType.OBJECT
+        ObjectType.OBJECT | STRING
+        ObjectType.OBJECT | ObjectType.OBJECT
+    }
+
+    def 'test invalid execute object comparison: #a * #b'() {
+        when:
+        OperationUtils.executeObjectComparison(a, b)
+
+        then:
+        thrown(TypeCheckerException)
+
+        where:
+        a       | b
+        // String
+        STRING  | CHAR
+        STRING  | NUMBER
+        STRING  | LONG
+        STRING  | FLOAT
+        STRING  | DOUBLE
+        STRING  | BOOLEAN
+        // Boolean
+        BOOLEAN | CHAR
+        BOOLEAN | NUMBER
+        BOOLEAN | LONG
+        BOOLEAN | FLOAT
+        BOOLEAN | DOUBLE
+        BOOLEAN | STRING
+        // Char
+        CHAR    | BOOLEAN
+        CHAR    | STRING
+        // Number
+        NUMBER  | BOOLEAN
+        NUMBER  | STRING
+        // Long
+        LONG    | BOOLEAN
+        LONG    | STRING
+        // Double
+        DOUBLE  | BOOLEAN
+        DOUBLE  | STRING
+        // Float
+        FLOAT   | BOOLEAN
+        FLOAT   | STRING
+    }
 
     def 'test execute binary comparison: #a * #b'() {
         expect:
