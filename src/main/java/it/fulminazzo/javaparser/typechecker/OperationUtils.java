@@ -27,6 +27,8 @@ public final class OperationUtils {
      */
     public static @NotNull Type executeBinaryOperation(final @NotNull Type left,
                                                        final @NotNull Type right) {
+        checkType(left, NON_DECIMAL_TYPES);
+        checkType(right, NON_DECIMAL_TYPES);
         return executeBinaryOperationDecimal(left, right);
     }
 
@@ -39,6 +41,8 @@ public final class OperationUtils {
      */
     public static @NotNull Type executeBinaryOperationDecimal(final @NotNull Type left,
                                                               final @NotNull Type right) {
+        checkType(left, DECIMAL_TYPES);
+        checkType(right, DECIMAL_TYPES);
         if (left.equals(ValueType.DOUBLE) || right.equals(ValueType.DOUBLE))
             return ValueType.DOUBLE;
         else if (left.equals(ValueType.FLOAT) || right.equals(ValueType.FLOAT))
