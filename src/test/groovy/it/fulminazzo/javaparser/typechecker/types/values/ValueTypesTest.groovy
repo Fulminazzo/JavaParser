@@ -58,4 +58,12 @@ class ValueTypesTest extends Specification {
         ValueTypes.STRING_TYPE  | "STRING_TYPE"
     }
 
+    def 'test value of exception'() {
+        when:
+        ValueTypes.valueOf('null')
+
+        then:
+        thrown(IllegalArgumentException)
+    }
+
 }
