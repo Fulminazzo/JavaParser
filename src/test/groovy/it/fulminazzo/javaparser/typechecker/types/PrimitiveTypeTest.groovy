@@ -13,7 +13,7 @@ class PrimitiveTypeTest extends Specification {
 
         where:
         type << [
-                CHAR_TYPE, NUMBER_TYPE,
+                CHAR, NUMBER,
         ]
     }
 
@@ -23,9 +23,9 @@ class PrimitiveTypeTest extends Specification {
 
         where:
         type << [
-                LONG_TYPE,
-                DOUBLE_TYPE, FLOAT_TYPE,
-                BOOLEAN_TYPE, STRING_TYPE
+                LONG,
+                DOUBLE, FLOAT,
+                BOOLEAN, STRING
         ]
     }
 
@@ -35,7 +35,7 @@ class PrimitiveTypeTest extends Specification {
 
         where:
         type << [
-                CHAR_TYPE, NUMBER_TYPE
+                CHAR, NUMBER
         ]
     }
 
@@ -45,9 +45,9 @@ class PrimitiveTypeTest extends Specification {
 
         where:
         type << [
-                LONG_TYPE,
-                DOUBLE_TYPE, FLOAT_TYPE,
-                BOOLEAN_TYPE, STRING_TYPE
+                LONG,
+                DOUBLE, FLOAT,
+                BOOLEAN, STRING
         ]
     }
 
@@ -57,7 +57,7 @@ class PrimitiveTypeTest extends Specification {
 
         where:
         type << [
-                CHAR_TYPE, NUMBER_TYPE,
+                CHAR, NUMBER,
         ]
     }
 
@@ -67,9 +67,9 @@ class PrimitiveTypeTest extends Specification {
 
         where:
         type << [
-                LONG_TYPE,
-                DOUBLE_TYPE, FLOAT_TYPE,
-                BOOLEAN_TYPE, STRING_TYPE
+                LONG,
+                DOUBLE, FLOAT,
+                BOOLEAN, STRING
         ]
     }
 
@@ -79,7 +79,7 @@ class PrimitiveTypeTest extends Specification {
 
         where:
         type << [
-                CHAR_TYPE, NUMBER_TYPE,
+                CHAR, NUMBER,
         ]
     }
 
@@ -89,9 +89,9 @@ class PrimitiveTypeTest extends Specification {
 
         where:
         type << [
-                LONG_TYPE,
-                DOUBLE_TYPE, FLOAT_TYPE,
-                BOOLEAN_TYPE, STRING_TYPE
+                LONG,
+                DOUBLE, FLOAT,
+                BOOLEAN, STRING
         ]
     }
 
@@ -101,7 +101,7 @@ class PrimitiveTypeTest extends Specification {
 
         where:
         type << [
-                CHAR_TYPE, NUMBER_TYPE, LONG_TYPE,
+                CHAR, NUMBER, LONG,
         ]
     }
 
@@ -111,8 +111,8 @@ class PrimitiveTypeTest extends Specification {
 
         where:
         type << [
-                DOUBLE_TYPE, FLOAT_TYPE,
-                BOOLEAN_TYPE, STRING_TYPE
+                DOUBLE, FLOAT,
+                BOOLEAN, STRING
         ]
     }
 
@@ -122,8 +122,8 @@ class PrimitiveTypeTest extends Specification {
 
         where:
         type << [
-                CHAR_TYPE, NUMBER_TYPE, LONG_TYPE,
-                FLOAT_TYPE,
+                CHAR, NUMBER, LONG,
+                FLOAT,
         ]
     }
 
@@ -133,8 +133,8 @@ class PrimitiveTypeTest extends Specification {
 
         where:
         type << [
-                DOUBLE_TYPE,
-                BOOLEAN_TYPE, STRING_TYPE
+                DOUBLE,
+                BOOLEAN, STRING
         ]
     }
 
@@ -144,8 +144,8 @@ class PrimitiveTypeTest extends Specification {
 
         where:
         type << [
-                CHAR_TYPE, NUMBER_TYPE, LONG_TYPE,
-                FLOAT_TYPE, DOUBLE_TYPE,
+                CHAR, NUMBER, LONG,
+                FLOAT, DOUBLE,
         ]
     }
 
@@ -155,7 +155,7 @@ class PrimitiveTypeTest extends Specification {
 
         where:
         type << [
-                BOOLEAN_TYPE, STRING_TYPE
+                BOOLEAN, STRING
         ]
     }
 
@@ -165,7 +165,7 @@ class PrimitiveTypeTest extends Specification {
 
         where:
         type << [
-                BOOLEAN_TYPE
+                BOOLEAN
         ]
     }
 
@@ -175,9 +175,9 @@ class PrimitiveTypeTest extends Specification {
 
         where:
         type << [
-                CHAR_TYPE, NUMBER_TYPE, LONG_TYPE,
-                DOUBLE_TYPE, FLOAT_TYPE,
-                STRING_TYPE
+                CHAR, NUMBER, LONG,
+                DOUBLE, FLOAT,
+                STRING
         ]
     }
 

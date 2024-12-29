@@ -5,14 +5,14 @@ import org.jetbrains.annotations.NotNull;
 import static it.fulminazzo.javaparser.typechecker.types.ValueType.*;
 
 public enum PrimitiveType implements ClassType {
-    BYTE(CHAR_TYPE, NUMBER_TYPE),
-    CHAR(CHAR_TYPE, NUMBER_TYPE),
-    SHORT(CHAR_TYPE, NUMBER_TYPE),
-    INT(CHAR_TYPE, NUMBER_TYPE),
-    LONG(CHAR_TYPE, NUMBER_TYPE, LONG_TYPE),
-    FLOAT(CHAR_TYPE, NUMBER_TYPE, LONG_TYPE, FLOAT_TYPE),
-    DOUBLE(CHAR_TYPE, NUMBER_TYPE, LONG_TYPE, FLOAT_TYPE, DOUBLE_TYPE),
-    BOOLEAN(BOOLEAN_TYPE),
+    BYTE(ValueType.CHAR, NUMBER),
+    CHAR(ValueType.CHAR, NUMBER),
+    SHORT(ValueType.CHAR, NUMBER),
+    INT(ValueType.CHAR, NUMBER),
+    LONG(ValueType.CHAR, NUMBER, ValueType.LONG),
+    FLOAT(ValueType.CHAR, NUMBER, ValueType.LONG, ValueType.FLOAT),
+    DOUBLE(ValueType.CHAR, NUMBER, ValueType.LONG, ValueType.FLOAT, ValueType.DOUBLE),
+    BOOLEAN(ValueType.BOOLEAN),
     ;
 
     private final Type @NotNull [] compatibleTypes;
