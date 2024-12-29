@@ -49,10 +49,11 @@ class CustomClassObjectTypeTest extends Specification {
         def classType = new CustomClassObjectType(ObjectType.of(className))
 
         expect:
-        classType != type
+        !classType.equals(type)
 
         where:
         type << [
+                null,
                 PrimitiveType.values(),
                 ClassObjectType.values(),
                 new CustomClassObjectType(ObjectType.STRING)
