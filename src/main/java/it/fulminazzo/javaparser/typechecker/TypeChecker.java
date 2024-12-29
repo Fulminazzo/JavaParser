@@ -144,8 +144,7 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitLShift(@NotNull Node left, @NotNull Node right) {
-        // TODO:
-        return null;
+        return OperationUtils.executeBinaryOperation(left.accept(this), right.accept(this));
     }
 
     @Override
@@ -190,8 +189,7 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitRShift(@NotNull Node left, @NotNull Node right) {
-        // TODO:
-        return null;
+        return OperationUtils.executeBinaryOperation(left.accept(this), right.accept(this));
     }
 
     @Override
@@ -208,8 +206,7 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitURShift(@NotNull Node left, @NotNull Node right) {
-        // TODO:
-        return null;
+        return OperationUtils.executeBinaryOperation(left.accept(this), right.accept(this));
     }
 
     @Override
