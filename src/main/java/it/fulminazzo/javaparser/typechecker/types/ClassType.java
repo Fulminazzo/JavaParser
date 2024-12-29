@@ -5,17 +5,8 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents the class of a {@link Type}.
- *
- * @param <I> the type
  */
-public interface ClassType<I extends Type> extends Type, Info {
-
-    /**
-     * Gets internal type.
-     *
-     * @return the internal type
-     */
-    I getInternalType();
+public interface ClassType extends Type, Info {
 
     /**
      * Verifies that the current class type is compatible with the provided type.
