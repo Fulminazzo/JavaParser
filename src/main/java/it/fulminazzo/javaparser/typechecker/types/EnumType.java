@@ -30,7 +30,7 @@ public interface EnumType extends Type {
      */
     default @NotNull String name(final @NotNull Class<?> fieldsContainer) {
         Refl<?> refl = new Refl<>(fieldsContainer);
-        for (final Field f : getFields(fieldsContainer))
+        for (final Field f : getFields(fieldsContainer, getClass()))
             if (equals(refl.getFieldObject(f))) return f.getName();
         throw new IllegalStateException("Unreachable code");
     }
@@ -48,7 +48,7 @@ public interface EnumType extends Type {
                                                      final @NotNull Class<E> returnType) {
         Refl<?> refl = new Refl<>(fieldsContainer);
         List<E> values = new ArrayList<>();
-        for (final Field f : getFields(fieldsContainer))
+        for (final Field f : getFields(fieldsContainer, returnType))
             values.add(refl.getFieldObject(f));
         return values.toArray((E[]) Array.newInstance(returnType, values.size()));
     }
@@ -78,12 +78,14 @@ public interface EnumType extends Type {
      * Gets the fields from the container class.
      *
      * @param fieldsContainer the class where the field is stored
+     * @param returnType      the type of the returned fields
      * @return the fields
      */
-    default @NotNull List<Field> getFields(final @NotNull Class<?> fieldsContainer) {
+    static <E extends EnumType> @NotNull List<Field> getFields(final @NotNull Class<?> fieldsContainer,
+                                                               final @NotNull Class<E> returnType) {
         Refl<?> refl = new Refl<>(fieldsContainer);
         return refl.getFields(f -> Modifier.isStatic(f.getModifiers()) &&
-                (f.getType().isAssignableFrom(getClass()) || getClass().isAssignableFrom(f.getType())));
+                (f.getType().isAssignableFrom(returnType) || returnType.isAssignableFrom(f.getType())));
     }
 
 
