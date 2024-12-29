@@ -2,20 +2,44 @@ package it.fulminazzo.javaparser.typechecker.types;
 
 import org.jetbrains.annotations.NotNull;
 
-import static it.fulminazzo.javaparser.typechecker.types.values.ValueTypes.*;
+import static it.fulminazzo.javaparser.typechecker.types.ValueType.*;
 
 /**
- * Represents all the primitive types in Java.
+ * Represents a primitive {@link Type} name.
  */
 public enum PrimitiveType implements ClassType {
-    BYTE(CHAR_TYPE, NUMBER_TYPE),
-    CHAR(CHAR_TYPE, NUMBER_TYPE),
-    SHORT(CHAR_TYPE, NUMBER_TYPE),
-    INT(CHAR_TYPE, NUMBER_TYPE),
-    LONG(CHAR_TYPE, NUMBER_TYPE, LONG_TYPE),
-    FLOAT(CHAR_TYPE, NUMBER_TYPE, LONG_TYPE, FLOAT_TYPE),
-    DOUBLE(CHAR_TYPE, NUMBER_TYPE, LONG_TYPE, FLOAT_TYPE, DOUBLE_TYPE),
-    BOOLEAN(BOOLEAN_TYPE),
+    /**
+     * <code>byte</code>
+     */
+    BYTE(ValueType.CHAR, NUMBER),
+    /**
+     * <code>char</code>
+     */
+    CHAR(ValueType.CHAR, NUMBER),
+    /**
+     * <code>short</code>
+     */
+    SHORT(ValueType.CHAR, NUMBER),
+    /**
+     * <code>int</code>
+     */
+    INT(ValueType.CHAR, NUMBER),
+    /**
+     * <code>long</code>
+     */
+    LONG(ValueType.CHAR, NUMBER, ValueType.LONG),
+    /**
+     * <code>float</code>
+     */
+    FLOAT(ValueType.CHAR, NUMBER, ValueType.LONG, ValueType.FLOAT),
+    /**
+     * <code>double</code>
+     */
+    DOUBLE(ValueType.CHAR, NUMBER, ValueType.LONG, ValueType.FLOAT, ValueType.DOUBLE),
+    /**
+     * <code>boolean</code>
+     */
+    BOOLEAN(ValueType.BOOLEAN),
     ;
 
     private final Type @NotNull [] compatibleTypes;
