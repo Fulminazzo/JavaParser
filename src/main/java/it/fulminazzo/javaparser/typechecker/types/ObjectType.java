@@ -15,4 +15,20 @@ public class ObjectType implements Type {
         this.innerClass = innerClass;
     }
 
+    @Override
+    public int hashCode() {
+        return getClass().hashCode() + this.innerClass.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof ObjectType && this.innerClass.equals(((ObjectType) o).innerClass);
+    }
+
+    @Override
+    public String toString() {
+        String className = this.innerClass.getCanonicalName();
+        return String.format("Type(%s)", className);
+    }
+
 }
