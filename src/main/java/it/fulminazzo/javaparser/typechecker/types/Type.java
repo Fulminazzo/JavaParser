@@ -29,8 +29,6 @@ public interface Type {
      * @return this type
      */
     default Type check(final Type @NotNull ... expectedTypes) {
-        if (expectedTypes.length == 0)
-            throw new IllegalArgumentException(String.format("Cannot compare type %s with no types", this));
         for (Type expectedType : expectedTypes)
             if (equals(expectedType)) return this;
         throw TypeCheckerException.invalidType(expectedTypes[0], this);

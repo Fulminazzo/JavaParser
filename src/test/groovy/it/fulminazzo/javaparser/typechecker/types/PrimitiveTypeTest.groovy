@@ -26,16 +26,6 @@ class PrimitiveTypeTest extends Specification {
         ]
     }
 
-    def 'test check empty'() {
-        when:
-        Method method = Type.getDeclaredMethod('check', Type[].class)
-        method.invoke(DOUBLE, new Type[0])
-
-        then:
-        def ex = thrown(IllegalArgumentException)
-        ex.message == "Cannot compare type ${DOUBLE} with no types"
-    }
-
     def 'test BYTE compatible with #type'() {
         expect:
         PrimitiveType.BYTE.compatibleWith(type)
