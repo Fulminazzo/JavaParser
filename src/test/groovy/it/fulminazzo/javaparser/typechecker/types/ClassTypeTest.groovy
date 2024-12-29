@@ -46,6 +46,23 @@ class ClassTypeTest extends Specification {
         method.invoke(classType, type)
     }
 
+    def 'test not compatibleWith #object'() {
+        given:
+        def classType = new MockClassType()
+
+        when:
+        Method method = ClassType.getDeclaredMethod('compatibleWith', Object.class)
+
+        then:
+        !method.invoke(classType, object)
+
+        where:
+        object << [
+                new Type() {},
+                new Object()
+        ]
+    }
+
     static class MockType implements Type {
 
     }
