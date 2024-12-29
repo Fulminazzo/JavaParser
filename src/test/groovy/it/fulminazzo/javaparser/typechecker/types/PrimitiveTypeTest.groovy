@@ -1,6 +1,6 @@
 package it.fulminazzo.javaparser.typechecker.types
 
-
+import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
 
 import static ValueType.*;
@@ -14,6 +14,7 @@ class PrimitiveTypeTest extends Specification {
         where:
         type << [
                 CHAR, NUMBER,
+                ObjectType.BYTE
         ]
     }
 
@@ -35,7 +36,8 @@ class PrimitiveTypeTest extends Specification {
 
         where:
         type << [
-                CHAR, NUMBER
+                CHAR, NUMBER,
+                ObjectType.CHARACTER
         ]
     }
 
@@ -58,6 +60,7 @@ class PrimitiveTypeTest extends Specification {
         where:
         type << [
                 CHAR, NUMBER,
+                ObjectType.BYTE, ObjectType.SHORT
         ]
     }
 
@@ -80,6 +83,8 @@ class PrimitiveTypeTest extends Specification {
         where:
         type << [
                 CHAR, NUMBER,
+                ObjectType.BYTE, ObjectType.CHARACTER,
+                ObjectType.SHORT, ObjectType.INTEGER
         ]
     }
 
@@ -102,6 +107,9 @@ class PrimitiveTypeTest extends Specification {
         where:
         type << [
                 CHAR, NUMBER, LONG,
+                ObjectType.BYTE, ObjectType.CHARACTER,
+                ObjectType.SHORT, ObjectType.INTEGER,
+                ObjectType.LONG
         ]
     }
 
@@ -124,6 +132,9 @@ class PrimitiveTypeTest extends Specification {
         type << [
                 CHAR, NUMBER, LONG,
                 FLOAT,
+                ObjectType.BYTE, ObjectType.CHARACTER,
+                ObjectType.SHORT, ObjectType.INTEGER,
+                ObjectType.LONG, ObjectType.FLOAT
         ]
     }
 
@@ -146,6 +157,10 @@ class PrimitiveTypeTest extends Specification {
         type << [
                 CHAR, NUMBER, LONG,
                 FLOAT, DOUBLE,
+                ObjectType.BYTE, ObjectType.CHARACTER,
+                ObjectType.SHORT, ObjectType.INTEGER,
+                ObjectType.LONG, ObjectType.FLOAT,
+                ObjectType.DOUBLE
         ]
     }
 
