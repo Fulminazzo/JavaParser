@@ -35,7 +35,7 @@ class ScopeTest extends Specification {
 
         then:
         def e = thrown(ScopeException)
-        e.getMessage() == 'Object 10 is incompatible with WrapperInfo(String)'
+        e.getMessage() == 'Cannot assign 10 to WrapperInfo(String)'
     }
 
     def 'test object data equality'() {
