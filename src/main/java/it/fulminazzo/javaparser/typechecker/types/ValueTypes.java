@@ -1,6 +1,4 @@
-package it.fulminazzo.javaparser.typechecker.types.values;
-
-import it.fulminazzo.javaparser.typechecker.types.Type;
+package it.fulminazzo.javaparser.typechecker.types;
 
 /**
  * Contains all the {@link ValueType}s representing the values accepted by Java.
