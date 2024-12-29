@@ -1,11 +1,8 @@
 package it.fulminazzo.javaparser.typechecker.types
 
-
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
-
-import java.lang.reflect.Method
 
 import static it.fulminazzo.javaparser.typechecker.types.ValueType.*
 
