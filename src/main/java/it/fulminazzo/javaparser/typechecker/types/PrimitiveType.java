@@ -4,6 +4,9 @@ import org.jetbrains.annotations.NotNull;
 
 import static it.fulminazzo.javaparser.typechecker.types.values.ValueTypes.*;
 
+/**
+ * Represents all the primitive types in Java.
+ */
 public enum PrimitiveType implements ClassType {
     BYTE(CHAR_TYPE, NUMBER_TYPE),
     CHAR(CHAR_TYPE, NUMBER_TYPE),
