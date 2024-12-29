@@ -75,7 +75,7 @@ class TypeCheckerTest extends Specification {
         type == ValueType.BOOLEAN
     }
 
-    def 'test invalid and'() {
+    def 'test invalid and between #first and #second'() {
         when:
         this.typeChecker.visitAnd(first, second)
 
@@ -97,7 +97,7 @@ class TypeCheckerTest extends Specification {
         type == ValueType.BOOLEAN
     }
 
-    def 'test invalid or'() {
+    def 'test invalid or between #first and #second'() {
         when:
         this.typeChecker.visitOr(first, second)
 
