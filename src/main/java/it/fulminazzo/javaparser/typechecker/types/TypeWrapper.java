@@ -1,10 +1,12 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a wrapper for {@link Type} objects.
  */
+@Getter
 public abstract class TypeWrapper {
     protected final Type internalType;
 
