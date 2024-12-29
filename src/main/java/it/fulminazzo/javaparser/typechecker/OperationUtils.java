@@ -28,8 +28,8 @@ public final class OperationUtils {
      */
     public static @NotNull Type executeBinaryComparison(final @NotNull Type left,
                                                         final @NotNull Type right) {
-        checkType(left, DECIMAL_TYPES);
-        checkType(right, DECIMAL_TYPES);
+        left.check(DECIMAL_TYPES);
+        right.check(DECIMAL_TYPES);
         return ValueType.BOOLEAN;
     }
 
@@ -43,9 +43,7 @@ public final class OperationUtils {
      */
     public static @NotNull Type executeBinaryOperation(final @NotNull Type left,
                                                        final @NotNull Type right) {
-        checkType(left, NON_DECIMAL_TYPES);
-        checkType(right, NON_DECIMAL_TYPES);
-        return executeBinaryOperationDecimal(left, right);
+        return executeBinaryOperationDecimal(left.check(NON_DECIMAL_TYPES), right.check(NON_DECIMAL_TYPES));
     }
 
     /**
@@ -58,9 +56,7 @@ public final class OperationUtils {
      */
     public static @NotNull Type executeBinaryOperationDecimal(final @NotNull Type left,
                                                               final @NotNull Type right) {
-        checkType(left, DECIMAL_TYPES);
-        checkType(right, DECIMAL_TYPES);
-        if (left.equals(ValueType.DOUBLE) || right.equals(ValueType.DOUBLE))
+        if (left.check(DECIMAL_TYPES).equals(ValueType.DOUBLE) || right.check(DECIMAL_TYPES).equals(ValueType.DOUBLE))
             return ValueType.DOUBLE;
         else if (left.equals(ValueType.FLOAT) || right.equals(ValueType.FLOAT))
             return ValueType.FLOAT;
