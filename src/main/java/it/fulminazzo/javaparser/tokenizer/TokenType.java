@@ -17,7 +17,6 @@ public enum TokenType {
     BREAK("break"),
     CONTINUE("continue"),
     NEW("new"),
-    NULL("null"),
     SWITCH("switch"),
     FOR("for"),
     DO("do"),
@@ -65,6 +64,7 @@ public enum TokenType {
     NOT("!"),
 
     // Type values
+    NULL("null"),
     NUMBER_VALUE("[0-9]+"),
     LONG_VALUE("[0-9]+[Ll]?"),
     DOUBLE_VALUE("[0-9]+(?:.[0-9]+)?(?:E[-0-9]+)?[Dd]?"),
