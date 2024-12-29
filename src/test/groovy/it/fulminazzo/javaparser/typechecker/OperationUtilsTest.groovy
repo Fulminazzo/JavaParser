@@ -35,18 +35,18 @@ class OperationUtilsTest extends Specification {
         LONG    | LONG
         LONG    | FLOAT
         LONG    | DOUBLE
-        // Double
-        DOUBLE  | CHAR
-        DOUBLE  | NUMBER
-        DOUBLE  | LONG
-        DOUBLE  | FLOAT
-        DOUBLE  | DOUBLE
         // Float
         FLOAT   | CHAR
         FLOAT   | NUMBER
         FLOAT   | LONG
         FLOAT   | FLOAT
         FLOAT   | DOUBLE
+        // Double
+        DOUBLE  | CHAR
+        DOUBLE  | NUMBER
+        DOUBLE  | LONG
+        DOUBLE  | FLOAT
+        DOUBLE  | DOUBLE
         // Custom
         STRING | ObjectType.OBJECT
         ObjectType.OBJECT | STRING
@@ -85,12 +85,12 @@ class OperationUtilsTest extends Specification {
         // Long
         LONG    | BOOLEAN
         LONG    | STRING
-        // Double
-        DOUBLE  | BOOLEAN
-        DOUBLE  | STRING
         // Float
         FLOAT   | BOOLEAN
         FLOAT   | STRING
+        // Double
+        DOUBLE  | BOOLEAN
+        DOUBLE  | STRING
     }
 
     def 'test execute binary comparison: #a * #b'() {
@@ -117,18 +117,18 @@ class OperationUtilsTest extends Specification {
         LONG   | LONG
         LONG   | FLOAT
         LONG   | DOUBLE
-        // Double
-        DOUBLE | CHAR
-        DOUBLE | NUMBER
-        DOUBLE | LONG
-        DOUBLE | FLOAT
-        DOUBLE | DOUBLE
         // Float
         FLOAT  | CHAR
         FLOAT  | NUMBER
         FLOAT  | LONG
         FLOAT  | FLOAT
         FLOAT  | DOUBLE
+        // Double
+        DOUBLE | CHAR
+        DOUBLE | NUMBER
+        DOUBLE | LONG
+        DOUBLE | FLOAT
+        DOUBLE | DOUBLE
     }
 
     def 'test invalid execute binary comparison: #a * #b'() {
@@ -177,13 +177,6 @@ class OperationUtilsTest extends Specification {
 
         where:
         a       | b
-        // Double
-        DOUBLE  | CHAR
-        DOUBLE  | NUMBER
-        DOUBLE  | LONG
-        DOUBLE  | FLOAT
-        DOUBLE  | DOUBLE
-        DOUBLE  | BOOLEAN
         // Float
         FLOAT   | CHAR
         FLOAT   | NUMBER
@@ -191,6 +184,13 @@ class OperationUtilsTest extends Specification {
         FLOAT   | FLOAT
         FLOAT   | DOUBLE
         FLOAT   | BOOLEAN
+        // Double
+        DOUBLE  | CHAR
+        DOUBLE  | NUMBER
+        DOUBLE  | LONG
+        DOUBLE  | FLOAT
+        DOUBLE  | DOUBLE
+        DOUBLE  | BOOLEAN
         // Boolean
         BOOLEAN | CHAR
         BOOLEAN | NUMBER
@@ -231,18 +231,18 @@ class OperationUtilsTest extends Specification {
 
         where:
         a      | b
-        // Double
-        DOUBLE | CHAR
-        DOUBLE | NUMBER
-        DOUBLE | LONG
-        DOUBLE | FLOAT
-        DOUBLE | DOUBLE
         // Float
         FLOAT  | CHAR
         FLOAT  | NUMBER
         FLOAT  | LONG
         FLOAT  | FLOAT
         FLOAT  | DOUBLE
+        // Double
+        DOUBLE | CHAR
+        DOUBLE | NUMBER
+        DOUBLE | LONG
+        DOUBLE | FLOAT
+        DOUBLE | DOUBLE
     }
 
     def 'test execute binary operation decimal: #a * #b -> #c'() {
@@ -269,18 +269,18 @@ class OperationUtilsTest extends Specification {
         LONG   | LONG   | LONG
         LONG   | FLOAT  | FLOAT
         LONG   | DOUBLE | DOUBLE
-        // Double
-        DOUBLE | CHAR   | DOUBLE
-        DOUBLE | NUMBER | DOUBLE
-        DOUBLE | LONG   | DOUBLE
-        DOUBLE | FLOAT  | DOUBLE
-        DOUBLE | DOUBLE | DOUBLE
         // Float
         FLOAT  | CHAR   | FLOAT
         FLOAT  | NUMBER | FLOAT
         FLOAT  | LONG   | FLOAT
         FLOAT  | FLOAT  | FLOAT
         FLOAT  | DOUBLE | DOUBLE
+        // Double
+        DOUBLE | CHAR   | DOUBLE
+        DOUBLE | NUMBER | DOUBLE
+        DOUBLE | LONG   | DOUBLE
+        DOUBLE | FLOAT  | DOUBLE
+        DOUBLE | DOUBLE | DOUBLE
     }
 
     def 'test invalid execute binary operation decimal: #a * #b'() {
