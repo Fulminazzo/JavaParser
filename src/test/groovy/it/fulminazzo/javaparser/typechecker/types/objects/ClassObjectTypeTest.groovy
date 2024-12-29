@@ -6,6 +6,27 @@ import static it.fulminazzo.javaparser.typechecker.types.ValueType.*
 
 class ClassObjectTypeTest extends Specification {
 
+    def 'test #type toJavaClass should return #clazz'() {
+        given:
+        def actual = type.toJavaClass()
+
+        expect:
+        actual == clazz
+
+        where:
+        type                      | clazz
+        ClassObjectType.BYTE      | Byte.class
+        ClassObjectType.CHARACTER | Character.class
+        ClassObjectType.SHORT     | Short.class
+        ClassObjectType.INTEGER   | Integer.class
+        ClassObjectType.LONG      | Long.class
+        ClassObjectType.FLOAT     | Float.class
+        ClassObjectType.DOUBLE    | Double.class
+        ClassObjectType.BOOLEAN   | Boolean.class
+        ClassObjectType.STRING    | String.class
+        ClassObjectType.OBJECT    | Object.class
+    }
+
     def 'test BYTE compatible with #type'() {
         expect:
         ClassObjectType.BYTE.compatibleWith(type)
