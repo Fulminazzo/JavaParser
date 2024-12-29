@@ -7,12 +7,14 @@ import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.parser.node.statements.Statement;
 import it.fulminazzo.javaparser.typechecker.types.Type;
-import it.fulminazzo.javaparser.typechecker.types.ValueType;
 import it.fulminazzo.javaparser.visitors.Visitor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import static it.fulminazzo.javaparser.typechecker.OperationUtils.*;
+import static it.fulminazzo.javaparser.typechecker.types.ValueType.*;
 
 /**
  * A {@link Visitor} that checks and verifies all the types of the parsed code.
@@ -90,30 +92,30 @@ public final class TypeChecker implements Visitor<Type> {
     @Override
     public Type visitAdd(@NotNull Node left, @NotNull Node right) {
         Type leftType = left.accept(this);
-        if (leftType.is(ValueType.STRING)) return right.accept(this).check(ValueType.STRING);
-        else return OperationUtils.executeBinaryOperationDecimal(leftType, right.accept(this));
+        if (leftType.is(STRING)) return right.accept(this).check(STRING);
+        else return executeBinaryOperationDecimal(leftType, right.accept(this));
     }
 
     @Override
     public Type visitAnd(@NotNull Node left, @NotNull Node right) {
-        left.accept(this).check(ValueType.BOOLEAN);
-        right.accept(this).check(ValueType.BOOLEAN);
-        return ValueType.BOOLEAN;
+        left.accept(this).check(BOOLEAN);
+        right.accept(this).check(BOOLEAN);
+        return BOOLEAN;
     }
 
     @Override
     public Type visitBitAnd(@NotNull Node left, @NotNull Node right) {
-        return OperationUtils.executeBinaryBitOperation(left.accept(this), right.accept(this));
+        return executeBinaryBitOperation(left.accept(this), right.accept(this));
     }
 
     @Override
     public Type visitBitOr(@NotNull Node left, @NotNull Node right) {
-        return OperationUtils.executeBinaryBitOperation(left.accept(this), right.accept(this));
+        return executeBinaryBitOperation(left.accept(this), right.accept(this));
     }
 
     @Override
     public Type visitBitXor(@NotNull Node left, @NotNull Node right) {
-        return OperationUtils.executeBinaryBitOperation(left.accept(this), right.accept(this));
+        return executeBinaryBitOperation(left.accept(this), right.accept(this));
     }
 
     @Override
@@ -124,47 +126,47 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitDivide(@NotNull Node left, @NotNull Node right) {
-        return OperationUtils.executeBinaryOperationDecimal(left.accept(this), right.accept(this));
+        return executeBinaryOperationDecimal(left.accept(this), right.accept(this));
     }
 
     @Override
     public Type visitEqual(@NotNull Node left, @NotNull Node right) {
-        return OperationUtils.executeObjectComparison(left.accept(this), right.accept(this));
+        return executeObjectComparison(left.accept(this), right.accept(this));
     }
 
     @Override
     public Type visitGreaterThan(@NotNull Node left, @NotNull Node right) {
-        return OperationUtils.executeBinaryComparison(left.accept(this), right.accept(this));
+        return executeBinaryComparison(left.accept(this), right.accept(this));
     }
 
     @Override
     public Type visitGreaterThanEqual(@NotNull Node left, @NotNull Node right) {
-        return OperationUtils.executeBinaryComparison(left.accept(this), right.accept(this));
+        return executeBinaryComparison(left.accept(this), right.accept(this));
     }
 
     @Override
     public Type visitLShift(@NotNull Node left, @NotNull Node right) {
-        return OperationUtils.executeBinaryOperation(left.accept(this), right.accept(this));
+        return executeBinaryOperation(left.accept(this), right.accept(this));
     }
 
     @Override
     public Type visitLessThan(@NotNull Node left, @NotNull Node right) {
-        return OperationUtils.executeBinaryComparison(left.accept(this), right.accept(this));
+        return executeBinaryComparison(left.accept(this), right.accept(this));
     }
 
     @Override
     public Type visitLessThanEqual(@NotNull Node left, @NotNull Node right) {
-        return OperationUtils.executeBinaryComparison(left.accept(this), right.accept(this));
+        return executeBinaryComparison(left.accept(this), right.accept(this));
     }
 
     @Override
     public Type visitModulo(@NotNull Node left, @NotNull Node right) {
-        return OperationUtils.executeBinaryOperationDecimal(left.accept(this), right.accept(this));
+        return executeBinaryOperationDecimal(left.accept(this), right.accept(this));
     }
 
     @Override
     public Type visitMultiply(@NotNull Node left, @NotNull Node right) {
-        return OperationUtils.executeBinaryOperationDecimal(left.accept(this), right.accept(this));
+        return executeBinaryOperationDecimal(left.accept(this), right.accept(this));
     }
 
     @Override
@@ -175,19 +177,19 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitNotEqual(@NotNull Node left, @NotNull Node right) {
-        return OperationUtils.executeObjectComparison(left.accept(this), right.accept(this));
+        return executeObjectComparison(left.accept(this), right.accept(this));
     }
 
     @Override
     public Type visitOr(@NotNull Node left, @NotNull Node right) {
-        left.accept(this).check(ValueType.BOOLEAN);
-        right.accept(this).check(ValueType.BOOLEAN);
-        return ValueType.BOOLEAN;
+        left.accept(this).check(BOOLEAN);
+        right.accept(this).check(BOOLEAN);
+        return BOOLEAN;
     }
 
     @Override
     public Type visitRShift(@NotNull Node left, @NotNull Node right) {
-        return OperationUtils.executeBinaryOperation(left.accept(this), right.accept(this));
+        return executeBinaryOperation(left.accept(this), right.accept(this));
     }
 
     @Override
@@ -198,12 +200,12 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitSubtract(@NotNull Node left, @NotNull Node right) {
-        return OperationUtils.executeBinaryOperationDecimal(left.accept(this), right.accept(this));
+        return executeBinaryOperationDecimal(left.accept(this), right.accept(this));
     }
 
     @Override
     public Type visitURShift(@NotNull Node left, @NotNull Node right) {
-        return OperationUtils.executeBinaryOperation(left.accept(this), right.accept(this));
+        return executeBinaryOperation(left.accept(this), right.accept(this));
     }
 
     @Override
@@ -291,37 +293,37 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitBooleanValueLiteral(@NotNull String rawValue) {
-        return ValueType.BOOLEAN;
+        return BOOLEAN;
     }
 
     @Override
     public Type visitCharValueLiteral(@NotNull String rawValue) {
-        return ValueType.CHAR;
+        return CHAR;
     }
 
     @Override
     public Type visitDoubleValueLiteral(@NotNull String rawValue) {
-        return ValueType.DOUBLE;
+        return DOUBLE;
     }
 
     @Override
     public Type visitFloatValueLiteral(@NotNull String rawValue) {
-        return ValueType.FLOAT;
+        return FLOAT;
     }
 
     @Override
     public Type visitLongValueLiteral(@NotNull String rawValue) {
-        return ValueType.LONG;
+        return LONG;
     }
 
     @Override
     public Type visitNumberValueLiteral(@NotNull String rawValue) {
-        return ValueType.NUMBER;
+        return NUMBER;
     }
 
     @Override
     public Type visitStringValueLiteral(@NotNull String rawValue) {
-        return ValueType.STRING;
+        return STRING;
     }
 
 }
