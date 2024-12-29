@@ -34,6 +34,11 @@ public class ObjectType implements Type {
     @Override
     public String toString() {
         String className = this.innerClass.getCanonicalName();
+        for (String impliedPackage : IMPLIED_PACKAGES)
+            if (className.startsWith(impliedPackage)) {
+                className = className.substring(impliedPackage.length());
+                break;
+            }
         return String.format("Type(%s)", className);
     }
 
