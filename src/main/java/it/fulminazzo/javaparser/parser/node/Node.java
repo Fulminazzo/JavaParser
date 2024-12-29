@@ -1,11 +1,22 @@
 package it.fulminazzo.javaparser.parser.node;
 
+import it.fulminazzo.javaparser.visitors.Visitor;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a general node of the parser.
  */
 public interface Node {
+
+    /**
+     * Allows the visitor to visit this node.
+     * It does so by looking for a <code>visit%NodeName%</code> method.
+     *
+     * @param visitor the visitor
+     * @return the node converted
+     * @param <T> the type returned by the visitor
+     */
+    <T> T accept(final @NotNull Visitor<T> visitor);
 
     /**
      * Checks whether the current node is of the specified type.
