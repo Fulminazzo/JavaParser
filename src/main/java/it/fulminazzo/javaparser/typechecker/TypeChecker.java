@@ -132,7 +132,7 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitEqual(@NotNull Node left, @NotNull Node right) {
-        return ValueType.BOOLEAN;
+        return OperationUtils.executeObjectComparison(left.accept(this), right.accept(this));
     }
 
     @Override
@@ -181,7 +181,7 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitNotEqual(@NotNull Node left, @NotNull Node right) {
-        return ValueType.BOOLEAN;
+        return OperationUtils.executeObjectComparison(left.accept(this), right.accept(this));
     }
 
     @Override
