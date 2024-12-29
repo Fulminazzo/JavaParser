@@ -1,5 +1,7 @@
 package it.fulminazzo.javaparser.wrappers;
 
+import java.util.Objects;
+
 /**
  * Represents a wrapper for an object.
  * Provides useful methods like {@link #hashCode()}, {@link #equals(Object)} and {@link #toString()}.
@@ -25,7 +27,7 @@ public class ObjectWrapper<O> {
 
     @Override
     public boolean equals(Object o) {
-        return o != null && getClass().equals(o.getClass()) && this.object.equals(((ObjectWrapper<?>) o).object);
+        return o != null && getClass().equals(o.getClass()) && Objects.equals(this.object, ((ObjectWrapper<?>) o).object);
     }
 
     @Override
