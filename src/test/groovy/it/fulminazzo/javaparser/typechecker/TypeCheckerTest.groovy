@@ -16,6 +16,38 @@ class TypeCheckerTest extends Specification {
         this.typeChecker = new TypeChecker()
     }
 
+    def 'test less than'() {
+        given:
+        Type type = this.typeChecker.visitLessThan(NUMBER_LIT, NUMBER_LIT)
+
+        expect:
+        type == ValueType.BOOLEAN
+    }
+
+    def 'test less than equal'() {
+        given:
+        Type type = this.typeChecker.visitLessThanEqual(NUMBER_LIT, NUMBER_LIT)
+
+        expect:
+        type == ValueType.BOOLEAN
+    }
+
+    def 'test greater than'() {
+        given:
+        Type type = this.typeChecker.visitGreaterThan(NUMBER_LIT, NUMBER_LIT)
+
+        expect:
+        type == ValueType.BOOLEAN
+    }
+
+    def 'test greater than equal'() {
+        given:
+        Type type = this.typeChecker.visitGreaterThanEqual(NUMBER_LIT, NUMBER_LIT)
+
+        expect:
+        type == ValueType.BOOLEAN
+    }
+
     def 'test valid and'() {
         given:
         Type type = this.typeChecker.visitAnd(BOOL_LIT, BOOL_LIT)
