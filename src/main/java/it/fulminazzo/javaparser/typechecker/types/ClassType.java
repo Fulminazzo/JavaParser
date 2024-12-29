@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @param <I> the type
  */
-public interface ClassType<I extends Type> extends Type, Info<I> {
+public interface ClassType<I extends Type> extends Type, Info {
 
     /**
      * Gets internal type.
