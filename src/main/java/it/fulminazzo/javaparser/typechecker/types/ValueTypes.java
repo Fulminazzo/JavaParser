@@ -1,7 +1,7 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
 /**
- * Contains all the {@link ValueType}s representing the values accepted by Java.
+ * Contains all the values accepted by Java.
  */
 public enum ValueTypes implements Type {
     CHAR_TYPE,
