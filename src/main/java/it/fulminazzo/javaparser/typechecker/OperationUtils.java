@@ -54,8 +54,8 @@ public final class OperationUtils {
     public static @NotNull Type executeObjectComparison(final @NotNull Type left,
                                                         final @NotNull Type right) {
         if (left.isValue() && right.isValue()) {
-            if (left.is(ValueType.STRING)) right.check(ValueType.STRING);
-            else if (left.is(ValueType.BOOLEAN)) right.check(ValueType.BOOLEAN);
+            if (isString(left)) right.check(ValueType.STRING, ObjectType.STRING);
+            else if (isBoolean(left)) right.check(ValueType.BOOLEAN, ObjectType.BOOLEAN);
             else return executeBinaryComparison(left, right);
         }
         return ValueType.BOOLEAN;
@@ -87,7 +87,7 @@ public final class OperationUtils {
      */
     public static @NotNull Type executeBinaryBitOperation(final @NotNull Type left,
                                                           final @NotNull Type right) {
-        if (left.equals(ValueType.BOOLEAN) && right.equals(ValueType.BOOLEAN)) return ValueType.BOOLEAN;
+        if (isBoolean(left) && isBoolean(right)) return ValueType.BOOLEAN;
         else return executeBinaryOperationDecimal(left.check(getNumericTypes()), right.check(getNumericTypes()));
     }
 
@@ -114,12 +114,10 @@ public final class OperationUtils {
      */
     public static @NotNull Type executeBinaryOperationDecimal(final @NotNull Type left,
                                                               final @NotNull Type right) {
-        if (left.check(getDecimalTypes()).equals(ValueType.DOUBLE) || right.check(getDecimalTypes()).equals(ValueType.DOUBLE))
+        if (isDouble(left.check(getDecimalTypes())) || isDouble(right.check(getDecimalTypes())))
             return ValueType.DOUBLE;
-        else if (left.equals(ValueType.FLOAT) || right.equals(ValueType.FLOAT))
-            return ValueType.FLOAT;
-        else if (left.equals(ValueType.LONG) || right.equals(ValueType.LONG))
-            return ValueType.LONG;
+        else if (isFloat(left) || isFloat(right)) return ValueType.FLOAT;
+        else if (isLong(left) || isLong(right)) return ValueType.LONG;
         else return ValueType.NUMBER;
     }
 
