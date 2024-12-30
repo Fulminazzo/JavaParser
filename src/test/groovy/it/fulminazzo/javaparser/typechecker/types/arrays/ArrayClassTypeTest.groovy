@@ -7,6 +7,19 @@ import spock.lang.Specification
 
 class ArrayClassTypeTest extends Specification {
 
+    def 'test conversion of types'() {
+        given:
+        def arrayType = new ArrayType(new ArrayType(new ArrayType(ValueType.NUMBER)))
+
+        when:
+        def arrayClassType = arrayType.getClassType()
+        def newArrayType = arrayClassType.toType()
+
+        then:
+        newArrayType == arrayType
+        arrayClassType == new ArrayClassType(new ArrayClassType(new ArrayClassType(PrimitiveType.INT)))
+    }
+
     def 'test toJavaClass'() {
         given:
         def classType = new ArrayClassType(ClassType.of(String.simpleName))
