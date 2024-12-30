@@ -31,13 +31,22 @@ interface Scoped<T> {
     }
 
     /**
+     * Finds the variable with the given name and returns its {@link Info}.
+     *
+     * @param name the name of the variable
+     * @return the info of the variable
+     * @throws ScopeException thrown if the variable is not declared
+     */
+    @NotNull Info lookupInfo(@NotNull String name) throws ScopeException;
+
+    /**
      * Finds the variable with the given name and returns its value.
      *
      * @param name the name of the variable
      * @return the value of the variable
      * @throws ScopeException thrown if the variable is not declared
      */
-    default @NotNull T lookup(@NotNull String name) throws ScopeException {
+    default @NotNull T lookup(final @NotNull String name) throws ScopeException {
         return search(name).orElseThrow(() -> noSuchVariable(name));
     }
 

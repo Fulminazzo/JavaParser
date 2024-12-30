@@ -79,6 +79,31 @@ class EnvironmentTest extends Specification {
         second == 2
     }
 
+    def 'test lookupInfo'() {
+        given:
+        def expected = new WrapperInfo<>(Integer)
+        def varName = 'var'
+
+        when:
+        this.environment.declare(expected, varName, 1)
+        def actual = this.environment.lookupInfo(varName)
+
+        then:
+        actual == expected
+    }
+
+    def 'test lookupInfo not declared'() {
+        given:
+        def varName = 'var'
+
+        when:
+        this.environment.lookupInfo(varName)
+
+        then:
+        def e = thrown(ScopeException)
+        e.message == this.environment.noSuchVariable(varName).message
+    }
+
     def 'test declare twice'() {
         given:
         def varName = 'var'
