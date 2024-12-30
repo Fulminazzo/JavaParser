@@ -33,7 +33,7 @@ class TypeTest extends Specification {
 
         then:
         def e = thrown(TypeException)
-        e.message == TypeException.cannotAccessField(TestClass.getDeclaredField(field)).message
+        e.message == TypeException.cannotAccessField(this.type, TestClass.getDeclaredField(field)).message
 
         where:
         field << [
@@ -48,7 +48,7 @@ class TypeTest extends Specification {
 
         then:
         def e = thrown(TypeException)
-        e.message == TypeException.fieldNotFound('invalid').message
+        e.message == TypeException.fieldNotFound(this.type, 'invalid').message
     }
 
     def 'test class valid getField #field'() {
@@ -82,7 +82,7 @@ class TypeTest extends Specification {
 
         then:
         def e = thrown(TypeException)
-        e.message == TypeException.cannotAccessField(TestClass.getDeclaredField(field)).message
+        e.message == TypeException.cannotAccessField(this.classType, TestClass.getDeclaredField(field)).message
 
         where:
         field << [
@@ -97,7 +97,7 @@ class TypeTest extends Specification {
 
         then:
         def e = thrown(TypeException)
-        e.message == TypeException.fieldNotFound('invalid').message
+        e.message == TypeException.fieldNotFound(this.classType, 'invalid').message
     }
 
 }
