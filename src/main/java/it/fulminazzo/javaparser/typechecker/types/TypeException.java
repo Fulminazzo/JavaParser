@@ -32,36 +32,43 @@ public class TypeException extends Exception {
 
     /**
      * Generates a {@link TypeException} with message:
-     * <i>Could not find field %field% in %type%</i>
+     * <i>Could not find field '%field%' in type %type%</i>
      *
+     * @param type  the type
      * @param field the field
      * @return the type exception
      */
-    public static @NotNull TypeException fieldNotFound(final @NotNull ClassType type, final @NotNull String field) {
-        return new TypeException("Could not find field: " + field + " in " + type);
+    public static @NotNull TypeException fieldNotFound(final @NotNull ClassType type,
+                                                       final @NotNull String field) {
+        return new TypeException(String.format("Could not find field '%s' in type %s",
+                field, type));
     }
 
     /**
      * Generates a {@link TypeException} with message:
-     * <i>%type% cannot access field %field% with access-level: %access-level%</i>
+     * <i>Type %type% cannot access field '%field%' with access-level '%access-level%'</i>
      *
+     * @param type  the type
      * @param field the field
      * @return the type exception
      */
-    public static @NotNull TypeException cannotAccessField(final @NotNull ClassType type, final @NotNull Field field) {
-        return new TypeException(String.format("%s cannot access field %s with access level: %s",
+    public static @NotNull TypeException cannotAccessField(final @NotNull ClassType type,
+                                                           final @NotNull Field field) {
+        return new TypeException(String.format("Type %s cannot access field '%s' with access level '%s'",
                 type, field.getName(), getVisibilityModifier(field)));
     }
 
     /**
      * Generates a {@link TypeException} with message:
-     * <i>%type% cannot access non-static field %field% from a static context</i>
+     * <i>Type %type% cannot access non-static field '%field%' from a static context</i>
      *
+     * @param type  the type
      * @param field the field
      * @return the type exception
      */
-    public static @NotNull TypeException cannotAccessStaticField(final @NotNull ClassType type, final @NotNull String field) {
-        return new TypeException(String.format("%s cannot access non-static field %s from a static context",
+    public static @NotNull TypeException cannotAccessStaticField(final @NotNull ClassType type,
+                                                                 final @NotNull String field) {
+        return new TypeException(String.format("Type %s cannot access non-static field '%s' from a static context",
                 type, field));
     }
 
