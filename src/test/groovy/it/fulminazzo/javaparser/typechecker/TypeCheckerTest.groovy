@@ -215,6 +215,28 @@ class TypeCheckerTest extends Specification {
         Literal.of('double')    | DOUBLE_LIT | STRING_LIT
     }
 
+    def 'test convertValue of #classType and #type should return #classType'() {
+        when:
+        def converted = this.typeChecker.convertValue(classType, type)
+
+        then:
+        converted == classType.toType()
+
+        where:
+        classType << [
+                PrimitiveType.values(),
+                ClassObjectType.values(),
+                ClassObjectType.of(getClass())
+        ].flatten()
+        type << [
+                PrimitiveType.values().collect { it.toType() },
+                PrimitiveType.values().collect { it.toType() },
+                ValueType.STRING,
+                ObjectType.of(Object),
+                ObjectType.of(getClass())
+        ].flatten()
+    }
+
     def 'test visit dynamic array'() {
         given:
         def type = this.typeChecker.visitDynamicArray(
