@@ -16,7 +16,7 @@ class NoTypeTest extends Specification {
 
         then:
         def e = thrown(TypeCheckerException)
-        e.message == TypeCheckerException.noClassType(LiteralType).message
+        e.message == TypeCheckerException.noClassType(NoType).message
     }
 
     def 'test hashCode'() {
