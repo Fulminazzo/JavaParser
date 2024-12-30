@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.typechecker;
 
 import it.fulminazzo.javaparser.typechecker.types.Type;
 import it.fulminazzo.javaparser.typechecker.types.ValueType;
+import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -120,6 +121,56 @@ public final class OperationUtils {
         else if (left.equals(ValueType.LONG) || right.equals(ValueType.LONG))
             return ValueType.LONG;
         else return ValueType.NUMBER;
+    }
+
+    /**
+     * Checks if the given type is {@link ValueType#LONG} or {@link ObjectType#LONG}.
+     *
+     * @param type the type
+     * @return true if it is
+     */
+    public static boolean isLong(final Type type) {
+        return type.is(ValueType.LONG, ObjectType.LONG);
+    }
+
+    /**
+     * Checks if the given type is {@link ValueType#FLOAT} or {@link ObjectType#FLOAT}.
+     *
+     * @param type the type
+     * @return true if it is
+     */
+    public static boolean isFloat(final Type type) {
+        return type.is(ValueType.FLOAT, ObjectType.FLOAT);
+    }
+
+    /**
+     * Checks if the given type is {@link ValueType#DOUBLE} or {@link ObjectType#DOUBLE}.
+     *
+     * @param type the type
+     * @return true if it is
+     */
+    public static boolean isDouble(final Type type) {
+        return type.is(ValueType.DOUBLE, ObjectType.DOUBLE);
+    }
+
+    /**
+     * Checks if the given type is {@link ValueType#BOOLEAN} or {@link ObjectType#BOOLEAN}.
+     *
+     * @param type the type
+     * @return true if it is
+     */
+    public static boolean isBoolean(final Type type) {
+        return type.is(ValueType.BOOLEAN, ObjectType.BOOLEAN);
+    }
+
+    /**
+     * Checks if the given type is {@link ValueType#STRING} or {@link ObjectType#STRING}.
+     *
+     * @param type the type
+     * @return true if it is
+     */
+    public static boolean isString(final Type type) {
+        return type.is(ValueType.STRING, ObjectType.STRING);
     }
 
 }
