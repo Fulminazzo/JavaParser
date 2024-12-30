@@ -28,7 +28,7 @@ public class TypeException extends Exception {
      * @return the type exception
      */
     public static @NotNull TypeException classNotFound(final @NotNull String clazz) {
-        return new TypeException(String.format("Could not find class '%s'", clazz));
+        return new TypeException("Could not find class '%s'", clazz);
     }
 
     /**
@@ -41,8 +41,7 @@ public class TypeException extends Exception {
      */
     public static @NotNull TypeException fieldNotFound(final @NotNull ClassType type,
                                                        final @NotNull String field) {
-        return new TypeException(String.format("Could not find field '%s' in type %s",
-                field, type));
+        return new TypeException("Could not find field '%s' in type %s", field, type);
     }
 
     /**
@@ -55,8 +54,8 @@ public class TypeException extends Exception {
      */
     public static @NotNull TypeException cannotAccessField(final @NotNull ClassType type,
                                                            final @NotNull Field field) {
-        return new TypeException(String.format("Type %s cannot access field '%s' with access level '%s'",
-                type, field.getName(), getVisibilityModifier(field)));
+        return new TypeException("Type %s cannot access field '%s' with access level '%s'",
+                type, field.getName(), getVisibilityModifier(field));
     }
 
     /**
@@ -69,8 +68,8 @@ public class TypeException extends Exception {
      */
     public static @NotNull TypeException cannotAccessStaticField(final @NotNull ClassType type,
                                                                  final @NotNull String field) {
-        return new TypeException(String.format("Type %s cannot access non-static field '%s' from a static context",
-                type, field));
+        return new TypeException("Type %s cannot access non-static field '%s' from a static context",
+                type, field);
     }
 
     /**
