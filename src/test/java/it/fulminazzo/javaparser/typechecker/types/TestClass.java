@@ -7,8 +7,9 @@ public class TestClass {
     protected static int protectedStaticField = 1;
     private static int privateStaticField = 1;
 
-    public int publicField = 1;
-    int packageField = 1;
-    protected int protectedField = 1;
-    private int privateField = 1;
+    public double publicField = 1.0;
+    double packageField = 1.0;
+    protected double protectedField = 1.0;
+    private double privateField = 1.0;
+
 }
