@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
+import it.fulminazzo.javaparser.typechecker.OperationUtils;
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
 import org.jetbrains.annotations.NotNull;
@@ -77,6 +78,10 @@ public enum PrimitiveType implements ClassType {
     public @NotNull Type cast(@NotNull Type type) {
         for (Type compatibleType : this.compatibleTypes)
             if (compatibleType.is(type)) return toType();
+        if (this != BOOLEAN && type.isValue()) {
+            type.check(OperationUtils.getDecimalTypes());
+            return toType();
+        }
         throw TypeCheckerException.invalidCast(this, type);
     }
 
