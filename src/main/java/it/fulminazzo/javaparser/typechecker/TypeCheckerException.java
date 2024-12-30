@@ -55,4 +55,14 @@ public class TypeCheckerException extends RuntimeException {
                 LiteralType.class.getSimpleName(), ClassType.class.getSimpleName());
     }
 
+    /**
+     * Generates a {@link TypeCheckerException} with message:
+     * <i>Cannot resolve symbol '%symbol%'</i>
+     *
+     * @return the type exception
+     */
+    public static @NotNull TypeCheckerException cannotResolveSymbol(final @NotNull String symbol) {
+        return new TypeCheckerException("Cannot resolve symbol '%s'", symbol);
+    }
+
 }
