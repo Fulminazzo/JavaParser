@@ -7,6 +7,7 @@ import it.fulminazzo.javaparser.parser.node.MethodInvocation;
 import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
+import it.fulminazzo.javaparser.parser.node.statements.Return;
 import it.fulminazzo.javaparser.parser.node.statements.Statement;
 import it.fulminazzo.javaparser.typechecker.types.*;
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayClassType;
@@ -66,7 +67,12 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitCodeBlock(@NotNull LinkedList<Statement> statements) {
-        return null;
+        Type type = NoType.NO_TYPE;
+        for (Statement statement : statements) {
+            Type checked = statement.accept(this);
+            if (statement instanceof Return) type = checked;
+        }
+        return type;
     }
 
     @Override
