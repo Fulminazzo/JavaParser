@@ -28,6 +28,7 @@ import static it.fulminazzo.javaparser.typechecker.types.ValueType.*;
  * A {@link Visitor} that checks and verifies all the types of the parsed code.
  */
 public final class TypeChecker implements Visitor<Type> {
+    public static final String FIELDS_SEPARATOR = ".";
     private final Environment<Type> environment;
 
     /**
@@ -95,11 +96,11 @@ public final class TypeChecker implements Visitor<Type> {
     @Override
     public Type visitLiteralImpl(@NotNull String value) {
         @NotNull Tuple<ClassType, Type> tuple = getTypeFromLiteral(value);
-        if (value.contains(".")) {
+        if (value.contains(FIELDS_SEPARATOR)) {
             // Class was parsed
             if (tuple.isPresent()) return tuple.getValue();
 
-            LinkedList<String> first = new LinkedList<>(Arrays.asList(value.split("\\.")));
+            LinkedList<String> first = new LinkedList<>(Arrays.asList(value.split("\\" + FIELDS_SEPARATOR)));
             LinkedList<String> last = new LinkedList<>();
 
             while(!first.isEmpty()) {
