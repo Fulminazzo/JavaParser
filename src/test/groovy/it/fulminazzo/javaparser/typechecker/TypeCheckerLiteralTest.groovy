@@ -32,8 +32,6 @@ class TypeCheckerLiteralTest extends Specification {
         'System.out'                                                | ObjectType.of(PrintStream.canonicalName)
         'var'                                                       | ValueType.NUMBER
         'var.TYPE'                                                  | ObjectType.of('Class')
-        'var.sizeTable'                                             | new ArrayType(ValueType.NUMBER)
-        'var.value'                                                 | ValueType.NUMBER
         "${FirstInnerClass.canonicalName}.second"                   | ObjectType.of(FirstInnerClass.SecondInnerClass.canonicalName)
         "${FirstInnerClass.canonicalName}.second.version"           | ValueType.NUMBER
         "${FirstInnerClass.SecondInnerClass.canonicalName}"         | ClassType.of(FirstInnerClass.SecondInnerClass.canonicalName)
@@ -61,10 +59,10 @@ class TypeCheckerLiteralTest extends Specification {
     }
 
     static class FirstInnerClass {
-        static SecondInnerClass second = new SecondInnerClass()
+        public static SecondInnerClass second = new SecondInnerClass()
 
         static class SecondInnerClass {
-            static int version = 2
+            public static int version = 2
         }
 
     }
