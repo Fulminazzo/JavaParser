@@ -6,6 +6,7 @@ import it.fulminazzo.javaparser.environment.ScopeException;
 import it.fulminazzo.javaparser.parser.node.MethodInvocation;
 import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
+import it.fulminazzo.javaparser.parser.node.container.JavaProgram;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.parser.node.statements.Return;
 import it.fulminazzo.javaparser.parser.node.statements.Statement;
@@ -18,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import static it.fulminazzo.javaparser.typechecker.OperationUtils.*;
 import static it.fulminazzo.javaparser.typechecker.types.ValueType.*;
@@ -34,6 +36,19 @@ public final class TypeChecker implements Visitor<Type> {
      */
     public TypeChecker() {
         this.environment = new Environment<>();
+    }
+
+    /**
+     * Starting point of the {@link Visitor}.
+     * It reads the given {@link JavaProgram} using all the methods in this class.
+     *
+     * @param program the program
+     * @return an {@link Optional} with the returned type if it is not equal to {@link NoType#NO_TYPE}
+     */
+    @Override
+    public @NotNull Optional<Type> visitProgram(@NotNull JavaProgram program) {
+        Type type = program.accept(this);
+        return type.equals(NoType.NO_TYPE) ? Optional.empty() : Optional.of(type);
     }
 
     @Override
