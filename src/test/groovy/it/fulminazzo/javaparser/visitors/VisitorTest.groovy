@@ -7,6 +7,7 @@ import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.MockNode
 import it.fulminazzo.javaparser.parser.node.Node
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
+import it.fulminazzo.javaparser.parser.node.container.JavaProgram
 import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.statements.Statement
 import org.jetbrains.annotations.NotNull
@@ -89,6 +90,10 @@ class VisitorTest extends Specification {
         /**
          * UNUSED METHODS
          */
+        @Override
+        @NotNull Optional<String> visitProgram(@NotNull JavaProgram program) {
+            return null
+        }
 
         @Override
         @NotNull String visitAssignment(@NotNull Node type, @NotNull Literal name, @NotNull Node value) {
