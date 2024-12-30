@@ -64,19 +64,7 @@ public enum ClassObjectType implements ClassType {
 
     @Override
     public @NotNull Type toType() {
-        switch (this) {
-            case BYTE:
-            case SHORT:
-            case INTEGER:
-                return ValueType.NUMBER;
-            case CHARACTER: return ValueType.CHAR;
-            case LONG: return ValueType.LONG;
-            case FLOAT: return ValueType.FLOAT;
-            case DOUBLE: return ValueType.DOUBLE;
-            case BOOLEAN: return ValueType.BOOLEAN;
-            case STRING: return ValueType.STRING;
-            default: return ObjectType.OBJECT;
-        }
+        return ObjectType.of(toJavaClass());
     }
 
     @Override
@@ -98,8 +86,7 @@ public enum ClassObjectType implements ClassType {
         if (this.associatedType != null) return this.associatedType.compatibleWith(type);
         else {
             // Either STRING or OBJECT
-            if (this == STRING)
-                return ValueType.STRING.is(type) || ObjectType.STRING.is(type);
+            if (this == STRING) return ValueType.STRING.is(type) || ObjectType.STRING.is(type);
             else return true;
         }
     }
