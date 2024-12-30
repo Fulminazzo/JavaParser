@@ -4,7 +4,6 @@ import it.fulminazzo.fulmicollection.structures.tuples.Tuple
 import it.fulminazzo.javaparser.typechecker.types.ClassType
 import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
 import it.fulminazzo.javaparser.typechecker.types.ValueType
-import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayType
 import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
