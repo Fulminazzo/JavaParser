@@ -516,4 +516,26 @@ class TypeCheckerTest extends Specification {
 //        ObjectType.of(TypeCheckerTest) | Literal.of('Object')                    | ObjectType.OBJECT
     }
 
+    def 'test invalid visit cast #target to #cast'() {
+        given:
+        this.typeChecker.environment.declare(PrimitiveType.INT, 'cast', ValueType.NUMBER)
+
+        when:
+        this.typeChecker.visitCast(cast, target)
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.invalidCast(ClassObjectType.STRING, expected).message
+
+        where:
+        target             | cast                 | expected
+        CHAR_LIT           | Literal.of('String') | ValueType.CHAR
+        NUMBER_LIT         | Literal.of('String') | ValueType.NUMBER
+        LONG_LIT           | Literal.of('String') | ValueType.LONG
+        FLOAT_LIT          | Literal.of('String') | ValueType.FLOAT
+        DOUBLE_LIT         | Literal.of('String') | ValueType.DOUBLE
+        STRING_LIT         | Literal.of('int')    | ObjectType.STRING
+        Literal.of('cast') | Literal.of('String') | ValueType.NUMBER
+    }
+
 }
