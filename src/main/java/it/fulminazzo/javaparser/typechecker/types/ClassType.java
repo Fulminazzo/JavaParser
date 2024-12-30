@@ -62,4 +62,9 @@ public interface ClassType extends Type, Info {
         return ClassObjectType.of(clazz);
     }
 
+    @Override
+    default @NotNull ClassType getClassType() {
+        return ClassType.of(Class.class);
+    }
+
 }

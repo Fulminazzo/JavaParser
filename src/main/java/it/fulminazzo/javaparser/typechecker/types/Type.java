@@ -67,4 +67,11 @@ public interface Type {
         return classType.compatibleWith(this);
     }
 
+    /**
+     * Gets the class type associated with the current type.
+     *
+     * @return the class type
+     */
+    @NotNull ClassType getClassType();
+
 }

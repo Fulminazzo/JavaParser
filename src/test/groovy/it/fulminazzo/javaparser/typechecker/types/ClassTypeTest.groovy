@@ -56,12 +56,22 @@ class ClassTypeTest extends Specification {
 
         where:
         object << [
-                new Type() {},
+                new Type() {
+                    @Override
+                    ClassType getClassType() {
+                        return null
+                    }
+                },
                 new Object()
         ]
     }
 
     static class MockType implements Type {
+
+        @Override
+        ClassType getClassType() {
+            return null
+        }
 
     }
 
