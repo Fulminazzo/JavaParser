@@ -65,4 +65,17 @@ public class TypeCheckerException extends RuntimeException {
         return new TypeCheckerException("Cannot resolve symbol '%s'", symbol);
     }
 
+    /**
+     * Generates a new exception with an invalid type related message.
+     *
+     * @param expected the expected type
+     * @param actual   the actual type
+     * @return the type checker exception
+     */
+    public static @NotNull TypeCheckerException invalidType(final @NotNull Class<? extends Type> expected,
+                                                            final @NotNull Type actual) {
+        return new TypeCheckerException(String.format("Invalid type received: expected type to be %s but was %s instead.",
+                expected.getSimpleName(), actual.getClass().getSimpleName()));
+    }
+
 }

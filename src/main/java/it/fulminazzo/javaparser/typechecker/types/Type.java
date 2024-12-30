@@ -18,7 +18,7 @@ public interface Type {
      * @return true if it is
      */
     default boolean isValue() {
-        return this instanceof ValueType;
+        return is(ValueType.class);
     }
 
     /**
@@ -27,7 +27,18 @@ public interface Type {
      * @return true if it is
      */
     default boolean isClassType() {
-        return this instanceof ClassType;
+        return is(ClassType.class);
+    }
+
+    /**
+     * Checks whether the current type is of the one specified.
+     *
+     * @param <T>  the type
+     * @param type the class of the type
+     * @return true if it is
+     */
+    default <T extends Type> boolean is(final Class<T> type) {
+        return type.isAssignableFrom(getClass());
     }
 
     /**
@@ -38,6 +49,19 @@ public interface Type {
      */
     default boolean is(final Type @NotNull ... types) {
         return Arrays.asList(types).contains(this);
+    }
+
+    /**
+     * Checks that the current type class is of the specified one.
+     * Throws {@link TypeCheckerException} in case it is not.
+     *
+     * @param <T>  the class of the type
+     * @param classType the class of the type
+     * @return the current type cast to the expected one
+     */
+    default <T extends Type> T check(final @NotNull Class<T> classType) {
+        if (is(classType)) return classType.cast(this);
+        else throw TypeCheckerException.invalidType(classType, this);
     }
 
     /**

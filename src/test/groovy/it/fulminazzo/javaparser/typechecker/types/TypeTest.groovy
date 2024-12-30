@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.typechecker.types
 
+import it.fulminazzo.javaparser.typechecker.TypeCheckerException
 import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
@@ -11,6 +12,58 @@ class TypeTest extends Specification {
     void setup() {
         type = ObjectType.of(TestClass)
         classType = ClassObjectType.of(TestClass)
+    }
+
+    def 'test check class method'() {
+        when:
+        def t = this.type.check(ObjectType)
+
+        then:
+        t == ObjectType.of(TestClass)
+    }
+
+    def 'test invalid check class method'() {
+        when:
+        this.type.check(ClassObjectType)
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.invalidType(ClassObjectType, this.type).message
+    }
+
+    def 'test is #clazz should return true for #obj'() {
+        expect:
+        obj.is(clazz)
+
+        where:
+        obj << [
+                ValueType.values(),
+                ValueType.values(),
+                PrimitiveType.values(),
+                PrimitiveType.values(),
+                PrimitiveType.values(),
+                ObjectType.OBJECT,
+                ObjectType.OBJECT,
+                ClassObjectType.values(),
+                ClassObjectType.values(),
+                ClassObjectType.values(),
+                ClassObjectType.of(TestClass),
+                ClassObjectType.of(TestClass)
+        ].flatten()
+        clazz << [
+                ValueType.values().collect { ValueType },
+                ValueType.values().collect { Type },
+                PrimitiveType.values().collect { PrimitiveType },
+                PrimitiveType.values().collect { ClassType },
+                PrimitiveType.values().collect { Type },
+                ObjectType,
+                Type,
+                ClassObjectType.values().collect { ClassObjectType },
+                ClassObjectType.values().collect { ClassType },
+                ClassObjectType.values().collect { Type },
+                ClassType,
+                Type
+        ].flatten()
     }
 
     def 'test valid getField #field'() {
