@@ -8,10 +8,7 @@ import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.parser.node.statements.Statement;
-import it.fulminazzo.javaparser.typechecker.types.ClassType;
-import it.fulminazzo.javaparser.typechecker.types.LiteralType;
-import it.fulminazzo.javaparser.typechecker.types.Type;
-import it.fulminazzo.javaparser.typechecker.types.TypeException;
+import it.fulminazzo.javaparser.typechecker.types.*;
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayClassType;
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayType;
 import it.fulminazzo.javaparser.visitors.Visitor;
@@ -257,12 +254,12 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitBreak(@NotNull Node expr) {
-        return null;
+        return NoType.NO_TYPE;
     }
 
     @Override
     public @NotNull Type visitContinue(@NotNull Node expr) {
-        return null;
+        return NoType.NO_TYPE;
     }
 
     @Override
