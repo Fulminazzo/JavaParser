@@ -56,6 +56,18 @@ class TypeCheckerTest extends Specification {
         type == expected
     }
 
+    def 'test visit static array invalid size'() {
+        when:
+        this.typeChecker.visitStaticArray(
+                -1,
+                Literal.of('boolean')
+        )
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message = TypeCheckerException.invalidArraySize(-1).message
+    }
+
     def 'test decrement for #literal should return #expected'() {
         given:
         def type = this.typeChecker.visitDecrement(true, literal)
