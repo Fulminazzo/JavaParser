@@ -18,6 +18,16 @@ class ArrayClassTypeTest extends Specification {
         clazz == String[].class
     }
 
+    def 'test getClassType'() {
+        given:
+        // int[][][]
+        def classType = new ArrayClassType(new ArrayClassType(new ArrayClassType(PrimitiveType.INT)))
+        def type = new ArrayType(new ArrayType(new ArrayType(ValueType.NUMBER)))
+
+        expect:
+        type.getClassType() == classType
+    }
+
     def 'test compatibleWith'() {
         given:
         // int[][][]
