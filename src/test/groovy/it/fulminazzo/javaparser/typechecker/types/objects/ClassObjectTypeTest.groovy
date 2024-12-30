@@ -282,18 +282,15 @@ class ClassObjectTypeTest extends Specification {
         ClassObjectType.OBJECT    | Object.class
     }
 
-    def 'test toString of #type should return #expected'() {
+    def 'test toString of #type'() {
         given:
         def string = type.toString()
 
         expect:
-        string == expected
+        string == ClassType.print(StringUtils.capitalize(type.name()))
 
         where:
         type << ClassObjectType.values()
-        expected << ClassObjectType.values().collect {
-            "ClassType(${StringUtils.capitalize(it.name())})"
-        }
     }
 
     def 'test BYTE compatible with #type'() {
@@ -553,17 +550,6 @@ class ClassObjectTypeTest extends Specification {
                 ObjectType.DOUBLE, ObjectType.BOOLEAN,
                 ObjectType.STRING, ObjectType.OBJECT
         ]
-    }
-
-    def 'test toString of #type'() {
-        given:
-        def string = type.toString()
-
-        expect:
-        string == ClassType.print(StringUtils.capitalize(type.name()))
-
-        where:
-        type << ClassObjectType.values()
     }
     
 }
