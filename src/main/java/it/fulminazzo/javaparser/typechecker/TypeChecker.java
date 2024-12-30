@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.typechecker;
 
+import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.environment.Environment;
 import it.fulminazzo.javaparser.environment.ScopeException;
 import it.fulminazzo.javaparser.parser.node.MethodInvocation;
@@ -15,7 +16,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 import static it.fulminazzo.javaparser.typechecker.OperationUtils.*;
 import static it.fulminazzo.javaparser.typechecker.types.ValueType.*;
@@ -334,18 +334,24 @@ public final class TypeChecker implements Visitor<Type> {
      * If it fails, it tries with a variable declared in {@link #environment}.
      *
      * @param literal the literal
-     * @return an optional containing the type (if found)
+     * @return if a {@link ClassType} is found, the tuple key and value will both be
+     * equal to the type itself. If a variable is found, the tuple key will have the
+     * type in which the variable was declared, while the value its actual value type.
+     * Otherwise, the tuple will be empty.
      */
-    @NotNull Optional<Type> getTypeFromLiteral(final @NotNull String literal) {
+    @NotNull Tuple<ClassType, Type> getTypeFromLiteral(final @NotNull String literal) {
+        Tuple<ClassType, Type> tuple = new Tuple<>();
         try {
-            return Optional.of(ClassType.of(literal));
+            ClassType type = ClassType.of(literal);
+            tuple.set(type, type);
         } catch (TypeException e) {
             try {
-                return Optional.of(this.environment.lookup(literal));
-            } catch (ScopeException ex) {
-                return Optional.empty();
-            }
+                Type variable = this.environment.lookup(literal);
+                ClassType variableType = (ClassType) this.environment.lookupInfo(literal);
+                tuple.set(variableType, variable);
+            } catch (ScopeException ignored) {}
         }
+        return tuple;
     }
 
 }
