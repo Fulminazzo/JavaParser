@@ -31,6 +31,11 @@ public class ArrayClassType extends TypeWrapper implements ClassType {
     }
 
     @Override
+    public @NotNull Type toType() {
+        return new ArrayType(getComponentType().toType());
+    }
+
+    @Override
     public Class<?> toJavaClass() {
         return Array.newInstance(getComponentType().toJavaClass(), 0).getClass();
     }
@@ -38,11 +43,6 @@ public class ArrayClassType extends TypeWrapper implements ClassType {
     @Override
     public boolean compatibleWith(@NotNull Type type) {
         return type instanceof ArrayType && ((ArrayType) type).getInternalType().isAssignableFrom((ClassType) getInternalType());
-    }
-
-    @Override
-    public @NotNull Type toType() {
-        return new ArrayType(getComponentType().toType());
     }
 
 }

@@ -47,6 +47,22 @@ public enum PrimitiveType implements ClassType {
     }
 
     @Override
+    public @NotNull Type toType() {
+        switch (this) {
+            case BYTE:
+            case SHORT:
+            case INT:
+                return ValueType.NUMBER;
+            case CHAR: return ValueType.CHAR;
+            case LONG: return ValueType.LONG;
+            case FLOAT: return ValueType.FLOAT;
+            case DOUBLE: return ValueType.DOUBLE;
+            case BOOLEAN: return ValueType.BOOLEAN;
+            default: throw new IllegalStateException("Unreachable code");
+        }
+    }
+
+    @Override
     public Class<?> toJavaClass() {
         switch (this) {
             case BYTE: return byte.class;
@@ -66,22 +82,6 @@ public enum PrimitiveType implements ClassType {
         for (Type compatibleType : this.compatibleTypes)
             if (compatibleType.is(type)) return true;
         return false;
-    }
-
-    @Override
-    public @NotNull Type toType() {
-        switch (this) {
-            case BYTE:
-            case SHORT:
-            case INT:
-                return ValueType.NUMBER;
-            case CHAR: return ValueType.CHAR;
-            case LONG: return ValueType.LONG;
-            case FLOAT: return ValueType.FLOAT;
-            case DOUBLE: return ValueType.DOUBLE;
-            case BOOLEAN: return ValueType.BOOLEAN;
-            default: throw new IllegalStateException("Unreachable code");
-        }
     }
 
 }

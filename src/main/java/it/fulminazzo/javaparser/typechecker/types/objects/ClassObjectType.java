@@ -63,6 +63,24 @@ public enum ClassObjectType implements ClassType {
     }
 
     @Override
+    public @NotNull Type toType() {
+        switch (this) {
+            case BYTE:
+            case SHORT:
+            case INTEGER:
+                return ValueType.NUMBER;
+            case CHARACTER: return ValueType.CHAR;
+            case LONG: return ValueType.LONG;
+            case FLOAT: return ValueType.FLOAT;
+            case DOUBLE: return ValueType.DOUBLE;
+            case BOOLEAN: return ValueType.BOOLEAN;
+            case STRING: return ValueType.STRING;
+            case OBJECT: return ObjectType.OBJECT;
+            default: throw new IllegalStateException("Unreachable code");
+        }
+    }
+
+    @Override
     public Class<?> toJavaClass() {
         return ReflectionUtils.getClass("java.lang." + StringUtils.capitalize(name()));
     }
@@ -105,24 +123,6 @@ public enum ClassObjectType implements ClassType {
             return ClassObjectType.valueOf(type.getInnerClass().getSimpleName().toUpperCase());
         } catch (IllegalArgumentException e) {
             return new CustomClassObjectType(type);
-        }
-    }
-
-    @Override
-    public @NotNull Type toType() {
-        switch (this) {
-            case BYTE:
-            case SHORT:
-            case INTEGER:
-                return ValueType.NUMBER;
-            case CHARACTER: return ValueType.CHAR;
-            case LONG: return ValueType.LONG;
-            case FLOAT: return ValueType.FLOAT;
-            case DOUBLE: return ValueType.DOUBLE;
-            case BOOLEAN: return ValueType.BOOLEAN;
-            case STRING: return ValueType.STRING;
-            case OBJECT: return ObjectType.OBJECT;
-            default: throw new IllegalStateException("Unreachable code");
         }
     }
 
