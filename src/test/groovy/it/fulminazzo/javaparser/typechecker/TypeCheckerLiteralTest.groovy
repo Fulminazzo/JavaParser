@@ -54,6 +54,18 @@ class TypeCheckerLiteralTest extends Specification {
         e.message == TypeCheckerException.of(typeException).message
     }
 
+    def 'test visit literal invalid literal'() {
+        given:
+        def literal = 'invalid.class'
+
+        when:
+        this.checker.visitLiteralImpl(literal)
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.cannotResolveSymbol(literal).message
+    }
+
     def 'test getTypeFromLiteral #literal'() {
         given:
         this.checker.environment.declare(PrimitiveType.INT, 'i', ValueType.NUMBER)
