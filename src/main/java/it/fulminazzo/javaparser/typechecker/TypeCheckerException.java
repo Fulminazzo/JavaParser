@@ -31,7 +31,7 @@ public class TypeCheckerException extends RuntimeException {
 
     /**
      * Generates a {@link TypeCheckerException} with message:
-     * <i>Invalid type received: expected %expected% but got %actual% instead.</i>
+     * <i>Invalid type received: expected %expected% but got %actual% instead</i>
      *
      * @param expected the expected type
      * @param actual   the actual type
@@ -39,12 +39,13 @@ public class TypeCheckerException extends RuntimeException {
      */
     public static @NotNull TypeCheckerException invalidType(final @NotNull Type expected,
                                                             final @NotNull Type actual) {
-        return new TypeCheckerException("Invalid type received: expected %s but got %s instead.",
+        return new TypeCheckerException("Invalid type received: expected %s but got %s instead",
                 expected, actual);
     }
 
     /**
-     * Generates a new exception with an invalid type related message.
+     * Generates a {@link TypeCheckerException} with message:
+     * <i>Invalid type received: expected %expected% but got %actual% instead</i>
      *
      * @param expected the expected type
      * @param actual   the actual type
@@ -52,7 +53,7 @@ public class TypeCheckerException extends RuntimeException {
      */
     public static @NotNull TypeCheckerException invalidType(final @NotNull Class<? extends Type> expected,
                                                             final @NotNull Type actual) {
-        return new TypeCheckerException("Invalid type received: expected %s but got %s instead.",
+        return new TypeCheckerException("Invalid type received: expected %s but got %s instead",
                 expected.getSimpleName(), actual.getClass().getSimpleName());
     }
 
