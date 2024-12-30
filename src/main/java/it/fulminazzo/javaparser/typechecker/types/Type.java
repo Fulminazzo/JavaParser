@@ -93,10 +93,14 @@ public interface Type {
         try {
             Class<?> javaClass = classType.toJavaClass();
             Field field = javaClass.getDeclaredField(fieldName);
-            if (Modifier.isPublic(field.getModifiers())) {
+            if (!Modifier.isPublic(field.getModifiers())) throw TypeException.cannotAccessField(classType, field);
+            else if (isClassType()) {
+                //TODO: only static
+                return null;
+            } else {
                 //TODO:
                 return null;
-            } else throw TypeException.cannotAccessField(classType, field);
+            }
         } catch (NoSuchFieldException e) {
             throw TypeException.fieldNotFound(classType, fieldName);
         }
