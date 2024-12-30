@@ -57,6 +57,7 @@ class ClassTypeTest extends Specification {
         where:
         object << [
                 new Type() {
+                    @NotNull
                     @Override
                     ClassType getClassType() {
                         return null
@@ -68,6 +69,7 @@ class ClassTypeTest extends Specification {
 
     static class MockType implements Type {
 
+        @NotNull
         @Override
         ClassType getClassType() {
             return null
