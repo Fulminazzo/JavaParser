@@ -8,6 +8,20 @@ import spock.lang.Specification
 
 class ObjectTypeTest extends Specification {
 
+    def 'test value #actual from values function did not match #expected'() {
+        expect:
+        expected == actual
+
+        where:
+        expected << [
+                ObjectType.BYTE, ObjectType.SHORT, ObjectType.CHARACTER,
+                ObjectType.INTEGER, ObjectType.LONG, ObjectType.FLOAT,
+                ObjectType.DOUBLE, ObjectType.BOOLEAN, ObjectType.STRING,
+                ObjectType.OBJECT
+        ].toArray(ObjectType[])
+        actual << ObjectType.values()
+    }
+
     def 'test equality'() {
         given:
         def first = ObjectType.of('String')
