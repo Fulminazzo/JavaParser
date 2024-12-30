@@ -28,8 +28,8 @@ public class TypeCheckerException extends RuntimeException {
      */
     public static @NotNull TypeCheckerException invalidType(final @NotNull Type expected,
                                                             final @NotNull Type actual) {
-        return new TypeCheckerException(String.format("Invalid type received: expected %s but got %s instead.",
-                expected, actual));
+        return new TypeCheckerException("Invalid type received: expected %s but got %s instead.",
+                expected, actual);
     }
 
 }
