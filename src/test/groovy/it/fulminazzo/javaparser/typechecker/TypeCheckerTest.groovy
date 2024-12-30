@@ -44,6 +44,18 @@ class TypeCheckerTest extends Specification {
         Optional.empty()              | new JavaProgram(new LinkedList<>([new Break()]))
     }
 
+    def 'test visit assignment: #type #name = #val should return type #expected'() {
+
+    }
+
+    def 'test visit assignment already declared'() {
+
+    }
+
+    def 'test visit assignment invalid: #type #name = #val'() {
+
+    }
+
     def 'test visit dynamic array'() {
         given:
         def type = this.typeChecker.visitDynamicArray(
