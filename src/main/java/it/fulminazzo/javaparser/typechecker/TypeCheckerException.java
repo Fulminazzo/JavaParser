@@ -12,9 +12,10 @@ public class TypeCheckerException extends RuntimeException {
      * Instantiates a new Type checker exception.
      *
      * @param message the message
+     * @param args    the arguments to add in the message format
      */
-    private TypeCheckerException(final @NotNull String message) {
-        super(message);
+    private TypeCheckerException(final @NotNull String message, final Object @NotNull ... args) {
+        super(String.format(message, args));
     }
 
     /**
