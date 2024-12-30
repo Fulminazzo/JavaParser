@@ -81,14 +81,14 @@ public interface Type {
 
     /**
      * Searches the given field in the class of {@link #toClassType()}.
-     * Then, returns a {@link Tuple} containing the declared type of the field and the actual type.
+     * Then, returns the declared type of the field in form of {@link ClassType}.
      *
      * @param fieldName the field name
-     * @return the field
+     * @return the type of the field
      * @throws TypeException thrown in case the field could not be found or could not be accessed
      * (only <code>public</code> modifier allowed and <code>static</code> fields from static context)
      */
-    default @NotNull Tuple<ClassType, Type> getField(final @NotNull String fieldName) throws TypeException {
+    default @NotNull ClassType getField(final @NotNull String fieldName) throws TypeException {
         ClassType classType = toClassType();
         try {
             Class<?> javaClass = classType.toJavaClass();
