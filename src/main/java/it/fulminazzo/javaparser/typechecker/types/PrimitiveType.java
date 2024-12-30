@@ -47,6 +47,21 @@ public enum PrimitiveType implements ClassType {
     }
 
     @Override
+    public Class<?> toJavaClass() {
+        switch (this) {
+            case BYTE: return byte.class;
+            case CHAR: return char.class;
+            case SHORT: return short.class;
+            case INT: return int.class;
+            case LONG: return long.class;
+            case FLOAT: return float.class;
+            case DOUBLE: return double.class;
+            case BOOLEAN: return boolean.class;
+            default: throw new IllegalStateException("Unreachable code");
+        }
+    }
+
+    @Override
     public boolean compatibleWith(@NotNull Type type) {
         for (Type compatibleType : this.compatibleTypes)
             if (compatibleType.is(type)) return true;

@@ -1,7 +1,6 @@
 package it.fulminazzo.javaparser.typechecker.types
 
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException
-import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
 
 import static it.fulminazzo.javaparser.typechecker.types.ValueType.*
@@ -21,6 +20,15 @@ class PrimitiveTypeTest extends Specification {
                 STRING,
                 new Type[]{STRING, BOOLEAN, FLOAT}
         ]
+    }
+
+    def 'test check empty'() {
+        when:
+        DOUBLE.check()
+
+        then:
+        def ex = thrown(IllegalArgumentException)
+        ex.message == "Cannot compare type ${DOUBLE} with no types"
     }
 
     def 'test BYTE compatible with #type'() {

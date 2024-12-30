@@ -68,6 +68,11 @@ class ClassTypeTest extends Specification {
     static class MockClassType implements ClassType {
 
         @Override
+        Class<?> toJavaClass() {
+            return null
+        }
+
+        @Override
         boolean compatibleWith(@NotNull Type type) {
             return type instanceof MockType
         }

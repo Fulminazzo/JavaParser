@@ -1,10 +1,22 @@
 package it.fulminazzo.javaparser.typechecker.types.arrays
 
+import it.fulminazzo.javaparser.typechecker.types.ClassType
 import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
 import it.fulminazzo.javaparser.typechecker.types.ValueType
 import spock.lang.Specification
 
 class ArrayClassTypeTest extends Specification {
+
+    def 'test toJavaClass'() {
+        given:
+        def classType = new ArrayClassType(ClassType.of(String.simpleName))
+
+        when:
+        def clazz = classType.toJavaClass()
+
+        then:
+        clazz == String[].class
+    }
 
     def 'test compatibleWith'() {
         given:
