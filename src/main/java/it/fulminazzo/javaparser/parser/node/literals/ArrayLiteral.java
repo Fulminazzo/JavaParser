@@ -21,4 +21,9 @@ public class ArrayLiteral extends NodeImpl implements Literal {
         this.type = type;
     }
 
+    @Override
+    public @NotNull String getLiteral() {
+        throw new UnsupportedOperationException();
+    }
+
 }
