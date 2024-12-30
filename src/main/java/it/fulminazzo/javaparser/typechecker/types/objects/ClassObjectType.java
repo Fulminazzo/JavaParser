@@ -93,5 +93,20 @@ public enum ClassObjectType implements ClassType {
         }
     }
 
+    /**
+     * Gets a new {@link ClassType} from the given class name.
+     *
+     * @param clazz the class
+     * @return the respective class type
+     */
+    public static @NotNull ClassType of(final @NotNull Class<?> clazz) throws TypeException {
+        ObjectType type = ObjectType.of(clazz);
+        try {
+            return ClassObjectType.valueOf(type.getInnerClass().getSimpleName().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return new CustomClassObjectType(type);
+        }
+    }
+
 }
 
