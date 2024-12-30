@@ -38,7 +38,7 @@ public enum ValueType implements Type {
     ;
 
     @Override
-    public @NotNull ClassType getClassType() {
+    public @NotNull ClassType toClassType() {
         switch (this) {
             case CHAR: return PrimitiveType.CHAR;
             case LONG: return PrimitiveType.LONG;

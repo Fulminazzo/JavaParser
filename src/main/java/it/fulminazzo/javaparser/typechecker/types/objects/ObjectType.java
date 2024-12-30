@@ -29,7 +29,7 @@ public final class ObjectType extends ObjectWrapper<Class<?>> implements Type {
     }
 
     @Override
-    public @NotNull ClassType getClassType() {
+    public @NotNull ClassType toClassType() {
         return ClassType.of(getInnerClass());
     }
 

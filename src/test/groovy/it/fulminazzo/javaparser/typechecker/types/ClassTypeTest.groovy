@@ -59,7 +59,7 @@ class ClassTypeTest extends Specification {
                 new Type() {
                     @NotNull
                     @Override
-                    ClassType getClassType() {
+                    ClassType toClassType() {
                         return null
                     }
                 },
@@ -71,7 +71,7 @@ class ClassTypeTest extends Specification {
 
         @NotNull
         @Override
-        ClassType getClassType() {
+        ClassType toClassType() {
             return null
         }
 

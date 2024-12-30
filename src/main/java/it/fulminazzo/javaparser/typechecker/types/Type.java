@@ -80,7 +80,7 @@ public interface Type {
     }
 
     /**
-     * Searches the given field in the class of {@link #getClassType()}.
+     * Searches the given field in the class of {@link #toClassType()}.
      * Then, returns a {@link Tuple} containing the declared type of the field and the actual type.
      *
      * @param fieldName the field name
@@ -89,7 +89,7 @@ public interface Type {
      * (only <code>public</code> modifier allowed and <code>static</code> fields from static context)
      */
     default @NotNull Tuple<ClassType, Type> getField(final @NotNull String fieldName) throws TypeException {
-        ClassType classType = getClassType();
+        ClassType classType = toClassType();
         try {
             Class<?> javaClass = classType.toJavaClass();
             Field field = javaClass.getDeclaredField(fieldName);
@@ -111,6 +111,6 @@ public interface Type {
      *
      * @return the class type
      */
-    @NotNull ClassType getClassType();
+    @NotNull ClassType toClassType();
 
 }
