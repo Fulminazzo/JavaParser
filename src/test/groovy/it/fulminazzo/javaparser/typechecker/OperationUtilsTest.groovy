@@ -17,31 +17,57 @@ class OperationUtilsTest extends Specification {
         STRING  | STRING
         // Boolean
         BOOLEAN | BOOLEAN
+        // Byte
+        BYTE    | BYTE
+        BYTE    | SHORT
+        BYTE    | CHAR
+        BYTE    | NUMBER
+        BYTE    | LONG
+        BYTE    | FLOAT
+        BYTE    | DOUBLE
+        // Short
+        SHORT   | BYTE
+        SHORT   | SHORT
+        SHORT   | CHAR
+        SHORT   | NUMBER
+        SHORT   | LONG
+        SHORT   | FLOAT
+        SHORT   | DOUBLE
         // Char
+        CHAR    | BYTE
+        CHAR    | SHORT
         CHAR    | CHAR
         CHAR    | NUMBER
         CHAR    | LONG
         CHAR    | FLOAT
         CHAR    | DOUBLE
         // Number
+        NUMBER  | BYTE
+        NUMBER  | SHORT
         NUMBER  | CHAR
         NUMBER  | NUMBER
         NUMBER  | LONG
         NUMBER  | FLOAT
         NUMBER  | DOUBLE
         // Long
+        LONG    | BYTE
+        LONG    | SHORT
         LONG    | CHAR
         LONG    | NUMBER
         LONG    | LONG
         LONG    | FLOAT
         LONG    | DOUBLE
         // Float
+        FLOAT   | BYTE
+        FLOAT   | SHORT
         FLOAT   | CHAR
         FLOAT   | NUMBER
         FLOAT   | LONG
         FLOAT   | FLOAT
         FLOAT   | DOUBLE
         // Double
+        DOUBLE  | BYTE
+        DOUBLE  | SHORT
         DOUBLE  | CHAR
         DOUBLE  | NUMBER
         DOUBLE  | LONG
@@ -63,6 +89,8 @@ class OperationUtilsTest extends Specification {
         where:
         a       | b
         // String
+        STRING  | BYTE
+        STRING  | SHORT
         STRING  | CHAR
         STRING  | NUMBER
         STRING  | LONG
@@ -70,12 +98,20 @@ class OperationUtilsTest extends Specification {
         STRING  | DOUBLE
         STRING  | BOOLEAN
         // Boolean
+        BOOLEAN | BYTE
+        BOOLEAN | SHORT
         BOOLEAN | CHAR
         BOOLEAN | NUMBER
         BOOLEAN | LONG
         BOOLEAN | FLOAT
         BOOLEAN | DOUBLE
         BOOLEAN | STRING
+        // Byte
+        BYTE    | BOOLEAN
+        BYTE    | STRING
+        // Short
+        SHORT   | BOOLEAN
+        SHORT   | STRING
         // Char
         CHAR    | BOOLEAN
         CHAR    | STRING
@@ -99,31 +135,57 @@ class OperationUtilsTest extends Specification {
 
         where:
         a      | b
+        // Byte
+        BYTE   | BYTE
+        BYTE   | SHORT
+        BYTE   | CHAR
+        BYTE   | NUMBER
+        BYTE   | LONG
+        BYTE   | FLOAT
+        BYTE   | DOUBLE
+        // Short
+        SHORT  | BYTE
+        SHORT  | SHORT
+        SHORT  | CHAR
+        SHORT  | NUMBER
+        SHORT  | LONG
+        SHORT  | FLOAT
+        SHORT  | DOUBLE
         // Char
+        CHAR   | BYTE
+        CHAR   | SHORT
         CHAR   | CHAR
         CHAR   | NUMBER
         CHAR   | LONG
         CHAR   | FLOAT
         CHAR   | DOUBLE
         // Number
+        NUMBER | BYTE
+        NUMBER | SHORT
         NUMBER | CHAR
         NUMBER | NUMBER
         NUMBER | LONG
         NUMBER | FLOAT
         NUMBER | DOUBLE
         // Long
+        LONG   | BYTE
+        LONG   | SHORT
         LONG   | CHAR
         LONG   | NUMBER
         LONG   | LONG
         LONG   | FLOAT
         LONG   | DOUBLE
         // Float
+        FLOAT  | BYTE
+        FLOAT  | SHORT
         FLOAT  | CHAR
         FLOAT  | NUMBER
         FLOAT  | LONG
         FLOAT  | FLOAT
         FLOAT  | DOUBLE
         // Double
+        DOUBLE | BYTE
+        DOUBLE | SHORT
         DOUBLE | CHAR
         DOUBLE | NUMBER
         DOUBLE | LONG
@@ -153,14 +215,20 @@ class OperationUtilsTest extends Specification {
         where:
         a      | b      | c
         // Char
+        CHAR    | BYTE    | NUMBER
+        CHAR    | SHORT   | NUMBER
         CHAR    | CHAR    | NUMBER
         CHAR    | NUMBER  | NUMBER
         CHAR    | LONG    | LONG
         // Number
+        NUMBER  | BYTE    | NUMBER
+        NUMBER  | SHORT   | NUMBER
         NUMBER  | CHAR    | NUMBER
         NUMBER  | NUMBER  | NUMBER
         NUMBER  | LONG    | LONG
         // Long
+        LONG    | BYTE    | LONG
+        LONG    | SHORT   | LONG
         LONG    | CHAR    | LONG
         LONG    | NUMBER  | LONG
         LONG    | LONG    | LONG
@@ -178,6 +246,8 @@ class OperationUtilsTest extends Specification {
         where:
         a       | b
         // Float
+        FLOAT   | BYTE
+        FLOAT   | SHORT
         FLOAT   | CHAR
         FLOAT   | NUMBER
         FLOAT   | LONG
@@ -185,6 +255,8 @@ class OperationUtilsTest extends Specification {
         FLOAT   | DOUBLE
         FLOAT   | BOOLEAN
         // Double
+        DOUBLE  | BYTE
+        DOUBLE  | SHORT
         DOUBLE  | CHAR
         DOUBLE  | NUMBER
         DOUBLE  | LONG
@@ -192,11 +264,15 @@ class OperationUtilsTest extends Specification {
         DOUBLE  | DOUBLE
         DOUBLE  | BOOLEAN
         // Boolean
+        BOOLEAN | BYTE
+        BOOLEAN | SHORT
         BOOLEAN | CHAR
         BOOLEAN | NUMBER
         BOOLEAN | LONG
         BOOLEAN | FLOAT
         BOOLEAN | DOUBLE
+        BYTE    | BOOLEAN
+        SHORT    | BOOLEAN
         CHAR    | BOOLEAN
         NUMBER  | BOOLEAN
         LONG    | BOOLEAN
@@ -209,14 +285,20 @@ class OperationUtilsTest extends Specification {
         where:
         a      | b      | c
         // Char
+        CHAR   | BYTE   | NUMBER
+        CHAR   | SHORT  | NUMBER
         CHAR   | CHAR   | NUMBER
         CHAR   | NUMBER | NUMBER
         CHAR   | LONG   | LONG
         // Number
+        NUMBER | BYTE   | NUMBER
+        NUMBER | SHORT  | NUMBER
         NUMBER | CHAR   | NUMBER
         NUMBER | NUMBER | NUMBER
         NUMBER | LONG   | LONG
         // Long
+        LONG   | BYTE   | LONG
+        LONG   | SHORT  | LONG
         LONG   | CHAR   | LONG
         LONG   | NUMBER | LONG
         LONG   | LONG   | LONG
@@ -232,12 +314,16 @@ class OperationUtilsTest extends Specification {
         where:
         a      | b
         // Float
+        FLOAT  | BYTE
+        FLOAT  | SHORT
         FLOAT  | CHAR
         FLOAT  | NUMBER
         FLOAT  | LONG
         FLOAT  | FLOAT
         FLOAT  | DOUBLE
         // Double
+        DOUBLE | BYTE
+        DOUBLE | SHORT
         DOUBLE | CHAR
         DOUBLE | NUMBER
         DOUBLE | LONG
@@ -251,31 +337,57 @@ class OperationUtilsTest extends Specification {
 
         where:
         a      | b      | c
+        // Byte
+        BYTE   | BYTE   | NUMBER
+        BYTE   | SHORT  | NUMBER
+        BYTE   | CHAR   | NUMBER
+        BYTE   | NUMBER | NUMBER
+        BYTE   | LONG   | LONG
+        BYTE   | FLOAT  | FLOAT
+        BYTE   | DOUBLE | DOUBLE
+        // Short
+        SHORT  | BYTE   | NUMBER
+        SHORT  | SHORT  | NUMBER
+        SHORT  | CHAR   | NUMBER
+        SHORT  | NUMBER | NUMBER
+        SHORT  | LONG   | LONG
+        SHORT  | FLOAT  | FLOAT
+        SHORT  | DOUBLE | DOUBLE
         // Char
+        CHAR   | BYTE   | NUMBER
+        CHAR   | SHORT  | NUMBER
         CHAR   | CHAR   | NUMBER
         CHAR   | NUMBER | NUMBER
         CHAR   | LONG   | LONG
         CHAR   | FLOAT  | FLOAT
         CHAR   | DOUBLE | DOUBLE
         // Number
+        NUMBER | BYTE   | NUMBER
+        NUMBER | SHORT  | NUMBER
         NUMBER | CHAR   | NUMBER
         NUMBER | NUMBER | NUMBER
         NUMBER | LONG   | LONG
         NUMBER | FLOAT  | FLOAT
         NUMBER | DOUBLE | DOUBLE
         // Long
+        LONG   | BYTE   | LONG
+        LONG   | SHORT  | LONG
         LONG   | CHAR   | LONG
         LONG   | NUMBER | LONG
         LONG   | LONG   | LONG
         LONG   | FLOAT  | FLOAT
         LONG   | DOUBLE | DOUBLE
         // Float
+        FLOAT  | BYTE   | FLOAT
+        FLOAT  | SHORT  | FLOAT
         FLOAT  | CHAR   | FLOAT
         FLOAT  | NUMBER | FLOAT
         FLOAT  | LONG   | FLOAT
         FLOAT  | FLOAT  | FLOAT
         FLOAT  | DOUBLE | DOUBLE
         // Double
+        DOUBLE | BYTE   | DOUBLE
+        DOUBLE | SHORT  | DOUBLE
         DOUBLE | CHAR   | DOUBLE
         DOUBLE | NUMBER | DOUBLE
         DOUBLE | LONG   | DOUBLE
