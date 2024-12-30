@@ -33,6 +33,9 @@ class TypeCheckerLiteralTest extends Specification {
         'int'                                                       | PrimitiveType.INT
         'String'                                                    | ClassObjectType.STRING
         'System'                                                    | ClassType.of('System')
+        //TODO: should have wrapper for class, but for this we need to implement generics
+        //TODO: so, at least for now, test disabled
+//        'System.class'                                              | ObjectType.of('Class')
         'System.out'                                                | ObjectType.of(PrintStream.canonicalName)
         'var'                                                       | ValueType.NUMBER
         'var.TYPE'                                                  | ObjectType.of('Class')
