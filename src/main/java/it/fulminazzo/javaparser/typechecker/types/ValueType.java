@@ -46,9 +46,7 @@ public enum ValueType implements Type {
             case FLOAT: return PrimitiveType.FLOAT;
             case DOUBLE: return PrimitiveType.DOUBLE;
             case BOOLEAN: return PrimitiveType.BOOLEAN;
-            case STRING: return ClassObjectType.STRING;
-            default:
-                throw new IllegalStateException("Unreachable code");
+            default: return ClassObjectType.STRING;
         }
     }
 

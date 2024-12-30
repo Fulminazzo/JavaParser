@@ -75,8 +75,7 @@ public enum ClassObjectType implements ClassType {
             case DOUBLE: return ValueType.DOUBLE;
             case BOOLEAN: return ValueType.BOOLEAN;
             case STRING: return ValueType.STRING;
-            case OBJECT: return ObjectType.OBJECT;
-            default: throw new IllegalStateException("Unreachable code");
+            default: return ObjectType.OBJECT;
         }
     }
 

@@ -57,8 +57,7 @@ public enum PrimitiveType implements ClassType {
             case LONG: return ValueType.LONG;
             case FLOAT: return ValueType.FLOAT;
             case DOUBLE: return ValueType.DOUBLE;
-            case BOOLEAN: return ValueType.BOOLEAN;
-            default: throw new IllegalStateException("Unreachable code");
+            default: return ValueType.BOOLEAN;
         }
     }
 
@@ -72,8 +71,7 @@ public enum PrimitiveType implements ClassType {
             case LONG: return long.class;
             case FLOAT: return float.class;
             case DOUBLE: return double.class;
-            case BOOLEAN: return boolean.class;
-            default: throw new IllegalStateException("Unreachable code");
+            default: return boolean.class;
         }
     }
 
