@@ -13,6 +13,27 @@ class TypeTest extends Specification {
         classType = ClassObjectType.of(TestClass)
     }
 
+    def 'test is #clazz should return true for #obj'() {
+        expect:
+        obj.is(clazz)
+
+        where:
+        obj << [
+                ValueType.values(),
+                PrimitiveType.values(),
+                ObjectType.OBJECT,
+                ClassObjectType.values(),
+                ClassObjectType.of(TestClass)
+        ].flatten()
+        clazz << [
+                ValueType.values().collect { ValueType },
+                PrimitiveType.values().collect { PrimitiveType },
+                ObjectType,
+                ClassObjectType.values().collect { ClassObjectType },
+                ClassType
+        ].flatten()
+    }
+
     def 'test valid getField #field'() {
         when:
         def actual = this.type.getField(field)
