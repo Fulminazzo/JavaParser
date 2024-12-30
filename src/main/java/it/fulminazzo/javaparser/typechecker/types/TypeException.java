@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser.typechecker.types;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 /**
  * An exception thrown by {@link Type} objects.
@@ -49,7 +50,21 @@ public class TypeException extends Exception {
      */
     public static @NotNull TypeException cannotAccessField(final @NotNull Field field) {
         return new TypeException(String.format("Cannot access field %s with access level: %s",
-                field.getName(), field.getModifiers()));
+                field.getName(), getVisibilityModifier(field)));
+    }
+
+    /**
+     * Gets the visibility modifier from the given field in a string format.
+     *
+     * @param field the field
+     * @return the visibility modifier
+     */
+    static @NotNull String getVisibilityModifier(final @NotNull Field field) {
+        int modifiers = field.getModifiers();
+        if (Modifier.isProtected(modifiers)) return "protected";
+        else if (Modifier.isPublic(modifiers)) return "public";
+        else if (Modifier.isPrivate(modifiers)) return "private";
+        else return "package";
     }
 
 }
