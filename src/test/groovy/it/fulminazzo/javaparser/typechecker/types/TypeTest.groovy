@@ -29,8 +29,8 @@ class TypeTest extends Specification {
         this.type.getField(field)
 
         then:
-        //TODO: message
-        thrown(TypeException)
+        def e = thrown(TypeException)
+        e.message == TypeException.cannotAccessField(TestClass.getDeclaredField(field)).message
 
         where:
         field << [
@@ -44,8 +44,8 @@ class TypeTest extends Specification {
         this.type.getField('invalid')
 
         then:
-        //TODO: message
-        thrown(TypeException)
+        def e = thrown(TypeException)
+        e.message == TypeException.fieldNotFound('invalid').message
     }
 
 }
