@@ -88,7 +88,11 @@ class TypeCheckerTest extends Specification {
         def value = NUMBER_LIT
 
         and:
-        this.typeChecker.environment.declare(type.accept(this.typeChecker), varName, value.accept(this.typeChecker))
+        this.typeChecker.environment.declare(
+                type.accept(this.typeChecker).checkClassType(),
+                varName,
+                value.accept(this.typeChecker)
+        )
 
         when:
         this.typeChecker.visitAssignment(type, name, value)
@@ -101,7 +105,7 @@ class TypeCheckerTest extends Specification {
     def 'test visit assignment invalid: #type invalid = #val'() {
         given:
         def errorMessage = TypeCheckerException.invalidType(
-                type.accept(this.typeChecker).toType(),
+                type.accept(this.typeChecker).checkClassType().toType(),
                 val.accept(this.typeChecker)
         ).message
 
@@ -130,8 +134,8 @@ class TypeCheckerTest extends Specification {
 
         and:
         this.typeChecker.environment.declare(
-                Literal.of(type).accept(this.typeChecker),
-                name, val
+                Literal.of(type).accept(this.typeChecker).checkClassType(),
+                name, val.accept(this.typeChecker)
         )
 
         when:
@@ -180,15 +184,18 @@ class TypeCheckerTest extends Specification {
 
     def 'test re-visit assignment invalid: #type invalid = #val'() {
         given:
-        def actualType = type.accept(this.typeChecker)
+        def actualType = type.accept(this.typeChecker).checkClassType()
         def varName = 'invalid_re_assign'
         def errorMessage = TypeCheckerException.invalidType(
-                actualType.toType(),
-                newVal.accept(this.typeChecker)
+                actualType.toType(), newVal.accept(this.typeChecker)
         ).message
 
         and:
-        this.typeChecker.environment.declare(actualType, varName, val.accept(this.typeChecker))
+        this.typeChecker.environment.declare(
+                actualType,
+                varName,
+                val.accept(this.typeChecker)
+        )
 
         when:
         this.typeChecker.visitReAssign(Literal.of('invalid_re_assign'), newVal)
