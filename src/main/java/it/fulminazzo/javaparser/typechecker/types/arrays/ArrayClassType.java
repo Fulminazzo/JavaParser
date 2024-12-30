@@ -21,6 +21,15 @@ public class ArrayClassType extends TypeWrapper implements ClassType {
         super(componentType);
     }
 
+    /**
+     * Gets the components class type.
+     *
+     * @return the class type
+     */
+    public @NotNull ClassType getComponentType() {
+        return this.object;
+    }
+
     @Override
     public Class<?> toJavaClass() {
         Class<?> componentClass = ((ClassType) this.object).toJavaClass();
