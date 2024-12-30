@@ -164,6 +164,20 @@ class TypeCheckerTest extends Specification {
         'Object'    | 'o'   | BOOL_LIT   | ObjectType.OBJECT
     }
 
+    def 'test visit re-assignment not declared'() {
+        given:
+        def varName = 'visit_re_assignment_declared'
+        def name = Literal.of(varName)
+        def value = NUMBER_LIT
+
+        when:
+        this.typeChecker.visitReAssign(name, value)
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == this.typeChecker.environment.noSuchVariable(varName).message
+    }
+
     def 'test visit dynamic array'() {
         given:
         def type = this.typeChecker.visitDynamicArray(
