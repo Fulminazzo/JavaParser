@@ -52,7 +52,7 @@ class CustomClassObjectType extends TypeWrapper implements ClassType {
 
     @Override
     public String toString() {
-        return this.object.toString().replace("Type", "ClassType");
+        return ClassType.print(ObjectType.getClassName(((ObjectType) this.object).getInnerClass()));
     }
 
 }

@@ -106,7 +106,7 @@ public enum PrimitiveType implements ClassType {
 
     @Override
     public String toString() {
-        return String.format("ClassType(%s)", name().toLowerCase());
+        return ClassType.print(name().toLowerCase());
     }
 
 }
