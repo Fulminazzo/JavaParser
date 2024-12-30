@@ -88,7 +88,7 @@ class TypeCheckerTest extends Specification {
         def value = NUMBER_LIT
 
         and:
-        this.typeChecker.environment.declare(type, name, value)
+        this.typeChecker.environment.declare(type.accept(this.typeChecker), varName, value.accept(this.typeChecker))
 
         when:
         this.typeChecker.visitAssignment(type, name, value)
