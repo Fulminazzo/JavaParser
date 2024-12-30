@@ -15,15 +15,15 @@ class ClassObjectTypeTest extends Specification {
 
         where:
         type                      | expected
-        ClassObjectType.BYTE      | NUMBER
-        ClassObjectType.CHARACTER | CHAR
-        ClassObjectType.SHORT     | NUMBER
-        ClassObjectType.INTEGER   | NUMBER
-        ClassObjectType.LONG      | LONG
-        ClassObjectType.FLOAT     | FLOAT
-        ClassObjectType.DOUBLE    | DOUBLE
-        ClassObjectType.BOOLEAN   | BOOLEAN
-        ClassObjectType.STRING    | STRING
+        ClassObjectType.BYTE      | ObjectType.BYTE
+        ClassObjectType.CHARACTER | ObjectType.CHARACTER
+        ClassObjectType.SHORT     | ObjectType.SHORT
+        ClassObjectType.INTEGER   | ObjectType.INTEGER
+        ClassObjectType.LONG      | ObjectType.LONG
+        ClassObjectType.FLOAT     | ObjectType.FLOAT
+        ClassObjectType.DOUBLE    | ObjectType.DOUBLE
+        ClassObjectType.BOOLEAN   | ObjectType.BOOLEAN
+        ClassObjectType.STRING    | ObjectType.STRING
         ClassObjectType.OBJECT    | ObjectType.OBJECT
     }
 
