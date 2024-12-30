@@ -20,7 +20,7 @@ public class TypeException extends Exception {
 
     /**
      * Generates a {@link TypeException} with message:
-     * <i>Could not find class %clazz%</i>
+     * <i>Could not find class: %clazz%</i>
      *
      * @param clazz the clazz
      * @return the type exception
@@ -31,7 +31,7 @@ public class TypeException extends Exception {
 
     /**
      * Generates a {@link TypeException} with message:
-     * <i>Could not find field %field%</i>
+     * <i>Could not find field: %field%</i>
      *
      * @param field the field
      * @return the type exception
