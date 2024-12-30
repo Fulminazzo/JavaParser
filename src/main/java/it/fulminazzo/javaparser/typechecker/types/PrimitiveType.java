@@ -76,12 +76,10 @@ public enum PrimitiveType implements ClassType {
 
     @Override
     public @NotNull Type cast(@NotNull Type type) {
+        if (this != BOOLEAN && type.is(OperationUtils.getDecimalTypes()))
+            return toType();
         for (Type compatibleType : this.compatibleTypes)
             if (compatibleType.is(type)) return toType();
-        if (this != BOOLEAN && type.isValue()) {
-            type.check(OperationUtils.getDecimalTypes());
-            return toType();
-        }
         throw TypeCheckerException.invalidCast(this, type);
     }
 
