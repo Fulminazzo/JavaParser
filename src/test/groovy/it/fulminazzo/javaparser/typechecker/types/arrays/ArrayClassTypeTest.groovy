@@ -58,6 +58,17 @@ class ArrayClassTypeTest extends Specification {
         ].flatten().collect { new ArrayType(it) }
     }
 
+    def 'test toString'() {
+        given:
+        def arrayClassType = new ArrayClassType(new ArrayClassType(new ArrayClassType(PrimitiveType.INT)))
+
+        when:
+        def string = arrayClassType.toString()
+
+        then:
+        string == 'int[][][].class'
+    }
+
     def 'test conversion of types'() {
         given:
         def arrayType = new ArrayType(new ArrayType(new ArrayType(ValueType.NUMBER)))
