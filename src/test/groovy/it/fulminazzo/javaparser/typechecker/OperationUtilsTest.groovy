@@ -15,223 +15,67 @@ class OperationUtilsTest extends Specification {
         a       | b
         // String
         STRING  | STRING
-        STRING  | ObjectType.STRING
-        ObjectType.STRING | STRING
-        ObjectType.STRING | ObjectType.STRING
         // Boolean
         BOOLEAN | BOOLEAN
-        BOOLEAN | ObjectType.BOOLEAN
-        ObjectType.BOOLEAN | BOOLEAN
-        ObjectType.BOOLEAN | ObjectType.BOOLEAN
         // Byte
         BYTE    | BYTE
-        BYTE    | ObjectType.BYTE
-        ObjectType.BYTE | BYTE
-        ObjectType.BYTE | ObjectType.BYTE
         BYTE    | SHORT
-        BYTE    | ObjectType.SHORT
-        ObjectType.BYTE | SHORT
-        ObjectType.BYTE | ObjectType.SHORT
         BYTE    | CHAR
-        BYTE    | ObjectType.CHARACTER
-        ObjectType.BYTE | CHAR
-        ObjectType.BYTE | ObjectType.CHARACTER
         BYTE    | NUMBER
-        BYTE    | ObjectType.INTEGER
-        ObjectType.BYTE | NUMBER
-        ObjectType.BYTE | ObjectType.INTEGER
         BYTE    | LONG
-        BYTE    | ObjectType.LONG
-        ObjectType.BYTE | LONG
-        ObjectType.BYTE | ObjectType.LONG
         BYTE    | FLOAT
-        BYTE    | ObjectType.FLOAT
-        ObjectType.BYTE | FLOAT
-        ObjectType.BYTE | ObjectType.FLOAT
         BYTE    | DOUBLE
-        BYTE    | ObjectType.DOUBLE
-        ObjectType.BYTE | DOUBLE
-        ObjectType.BYTE | ObjectType.DOUBLE
         // Short
         SHORT   | BYTE
-        SHORT   | ObjectType.BYTE
-        ObjectType.SHORT | BYTE
-        ObjectType.SHORT | ObjectType.BYTE
         SHORT   | SHORT
-        SHORT   | ObjectType.SHORT
-        ObjectType.SHORT | SHORT
-        ObjectType.SHORT | ObjectType.SHORT
         SHORT   | CHAR
-        SHORT   | ObjectType.CHARACTER
-        ObjectType.SHORT | CHAR
-        ObjectType.SHORT | ObjectType.CHARACTER
         SHORT   | NUMBER
-        SHORT   | ObjectType.INTEGER
-        ObjectType.SHORT | NUMBER
-        ObjectType.SHORT | ObjectType.INTEGER
         SHORT   | LONG
-        SHORT   | ObjectType.LONG
-        ObjectType.SHORT | LONG
-        ObjectType.SHORT | ObjectType.LONG
         SHORT   | FLOAT
-        SHORT   | ObjectType.FLOAT
-        ObjectType.SHORT | FLOAT
-        ObjectType.SHORT | ObjectType.FLOAT
         SHORT   | DOUBLE
-        SHORT   | ObjectType.DOUBLE
-        ObjectType.SHORT | DOUBLE
-        ObjectType.SHORT | ObjectType.DOUBLE
         // Char
         CHAR    | BYTE
-        CHAR    | ObjectType.BYTE
-        ObjectType.CHARACTER | BYTE
-        ObjectType.CHARACTER | ObjectType.BYTE
         CHAR    | SHORT
-        CHAR    | ObjectType.SHORT
-        ObjectType.CHARACTER | SHORT
-        ObjectType.CHARACTER | ObjectType.SHORT
         CHAR    | CHAR
-        CHAR    | ObjectType.CHARACTER
-        ObjectType.CHARACTER | CHAR
-        ObjectType.CHARACTER | ObjectType.CHARACTER
         CHAR    | NUMBER
-        CHAR    | ObjectType.INTEGER
-        ObjectType.CHARACTER | NUMBER
-        ObjectType.CHARACTER | ObjectType.INTEGER
         CHAR    | LONG
-        CHAR    | ObjectType.LONG
-        ObjectType.CHARACTER | LONG
-        ObjectType.CHARACTER | ObjectType.LONG
         CHAR    | FLOAT
-        CHAR    | ObjectType.FLOAT
-        ObjectType.CHARACTER | FLOAT
-        ObjectType.CHARACTER | ObjectType.FLOAT
         CHAR    | DOUBLE
-        CHAR    | ObjectType.DOUBLE
-        ObjectType.CHARACTER | DOUBLE
-        ObjectType.CHARACTER | ObjectType.DOUBLE
         // Number
         NUMBER  | BYTE
-        NUMBER  | ObjectType.BYTE
-        ObjectType.INTEGER | BYTE
-        ObjectType.INTEGER | ObjectType.BYTE
         NUMBER  | SHORT
-        NUMBER  | ObjectType.SHORT
-        ObjectType.INTEGER | SHORT
-        ObjectType.INTEGER | ObjectType.SHORT
         NUMBER  | CHAR
-        NUMBER  | ObjectType.CHARACTER
-        ObjectType.INTEGER | CHAR
-        ObjectType.INTEGER | ObjectType.CHARACTER
         NUMBER  | NUMBER
-        NUMBER  | ObjectType.INTEGER
-        ObjectType.INTEGER | NUMBER
-        ObjectType.INTEGER | ObjectType.INTEGER
         NUMBER  | LONG
-        NUMBER  | ObjectType.LONG
-        ObjectType.INTEGER | LONG
-        ObjectType.INTEGER | ObjectType.LONG
         NUMBER  | FLOAT
-        NUMBER  | ObjectType.FLOAT
-        ObjectType.INTEGER | FLOAT
-        ObjectType.INTEGER | ObjectType.FLOAT
         NUMBER  | DOUBLE
-        NUMBER  | ObjectType.DOUBLE
-        ObjectType.INTEGER | DOUBLE
-        ObjectType.INTEGER | ObjectType.DOUBLE
         // Long
         LONG    | BYTE
-        LONG    | ObjectType.BYTE
-        ObjectType.LONG | BYTE
-        ObjectType.LONG | ObjectType.BYTE
         LONG    | SHORT
-        LONG    | ObjectType.SHORT
-        ObjectType.LONG | SHORT
-        ObjectType.LONG | ObjectType.SHORT
         LONG    | CHAR
-        LONG    | ObjectType.CHARACTER
-        ObjectType.LONG | CHAR
-        ObjectType.LONG | ObjectType.CHARACTER
         LONG    | NUMBER
-        LONG    | ObjectType.INTEGER
-        ObjectType.LONG | NUMBER
-        ObjectType.LONG | ObjectType.INTEGER
         LONG    | LONG
-        LONG    | ObjectType.LONG
-        ObjectType.LONG | LONG
-        ObjectType.LONG | ObjectType.LONG
         LONG    | FLOAT
-        LONG    | ObjectType.FLOAT
-        ObjectType.LONG | FLOAT
-        ObjectType.LONG | ObjectType.FLOAT
         LONG    | DOUBLE
-        LONG    | ObjectType.DOUBLE
-        ObjectType.LONG | DOUBLE
-        ObjectType.LONG | ObjectType.DOUBLE
         // Float
         FLOAT   | BYTE
-        FLOAT   | ObjectType.BYTE
-        ObjectType.FLOAT | BYTE
-        ObjectType.FLOAT | ObjectType.BYTE
         FLOAT   | SHORT
-        FLOAT   | ObjectType.SHORT
-        ObjectType.FLOAT | SHORT
-        ObjectType.FLOAT | ObjectType.SHORT
         FLOAT   | CHAR
-        FLOAT   | ObjectType.CHARACTER
-        ObjectType.FLOAT | CHAR
-        ObjectType.FLOAT | ObjectType.CHARACTER
         FLOAT   | NUMBER
-        FLOAT   | ObjectType.INTEGER
-        ObjectType.FLOAT | NUMBER
-        ObjectType.FLOAT | ObjectType.INTEGER
         FLOAT   | LONG
-        FLOAT   | ObjectType.LONG
-        ObjectType.FLOAT | LONG
-        ObjectType.FLOAT | ObjectType.LONG
         FLOAT   | FLOAT
-        FLOAT   | ObjectType.FLOAT
-        ObjectType.FLOAT | FLOAT
-        ObjectType.FLOAT | ObjectType.FLOAT
         FLOAT   | DOUBLE
-        FLOAT   | ObjectType.DOUBLE
-        ObjectType.FLOAT | DOUBLE
-        ObjectType.FLOAT | ObjectType.DOUBLE
         // Double
         DOUBLE  | BYTE
-        DOUBLE  | ObjectType.BYTE
-        ObjectType.DOUBLE | BYTE
-        ObjectType.DOUBLE | ObjectType.BYTE
         DOUBLE  | SHORT
-        DOUBLE  | ObjectType.SHORT
-        ObjectType.DOUBLE | SHORT
-        ObjectType.DOUBLE | ObjectType.SHORT
         DOUBLE  | CHAR
-        DOUBLE  | ObjectType.CHARACTER
-        ObjectType.DOUBLE | CHAR
-        ObjectType.DOUBLE | ObjectType.CHARACTER
         DOUBLE  | NUMBER
-        DOUBLE  | ObjectType.INTEGER
-        ObjectType.DOUBLE | NUMBER
-        ObjectType.DOUBLE | ObjectType.INTEGER
         DOUBLE  | LONG
-        DOUBLE  | ObjectType.LONG
-        ObjectType.DOUBLE | LONG
-        ObjectType.DOUBLE | ObjectType.LONG
         DOUBLE  | FLOAT
-        DOUBLE  | ObjectType.FLOAT
-        ObjectType.DOUBLE | FLOAT
-        ObjectType.DOUBLE | ObjectType.FLOAT
         DOUBLE  | DOUBLE
-        DOUBLE  | ObjectType.DOUBLE
-        ObjectType.DOUBLE | DOUBLE
-        ObjectType.DOUBLE | ObjectType.DOUBLE
         // Custom
         STRING | ObjectType.OBJECT
         ObjectType.OBJECT | STRING
-        ObjectType.OBJECT | ObjectType.STRING
-        ObjectType.OBJECT | STRING
-        ObjectType.OBJECT | ObjectType.STRING
         ObjectType.OBJECT | ObjectType.OBJECT
     }
 
@@ -246,133 +90,43 @@ class OperationUtilsTest extends Specification {
         a       | b
         // String
         STRING  | BYTE
-        STRING  | ObjectType.BYTE
-        ObjectType.STRING | BYTE
-        ObjectType.STRING | ObjectType.BYTE
         STRING  | SHORT
-        STRING  | ObjectType.SHORT
-        ObjectType.STRING | SHORT
-        ObjectType.STRING | ObjectType.SHORT
         STRING  | CHAR
-        STRING  | ObjectType.CHARACTER
-        ObjectType.STRING | CHAR
-        ObjectType.STRING | ObjectType.CHARACTER
         STRING  | NUMBER
-        STRING  | ObjectType.INTEGER
-        ObjectType.STRING | NUMBER
-        ObjectType.STRING | ObjectType.INTEGER
         STRING  | LONG
-        STRING  | ObjectType.LONG
-        ObjectType.STRING | LONG
-        ObjectType.STRING | ObjectType.LONG
         STRING  | FLOAT
-        STRING  | ObjectType.FLOAT
-        ObjectType.STRING | FLOAT
-        ObjectType.STRING | ObjectType.FLOAT
         STRING  | DOUBLE
-        STRING  | ObjectType.DOUBLE
-        ObjectType.STRING | DOUBLE
-        ObjectType.STRING | ObjectType.DOUBLE
         STRING  | BOOLEAN
-        STRING  | ObjectType.BOOLEAN
-        ObjectType.STRING | BOOLEAN
-        ObjectType.STRING | ObjectType.BOOLEAN
         // Boolean
         BOOLEAN | BYTE
-        BOOLEAN | ObjectType.BYTE
-        ObjectType.BOOLEAN | BYTE
-        ObjectType.BOOLEAN | ObjectType.BYTE
         BOOLEAN | SHORT
-        BOOLEAN | ObjectType.SHORT
-        ObjectType.BOOLEAN | SHORT
-        ObjectType.BOOLEAN | ObjectType.SHORT
         BOOLEAN | CHAR
-        BOOLEAN | ObjectType.CHARACTER
-        ObjectType.BOOLEAN | CHAR
-        ObjectType.BOOLEAN | ObjectType.CHARACTER
         BOOLEAN | NUMBER
-        BOOLEAN | ObjectType.INTEGER
-        ObjectType.BOOLEAN | NUMBER
-        ObjectType.BOOLEAN | ObjectType.INTEGER
         BOOLEAN | LONG
-        BOOLEAN | ObjectType.LONG
-        ObjectType.BOOLEAN | LONG
-        ObjectType.BOOLEAN | ObjectType.LONG
         BOOLEAN | FLOAT
-        BOOLEAN | ObjectType.FLOAT
-        ObjectType.BOOLEAN | FLOAT
-        ObjectType.BOOLEAN | ObjectType.FLOAT
         BOOLEAN | DOUBLE
-        BOOLEAN | ObjectType.DOUBLE
-        ObjectType.BOOLEAN | DOUBLE
-        ObjectType.BOOLEAN | ObjectType.DOUBLE
         BOOLEAN | STRING
-        BOOLEAN | ObjectType.STRING
-        ObjectType.BOOLEAN | STRING
-        ObjectType.BOOLEAN | ObjectType.STRING
         // Byte
         BYTE    | BOOLEAN
-        BYTE    | ObjectType.BOOLEAN
-        ObjectType.BYTE | BOOLEAN
-        ObjectType.BYTE | ObjectType.BOOLEAN
         BYTE    | STRING
-        BYTE    | ObjectType.STRING
-        ObjectType.BYTE | STRING
-        ObjectType.BYTE | ObjectType.STRING
         // Short
         SHORT   | BOOLEAN
-        SHORT   | ObjectType.BOOLEAN
-        ObjectType.SHORT | BOOLEAN
-        ObjectType.SHORT | ObjectType.BOOLEAN
         SHORT   | STRING
-        SHORT   | ObjectType.STRING
-        ObjectType.SHORT | STRING
-        ObjectType.SHORT | ObjectType.STRING
         // Char
         CHAR    | BOOLEAN
-        CHAR    | ObjectType.BOOLEAN
-        ObjectType.CHARACTER | BOOLEAN
-        ObjectType.CHARACTER | ObjectType.BOOLEAN
         CHAR    | STRING
-        CHAR    | ObjectType.STRING
-        ObjectType.CHARACTER | STRING
-        ObjectType.CHARACTER | ObjectType.STRING
         // Number
         NUMBER  | BOOLEAN
-        NUMBER  | ObjectType.BOOLEAN
-        ObjectType.INTEGER | BOOLEAN
-        ObjectType.INTEGER | ObjectType.BOOLEAN
         NUMBER  | STRING
-        NUMBER  | ObjectType.STRING
-        ObjectType.INTEGER | STRING
-        ObjectType.INTEGER | ObjectType.STRING
         // Long
         LONG    | BOOLEAN
-        LONG    | ObjectType.BOOLEAN
-        ObjectType.LONG | BOOLEAN
-        ObjectType.LONG | ObjectType.BOOLEAN
         LONG    | STRING
-        LONG    | ObjectType.STRING
-        ObjectType.LONG | STRING
-        ObjectType.LONG | ObjectType.STRING
         // Float
         FLOAT   | BOOLEAN
-        FLOAT   | ObjectType.BOOLEAN
-        ObjectType.FLOAT | BOOLEAN
-        ObjectType.FLOAT | ObjectType.BOOLEAN
         FLOAT   | STRING
-        FLOAT   | ObjectType.STRING
-        ObjectType.FLOAT | STRING
-        ObjectType.FLOAT | ObjectType.STRING
         // Double
         DOUBLE  | BOOLEAN
-        DOUBLE  | ObjectType.BOOLEAN
-        ObjectType.DOUBLE | BOOLEAN
-        ObjectType.DOUBLE | ObjectType.BOOLEAN
         DOUBLE  | STRING
-        DOUBLE  | ObjectType.STRING
-        ObjectType.DOUBLE | STRING
-        ObjectType.DOUBLE | ObjectType.STRING
     }
 
     def 'test execute binary comparison: #a * #b'() {
