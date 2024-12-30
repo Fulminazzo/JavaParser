@@ -89,6 +89,7 @@ class ClassTypeTest extends Specification {
             return type instanceof MockType
         }
 
+        @NotNull
         @Override
         Type toType() {
             return null
