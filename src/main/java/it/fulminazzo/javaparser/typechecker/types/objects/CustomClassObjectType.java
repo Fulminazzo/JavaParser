@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.typechecker.types.objects;
 
+import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import it.fulminazzo.javaparser.typechecker.types.ClassType;
 import it.fulminazzo.javaparser.typechecker.types.Type;
 import it.fulminazzo.javaparser.typechecker.types.TypeWrapper;
@@ -22,6 +23,14 @@ class CustomClassObjectType extends TypeWrapper implements ClassType {
     @Override
     public @NotNull Type toType() {
         return this.object;
+    }
+
+    @Override
+    public @NotNull Type cast(@NotNull Type type) {
+        ObjectType objectType = type.check(ObjectType.class);
+        if (toJavaClass().isAssignableFrom(objectType.getInnerClass()))
+            return ObjectType.of(toJavaClass());
+        else throw TypeCheckerException.invalidType(this, type);
     }
 
     @Override
