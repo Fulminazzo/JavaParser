@@ -103,16 +103,14 @@ public final class TypeChecker implements Visitor<Type> {
                 last.addFirst(first.removeLast());
 
                 tuple = getTypeFromLiteral(String.join(".", first));
-                if (tuple.isPresent()) {
+                if (tuple.isPresent())
                     try {
                         ClassType field = tuple.getKey().getField(last.removeFirst());
                         while (!last.isEmpty()) field = field.getField(last.removeFirst());
                         return field.toType();
                     } catch (TypeException e) {
-                        //TODO: proper exception
-                        throw new RuntimeException(e);
+                        throw TypeCheckerException.of(e);
                     }
-                }
             }
             //TODO: proper exception
             throw new RuntimeException();
