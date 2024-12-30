@@ -51,7 +51,7 @@ class TypeCheckerTest extends Specification {
 
         when:
         this.typeChecker.visitAssignment(literalType, literalName, val)
-        def value = this.typeChecker.environment.lookupInfo(name)
+        def value = this.typeChecker.environment.lookup(name)
 
         then:
         value == expected
