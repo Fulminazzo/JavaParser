@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.typechecker.types.objects;
 
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.fulmicollection.utils.StringUtils;
+import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import it.fulminazzo.javaparser.typechecker.types.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -73,7 +74,8 @@ public enum ClassObjectType implements ClassType {
         if (this != OBJECT) {
             Type valueType = this.associatedType == null ?
                     ValueType.valueOf(name()) : this.associatedType.toType();
-            type.check(valueType, ObjectType.of(toJavaClass()));
+            if (!type.is(valueType, ObjectType.of(toJavaClass())))
+                throw TypeCheckerException.invalidCast(this, type);
         }
         return toType();
     }
