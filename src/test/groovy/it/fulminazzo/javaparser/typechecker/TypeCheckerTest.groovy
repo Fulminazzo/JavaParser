@@ -455,81 +455,51 @@ class TypeCheckerTest extends Specification {
         target     | cast                    | expected
         // char
         CHAR_LIT   | Literal.of('byte')      | ValueType.BYTE
-        CHAR_LIT   | Literal.of('Byte')      | ObjectType.BYTE
+        CHAR_LIT   | Literal.of('short')     | ValueType.SHORT
         CHAR_LIT   | Literal.of('char')      | ValueType.CHAR
         CHAR_LIT   | Literal.of('Character') | ObjectType.CHARACTER
-        CHAR_LIT   | Literal.of('short')     | ValueType.SHORT
-        CHAR_LIT   | Literal.of('Short')     | ObjectType.SHORT
         CHAR_LIT   | Literal.of('int')       | ValueType.NUMBER
-        CHAR_LIT   | Literal.of('Integer')   | ObjectType.INTEGER
         CHAR_LIT   | Literal.of('long')      | ValueType.LONG
-        CHAR_LIT   | Literal.of('Long')      | ObjectType.LONG
         CHAR_LIT   | Literal.of('float')     | ValueType.FLOAT
-        CHAR_LIT   | Literal.of('Float')     | ObjectType.FLOAT
         CHAR_LIT   | Literal.of('double')    | ValueType.DOUBLE
-        CHAR_LIT   | Literal.of('Double')    | ObjectType.DOUBLE
         CHAR_LIT   | Literal.of('Object')    | ObjectType.OBJECT
         // number
         NUMBER_LIT | Literal.of('byte')      | ValueType.BYTE
-        NUMBER_LIT | Literal.of('Byte')      | ObjectType.BYTE
-        NUMBER_LIT | Literal.of('char')      | ValueType.CHAR
-        NUMBER_LIT | Literal.of('Character') | ObjectType.CHARACTER
         NUMBER_LIT | Literal.of('short')     | ValueType.SHORT
-        NUMBER_LIT | Literal.of('Short')     | ObjectType.SHORT
+        NUMBER_LIT | Literal.of('char')      | ValueType.CHAR
         NUMBER_LIT | Literal.of('int')       | ValueType.NUMBER
         NUMBER_LIT | Literal.of('Integer')   | ObjectType.INTEGER
         NUMBER_LIT | Literal.of('long')      | ValueType.LONG
-        NUMBER_LIT | Literal.of('Long')      | ObjectType.LONG
         NUMBER_LIT | Literal.of('float')     | ValueType.FLOAT
-        NUMBER_LIT | Literal.of('Float')     | ObjectType.FLOAT
         NUMBER_LIT | Literal.of('double')    | ValueType.DOUBLE
-        NUMBER_LIT | Literal.of('Double')    | ObjectType.DOUBLE
         NUMBER_LIT | Literal.of('Object')    | ObjectType.OBJECT
         // long
         LONG_LIT   | Literal.of('byte')      | ValueType.BYTE
-        LONG_LIT   | Literal.of('Byte')      | ObjectType.BYTE
-        LONG_LIT   | Literal.of('char')      | ValueType.CHAR
-        LONG_LIT   | Literal.of('Character') | ObjectType.CHARACTER
         LONG_LIT   | Literal.of('short')     | ValueType.SHORT
-        LONG_LIT   | Literal.of('Short')     | ObjectType.SHORT
+        LONG_LIT   | Literal.of('char')      | ValueType.CHAR
         LONG_LIT   | Literal.of('int')       | ValueType.NUMBER
-        LONG_LIT   | Literal.of('Integer')   | ObjectType.INTEGER
         LONG_LIT   | Literal.of('long')      | ValueType.LONG
         LONG_LIT   | Literal.of('Long')      | ObjectType.LONG
         LONG_LIT   | Literal.of('float')     | ValueType.FLOAT
-        LONG_LIT   | Literal.of('Float')     | ObjectType.FLOAT
         LONG_LIT   | Literal.of('double')    | ValueType.DOUBLE
-        LONG_LIT   | Literal.of('Double')    | ObjectType.DOUBLE
         LONG_LIT   | Literal.of('Object')    | ObjectType.OBJECT
         // float
         FLOAT_LIT  | Literal.of('byte')      | ValueType.BYTE
-        FLOAT_LIT  | Literal.of('Byte')      | ObjectType.BYTE
-        FLOAT_LIT  | Literal.of('char')      | ValueType.CHAR
-        FLOAT_LIT  | Literal.of('Character') | ObjectType.CHARACTER
         FLOAT_LIT  | Literal.of('short')     | ValueType.SHORT
-        FLOAT_LIT  | Literal.of('Short')     | ObjectType.SHORT
+        FLOAT_LIT  | Literal.of('char')      | ValueType.CHAR
         FLOAT_LIT  | Literal.of('int')       | ValueType.NUMBER
-        FLOAT_LIT  | Literal.of('Integer')   | ObjectType.INTEGER
         FLOAT_LIT  | Literal.of('long')      | ValueType.LONG
-        FLOAT_LIT  | Literal.of('Long')      | ObjectType.LONG
         FLOAT_LIT  | Literal.of('float')     | ValueType.FLOAT
         FLOAT_LIT  | Literal.of('Float')     | ObjectType.FLOAT
         FLOAT_LIT  | Literal.of('double')    | ValueType.DOUBLE
-        FLOAT_LIT  | Literal.of('Double')    | ObjectType.DOUBLE
         FLOAT_LIT  | Literal.of('Object')    | ObjectType.OBJECT
         // double
         DOUBLE_LIT | Literal.of('byte')      | ValueType.BYTE
-        DOUBLE_LIT | Literal.of('Byte')      | ObjectType.BYTE
-        DOUBLE_LIT | Literal.of('char')      | ValueType.CHAR
-        DOUBLE_LIT | Literal.of('Character') | ObjectType.CHARACTER
         DOUBLE_LIT | Literal.of('short')     | ValueType.SHORT
-        DOUBLE_LIT | Literal.of('Short')     | ObjectType.SHORT
+        DOUBLE_LIT | Literal.of('char')      | ValueType.CHAR
         DOUBLE_LIT | Literal.of('int')       | ValueType.NUMBER
-        DOUBLE_LIT | Literal.of('Integer')   | ObjectType.INTEGER
         DOUBLE_LIT | Literal.of('long')      | ValueType.LONG
-        DOUBLE_LIT | Literal.of('Long')      | ObjectType.LONG
         DOUBLE_LIT | Literal.of('float')     | ValueType.FLOAT
-        DOUBLE_LIT | Literal.of('Float')     | ObjectType.FLOAT
         DOUBLE_LIT | Literal.of('double')    | ValueType.DOUBLE
         DOUBLE_LIT | Literal.of('Double')    | ObjectType.DOUBLE
         DOUBLE_LIT | Literal.of('Object')    | ObjectType.OBJECT
