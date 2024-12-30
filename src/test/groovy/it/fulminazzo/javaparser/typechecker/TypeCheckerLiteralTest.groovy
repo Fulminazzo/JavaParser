@@ -10,16 +10,18 @@ import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
 
 class TypeCheckerLiteralTest extends Specification {
+    private TypeChecker checker
+
+    void setup() {
+        this.checker = new TypeChecker()
+    }
 
     def 'test visit literal from code #code should return #expected'() {
         given:
-        def checker = new TypeChecker()
-
-        and:
-        checker.environment.declare(ClassObjectType.INTEGER, 'var', ValueType.NUMBER)
+        this.checker.environment.declare(ClassObjectType.INTEGER, 'var', ValueType.NUMBER)
 
         when:
-        def read = checker.visitLiteralImpl(code)
+        def read = this.checker.visitLiteralImpl(code)
 
         then:
         read == expected
@@ -41,13 +43,10 @@ class TypeCheckerLiteralTest extends Specification {
 
     def 'test getTypeFromLiteral #literal'() {
         given:
-        def checker = new TypeChecker()
-
-        and:
-        checker.environment.declare(PrimitiveType.INT, 'i', ValueType.NUMBER)
+        this.checker.environment.declare(PrimitiveType.INT, 'i', ValueType.NUMBER)
 
         when:
-        def tuple = checker.getTypeFromLiteral(literal)
+        def tuple = this.checker.getTypeFromLiteral(literal)
 
         then:
         tuple == expected
