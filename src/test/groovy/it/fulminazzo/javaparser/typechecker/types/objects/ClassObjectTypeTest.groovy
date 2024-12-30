@@ -69,7 +69,8 @@ class ClassObjectTypeTest extends Specification {
         cast.cast(type)
 
         then:
-        thrown(TypeCheckerException)
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.invalidCast(cast, type).message
 
         where:
         cast                      | type
