@@ -1,7 +1,9 @@
 package it.fulminazzo.javaparser.typechecker
 
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
+import it.fulminazzo.javaparser.parser.node.container.JavaProgram
 import it.fulminazzo.javaparser.parser.node.literals.Literal
+import it.fulminazzo.javaparser.parser.node.statements.Break
 import it.fulminazzo.javaparser.parser.node.statements.IfStatement
 import it.fulminazzo.javaparser.parser.node.statements.Return
 import it.fulminazzo.javaparser.parser.node.statements.Statement
@@ -25,6 +27,19 @@ class TypeCheckerTest extends Specification {
 
     void setup() {
         this.typeChecker = new TypeChecker()
+    }
+
+    def 'test visit program #program should return #type'() {
+        given:
+        def actual = this.typeChecker.visitProgram(program)
+
+        expect:
+        actual == type
+
+        where:
+        type                          | program
+        Optional.of(ValueType.NUMBER) | new JavaProgram(new LinkedList<>([new Return(NUMBER_LIT)]))
+        Optional.empty()              | new JavaProgram(new LinkedList<>([new Break()]))
     }
 
     def 'test visit dynamic array'() {
