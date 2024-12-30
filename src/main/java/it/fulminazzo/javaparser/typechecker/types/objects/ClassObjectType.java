@@ -82,8 +82,8 @@ public enum ClassObjectType implements ClassType {
     @Override
     public @NotNull Type cast(@NotNull Type type) {
         switch (this) {
-            case BOOLEAN: return type.check(ValueType.BOOLEAN);
-            case STRING: return type.check(ValueType.STRING);
+            case BOOLEAN: return type.check(ValueType.BOOLEAN, ObjectType.BOOLEAN);
+            case STRING: return type.check(ValueType.STRING, ObjectType.BOOLEAN);
             default: return toType();
         }
     }
