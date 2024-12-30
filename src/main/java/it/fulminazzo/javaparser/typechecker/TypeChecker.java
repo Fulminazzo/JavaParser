@@ -275,7 +275,18 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitReAssign(@NotNull Node left, @NotNull Node right) {
-        return null;
+        try {
+            String variableName = ((Literal) left).getLiteral();
+            ClassType variableType = (ClassType) this.environment.lookupInfo(variableName);
+            Type variableValue = right.accept(this);
+            if (variableValue.isAssignableFrom(variableType)) {
+                variableValue = convertValue(variableType, variableValue);
+                this.environment.update(variableName, variableValue);
+                return variableType.toType();
+            } else throw TypeCheckerException.invalidType(variableType.toType(), variableValue);
+        } catch (ScopeException e) {
+            throw TypeCheckerException.of(e);
+        }
     }
 
     @Override
