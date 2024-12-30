@@ -17,10 +17,13 @@ import java.util.stream.Stream;
 public final class OperationUtils {
     private static final Type[] NON_DECIMAL_TYPES = new Type[]{
             ValueType.NUMBER, ValueType.BYTE, ValueType.SHORT,
-            ValueType.CHAR, ValueType.LONG
+            ValueType.CHAR, ValueType.LONG,
+            ObjectType.INTEGER, ObjectType.BYTE, ObjectType.SHORT,
+            ObjectType.CHARACTER, ObjectType.LONG
     };
     private static final Type[] DECIMAL_TYPES = new Type[]{
-            ValueType.DOUBLE, ValueType.FLOAT
+            ValueType.DOUBLE, ValueType.FLOAT,
+            ObjectType.DOUBLE, ObjectType.FLOAT,
     };
 
     /**
