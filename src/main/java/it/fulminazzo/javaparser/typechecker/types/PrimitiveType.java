@@ -57,10 +57,9 @@ public enum PrimitiveType implements ClassType {
     @Override
     public @NotNull Type toType() {
         switch (this) {
-            case BYTE:
-            case SHORT:
-            case INT:
-                return ValueType.NUMBER;
+            case BYTE: return ValueType.BYTE;
+            case SHORT: return ValueType.SHORT;
+            case INT: return ValueType.NUMBER;
             case CHAR: return ValueType.CHAR;
             case LONG: return ValueType.LONG;
             case FLOAT: return ValueType.FLOAT;

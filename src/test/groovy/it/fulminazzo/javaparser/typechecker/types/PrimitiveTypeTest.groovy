@@ -17,9 +17,9 @@ class PrimitiveTypeTest extends Specification {
 
         where:
         type                  | expected
-        PrimitiveType.BYTE    | NUMBER
+        PrimitiveType.BYTE    | BYTE
         PrimitiveType.CHAR    | CHAR
-        PrimitiveType.SHORT   | NUMBER
+        PrimitiveType.SHORT   | SHORT
         PrimitiveType.INT     | NUMBER
         PrimitiveType.LONG    | LONG
         PrimitiveType.FLOAT   | FLOAT
