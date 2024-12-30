@@ -1,12 +1,223 @@
 package it.fulminazzo.javaparser.typechecker.types.objects
 
-
 import it.fulminazzo.fulmicollection.utils.StringUtils
+import it.fulminazzo.javaparser.typechecker.TypeCheckerException
 import spock.lang.Specification
 
 import static it.fulminazzo.javaparser.typechecker.types.ValueType.*
 
 class ClassObjectTypeTest extends Specification {
+
+    def 'test cast of #cast to #type should return #cast'() {
+        when:
+        def actual = cast.cast(type)
+
+        then:
+        actual == cast.toType()
+
+        where:
+        cast                      | type
+        // Byte
+        ClassObjectType.BYTE      | NUMBER
+        ClassObjectType.BYTE      | ObjectType.BYTE
+        // Character
+        ClassObjectType.CHARACTER | CHAR
+        ClassObjectType.CHARACTER | ObjectType.CHARACTER
+        // Short
+        ClassObjectType.SHORT     | NUMBER
+        ClassObjectType.SHORT     | ObjectType.SHORT
+        // Integer
+        ClassObjectType.INTEGER   | NUMBER
+        ClassObjectType.INTEGER   | ObjectType.INTEGER
+        // Long
+        ClassObjectType.LONG      | LONG
+        ClassObjectType.LONG      | ObjectType.LONG
+        // Float
+        ClassObjectType.FLOAT     | FLOAT
+        ClassObjectType.FLOAT     | ObjectType.FLOAT
+        // Double
+        ClassObjectType.DOUBLE    | DOUBLE
+        ClassObjectType.DOUBLE    | ObjectType.DOUBLE
+        // Boolean
+        ClassObjectType.BOOLEAN   | BOOLEAN
+        ClassObjectType.BOOLEAN   | ObjectType.BOOLEAN
+        // String
+        ClassObjectType.STRING    | STRING
+        ClassObjectType.STRING    | ObjectType.STRING
+        // Object
+        ClassObjectType.OBJECT    | NUMBER
+        ClassObjectType.OBJECT    | ObjectType.BYTE
+        ClassObjectType.OBJECT    | ObjectType.SHORT
+        ClassObjectType.OBJECT    | ObjectType.INTEGER
+        ClassObjectType.OBJECT    | CHAR
+        ClassObjectType.OBJECT    | ObjectType.CHARACTER
+        ClassObjectType.OBJECT    | LONG
+        ClassObjectType.OBJECT    | ObjectType.LONG
+        ClassObjectType.OBJECT    | FLOAT
+        ClassObjectType.OBJECT    | ObjectType.FLOAT
+        ClassObjectType.OBJECT    | DOUBLE
+        ClassObjectType.OBJECT    | ObjectType.DOUBLE
+        ClassObjectType.OBJECT    | BOOLEAN
+        ClassObjectType.OBJECT    | ObjectType.BOOLEAN
+        ClassObjectType.OBJECT    | STRING
+        ClassObjectType.OBJECT    | ObjectType.STRING
+        ClassObjectType.OBJECT    | ObjectType.OBJECT
+    }
+
+    def 'test invalid cast of #cast to #type'() {
+        when:
+        cast.cast(type)
+
+        then:
+        thrown(TypeCheckerException)
+
+        where:
+        cast                      | type
+        // Byte
+        ClassObjectType.BYTE      | ObjectType.SHORT
+        ClassObjectType.BYTE      | ObjectType.INTEGER
+        ClassObjectType.BYTE      | CHAR
+        ClassObjectType.BYTE      | ObjectType.CHARACTER
+        ClassObjectType.BYTE      | LONG
+        ClassObjectType.BYTE      | ObjectType.LONG
+        ClassObjectType.BYTE      | FLOAT
+        ClassObjectType.BYTE      | ObjectType.FLOAT
+        ClassObjectType.BYTE      | DOUBLE
+        ClassObjectType.BYTE      | ObjectType.DOUBLE
+        ClassObjectType.BYTE      | BOOLEAN
+        ClassObjectType.BYTE      | ObjectType.BOOLEAN
+        ClassObjectType.BYTE      | STRING
+        ClassObjectType.BYTE      | ObjectType.STRING
+        ClassObjectType.BYTE      | ObjectType.OBJECT
+        // Character
+        ClassObjectType.CHARACTER | NUMBER
+        ClassObjectType.CHARACTER | ObjectType.BYTE
+        ClassObjectType.CHARACTER | ObjectType.SHORT
+        ClassObjectType.CHARACTER | ObjectType.INTEGER
+        ClassObjectType.CHARACTER | LONG
+        ClassObjectType.CHARACTER | ObjectType.LONG
+        ClassObjectType.CHARACTER | FLOAT
+        ClassObjectType.CHARACTER | ObjectType.FLOAT
+        ClassObjectType.CHARACTER | DOUBLE
+        ClassObjectType.CHARACTER | ObjectType.DOUBLE
+        ClassObjectType.CHARACTER | BOOLEAN
+        ClassObjectType.CHARACTER | ObjectType.BOOLEAN
+        ClassObjectType.CHARACTER | STRING
+        ClassObjectType.CHARACTER | ObjectType.STRING
+        ClassObjectType.CHARACTER | ObjectType.OBJECT
+        // Short
+        ClassObjectType.SHORT     | ObjectType.BYTE
+        ClassObjectType.SHORT     | ObjectType.INTEGER
+        ClassObjectType.SHORT     | CHAR
+        ClassObjectType.SHORT     | ObjectType.CHARACTER
+        ClassObjectType.SHORT     | LONG
+        ClassObjectType.SHORT     | ObjectType.LONG
+        ClassObjectType.SHORT     | FLOAT
+        ClassObjectType.SHORT     | ObjectType.FLOAT
+        ClassObjectType.SHORT     | DOUBLE
+        ClassObjectType.SHORT     | ObjectType.DOUBLE
+        ClassObjectType.SHORT     | BOOLEAN
+        ClassObjectType.SHORT     | ObjectType.BOOLEAN
+        ClassObjectType.SHORT     | STRING
+        ClassObjectType.SHORT     | ObjectType.STRING
+        ClassObjectType.SHORT     | ObjectType.OBJECT
+        // Integer
+        ClassObjectType.INTEGER   | ObjectType.BYTE
+        ClassObjectType.INTEGER   | ObjectType.SHORT
+        ClassObjectType.INTEGER   | CHAR
+        ClassObjectType.INTEGER   | ObjectType.CHARACTER
+        ClassObjectType.INTEGER   | LONG
+        ClassObjectType.INTEGER   | ObjectType.LONG
+        ClassObjectType.INTEGER   | FLOAT
+        ClassObjectType.INTEGER   | ObjectType.FLOAT
+        ClassObjectType.INTEGER   | DOUBLE
+        ClassObjectType.INTEGER   | ObjectType.DOUBLE
+        ClassObjectType.INTEGER   | BOOLEAN
+        ClassObjectType.INTEGER   | ObjectType.BOOLEAN
+        ClassObjectType.INTEGER   | STRING
+        ClassObjectType.INTEGER   | ObjectType.STRING
+        ClassObjectType.INTEGER   | ObjectType.OBJECT
+        // Long
+        ClassObjectType.LONG      | NUMBER
+        ClassObjectType.LONG      | ObjectType.BYTE
+        ClassObjectType.LONG      | ObjectType.SHORT
+        ClassObjectType.LONG      | ObjectType.INTEGER
+        ClassObjectType.LONG      | CHAR
+        ClassObjectType.LONG      | ObjectType.CHARACTER
+        ClassObjectType.LONG      | FLOAT
+        ClassObjectType.LONG      | ObjectType.FLOAT
+        ClassObjectType.LONG      | DOUBLE
+        ClassObjectType.LONG      | ObjectType.DOUBLE
+        ClassObjectType.LONG      | BOOLEAN
+        ClassObjectType.LONG      | ObjectType.BOOLEAN
+        ClassObjectType.LONG      | STRING
+        ClassObjectType.LONG      | ObjectType.STRING
+        ClassObjectType.LONG      | ObjectType.OBJECT
+        // Float
+        ClassObjectType.FLOAT     | NUMBER
+        ClassObjectType.FLOAT     | ObjectType.BYTE
+        ClassObjectType.FLOAT     | ObjectType.SHORT
+        ClassObjectType.FLOAT     | ObjectType.INTEGER
+        ClassObjectType.FLOAT     | CHAR
+        ClassObjectType.FLOAT     | ObjectType.CHARACTER
+        ClassObjectType.FLOAT     | LONG
+        ClassObjectType.FLOAT     | ObjectType.LONG
+        ClassObjectType.FLOAT     | DOUBLE
+        ClassObjectType.FLOAT     | ObjectType.DOUBLE
+        ClassObjectType.FLOAT     | BOOLEAN
+        ClassObjectType.FLOAT     | ObjectType.BOOLEAN
+        ClassObjectType.FLOAT     | STRING
+        ClassObjectType.FLOAT     | ObjectType.STRING
+        ClassObjectType.FLOAT     | ObjectType.OBJECT
+        // Double
+        ClassObjectType.DOUBLE    | NUMBER
+        ClassObjectType.DOUBLE    | ObjectType.BYTE
+        ClassObjectType.DOUBLE    | ObjectType.SHORT
+        ClassObjectType.DOUBLE    | ObjectType.INTEGER
+        ClassObjectType.DOUBLE    | CHAR
+        ClassObjectType.DOUBLE    | ObjectType.CHARACTER
+        ClassObjectType.DOUBLE    | LONG
+        ClassObjectType.DOUBLE    | ObjectType.LONG
+        ClassObjectType.DOUBLE    | FLOAT
+        ClassObjectType.DOUBLE    | ObjectType.FLOAT
+        ClassObjectType.DOUBLE    | BOOLEAN
+        ClassObjectType.DOUBLE    | ObjectType.BOOLEAN
+        ClassObjectType.DOUBLE    | STRING
+        ClassObjectType.DOUBLE    | ObjectType.STRING
+        ClassObjectType.DOUBLE    | ObjectType.OBJECT
+        // Boolean
+        ClassObjectType.BOOLEAN   | NUMBER
+        ClassObjectType.BOOLEAN   | ObjectType.BYTE
+        ClassObjectType.BOOLEAN   | ObjectType.SHORT
+        ClassObjectType.BOOLEAN   | ObjectType.INTEGER
+        ClassObjectType.BOOLEAN   | CHAR
+        ClassObjectType.BOOLEAN   | ObjectType.CHARACTER
+        ClassObjectType.BOOLEAN   | LONG
+        ClassObjectType.BOOLEAN   | ObjectType.LONG
+        ClassObjectType.BOOLEAN   | FLOAT
+        ClassObjectType.BOOLEAN   | ObjectType.FLOAT
+        ClassObjectType.BOOLEAN   | DOUBLE
+        ClassObjectType.BOOLEAN   | ObjectType.DOUBLE
+        ClassObjectType.BOOLEAN   | STRING
+        ClassObjectType.BOOLEAN   | ObjectType.STRING
+        ClassObjectType.BOOLEAN   | ObjectType.OBJECT
+        // String
+        ClassObjectType.STRING    | NUMBER
+        ClassObjectType.STRING    | ObjectType.BYTE
+        ClassObjectType.STRING    | ObjectType.SHORT
+        ClassObjectType.STRING    | ObjectType.INTEGER
+        ClassObjectType.STRING    | CHAR
+        ClassObjectType.STRING    | ObjectType.CHARACTER
+        ClassObjectType.STRING    | LONG
+        ClassObjectType.STRING    | ObjectType.LONG
+        ClassObjectType.STRING    | FLOAT
+        ClassObjectType.STRING    | ObjectType.FLOAT
+        ClassObjectType.STRING    | DOUBLE
+        ClassObjectType.STRING    | ObjectType.DOUBLE
+        ClassObjectType.STRING    | BOOLEAN
+        ClassObjectType.STRING    | ObjectType.BOOLEAN
+        ClassObjectType.STRING    | ObjectType.OBJECT
+    }
 
     def 'test #type toType should return #expected'() {
         given:
