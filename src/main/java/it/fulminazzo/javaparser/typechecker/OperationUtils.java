@@ -15,7 +15,8 @@ import java.util.stream.Stream;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class OperationUtils {
     private static final Type[] NON_DECIMAL_TYPES = new Type[]{
-            ValueType.NUMBER, ValueType.CHAR, ValueType.LONG
+            ValueType.NUMBER, ValueType.BYTE, ValueType.SHORT,
+            ValueType.CHAR, ValueType.LONG
     };
     private static final Type[] DECIMAL_TYPES = new Type[]{
             ValueType.DOUBLE, ValueType.FLOAT
