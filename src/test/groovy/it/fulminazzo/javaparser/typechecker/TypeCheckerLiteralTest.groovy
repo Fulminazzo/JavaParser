@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.typechecker
 
+import it.fulminazzo.fulmicollection.structures.tuples.Tuple
 import it.fulminazzo.javaparser.typechecker.types.ClassType
 import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
 import it.fulminazzo.javaparser.typechecker.types.ValueType
@@ -37,6 +38,26 @@ class TypeCheckerLiteralTest extends Specification {
         "${FirstInnerClass.canonicalName}.second.version"           | ValueType.NUMBER
         "${FirstInnerClass.SecondInnerClass.canonicalName}"         | ClassType.of(FirstInnerClass.SecondInnerClass.canonicalName)
         "${FirstInnerClass.SecondInnerClass.canonicalName}.version" | ValueType.NUMBER
+    }
+
+    def 'test getTypeFromLiteral #literal'() {
+        given:
+        def checker = new TypeChecker()
+
+        and:
+        checker.environment.declare(PrimitiveType.INT, 'i', ValueType.NUMBER)
+
+        when:
+        def tuple = checker.getTypeFromLiteral(literal)
+
+        then:
+        tuple == expected
+
+        where:
+        literal   | expected
+        'int'     | new Tuple<>(PrimitiveType.INT, PrimitiveType.INT)
+        'i'       | new Tuple<>(PrimitiveType.INT, ValueType.NUMBER)
+        'invalid' | new Tuple<>()
     }
 
     static class FirstInnerClass {
