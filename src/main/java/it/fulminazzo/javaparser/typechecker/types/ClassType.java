@@ -47,4 +47,19 @@ public interface ClassType extends Type, Info {
         return ClassObjectType.of(className);
     }
 
+    /**
+     * Gets a new {@link ClassType} from the given class.
+     * Tries first to obtain from {@link PrimitiveType}.
+     * If it fails, uses the fields of {@link ClassObjectType}.
+     * Otherwise, a new type is created.
+     *
+     * @param clazz the class
+     * @return the class type
+     */
+    static @NotNull ClassType of(final @NotNull Class<?> clazz) throws TypeException {
+        for (PrimitiveType type : PrimitiveType.values())
+            if (type.toJavaClass().equals(clazz)) return type;
+        return ClassObjectType.of(clazz);
+    }
+
 }
