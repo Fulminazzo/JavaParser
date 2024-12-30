@@ -25,7 +25,7 @@ public class TypeException extends Exception {
      * @param clazz the clazz
      * @return the type exception
      */
-    public static TypeException classNotFound(final @NotNull String clazz) {
+    public static @NotNull TypeException classNotFound(final @NotNull String clazz) {
         return new TypeException("Could not find class: " + clazz);
     }
 
@@ -36,7 +36,7 @@ public class TypeException extends Exception {
      * @param field the field
      * @return the type exception
      */
-    public static TypeException fieldNotFound(final @NotNull String field) {
+    public static @NotNull TypeException fieldNotFound(final @NotNull String field) {
         return new TypeException("Could not find field: " + field);
     }
 
@@ -47,7 +47,7 @@ public class TypeException extends Exception {
      * @param field the field
      * @return the type exception
      */
-    public static TypeException cannotAccessField(final @NotNull Field field) {
+    public static @NotNull TypeException cannotAccessField(final @NotNull Field field) {
         return new TypeException(String.format("Cannot access field %s with access level: %s",
                 field.getName(), field.getModifiers()));
     }
