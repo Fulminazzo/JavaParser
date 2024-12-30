@@ -62,6 +62,12 @@ public enum PrimitiveType implements ClassType {
     }
 
     @Override
+    public @NotNull Type cast(@NotNull Type type) {
+        if (this == BOOLEAN) return type.check(BOOLEAN);
+        else return toType();
+    }
+
+    @Override
     public @NotNull Class<?> toJavaClass() {
         switch (this) {
             case BYTE: return byte.class;
