@@ -20,17 +20,31 @@ class TypeTest extends Specification {
         where:
         obj << [
                 ValueType.values(),
+                ValueType.values(),
+                PrimitiveType.values(),
+                PrimitiveType.values(),
                 PrimitiveType.values(),
                 ObjectType.OBJECT,
+                ObjectType.OBJECT,
                 ClassObjectType.values(),
+                ClassObjectType.values(),
+                ClassObjectType.values(),
+                ClassObjectType.of(TestClass),
                 ClassObjectType.of(TestClass)
         ].flatten()
         clazz << [
                 ValueType.values().collect { ValueType },
+                ValueType.values().collect { Type },
                 PrimitiveType.values().collect { PrimitiveType },
+                PrimitiveType.values().collect { ClassType },
+                PrimitiveType.values().collect { Type },
                 ObjectType,
+                Type,
                 ClassObjectType.values().collect { ClassObjectType },
-                ClassType
+                ClassObjectType.values().collect { ClassType },
+                ClassObjectType.values().collect { Type },
+                ClassType,
+                Type
         ].flatten()
     }
 
