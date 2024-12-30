@@ -72,6 +72,7 @@ public class TypeCheckerException extends RuntimeException {
      * Generates a {@link TypeCheckerException} with message:
      * <i>Cannot resolve symbol '%symbol%'</i>
      *
+     * @param symbol the symbol
      * @return the type exception
      */
     public static @NotNull TypeCheckerException cannotResolveSymbol(final @NotNull String symbol) {
@@ -82,6 +83,7 @@ public class TypeCheckerException extends RuntimeException {
      * Generates a {@link TypeCheckerException} with message:
      * <i>Invalid array size '%size%' specified: natural number required</i>
      *
+     * @param size the size
      * @return the type exception
      */
     public static @NotNull TypeCheckerException invalidArraySize(final int size) {
