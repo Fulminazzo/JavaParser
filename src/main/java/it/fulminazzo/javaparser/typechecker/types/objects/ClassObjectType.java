@@ -130,5 +130,6 @@ public enum ClassObjectType implements ClassType {
             return new CustomClassObjectType(type);
         }
     }
+
 }
 
