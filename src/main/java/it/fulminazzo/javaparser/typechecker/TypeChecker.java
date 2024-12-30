@@ -12,6 +12,7 @@ import it.fulminazzo.javaparser.typechecker.types.ClassType;
 import it.fulminazzo.javaparser.typechecker.types.LiteralType;
 import it.fulminazzo.javaparser.typechecker.types.Type;
 import it.fulminazzo.javaparser.typechecker.types.TypeException;
+import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayClassType;
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayType;
 import it.fulminazzo.javaparser.visitors.Visitor;
 import org.jetbrains.annotations.NotNull;
@@ -82,8 +83,7 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitArrayLiteral(@NotNull Node type) {
-        // TODO:
-        return null;
+        return new ArrayClassType(type.accept(this).check(ClassType.class));
     }
 
     @Override

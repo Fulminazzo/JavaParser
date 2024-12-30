@@ -1,15 +1,11 @@
 package it.fulminazzo.javaparser.typechecker
 
+
 import it.fulminazzo.javaparser.parser.node.literals.Literal
-import it.fulminazzo.javaparser.parser.node.values.BooleanValueLiteral
-import it.fulminazzo.javaparser.parser.node.values.CharValueLiteral
-import it.fulminazzo.javaparser.parser.node.values.DoubleValueLiteral
-import it.fulminazzo.javaparser.parser.node.values.FloatValueLiteral
-import it.fulminazzo.javaparser.parser.node.values.LongValueLiteral
-import it.fulminazzo.javaparser.parser.node.values.NumberValueLiteral
-import it.fulminazzo.javaparser.parser.node.values.StringValueLiteral
+import it.fulminazzo.javaparser.parser.node.values.*
 import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
 import it.fulminazzo.javaparser.typechecker.types.ValueType
+import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayClassType
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayType
 import spock.lang.Specification
 
@@ -66,6 +62,14 @@ class TypeCheckerTest extends Specification {
         then:
         def e = thrown(TypeCheckerException)
         e.message == TypeCheckerException.invalidArraySize(-1).message
+    }
+
+    def 'visit array literal'() {
+        when:
+        def type = this.typeChecker.visitArrayLiteral(Literal.of('int'))
+
+        then:
+        type == new ArrayClassType(PrimitiveType.INT)
     }
 
     def 'test decrement for #literal should return #expected'() {
