@@ -112,8 +112,7 @@ public final class TypeChecker implements Visitor<Type> {
                         throw TypeCheckerException.of(e);
                     }
             }
-            //TODO: proper exception
-            throw new RuntimeException();
+            throw TypeCheckerException.cannotResolveSymbol(value);
         } else {
             if (tuple.isPresent()) return tuple.getValue();
             else return new LiteralType(value);
