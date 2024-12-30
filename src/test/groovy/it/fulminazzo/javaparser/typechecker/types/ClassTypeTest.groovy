@@ -10,6 +10,14 @@ import java.lang.reflect.Method
 
 class ClassTypeTest extends Specification {
 
+    def 'test method #toClassType should always return a wrapper for java.lang.Class'() {
+        given:
+        def classType = new MockClassType().toClassType()
+
+        expect:
+        classType == ClassObjectType.of(Class)
+    }
+
     def 'test of #className should return #expected'() {
         given:
         def type = ClassType.of(className)
