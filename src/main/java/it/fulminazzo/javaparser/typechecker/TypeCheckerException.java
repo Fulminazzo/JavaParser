@@ -18,7 +18,8 @@ public class TypeCheckerException extends RuntimeException {
     }
 
     /**
-     * Generates a new exception with an invalid type related message.
+     * Generates a new exception with message:
+     * <i>Invalid type received: expected %expected% but got %actual% instead.</i>
      *
      * @param expected the expected type
      * @param actual   the actual type
