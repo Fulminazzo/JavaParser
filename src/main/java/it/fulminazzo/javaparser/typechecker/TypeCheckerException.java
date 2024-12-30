@@ -78,4 +78,14 @@ public class TypeCheckerException extends RuntimeException {
         return new TypeCheckerException("Cannot resolve symbol '%s'", symbol);
     }
 
+    /**
+     * Generates a {@link TypeCheckerException} with message:
+     * <i>Invalid array size '%size%' specified: natural number required</i>
+     *
+     * @return the type exception
+     */
+    public static @NotNull TypeCheckerException invalidArraySize(final int size) {
+        return new TypeCheckerException("Invalid array size '%s' specified: natural number required", size);
+    }
+
 }
