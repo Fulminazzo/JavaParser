@@ -54,7 +54,7 @@ class ObjectTypeTest extends Specification {
     def 'test of method invalid class'() {
         when:
         def className = 'unknown'
-        def type = ObjectType.of(className)
+        ObjectType.of(className)
 
         then:
         def ex = thrown(TypeException)
