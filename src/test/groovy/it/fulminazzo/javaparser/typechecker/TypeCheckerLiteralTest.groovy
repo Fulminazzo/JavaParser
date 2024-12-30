@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.typechecker
 
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple
 import it.fulminazzo.javaparser.typechecker.types.ClassType
+import it.fulminazzo.javaparser.typechecker.types.LiteralType
 import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
 import it.fulminazzo.javaparser.typechecker.types.ValueType
 import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType
@@ -25,6 +26,7 @@ class TypeCheckerLiteralTest extends Specification {
 
         where:
         code                                                        | expected
+        'val'                                                       | new LiteralType('val')
         'int'                                                       | PrimitiveType.INT
         'String'                                                    | ClassObjectType.STRING
         'System'                                                    | ClassType.of('System')
