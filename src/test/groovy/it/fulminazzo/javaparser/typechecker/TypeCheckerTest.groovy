@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.typechecker
 
+import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.values.BooleanValueLiteral
 import it.fulminazzo.javaparser.parser.node.values.CharValueLiteral
 import it.fulminazzo.javaparser.parser.node.values.DoubleValueLiteral
@@ -7,7 +8,9 @@ import it.fulminazzo.javaparser.parser.node.values.FloatValueLiteral
 import it.fulminazzo.javaparser.parser.node.values.LongValueLiteral
 import it.fulminazzo.javaparser.parser.node.values.NumberValueLiteral
 import it.fulminazzo.javaparser.parser.node.values.StringValueLiteral
+import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
 import it.fulminazzo.javaparser.typechecker.types.ValueType
+import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayType
 import spock.lang.Specification
 
 class TypeCheckerTest extends Specification {
@@ -23,6 +26,34 @@ class TypeCheckerTest extends Specification {
 
     void setup() {
         this.typeChecker = new TypeChecker()
+    }
+
+    def 'test visit dynamic array'() {
+        given:
+        def type = this.typeChecker.visitDynamicArray(
+                Arrays.asList(BOOL_LIT, BOOL_LIT),
+                Literal.of('boolean')
+        )
+
+        and:
+        def expected = new ArrayType(PrimitiveType.BOOLEAN)
+
+        expect:
+        type == expected
+    }
+
+    def 'test visit static array'() {
+        given:
+        def type = this.typeChecker.visitStaticArray(
+                1,
+                Literal.of('boolean')
+        )
+
+        and:
+        def expected = new ArrayType(PrimitiveType.BOOLEAN)
+
+        expect:
+        type == expected
     }
 
     def 'test decrement for #literal should return #expected'() {
