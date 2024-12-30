@@ -459,8 +459,8 @@ class TypeCheckerTest extends Specification {
         CHAR_LIT   | Literal.of('Character') | ValueType.CHAR
         CHAR_LIT   | Literal.of('short')     | ValueType.NUMBER
         CHAR_LIT   | Literal.of('Short')     | ValueType.NUMBER
+        CHAR_LIT   | Literal.of('int')       | ValueType.NUMBER
         CHAR_LIT   | Literal.of('Integer')   | ValueType.NUMBER
-        CHAR_LIT   | Literal.of('Int')       | ValueType.NUMBER
         CHAR_LIT   | Literal.of('long')      | ValueType.LONG
         CHAR_LIT   | Literal.of('Long')      | ValueType.LONG
         CHAR_LIT   | Literal.of('float')     | ValueType.FLOAT
@@ -475,8 +475,8 @@ class TypeCheckerTest extends Specification {
         NUMBER_LIT | Literal.of('Character') | ValueType.CHAR
         NUMBER_LIT | Literal.of('short')     | ValueType.NUMBER
         NUMBER_LIT | Literal.of('Short')     | ValueType.NUMBER
+        NUMBER_LIT | Literal.of('int')       | ValueType.NUMBER
         NUMBER_LIT | Literal.of('Integer')   | ValueType.NUMBER
-        NUMBER_LIT | Literal.of('Int')       | ValueType.NUMBER
         NUMBER_LIT | Literal.of('long')      | ValueType.LONG
         NUMBER_LIT | Literal.of('Long')      | ValueType.LONG
         NUMBER_LIT | Literal.of('float')     | ValueType.FLOAT
@@ -491,8 +491,8 @@ class TypeCheckerTest extends Specification {
         LONG_LIT   | Literal.of('Character') | ValueType.CHAR
         LONG_LIT   | Literal.of('short')     | ValueType.NUMBER
         LONG_LIT   | Literal.of('Short')     | ValueType.NUMBER
+        LONG_LIT   | Literal.of('int')       | ValueType.NUMBER
         LONG_LIT   | Literal.of('Integer')   | ValueType.NUMBER
-        LONG_LIT   | Literal.of('Int')       | ValueType.NUMBER
         LONG_LIT   | Literal.of('long')      | ValueType.LONG
         LONG_LIT   | Literal.of('Long')      | ValueType.LONG
         LONG_LIT   | Literal.of('float')     | ValueType.FLOAT
@@ -507,8 +507,8 @@ class TypeCheckerTest extends Specification {
         FLOAT_LIT  | Literal.of('Character') | ValueType.CHAR
         FLOAT_LIT  | Literal.of('short')     | ValueType.NUMBER
         FLOAT_LIT  | Literal.of('Short')     | ValueType.NUMBER
+        FLOAT_LIT  | Literal.of('int')       | ValueType.NUMBER
         FLOAT_LIT  | Literal.of('Integer')   | ValueType.NUMBER
-        FLOAT_LIT  | Literal.of('Int')       | ValueType.NUMBER
         FLOAT_LIT  | Literal.of('long')      | ValueType.LONG
         FLOAT_LIT  | Literal.of('Long')      | ValueType.LONG
         FLOAT_LIT  | Literal.of('float')     | ValueType.FLOAT
@@ -523,8 +523,8 @@ class TypeCheckerTest extends Specification {
         DOUBLE_LIT | Literal.of('Character') | ValueType.CHAR
         DOUBLE_LIT | Literal.of('short')     | ValueType.NUMBER
         DOUBLE_LIT | Literal.of('Short')     | ValueType.NUMBER
+        DOUBLE_LIT | Literal.of('int')       | ValueType.NUMBER
         DOUBLE_LIT | Literal.of('Integer')   | ValueType.NUMBER
-        DOUBLE_LIT | Literal.of('Int')       | ValueType.NUMBER
         DOUBLE_LIT | Literal.of('long')      | ValueType.LONG
         DOUBLE_LIT | Literal.of('Long')      | ValueType.LONG
         DOUBLE_LIT | Literal.of('float')     | ValueType.FLOAT
