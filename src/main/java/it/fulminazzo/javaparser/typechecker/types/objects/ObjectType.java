@@ -87,7 +87,7 @@ public final class ObjectType extends ObjectWrapper<Class<?>> implements Type {
                     return ReflectionUtils.getClass(name);
                 } catch (IllegalArgumentException ignored) {}
             }
-            throw new TypeException("Could not find class " + className);
+            throw TypeException.classNotFound(className);
         }
     }
 
