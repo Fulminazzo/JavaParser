@@ -27,4 +27,15 @@ public class TypeException extends Exception {
         return new TypeException("Could not find class: " + clazz);
     }
 
+    /**
+     * Generates a {@link TypeException} with message:
+     * <i>Could not find field %field%</i>
+     *
+     * @param field the field
+     * @return the type exception
+     */
+    public static TypeException fieldNotFound(final @NotNull String field) {
+        return new TypeException("Could not find field: " + field);
+    }
+
 }
