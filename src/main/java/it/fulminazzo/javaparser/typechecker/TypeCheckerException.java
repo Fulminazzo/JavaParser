@@ -59,16 +59,16 @@ public class TypeCheckerException extends RuntimeException {
 
     /**
      * Generates a {@link TypeCheckerException} with message:
-     * <i>Inconvertible types: cannot cast '%actual%' to '%expected%'</i>
+     * <i>Inconvertible types: cannot cast '%objectType%' to '%classToCast%'</i>
      *
-     * @param expected the expected type
-     * @param actual   the actual type
+     * @param classToCast the expected type
+     * @param objectType  the actual type
      * @return the type checker exception
      */
-    public static @NotNull TypeCheckerException invalidCast(final @NotNull Type expected,
-                                                            final @NotNull Type actual) {
+    public static @NotNull TypeCheckerException invalidCast(final @NotNull ClassType classToCast,
+                                                            final @NotNull Type objectType) {
         return new TypeCheckerException("Inconvertible types: cannot cast '%s' to '%s'",
-                actual, expected);
+                objectType, classToCast);
     }
 
     /**
