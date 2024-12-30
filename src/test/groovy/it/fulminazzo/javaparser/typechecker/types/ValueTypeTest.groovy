@@ -16,9 +16,9 @@ class ValueTypeTest extends Specification {
 
         where:
         type    | expected
-        CHAR    | PrimitiveType.CHAR
         BYTE    | PrimitiveType.BYTE
         SHORT   | PrimitiveType.SHORT
+        CHAR    | PrimitiveType.CHAR
         NUMBER  | PrimitiveType.INT
         LONG    | PrimitiveType.LONG
         FLOAT   | PrimitiveType.FLOAT

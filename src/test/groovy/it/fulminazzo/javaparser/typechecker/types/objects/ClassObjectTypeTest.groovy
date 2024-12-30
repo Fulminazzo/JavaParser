@@ -20,12 +20,12 @@ class ClassObjectTypeTest extends Specification {
         // Byte
         ClassObjectType.BYTE      | BYTE
         ClassObjectType.BYTE      | ObjectType.BYTE
-        // Character
-        ClassObjectType.CHARACTER | CHAR
-        ClassObjectType.CHARACTER | ObjectType.CHARACTER
         // Short
         ClassObjectType.SHORT     | SHORT
         ClassObjectType.SHORT     | ObjectType.SHORT
+        // Character
+        ClassObjectType.CHARACTER | CHAR
+        ClassObjectType.CHARACTER | ObjectType.CHARACTER
         // Integer
         ClassObjectType.INTEGER   | NUMBER
         ClassObjectType.INTEGER   | ObjectType.INTEGER
@@ -76,10 +76,10 @@ class ClassObjectTypeTest extends Specification {
         // Byte
         ClassObjectType.BYTE      | SHORT
         ClassObjectType.BYTE      | ObjectType.SHORT
-        ClassObjectType.BYTE      | NUMBER
-        ClassObjectType.BYTE      | ObjectType.INTEGER
         ClassObjectType.BYTE      | CHAR
         ClassObjectType.BYTE      | ObjectType.CHARACTER
+        ClassObjectType.BYTE      | NUMBER
+        ClassObjectType.BYTE      | ObjectType.INTEGER
         ClassObjectType.BYTE      | LONG
         ClassObjectType.BYTE      | ObjectType.LONG
         ClassObjectType.BYTE      | FLOAT
@@ -91,6 +91,24 @@ class ClassObjectTypeTest extends Specification {
         ClassObjectType.BYTE      | STRING
         ClassObjectType.BYTE      | ObjectType.STRING
         ClassObjectType.BYTE      | ObjectType.OBJECT
+        // Short
+        ClassObjectType.SHORT     | BYTE
+        ClassObjectType.SHORT     | ObjectType.BYTE
+        ClassObjectType.SHORT     | CHAR
+        ClassObjectType.SHORT     | ObjectType.CHARACTER
+        ClassObjectType.SHORT     | NUMBER
+        ClassObjectType.SHORT     | ObjectType.INTEGER
+        ClassObjectType.SHORT     | LONG
+        ClassObjectType.SHORT     | ObjectType.LONG
+        ClassObjectType.SHORT     | FLOAT
+        ClassObjectType.SHORT     | ObjectType.FLOAT
+        ClassObjectType.SHORT     | DOUBLE
+        ClassObjectType.SHORT     | ObjectType.DOUBLE
+        ClassObjectType.SHORT     | BOOLEAN
+        ClassObjectType.SHORT     | ObjectType.BOOLEAN
+        ClassObjectType.SHORT     | STRING
+        ClassObjectType.SHORT     | ObjectType.STRING
+        ClassObjectType.SHORT     | ObjectType.OBJECT
         // Character
         ClassObjectType.CHARACTER | BYTE
         ClassObjectType.CHARACTER | ObjectType.BYTE
@@ -109,24 +127,6 @@ class ClassObjectTypeTest extends Specification {
         ClassObjectType.CHARACTER | STRING
         ClassObjectType.CHARACTER | ObjectType.STRING
         ClassObjectType.CHARACTER | ObjectType.OBJECT
-        // Short
-        ClassObjectType.SHORT     | BYTE
-        ClassObjectType.SHORT     | ObjectType.BYTE
-        ClassObjectType.SHORT     | NUMBER
-        ClassObjectType.SHORT     | ObjectType.INTEGER
-        ClassObjectType.SHORT     | CHAR
-        ClassObjectType.SHORT     | ObjectType.CHARACTER
-        ClassObjectType.SHORT     | LONG
-        ClassObjectType.SHORT     | ObjectType.LONG
-        ClassObjectType.SHORT     | FLOAT
-        ClassObjectType.SHORT     | ObjectType.FLOAT
-        ClassObjectType.SHORT     | DOUBLE
-        ClassObjectType.SHORT     | ObjectType.DOUBLE
-        ClassObjectType.SHORT     | BOOLEAN
-        ClassObjectType.SHORT     | ObjectType.BOOLEAN
-        ClassObjectType.SHORT     | STRING
-        ClassObjectType.SHORT     | ObjectType.STRING
-        ClassObjectType.SHORT     | ObjectType.OBJECT
         // Integer
         ClassObjectType.INTEGER   | BYTE
         ClassObjectType.INTEGER   | ObjectType.BYTE
@@ -150,10 +150,10 @@ class ClassObjectTypeTest extends Specification {
         ClassObjectType.LONG      | ObjectType.BYTE
         ClassObjectType.LONG      | SHORT
         ClassObjectType.LONG      | ObjectType.SHORT
-        ClassObjectType.LONG      | NUMBER
-        ClassObjectType.LONG      | ObjectType.INTEGER
         ClassObjectType.LONG      | CHAR
         ClassObjectType.LONG      | ObjectType.CHARACTER
+        ClassObjectType.LONG      | NUMBER
+        ClassObjectType.LONG      | ObjectType.INTEGER
         ClassObjectType.LONG      | FLOAT
         ClassObjectType.LONG      | ObjectType.FLOAT
         ClassObjectType.LONG      | DOUBLE
@@ -168,10 +168,10 @@ class ClassObjectTypeTest extends Specification {
         ClassObjectType.FLOAT     | ObjectType.BYTE
         ClassObjectType.FLOAT     | SHORT
         ClassObjectType.FLOAT     | ObjectType.SHORT
-        ClassObjectType.FLOAT     | NUMBER
-        ClassObjectType.FLOAT     | ObjectType.INTEGER
         ClassObjectType.FLOAT     | CHAR
         ClassObjectType.FLOAT     | ObjectType.CHARACTER
+        ClassObjectType.FLOAT     | NUMBER
+        ClassObjectType.FLOAT     | ObjectType.INTEGER
         ClassObjectType.FLOAT     | LONG
         ClassObjectType.FLOAT     | ObjectType.LONG
         ClassObjectType.FLOAT     | DOUBLE
@@ -186,10 +186,10 @@ class ClassObjectTypeTest extends Specification {
         ClassObjectType.DOUBLE    | ObjectType.BYTE
         ClassObjectType.DOUBLE    | SHORT
         ClassObjectType.DOUBLE    | ObjectType.SHORT
-        ClassObjectType.DOUBLE    | NUMBER
-        ClassObjectType.DOUBLE    | ObjectType.INTEGER
         ClassObjectType.DOUBLE    | CHAR
         ClassObjectType.DOUBLE    | ObjectType.CHARACTER
+        ClassObjectType.DOUBLE    | NUMBER
+        ClassObjectType.DOUBLE    | ObjectType.INTEGER
         ClassObjectType.DOUBLE    | LONG
         ClassObjectType.DOUBLE    | ObjectType.LONG
         ClassObjectType.DOUBLE    | FLOAT
@@ -204,10 +204,10 @@ class ClassObjectTypeTest extends Specification {
         ClassObjectType.BOOLEAN   | ObjectType.BYTE
         ClassObjectType.BOOLEAN   | SHORT
         ClassObjectType.BOOLEAN   | ObjectType.SHORT
-        ClassObjectType.BOOLEAN   | NUMBER
-        ClassObjectType.BOOLEAN   | ObjectType.INTEGER
         ClassObjectType.BOOLEAN   | CHAR
         ClassObjectType.BOOLEAN   | ObjectType.CHARACTER
+        ClassObjectType.BOOLEAN   | NUMBER
+        ClassObjectType.BOOLEAN   | ObjectType.INTEGER
         ClassObjectType.BOOLEAN   | LONG
         ClassObjectType.BOOLEAN   | ObjectType.LONG
         ClassObjectType.BOOLEAN   | FLOAT
@@ -222,10 +222,10 @@ class ClassObjectTypeTest extends Specification {
         ClassObjectType.STRING    | ObjectType.BYTE
         ClassObjectType.STRING    | SHORT
         ClassObjectType.STRING    | ObjectType.SHORT
-        ClassObjectType.STRING    | NUMBER
-        ClassObjectType.STRING    | ObjectType.INTEGER
         ClassObjectType.STRING    | CHAR
         ClassObjectType.STRING    | ObjectType.CHARACTER
+        ClassObjectType.STRING    | NUMBER
+        ClassObjectType.STRING    | ObjectType.INTEGER
         ClassObjectType.STRING    | LONG
         ClassObjectType.STRING    | ObjectType.LONG
         ClassObjectType.STRING    | FLOAT
