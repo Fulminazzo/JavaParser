@@ -17,9 +17,9 @@ public final class OperationUtils {
     private static final Type[] NON_DECIMAL_TYPES = new Type[]{
             ValueType.NUMBER, ValueType.CHAR, ValueType.LONG
     };
-    private static final Type[] DECIMAL_TYPES = Stream.concat(
-            Arrays.stream(NON_DECIMAL_TYPES), Stream.of(ValueType.DOUBLE, ValueType.FLOAT)
-    ).toArray(Type[]::new);
+    private static final Type[] DECIMAL_TYPES = new Type[]{
+            ValueType.DOUBLE, ValueType.FLOAT
+    };
 
     /**
      * Get the numeric types (non-decimals).
@@ -60,7 +60,7 @@ public final class OperationUtils {
     }
 
     /**
-     * Checks whether the given operands are eligible for comparison (i.e. are {@link #DECIMAL_TYPES}).
+     * Checks whether the given operands are eligible for comparison (i.e. are in {@link #getDecimalTypes()}).
      * Throws {@link TypeCheckerException} in case of an invalid type received as operand.
      *
      * @param left  the left operand
