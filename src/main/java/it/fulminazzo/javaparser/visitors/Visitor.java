@@ -3,12 +3,14 @@ package it.fulminazzo.javaparser.visitors;
 import it.fulminazzo.javaparser.parser.node.MethodInvocation;
 import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
+import it.fulminazzo.javaparser.parser.node.container.JavaProgram;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.parser.node.statements.Statement;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A <b>Visitor</b> is a special object capable of reading and parsing
@@ -18,6 +20,15 @@ import java.util.List;
  * @param <T> the returned type
  */
 public interface Visitor<T> {
+
+    /**
+     * Starting point of the {@link Visitor}.
+     * It reads the given {@link JavaProgram} using all the methods in this class.
+     *
+     * @param program the program
+     * @return an {@link Optional} containing the parsed value
+     */
+    @NotNull Optional<T> visitProgram(final @NotNull JavaProgram program);
 
     /**
      * Converts assignment and its fields to this visitor type.
@@ -71,14 +82,6 @@ public interface Visitor<T> {
      * @return the code block
      */
     @NotNull T visitCodeBlock(@NotNull LinkedList<Statement> statements);
-
-    /**
-     * Converts java program and its fields to this visitor type.
-     *
-     * @param statements the statements
-     * @return the java program
-     */
-    @NotNull T visitJavaProgram(@NotNull LinkedList<Statement> statements);
 
     /**
      * Converts array literal and its fields to this visitor type.
