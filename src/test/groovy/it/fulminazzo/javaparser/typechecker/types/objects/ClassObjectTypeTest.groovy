@@ -1,5 +1,7 @@
 package it.fulminazzo.javaparser.typechecker.types.objects
 
+
+import it.fulminazzo.fulmicollection.utils.StringUtils
 import spock.lang.Specification
 
 import static it.fulminazzo.javaparser.typechecker.types.ValueType.*
@@ -46,6 +48,20 @@ class ClassObjectTypeTest extends Specification {
         ClassObjectType.BOOLEAN   | Boolean.class
         ClassObjectType.STRING    | String.class
         ClassObjectType.OBJECT    | Object.class
+    }
+
+    def 'test toString of #type should return #expected'() {
+        given:
+        def string = type.toString()
+
+        expect:
+        string == expected
+
+        where:
+        type << ClassObjectType.values()
+        expected << ClassObjectType.values().collect {
+            "ClassType(${StringUtils.capitalize(it.name())})"
+        }
     }
 
     def 'test BYTE compatible with #type'() {
