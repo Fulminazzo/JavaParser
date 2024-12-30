@@ -39,62 +39,56 @@ public final class TypeChecker implements Visitor<Type> {
     }
 
     @Override
-    public Type visitAssignment(@NotNull Node type, @NotNull Literal name, @NotNull Node value) {
-        // TODO:
+    public @NotNull Type visitAssignment(@NotNull Node type, @NotNull Literal name, @NotNull Node value) {
         return null;
     }
 
     @Override
-    public Type visitMethodCall(@NotNull Node executor, @NotNull MethodInvocation invocation) {
-        // TODO:
+    public @NotNull Type visitMethodCall(@NotNull Node executor, @NotNull MethodInvocation invocation) {
         return null;
     }
 
     @Override
-    public Type visitMethodInvocation(@NotNull List<Node> parameters) {
-        // TODO:
+    public @NotNull Type visitMethodInvocation(@NotNull List<Node> parameters) {
         return null;
     }
 
     @Override
-    public Type visitDynamicArray(@NotNull List<Node> parameters, @NotNull Node type) {
+    public @NotNull Type visitDynamicArray(@NotNull List<Node> parameters, @NotNull Node type) {
         ClassType componentType = type.accept(this).checkClassType();
         for (Node parameter : parameters) parameter.accept(this).isAssignableFrom(componentType);
         return new ArrayType(componentType);
     }
 
     @Override
-    public Type visitStaticArray(int size, @NotNull Node type) {
+    public @NotNull Type visitStaticArray(int size, @NotNull Node type) {
         Type componentType = type.accept(this).checkClassType();
         if (size < 0) throw TypeCheckerException.invalidArraySize(size);
         else return new ArrayType(componentType);
     }
 
     @Override
-    public Type visitCodeBlock(@NotNull LinkedList<Statement> statements) {
-        // TODO:
+    public @NotNull Type visitCodeBlock(@NotNull LinkedList<Statement> statements) {
         return null;
     }
 
     @Override
-    public Type visitJavaProgram(@NotNull LinkedList<Statement> statements) {
-        // TODO:
+    public @NotNull Type visitJavaProgram(@NotNull LinkedList<Statement> statements) {
         return null;
     }
 
     @Override
-    public Type visitArrayLiteral(@NotNull Node type) {
+    public @NotNull Type visitArrayLiteral(@NotNull Node type) {
         return new ArrayClassType(type.accept(this).checkClassType());
     }
 
     @Override
-    public Type visitEmptyLiteral() {
-        // TODO:
+    public @NotNull Type visitEmptyLiteral() {
         return null;
     }
 
     @Override
-    public Type visitLiteralImpl(@NotNull String value) {
+    public @NotNull Type visitLiteralImpl(@NotNull String value) {
         @NotNull Tuple<ClassType, Type> tuple = getTypeFromLiteral(value);
         if (value.contains(FIELDS_SEPARATOR)) {
             // Class was parsed
@@ -124,237 +118,225 @@ public final class TypeChecker implements Visitor<Type> {
     }
 
     @Override
-    public Type visitAdd(@NotNull Node left, @NotNull Node right) {
+    public @NotNull Type visitAdd(@NotNull Node left, @NotNull Node right) {
         Type leftType = left.accept(this);
         if (leftType.is(STRING)) return right.accept(this).check(STRING);
         else return executeBinaryOperationDecimal(leftType, right.accept(this));
     }
 
     @Override
-    public Type visitAnd(@NotNull Node left, @NotNull Node right) {
+    public @NotNull Type visitAnd(@NotNull Node left, @NotNull Node right) {
         left.accept(this).check(BOOLEAN);
         right.accept(this).check(BOOLEAN);
         return BOOLEAN;
     }
 
     @Override
-    public Type visitBitAnd(@NotNull Node left, @NotNull Node right) {
+    public @NotNull Type visitBitAnd(@NotNull Node left, @NotNull Node right) {
         return executeBinaryBitOperation(left.accept(this), right.accept(this));
     }
 
     @Override
-    public Type visitBitOr(@NotNull Node left, @NotNull Node right) {
+    public @NotNull Type visitBitOr(@NotNull Node left, @NotNull Node right) {
         return executeBinaryBitOperation(left.accept(this), right.accept(this));
     }
 
     @Override
-    public Type visitBitXor(@NotNull Node left, @NotNull Node right) {
+    public @NotNull Type visitBitXor(@NotNull Node left, @NotNull Node right) {
         return executeBinaryBitOperation(left.accept(this), right.accept(this));
     }
 
     @Override
-    public Type visitCast(@NotNull Node left, @NotNull Node right) {
-        // TODO:
+    public @NotNull Type visitCast(@NotNull Node left, @NotNull Node right) {
         return null;
     }
 
     @Override
-    public Type visitDivide(@NotNull Node left, @NotNull Node right) {
+    public @NotNull Type visitDivide(@NotNull Node left, @NotNull Node right) {
         return executeBinaryOperationDecimal(left.accept(this), right.accept(this));
     }
 
     @Override
-    public Type visitEqual(@NotNull Node left, @NotNull Node right) {
+    public @NotNull Type visitEqual(@NotNull Node left, @NotNull Node right) {
         return executeObjectComparison(left.accept(this), right.accept(this));
     }
 
     @Override
-    public Type visitGreaterThan(@NotNull Node left, @NotNull Node right) {
+    public @NotNull Type visitGreaterThan(@NotNull Node left, @NotNull Node right) {
         return executeBinaryComparison(left.accept(this), right.accept(this));
     }
 
     @Override
-    public Type visitGreaterThanEqual(@NotNull Node left, @NotNull Node right) {
+    public @NotNull Type visitGreaterThanEqual(@NotNull Node left, @NotNull Node right) {
         return executeBinaryComparison(left.accept(this), right.accept(this));
     }
 
     @Override
-    public Type visitLShift(@NotNull Node left, @NotNull Node right) {
+    public @NotNull Type visitLShift(@NotNull Node left, @NotNull Node right) {
         return executeBinaryOperation(left.accept(this), right.accept(this));
     }
 
     @Override
-    public Type visitLessThan(@NotNull Node left, @NotNull Node right) {
+    public @NotNull Type visitLessThan(@NotNull Node left, @NotNull Node right) {
         return executeBinaryComparison(left.accept(this), right.accept(this));
     }
 
     @Override
-    public Type visitLessThanEqual(@NotNull Node left, @NotNull Node right) {
+    public @NotNull Type visitLessThanEqual(@NotNull Node left, @NotNull Node right) {
         return executeBinaryComparison(left.accept(this), right.accept(this));
     }
 
     @Override
-    public Type visitModulo(@NotNull Node left, @NotNull Node right) {
+    public @NotNull Type visitModulo(@NotNull Node left, @NotNull Node right) {
         return executeBinaryOperationDecimal(left.accept(this), right.accept(this));
     }
 
     @Override
-    public Type visitMultiply(@NotNull Node left, @NotNull Node right) {
+    public @NotNull Type visitMultiply(@NotNull Node left, @NotNull Node right) {
         return executeBinaryOperationDecimal(left.accept(this), right.accept(this));
     }
 
     @Override
-    public Type visitNewObject(@NotNull Node left, @NotNull Node right) {
-        // TODO:
+    public @NotNull Type visitNewObject(@NotNull Node left, @NotNull Node right) {
         return null;
     }
 
     @Override
-    public Type visitNotEqual(@NotNull Node left, @NotNull Node right) {
+    public @NotNull Type visitNotEqual(@NotNull Node left, @NotNull Node right) {
         return executeObjectComparison(left.accept(this), right.accept(this));
     }
 
     @Override
-    public Type visitOr(@NotNull Node left, @NotNull Node right) {
+    public @NotNull Type visitOr(@NotNull Node left, @NotNull Node right) {
         left.accept(this).check(BOOLEAN);
         right.accept(this).check(BOOLEAN);
         return BOOLEAN;
     }
 
     @Override
-    public Type visitRShift(@NotNull Node left, @NotNull Node right) {
+    public @NotNull Type visitRShift(@NotNull Node left, @NotNull Node right) {
         return executeBinaryOperation(left.accept(this), right.accept(this));
     }
 
     @Override
-    public Type visitReAssign(@NotNull Node left, @NotNull Node right) {
-        // TODO:
+    public @NotNull Type visitReAssign(@NotNull Node left, @NotNull Node right) {
         return null;
     }
 
     @Override
-    public Type visitSubtract(@NotNull Node left, @NotNull Node right) {
+    public @NotNull Type visitSubtract(@NotNull Node left, @NotNull Node right) {
         return executeBinaryOperationDecimal(left.accept(this), right.accept(this));
     }
 
     @Override
-    public Type visitURShift(@NotNull Node left, @NotNull Node right) {
+    public @NotNull Type visitURShift(@NotNull Node left, @NotNull Node right) {
         return executeBinaryOperation(left.accept(this), right.accept(this));
     }
 
     @Override
-    public Type visitDecrement(boolean before, @NotNull Node operand) {
+    public @NotNull Type visitDecrement(boolean before, @NotNull Node operand) {
         return operand.accept(this).check(getDecimalTypes());
     }
 
     @Override
-    public Type visitIncrement(boolean before, @NotNull Node operand) {
+    public @NotNull Type visitIncrement(boolean before, @NotNull Node operand) {
         return operand.accept(this).check(getDecimalTypes());
     }
 
     @Override
-    public Type visitMinus(@NotNull Node operand) {
+    public @NotNull Type visitMinus(@NotNull Node operand) {
         Type type = operand.accept(this);
         if (type.is(CHAR)) return NUMBER;
         return type.check(getDecimalTypes());
     }
 
     @Override
-    public Type visitNot(@NotNull Node operand) {
+    public @NotNull Type visitNot(@NotNull Node operand) {
         return operand.accept(this).check(BOOLEAN);
     }
 
     @Override
-    public Type visitBreak(@NotNull Node expr) {
-        // TODO:
+    public @NotNull Type visitBreak(@NotNull Node expr) {
         return null;
     }
 
     @Override
-    public Type visitContinue(@NotNull Node expr) {
-        // TODO:
+    public @NotNull Type visitContinue(@NotNull Node expr) {
         return null;
     }
 
     @Override
-    public Type visitDoStatement(@NotNull CodeBlock code, @NotNull Node expr) {
-        // TODO:
+    public @NotNull Type visitDoStatement(@NotNull CodeBlock code, @NotNull Node expr) {
         return null;
     }
 
     @Override
-    public Type visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable, @NotNull CodeBlock code, @NotNull Node expr) {
-        // TODO:
+    public @NotNull Type visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable, @NotNull CodeBlock code, @NotNull Node expr) {
         return null;
     }
 
     @Override
-    public Type visitForStatement(@NotNull Node assignment, @NotNull Node increment, @NotNull CodeBlock code, @NotNull Node expr) {
-        // TODO:
+    public @NotNull Type visitForStatement(@NotNull Node assignment, @NotNull Node increment, @NotNull CodeBlock code, @NotNull Node expr) {
         return null;
     }
 
     @Override
-    public Type visitIfStatement(@NotNull CodeBlock code, @NotNull Node thenBranch, @NotNull Node expr) {
-        // TODO:
+    public @NotNull Type visitIfStatement(@NotNull CodeBlock code, @NotNull Node thenBranch, @NotNull Node expr) {
         return null;
     }
 
     @Override
-    public Type visitReturn(@NotNull Node expr) {
+    public @NotNull Type visitReturn(@NotNull Node expr) {
         return expr.accept(this);
     }
 
     @Override
-    public Type visitStatement(@NotNull Node expr) {
-        // TODO:
+    public @NotNull Type visitStatement(@NotNull Node expr) {
         return null;
     }
 
     @Override
-    public Type visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expr) {
-        // TODO:
+    public @NotNull Type visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expr) {
         return null;
     }
 
     @Override
-    public Type visitNullLiteral() {
-        // TODO:
+    public @NotNull Type visitNullLiteral() {
         return null;
     }
 
     @Override
-    public Type visitBooleanValueLiteral(@NotNull String rawValue) {
+    public @NotNull Type visitBooleanValueLiteral(@NotNull String rawValue) {
         return BOOLEAN;
     }
 
     @Override
-    public Type visitCharValueLiteral(@NotNull String rawValue) {
+    public @NotNull Type visitCharValueLiteral(@NotNull String rawValue) {
         return CHAR;
     }
 
     @Override
-    public Type visitDoubleValueLiteral(@NotNull String rawValue) {
+    public @NotNull Type visitDoubleValueLiteral(@NotNull String rawValue) {
         return DOUBLE;
     }
 
     @Override
-    public Type visitFloatValueLiteral(@NotNull String rawValue) {
+    public @NotNull Type visitFloatValueLiteral(@NotNull String rawValue) {
         return FLOAT;
     }
 
     @Override
-    public Type visitLongValueLiteral(@NotNull String rawValue) {
+    public @NotNull Type visitLongValueLiteral(@NotNull String rawValue) {
         return LONG;
     }
 
     @Override
-    public Type visitNumberValueLiteral(@NotNull String rawValue) {
+    public @NotNull Type visitNumberValueLiteral(@NotNull String rawValue) {
         return NUMBER;
     }
 
     @Override
-    public Type visitStringValueLiteral(@NotNull String rawValue) {
+    public @NotNull Type visitStringValueLiteral(@NotNull String rawValue) {
         return STRING;
     }
 
