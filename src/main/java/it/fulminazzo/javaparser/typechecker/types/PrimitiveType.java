@@ -11,7 +11,7 @@ public enum PrimitiveType implements ClassType {
     /**
      * <code>byte</code>
      */
-    BYTE(ValueType.CHAR, ValueType.NUMBER,
+    BYTE(ValueType.BYTE, ValueType.CHAR, ValueType.NUMBER,
             ObjectType.BYTE),
     /**
      * <code>char</code>
@@ -21,28 +21,32 @@ public enum PrimitiveType implements ClassType {
     /**
      * <code>short</code>
      */
-    SHORT(ValueType.CHAR, ValueType.NUMBER,
+    SHORT(ValueType.BYTE, ValueType.SHORT, ValueType.CHAR, ValueType.NUMBER,
             ObjectType.BYTE, ObjectType.SHORT),
     /**
      * <code>int</code>
      */
-    INT(ValueType.CHAR, ValueType.NUMBER, ObjectType.BYTE,
+    INT(ValueType.BYTE, ValueType.SHORT, ValueType.CHAR, ValueType.NUMBER, ObjectType.BYTE,
             ObjectType.CHARACTER, ObjectType.SHORT, ObjectType.INTEGER),
     /**
      * <code>long</code>
      */
-    LONG(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG, ObjectType.BYTE,
+    LONG(ValueType.BYTE, ValueType.SHORT, ValueType.CHAR, ValueType.NUMBER, ValueType.LONG, ObjectType.BYTE,
             ObjectType.CHARACTER, ObjectType.SHORT, ObjectType.INTEGER, ObjectType.LONG),
     /**
      * <code>float</code>
      */
-    FLOAT(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG, ValueType.FLOAT, ObjectType.BYTE,
-            ObjectType.CHARACTER, ObjectType.SHORT, ObjectType.INTEGER, ObjectType.LONG, ObjectType.FLOAT),
+    FLOAT(ValueType.BYTE, ValueType.SHORT, ValueType.CHAR, ValueType.NUMBER, ValueType.LONG,
+            ValueType.FLOAT, ObjectType.BYTE,
+            ObjectType.CHARACTER, ObjectType.SHORT, ObjectType.INTEGER, ObjectType.LONG,
+            ObjectType.FLOAT),
     /**
      * <code>double</code>
      */
-    DOUBLE(ValueType.CHAR, ValueType.NUMBER, ValueType.LONG, ValueType.FLOAT, ValueType.DOUBLE, ObjectType.BYTE,
-            ObjectType.CHARACTER, ObjectType.SHORT, ObjectType.INTEGER, ObjectType.LONG, ObjectType.FLOAT, ObjectType.DOUBLE),
+    DOUBLE(ValueType.BYTE, ValueType.SHORT, ValueType.CHAR, ValueType.NUMBER, ValueType.LONG,
+            ValueType.FLOAT, ValueType.DOUBLE, ObjectType.BYTE,
+            ObjectType.CHARACTER, ObjectType.SHORT, ObjectType.INTEGER, ObjectType.LONG,
+            ObjectType.FLOAT, ObjectType.DOUBLE),
     /**
      * <code>boolean</code>
      */
