@@ -84,6 +84,14 @@ public interface Visitor<T> {
     @NotNull T visitCodeBlock(@NotNull LinkedList<Statement> statements);
 
     /**
+     * Converts java program and its fields to this visitor type.
+     *
+     * @param statements the statements
+     * @return the java program
+     */
+    @NotNull T visitJavaProgram(@NotNull LinkedList<Statement> statements);
+
+    /**
      * Converts array literal and its fields to this visitor type.
      *
      * @param type the type
