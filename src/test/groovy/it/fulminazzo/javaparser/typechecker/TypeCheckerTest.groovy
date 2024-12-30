@@ -65,7 +65,7 @@ class TypeCheckerTest extends Specification {
 
         then:
         def e = thrown(TypeCheckerException)
-        e.message = TypeCheckerException.invalidArraySize(-1).message
+        e.message == TypeCheckerException.invalidArraySize(-1).message
     }
 
     def 'test decrement for #literal should return #expected'() {
