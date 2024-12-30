@@ -39,4 +39,13 @@ class TypeTest extends Specification {
         ]
     }
 
+    def 'test field not found'() {
+        when:
+        this.type.getField('invalid')
+
+        then:
+        //TODO: message
+        thrown(TypeException)
+    }
+
 }
