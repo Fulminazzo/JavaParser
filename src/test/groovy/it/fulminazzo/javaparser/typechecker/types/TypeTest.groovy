@@ -64,6 +64,18 @@ class TypeTest extends Specification {
         'publicField'       | PrimitiveType.DOUBLE | ValueType.DOUBLE
     }
 
+    def 'test class cannot access non-static field'() {
+        given:
+        def field = 'packageField'
+
+        when:
+        this.classType.getField(field)
+
+        then:
+        def e = thrown(TypeException)
+        e.message == TypeException.cannotAccessStaticField(this.classType, TestClass.getDeclaredField(field)).message
+    }
+
     def 'test class cannot access field #field from getField'() {
         when:
         this.classType.getField(field)
