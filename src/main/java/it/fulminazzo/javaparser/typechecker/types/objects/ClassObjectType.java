@@ -63,6 +63,23 @@ public enum ClassObjectType implements ClassType {
     }
 
     @Override
+    public @NotNull Type toType() {
+        switch (this) {
+            case BYTE:
+            case SHORT:
+            case INTEGER:
+                return ValueType.NUMBER;
+            case CHARACTER: return ValueType.CHAR;
+            case LONG: return ValueType.LONG;
+            case FLOAT: return ValueType.FLOAT;
+            case DOUBLE: return ValueType.DOUBLE;
+            case BOOLEAN: return ValueType.BOOLEAN;
+            case STRING: return ValueType.STRING;
+            default: return ObjectType.OBJECT;
+        }
+    }
+
+    @Override
     public Class<?> toJavaClass() {
         return ReflectionUtils.getClass("java.lang." + StringUtils.capitalize(name()));
     }
@@ -84,8 +101,23 @@ public enum ClassObjectType implements ClassType {
      * @return the class type
      * @throws TypeException the exception thrown in case the class is not found
      */
-    public static ClassType of(final @NotNull String className) throws TypeException {
+    public static @NotNull ClassType of(final @NotNull String className) throws TypeException {
         ObjectType type = ObjectType.of(className);
+        try {
+            return ClassObjectType.valueOf(type.getInnerClass().getSimpleName().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return new CustomClassObjectType(type);
+        }
+    }
+
+    /**
+     * Gets a new {@link ClassType} from the given class name.
+     *
+     * @param clazz the class
+     * @return the respective class type
+     */
+    public static @NotNull ClassType of(final @NotNull Class<?> clazz) {
+        ObjectType type = ObjectType.of(clazz);
         try {
             return ClassObjectType.valueOf(type.getInnerClass().getSimpleName().toUpperCase());
         } catch (IllegalArgumentException e) {

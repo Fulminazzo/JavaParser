@@ -5,6 +5,19 @@ import spock.lang.Specification
 
 class CustomClassObjectTypeTest extends Specification {
 
+    def 'test conversion of types'() {
+        given:
+        def type = ObjectType.of(Map)
+
+        when:
+        def classType = type.toClassType()
+        def newType = classType.toType()
+
+        then:
+        newType == type
+        classType == new CustomClassObjectType(ObjectType.of(Map))
+    }
+
     def 'test compatibleWith'() {
         given:
         def className = getClass().canonicalName

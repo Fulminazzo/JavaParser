@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.typechecker.types.objects;
 
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
+import it.fulminazzo.javaparser.typechecker.types.ClassType;
 import it.fulminazzo.javaparser.typechecker.types.Type;
 import it.fulminazzo.javaparser.typechecker.types.TypeException;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
@@ -28,6 +29,11 @@ public final class ObjectType extends ObjectWrapper<Class<?>> implements Type {
     }
 
     @Override
+    public @NotNull ClassType toClassType() {
+        return ClassType.of(getInnerClass());
+    }
+
+    @Override
     public String toString() {
         String className = this.object.getCanonicalName();
         for (String impliedPackage : IMPLIED_PACKAGES) {
@@ -48,7 +54,16 @@ public final class ObjectType extends ObjectWrapper<Class<?>> implements Type {
      * @throws TypeException the exception thrown in case the class is not found
      */
     public static @NotNull ObjectType of(final @NotNull String className) throws TypeException {
-        Class<?> clazz = getClass(className);
+        return of(getClass(className));
+    }
+
+    /**
+     * Obtains an instance of {@link ObjectType} from the given class name.
+     *
+     * @param clazz the clazz
+     * @return the object type
+     */
+    public static @NotNull ObjectType of(final @NotNull Class<?> clazz) {
         return new ObjectType(clazz);
     }
 
@@ -72,7 +87,7 @@ public final class ObjectType extends ObjectWrapper<Class<?>> implements Type {
                     return ReflectionUtils.getClass(name);
                 } catch (IllegalArgumentException ignored) {}
             }
-            throw new TypeException("Could not find class " + className);
+            throw TypeException.classNotFound(className);
         }
     }
 

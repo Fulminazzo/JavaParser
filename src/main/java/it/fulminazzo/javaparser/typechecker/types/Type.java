@@ -3,6 +3,8 @@ package it.fulminazzo.javaparser.typechecker.types;
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 
 /**
@@ -17,6 +19,15 @@ public interface Type {
      */
     default boolean isValue() {
         return this instanceof ValueType;
+    }
+
+    /**
+     * Checks whether the current type is a {@link ClassType}.
+     *
+     * @return true if it is
+     */
+    default boolean isClassType() {
+        return this instanceof ClassType;
     }
 
     /**
@@ -66,5 +77,35 @@ public interface Type {
     default boolean isAssignableFrom(final @NotNull ClassType classType) {
         return classType.compatibleWith(this);
     }
+
+    /**
+     * Searches the given field in the class of {@link #toClassType()}.
+     * Then, returns the declared type of the field in form of {@link ClassType}.
+     *
+     * @param fieldName the field name
+     * @return the type of the field
+     * @throws TypeException thrown in case the field could not be found or could not be accessed
+     * (only <code>public</code> modifier allowed and <code>static</code> fields from static context)
+     */
+    default @NotNull ClassType getField(final @NotNull String fieldName) throws TypeException {
+        ClassType classType = isClassType() ? (ClassType) this : toClassType();
+        try {
+            Class<?> javaClass = classType.toJavaClass();
+            Field field = javaClass.getDeclaredField(fieldName);
+            if (!Modifier.isPublic(field.getModifiers())) throw TypeException.cannotAccessField(classType, field);
+            else if (isClassType() && !Modifier.isStatic(field.getModifiers()))
+                throw TypeException.cannotAccessStaticField(classType, fieldName);
+            return ClassType.of(field.getType());
+        } catch (NoSuchFieldException e) {
+            throw TypeException.fieldNotFound(classType, fieldName);
+        }
+    }
+
+    /**
+     * Gets the class type associated with the current type.
+     *
+     * @return the class type
+     */
+    @NotNull ClassType toClassType();
 
 }

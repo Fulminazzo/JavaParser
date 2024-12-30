@@ -39,12 +39,39 @@ public interface ClassType extends Type, Info {
      * @return the class type
      * @throws TypeException the exception thrown in case the class is not found
      */
-    static ClassType of(final @NotNull String className) throws TypeException {
+    static @NotNull ClassType of(final @NotNull String className) throws TypeException {
         try {
             String lowerCase = className.toLowerCase();
             if (lowerCase.equals(className)) return PrimitiveType.valueOf(className.toUpperCase());
         } catch (IllegalArgumentException ignored) {}
         return ClassObjectType.of(className);
+    }
+
+    /**
+     * Gets a new {@link ClassType} from the given class.
+     * Tries first to obtain from {@link PrimitiveType}.
+     * If it fails, uses the fields of {@link ClassObjectType}.
+     * Otherwise, a new type is created.
+     *
+     * @param clazz the class
+     * @return the class type
+     */
+    static @NotNull ClassType of(final @NotNull Class<?> clazz) {
+        for (PrimitiveType type : PrimitiveType.values())
+            if (type.toJavaClass().equals(clazz)) return type;
+        return ClassObjectType.of(clazz);
+    }
+
+    /**
+     * Converts the current {@link ClassType} to the matching {@link Type}.
+     *
+     * @return the type
+     */
+    @NotNull Type toType();
+
+    @Override
+    default @NotNull ClassType toClassType() {
+        return ClassType.of(Class.class);
     }
 
 }

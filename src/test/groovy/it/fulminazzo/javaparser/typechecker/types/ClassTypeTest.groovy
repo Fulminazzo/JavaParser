@@ -10,6 +10,14 @@ import java.lang.reflect.Method
 
 class ClassTypeTest extends Specification {
 
+    def 'test method #toClassType should always return a wrapper for java.lang.Class'() {
+        given:
+        def classType = new MockClassType().toClassType()
+
+        expect:
+        classType == ClassObjectType.of(Class)
+    }
+
     def 'test of #className should return #expected'() {
         given:
         def type = ClassType.of(className)
@@ -56,12 +64,24 @@ class ClassTypeTest extends Specification {
 
         where:
         object << [
-                new Type() {},
+                new Type() {
+                    @NotNull
+                    @Override
+                    ClassType toClassType() {
+                        return null
+                    }
+                },
                 new Object()
         ]
     }
 
     static class MockType implements Type {
+
+        @NotNull
+        @Override
+        ClassType toClassType() {
+            return null
+        }
 
     }
 
@@ -77,5 +97,10 @@ class ClassTypeTest extends Specification {
             return type instanceof MockType
         }
 
+        @NotNull
+        @Override
+        Type toType() {
+            return null
+        }
     }
 }
