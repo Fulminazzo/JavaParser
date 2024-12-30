@@ -7,6 +7,25 @@ import static it.fulminazzo.javaparser.typechecker.types.ValueType.*
 
 class PrimitiveTypeTest extends Specification {
 
+    def 'test #type toType should return #expected'() {
+        given:
+        def actual = type.toType()
+
+        expect:
+        actual == expected
+
+        where:
+        type                  | expected
+        PrimitiveType.BYTE    | NUMBER
+        PrimitiveType.CHAR    | CHAR
+        PrimitiveType.SHORT   | NUMBER
+        PrimitiveType.INT     | NUMBER
+        PrimitiveType.LONG    | LONG
+        PrimitiveType.FLOAT   | FLOAT
+        PrimitiveType.DOUBLE  | DOUBLE
+        PrimitiveType.BOOLEAN | BOOLEAN
+    }
+
     def 'test check invalid #types'() {
         when:
         DOUBLE.check(types)
