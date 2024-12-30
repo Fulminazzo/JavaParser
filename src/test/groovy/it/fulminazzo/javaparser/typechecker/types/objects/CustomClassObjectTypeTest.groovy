@@ -21,8 +21,9 @@ class CustomClassObjectTypeTest extends Specification {
         new CustomClassObjectType(ObjectType.of(ArrayList))  | ObjectType.of(List)
     }
 
-    def 'test invalid cast of #cast to #type'() {
+    def 'test invalid cast of #cast to object'() {
         when:
+        def type = ObjectType.of(List)
         cast.cast(type)
 
         then:
@@ -30,10 +31,13 @@ class CustomClassObjectTypeTest extends Specification {
         e.message == TypeCheckerException.invalidCast(cast, type).message
 
         where:
-        cast                                                 | type
-        new CustomClassObjectType(ObjectType.of(Map))        | ObjectType.of(List)
-        new CustomClassObjectType(ObjectType.of(HashMap))    | ObjectType.of(List)
-        new CustomClassObjectType(ObjectType.of(Exception))  | ObjectType.of(List)
+        cast << [
+                PrimitiveType.values(),
+                ClassObjectType.values().findAll { it != ClassObjectType.OBJECT },
+                new CustomClassObjectType(ObjectType.of(Map)),
+                new CustomClassObjectType(ObjectType.of(HashMap)),
+                new CustomClassObjectType(ObjectType.of(Exception))
+        ].flatten()
     }
 
     def 'test conversion of types'() {
