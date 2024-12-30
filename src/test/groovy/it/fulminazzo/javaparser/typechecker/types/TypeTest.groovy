@@ -15,16 +15,15 @@ class TypeTest extends Specification {
 
     def 'test valid getField #field'() {
         when:
-        def tuple = this.type.getField(field)
+        def actual = this.type.getField(field)
 
         then:
-        tuple.getKey() == expectedType
-        tuple.getValue() == expected
+        actual == expected
 
         where:
-        field               | expectedType         | expected
-        'publicStaticField' | PrimitiveType.INT    | ValueType.NUMBER
-        'publicField'       | PrimitiveType.DOUBLE | ValueType.DOUBLE
+        field               | expected
+        'publicStaticField' | PrimitiveType.INT
+        'publicField'       | PrimitiveType.DOUBLE
     }
 
     def 'test cannot access field #field from getField'() {
@@ -33,7 +32,7 @@ class TypeTest extends Specification {
 
         then:
         def e = thrown(TypeException)
-        e.message == TypeException.cannotAccessField(this.type, TestClass.getDeclaredField(field)).message
+        e.message == TypeException.cannotAccessField(this.type.toClassType(), TestClass.getDeclaredField(field)).message
 
         where:
         field << [
@@ -48,20 +47,19 @@ class TypeTest extends Specification {
 
         then:
         def e = thrown(TypeException)
-        e.message == TypeException.fieldNotFound(this.type, 'invalid').message
+        e.message == TypeException.fieldNotFound(this.type.toClassType(), 'invalid').message
     }
 
     def 'test class valid getField #field'() {
         when:
-        def tuple = this.classType.getField(field)
+        def actual = this.classType.getField(field)
 
         then:
-        tuple.getKey() == expectedType
-        tuple.getValue() == expected
+        actual == expected
 
         where:
-        field               | expectedType         | expected
-        'publicField'       | PrimitiveType.DOUBLE | ValueType.DOUBLE
+        field               | expected
+        'publicField'       | PrimitiveType.DOUBLE
     }
 
     def 'test class cannot access non-static field'() {
@@ -73,7 +71,7 @@ class TypeTest extends Specification {
 
         then:
         def e = thrown(TypeException)
-        e.message == TypeException.cannotAccessStaticField(this.classType, TestClass.getDeclaredField(field)).message
+        e.message == TypeException.cannotAccessStaticField(this.classType, field).message
     }
 
     def 'test class cannot access field #field from getField'() {
