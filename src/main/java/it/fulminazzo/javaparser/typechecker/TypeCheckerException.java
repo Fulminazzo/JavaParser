@@ -21,6 +21,16 @@ public class TypeCheckerException extends RuntimeException {
     }
 
     /**
+     * Generates a {@link TypeCheckerException} with message the one from the given {@link Throwable}.
+     *
+     * @param cause the cause
+     * @return the type checker exception
+     */
+    public static @NotNull TypeCheckerException of(final @NotNull Throwable cause) {
+        return new TypeCheckerException(cause.getMessage());
+    }
+
+    /**
      * Generates a {@link TypeCheckerException} with message:
      * <i>Invalid type received: expected %expected% but got %actual% instead.</i>
      *
