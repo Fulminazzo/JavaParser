@@ -32,8 +32,7 @@ public class ArrayClassType extends TypeWrapper implements ClassType {
 
     @Override
     public Class<?> toJavaClass() {
-        Class<?> componentClass = ((ClassType) this.object).toJavaClass();
-        return Array.newInstance(componentClass, 0).getClass();
+        return Array.newInstance(getComponentType().toJavaClass(), 0).getClass();
     }
 
     @Override
