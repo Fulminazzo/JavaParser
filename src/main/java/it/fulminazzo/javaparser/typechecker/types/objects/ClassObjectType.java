@@ -70,13 +70,12 @@ public enum ClassObjectType implements ClassType {
     @Override
     public @NotNull Type cast(@NotNull Type type) {
         //TODO: can be cast to null
-        if (this == OBJECT) return toType();
-        else {
-            ValueType valueType = this.associatedType == null ?
-                    ValueType.valueOf(name()) :
-                    (ValueType) this.associatedType.toType();
-            return type.check(valueType, ObjectType.of(toJavaClass()));
+        if (this != OBJECT) {
+            Type valueType = this.associatedType == null ?
+                    ValueType.valueOf(name()) : this.associatedType.toType();
+            type.check(valueType, ObjectType.of(toJavaClass()));
         }
+        return toType();
     }
 
     @Override
