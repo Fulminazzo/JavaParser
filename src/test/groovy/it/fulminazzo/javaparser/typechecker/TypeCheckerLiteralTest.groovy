@@ -1,0 +1,51 @@
+package it.fulminazzo.javaparser.typechecker
+
+import it.fulminazzo.javaparser.typechecker.types.ClassType
+import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
+import it.fulminazzo.javaparser.typechecker.types.ValueType
+import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayType
+import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType
+import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
+import spock.lang.Specification
+
+class TypeCheckerLiteralTest extends Specification {
+
+    def 'test visit literal'() {
+        given:
+        def checker = new TypeChecker()
+
+        and:
+        checker.environment.declare(ClassObjectType.INTEGER, 'var', ValueType.NUMBER)
+
+        when:
+        def read = checker.visitLiteralImpl(code)
+
+        then:
+        read == expected
+
+        where:
+        code                                                        | expected
+        'int'                                                       | PrimitiveType.INT
+        'String'                                                    | ClassObjectType.STRING
+        'System'                                                    | ClassType.of('System')
+        'System.out'                                                | ObjectType.of(PrintStream.canonicalName)
+        'var'                                                       | ValueType.NUMBER
+        'var.TYPE'                                                  | ObjectType.of('Class')
+        'var.sizeTable'                                             | new ArrayType(ValueType.NUMBER)
+        'var.value'                                                 | ValueType.NUMBER
+        "${FirstInnerClass.canonicalName}.second"                   | ObjectType.of(FirstInnerClass.SecondInnerClass.canonicalName)
+        "${FirstInnerClass.canonicalName}.second.version"           | ValueType.NUMBER
+        "${FirstInnerClass.SecondInnerClass.canonicalName}"         | ClassType.of(FirstInnerClass.SecondInnerClass.canonicalName)
+        "${FirstInnerClass.SecondInnerClass.canonicalName}.version" | ValueType.NUMBER
+    }
+
+    static class FirstInnerClass {
+        static SecondInnerClass second = new SecondInnerClass()
+
+        static class SecondInnerClass {
+            static int version = 2
+        }
+
+    }
+
+}
