@@ -80,6 +80,26 @@ public enum ClassObjectType implements ClassType {
     }
 
     @Override
+    public @NotNull Type cast(@NotNull Type type) {
+        switch (this) {
+            case BYTE:
+            case SHORT:
+            case INTEGER:
+                return type.check(ValueType.NUMBER);
+            case CHARACTER: {
+                type.check(ValueType.CHAR, ValueType.NUMBER);
+                return toType();
+            }
+            case LONG: return type.check(ValueType.NUMBER, ValueType.LONG);
+            case FLOAT: return type.check(ValueType.FLOAT);
+            case DOUBLE: return type.check(ValueType.DOUBLE);
+            case BOOLEAN: return type.check(ValueType.BOOLEAN);
+            case STRING: return type.check(ValueType.STRING);
+            default: return ObjectType.OBJECT;
+        }
+    }
+
+    @Override
     public @NotNull Class<?> toJavaClass() {
         return ReflectionUtils.getClass("java.lang." + StringUtils.capitalize(name()));
     }
