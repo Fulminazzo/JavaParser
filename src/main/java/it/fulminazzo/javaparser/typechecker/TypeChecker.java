@@ -13,6 +13,8 @@ import it.fulminazzo.javaparser.parser.node.statements.Statement;
 import it.fulminazzo.javaparser.typechecker.types.*;
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayClassType;
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayType;
+import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType;
+import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
 import it.fulminazzo.javaparser.visitors.Visitor;
 import org.jetbrains.annotations.NotNull;
 
@@ -61,7 +63,9 @@ public final class TypeChecker implements Visitor<Type> {
         Type variableValue = value.accept(this);
         if (variableValue.isAssignableFrom(variableType)) {
             try {
+                if (variableValue.is(STRING)) variableValue = ObjectType.STRING;
                 if (variableType.is(PrimitiveType.class)) variableValue = variableType.toType();
+
                 this.environment.declare(variableType, variableName.getLiteral(), variableValue);
                 return NoType.NO_TYPE;
             } catch (ScopeException e) {

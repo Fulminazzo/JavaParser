@@ -77,7 +77,7 @@ class TypeCheckerTest extends Specification {
         'boolean'   | 'bo'  | BOOL_LIT   | ValueType.BOOLEAN
         'Boolean'   | 'boW' | BOOL_LIT   | ObjectType.BOOLEAN
         'String'    | 'st'  | STRING_LIT | ObjectType.STRING
-        'Object'    | 'o'   | BOOL_LIT   | ObjectType.BOOLEAN
+        'Object'    | 'o'   | BOOL_LIT   | ValueType.BOOLEAN
     }
 
     def 'test visit assignment already declared'() {
