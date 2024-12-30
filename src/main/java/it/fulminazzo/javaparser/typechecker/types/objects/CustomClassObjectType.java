@@ -27,10 +27,13 @@ class CustomClassObjectType extends TypeWrapper implements ClassType {
 
     @Override
     public @NotNull Type cast(@NotNull Type type) {
-        ObjectType objectType = type.check(ObjectType.class);
-        if (toJavaClass().isAssignableFrom(objectType.getInnerClass()))
-            return ObjectType.of(toJavaClass());
-        else throw TypeCheckerException.invalidType(this, type);
+        if (type.is(ObjectType.class)) {
+            Class<?> typeClass = ((ObjectType) type).getInnerClass();
+            Class<?> currentClass = toJavaClass();
+            if (currentClass.isAssignableFrom(typeClass) || typeClass.isAssignableFrom(currentClass))
+                return toType();
+        }
+        throw TypeCheckerException.invalidCast(this, type);
     }
 
     @Override
