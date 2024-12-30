@@ -99,7 +99,7 @@ public enum ClassObjectType implements ClassType {
      * @param clazz the class
      * @return the respective class type
      */
-    public static @NotNull ClassType of(final @NotNull Class<?> clazz) throws TypeException {
+    public static @NotNull ClassType of(final @NotNull Class<?> clazz) {
         ObjectType type = ObjectType.of(clazz);
         try {
             return ClassObjectType.valueOf(type.getInnerClass().getSimpleName().toUpperCase());
