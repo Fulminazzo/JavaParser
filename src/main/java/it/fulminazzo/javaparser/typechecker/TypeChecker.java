@@ -62,8 +62,7 @@ public final class TypeChecker implements Visitor<Type> {
         if (variableValue.isAssignableFrom(variableType)) {
             try {
                 if (variableType.is(PrimitiveType.class)) variableValue = variableType.toType();
-                this.environment.declare(variableType, variableName.getLiteral(), variableType.is(PrimitiveType.class) ?
-                        variableType.toType() : variableValue);
+                this.environment.declare(variableType, variableName.getLiteral(), variableValue);
                 return NoType.NO_TYPE;
             } catch (ScopeException e) {
                 throw TypeCheckerException.of(e);
