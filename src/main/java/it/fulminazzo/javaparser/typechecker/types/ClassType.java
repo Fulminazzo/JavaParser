@@ -62,6 +62,13 @@ public interface ClassType extends Type, Info {
         return ClassObjectType.of(clazz);
     }
 
+    /**
+     * Converts the current {@link ClassType} to the matching {@link Type}.
+     *
+     * @return the type
+     */
+    @NotNull Type toType();
+
     @Override
     default @NotNull ClassType getClassType() {
         return ClassType.of(Class.class);
