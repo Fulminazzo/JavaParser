@@ -123,6 +123,47 @@ class TypeCheckerTest extends Specification {
         Literal.of('double')    | STRING_LIT
     }
 
+    def 'test visit re-assignment: #name = #val should return type #expected'() {
+        given:
+        name += '_reassign'
+        def literalName = Literal.of(name)
+
+        and:
+        this.typeChecker.environment.declare(
+                Literal.of(type).accept(this.typeChecker),
+                name, val
+        )
+
+        when:
+        def value = this.typeChecker.visitReAssign(literalName, val)
+
+        then:
+        value == expected
+
+        where:
+        type        | name  | val        | expected
+        'byte'      | 'b'   | NUMBER_LIT | ValueType.BYTE
+        'Byte'      | 'bW'  | NUMBER_LIT | ObjectType.BYTE
+        'short'     | 's'   | NUMBER_LIT | ValueType.SHORT
+        'Short'     | 'sW'  | NUMBER_LIT | ObjectType.SHORT
+        'char'      | 'ci'  | NUMBER_LIT | ValueType.CHAR
+        'Character' | 'ciW' | NUMBER_LIT | ObjectType.CHARACTER
+        'char'      | 'c'   | CHAR_LIT   | ValueType.CHAR
+        'Character' | 'cW'  | CHAR_LIT   | ObjectType.CHARACTER
+        'int'       | 'i'   | NUMBER_LIT | ValueType.NUMBER
+        'Integer'   | 'iW'  | NUMBER_LIT | ObjectType.INTEGER
+        'long'      | 'l'   | LONG_LIT   | ValueType.LONG
+        'Long'      | 'lW'  | LONG_LIT   | ObjectType.LONG
+        'float'     | 'f'   | FLOAT_LIT  | ValueType.FLOAT
+        'Float'     | 'fW'  | FLOAT_LIT  | ObjectType.FLOAT
+        'double'    | 'd'   | DOUBLE_LIT | ValueType.DOUBLE
+        'Double'    | 'dW'  | DOUBLE_LIT | ObjectType.DOUBLE
+        'boolean'   | 'bo'  | BOOL_LIT   | ValueType.BOOLEAN
+        'Boolean'   | 'boW' | BOOL_LIT   | ObjectType.BOOLEAN
+        'String'    | 'st'  | STRING_LIT | ObjectType.STRING
+        'Object'    | 'o'   | BOOL_LIT   | ObjectType.OBJECT
+    }
+
     def 'test visit dynamic array'() {
         given:
         def type = this.typeChecker.visitDynamicArray(
