@@ -61,7 +61,7 @@ public enum ValueType implements Type {
 
     @Override
     public String toString() {
-        return Type.print(name());
+        return Type.print(name() + "_VALUE");
     }
 
 }
