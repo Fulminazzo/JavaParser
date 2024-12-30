@@ -136,6 +136,16 @@ public interface Type {
     }
 
     /**
+     * Prints the given string to the format of a type.
+     *
+     * @param output the output
+     * @return the new output
+     */
+    static @NotNull String print(final @NotNull String output) {
+        return String.format("Type(%s)", output);
+    }
+
+    /**
      * Gets the class type associated with the current type.
      *
      * @return the class type
