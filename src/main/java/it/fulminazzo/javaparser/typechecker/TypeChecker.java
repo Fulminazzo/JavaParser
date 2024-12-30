@@ -81,7 +81,7 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitEmptyLiteral() {
-        return null;
+        return NoType.NO_TYPE;
     }
 
     @Override
