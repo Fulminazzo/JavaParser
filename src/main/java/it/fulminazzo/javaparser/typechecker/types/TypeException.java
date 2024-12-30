@@ -54,6 +54,18 @@ public class TypeException extends Exception {
     }
 
     /**
+     * Generates a {@link TypeException} with message:
+     * <i>%type% cannot access non-static field %field% from a static context</i>
+     *
+     * @param field the field
+     * @return the type exception
+     */
+    public static @NotNull TypeException cannotAccessStaticField(final @NotNull ClassType type, final @NotNull String field) {
+        return new TypeException(String.format("%s cannot access non-static field %s from a static context",
+                type, field));
+    }
+
+    /**
      * Gets the visibility modifier from the given field in a string format.
      *
      * @param field the field
