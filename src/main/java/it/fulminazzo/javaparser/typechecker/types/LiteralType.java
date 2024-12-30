@@ -31,7 +31,7 @@ public class LiteralType extends ObjectWrapper<String> implements Type {
 
     @Override
     public @NotNull ClassType toClassType() {
-        throw TypeCheckerException.literalConversion();
+        throw TypeCheckerException.noClassType(getClass());
     }
 
 }

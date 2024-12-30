@@ -24,7 +24,7 @@ class LiteralTypeTest extends Specification {
 
         then:
         def e = thrown(TypeCheckerException)
-        e.message == TypeCheckerException.literalConversion().message
+        e.message == TypeCheckerException.noClassType(LiteralType).message
     }
 
 }

@@ -1,7 +1,6 @@
 package it.fulminazzo.javaparser.typechecker;
 
 import it.fulminazzo.javaparser.typechecker.types.ClassType;
-import it.fulminazzo.javaparser.typechecker.types.LiteralType;
 import it.fulminazzo.javaparser.typechecker.types.Type;
 import org.jetbrains.annotations.NotNull;
 
@@ -59,13 +58,13 @@ public class TypeCheckerException extends RuntimeException {
 
     /**
      * Generates a {@link TypeCheckerException} with message:
-     * <i>{@link LiteralType} does not have a {@link ClassType}</i>
+     * <i>%clazz% does not have a {@link ClassType}</i>
      *
      * @return the type exception
      */
-    public static @NotNull TypeCheckerException literalConversion() {
+    public static <T extends Type> @NotNull TypeCheckerException noClassType(final @NotNull Class<T> type) {
         return new TypeCheckerException("%s does not have a %s",
-                LiteralType.class.getSimpleName(), ClassType.class.getSimpleName());
+                type.getSimpleName(), ClassType.class.getSimpleName());
     }
 
     /**
