@@ -48,7 +48,16 @@ public final class ObjectType extends ObjectWrapper<Class<?>> implements Type {
      * @throws TypeException the exception thrown in case the class is not found
      */
     public static @NotNull ObjectType of(final @NotNull String className) throws TypeException {
-        Class<?> clazz = getClass(className);
+        return of(getClass(className));
+    }
+
+    /**
+     * Obtains an instance of {@link ObjectType} from the given class name.
+     *
+     * @param clazz the clazz
+     * @return the object type
+     */
+    public static @NotNull ObjectType of(final @NotNull Class<?> clazz) {
         return new ObjectType(clazz);
     }
 
