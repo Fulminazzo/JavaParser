@@ -66,8 +66,29 @@ class TypeCheckerTest extends Specification {
         e.message == this.typeChecker.environment.alreadyDeclaredVariable(varName).message
     }
 
-    def 'test visit assignment invalid: #type #name = #val'() {
+    def 'test visit assignment invalid: #type invalid = #val'() {
+        given:
+        def errorMessage = TypeCheckerException.invalidType(
+                type.accept(this.typeChecker).toType(),
+                val.accept(this.typeChecker)
+        ).message
 
+        when:
+        this.typeChecker.visitAssignment(type, Literal.of('invalid'), val)
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == errorMessage
+
+        where:
+        type                    | val
+        Literal.of('String')    | CHAR_LIT
+        Literal.of('boolean')   | NUMBER_LIT
+        Literal.of('Character') | LONG_LIT
+        Literal.of('String')    | FLOAT_LIT
+        Literal.of('Integer')   | DOUBLE_LIT
+        Literal.of('int')       | BOOL_LIT
+        Literal.of('double')    | STRING_LIT
     }
 
     def 'test visit dynamic array'() {
