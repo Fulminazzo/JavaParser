@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.typechecker.types.objects;
 
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
+import it.fulminazzo.javaparser.typechecker.types.ClassType;
 import it.fulminazzo.javaparser.typechecker.types.Type;
 import it.fulminazzo.javaparser.typechecker.types.TypeException;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
@@ -25,6 +26,11 @@ public final class ObjectType extends ObjectWrapper<Class<?>> implements Type {
 
     Class<?> getInnerClass() {
         return this.object;
+    }
+
+    @Override
+    public @NotNull ClassType getClassType() {
+        return ClassType.of(getInnerClass());
     }
 
     @Override
