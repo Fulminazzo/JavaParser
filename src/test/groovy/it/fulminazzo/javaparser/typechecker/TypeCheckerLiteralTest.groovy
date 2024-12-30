@@ -11,7 +11,7 @@ import spock.lang.Specification
 
 class TypeCheckerLiteralTest extends Specification {
 
-    def 'test visit literal'() {
+    def 'test visit literal from code #code should return #expected'() {
         given:
         def checker = new TypeChecker()
 
