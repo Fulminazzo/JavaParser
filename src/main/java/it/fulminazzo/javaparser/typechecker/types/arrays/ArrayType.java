@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.typechecker.types.arrays;
 
+import it.fulminazzo.javaparser.typechecker.types.ClassType;
 import it.fulminazzo.javaparser.typechecker.types.Type;
 import it.fulminazzo.javaparser.typechecker.types.TypeWrapper;
 import lombok.Getter;
@@ -18,6 +19,11 @@ public class ArrayType extends TypeWrapper implements Type {
      */
     public ArrayType(@NotNull Type componentType) {
         super(componentType);
+    }
+
+    @Override
+    public @NotNull ClassType getClassType() {
+        return new ArrayClassType(this.object.getClassType());
     }
 
 }
