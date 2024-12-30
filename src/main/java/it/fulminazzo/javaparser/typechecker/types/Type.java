@@ -18,7 +18,7 @@ public interface Type {
      * @return true if it is
      */
     default boolean isValue() {
-        return this instanceof ValueType;
+        return is(ValueType.class);
     }
 
     /**
@@ -27,7 +27,18 @@ public interface Type {
      * @return true if it is
      */
     default boolean isClassType() {
-        return this instanceof ClassType;
+        return is(ClassType.class);
+    }
+
+    /**
+     * Checks whether the current type is of the one specified.
+     *
+     * @param <T>  the type
+     * @param type the class of the type
+     * @return true if it is
+     */
+    default <T extends Type> boolean is(final Class<T> type) {
+        return getClass().isAssignableFrom(type);
     }
 
     /**
