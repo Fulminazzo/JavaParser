@@ -1,9 +1,40 @@
 package it.fulminazzo.javaparser.typechecker.types.objects
 
+import it.fulminazzo.javaparser.typechecker.TypeCheckerException
 import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
 import spock.lang.Specification
 
 class CustomClassObjectTypeTest extends Specification {
+
+    def 'test cast of #cast to #type should return #cast'() {
+        when:
+        def actual = cast.cast(type)
+
+        then:
+        actual == cast.toType()
+
+        where:
+        cast                                                 | type
+        new CustomClassObjectType(ObjectType.of(Collection)) | ObjectType.of(List)
+        new CustomClassObjectType(ObjectType.of(List))       | ObjectType.of(List)
+        new CustomClassObjectType(ObjectType.of(LinkedList)) | ObjectType.of(List)
+        new CustomClassObjectType(ObjectType.of(ArrayList))  | ObjectType.of(List)
+    }
+
+    def 'test invalid cast of #cast to #type'() {
+        when:
+        cast.cast(type)
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.invalidCast(cast, type).message
+
+        where:
+        cast                                                 | type
+        new CustomClassObjectType(ObjectType.of(Map))        | ObjectType.of(List)
+        new CustomClassObjectType(ObjectType.of(HashMap))    | ObjectType.of(List)
+        new CustomClassObjectType(ObjectType.of(Exception))  | ObjectType.of(List)
+    }
 
     def 'test conversion of types'() {
         given:
