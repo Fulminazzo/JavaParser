@@ -77,7 +77,7 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitJavaProgram(@NotNull LinkedList<Statement> statements) {
-        return null;
+        return visitCodeBlock(statements);
     }
 
     @Override

@@ -67,6 +67,24 @@ class TypeCheckerTest extends Specification {
         e.message == TypeCheckerException.invalidArraySize(-1).message
     }
 
+    def 'test visit java program'() {
+        given:
+        def statements = new LinkedList<>([
+                new IfStatement(
+                        BOOL_LIT,
+                        new CodeBlock(new Return(CHAR_LIT)),
+                        new Statement()
+                ),
+                new Return(NUMBER_LIT)
+        ])
+
+        when:
+        def type = this.typeChecker.visitJavaProgram(statements)
+
+        then:
+        type == ValueType.NUMBER
+    }
+
     def 'test visit code block'() {
         given:
         def statements = new LinkedList<>([
