@@ -32,25 +32,25 @@ public class TypeException extends Exception {
 
     /**
      * Generates a {@link TypeException} with message:
-     * <i>Could not find field: %field%</i>
+     * <i>Could not find field %field% in %type%</i>
      *
      * @param field the field
      * @return the type exception
      */
-    public static @NotNull TypeException fieldNotFound(final @NotNull String field) {
-        return new TypeException("Could not find field: " + field);
+    public static @NotNull TypeException fieldNotFound(final @NotNull ClassType type, final @NotNull String field) {
+        return new TypeException("Could not find field: " + field + " in " + type);
     }
 
     /**
      * Generates a {@link TypeException} with message:
-     * <i>Cannot access field %field% with access-level: %access-level%</i>
+     * <i>%type% cannot access field %field% with access-level: %access-level%</i>
      *
      * @param field the field
      * @return the type exception
      */
-    public static @NotNull TypeException cannotAccessField(final @NotNull Field field) {
-        return new TypeException(String.format("Cannot access field %s with access level: %s",
-                field.getName(), getVisibilityModifier(field)));
+    public static @NotNull TypeException cannotAccessField(final @NotNull ClassType type, final @NotNull Field field) {
+        return new TypeException(String.format("%s cannot access field %s with access level: %s",
+                type, field.getName(), getVisibilityModifier(field)));
     }
 
     /**
