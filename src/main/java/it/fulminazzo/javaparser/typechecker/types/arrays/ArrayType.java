@@ -32,7 +32,7 @@ public class ArrayType extends TypeWrapper implements Type {
 
     @Override
     public @NotNull ClassType getClassType() {
-        return new ArrayClassType(this.object.getClassType());
+        return new ArrayClassType(getComponentType().getClassType());
     }
 
 }
