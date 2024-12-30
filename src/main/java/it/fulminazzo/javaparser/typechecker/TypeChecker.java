@@ -82,7 +82,7 @@ public final class TypeChecker implements Visitor<Type> {
      * @param value     the value
      * @return the value converted
      */
-    @NotNull Type convertValue(final @NotNull ClassType valueType,
+    static @NotNull Type convertValue(final @NotNull ClassType valueType,
                                final @NotNull Type value) {
         if (!value.isValue()) return value;
         else if (valueType.is(PrimitiveType.class)) return valueType.toType();

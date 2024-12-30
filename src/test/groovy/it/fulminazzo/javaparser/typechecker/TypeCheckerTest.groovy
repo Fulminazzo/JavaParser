@@ -217,7 +217,7 @@ class TypeCheckerTest extends Specification {
 
     def 'test convertValue of #classType and #type should return #classType'() {
         when:
-        def converted = this.typeChecker.convertValue(classType, type)
+        def converted = TypeChecker.convertValue(classType, type)
 
         then:
         converted == classType.toType()
