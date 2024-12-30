@@ -458,4 +458,15 @@ class PrimitiveTypeTest extends Specification {
         ]
     }
 
+    def 'test toString of #type'() {
+        given:
+        def string = type.toString()
+
+        expect:
+        string == ClassType.print(type.name().toLowerCase())
+
+        where:
+        type << PrimitiveType.values()
+    }
+
 }

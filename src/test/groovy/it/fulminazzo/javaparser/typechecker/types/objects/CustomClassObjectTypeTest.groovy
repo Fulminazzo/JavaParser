@@ -1,6 +1,8 @@
 package it.fulminazzo.javaparser.typechecker.types.objects
 
+
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException
+import it.fulminazzo.javaparser.typechecker.types.ClassType
 import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
 import spock.lang.Specification
 
@@ -106,6 +108,19 @@ class CustomClassObjectTypeTest extends Specification {
                 ClassObjectType.values(),
                 new CustomClassObjectType(ObjectType.STRING)
         ].flatten()
+    }
+
+    def 'test toString of type #type'() {
+        given:
+        def string = type.toString()
+
+        expect:
+        string == ClassType.print(expected)
+
+        where:
+        expected                 | type
+        'String'                 | new CustomClassObjectType(ObjectType.STRING)
+        getClass().canonicalName | new CustomClassObjectType(ObjectType.of(getClass()))
     }
 
 }

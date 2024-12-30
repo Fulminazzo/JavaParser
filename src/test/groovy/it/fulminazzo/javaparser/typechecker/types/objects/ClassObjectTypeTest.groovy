@@ -1,7 +1,9 @@
 package it.fulminazzo.javaparser.typechecker.types.objects
 
+
 import it.fulminazzo.fulmicollection.utils.StringUtils
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException
+import it.fulminazzo.javaparser.typechecker.types.ClassType
 import spock.lang.Specification
 
 import static it.fulminazzo.javaparser.typechecker.types.ValueType.*
@@ -551,6 +553,17 @@ class ClassObjectTypeTest extends Specification {
                 ObjectType.DOUBLE, ObjectType.BOOLEAN,
                 ObjectType.STRING, ObjectType.OBJECT
         ]
+    }
+
+    def 'test toString of #type'() {
+        given:
+        def string = type.toString()
+
+        expect:
+        string == ClassType.print(StringUtils.capitalize(type.name()))
+
+        where:
+        type << ClassObjectType.values()
     }
     
 }
