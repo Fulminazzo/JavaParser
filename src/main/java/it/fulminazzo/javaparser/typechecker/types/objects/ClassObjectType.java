@@ -91,6 +91,11 @@ public enum ClassObjectType implements ClassType {
         }
     }
 
+    @Override
+    public String toString() {
+        return toType().toString().replace("Type", "ClassType");
+    }
+
     /**
      * Gets a new {@link ClassType} from the given class name.
      *
@@ -121,6 +126,5 @@ public enum ClassObjectType implements ClassType {
             return new CustomClassObjectType(type);
         }
     }
-
 }
 
