@@ -52,10 +52,20 @@ public interface Type {
     }
 
     /**
+     * Checks that the current type class is {@link ClassType}.
+     * Throws {@link TypeCheckerException} in case it is not.
+     *
+     * @return the current type cast to the expected one
+     */
+    default ClassType checkClassType() {
+        return check(ClassType.class);
+    }
+
+    /**
      * Checks that the current type class is of the specified one.
      * Throws {@link TypeCheckerException} in case it is not.
      *
-     * @param <T>  the class of the type
+     * @param <T>       the class of the type
      * @param classType the class of the type
      * @return the current type cast to the expected one
      */
