@@ -4,6 +4,7 @@ import it.fulminazzo.fulmicollection.structures.tuples.Tuple
 import it.fulminazzo.javaparser.typechecker.types.ClassType
 import it.fulminazzo.javaparser.typechecker.types.LiteralType
 import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
+import it.fulminazzo.javaparser.typechecker.types.TypeException
 import it.fulminazzo.javaparser.typechecker.types.ValueType
 import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
@@ -39,6 +40,18 @@ class TypeCheckerLiteralTest extends Specification {
         "${FirstInnerClass.canonicalName}.second.version"           | ValueType.NUMBER
         "${FirstInnerClass.SecondInnerClass.canonicalName}"         | ClassType.of(FirstInnerClass.SecondInnerClass.canonicalName)
         "${FirstInnerClass.SecondInnerClass.canonicalName}.version" | ValueType.NUMBER
+    }
+
+    def 'test visit literal invalid field'() {
+        given:
+        def typeException = TypeException.fieldNotFound(ClassType.of(System), 'non_existent')
+
+        when:
+        this.checker.visitLiteralImpl('System.non_existent')
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.of(typeException).message
     }
 
     def 'test getTypeFromLiteral #literal'() {
