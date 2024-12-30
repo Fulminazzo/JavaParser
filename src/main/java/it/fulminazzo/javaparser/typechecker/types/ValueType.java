@@ -34,7 +34,14 @@ public enum ValueType implements Type {
     /**
      * Type of {@link it.fulminazzo.javaparser.tokenizer.TokenType#STRING_VALUE}.
      */
-    STRING
+    STRING,
+
+    /*
+        The following types do not have an associated regex.
+        They can only be identified after declaring a variable.
+     */
+    BYTE,
+    SHORT,
     ;
 
     @Override
@@ -42,6 +49,8 @@ public enum ValueType implements Type {
         switch (this) {
             case CHAR: return PrimitiveType.CHAR;
             case LONG: return PrimitiveType.LONG;
+            case BYTE: return PrimitiveType.BYTE;
+            case SHORT: return PrimitiveType.SHORT;
             case NUMBER: return PrimitiveType.INT;
             case FLOAT: return PrimitiveType.FLOAT;
             case DOUBLE: return PrimitiveType.DOUBLE;
