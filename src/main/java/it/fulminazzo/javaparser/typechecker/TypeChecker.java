@@ -9,6 +9,7 @@ import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.parser.node.statements.Statement;
 import it.fulminazzo.javaparser.typechecker.types.ClassType;
+import it.fulminazzo.javaparser.typechecker.types.LiteralType;
 import it.fulminazzo.javaparser.typechecker.types.Type;
 import it.fulminazzo.javaparser.typechecker.types.TypeException;
 import it.fulminazzo.javaparser.visitors.Visitor;
@@ -89,8 +90,15 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public Type visitLiteralImpl(@NotNull String value) {
-        // TODO:
-        return null;
+        @NotNull Tuple<ClassType, Type> tuple = getTypeFromLiteral(value);
+        if (value.contains(".")) {
+            // Class was parsed
+            if (tuple.isPresent()) return tuple.getValue();
+            throw new IllegalStateException("Unimplemented");
+        } else {
+            if (tuple.isPresent()) return tuple.getValue();
+            else return new LiteralType(value);
+        }
     }
 
     @Override
