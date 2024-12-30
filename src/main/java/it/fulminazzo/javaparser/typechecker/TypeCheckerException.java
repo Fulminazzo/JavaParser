@@ -1,6 +1,9 @@
 package it.fulminazzo.javaparser.typechecker;
 
+import it.fulminazzo.javaparser.typechecker.types.ClassType;
+import it.fulminazzo.javaparser.typechecker.types.LiteralType;
 import it.fulminazzo.javaparser.typechecker.types.Type;
+import it.fulminazzo.javaparser.typechecker.types.TypeException;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -30,6 +33,17 @@ public class TypeCheckerException extends RuntimeException {
                                                             final @NotNull Type actual) {
         return new TypeCheckerException("Invalid type received: expected %s but got %s instead.",
                 expected, actual);
+    }
+
+    /**
+     * Generates a {@link TypeCheckerException} with message:
+     * <i>{@link LiteralType} does not have a {@link ClassType}</i>
+     *
+     * @return the type exception
+     */
+    public static @NotNull TypeCheckerException literalConversion() {
+        return new TypeCheckerException("%s does not have a %s",
+                LiteralType.class.getSimpleName(), ClassType.class.getSimpleName());
     }
 
 }
