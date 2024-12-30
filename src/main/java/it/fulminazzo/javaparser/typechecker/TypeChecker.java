@@ -168,8 +168,7 @@ public final class TypeChecker implements Visitor<Type> {
     public @NotNull Type visitCast(@NotNull Node left, @NotNull Node right) {
         ClassType cast = left.accept(this).checkClassType();
         Type type = right.accept(this);
-        if (!type.isAssignableFrom(cast)) throw TypeCheckerException.invalidType(cast, type);
-        else return cast.toType();
+        return cast.cast(type);
     }
 
     @Override
