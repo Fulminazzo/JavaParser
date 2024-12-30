@@ -63,7 +63,7 @@ public enum PrimitiveType implements ClassType {
 
     @Override
     public @NotNull Type cast(@NotNull Type type) {
-        if (this == BOOLEAN) return type.check(BOOLEAN);
+        if (this == BOOLEAN) return type.check(ValueType.BOOLEAN);
         else return toType();
     }
 
