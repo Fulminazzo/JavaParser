@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.typechecker.types.objects
 
 import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
+import it.fulminazzo.javaparser.typechecker.types.Type
 import it.fulminazzo.javaparser.typechecker.types.TypeException
 import it.fulminazzo.javaparser.typechecker.types.ValueType
 import spock.lang.Specification
@@ -40,7 +41,7 @@ class ObjectTypeTest extends Specification {
         def string = type.toString()
 
         then:
-        string == "Type(${expected})"
+        string == Type.print(expected)
 
         where:
         raw                           | expected
