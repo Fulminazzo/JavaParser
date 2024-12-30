@@ -520,12 +520,16 @@ class TypeCheckerTest extends Specification {
         given:
         this.typeChecker.environment.declare(PrimitiveType.INT, 'cast', ValueType.NUMBER)
 
+        and:
+        def expectedMessage = TypeCheckerException.invalidCast(cast.equals(Literal.of('String')) ?
+                ClassObjectType.STRING : PrimitiveType.INT, expected).message
+
         when:
         this.typeChecker.visitCast(cast, target)
 
         then:
         def e = thrown(TypeCheckerException)
-        e.message == TypeCheckerException.invalidCast(ClassObjectType.STRING, expected).message
+        e.message == expectedMessage
 
         where:
         target             | cast                 | expected
@@ -534,7 +538,7 @@ class TypeCheckerTest extends Specification {
         LONG_LIT           | Literal.of('String') | ValueType.LONG
         FLOAT_LIT          | Literal.of('String') | ValueType.FLOAT
         DOUBLE_LIT         | Literal.of('String') | ValueType.DOUBLE
-        STRING_LIT         | Literal.of('int')    | ObjectType.STRING
+        STRING_LIT         | Literal.of('int')    | ValueType.STRING
         Literal.of('cast') | Literal.of('String') | ValueType.NUMBER
     }
 
