@@ -18,13 +18,13 @@ class ClassObjectTypeTest extends Specification {
         where:
         cast                      | type
         // Byte
-        ClassObjectType.BYTE      | NUMBER
+        ClassObjectType.BYTE      | BYTE
         ClassObjectType.BYTE      | ObjectType.BYTE
         // Character
         ClassObjectType.CHARACTER | CHAR
         ClassObjectType.CHARACTER | ObjectType.CHARACTER
         // Short
-        ClassObjectType.SHORT     | NUMBER
+        ClassObjectType.SHORT     | SHORT
         ClassObjectType.SHORT     | ObjectType.SHORT
         // Integer
         ClassObjectType.INTEGER   | NUMBER
@@ -92,6 +92,7 @@ class ClassObjectTypeTest extends Specification {
         // Character
         ClassObjectType.CHARACTER | NUMBER
         ClassObjectType.CHARACTER | ObjectType.BYTE
+        ClassObjectType.CHARACTER | SHORT
         ClassObjectType.CHARACTER | ObjectType.SHORT
         ClassObjectType.CHARACTER | ObjectType.INTEGER
         ClassObjectType.CHARACTER | LONG
@@ -106,6 +107,7 @@ class ClassObjectTypeTest extends Specification {
         ClassObjectType.CHARACTER | ObjectType.STRING
         ClassObjectType.CHARACTER | ObjectType.OBJECT
         // Short
+        ClassObjectType.SHORT     | BYTE
         ClassObjectType.SHORT     | ObjectType.BYTE
         ClassObjectType.SHORT     | ObjectType.INTEGER
         ClassObjectType.SHORT     | CHAR
@@ -122,7 +124,9 @@ class ClassObjectTypeTest extends Specification {
         ClassObjectType.SHORT     | ObjectType.STRING
         ClassObjectType.SHORT     | ObjectType.OBJECT
         // Integer
+        ClassObjectType.INTEGER   | BYTE
         ClassObjectType.INTEGER   | ObjectType.BYTE
+        ClassObjectType.INTEGER   | SHORT
         ClassObjectType.INTEGER   | ObjectType.SHORT
         ClassObjectType.INTEGER   | CHAR
         ClassObjectType.INTEGER   | ObjectType.CHARACTER
