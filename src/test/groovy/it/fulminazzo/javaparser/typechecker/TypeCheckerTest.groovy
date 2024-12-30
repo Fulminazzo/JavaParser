@@ -1,7 +1,10 @@
 package it.fulminazzo.javaparser.typechecker
 
-
+import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.literals.Literal
+import it.fulminazzo.javaparser.parser.node.statements.IfStatement
+import it.fulminazzo.javaparser.parser.node.statements.Return
+import it.fulminazzo.javaparser.parser.node.statements.Statement
 import it.fulminazzo.javaparser.parser.node.values.*
 import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
 import it.fulminazzo.javaparser.typechecker.types.ValueType
@@ -64,7 +67,25 @@ class TypeCheckerTest extends Specification {
         e.message == TypeCheckerException.invalidArraySize(-1).message
     }
 
-    def 'visit array literal'() {
+    def 'test visit code block'() {
+        given:
+        def statements = new LinkedList<>([
+                new IfStatement(
+                        BOOL_LIT,
+                        new CodeBlock(new Return(CHAR_LIT)),
+                        new Statement()
+                ),
+                new Return(NUMBER_LIT)
+        ])
+
+        when:
+        def type = this.typeChecker.visitCodeBlock(statements)
+
+        then:
+        type == ValueType.NUMBER
+    }
+
+    def 'test visit array literal'() {
         when:
         def type = this.typeChecker.visitArrayLiteral(Literal.of('int'))
 
