@@ -15,15 +15,15 @@ public enum PrimitiveType implements ClassType {
     BYTE(ValueType.BYTE, ValueType.CHAR, ValueType.NUMBER,
             ObjectType.BYTE),
     /**
-     * <code>char</code>
-     */
-    CHAR(ValueType.CHAR, ValueType.NUMBER,
-            ObjectType.CHARACTER),
-    /**
      * <code>short</code>
      */
     SHORT(ValueType.BYTE, ValueType.SHORT, ValueType.CHAR, ValueType.NUMBER,
             ObjectType.BYTE, ObjectType.SHORT),
+    /**
+     * <code>char</code>
+     */
+    CHAR(ValueType.CHAR, ValueType.NUMBER,
+            ObjectType.CHARACTER),
     /**
      * <code>int</code>
      */

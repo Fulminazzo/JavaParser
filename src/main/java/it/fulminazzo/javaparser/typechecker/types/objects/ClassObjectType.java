@@ -16,13 +16,13 @@ public enum ClassObjectType implements ClassType {
      */
     BYTE(PrimitiveType.BYTE),
     /**
-     * {@link java.lang.Character}
-     */
-    CHARACTER(PrimitiveType.CHAR),
-    /**
      * {@link java.lang.Short}
      */
     SHORT(PrimitiveType.SHORT),
+    /**
+     * {@link java.lang.Character}
+     */
+    CHARACTER(PrimitiveType.CHAR),
     /**
      * {@link java.lang.Integer}
      */

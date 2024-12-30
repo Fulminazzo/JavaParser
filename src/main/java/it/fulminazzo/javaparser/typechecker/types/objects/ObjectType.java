@@ -19,8 +19,8 @@ import java.util.Map;
  */
 public final class ObjectType extends ObjectWrapper<Class<?>> implements Type {
     public static final ObjectType BYTE = new ObjectType(Byte.class);
-    public static final ObjectType CHARACTER = new ObjectType(Character.class);
     public static final ObjectType SHORT = new ObjectType(Short.class);
+    public static final ObjectType CHARACTER = new ObjectType(Character.class);
     public static final ObjectType INTEGER = new ObjectType(Integer.class);
     public static final ObjectType LONG = new ObjectType(Long.class);
     public static final ObjectType FLOAT = new ObjectType(Float.class);
