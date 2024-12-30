@@ -39,7 +39,7 @@ public interface ClassType extends Type, Info {
      * @return the class type
      * @throws TypeException the exception thrown in case the class is not found
      */
-    static ClassType of(final @NotNull String className) throws TypeException {
+    static @NotNull ClassType of(final @NotNull String className) throws TypeException {
         try {
             String lowerCase = className.toLowerCase();
             if (lowerCase.equals(className)) return PrimitiveType.valueOf(className.toUpperCase());

@@ -84,7 +84,7 @@ public enum ClassObjectType implements ClassType {
      * @return the class type
      * @throws TypeException the exception thrown in case the class is not found
      */
-    public static ClassType of(final @NotNull String className) throws TypeException {
+    public static @NotNull ClassType of(final @NotNull String className) throws TypeException {
         ObjectType type = ObjectType.of(className);
         try {
             return ClassObjectType.valueOf(type.getInnerClass().getSimpleName().toUpperCase());
