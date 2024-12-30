@@ -47,7 +47,7 @@ public final class ObjectType extends ObjectWrapper<Class<?>> implements Type {
 
     @Override
     public String toString() {
-        return String.format("Type(%s)", getClassName(getClass()));
+        return String.format("Type(%s)", getClassName(getInnerClass()));
     }
 
     /**
