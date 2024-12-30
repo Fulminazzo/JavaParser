@@ -36,8 +36,8 @@ public final class OperationUtils {
      *
      * @return the types
      */
-    public static Type[] getDecimalTypes() {
-        return DECIMAL_TYPES.clone();
+    public static Type @NotNull [] getDecimalTypes() {
+        return Stream.concat(Arrays.stream(DECIMAL_TYPES), Arrays.stream(NON_DECIMAL_TYPES)).toArray(Type[]::new);
     }
 
     /**
