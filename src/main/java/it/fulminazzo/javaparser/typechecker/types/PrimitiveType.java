@@ -9,11 +9,15 @@ import org.jetbrains.annotations.NotNull;
  * Represents a primitive {@link Type} name.
  */
 public enum PrimitiveType implements ClassType {
+    //TODO: byte should be compatible only with 'c', not char c;
+    //TODO: byte should be compatible only with 1, not int i;
     /**
      * <code>byte</code>
      */
     BYTE(ValueType.BYTE, ValueType.CHAR, ValueType.NUMBER,
             ObjectType.BYTE),
+    //TODO: short should be compatible only with 'c', not char c;
+    //TODO: short should be compatible only with 1, not int i;
     /**
      * <code>short</code>
      */
@@ -27,31 +31,32 @@ public enum PrimitiveType implements ClassType {
     /**
      * <code>int</code>
      */
-    INT(ValueType.BYTE, ValueType.SHORT, ValueType.CHAR, ValueType.NUMBER, ObjectType.BYTE,
-            ObjectType.CHARACTER, ObjectType.SHORT, ObjectType.INTEGER),
+    INT(ValueType.BYTE, ValueType.SHORT, ValueType.CHAR, ValueType.NUMBER,
+            ObjectType.BYTE, ObjectType.SHORT, ObjectType.CHARACTER, ObjectType.INTEGER),
     /**
      * <code>long</code>
      */
-    LONG(ValueType.BYTE, ValueType.SHORT, ValueType.CHAR, ValueType.NUMBER, ValueType.LONG, ObjectType.BYTE,
-            ObjectType.CHARACTER, ObjectType.SHORT, ObjectType.INTEGER, ObjectType.LONG),
+    LONG(ValueType.BYTE, ValueType.SHORT, ValueType.CHAR, ValueType.NUMBER, ValueType.LONG,
+            ObjectType.BYTE, ObjectType.SHORT, ObjectType.CHARACTER, ObjectType.INTEGER, ObjectType.LONG),
     /**
      * <code>float</code>
      */
     FLOAT(ValueType.BYTE, ValueType.SHORT, ValueType.CHAR, ValueType.NUMBER, ValueType.LONG,
-            ValueType.FLOAT, ObjectType.BYTE,
-            ObjectType.CHARACTER, ObjectType.SHORT, ObjectType.INTEGER, ObjectType.LONG,
+            ValueType.FLOAT,
+            ObjectType.BYTE, ObjectType.SHORT, ObjectType.CHARACTER, ObjectType.INTEGER, ObjectType.LONG,
             ObjectType.FLOAT),
     /**
      * <code>double</code>
      */
     DOUBLE(ValueType.BYTE, ValueType.SHORT, ValueType.CHAR, ValueType.NUMBER, ValueType.LONG,
-            ValueType.FLOAT, ValueType.DOUBLE, ObjectType.BYTE,
-            ObjectType.CHARACTER, ObjectType.SHORT, ObjectType.INTEGER, ObjectType.LONG,
+            ValueType.FLOAT, ValueType.DOUBLE,
+            ObjectType.BYTE, ObjectType.SHORT, ObjectType.CHARACTER, ObjectType.INTEGER, ObjectType.LONG,
             ObjectType.FLOAT, ObjectType.DOUBLE),
     /**
      * <code>boolean</code>
      */
-    BOOLEAN(ValueType.BOOLEAN, ObjectType.BOOLEAN),
+    BOOLEAN(ValueType.BOOLEAN,
+            ObjectType.BOOLEAN),
     ;
 
     private final Type @NotNull [] compatibleTypes;
