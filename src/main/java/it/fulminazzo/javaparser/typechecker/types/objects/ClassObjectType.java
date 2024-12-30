@@ -98,7 +98,8 @@ public enum ClassObjectType implements ClassType {
         if (this.associatedType != null) return this.associatedType.compatibleWith(type);
         else {
             // Either STRING or OBJECT
-            if (this == STRING) return ValueType.STRING.is(type);
+            if (this == STRING)
+                return ValueType.STRING.is(type) || ObjectType.STRING.is(type);
             else return true;
         }
     }

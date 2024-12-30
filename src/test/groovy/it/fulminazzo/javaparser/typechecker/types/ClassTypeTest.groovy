@@ -27,12 +27,14 @@ class ClassTypeTest extends Specification {
 
         where:
         className <<  [
+                PrimitiveType.values().collect { it.name().toLowerCase() },
                 ClassObjectType.values().collect { it.name() } .collect {
                      "${it[0]}${it.substring(1).toLowerCase()}"
                 },
                 Map.class.simpleName
         ].flatten()
         expected << [
+                PrimitiveType.values(),
                 ClassObjectType.values(),
                 new Refl<>("${ClassObjectType.package.name}.CustomClassObjectType",
                         ObjectType.of('Map')).getObject()

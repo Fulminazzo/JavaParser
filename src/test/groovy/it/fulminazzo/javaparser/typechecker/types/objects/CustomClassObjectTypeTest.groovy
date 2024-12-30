@@ -31,7 +31,7 @@ class CustomClassObjectTypeTest extends Specification {
     def 'test incompatible with #type'() {
         given:
         // Bad practice, just for testing purposes
-        def classType = new CustomClassObjectType(ObjectType.OBJECT)
+        def classType = new CustomClassObjectType(ObjectType.STRING)
 
         expect:
         !classType.compatibleWith(type)
@@ -39,6 +39,7 @@ class CustomClassObjectTypeTest extends Specification {
         where:
         type << [
                 PrimitiveType.values(),
+                [ObjectType.BYTE, ObjectType.SHORT, ObjectType.OBJECT],
                 ObjectType.of(getClass().canonicalName)
         ].flatten()
     }
@@ -68,7 +69,7 @@ class CustomClassObjectTypeTest extends Specification {
                 null,
                 PrimitiveType.values(),
                 ClassObjectType.values(),
-                new CustomClassObjectType(ObjectType.OBJECT)
+                new CustomClassObjectType(ObjectType.STRING)
         ].flatten()
     }
 

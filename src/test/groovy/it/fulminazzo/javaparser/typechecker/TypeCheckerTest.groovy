@@ -12,6 +12,7 @@ import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
 import it.fulminazzo.javaparser.typechecker.types.ValueType
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayClassType
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayType
+import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
 
@@ -124,7 +125,7 @@ class TypeCheckerTest extends Specification {
         def type = this.typeChecker.visitArrayLiteral(Literal.of('Integer'))
 
         then:
-        type == new ArrayClassType(PrimitiveType.INT)
+        type == new ArrayClassType(ClassObjectType.INTEGER)
     }
 
     def 'test decrement for #literal should return #expected'() {
