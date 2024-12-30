@@ -59,12 +59,12 @@ class TypeTest extends Specification {
 
         where:
         field               | expected
-        'publicField'       | PrimitiveType.DOUBLE
+        'publicStaticField'       | PrimitiveType.INT
     }
 
     def 'test class cannot access non-static field'() {
         given:
-        def field = 'packageField'
+        def field = 'publicField'
 
         when:
         this.classType.getField(field)
