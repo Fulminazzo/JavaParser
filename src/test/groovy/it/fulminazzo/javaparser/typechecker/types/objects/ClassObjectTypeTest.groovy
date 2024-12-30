@@ -74,7 +74,9 @@ class ClassObjectTypeTest extends Specification {
         where:
         cast                      | type
         // Byte
+        ClassObjectType.BYTE      | SHORT
         ClassObjectType.BYTE      | ObjectType.SHORT
+        ClassObjectType.BYTE      | NUMBER
         ClassObjectType.BYTE      | ObjectType.INTEGER
         ClassObjectType.BYTE      | CHAR
         ClassObjectType.BYTE      | ObjectType.CHARACTER
@@ -90,10 +92,11 @@ class ClassObjectTypeTest extends Specification {
         ClassObjectType.BYTE      | ObjectType.STRING
         ClassObjectType.BYTE      | ObjectType.OBJECT
         // Character
-        ClassObjectType.CHARACTER | NUMBER
+        ClassObjectType.CHARACTER | BYTE
         ClassObjectType.CHARACTER | ObjectType.BYTE
         ClassObjectType.CHARACTER | SHORT
         ClassObjectType.CHARACTER | ObjectType.SHORT
+        ClassObjectType.CHARACTER | NUMBER
         ClassObjectType.CHARACTER | ObjectType.INTEGER
         ClassObjectType.CHARACTER | LONG
         ClassObjectType.CHARACTER | ObjectType.LONG
@@ -109,6 +112,7 @@ class ClassObjectTypeTest extends Specification {
         // Short
         ClassObjectType.SHORT     | BYTE
         ClassObjectType.SHORT     | ObjectType.BYTE
+        ClassObjectType.SHORT     | NUMBER
         ClassObjectType.SHORT     | ObjectType.INTEGER
         ClassObjectType.SHORT     | CHAR
         ClassObjectType.SHORT     | ObjectType.CHARACTER
@@ -142,9 +146,11 @@ class ClassObjectTypeTest extends Specification {
         ClassObjectType.INTEGER   | ObjectType.STRING
         ClassObjectType.INTEGER   | ObjectType.OBJECT
         // Long
-        ClassObjectType.LONG      | NUMBER
+        ClassObjectType.LONG      | BYTE
         ClassObjectType.LONG      | ObjectType.BYTE
+        ClassObjectType.LONG      | SHORT
         ClassObjectType.LONG      | ObjectType.SHORT
+        ClassObjectType.LONG      | NUMBER
         ClassObjectType.LONG      | ObjectType.INTEGER
         ClassObjectType.LONG      | CHAR
         ClassObjectType.LONG      | ObjectType.CHARACTER
@@ -158,9 +164,11 @@ class ClassObjectTypeTest extends Specification {
         ClassObjectType.LONG      | ObjectType.STRING
         ClassObjectType.LONG      | ObjectType.OBJECT
         // Float
-        ClassObjectType.FLOAT     | NUMBER
+        ClassObjectType.FLOAT     | BYTE
         ClassObjectType.FLOAT     | ObjectType.BYTE
+        ClassObjectType.FLOAT     | SHORT
         ClassObjectType.FLOAT     | ObjectType.SHORT
+        ClassObjectType.FLOAT     | NUMBER
         ClassObjectType.FLOAT     | ObjectType.INTEGER
         ClassObjectType.FLOAT     | CHAR
         ClassObjectType.FLOAT     | ObjectType.CHARACTER
@@ -174,9 +182,11 @@ class ClassObjectTypeTest extends Specification {
         ClassObjectType.FLOAT     | ObjectType.STRING
         ClassObjectType.FLOAT     | ObjectType.OBJECT
         // Double
-        ClassObjectType.DOUBLE    | NUMBER
+        ClassObjectType.DOUBLE    | BYTE
         ClassObjectType.DOUBLE    | ObjectType.BYTE
+        ClassObjectType.DOUBLE    | SHORT
         ClassObjectType.DOUBLE    | ObjectType.SHORT
+        ClassObjectType.DOUBLE    | NUMBER
         ClassObjectType.DOUBLE    | ObjectType.INTEGER
         ClassObjectType.DOUBLE    | CHAR
         ClassObjectType.DOUBLE    | ObjectType.CHARACTER
@@ -190,9 +200,11 @@ class ClassObjectTypeTest extends Specification {
         ClassObjectType.DOUBLE    | ObjectType.STRING
         ClassObjectType.DOUBLE    | ObjectType.OBJECT
         // Boolean
-        ClassObjectType.BOOLEAN   | NUMBER
+        ClassObjectType.BOOLEAN   | BYTE
         ClassObjectType.BOOLEAN   | ObjectType.BYTE
+        ClassObjectType.BOOLEAN   | SHORT
         ClassObjectType.BOOLEAN   | ObjectType.SHORT
+        ClassObjectType.BOOLEAN   | NUMBER
         ClassObjectType.BOOLEAN   | ObjectType.INTEGER
         ClassObjectType.BOOLEAN   | CHAR
         ClassObjectType.BOOLEAN   | ObjectType.CHARACTER
@@ -206,9 +218,11 @@ class ClassObjectTypeTest extends Specification {
         ClassObjectType.BOOLEAN   | ObjectType.STRING
         ClassObjectType.BOOLEAN   | ObjectType.OBJECT
         // String
-        ClassObjectType.STRING    | NUMBER
+        ClassObjectType.STRING    | BYTE
         ClassObjectType.STRING    | ObjectType.BYTE
+        ClassObjectType.STRING    | SHORT
         ClassObjectType.STRING    | ObjectType.SHORT
+        ClassObjectType.STRING    | NUMBER
         ClassObjectType.STRING    | ObjectType.INTEGER
         ClassObjectType.STRING    | CHAR
         ClassObjectType.STRING    | ObjectType.CHARACTER
