@@ -40,4 +40,9 @@ public class ArrayClassType extends TypeWrapper implements ClassType {
         return type instanceof ArrayType && ((ArrayType) type).getInternalType().isAssignableFrom((ClassType) getInternalType());
     }
 
+    @Override
+    public @NotNull Type toType() {
+        return new ArrayType(getComponentType().toType());
+    }
+
 }
