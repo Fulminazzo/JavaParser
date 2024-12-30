@@ -108,5 +108,23 @@ public enum ClassObjectType implements ClassType {
         }
     }
 
+    @Override
+    public @NotNull Type toType() {
+        switch (this) {
+            case BYTE:
+            case SHORT:
+            case INTEGER:
+                return ValueType.NUMBER;
+            case CHARACTER: return ValueType.CHAR;
+            case LONG: return ValueType.LONG;
+            case FLOAT: return ValueType.FLOAT;
+            case DOUBLE: return ValueType.DOUBLE;
+            case BOOLEAN: return ValueType.BOOLEAN;
+            case STRING: return ValueType.STRING;
+            case OBJECT: return ObjectType.OBJECT;
+            default: throw new IllegalStateException("Unreachable code");
+        }
+    }
+
 }
 
