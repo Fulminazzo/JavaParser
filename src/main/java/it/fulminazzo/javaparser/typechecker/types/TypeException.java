@@ -22,13 +22,13 @@ public class TypeException extends Exception {
 
     /**
      * Generates a {@link TypeException} with message:
-     * <i>Could not find class: %clazz%</i>
+     * <i>Could not find class '%clazz%'</i>
      *
      * @param clazz the clazz
      * @return the type exception
      */
     public static @NotNull TypeException classNotFound(final @NotNull String clazz) {
-        return new TypeException("Could not find class: " + clazz);
+        return new TypeException(String.format("Could not find class '%s'", clazz));
     }
 
     /**
