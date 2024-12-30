@@ -58,6 +58,20 @@ public class TypeCheckerException extends RuntimeException {
 
     /**
      * Generates a {@link TypeCheckerException} with message:
+     * <i>Inconvertible types: cannot cast '%actual%' to '%expected%'</i>
+     *
+     * @param expected the expected type
+     * @param actual   the actual type
+     * @return the type checker exception
+     */
+    public static @NotNull TypeCheckerException invalidCast(final @NotNull Type expected,
+                                                            final @NotNull Type actual) {
+        return new TypeCheckerException("Inconvertible types: cannot cast '%s' to '%s'",
+                actual, expected);
+    }
+
+    /**
+     * Generates a {@link TypeCheckerException} with message:
      * <i>%clazz% does not have a {@link ClassType}</i>
      *
      * @return the type exception
