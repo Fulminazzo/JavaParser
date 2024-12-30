@@ -10,6 +10,14 @@ import org.jetbrains.annotations.NotNull;
 public interface ClassType extends Type, Info {
 
     /**
+     * Checks if the given type can be cast to the current class.
+     *
+     * @param type the type
+     * @return the associated type of this class
+     */
+    Type cast(final @NotNull Type type);
+
+    /**
      * Gets the actual class represented by this type.
      *
      * @return the class
