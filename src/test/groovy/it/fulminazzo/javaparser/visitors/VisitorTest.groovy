@@ -62,7 +62,7 @@ class VisitorTest extends Specification {
             if (!ReflectionUtils.isPrimitive(it.type)) value = '@NotNull ' + value
             return value
         }.join(', ')
-        toWrite.add("    T ${methodName}(${stringParameters});\n")
+        toWrite.add("    @NotNull T ${methodName}(${stringParameters});\n")
         toWrite.add('\n}')
 
         file.delete()
@@ -91,267 +91,267 @@ class VisitorTest extends Specification {
          */
 
         @Override
-        String visitAssignment(@NotNull Node type, @NotNull Literal name, @NotNull Node value) {
+        @NotNull String visitAssignment(@NotNull Node type, @NotNull Literal name, @NotNull Node value) {
             return null
         }
 
         @Override
-        String visitMethodCall(@NotNull Node executor, @NotNull MethodInvocation invocation) {
+        @NotNull String visitMethodCall(@NotNull Node executor, @NotNull MethodInvocation invocation) {
             return null
         }
 
         @Override
-        String visitMethodInvocation(@NotNull List<Node> parameters) {
+        @NotNull String visitMethodInvocation(@NotNull List<Node> parameters) {
             return null
         }
 
         @Override
-        String visitDynamicArray(@NotNull List<Node> parameters, @NotNull Node type) {
+        @NotNull String visitDynamicArray(@NotNull List<Node> parameters, @NotNull Node type) {
             return null
         }
 
         @Override
-        String visitStaticArray(int size, @NotNull Node type) {
+        @NotNull String visitStaticArray(int size, @NotNull Node type) {
             return null
         }
 
         @Override
-        String visitCodeBlock(@NotNull LinkedList<Statement> statements) {
+        @NotNull String visitCodeBlock(@NotNull LinkedList<Statement> statements) {
             return null
         }
 
         @Override
-        String visitJavaProgram(@NotNull LinkedList<Statement> statements) {
+        @NotNull String visitJavaProgram(@NotNull LinkedList<Statement> statements) {
             return null
         }
 
         @Override
-        String visitArrayLiteral(@NotNull Node type) {
+        @NotNull String visitArrayLiteral(@NotNull Node type) {
             return null
         }
 
         @Override
-        String visitEmptyLiteral() {
+        @NotNull String visitEmptyLiteral() {
             return null
         }
 
         @Override
-        String visitLiteralImpl(@NotNull String value) {
+        @NotNull String visitLiteralImpl(@NotNull String value) {
             return null
         }
 
         @Override
-        String visitAdd(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitAdd(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        String visitAnd(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitAnd(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        String visitBitAnd(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitBitAnd(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        String visitBitOr(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitBitOr(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        String visitBitXor(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitBitXor(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        String visitCast(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitCast(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        String visitDivide(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitDivide(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        String visitEqual(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitEqual(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        String visitGreaterThan(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitGreaterThan(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        String visitGreaterThanEqual(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitGreaterThanEqual(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        String visitLShift(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitLShift(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        String visitLessThan(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitLessThan(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        String visitLessThanEqual(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitLessThanEqual(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        String visitModulo(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitModulo(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        String visitMultiply(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitMultiply(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        String visitNewObject(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitNewObject(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        String visitNotEqual(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitNotEqual(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        String visitOr(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitOr(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        String visitRShift(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitRShift(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        String visitReAssign(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitReAssign(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        String visitSubtract(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitSubtract(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        String visitURShift(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitURShift(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        String visitDecrement(boolean before, @NotNull Node operand) {
+        @NotNull String visitDecrement(boolean before, @NotNull Node operand) {
             return null
         }
 
         @Override
-        String visitIncrement(boolean before, @NotNull Node operand) {
+        @NotNull String visitIncrement(boolean before, @NotNull Node operand) {
             return null
         }
 
         @Override
-        String visitMinus(@NotNull Node operand) {
+        @NotNull String visitMinus(@NotNull Node operand) {
             return null
         }
 
         @Override
-        String visitNot(@NotNull Node operand) {
+        @NotNull String visitNot(@NotNull Node operand) {
             return null
         }
 
         @Override
-        String visitBreak(@NotNull Node expr) {
+        @NotNull String visitBreak(@NotNull Node expr) {
             return null
         }
 
         @Override
-        String visitContinue(@NotNull Node expr) {
+        @NotNull String visitContinue(@NotNull Node expr) {
             return null
         }
 
         @Override
-        String visitDoStatement(@NotNull CodeBlock code, @NotNull Node expr) {
+        @NotNull String visitDoStatement(@NotNull CodeBlock code, @NotNull Node expr) {
             return null
         }
 
         @Override
-        String visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable, @NotNull CodeBlock code, @NotNull Node expr) {
+        @NotNull String visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable, @NotNull CodeBlock code, @NotNull Node expr) {
             return null
         }
 
         @Override
-        String visitForStatement(@NotNull Node assignment, @NotNull Node increment, @NotNull CodeBlock code, @NotNull Node expr) {
+        @NotNull String visitForStatement(@NotNull Node assignment, @NotNull Node increment, @NotNull CodeBlock code, @NotNull Node expr) {
             return null
         }
 
         @Override
-        String visitIfStatement(@NotNull CodeBlock code, @NotNull Node thenBranch, @NotNull Node expr) {
+        @NotNull String visitIfStatement(@NotNull CodeBlock code, @NotNull Node thenBranch, @NotNull Node expr) {
             return null
         }
 
         @Override
-        String visitReturn(@NotNull Node expr) {
+        @NotNull String visitReturn(@NotNull Node expr) {
             return null
         }
 
         @Override
-        String visitStatement(@NotNull Node expr) {
+        @NotNull String visitStatement(@NotNull Node expr) {
             return null
         }
 
         @Override
-        String visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expr) {
+        @NotNull String visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expr) {
             return null
         }
 
         @Override
-        String visitNullLiteral() {
+        @NotNull String visitNullLiteral() {
             return null
         }
 
         @Override
-        String visitBooleanValueLiteral(@NotNull String rawValue) {
+        @NotNull String visitBooleanValueLiteral(@NotNull String rawValue) {
             return null
         }
 
         @Override
-        String visitCharValueLiteral(@NotNull String rawValue) {
+        @NotNull String visitCharValueLiteral(@NotNull String rawValue) {
             return null
         }
 
         @Override
-        String visitDoubleValueLiteral(@NotNull String rawValue) {
+        @NotNull String visitDoubleValueLiteral(@NotNull String rawValue) {
             return null
         }
 
         @Override
-        String visitFloatValueLiteral(@NotNull String rawValue) {
+        @NotNull String visitFloatValueLiteral(@NotNull String rawValue) {
             return null
         }
 
         @Override
-        String visitLongValueLiteral(@NotNull String rawValue) {
+        @NotNull String visitLongValueLiteral(@NotNull String rawValue) {
             return null
         }
 
         @Override
-        String visitNumberValueLiteral(@NotNull String rawValue) {
+        @NotNull String visitNumberValueLiteral(@NotNull String rawValue) {
             return null
         }
 
         @Override
-        String visitStringValueLiteral(@NotNull String rawValue) {
+        @NotNull String visitStringValueLiteral(@NotNull String rawValue) {
             return null
         }
     }
