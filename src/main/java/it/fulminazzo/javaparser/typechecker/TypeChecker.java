@@ -14,7 +14,6 @@ import it.fulminazzo.javaparser.typechecker.types.*;
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayClassType;
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayType;
 import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType;
-import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
 import it.fulminazzo.javaparser.visitors.Visitor;
 import org.jetbrains.annotations.NotNull;
 
@@ -63,15 +62,35 @@ public final class TypeChecker implements Visitor<Type> {
         Type variableValue = value.accept(this);
         if (variableValue.isAssignableFrom(variableType)) {
             try {
-                if (variableValue.is(STRING)) variableValue = ObjectType.STRING;
-                if (variableType.is(PrimitiveType.class)) variableValue = variableType.toType();
-
-                this.environment.declare(variableType, variableName.getLiteral(), variableValue);
+                this.environment.declare(variableType, variableName.getLiteral(), convertValue(variableType, variableValue));
                 return NoType.NO_TYPE;
             } catch (ScopeException e) {
                 throw TypeCheckerException.of(e);
             }
         } else throw TypeCheckerException.invalidType(variableType.toType(), variableValue);
+    }
+
+    /**
+     * Converts the given {@link Type} to the most appropriate one.
+     * If it is NOT {@link ValueType}, it is returned as is.
+     * Otherwise, if the {@link ClassType} is:
+     * <ul>
+     *     <li>a {@link PrimitiveType}, {@link PrimitiveType#toType()} is returned;</li>
+     *     <li>a {@link ClassObjectType}, {@link ClassObjectType#toType()} is returned only
+     *     if it is NOT {@link ClassObjectType#OBJECT}.</li>
+     * </ul>
+     *
+     * @param valueType the type of the value
+     * @param value     the value
+     * @return the value converted
+     */
+    @NotNull Type convertValue(final @NotNull ClassType valueType,
+                               final @NotNull Type value) {
+        if (!value.isValue()) return value;
+        else if (valueType.is(PrimitiveType.class)) return valueType.toType();
+        else if (valueType.is(ClassObjectType.class) && !valueType.is(ClassObjectType.OBJECT))
+            return valueType.toType();
+        return value;
     }
 
     @Override
