@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
+import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
 import org.jetbrains.annotations.NotNull;
 
@@ -70,9 +71,9 @@ public enum PrimitiveType implements ClassType {
 
     @Override
     public @NotNull Type cast(@NotNull Type type) {
-        //TODO: rework for object types
-        if (this == BOOLEAN) return type.check(ValueType.BOOLEAN);
-        else return toType();
+        for (Type compatibleType : this.compatibleTypes)
+            if (compatibleType.is(type)) return toType();
+        throw TypeCheckerException.invalidCast(this, type);
     }
 
     @Override
