@@ -38,7 +38,7 @@ public interface Type {
      * @return true if it is
      */
     default <T extends Type> boolean is(final Class<T> type) {
-        return getClass().isAssignableFrom(type);
+        return type.isAssignableFrom(getClass());
     }
 
     /**
