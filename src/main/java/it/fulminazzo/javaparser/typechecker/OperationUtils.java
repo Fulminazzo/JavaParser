@@ -6,6 +6,9 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 /**
  * A collection of utility functions for handling operations.
  */
@@ -14,9 +17,9 @@ public final class OperationUtils {
     private static final Type[] NON_DECIMAL_TYPES = new Type[]{
             ValueType.NUMBER, ValueType.CHAR, ValueType.LONG
     };
-    private static final Type[] DECIMAL_TYPES = new Type[]{
-            ValueType.DOUBLE, ValueType.FLOAT, ValueType.NUMBER, ValueType.CHAR, ValueType.LONG
-    };
+    private static final Type[] DECIMAL_TYPES = Stream.concat(
+            Arrays.stream(NON_DECIMAL_TYPES), Stream.of(ValueType.DOUBLE, ValueType.FLOAT)
+    ).toArray(Type[]::new);
 
     /**
      * Get the numeric types (non-decimals).
