@@ -5,6 +5,8 @@ import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+
 /**
  * Represents a primitive {@link Type} name.
  */
@@ -81,7 +83,8 @@ public enum PrimitiveType implements ClassType {
 
     @Override
     public @NotNull Type cast(@NotNull Type type) {
-        if (this != BOOLEAN && type.is(OperationUtils.getDecimalTypes()))
+        if (this != BOOLEAN && type.is(Arrays.stream(OperationUtils.getDecimalTypes())
+                .filter(Type::isValue).toArray(Type[]::new)))
             return toType();
         for (Type compatibleType : this.compatibleTypes)
             if (compatibleType.is(type)) return toType();
