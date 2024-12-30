@@ -27,7 +27,7 @@ public class ArrayClassType extends TypeWrapper implements ClassType {
      * @return the class type
      */
     public @NotNull ClassType getComponentType() {
-        return this.object;
+        return (ClassType) this.object;
     }
 
     @Override
