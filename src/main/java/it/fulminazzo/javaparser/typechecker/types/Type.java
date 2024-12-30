@@ -88,7 +88,7 @@ public interface Type {
      * (only <code>public</code> modifier allowed and <code>static</code> fields from static context)
      */
     default @NotNull ClassType getField(final @NotNull String fieldName) throws TypeException {
-        ClassType classType = toClassType();
+        ClassType classType = isClassType() ? (ClassType) this : toClassType();
         try {
             Class<?> javaClass = classType.toJavaClass();
             Field field = javaClass.getDeclaredField(fieldName);
