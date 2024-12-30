@@ -34,6 +34,11 @@ class CustomClassObjectType extends TypeWrapper implements ClassType {
     }
 
     @Override
+    public @NotNull Type toType() {
+        return this.object;
+    }
+
+    @Override
     public String toString() {
         return this.object.toString().replace("Type", "ClassType");
     }
