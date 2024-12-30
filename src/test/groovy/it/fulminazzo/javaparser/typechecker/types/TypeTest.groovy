@@ -24,4 +24,19 @@ class TypeTest extends Specification {
         'publicField'       | PrimitiveType.DOUBLE | ValueType.DOUBLE
     }
 
+    def 'test cannot access field from getField'() {
+        when:
+        this.type.getField(field)
+
+        then:
+        //TODO: message
+        thrown(TypeException)
+
+        where:
+        field << [
+                'packageStaticField','protectedStaticField','privateStaticField',
+                'packageField','protectedField','privateField'
+        ]
+    }
+
 }
