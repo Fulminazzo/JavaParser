@@ -1,17 +1,21 @@
 package it.fulminazzo.javaparser.typechecker;
 
 import it.fulminazzo.javaparser.environment.Environment;
+import it.fulminazzo.javaparser.environment.ScopeException;
 import it.fulminazzo.javaparser.parser.node.MethodInvocation;
 import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.parser.node.statements.Statement;
+import it.fulminazzo.javaparser.typechecker.types.ClassType;
 import it.fulminazzo.javaparser.typechecker.types.Type;
+import it.fulminazzo.javaparser.typechecker.types.TypeException;
 import it.fulminazzo.javaparser.visitors.Visitor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import static it.fulminazzo.javaparser.typechecker.OperationUtils.*;
 import static it.fulminazzo.javaparser.typechecker.types.ValueType.*;
@@ -322,6 +326,26 @@ public final class TypeChecker implements Visitor<Type> {
     @Override
     public Type visitStringValueLiteral(@NotNull String rawValue) {
         return STRING;
+    }
+
+    /**
+     * Tries to convert the given literal to a {@link Type}.
+     * It does so by first converting it to {@link ClassType}.
+     * If it fails, it tries with a variable declared in {@link #environment}.
+     *
+     * @param literal the literal
+     * @return an optional containing the type (if found)
+     */
+    @NotNull Optional<Type> getTypeFromLiteral(final @NotNull String literal) {
+        try {
+            return Optional.of(ClassType.of(literal));
+        } catch (TypeException e) {
+            try {
+                return Optional.of(this.environment.lookup(literal));
+            } catch (ScopeException ex) {
+                return Optional.empty();
+            }
+        }
     }
 
 }
