@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.typechecker.types.objects;
 
+import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.typechecker.types.ClassType;
 import it.fulminazzo.javaparser.typechecker.types.Type;
@@ -7,6 +8,7 @@ import it.fulminazzo.javaparser.typechecker.types.TypeException;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Modifier;
 import java.util.Map;
 
 /**
@@ -68,6 +70,20 @@ public final class ObjectType extends ObjectWrapper<Class<?>> implements Type {
             }
         }
         return className;
+    }
+
+    /**
+     * Returns all the {@link ObjectType}s fields in this class.
+     *
+     * @return the object types
+     */
+    public static ObjectType @NotNull [] values() {
+        Refl<?> refl = new Refl<>(ObjectType.class);
+        return refl.getFields(f -> Modifier.isStatic(f.getModifiers()) &&
+                        ObjectType.class.isAssignableFrom(f.getType())).stream()
+                .map(refl::getFieldObject)
+                .map(o -> (ObjectType) o)
+                .toArray(ObjectType[]::new);
     }
 
     /**
