@@ -1,6 +1,5 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
-import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import org.jetbrains.annotations.NotNull;
 
@@ -94,13 +93,9 @@ public interface Type {
             Class<?> javaClass = classType.toJavaClass();
             Field field = javaClass.getDeclaredField(fieldName);
             if (!Modifier.isPublic(field.getModifiers())) throw TypeException.cannotAccessField(classType, field);
-            else if (isClassType()) {
-                //TODO: only static
-                return null;
-            } else {
-                //TODO:
-                return null;
-            }
+            else if (isClassType() && !Modifier.isStatic(field.getModifiers()))
+                throw TypeException.cannotAccessStaticField(classType, fieldName);
+            return ClassType.of(field.getType());
         } catch (NoSuchFieldException e) {
             throw TypeException.fieldNotFound(classType, fieldName);
         }
