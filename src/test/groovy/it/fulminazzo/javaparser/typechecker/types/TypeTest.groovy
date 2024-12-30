@@ -10,7 +10,7 @@ class TypeTest extends Specification {
         type = ObjectType.of(TestClass)
     }
 
-    def 'test valid getField'() {
+    def 'test valid getField #field'() {
         when:
         def tuple = this.type.getField(field)
 
@@ -24,7 +24,7 @@ class TypeTest extends Specification {
         'publicField'       | PrimitiveType.DOUBLE | ValueType.DOUBLE
     }
 
-    def 'test cannot access field from getField'() {
+    def 'test cannot access field #field from getField'() {
         when:
         this.type.getField(field)
 
