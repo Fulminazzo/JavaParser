@@ -533,8 +533,8 @@ class TypeCheckerTest extends Specification {
         DOUBLE_LIT | Literal.of('Double')    | ValueType.DOUBLE
         DOUBLE_LIT | Literal.of('Object')    | ObjectType.OBJECT
         // boolean
-        BOOL_LIT   | Literal.of('bool')      | ValueType.BOOLEAN
-        BOOL_LIT   | Literal.of('Bool')      | ValueType.BOOLEAN
+        BOOL_LIT   | Literal.of('boolean')   | ValueType.BOOLEAN
+        BOOL_LIT   | Literal.of('Boolean')   | ValueType.BOOLEAN
         BOOL_LIT   | Literal.of('Object')    | ObjectType.OBJECT
         // string
         STRING_LIT | Literal.of('String')    | ValueType.STRING
