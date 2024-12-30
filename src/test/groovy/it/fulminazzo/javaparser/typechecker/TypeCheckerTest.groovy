@@ -12,6 +12,7 @@ import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
 import it.fulminazzo.javaparser.typechecker.types.ValueType
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayClassType
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayType
+import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
 
 class TypeCheckerTest extends Specification {
@@ -120,7 +121,7 @@ class TypeCheckerTest extends Specification {
 
     def 'test visit array literal'() {
         when:
-        def type = this.typeChecker.visitArrayLiteral(Literal.of('int'))
+        def type = this.typeChecker.visitArrayLiteral(Literal.of('Integer'))
 
         then:
         type == new ArrayClassType(PrimitiveType.INT)
@@ -440,6 +441,107 @@ class TypeCheckerTest extends Specification {
 
         expect:
         type == ValueType.BOOLEAN
+    }
+
+    def 'test visit cast #target to #cast should be of type #expected'() {
+        given:
+        def type = this.typeChecker.visitCast(cast, target)
+
+        expect:
+        type == expected
+
+        where:
+        target     | cast                    | expected
+        // char
+        CHAR_LIT   | Literal.of('byte')      | ValueType.NUMBER
+        CHAR_LIT   | Literal.of('Byte')      | ValueType.NUMBER
+        CHAR_LIT   | Literal.of('char')      | ValueType.CHAR
+        CHAR_LIT   | Literal.of('Character') | ValueType.CHAR
+        CHAR_LIT   | Literal.of('short')     | ValueType.NUMBER
+        CHAR_LIT   | Literal.of('Short')     | ValueType.NUMBER
+        CHAR_LIT   | Literal.of('Integer')   | ValueType.NUMBER
+        CHAR_LIT   | Literal.of('Int')       | ValueType.NUMBER
+        CHAR_LIT   | Literal.of('long')      | ValueType.LONG
+        CHAR_LIT   | Literal.of('Long')      | ValueType.LONG
+        CHAR_LIT   | Literal.of('float')     | ValueType.FLOAT
+        CHAR_LIT   | Literal.of('Float')     | ValueType.FLOAT
+        CHAR_LIT   | Literal.of('double')    | ValueType.DOUBLE
+        CHAR_LIT   | Literal.of('Double')    | ValueType.DOUBLE
+        CHAR_LIT   | Literal.of('Object')    | ObjectType.OBJECT
+        // number
+        NUMBER_LIT | Literal.of('byte')      | ValueType.NUMBER
+        NUMBER_LIT | Literal.of('Byte')      | ValueType.NUMBER
+        NUMBER_LIT | Literal.of('char')      | ValueType.CHAR
+        NUMBER_LIT | Literal.of('Character') | ValueType.CHAR
+        NUMBER_LIT | Literal.of('short')     | ValueType.NUMBER
+        NUMBER_LIT | Literal.of('Short')     | ValueType.NUMBER
+        NUMBER_LIT | Literal.of('Integer')   | ValueType.NUMBER
+        NUMBER_LIT | Literal.of('Int')       | ValueType.NUMBER
+        NUMBER_LIT | Literal.of('long')      | ValueType.LONG
+        NUMBER_LIT | Literal.of('Long')      | ValueType.LONG
+        NUMBER_LIT | Literal.of('float')     | ValueType.FLOAT
+        NUMBER_LIT | Literal.of('Float')     | ValueType.FLOAT
+        NUMBER_LIT | Literal.of('double')    | ValueType.DOUBLE
+        NUMBER_LIT | Literal.of('Double')    | ValueType.DOUBLE
+        NUMBER_LIT | Literal.of('Object')    | ObjectType.OBJECT
+        // long
+        LONG_LIT   | Literal.of('byte')      | ValueType.NUMBER
+        LONG_LIT   | Literal.of('Byte')      | ValueType.NUMBER
+        LONG_LIT   | Literal.of('char')      | ValueType.CHAR
+        LONG_LIT   | Literal.of('Character') | ValueType.CHAR
+        LONG_LIT   | Literal.of('short')     | ValueType.NUMBER
+        LONG_LIT   | Literal.of('Short')     | ValueType.NUMBER
+        LONG_LIT   | Literal.of('Integer')   | ValueType.NUMBER
+        LONG_LIT   | Literal.of('Int')       | ValueType.NUMBER
+        LONG_LIT   | Literal.of('long')      | ValueType.LONG
+        LONG_LIT   | Literal.of('Long')      | ValueType.LONG
+        LONG_LIT   | Literal.of('float')     | ValueType.FLOAT
+        LONG_LIT   | Literal.of('Float')     | ValueType.FLOAT
+        LONG_LIT   | Literal.of('double')    | ValueType.DOUBLE
+        LONG_LIT   | Literal.of('Double')    | ValueType.DOUBLE
+        LONG_LIT   | Literal.of('Object')    | ObjectType.OBJECT
+        // float
+        FLOAT_LIT  | Literal.of('byte')      | ValueType.NUMBER
+        FLOAT_LIT  | Literal.of('Byte')      | ValueType.NUMBER
+        FLOAT_LIT  | Literal.of('char')      | ValueType.CHAR
+        FLOAT_LIT  | Literal.of('Character') | ValueType.CHAR
+        FLOAT_LIT  | Literal.of('short')     | ValueType.NUMBER
+        FLOAT_LIT  | Literal.of('Short')     | ValueType.NUMBER
+        FLOAT_LIT  | Literal.of('Integer')   | ValueType.NUMBER
+        FLOAT_LIT  | Literal.of('Int')       | ValueType.NUMBER
+        FLOAT_LIT  | Literal.of('long')      | ValueType.LONG
+        FLOAT_LIT  | Literal.of('Long')      | ValueType.LONG
+        FLOAT_LIT  | Literal.of('float')     | ValueType.FLOAT
+        FLOAT_LIT  | Literal.of('Float')     | ValueType.FLOAT
+        FLOAT_LIT  | Literal.of('double')    | ValueType.DOUBLE
+        FLOAT_LIT  | Literal.of('Double')    | ValueType.DOUBLE
+        FLOAT_LIT  | Literal.of('Object')    | ObjectType.OBJECT
+        // double
+        DOUBLE_LIT | Literal.of('byte')      | ValueType.NUMBER
+        DOUBLE_LIT | Literal.of('Byte')      | ValueType.NUMBER
+        DOUBLE_LIT | Literal.of('char')      | ValueType.CHAR
+        DOUBLE_LIT | Literal.of('Character') | ValueType.CHAR
+        DOUBLE_LIT | Literal.of('short')     | ValueType.NUMBER
+        DOUBLE_LIT | Literal.of('Short')     | ValueType.NUMBER
+        DOUBLE_LIT | Literal.of('Integer')   | ValueType.NUMBER
+        DOUBLE_LIT | Literal.of('Int')       | ValueType.NUMBER
+        DOUBLE_LIT | Literal.of('long')      | ValueType.LONG
+        DOUBLE_LIT | Literal.of('Long')      | ValueType.LONG
+        DOUBLE_LIT | Literal.of('float')     | ValueType.FLOAT
+        DOUBLE_LIT | Literal.of('Float')     | ValueType.FLOAT
+        DOUBLE_LIT | Literal.of('double')    | ValueType.DOUBLE
+        DOUBLE_LIT | Literal.of('Double')    | ValueType.DOUBLE
+        DOUBLE_LIT | Literal.of('Object')    | ObjectType.OBJECT
+        // boolean
+        BOOL_LIT   | Literal.of('bool')      | ValueType.BOOLEAN
+        BOOL_LIT   | Literal.of('Bool')      | ValueType.BOOLEAN
+        BOOL_LIT   | Literal.of('Object')    | ObjectType.OBJECT
+        // string
+        STRING_LIT | Literal.of('String')    | ValueType.STRING
+        STRING_LIT | Literal.of('Object')    | ObjectType.OBJECT
+        // custom class
+        ObjectType.of(TypeCheckerTest) | Literal.of(Specification.canonicalName) | ObjectType.of(Specification)
+        ObjectType.of(TypeCheckerTest) | Literal.of('Object')                    | ObjectType.OBJECT
     }
 
 }
