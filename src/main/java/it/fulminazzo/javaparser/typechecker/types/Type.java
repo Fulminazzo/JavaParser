@@ -23,6 +23,15 @@ public interface Type {
     }
 
     /**
+     * Checks whether the current type is a {@link ClassType}.
+     *
+     * @return true if it is
+     */
+    default boolean isClassType() {
+        return this instanceof ClassType;
+    }
+
+    /**
      * Checks whether the current type is equal to any of the ones given.
      *
      * @param types the types
