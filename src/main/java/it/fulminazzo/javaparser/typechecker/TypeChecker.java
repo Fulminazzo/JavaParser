@@ -15,6 +15,7 @@ import it.fulminazzo.javaparser.typechecker.types.TypeException;
 import it.fulminazzo.javaparser.visitors.Visitor;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -94,7 +95,27 @@ public final class TypeChecker implements Visitor<Type> {
         if (value.contains(".")) {
             // Class was parsed
             if (tuple.isPresent()) return tuple.getValue();
-            throw new IllegalStateException("Unimplemented");
+
+            LinkedList<String> first = new LinkedList<>(Arrays.asList(value.split("\\.")));
+            LinkedList<String> last = new LinkedList<>();
+
+            while(!first.isEmpty()) {
+                last.addFirst(first.removeLast());
+
+                tuple = getTypeFromLiteral(String.join(".", first));
+                if (tuple.isPresent()) {
+                    try {
+                        ClassType field = tuple.getKey().getField(last.removeFirst());
+                        while (!last.isEmpty()) field = field.getField(last.removeFirst());
+                        return field.toType();
+                    } catch (TypeException e) {
+                        //TODO: proper exception
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+            //TODO: proper exception
+            throw new RuntimeException();
         } else {
             if (tuple.isPresent()) return tuple.getValue();
             else return new LiteralType(value);
