@@ -1,6 +1,8 @@
 package it.fulminazzo.javaparser.typechecker.types.arrays;
 
+import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import it.fulminazzo.javaparser.typechecker.types.ClassType;
+import it.fulminazzo.javaparser.typechecker.types.PrimitiveType;
 import it.fulminazzo.javaparser.typechecker.types.Type;
 import it.fulminazzo.javaparser.typechecker.types.TypeWrapper;
 import org.jetbrains.annotations.NotNull;
@@ -28,6 +30,15 @@ public class ArrayClassType extends TypeWrapper implements ClassType {
      */
     public @NotNull ClassType getComponentType() {
         return (ClassType) this.object;
+    }
+
+    @Override
+    public @NotNull Type cast(@NotNull Type type) {
+        ArrayType arrayType = type.check(ArrayType.class);
+        Type componentType = arrayType.getComponentType();
+        if (componentType.is(PrimitiveType.class))
+            throw TypeCheckerException.invalidType(this, type);
+        return new ArrayType(getComponentType().cast(componentType));
     }
 
     @Override
