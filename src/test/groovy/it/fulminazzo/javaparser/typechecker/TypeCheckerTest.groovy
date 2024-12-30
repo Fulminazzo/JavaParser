@@ -178,6 +178,36 @@ class TypeCheckerTest extends Specification {
         e.message == this.typeChecker.environment.noSuchVariable(varName).message
     }
 
+    def 'test re-visit assignment invalid: #type invalid = #val'() {
+        given:
+        def actualType = type.accept(this.typeChecker)
+        def varName = 'invalid_re_assign'
+        def errorMessage = TypeCheckerException.invalidType(
+                actualType.toType(),
+                newVal.accept(this.typeChecker)
+        ).message
+
+        and:
+        this.typeChecker.environment.declare(actualType, varName, val.accept(this.typeChecker))
+
+        when:
+        this.typeChecker.visitReAssign(Literal.of('invalid_re_assign'), newVal)
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == errorMessage
+
+        where:
+        type                    | val        | newVal
+        Literal.of('String')    | STRING_LIT | CHAR_LIT
+        Literal.of('boolean')   | BOOL_LIT   | NUMBER_LIT
+        Literal.of('Character') | CHAR_LIT   | LONG_LIT
+        Literal.of('String')    | STRING_LIT | FLOAT_LIT
+        Literal.of('Integer')   | NUMBER_LIT | DOUBLE_LIT
+        Literal.of('int')       | NUMBER_LIT | BOOL_LIT
+        Literal.of('double')    | DOUBLE_LIT | STRING_LIT
+    }
+
     def 'test visit dynamic array'() {
         given:
         def type = this.typeChecker.visitDynamicArray(
