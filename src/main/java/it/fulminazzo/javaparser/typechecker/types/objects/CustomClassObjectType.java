@@ -25,7 +25,7 @@ class CustomClassObjectType extends TypeWrapper implements ClassType {
     }
 
     @Override
-    public Class<?> toJavaClass() {
+    public @NotNull Class<?> toJavaClass() {
         return ((ObjectType) getInternalType()).getInnerClass();
     }
 

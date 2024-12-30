@@ -15,14 +15,14 @@ public interface ClassType extends Type, Info {
      * @param type the type
      * @return the associated type of this class
      */
-    Type cast(final @NotNull Type type);
+    @NotNull Type cast(final @NotNull Type type);
 
     /**
      * Gets the actual class represented by this type.
      *
      * @return the class
      */
-    Class<?> toJavaClass();
+    @NotNull Class<?> toJavaClass();
 
     /**
      * Verifies that the current class type is compatible with the provided type.

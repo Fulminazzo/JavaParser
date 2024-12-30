@@ -36,7 +36,7 @@ public class ArrayClassType extends TypeWrapper implements ClassType {
     }
 
     @Override
-    public Class<?> toJavaClass() {
+    public @NotNull Class<?> toJavaClass() {
         return Array.newInstance(getComponentType().toJavaClass(), 0).getClass();
     }
 

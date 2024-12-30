@@ -80,7 +80,7 @@ public enum ClassObjectType implements ClassType {
     }
 
     @Override
-    public Class<?> toJavaClass() {
+    public @NotNull Class<?> toJavaClass() {
         return ReflectionUtils.getClass("java.lang." + StringUtils.capitalize(name()));
     }
 

@@ -87,6 +87,7 @@ class ClassTypeTest extends Specification {
 
     static class MockClassType implements ClassType {
 
+        @NotNull
         @Override
         Class<?> toJavaClass() {
             return null

@@ -62,7 +62,7 @@ public enum PrimitiveType implements ClassType {
     }
 
     @Override
-    public Class<?> toJavaClass() {
+    public @NotNull Class<?> toJavaClass() {
         switch (this) {
             case BYTE: return byte.class;
             case CHAR: return char.class;
