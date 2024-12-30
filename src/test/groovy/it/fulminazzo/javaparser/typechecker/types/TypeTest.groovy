@@ -10,4 +10,18 @@ class TypeTest extends Specification {
         type = ObjectType.of(TestClass)
     }
 
+    def 'test valid getField'() {
+        when:
+        def tuple = this.type.getField(field)
+
+        then:
+        tuple.getKey() == expectedType
+        tuple.getValue() == expected
+
+        where:
+        field               | expectedType         | expected
+        'publicStaticField' | PrimitiveType.INT    | ValueType.NUMBER
+        'publicField'       | PrimitiveType.DOUBLE | ValueType.DOUBLE
+    }
+
 }
