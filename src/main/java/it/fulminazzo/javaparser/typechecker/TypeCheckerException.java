@@ -3,7 +3,6 @@ package it.fulminazzo.javaparser.typechecker;
 import it.fulminazzo.javaparser.typechecker.types.ClassType;
 import it.fulminazzo.javaparser.typechecker.types.LiteralType;
 import it.fulminazzo.javaparser.typechecker.types.Type;
-import it.fulminazzo.javaparser.typechecker.types.TypeException;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -22,7 +21,7 @@ public class TypeCheckerException extends RuntimeException {
     }
 
     /**
-     * Generates a new exception with message:
+     * Generates a {@link TypeCheckerException} with message:
      * <i>Invalid type received: expected %expected% but got %actual% instead.</i>
      *
      * @param expected the expected type
