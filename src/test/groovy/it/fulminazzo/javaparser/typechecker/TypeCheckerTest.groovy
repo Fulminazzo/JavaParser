@@ -49,7 +49,21 @@ class TypeCheckerTest extends Specification {
     }
 
     def 'test visit assignment already declared'() {
+        given:
+        def varName = 'visit_assignment_declared'
+        def type = Literal.of('int')
+        def name = Literal.of(varName)
+        def value = NUMBER_LIT
 
+        and:
+        this.typeChecker.environment.declare(type, name, value)
+
+        when:
+        this.typeChecker.visitAssignment(type, name, value)
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == this.typeChecker.environment.alreadyDeclaredVariable(varName).message
     }
 
     def 'test visit assignment invalid: #type #name = #val'() {
