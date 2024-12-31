@@ -171,7 +171,9 @@ class TypeTest extends Specification {
         where:
         method               | expected             | parameters
         'publicStaticMethod' | PrimitiveType.INT    | NO_PARAMETERS
+        'publicStaticMethod' | PrimitiveType.INT    | new ParameterTypes([PrimitiveType.INT, ClassObjectType.BOOLEAN])
         'publicMethod'       | PrimitiveType.DOUBLE | NO_PARAMETERS
+        'publicMethod'       | PrimitiveType.DOUBLE | new ParameterTypes([PrimitiveType.DOUBLE, ClassObjectType.BOOLEAN])
     }
 
     def 'test cannot access method #method from getMethod'() {
@@ -208,18 +210,21 @@ class TypeTest extends Specification {
         where:
         method                     | expected           | parameters
         'publicStaticMethod'       | PrimitiveType.INT  | NO_PARAMETERS
+        'publicStaticMethod'       | PrimitiveType.INT  | new ParameterTypes([PrimitiveType.INT, ClassObjectType.BOOLEAN])
     }
 
-    def 'test class cannot access non-static method'() {
-        given:
-        def method = 'publicMethod'
-
+    def 'test class cannot access non-static method #method(#parameters)'() {
         when:
         this.classType.getMethod(method, NO_PARAMETERS)
 
         then:
         def e = thrown(TypeException)
         e.message == TypeException.cannotAccessStaticMethod(this.classType, method, NO_PARAMETERS).message
+
+        where:
+        method               | expected              | parameters
+        'publicMethod'       | PrimitiveType.DOUBLE  | NO_PARAMETERS
+        'publicMethod'       | PrimitiveType.DOUBLE  | new ParameterTypes([PrimitiveType.DOUBLE, ClassObjectType.BOOLEAN])
     }
 
     def 'test class cannot access method #method from getMethod'() {
