@@ -52,6 +52,36 @@ class TypeCheckerTest extends Specification {
         Optional.empty()              | new JavaProgram(new LinkedList<>([new Break()]))
     }
 
+    def 'test visit do statement of (#expr) #codeBlock should return #expected'() {
+        when:
+        def type = this.typeChecker.visitDoStatement(codeBlock, expr)
+
+        then:
+        type == expected
+
+        where:
+        expected          | codeBlock                           | expr
+        ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | BOOL_LIT
+        ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | BOOL_VAR
+        NoType.NO_TYPE    | new CodeBlock(new Break())          | BOOL_LIT
+        NoType.NO_TYPE    | new CodeBlock(new Break())          | BOOL_VAR
+    }
+
+    def 'test visit while statement of (#expr) #codeBlock should return #expected'() {
+        when:
+        def type = this.typeChecker.visitWhileStatement(codeBlock, expr)
+
+        then:
+        type == expected
+
+        where:
+        expected          | codeBlock                           | expr
+        ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | BOOL_LIT
+        ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | BOOL_VAR
+        NoType.NO_TYPE    | new CodeBlock(new Break())          | BOOL_LIT
+        NoType.NO_TYPE    | new CodeBlock(new Break())          | BOOL_VAR
+    }
+
     def 'test visit if statement of code "#code" should return #expected'() {
         given:
         def refl = new Refl<>(code)
