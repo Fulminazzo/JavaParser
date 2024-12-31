@@ -321,7 +321,7 @@ class JavaParserTest extends Specification {
     def 'test method call'() {
         given:
         def expected = new MethodCall(
-                Literal.of('var'),
+                new EmptyLiteral(),
                 'method',
                 new MethodInvocation([
                         Literal.of('a'),
@@ -329,7 +329,7 @@ class JavaParserTest extends Specification {
                         new BooleanValueLiteral('true')
                 ])
         )
-        def code = 'var.method(a, 1, true)'
+        def code = 'method(a, 1, true)'
 
         when:
         startReading(code)
