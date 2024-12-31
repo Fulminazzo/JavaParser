@@ -107,7 +107,7 @@ bo = (((true == false) != (true && false)) || true);
 bo = false != true && false || true;
 bo = true && false || true;
 bo = false || true;
-bo = d == d != false && bo || false;
+bo = d == d && bo || false;
 bo = f != f && bo || false;
 bo = true && bo || false;
 bo = bo || false;
