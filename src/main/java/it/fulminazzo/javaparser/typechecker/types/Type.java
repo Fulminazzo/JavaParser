@@ -114,7 +114,7 @@ public interface Type {
     }
 
     /**
-     * Searches the given field in the class of {@link #toClassType()}.
+     * Searches the given field in the class of {@link #toClassType()} (if not already {@link ClassType}).
      * Then, returns the declared type of the field in form of {@link ClassType}.
      *
      * @param fieldName the field name
