@@ -36,11 +36,23 @@ class JavaParserTest extends Specification {
 
     def 'parse test_program file'() {
         given:
-        def file = new File(System.getProperty('user.dir'), 'build/resources/test/test_program.java')
+        def cwd = System.getProperty('user.dir')
+
+        and:
+        def file = new File(cwd, 'build/resources/test/parser_test_program.java')
         def parser = new JavaParser(file.newInputStream())
 
+        and:
+        def nextTestFile = new File(cwd, "src/test/resources/typechecker_test_program.dat")
+        if (nextTestFile.isFile()) nextTestFile.delete()
+
         when:
-        parser.parseProgram()
+        def parsed = parser.parseProgram()
+        nextTestFile.withObjectOutputStream {
+            it.writeObject(parsed)
+        }
+        def other = nextTestFile.newObjectInputStream().readObject()
+        other == parsed
 
         then:
         noExceptionThrown()
