@@ -5,6 +5,8 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A converter from raw {@link InputStream} to {@link TokenType}.
@@ -126,6 +128,11 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
         }
         this.previousRead = "";
         return updateTokenType(read);
+    }
+
+    private boolean regexMatches(final @NotNull String regex,
+                                 final @NotNull String read) {
+        return Pattern.compile(regex).matcher(read).matches();
     }
 
     private String getPreviousRead() {
