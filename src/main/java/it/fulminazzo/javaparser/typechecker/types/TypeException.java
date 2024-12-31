@@ -1,10 +1,12 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
+import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 /**
@@ -131,6 +133,18 @@ public class TypeException extends Exception {
         else if (Modifier.isPublic(modifiers)) return "public";
         else if (Modifier.isPrivate(modifiers)) return "private";
         else return "package";
+    }
+
+    /**
+     * Formats the given method and parameter types to a string.
+     *
+     * @param method the method
+     * @return the string
+     */
+    static @NotNull String formatMethod(final @NotNull Method method) {
+        return formatMethod(method.getName(), new ParameterTypes(Arrays.stream(method.getParameterTypes())
+                .map(ClassType::of)
+                .collect(Collectors.toList())));
     }
 
     /**
