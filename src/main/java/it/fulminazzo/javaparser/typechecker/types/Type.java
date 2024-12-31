@@ -173,8 +173,7 @@ public interface Type {
                 }
             }
 
-            //TODO: types mismatch
-            throw new RuntimeException("TYPES MISMATCH");
+            throw TypeException.typesMismatch(classType, methods.get(0), parameterTypes);
         } catch (IllegalArgumentException e) {
             throw TypeException.methodNotFound(classType, methodName, parameterTypes);
         }
