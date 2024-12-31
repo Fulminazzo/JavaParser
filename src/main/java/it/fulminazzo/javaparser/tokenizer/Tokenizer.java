@@ -106,14 +106,20 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
         }
     }
 
-    private @NotNull TokenType readTokenType(@NotNull String read) throws IOException {
+    private @NotNull TokenType readTokenType(@NotNull String read,
+                                             final @NotNull String regex) throws IOException {
         while (this.input.available() > 0) {
             int previousLine = this.line;
             int previousColumn = this.column;
             char c = updateLineCount(this.input.read());
             read += c;
-            if (!isTokenType(read)) {
-                String subString = read.substring(0, read.length() - 1);
+            String subString = read.substring(0, read.length() - 1);
+            if (regexMatches(regex, read)) {
+                this.line = previousLine;
+                this.column = previousColumn;
+                this.previousRead = read.substring(read.length() - 1);
+                return isTokenType(subString) ? updateTokenType(subString) : TokenType.EOF;
+            } else if (!isTokenType(read)) {
                 // Line necessary to properly read LITERAL, DOUBLE_VALUE and FLOAT_VALUE
                 if (c == '.') {
                     TokenType previous = TokenType.fromString(subString);
