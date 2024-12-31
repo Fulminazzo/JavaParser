@@ -4,7 +4,7 @@ import it.fulminazzo.javaparser.typechecker.TypeCheckerException
 import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType
 import spock.lang.Specification
 
-class NullTypeTest extends Specification {
+class TypesTest extends Specification {
     private NullType type
 
     void setup() {
