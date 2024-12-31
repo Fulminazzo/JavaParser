@@ -225,6 +225,18 @@ class JavaParserTest extends Specification {
         )
     }
 
+    def 'test invalid array assignment'() {
+        given:
+        def code = 'int[] 1 = new int[0]'
+
+        when:
+        startReading(code)
+        this.parser.parseAssignment()
+
+        then:
+        thrown(ParserException)
+    }
+
     def 'test array assignment'() {
         given:
         def expected = new Assignment(
