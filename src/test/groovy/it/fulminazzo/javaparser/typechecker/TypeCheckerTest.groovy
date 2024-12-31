@@ -674,7 +674,7 @@ class TypeCheckerTest extends Specification {
         )
 
         and:
-        def expected = new ArrayType(PrimitiveType.BOOLEAN)
+        def expected = new ArrayType(ValueType.BOOLEAN)
 
         expect:
         type == expected
@@ -688,7 +688,7 @@ class TypeCheckerTest extends Specification {
         )
 
         and:
-        def expected = new ArrayType(PrimitiveType.BOOLEAN)
+        def expected = new ArrayType(ValueType.BOOLEAN)
 
         expect:
         type == expected
