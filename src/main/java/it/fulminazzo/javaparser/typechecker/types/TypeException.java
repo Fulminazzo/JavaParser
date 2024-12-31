@@ -1,9 +1,9 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
-import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
@@ -122,13 +122,13 @@ public class TypeException extends Exception {
     }
 
     /**
-     * Gets the visibility modifier from the given field in a string format.
+     * Gets the visibility modifier from the given accessible object in a string format.
      *
-     * @param field the field
+     * @param accessibleObject the accessible object
      * @return the visibility modifier
      */
-    static @NotNull String getVisibilityModifier(final @NotNull Field field) {
-        int modifiers = field.getModifiers();
+    static @NotNull String getVisibilityModifier(final @NotNull Member accessibleObject) {
+        int modifiers = accessibleObject.getModifiers();
         if (Modifier.isProtected(modifiers)) return "protected";
         else if (Modifier.isPublic(modifiers)) return "public";
         else if (Modifier.isPrivate(modifiers)) return "private";
