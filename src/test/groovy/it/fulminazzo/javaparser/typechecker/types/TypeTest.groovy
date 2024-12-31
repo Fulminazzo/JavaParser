@@ -170,13 +170,13 @@ class TypeTest extends Specification {
 
         where:
         method               | expected             | parameters
-        'publicStaticMethod' | PrimitiveType.INT    | this.NO_PARAMETERS
-        'publicMethod'       | PrimitiveType.DOUBLE | this.NO_PARAMETERS
+        'publicStaticMethod' | PrimitiveType.INT    | NO_PARAMETERS
+        'publicMethod'       | PrimitiveType.DOUBLE | NO_PARAMETERS
     }
 
     def 'test cannot access method #method from getMethod'() {
         when:
-        this.type.getMethod(method, this.NO_PARAMETERS)
+        this.type.getMethod(method, NO_PARAMETERS)
 
         then:
         def e = thrown(TypeException)
@@ -191,11 +191,11 @@ class TypeTest extends Specification {
 
     def 'test method not found'() {
         when:
-        this.type.getMethod('invalid', this.NO_PARAMETERS)
+        this.type.getMethod('invalid', NO_PARAMETERS)
 
         then:
         def e = thrown(TypeException)
-        e.message == TypeException.methodNotFound(this.type.toClassType(), 'invalid', this.NO_PARAMETERS).message
+        e.message == TypeException.methodNotFound(this.type.toClassType(), 'invalid', NO_PARAMETERS).message
     }
 
     def 'test class valid getMethod #method #parameters'() {
@@ -207,7 +207,7 @@ class TypeTest extends Specification {
 
         where:
         method                     | expected           | parameters
-        'publicStaticMethod'       | PrimitiveType.INT  | this.NO_PARAMETERS
+        'publicStaticMethod'       | PrimitiveType.INT  | NO_PARAMETERS
     }
 
     def 'test class cannot access non-static method'() {
@@ -215,16 +215,16 @@ class TypeTest extends Specification {
         def method = 'publicMethod'
 
         when:
-        this.classType.getMethod(method, this.NO_PARAMETERS)
+        this.classType.getMethod(method, NO_PARAMETERS)
 
         then:
         def e = thrown(TypeException)
-        e.message == TypeException.cannotAccessStaticMethod(this.classType, method, this.NO_PARAMETERS).message
+        e.message == TypeException.cannotAccessStaticMethod(this.classType, method, NO_PARAMETERS).message
     }
 
     def 'test class cannot access method #method from getMethod'() {
         when:
-        this.classType.getMethod(method, this.NO_PARAMETERS)
+        this.classType.getMethod(method, NO_PARAMETERS)
 
         then:
         def e = thrown(TypeException)
@@ -239,11 +239,11 @@ class TypeTest extends Specification {
 
     def 'test class method not found'() {
         when:
-        this.classType.getMethod('invalid', this.NO_PARAMETERS)
+        this.classType.getMethod('invalid', NO_PARAMETERS)
 
         then:
         def e = thrown(TypeException)
-        e.message == TypeException.methodNotFound(this.classType, 'invalid', this.NO_PARAMETERS).message
+        e.message == TypeException.methodNotFound(this.classType, 'invalid', NO_PARAMETERS).message
     }
 
 }
