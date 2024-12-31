@@ -501,7 +501,8 @@ class JavaParserTest extends Specification {
                 '^ 9 | 8 & 7 || 6 && 5 ' +
                 '>= 4 > 3 <= 2 < 1 ' +
                 '!= false == true'
-        def expected = new Modulo(new NumberValueLiteral('18'), new NumberValueLiteral('17'))
+        def expected = new NumberValueLiteral('18')
+        expected = new Modulo(expected, new NumberValueLiteral('17'))
         expected = new Divide(expected, new NumberValueLiteral('16'))
         expected = new Multiply(expected, new NumberValueLiteral('15'))
         expected = new Subtract(expected, new NumberValueLiteral('14'))
@@ -513,13 +514,13 @@ class JavaParserTest extends Specification {
         expected = new BitOr(expected, new NumberValueLiteral('8'))
         expected = new BitAnd(expected, new NumberValueLiteral('7'))
         expected = new Or(expected, new NumberValueLiteral('6'))
-        expected = new And(expected, new NumberValueLiteral('5'))
-        expected = new GreaterThanEqual(expected, new NumberValueLiteral('4'))
-        expected = new GreaterThan(expected, new NumberValueLiteral('3'))
-        expected = new LessThanEqual(expected, new NumberValueLiteral('2'))
-        expected = new LessThan(expected, new NumberValueLiteral('1'))
-        expected = new NotEqual(expected, new BooleanValueLiteral('false'))
-        expected = new Equal(expected, new BooleanValueLiteral('true'))
+        def second = new GreaterThanEqual(new NumberValueLiteral('5'), new NumberValueLiteral('4'))
+        second = new GreaterThan(second, new NumberValueLiteral('3'))
+        second = new LessThanEqual(second, new NumberValueLiteral('2'))
+        second = new LessThan(second, new NumberValueLiteral('1'))
+        second = new NotEqual(second, new BooleanValueLiteral('false'))
+        second = new Equal(second, new BooleanValueLiteral('true'))
+        expected = new And(expected, second)
 
         when:
         startReading(code)

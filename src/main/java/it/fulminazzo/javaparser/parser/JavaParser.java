@@ -459,29 +459,29 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * EQUAL := NOT_EQUAL (== NOT_EQUAL)*
+     * AND := OR (&& OR)*
      *
      * @return the node
      */
     protected @NotNull Node parseBinaryComparison() {
-        return parseBinaryComparison(EQUAL);
+        return parseBinaryComparison(AND);
     }
 
     /**
+     * AND := OR (&& OR)* <br/>
+     * OR := EQUAL (|| EQUAL)*
      * EQUAL := NOT_EQUAL (== NOT_EQUAL)* <br/>
      * NOT_EQUAL := LESS_THAN (!= LESS_THAN)* <br/>
-     * LESS_THAN := LESS_THAN_OR_EQUAL (< LESS_THAN_OR_EQUAL)* <br/>
-     * LESS_THAN_OR_EQUAL := GREATER_THAN (<= GREATER_THAN)* <br/>
-     * GREATER_THAN := GREATER_THAN_OR_EQUAL (> GREATER_THAN_OR_EQUAL)* <br/>
-     * GREATER_THAN_OR_EQUAL := AND (>= AND)* <br/>
-     * AND := OR (&& OR)* <br/>
-     * OR := BIT_AND (|| BIT_AND)*
+     * LESS_THAN := LESS_THAN_EQUAL (< LESS_THAN_EQUAL)* <br/>
+     * LESS_THAN_EQUAL := GREATER_THAN (<= GREATER_THAN)* <br/>
+     * GREATER_THAN := GREATER_THAN_EQUAL (> GREATER_THAN_EQUAL)* <br/>
+     * GREATER_THAN_EQUAL := BIT_AND (>= BIT_AND)*
      *
      * @param comparison the {@link TokenType} that corresponds to the comparison
      * @return the node
      */
     protected @NotNull Node parseBinaryComparison(final @NotNull TokenType comparison) {
-        if (comparison.after(OR)) return parseBinaryOperation();
+        if (comparison.after(GREATER_THAN_EQUAL)) return parseBinaryOperation();
         else {
             final TokenType nextOperation = TokenType.values()[comparison.ordinal() + 1];
             Node node = parseBinaryComparison(nextOperation);
