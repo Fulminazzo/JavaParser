@@ -27,6 +27,21 @@ class EnvironmentTest extends Specification {
         scopeType << ScopeType.values().findAll { it != ScopeType.MAIN }
     }
 
+    def 'test check of no types should throw different error'() {
+        given:
+        def arr = new ScopeType[0]
+
+        and:
+        def exceptionMessage = this.environment.scopeTypeMismatch(arr).message
+
+        when:
+        this.environment.check()
+
+        then:
+        def e = thrown(ScopeException)
+        e.message == exceptionMessage
+    }
+
     def 'test exit of main scope should throw exception'() {
         when:
         this.environment.exitScope()
