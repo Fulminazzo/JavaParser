@@ -146,16 +146,15 @@ class TypeCheckerTest extends Specification {
 
     def 'test visit method call: #executor #method #parameters should return #expected'() {
         given:
-        //TODO: ValueType does not allow methods like toString or equal
         this.typeChecker.environment.declare(
                 ClassObjectType.INTEGER,
                 'method_call_val',
                 ObjectType.INTEGER
         )
         this.typeChecker.environment.declare(
-                ClassObjectType.INTEGER,
+                PrimitiveType.INT,
                 'method_call_val_prim',
-                ObjectType.INTEGER
+                ValueType.NUMBER
         )
 
         and:
@@ -169,8 +168,9 @@ class TypeCheckerTest extends Specification {
         type == expected
 
         where:
-        executor           | method     | parameters | expected
-        'method_call_val.' | 'toString' | []         | ObjectType.STRING
+        executor                | method     | parameters | expected
+        'method_call_val.'      | 'toString' | []         | ObjectType.STRING
+        'method_call_val_prim.' | 'toString' | []         | ObjectType.STRING
     }
 
     def 'test visit re-assignment: #name = #val should return type #expected'() {
