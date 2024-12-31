@@ -446,6 +446,13 @@ public interface Visitor<T> {
     @NotNull T visitNullLiteral();
 
     /**
+     * Converts this literal and its fields to this visitor type.
+     *
+     * @return the this literal
+     */
+    @NotNull T visitThisLiteral();
+
+    /**
      * Converts boolean value literal and its fields to this visitor type.
      *
      * @param rawValue the raw value
