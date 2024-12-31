@@ -1,7 +1,10 @@
 package it.fulminazzo.javaparser.typechecker.types
 
+import it.fulminazzo.javaparser.typechecker.TypeCheckerException
 import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType
 import spock.lang.Specification
+
+import java.util.regex.Pattern
 
 class ParameterTypesTest extends Specification {
 
@@ -27,6 +30,18 @@ class ParameterTypesTest extends Specification {
                 [Byte, Short, Character, Integer, Long, Float, Double, Boolean, String, Object],
                 getClass()
         ].flatten()
+    }
+
+    def 'test toClassType should throw exception'() {
+        given:
+        def types = new ParameterTypes([])
+
+        when:
+        types.toClassType()
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.noClassType(ParameterTypes).message
     }
 
 }
