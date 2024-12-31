@@ -132,7 +132,7 @@ public final class TypeChecker implements Visitor<Type> {
             } catch (TypeException e) {
                 throw TypeCheckerException.of(e);
             }
-        else throw new IllegalStateException("Not implemented");
+        else throw TypeCheckerException.invalidType(LiteralType.class, executor.accept(this));
     }
 
     @Override
