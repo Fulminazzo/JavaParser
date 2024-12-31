@@ -4,6 +4,7 @@ package it.fulminazzo.javaparser.typechecker.types.objects
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException
 import it.fulminazzo.javaparser.typechecker.types.ClassType
 import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
+import it.fulminazzo.javaparser.typechecker.types.ValueType
 import spock.lang.Specification
 
 class CustomClassObjectTypeTest extends Specification {
@@ -23,9 +24,11 @@ class CustomClassObjectTypeTest extends Specification {
         new CustomClassObjectType(ObjectType.of(ArrayList))  | ObjectType.of(List)
     }
 
-    def 'test invalid cast of #cast to object'() {
+    def 'test invalid cast of custom class to #type'() {
+        given:
+        def cast = new CustomClassObjectType(ObjectType.of(Collection))
+
         when:
-        def type = ObjectType.of(List)
         cast.cast(type)
 
         then:
@@ -33,12 +36,12 @@ class CustomClassObjectTypeTest extends Specification {
         e.message == TypeCheckerException.invalidCast(cast, type).message
 
         where:
-        cast << [
-                PrimitiveType.values(),
-                ClassObjectType.values().findAll { it != ClassObjectType.OBJECT },
-                new CustomClassObjectType(ObjectType.of(Map)),
-                new CustomClassObjectType(ObjectType.of(HashMap)),
-                new CustomClassObjectType(ObjectType.of(Exception))
+        type << [
+                ValueType.values(),
+                ObjectType.values().findAll { it != ObjectType.OBJECT },
+                ObjectType.of(Map),
+                ObjectType.of(HashMap),
+                ObjectType.of(Exception)
         ].flatten()
     }
 
