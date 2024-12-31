@@ -291,6 +291,56 @@ class TypeCheckerTest extends Specification {
         'Object'    | 'o'   | BOOL_LIT   | ValueType.BOOLEAN
     }
 
+    def 'test visit assignment: #type #name should return type #expected'() {
+        given:
+        def literalType = Literal.of(type)
+        def literalName = Literal.of(name)
+
+        when:
+        this.typeChecker.visitAssignment(literalType, literalName, new EmptyLiteral())
+        def value = this.environment.lookup(name)
+
+        then:
+        value == expected
+
+        where:
+        type        | name  | expected
+        'byte'      | 'bc'  | ValueType.BYTE
+        'byte'      | 'b'   | ValueType.BYTE
+        'Byte'      | 'bWc' | Types.NULL_TYPE
+        'Byte'      | 'bW'  | Types.NULL_TYPE
+        'short'     | 'sc'  | ValueType.SHORT
+        'short'     | 's'   | ValueType.SHORT
+        'Short'     | 'sWc' | Types.NULL_TYPE
+        'Short'     | 'sW'  | Types.NULL_TYPE
+        'char'      | 'c'   | ValueType.CHAR
+        'char'      | 'ci'  | ValueType.CHAR
+        'Character' | 'cW'  | Types.NULL_TYPE
+        'Character' | 'ciW' | Types.NULL_TYPE
+        'int'       | 'ic'  | ValueType.NUMBER
+        'int'       | 'i'   | ValueType.NUMBER
+        'Integer'   | 'iW'  | Types.NULL_TYPE
+        'long'      | 'lc'  | ValueType.LONG
+        'long'      | 'li'  | ValueType.LONG
+        'long'      | 'l'   | ValueType.LONG
+        'Long'      | 'lW'  | Types.NULL_TYPE
+        'float'     | 'fc'  | ValueType.FLOAT
+        'float'     | 'fi'  | ValueType.FLOAT
+        'float'     | 'fl'  | ValueType.FLOAT
+        'float'     | 'f'   | ValueType.FLOAT
+        'Float'     | 'fW'  | Types.NULL_TYPE
+        'double'    | 'dc'  | ValueType.DOUBLE
+        'double'    | 'di'  | ValueType.DOUBLE
+        'double'    | 'dl'  | ValueType.DOUBLE
+        'double'    | 'df'  | ValueType.DOUBLE
+        'double'    | 'd'   | ValueType.DOUBLE
+        'Double'    | 'dW'  | Types.NULL_TYPE
+        'boolean'   | 'bo'  | ValueType.BOOLEAN
+        'Boolean'   | 'boW' | Types.NULL_TYPE
+        'String'    | 'st'  | Types.NULL_TYPE
+        'Object'    | 'o'   | Types.NULL_TYPE
+    }
+
     def 'test visit assignment already declared'() {
         given:
         def varName = 'visit_assignment_declared'
