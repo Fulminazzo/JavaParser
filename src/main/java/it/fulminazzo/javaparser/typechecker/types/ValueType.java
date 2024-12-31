@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
 import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType;
+import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -43,6 +44,21 @@ public enum ValueType implements Type {
     BYTE,
     SHORT,
     ;
+
+    @Override
+    public @NotNull ObjectType toWrapper() {
+        switch (this) {
+            case BYTE: return ObjectType.BYTE;
+            case SHORT: return ObjectType.SHORT;
+            case CHAR: return ObjectType.CHARACTER;
+            case NUMBER: return ObjectType.INTEGER;
+            case LONG: return ObjectType.LONG;
+            case FLOAT: return ObjectType.FLOAT;
+            case DOUBLE: return ObjectType.DOUBLE;
+            case BOOLEAN: return ObjectType.BOOLEAN;
+            default: return ObjectType.STRING;
+        }
+    }
 
     @Override
     public @NotNull ClassType toClassType() {
