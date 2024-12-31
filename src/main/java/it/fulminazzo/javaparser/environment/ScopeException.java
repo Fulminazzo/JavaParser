@@ -53,4 +53,9 @@ public class ScopeException extends Exception {
         );
     }
 
+    public static <T> @NotNull ScopeException cannotAssignValue(final @NotNull T value,
+                                                                final @NotNull Info info) {
+        return new ScopeException(String.format("Cannot assign %s to %s", value, info));
+    }
+
 }

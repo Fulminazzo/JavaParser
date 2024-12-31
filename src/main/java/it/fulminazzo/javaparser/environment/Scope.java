@@ -46,7 +46,7 @@ class Scope<T> implements Scoped<T> {
     public void update(@NotNull String name, @NotNull T value) throws ScopeException {
         ObjectData key = getKey(name).orElseThrow(() -> ScopeException.noSuchVariable(name));
         if (key.getInfo().compatibleWith(value)) this.internalMap.put(key, value);
-        else throw new ScopeException(String.format("Cannot assign %s to %s", value, key.getInfo()));
+        else throw ScopeException.cannotAssignValue(value, key.getInfo());
     }
 
     @Override
