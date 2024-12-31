@@ -675,9 +675,10 @@ public class JavaParser extends Parser {
      */
     protected @NotNull Literal parseLiteral() {
         final String literal = getTokenizer().lastRead();
-        consume(LITERAL);
         try {
-            return Literal.of(literal);
+            Literal l = Literal.of(literal);
+            consume(LITERAL);
+            return l;
         } catch (NodeException e) {
             throw invalidValueProvidedException(literal);
         }
