@@ -384,6 +384,11 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitContinue(@NotNull Node expr) {
+        try {
+            this.environment.check(CONTINUE_SCOPES);
+        } catch (ScopeException e) {
+            throw TypeCheckerException.of(e);
+        }
         return NoType.NO_TYPE;
     }
 
