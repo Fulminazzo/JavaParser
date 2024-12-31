@@ -413,14 +413,30 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * METHOD_CALL := EQUAL ( .LITERAL METHOD_INVOCATION )*
+     * METHOD_CALL := EQUAL ( .LITERAL METHOD_INVOCATION? )*
      *
      * @return the node
      */
     protected @NotNull Node parseMethodCall() {
         Node node = parseBinaryComparison();
-        while (lastToken() == OPEN_PAR)
-            node = new MethodCall(node, parseMethodInvocation());
+        if (node.is(Literal.class) && lastToken() == OPEN_PAR) {
+            Literal literalNode = (Literal) node;
+            String literal = literalNode.getLiteral();
+            final @NotNull Node executor;
+            final @NotNull String methodName;
+            if (literal.contains(".")) {
+                try {
+                    executor = Literal.of(literal.substring(0, literal.indexOf(".")));
+                } catch (NodeException e) {
+                    throw invalidValueProvidedException(literal);
+                }
+                methodName = literal.substring(literal.indexOf(".") + 1);
+            } else {
+                executor = new EmptyLiteral();
+                methodName = literal;
+            }
+            node = new MethodCall(executor, methodName, parseMethodInvocation());
+        }
         return node;
     }
 
