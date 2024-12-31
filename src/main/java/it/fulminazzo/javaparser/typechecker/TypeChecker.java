@@ -304,7 +304,11 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitNewObject(@NotNull Node left, @NotNull Node right) {
-        return null;
+        try {
+            return left.accept(this).checkClassType().newObject(right.accept(this).check(ParameterTypes.class));
+        } catch (TypeException e) {
+            throw TypeCheckerException.of(e);
+        }
     }
 
     @Override
