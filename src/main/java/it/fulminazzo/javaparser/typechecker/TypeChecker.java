@@ -126,6 +126,15 @@ public final class TypeChecker implements Visitor<Type> {
     }
 
     @Override
+    public @NotNull Type visitField(@NotNull Node left, @NotNull Node right) {
+        try {
+            return left.accept(this).getField(right.accept(this).check(LiteralType.class).getLiteral());
+        } catch (TypeException e) {
+            throw TypeCheckerException.of(e);
+        }
+    }
+
+    @Override
     public @NotNull Type visitMethodInvocation(@NotNull List<Node> parameters) {
         List<ClassType> parameterTypes = new LinkedList<>();
         for (Node parameter : parameters)
