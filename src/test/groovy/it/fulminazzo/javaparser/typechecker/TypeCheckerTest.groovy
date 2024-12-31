@@ -10,11 +10,7 @@ import it.fulminazzo.javaparser.parser.node.statements.IfStatement
 import it.fulminazzo.javaparser.parser.node.statements.Return
 import it.fulminazzo.javaparser.parser.node.statements.Statement
 import it.fulminazzo.javaparser.parser.node.values.*
-import it.fulminazzo.javaparser.typechecker.types.ParameterTypes
-import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
-import it.fulminazzo.javaparser.typechecker.types.TestClass
-import it.fulminazzo.javaparser.typechecker.types.TypeException
-import it.fulminazzo.javaparser.typechecker.types.ValueType
+import it.fulminazzo.javaparser.typechecker.types.*
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayClassType
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayType
 import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType
@@ -203,6 +199,30 @@ class TypeCheckerTest extends Specification {
         then:
         def e = thrown(TypeCheckerException)
         e.message == exceptionMessage
+    }
+
+    def 'test visit field of #field should return #expected'() {
+        given:
+        this.typeChecker.environment.declare(
+                ClassObjectType.of(TestClass),
+                'field_var',
+                ObjectType.of(TestClass)
+        )
+
+        and:
+        def left = Literal.of('field_var')
+        def right = Literal.of(field)
+
+        when:
+        def type = this.typeChecker.visitField(left, right)
+
+        then:
+        type == expected
+
+        where:
+        field               | expected
+        'publicStaticField' | PrimitiveType.INT
+        'publicField'       | PrimitiveType.DOUBLE
     }
 
     def 'test visit re-assignment: #name = #val should return type #expected'() {
