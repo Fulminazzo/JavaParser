@@ -5,7 +5,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -91,14 +90,26 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
      */
     @Override
     public @NotNull TokenType next() {
+        return next("a^");
+    }
+
+    /**
+     * Reads from the input the next {@link TokenType} or the regex is met.
+     *
+     * @param regex the regex
+     * @return the token type
+     * Might return {@link TokenType#EOF} in case the regex was met,
+     * but no valid {@link TokenType} was found.
+     */
+    public @NotNull TokenType next(final @NotNull String regex) {
         try {
             if (this.line == -1) this.line = 1;
             if (this.column == -1) this.column = 0;
             String read = getPreviousRead();
-            if (isTokenType(read)) return readTokenType(read);
+            if (isTokenType(read) || regexMatches(regex, read)) return readTokenType(read, regex);
             while (this.input.available() > 0) {
                 read += updateLineCount(this.input.read());
-                if (isTokenType(read)) return readTokenType(read);
+                if (isTokenType(read) || regexMatches(regex, read)) return readTokenType(read, regex);
             }
             return eof();
         } catch (IOException e) {
