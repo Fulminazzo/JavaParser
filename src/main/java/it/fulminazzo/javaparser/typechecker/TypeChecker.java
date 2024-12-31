@@ -117,7 +117,10 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitMethodInvocation(@NotNull List<Node> parameters) {
-        return null;
+        List<ClassType> parameterTypes = new LinkedList<>();
+        for (Node parameter : parameters)
+            parameterTypes.add(parameter.accept(this).checkClassType());
+        return new ParameterTypes(parameterTypes);
     }
 
     @Override
