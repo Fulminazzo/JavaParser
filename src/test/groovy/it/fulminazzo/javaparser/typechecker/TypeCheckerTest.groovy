@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.typechecker
 
 import it.fulminazzo.fulmicollection.objects.Refl
+import it.fulminazzo.javaparser.environment.MockEnvironment
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram
@@ -32,6 +33,7 @@ class TypeCheckerTest extends Specification {
 
     void setup() {
         this.typeChecker = new TypeChecker(new TestClass())
+        new Refl<>(this.typeChecker).setFieldObject('environment', new MockEnvironment<>())
         this.typeChecker.environment.declare(
                 ClassObjectType.BOOLEAN,
                 'bool',
