@@ -5,6 +5,7 @@ import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 
@@ -133,6 +134,31 @@ public interface Type {
             return ClassType.of(field.getType());
         } catch (IllegalArgumentException e) {
             throw TypeException.fieldNotFound(classType, fieldName);
+        }
+    }
+
+    /**
+     * Searches the given method in the class of {@link #toClassType()} (if not already {@link ClassType}).
+     * Then, returns the declared type of the method in form of {@link ClassType}.
+     *
+     * @param methodName the method name
+     * @return the type of the method
+     * @throws TypeException thrown in case the method could not be found or could not be accessed
+     * (only <code>public</code> modifier allowed and <code>static</code> methods from static context)
+     */
+    default @NotNull ClassType getMethod(final @NotNull String methodName,
+                                         final @NotNull ParameterTypes parameterTypes) throws TypeException {
+        ClassType classType = isClassType() ? (ClassType) this : toClassType();
+        try {
+            Class<?> javaClass = classType.toJavaClass();
+            Method method = ReflectionUtils.getMethod(javaClass, null, methodName,
+                    parameterTypes.toJavaClassArray());
+            if (!Modifier.isPublic(method.getModifiers())) throw TypeException.cannotAccessMethod(classType, method);
+            else if (isClassType() && !Modifier.isStatic(method.getModifiers()))
+                throw TypeException.cannotAccessStaticMethod(classType, methodName, parameterTypes);
+            return ClassType.of(method.getReturnType());
+        } catch (IllegalArgumentException e) {
+            throw TypeException.methodNotFound(classType, methodName, parameterTypes);
         }
     }
 
