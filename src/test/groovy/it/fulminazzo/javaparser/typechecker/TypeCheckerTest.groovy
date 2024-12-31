@@ -8,6 +8,7 @@ import it.fulminazzo.javaparser.parser.node.Assignment
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram
+import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
@@ -670,7 +671,7 @@ class TypeCheckerTest extends Specification {
         given:
         def type = this.typeChecker.visitDynamicArray(
                 Arrays.asList(BOOL_LIT, BOOL_LIT),
-                Literal.of('boolean')
+                new ArrayLiteral(Literal.of('boolean'))
         )
 
         and:
@@ -684,7 +685,7 @@ class TypeCheckerTest extends Specification {
         given:
         def type = this.typeChecker.visitStaticArray(
                 1,
-                Literal.of('boolean')
+                new ArrayLiteral(Literal.of('boolean'))
         )
 
         and:
@@ -698,7 +699,7 @@ class TypeCheckerTest extends Specification {
         when:
         this.typeChecker.visitStaticArray(
                 -1,
-                Literal.of('boolean')
+                new ArrayLiteral(Literal.of('boolean'))
         )
 
         then:
