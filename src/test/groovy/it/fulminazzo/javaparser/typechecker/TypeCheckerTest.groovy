@@ -62,6 +62,37 @@ class TypeCheckerTest extends Specification {
         Optional.empty()              | new JavaProgram(new LinkedList<>([new Statement()]))
     }
 
+    def 'test visit enhanced for statement of (#expr) #codeBlock should return #expected'() {
+        given:
+        this.environment.declare(
+                new ArrayClassType(PrimitiveType.INT),
+                'arr', new ArrayType(ValueType.NUMBER)
+        )
+        this.environment.declare(
+                ClassObjectType.of(Iterable),
+                'iterable', ObjectType.of(Iterable)
+        )
+
+        and:
+        def varType = Literal.of('int')
+        def varName = Literal.of('i')
+
+        when:
+        def type = this.typeChecker.visitEnhancedForStatement(varType, varName, codeBlock, expr)
+
+        then:
+        type == expected
+        this.environment.enteredScope(ScopeType.FOR)
+        this.environment.isMainScope()
+
+        where:
+        expected          | codeBlock                           | expr
+        ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | Literal.of('arr')
+        ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | Literal.of('iterable')
+        NoType.NO_TYPE    | new CodeBlock(new Break())          | Literal.of('arr')
+        NoType.NO_TYPE    | new CodeBlock(new Break())          | Literal.of('iterable')
+    }
+
     def 'test visit for statement of (#expr) #codeBlock should return #expected'() {
         given:
         def assignment = new Assignment(Literal.of('int'), Literal.of('i'), NUMBER_LIT)
