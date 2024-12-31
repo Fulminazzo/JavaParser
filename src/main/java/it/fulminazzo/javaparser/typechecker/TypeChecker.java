@@ -62,7 +62,7 @@ public final class TypeChecker implements Visitor<Type> {
         if (!tempVariableName.is(LiteralType.class))
             throw TypeCheckerException.of(this.environment.alreadyDeclaredVariable(name.getLiteral()));
         LiteralType variableName = tempVariableName.check(LiteralType.class);
-        Type variableValue = parseByteAndShort(variableType, value.accept(this));
+        Type variableValue = convertByteAndShort(variableType, value.accept(this));
         if (variableValue.isAssignableFrom(variableType)) {
             try {
                 this.environment.declare(variableType, variableName.getLiteral(), convertValue(variableType, variableValue));
@@ -103,8 +103,8 @@ public final class TypeChecker implements Visitor<Type> {
      * @param variableValue the variable value
      * @return the type
      */
-    static @NotNull Type parseByteAndShort(final @NotNull ClassType variableType,
-                                           final @NotNull Type variableValue) {
+    static @NotNull Type convertByteAndShort(final @NotNull ClassType variableType,
+                                             final @NotNull Type variableValue) {
         if (variableType.is(PrimitiveType.BYTE, ClassObjectType.BYTE, PrimitiveType.SHORT, ClassObjectType.SHORT))
             if (variableValue.is(NUMBER) || variableValue.is(CHAR)) return variableType.toType();
         return variableValue;
@@ -297,7 +297,7 @@ public final class TypeChecker implements Visitor<Type> {
         try {
             String variableName = ((Literal) left).getLiteral();
             ClassType variableType = (ClassType) this.environment.lookupInfo(variableName);
-            Type variableValue = parseByteAndShort(variableType, right.accept(this));
+            Type variableValue = convertByteAndShort(variableType, right.accept(this));
             if (variableValue.isAssignableFrom(variableType)) {
                 variableValue = convertValue(variableType, variableValue);
                 this.environment.update(variableName, variableValue);
