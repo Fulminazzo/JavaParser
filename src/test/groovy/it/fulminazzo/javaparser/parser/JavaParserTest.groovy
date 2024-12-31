@@ -11,6 +11,7 @@ import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.literals.NullLiteral
+import it.fulminazzo.javaparser.parser.node.literals.ThisLiteral
 import it.fulminazzo.javaparser.parser.node.operators.binary.*
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
@@ -384,7 +385,7 @@ class JavaParserTest extends Specification {
         def expected = new Field(
                 new Field(
                         new MethodCall(
-                                Literal.of('this'),
+                                new ThisLiteral(),
                                 'toString',
                                 new MethodInvocation([])
                         ), Literal.of('char_array')
