@@ -1,11 +1,32 @@
 package it.fulminazzo.javaparser.typechecker.types
 
 import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType
+import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
 
 import static it.fulminazzo.javaparser.typechecker.types.ValueType.*
 
 class ValueTypeTest extends Specification {
+
+    def 'test toWrapper of #value should return #expected'() {
+        when:
+        def actual = value.toWrapper()
+
+        then:
+        actual == expected
+
+        where:
+        type    | expected
+        BYTE    | ObjectType.BYTE
+        SHORT   | ObjectType.SHORT
+        CHAR    | ObjectType.CHARACTER
+        NUMBER  | ObjectType.INTEGER
+        LONG    | ObjectType.LONG
+        FLOAT   | ObjectType.FLOAT
+        DOUBLE  | ObjectType.DOUBLE
+        BOOLEAN | ObjectType.BOOLEAN
+        STRING  | ObjectType.STRING
+    }
 
     def 'test #type toClassType should return #expected'() {
         given:
