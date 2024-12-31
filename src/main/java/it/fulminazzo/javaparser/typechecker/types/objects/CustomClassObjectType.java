@@ -43,11 +43,9 @@ class CustomClassObjectType extends TypeWrapper implements ClassType {
 
     @Override
     public boolean compatibleWith(@NotNull Type type) {
-        if (type instanceof ObjectType) {
-            ObjectType objectType = (ObjectType) type;
-            return this.object.equals(objectType);
-        }
-        return false;
+        if (type instanceof ObjectType)
+            return toJavaClass().isAssignableFrom(((ObjectType) type).getInnerClass());
+        else return false;
     }
 
     @Override
