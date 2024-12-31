@@ -44,10 +44,20 @@ public interface Visitor<T> {
      * Converts method call and its fields to this visitor type.
      *
      * @param executor   the executor
+     * @param methodName the method name
      * @param invocation the invocation
      * @return the method call
      */
-    @NotNull T visitMethodCall(@NotNull Node executor, @NotNull MethodInvocation invocation);
+    @NotNull T visitMethodCall(@NotNull Node executor, @NotNull String methodName, @NotNull MethodInvocation invocation);
+
+    /**
+     * Converts field and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the field
+     */
+    @NotNull T visitField(@NotNull Node left, @NotNull Node right);
 
     /**
      * Converts method invocation and its fields to this visitor type.
