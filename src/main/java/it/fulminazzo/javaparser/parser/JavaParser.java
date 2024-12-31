@@ -425,11 +425,7 @@ public class JavaParser extends Parser {
             final @NotNull Node executor;
             final @NotNull String methodName;
             if (literal.contains(".")) {
-                try {
-                    executor = Literal.of(literal.substring(0, literal.lastIndexOf(".")));
-                } catch (NodeException e) {
-                    throw invalidValueProvidedException(literal);
-                }
+                executor = getLiteralFromString(literal.substring(0, literal.lastIndexOf(".")));
                 methodName = literal.substring(literal.lastIndexOf(".") + 1);
             } else {
                 executor = new EmptyLiteral();
@@ -675,10 +671,21 @@ public class JavaParser extends Parser {
      */
     protected @NotNull Literal parseLiteral() {
         final String literal = getTokenizer().lastRead();
+        Literal l = getLiteralFromString(literal);
+        consume(LITERAL);
+        return l;
+    }
+
+    /**
+     * Converts the given string to a {@link Literal}.
+     * Throws {@link #invalidValueProvidedException(String)} in case of error.
+     *
+     * @param literal the string
+     * @return the literal
+     */
+    @NotNull Literal getLiteralFromString(final @NotNull String literal) {
         try {
-            Literal l = Literal.of(literal);
-            consume(LITERAL);
-            return l;
+            return Literal.of(literal);
         } catch (NodeException e) {
             throw invalidValueProvidedException(literal);
         }
