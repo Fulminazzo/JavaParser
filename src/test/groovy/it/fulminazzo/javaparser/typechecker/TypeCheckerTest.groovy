@@ -30,11 +30,13 @@ class TypeCheckerTest extends Specification {
     private static final BOOL_VAR = Literal.of('bool')
 
     private TypeChecker typeChecker
+    private MockEnvironment environment
 
     void setup() {
         this.typeChecker = new TypeChecker(new TestClass())
-        new Refl<>(this.typeChecker).setFieldObject('environment', new MockEnvironment<>())
-        this.typeChecker.environment.declare(
+        this.environment = new MockEnvironment<>()
+        new Refl<>(this.typeChecker).setFieldObject('environment', this.environment)
+        this.environment.declare(
                 ClassObjectType.BOOLEAN,
                 'bool',
                 ObjectType.BOOLEAN,
@@ -134,7 +136,7 @@ class TypeCheckerTest extends Specification {
 
         when:
         this.typeChecker.visitAssignment(literalType, literalName, val)
-        def value = this.typeChecker.environment.lookup(name)
+        def value = this.environment.lookup(name)
 
         then:
         value == expected
@@ -185,7 +187,7 @@ class TypeCheckerTest extends Specification {
         def value = NUMBER_LIT
 
         and:
-        this.typeChecker.environment.declare(
+        this.environment.declare(
                 type.accept(this.typeChecker).checkClassType(),
                 varName,
                 value.accept(this.typeChecker)
@@ -196,7 +198,7 @@ class TypeCheckerTest extends Specification {
 
         then:
         def e = thrown(TypeCheckerException)
-        e.message == this.typeChecker.environment.alreadyDeclaredVariable(varName).message
+        e.message == this.environment.alreadyDeclaredVariable(varName).message
     }
 
     def 'test visit assignment invalid: #type invalid = #val'() {
@@ -228,12 +230,12 @@ class TypeCheckerTest extends Specification {
 
     def 'test visit method call: #executor #method #parameters should return #expected'() {
         given:
-        this.typeChecker.environment.declare(
+        this.environment.declare(
                 ClassObjectType.INTEGER,
                 'method_call_val',
                 ObjectType.INTEGER
         )
-        this.typeChecker.environment.declare(
+        this.environment.declare(
                 PrimitiveType.INT,
                 'method_call_val_prim',
                 ValueType.NUMBER
@@ -262,7 +264,7 @@ class TypeCheckerTest extends Specification {
     def 'test type exception visit method call'() {
         given:
         def classType = ClassObjectType.INTEGER
-        this.typeChecker.environment.declare(
+        this.environment.declare(
                 classType,
                 'method_call_invalid_val',
                 ObjectType.INTEGER
@@ -287,7 +289,7 @@ class TypeCheckerTest extends Specification {
 
     def 'test visit field of #field should return #expected'() {
         given:
-        this.typeChecker.environment.declare(
+        this.environment.declare(
                 ClassObjectType.of(TestClass),
                 'field_var',
                 ObjectType.of(TestClass)
@@ -314,7 +316,7 @@ class TypeCheckerTest extends Specification {
         def classType = ClassObjectType.of(TestClass)
 
         and:
-        this.typeChecker.environment.declare(
+        this.environment.declare(
                 classType,
                 'field_var_invalid',
                 ObjectType.of(TestClass)
@@ -348,7 +350,7 @@ class TypeCheckerTest extends Specification {
         def literalName = Literal.of(name)
 
         and:
-        this.typeChecker.environment.declare(
+        this.environment.declare(
                 Literal.of(type).accept(this.typeChecker).checkClassType(),
                 name, val.accept(this.typeChecker)
         )
@@ -408,7 +410,7 @@ class TypeCheckerTest extends Specification {
 
         then:
         def e = thrown(TypeCheckerException)
-        e.message == this.typeChecker.environment.noSuchVariable(varName).message
+        e.message == this.environment.noSuchVariable(varName).message
     }
 
     def 'test re-visit assignment invalid: #type invalid = #val'() {
@@ -420,7 +422,7 @@ class TypeCheckerTest extends Specification {
         ).message
 
         and:
-        this.typeChecker.environment.declare(
+        this.environment.declare(
                 actualType,
                 varName,
                 val.accept(this.typeChecker)
@@ -940,7 +942,7 @@ class TypeCheckerTest extends Specification {
 
     def 'test invalid visit cast #target to #cast'() {
         given:
-        this.typeChecker.environment.declare(PrimitiveType.INT, 'cast', ValueType.NUMBER)
+        this.environment.declare(PrimitiveType.INT, 'cast', ValueType.NUMBER)
 
         and:
         def expectedMessage = TypeCheckerException.invalidCast(cast.equals(Literal.of('String')) ?
