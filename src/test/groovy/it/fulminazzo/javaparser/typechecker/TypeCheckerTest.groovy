@@ -1148,6 +1148,14 @@ class TypeCheckerTest extends Specification {
         type == ValueType.BOOLEAN
     }
 
+    def 'test visit this should return this object'() {
+        when:
+        def type = this.typeChecker.visitThisLiteral()
+
+        then:
+        type == ObjectType.of(TestClass)
+    }
+
     def 'test visit cast #target to #cast should be of type #expected'() {
         given:
         def type = this.typeChecker.visitCast(cast, target)
