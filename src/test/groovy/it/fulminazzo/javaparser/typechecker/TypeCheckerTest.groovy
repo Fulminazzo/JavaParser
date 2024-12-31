@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.typechecker
 
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.environment.MockEnvironment
+import it.fulminazzo.javaparser.environment.ScopeException
 import it.fulminazzo.javaparser.environment.ScopeType
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
@@ -56,7 +57,7 @@ class TypeCheckerTest extends Specification {
         where:
         type                          | program
         Optional.of(ValueType.NUMBER) | new JavaProgram(new LinkedList<>([new Return(NUMBER_LIT)]))
-        Optional.empty()              | new JavaProgram(new LinkedList<>([new Break()]))
+        Optional.empty()              | new JavaProgram(new LinkedList<>([new Statement()]))
     }
 
     def 'test visit do statement of (#expr) #codeBlock should return #expected'() {
@@ -207,7 +208,7 @@ class TypeCheckerTest extends Specification {
 
         then:
         def e = thrown(TypeCheckerException)
-        e.message == this.environment.alreadyDeclaredVariable(varName).message
+        e.message == ScopeException.alreadyDeclaredVariable(varName).message
     }
 
     def 'test visit assignment invalid: #type invalid = #val'() {
@@ -419,7 +420,7 @@ class TypeCheckerTest extends Specification {
 
         then:
         def e = thrown(TypeCheckerException)
-        e.message == this.environment.noSuchVariable(varName).message
+        e.message == ScopeException.noSuchVariable(varName).message
     }
 
     def 'test re-visit assignment invalid: #type invalid = #val'() {
@@ -869,6 +870,85 @@ class TypeCheckerTest extends Specification {
         LONG_LIT    | ValueType.LONG
         FLOAT_LIT   | ValueType.FLOAT
         DOUBLE_LIT  | ValueType.DOUBLE
+    }
+
+    def 'test visit break with scope #scope should not throw exception'() {
+        given:
+        this.environment.enterScope(scope)
+
+        when:
+        this.typeChecker.visitBreak(new EmptyLiteral())
+        this.environment.exitScope()
+
+        then:
+        noExceptionThrown()
+
+        where:
+        scope << [
+                ScopeType.WHILE, ScopeType.DO,
+                ScopeType.FOR, ScopeType.SWITCH,
+        ]
+    }
+
+    def 'test invalid visit break with scope #scope should throw exception'() {
+        given:
+        this.environment.enterScope(scope)
+
+        and:
+        def exceptionMessage = ScopeException.scopeTypeMismatch(TypeChecker.BREAK_SCOPES).message
+
+        when:
+        this.typeChecker.visitBreak(new EmptyLiteral())
+        this.environment.exitScope()
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == exceptionMessage
+
+        where:
+        scope << [
+                ScopeType.MAIN, ScopeType.CODE_BLOCK
+        ]
+    }
+
+    def 'test visit continue with scope #scope should not throw exception'() {
+        given:
+        this.environment.enterScope(scope)
+
+        when:
+        this.typeChecker.visitContinue(new EmptyLiteral())
+        this.environment.exitScope()
+
+        then:
+        noExceptionThrown()
+
+        where:
+        scope << [
+                ScopeType.WHILE, ScopeType.DO,
+                ScopeType.FOR,
+        ]
+    }
+
+    def 'test invalid visit continue with scope #scope should throw exception'() {
+        given:
+        this.environment.enterScope(scope)
+
+        and:
+        def exceptionMessage = ScopeException.scopeTypeMismatch(TypeChecker.CONTINUE_SCOPES).message
+
+        when:
+        this.typeChecker.visitContinue(new EmptyLiteral())
+        this.environment.exitScope()
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == exceptionMessage
+
+        where:
+        scope << [
+                ScopeType.MAIN, ScopeType.CODE_BLOCK,
+                ScopeType.SWITCH
+        ]
     }
 
     def 'test visit not'() {

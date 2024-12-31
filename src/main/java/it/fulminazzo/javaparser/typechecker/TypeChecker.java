@@ -32,10 +32,14 @@ import static it.fulminazzo.javaparser.typechecker.types.ValueType.*;
  * A {@link Visitor} that checks and verifies all the types of the parsed code.
  */
 public final class TypeChecker implements Visitor<Type> {
-    /**
-     * The constant FIELDS_SEPARATOR.
-     */
-    public static final String FIELDS_SEPARATOR = ".";
+    private static final ScopeType[] BREAK_SCOPES = new ScopeType[] {
+            ScopeType.DO, ScopeType.WHILE, ScopeType.FOR, ScopeType.SWITCH
+    };
+    private static final ScopeType[] CONTINUE_SCOPES = new ScopeType[] {
+            ScopeType.DO, ScopeType.WHILE, ScopeType.FOR
+    };
+    private static final String FIELDS_SEPARATOR = ".";
+
     private final Object executingObject;
     private final Environment<Type> environment;
 
@@ -67,7 +71,7 @@ public final class TypeChecker implements Visitor<Type> {
         ClassType variableType = type.accept(this).checkClassType();
         Type tempVariableName = name.accept(this);
         if (!tempVariableName.is(LiteralType.class))
-            throw TypeCheckerException.of(this.environment.alreadyDeclaredVariable(name.getLiteral()));
+            throw TypeCheckerException.of(ScopeException.alreadyDeclaredVariable(name.getLiteral()));
         LiteralType variableName = tempVariableName.check(LiteralType.class);
         Type variableValue = convertByteAndShort(variableType, value.accept(this));
         if (variableValue.isAssignableFrom(variableType)) {
@@ -370,11 +374,21 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitBreak(@NotNull Node expr) {
+        try {
+            this.environment.check(BREAK_SCOPES);
+        } catch (ScopeException e) {
+            throw TypeCheckerException.of(e);
+        }
         return NoType.NO_TYPE;
     }
 
     @Override
     public @NotNull Type visitContinue(@NotNull Node expr) {
+        try {
+            this.environment.check(CONTINUE_SCOPES);
+        } catch (ScopeException e) {
+            throw TypeCheckerException.of(e);
+        }
         return NoType.NO_TYPE;
     }
 
