@@ -66,6 +66,7 @@ public enum TokenType {
 
     // Type values
     NULL("null"),
+    THIS("this"),
     NUMBER_VALUE("[0-9]+"),
     LONG_VALUE("[0-9]+[Ll]?"),
     DOUBLE_VALUE("[0-9]+(?:.[0-9]+)?(?:E[-0-9]+)?[Dd]?"),
