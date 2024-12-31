@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
  * Represents the most basic implementation of {@link Node}.
  */
 public abstract class NodeImpl implements Node {
+    private static final long serialVersionUID = 101010L;
 
     @Override
     public boolean is(final @NotNull Class<? extends Node> nodeType) {
