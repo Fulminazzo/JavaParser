@@ -2,7 +2,9 @@ package it.fulminazzo.javaparser.environment;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * An object that can hold values in the form (name, value) pair.
@@ -112,11 +114,15 @@ interface Scoped<T> {
     /**
      * Returns an exception for a wrong scope type.
      *
-     * @param scopeType the scope type
+     * @param scopeTypes the scope types
      * @return the scope exception
      */
-    default @NotNull ScopeException scopeTypeMismatch(@NotNull ScopeType scopeType) {
-        return new ScopeException("Scope type mismatch: " + scopeType() + " != " + scopeType);
+    default @NotNull ScopeException scopeTypeMismatch(final ScopeType @NotNull [] scopeTypes) {
+        return new ScopeException(scopeTypes.length == 0 ?
+                "Cannot compare current scope type with no types provided" :
+                "Current scope does not match any of the expected types: " +
+                        Arrays.stream(scopeTypes).map(ScopeType::name).collect(Collectors.joining(", "))
+        );
     }
 
 }
