@@ -68,12 +68,12 @@ public class Environment<T> implements Scoped<T> {
             try {
                 return scope.lookupInfo(name);
             } catch (ScopeException ignored) {}
-        throw noSuchVariable(name);
+        throw ScopeException.noSuchVariable(name);
     }
 
     @Override
     public void declare(@NotNull Info info, @NotNull String name, @NotNull T value) throws ScopeException {
-        if (isDeclared(name)) throw alreadyDeclaredVariable(name);
+        if (isDeclared(name)) throw ScopeException.alreadyDeclaredVariable(name);
         else lastScope().declare(info, name, value);
     }
 
@@ -84,7 +84,7 @@ public class Environment<T> implements Scoped<T> {
                 scope.update(name, value);
                 return;
             }
-        throw noSuchVariable(name);
+        throw ScopeException.noSuchVariable(name);
     }
 
     @Override
@@ -93,13 +93,13 @@ public class Environment<T> implements Scoped<T> {
     }
 
     @Override
-    public @NotNull Environment<T> check(@NotNull ScopeType scopeType) throws ScopeException {
+    public @NotNull Environment<T> check(final ScopeType @NotNull ... scopeTypes) throws ScopeException {
         for (Scope<T> scope : this.scopes)
             try {
-                scope.check(scopeType);
+                scope.check(scopeTypes);
                 return this;
             } catch (ScopeException ignored) {}
-        throw scopeTypeMismatch(scopeType);
+        throw ScopeException.scopeTypeMismatch(scopeTypes);
     }
 
     /**
