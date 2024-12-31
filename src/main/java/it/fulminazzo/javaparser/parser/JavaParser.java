@@ -472,10 +472,10 @@ public class JavaParser extends Parser {
      * OR := EQUAL (|| EQUAL)*
      * EQUAL := NOT_EQUAL (== NOT_EQUAL)* <br/>
      * NOT_EQUAL := LESS_THAN (!= LESS_THAN)* <br/>
-     * LESS_THAN := LESS_THAN_OR_EQUAL (< LESS_THAN_OR_EQUAL)* <br/>
-     * LESS_THAN_OR_EQUAL := GREATER_THAN (<= GREATER_THAN)* <br/>
-     * GREATER_THAN := GREATER_THAN_OR_EQUAL (> GREATER_THAN_OR_EQUAL)* <br/>
-     * GREATER_THAN_OR_EQUAL := BIT_AND (>= BIT_AND)*
+     * LESS_THAN := LESS_THAN_EQUAL (< LESS_THAN_EQUAL)* <br/>
+     * LESS_THAN_EQUAL := GREATER_THAN (<= GREATER_THAN)* <br/>
+     * GREATER_THAN := GREATER_THAN_EQUAL (> GREATER_THAN_EQUAL)* <br/>
+     * GREATER_THAN_EQUAL := BIT_AND (>= BIT_AND)*
      *
      * @param comparison the {@link TokenType} that corresponds to the comparison
      * @return the node
