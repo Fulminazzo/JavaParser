@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser.typechecker.types;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 /**
@@ -70,6 +71,51 @@ public class TypeException extends Exception {
                                                                  final @NotNull String field) {
         return new TypeException("Type %s cannot access non-static field '%s' from a static context",
                 type, field);
+    }
+
+    /**
+     * Generates a {@link TypeException} with message:
+     * <i>Could not find method %method_format% in type %type%</i>
+     *
+     * @param type           the type
+     * @param method         the method
+     * @param parameterTypes the parameter types
+     * @return the type exception
+     */
+    public static @NotNull TypeException methodNotFound(final @NotNull ClassType type,
+                                                        final @NotNull String method,
+                                                        final @NotNull ParameterTypes parameterTypes) {
+        return new TypeException("Could not find method %s in type %s", formatMethod(method, parameterTypes), type);
+    }
+
+    /**
+     * Generates a {@link TypeException} with message:
+     * <i>Type %type% cannot access method '%method_format%' with access-level '%access-level%'</i>
+     *
+     * @param type   the type
+     * @param method the method
+     * @return the type exception
+     */
+    public static @NotNull TypeException cannotAccessMethod(final @NotNull ClassType type,
+                                                            final @NotNull Method method) {
+        return new TypeException("Type %s cannot access method %s with access level '%s'",
+                type, formatMethod(method), getVisibilityModifier(method));
+    }
+
+    /**
+     * Generates a {@link TypeException} with message:
+     * <i>Type %type% cannot access non-static method '%method_format%' from a static context</i>
+     *
+     * @param type           the type
+     * @param method         the method
+     * @param parameterTypes the parameter types
+     * @return the type exception
+     */
+    public static @NotNull TypeException cannotAccessStaticMethod(final @NotNull ClassType type,
+                                                                  final @NotNull String method,
+                                                                  final @NotNull ParameterTypes parameterTypes) {
+        return new TypeException("Type %s cannot access non-static method %s from a static context",
+                type, formatMethod(method, parameterTypes));
     }
 
     /**
