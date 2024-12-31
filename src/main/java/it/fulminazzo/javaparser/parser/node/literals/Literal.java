@@ -11,6 +11,13 @@ import org.jetbrains.annotations.NotNull;
 public interface Literal extends Node {
 
     /**
+     * Gets the internal.
+     *
+     * @return the literal
+     */
+    @NotNull String getLiteral();
+
+    /**
      * Creates a new {@link Literal} from the given value.
      *
      * @param value the value
