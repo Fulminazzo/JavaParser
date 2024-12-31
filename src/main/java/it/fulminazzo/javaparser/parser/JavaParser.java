@@ -614,11 +614,14 @@ public class JavaParser extends Parser {
         else if (lastToken() == ADD) {
             consume(ADD);
             if (lastToken() == ADD) expr = new Cast(expr, parseIncrement());
+            else return new Add(expr, parseExpression());
         } else if (lastToken() == SUBTRACT) {
             consume(SUBTRACT);
             if (lastToken() == SUBTRACT) expr = new Cast(expr, parseDecrement());
-            else if (lastToken().between(MODULO, SPACE) || lastToken() == OPEN_PAR)
+            else if ((expr.is(Cast.class) || expr.is(Literal.class)) &&
+                    (lastToken().between(MODULO, SPACE) || lastToken() == OPEN_PAR))
                 expr = new Cast(expr, new Minus(parseAtom()));
+            else return new Subtract(expr, parseExpression());
         }
         return expr;
     }
