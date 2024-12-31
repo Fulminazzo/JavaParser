@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Callable;
 
 import static it.fulminazzo.javaparser.typechecker.OperationUtils.*;
 import static it.fulminazzo.javaparser.typechecker.types.ValueType.*;
@@ -40,6 +41,8 @@ public final class TypeChecker implements Visitor<Type> {
 
     /**
      * Instantiates a new Type checker.
+     *
+     * @param executingObject the executing object
      */
     public TypeChecker(final @NotNull Object executingObject) {
         this.executingObject = executingObject;
@@ -463,15 +466,38 @@ public final class TypeChecker implements Visitor<Type> {
     }
 
     /**
+     * Enters the specified {@link ScopeType}, executes the given function and
+     * exits the scope.
+     * If an exception is thrown:
+     * <ul>
+     *     <li>if its {@link RuntimeException}, it is thrown as is;</li>
+     *     <li>otherwise, it is wrapped using {@link TypeCheckerException#of(Throwable)}.</li>
+     * </ul>
+     *
+     * @param scope    the scope
+     * @param function the function
+     * @return the returned type by the function
+     */
+    @NotNull Type visitScoped(final @NotNull ScopeType scope,
+                              final @NotNull Callable<Type> function) {
+        try {
+            this.environment.enterScope(scope);
+            Type type = function.call();
+            this.environment.exitScope();
+            return type;
+        } catch (Exception e) {
+            if (e instanceof RuntimeException) throw (RuntimeException) e;
+            else throw TypeCheckerException.of(e);
+        }
+    }
+
+    /**
      * Tries to convert the given literal to a {@link Type}.
      * It does so by first converting it to {@link ClassType}.
      * If it fails, it tries with a variable declared in {@link #environment}.
      *
      * @param literal the literal
-     * @return if a {@link ClassType} is found, the tuple key and value will both be
-     * equal to the type itself. If a variable is found, the tuple key will have the
-     * type in which the variable was declared, while the value its actual value type.
-     * Otherwise, the tuple will be empty.
+     * @return if a {@link ClassType} is found, the tuple key and value will both be equal to the type itself. If a variable is found, the tuple key will have the type in which the variable was declared, while the value its actual value type. Otherwise, the tuple will be empty.
      */
     @NotNull Tuple<ClassType, Type> getTypeFromLiteral(final @NotNull String literal) {
         Tuple<ClassType, Type> tuple = new Tuple<>();
