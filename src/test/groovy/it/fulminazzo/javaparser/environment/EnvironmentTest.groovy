@@ -1,7 +1,6 @@
 package it.fulminazzo.javaparser.environment
 
-import it.fulminazzo.fulmicollection.objects.Refl
-import it.fulminazzo.javaparser.utils.TestUtils
+
 import spock.lang.Specification
 
 class EnvironmentTest extends Specification {
@@ -47,8 +46,6 @@ class EnvironmentTest extends Specification {
 
         when:
         this.environment.check(scopeType)
-        if (scopeType != ScopeType.MAIN)
-            new Refl<>(this.environment).invokeMethod("check" + TestUtils.convertEnumName(scopeType))
 
         then:
         notThrown(ScopeException)
