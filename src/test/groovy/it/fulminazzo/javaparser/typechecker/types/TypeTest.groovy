@@ -16,6 +16,15 @@ class TypeTest extends Specification {
         this.classType = ClassObjectType.of(TestClass)
     }
 
+    def 'test toWrapper should throw exception by default'() {
+        when:
+        this.type.toWrapper()
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.noWrapper(this.type).message
+    }
+
     def 'test check class method'() {
         when:
         def t = this.type.check(ObjectType)
