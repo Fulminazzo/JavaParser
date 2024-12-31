@@ -55,12 +55,12 @@ public final class TypeChecker implements Visitor<Type> {
      * It reads the given {@link JavaProgram} using all the methods in this class.
      *
      * @param program the program
-     * @return an {@link Optional} with the returned type if it is not equal to {@link NoType#NO_TYPE}
+     * @return an {@link Optional} with the returned type if it is not equal to {@link Types#NO_TYPE}
      */
     @Override
     public @NotNull Optional<Type> visitProgram(@NotNull JavaProgram program) {
         Type type = program.accept(this);
-        return type.equals(NoType.NO_TYPE) ? Optional.empty() : Optional.of(type);
+        return type.equals(Types.NO_TYPE) ? Optional.empty() : Optional.of(type);
     }
 
     @Override
@@ -75,7 +75,7 @@ public final class TypeChecker implements Visitor<Type> {
             try {
                 this.environment.declare(variableType, variableName.getLiteral(), convertValue(variableType, variableValue));
             } catch (ScopeException ignored) {}
-            return NoType.NO_TYPE;
+            return Types.NO_TYPE;
         } else throw TypeCheckerException.invalidType(variableType.toType(), variableValue);
     }
 
@@ -123,7 +123,7 @@ public final class TypeChecker implements Visitor<Type> {
                                          @NotNull MethodInvocation invocation) {
         try {
             Type type = executor.accept(this);
-            if (type.is(NoType.NO_TYPE)) type = ObjectType.of(this.executingObject.getClass());
+            if (type.is(Types.NO_TYPE)) type = ObjectType.of(this.executingObject.getClass());
             return type.getMethod(methodName, (ParameterTypes) invocation.accept(this)).toType();
         } catch (TypeException e) {
             throw TypeCheckerException.of(e);
@@ -164,7 +164,7 @@ public final class TypeChecker implements Visitor<Type> {
     @Override
     public @NotNull Type visitCodeBlock(@NotNull LinkedList<Statement> statements) {
         return visitScoped(ScopeType.CODE_BLOCK, () -> {
-            Type type = NoType.NO_TYPE;
+            Type type = Types.NO_TYPE;
             for (Statement statement : statements) {
                 Type checked = statement.accept(this);
                 if (statement.is(Return.class)) type = checked;
@@ -185,7 +185,7 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitEmptyLiteral() {
-        return NoType.NO_TYPE;
+        return Types.NO_TYPE;
     }
 
     @Override
@@ -380,7 +380,7 @@ public final class TypeChecker implements Visitor<Type> {
         } catch (ScopeException e) {
             throw TypeCheckerException.of(e);
         }
-        return NoType.NO_TYPE;
+        return Types.NO_TYPE;
     }
 
     @Override
@@ -390,7 +390,7 @@ public final class TypeChecker implements Visitor<Type> {
         } catch (ScopeException e) {
             throw TypeCheckerException.of(e);
         }
-        return NoType.NO_TYPE;
+        return Types.NO_TYPE;
     }
 
     @Override
@@ -440,7 +440,7 @@ public final class TypeChecker implements Visitor<Type> {
         Type first = then.accept(this);
         Type second = elseBranch.accept(this);
         if (first.is(second) || elseBranch.equals(new Statement())) return first;
-        else return NoType.NO_TYPE;
+        else return Types.NO_TYPE;
     }
 
     @Override

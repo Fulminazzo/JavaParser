@@ -7,7 +7,7 @@ class NoTypeTest extends Specification {
     private NoType type
 
     void setup() {
-        this.type = NoType.NO_TYPE
+        this.type = Types.NO_TYPE
     }
 
     def 'test toClassType'() {
@@ -29,7 +29,7 @@ class NoTypeTest extends Specification {
 
     def 'test equality'() {
         given:
-        def second = NoType.NO_TYPE
+        def second = Types.NO_TYPE
 
         expect:
         this.type == second

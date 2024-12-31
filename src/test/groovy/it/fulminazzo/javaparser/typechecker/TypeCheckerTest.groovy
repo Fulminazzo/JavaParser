@@ -89,11 +89,11 @@ class TypeCheckerTest extends Specification {
         ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | Literal.of('list')
         ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | Literal.of('set')
         ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | Literal.of('collection')
-        NoType.NO_TYPE    | new CodeBlock(new Break())          | Literal.of('arr')
-        NoType.NO_TYPE    | new CodeBlock(new Break())          | Literal.of('iterable')
-        NoType.NO_TYPE    | new CodeBlock(new Break())          | Literal.of('list')
-        NoType.NO_TYPE    | new CodeBlock(new Break())          | Literal.of('set')
-        NoType.NO_TYPE    | new CodeBlock(new Break())          | Literal.of('collection')
+        Types.NO_TYPE | new CodeBlock(new Break()) | Literal.of('arr')
+        Types.NO_TYPE | new CodeBlock(new Break()) | Literal.of('iterable')
+        Types.NO_TYPE | new CodeBlock(new Break()) | Literal.of('list')
+        Types.NO_TYPE | new CodeBlock(new Break()) | Literal.of('set')
+        Types.NO_TYPE | new CodeBlock(new Break()) | Literal.of('collection')
     }
 
     def 'test visit enhanced for statement of non-iterable'() {
@@ -143,8 +143,8 @@ class TypeCheckerTest extends Specification {
         expected          | codeBlock                           | expr
         ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | BOOL_LIT
         ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | BOOL_VAR
-        NoType.NO_TYPE    | new CodeBlock(new Break())          | BOOL_LIT
-        NoType.NO_TYPE    | new CodeBlock(new Break())          | BOOL_VAR
+        Types.NO_TYPE | new CodeBlock(new Break()) | BOOL_LIT
+        Types.NO_TYPE | new CodeBlock(new Break()) | BOOL_VAR
     }
 
     def 'test visit do statement of (#expr) #codeBlock should return #expected'() {
@@ -160,8 +160,8 @@ class TypeCheckerTest extends Specification {
         expected          | codeBlock                           | expr
         ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | BOOL_LIT
         ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | BOOL_VAR
-        NoType.NO_TYPE    | new CodeBlock(new Break())          | BOOL_LIT
-        NoType.NO_TYPE    | new CodeBlock(new Break())          | BOOL_VAR
+        Types.NO_TYPE | new CodeBlock(new Break()) | BOOL_LIT
+        Types.NO_TYPE | new CodeBlock(new Break()) | BOOL_VAR
     }
 
     def 'test visit while statement of (#expr) #codeBlock should return #expected'() {
@@ -177,8 +177,8 @@ class TypeCheckerTest extends Specification {
         expected          | codeBlock                           | expr
         ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | BOOL_LIT
         ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | BOOL_VAR
-        NoType.NO_TYPE    | new CodeBlock(new Break())          | BOOL_LIT
-        NoType.NO_TYPE    | new CodeBlock(new Break())          | BOOL_VAR
+        Types.NO_TYPE | new CodeBlock(new Break()) | BOOL_LIT
+        Types.NO_TYPE | new CodeBlock(new Break()) | BOOL_VAR
     }
 
     def 'test visit if statement of code "#code" should return #expected'() {
@@ -202,15 +202,15 @@ class TypeCheckerTest extends Specification {
         expected          | code
         ValueType.BOOLEAN | new IfStatement(BOOL_LIT, new CodeBlock(new Return(BOOL_LIT)), new Statement())
         ValueType.BOOLEAN | new IfStatement(BOOL_VAR, new CodeBlock(new Return(BOOL_LIT)), new Statement())
-        NoType.NO_TYPE    | new IfStatement(BOOL_LIT, new CodeBlock(new Statement()), new Statement())
-        NoType.NO_TYPE    | new IfStatement(BOOL_VAR, new CodeBlock(new Statement()), new Statement())
+        Types.NO_TYPE | new IfStatement(BOOL_LIT, new CodeBlock(new Statement()), new Statement())
+        Types.NO_TYPE | new IfStatement(BOOL_VAR, new CodeBlock(new Statement()), new Statement())
         ValueType.NUMBER  | new IfStatement(BOOL_LIT, new CodeBlock(new Return(NUMBER_LIT)),
                 new IfStatement(BOOL_LIT, new CodeBlock(new Return(NUMBER_LIT)), new Statement()))
         ValueType.NUMBER  | new IfStatement(BOOL_VAR, new CodeBlock(new Return(NUMBER_LIT)),
                 new IfStatement(BOOL_VAR, new CodeBlock(new Return(NUMBER_LIT)), new Statement()))
-        NoType.NO_TYPE    | new IfStatement(BOOL_LIT, new CodeBlock(new Return(NUMBER_LIT)),
+        Types.NO_TYPE | new IfStatement(BOOL_LIT, new CodeBlock(new Return(NUMBER_LIT)),
                 new IfStatement(BOOL_LIT, new CodeBlock(new Return(FLOAT_LIT)), new Statement()))
-        NoType.NO_TYPE    | new IfStatement(BOOL_VAR, new CodeBlock(new Return(NUMBER_LIT)),
+        Types.NO_TYPE | new IfStatement(BOOL_VAR, new CodeBlock(new Return(NUMBER_LIT)),
                 new IfStatement(BOOL_VAR, new CodeBlock(new Return(FLOAT_LIT)), new Statement()))
         ValueType.DOUBLE  | new IfStatement(BOOL_LIT, new CodeBlock(new Return(DOUBLE_LIT)),
                 new IfStatement(BOOL_LIT, new CodeBlock(new Return(DOUBLE_LIT)),
@@ -218,10 +218,10 @@ class TypeCheckerTest extends Specification {
         ValueType.DOUBLE  | new IfStatement(BOOL_VAR, new CodeBlock(new Return(DOUBLE_LIT)),
                 new IfStatement(BOOL_VAR, new CodeBlock(new Return(DOUBLE_LIT)),
                         new CodeBlock(new Return(DOUBLE_LIT))))
-        NoType.NO_TYPE    | new IfStatement(BOOL_LIT, new CodeBlock(new Return(DOUBLE_LIT)),
+        Types.NO_TYPE | new IfStatement(BOOL_LIT, new CodeBlock(new Return(DOUBLE_LIT)),
                 new IfStatement(BOOL_LIT, new CodeBlock(new Return(FLOAT_LIT)),
                         new CodeBlock(new Return(LONG_LIT))))
-        NoType.NO_TYPE    | new IfStatement(BOOL_VAR, new CodeBlock(new Return(DOUBLE_LIT)),
+        Types.NO_TYPE | new IfStatement(BOOL_VAR, new CodeBlock(new Return(DOUBLE_LIT)),
                 new IfStatement(BOOL_VAR, new CodeBlock(new Return(FLOAT_LIT)),
                         new CodeBlock(new Return(LONG_LIT))))
     }

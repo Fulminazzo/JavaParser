@@ -8,9 +8,8 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents an absence of {@link Type}.
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
 public final class NoType implements Type {
-    public static final NoType NO_TYPE = new NoType();
 
     @Override
     public @NotNull ClassType toClassType() {
