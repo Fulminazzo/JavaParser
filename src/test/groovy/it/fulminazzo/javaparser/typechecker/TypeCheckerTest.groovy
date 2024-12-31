@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.typechecker
 
+import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram
@@ -47,9 +48,12 @@ class TypeCheckerTest extends Specification {
 
     def 'test visit if statement of code "#code" should return #expected'() {
         given:
-        def expr = code.expr
-        def then = code.then
-        def elseBranch = code.elseBranch
+        def refl = new Refl<>(code)
+
+        and:
+        def expr = refl.getFieldObject('expr')
+        def then = refl.getFieldObject('then')
+        def elseBranch = refl.getFieldObject('elseBranch')
 
         when:
         def type = this.typeChecker.visitIfStatement(then, elseBranch, expr)
