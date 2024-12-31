@@ -31,7 +31,7 @@ class TypeCheckerTest extends Specification {
     private TypeChecker typeChecker
 
     void setup() {
-        this.typeChecker = new TypeChecker()
+        this.typeChecker = new TypeChecker(getClass())
     }
 
     def 'test visit program #program should return #type'() {
