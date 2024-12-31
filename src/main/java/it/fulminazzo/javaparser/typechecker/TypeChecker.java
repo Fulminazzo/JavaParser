@@ -374,7 +374,8 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitDoStatement(@NotNull CodeBlock code, @NotNull Node expr) {
-        return null;
+        expr.accept(this).check(BOOLEAN, ObjectType.BOOLEAN);
+        return code.accept(this);
     }
 
     @Override
@@ -408,7 +409,8 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expr) {
-        return null;
+        expr.accept(this).check(BOOLEAN, ObjectType.BOOLEAN);
+        return code.accept(this);
     }
 
     @Override
