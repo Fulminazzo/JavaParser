@@ -642,6 +642,17 @@ class JavaParserTest extends Specification {
         '\"Hello world\"' | new StringValueLiteral('\"Hello world\"')
     }
 
+    def 'test invalid literal'() {
+        given:
+        this.parser.setInput('$$$')
+
+        when:
+        this.parser.parseLiteral()
+
+        then:
+        thrown(ParserException)
+    }
+
     def 'test parse type of invalid'() {
         when:
         startReading('invalid')
