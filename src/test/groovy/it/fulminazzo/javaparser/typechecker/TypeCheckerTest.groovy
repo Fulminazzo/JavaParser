@@ -26,11 +26,17 @@ class TypeCheckerTest extends Specification {
     private static final FLOAT_LIT = new FloatValueLiteral('1.0f')
     private static final DOUBLE_LIT = new DoubleValueLiteral('1.0d')
     private static final STRING_LIT = new StringValueLiteral('\"Hello, world!\"')
+    private static final BOOL_VAR = Literal.of('bool')
 
     private TypeChecker typeChecker
 
     void setup() {
         this.typeChecker = new TypeChecker(new TestClass())
+        this.typeChecker.environment.declare(
+                ClassObjectType.BOOLEAN,
+                'bool',
+                ObjectType.BOOLEAN,
+        )
     }
 
     def 'test visit program #program should return #type'() {
@@ -64,16 +70,28 @@ class TypeCheckerTest extends Specification {
         where:
         expected          | code
         ValueType.BOOLEAN | new IfStatement(BOOL_LIT, new CodeBlock(new Return(BOOL_LIT)), new Statement())
+        ValueType.BOOLEAN | new IfStatement(BOOL_VAR, new CodeBlock(new Return(BOOL_LIT)), new Statement())
         NoType.NO_TYPE    | new IfStatement(BOOL_LIT, new CodeBlock(new Statement()), new Statement())
+        NoType.NO_TYPE    | new IfStatement(BOOL_VAR, new CodeBlock(new Statement()), new Statement())
         ValueType.NUMBER  | new IfStatement(BOOL_LIT, new CodeBlock(new Return(NUMBER_LIT)),
                 new IfStatement(BOOL_LIT, new CodeBlock(new Return(NUMBER_LIT)), new Statement()))
+        ValueType.NUMBER  | new IfStatement(BOOL_VAR, new CodeBlock(new Return(NUMBER_LIT)),
+                new IfStatement(BOOL_VAR, new CodeBlock(new Return(NUMBER_LIT)), new Statement()))
         NoType.NO_TYPE    | new IfStatement(BOOL_LIT, new CodeBlock(new Return(NUMBER_LIT)),
                 new IfStatement(BOOL_LIT, new CodeBlock(new Return(FLOAT_LIT)), new Statement()))
+        NoType.NO_TYPE    | new IfStatement(BOOL_VAR, new CodeBlock(new Return(NUMBER_LIT)),
+                new IfStatement(BOOL_VAR, new CodeBlock(new Return(FLOAT_LIT)), new Statement()))
         ValueType.DOUBLE  | new IfStatement(BOOL_LIT, new CodeBlock(new Return(DOUBLE_LIT)),
                 new IfStatement(BOOL_LIT, new CodeBlock(new Return(DOUBLE_LIT)),
                         new CodeBlock(new Return(DOUBLE_LIT))))
+        ValueType.DOUBLE  | new IfStatement(BOOL_VAR, new CodeBlock(new Return(DOUBLE_LIT)),
+                new IfStatement(BOOL_VAR, new CodeBlock(new Return(DOUBLE_LIT)),
+                        new CodeBlock(new Return(DOUBLE_LIT))))
         NoType.NO_TYPE    | new IfStatement(BOOL_LIT, new CodeBlock(new Return(DOUBLE_LIT)),
                 new IfStatement(BOOL_LIT, new CodeBlock(new Return(FLOAT_LIT)),
+                        new CodeBlock(new Return(LONG_LIT))))
+        NoType.NO_TYPE    | new IfStatement(BOOL_VAR, new CodeBlock(new Return(DOUBLE_LIT)),
+                new IfStatement(BOOL_VAR, new CodeBlock(new Return(FLOAT_LIT)),
                         new CodeBlock(new Return(LONG_LIT))))
     }
 
