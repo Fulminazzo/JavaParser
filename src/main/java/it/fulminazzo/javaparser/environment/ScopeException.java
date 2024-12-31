@@ -20,7 +20,8 @@ public class ScopeException extends Exception {
     }
 
     /**
-     * Returns an exception for a variable not declared.
+     * Generates a {@link ScopeException} with message:
+     * <i>No such variable: %name%</i>
      *
      * @param name the name of the variable
      * @return the scope exception
@@ -30,7 +31,8 @@ public class ScopeException extends Exception {
     }
 
     /**
-     * Returns an exception for a variable already declared.
+     * Generates a {@link ScopeException} with message:
+     * <i>Variable already declared: %name%</i>
      *
      * @param name the name of the variable
      * @return the scope exception
@@ -40,7 +42,11 @@ public class ScopeException extends Exception {
     }
 
     /**
-     * Returns an exception for a wrong scope type.
+     * Generates two {@link ScopeException} based on the passed {@link ScopeType}s:
+     * <ul>
+     *     <li>if it is empty, <i>Cannot compare current scope type with no types provided</i>;</li>
+     *     <li>else, <i>Current scope does not match any of the expected types: %scopeTypes%</i></li>
+     * </ul>
      *
      * @param scopeTypes the scope types
      * @return the scope exception
@@ -53,6 +59,15 @@ public class ScopeException extends Exception {
         );
     }
 
+    /**
+     * Generates a {@link ScopeException} with message:
+     * <i>Cannot assign %value% to %info%</i>
+     *
+     * @param <T>   the type of the value
+     * @param value the value
+     * @param info  the info associated with the value
+     * @return the scope exception
+     */
     public static <T> @NotNull ScopeException cannotAssignValue(final @NotNull T value,
                                                                 final @NotNull Info info) {
         return new ScopeException(String.format("Cannot assign %s to %s", value, info));
