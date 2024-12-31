@@ -85,6 +85,18 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
     }
 
     /**
+     * Reads from the input the next {@link TokenType} until the specified {@link TokenType} is met.
+     *
+     * @param tokenType the token type
+     * @return the token type.
+     * Might return {@link TokenType#EOF} in case the {@link TokenType} was met,
+     * but no valid {@link TokenType} was found.
+     */
+    public @NotNull TokenType nextUntil(final @NotNull TokenType tokenType) {
+        return next("(.|\n)*" + tokenType.regex() + "$");
+    }
+
+    /**
      * Reads from the input the next {@link TokenType}.
      *
      * @return the token type
