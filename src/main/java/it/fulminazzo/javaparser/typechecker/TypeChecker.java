@@ -32,10 +32,14 @@ import static it.fulminazzo.javaparser.typechecker.types.ValueType.*;
  * A {@link Visitor} that checks and verifies all the types of the parsed code.
  */
 public final class TypeChecker implements Visitor<Type> {
-    /**
-     * The constant FIELDS_SEPARATOR.
-     */
-    public static final String FIELDS_SEPARATOR = ".";
+    private static final ScopeType[] BREAK_SCOPES = new ScopeType[] {
+            ScopeType.DO, ScopeType.WHILE, ScopeType.FOR, ScopeType.SWITCH
+    };
+    private static final ScopeType[] CONTINUE_SCOPES = new ScopeType[] {
+            ScopeType.DO, ScopeType.WHILE, ScopeType.FOR
+    };
+    private static final String FIELDS_SEPARATOR = ".";
+
     private final Object executingObject;
     private final Environment<Type> environment;
 
