@@ -392,7 +392,7 @@ public final class TypeChecker implements Visitor<Type> {
         expr.accept(this).check(BOOLEAN, ObjectType.BOOLEAN);
         Type first = then.accept(this);
         Type second = elseBranch.accept(this);
-        if (first.is(second) || second.is(NoType.NO_TYPE)) return first;
+        if (first.is(second) || elseBranch.equals(new Statement())) return first;
         else return NoType.NO_TYPE;
     }
 
