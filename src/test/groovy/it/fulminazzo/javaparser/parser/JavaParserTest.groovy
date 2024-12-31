@@ -343,6 +343,27 @@ class JavaParserTest extends Specification {
         output == expected
     }
 
+    def 'test field retrieval from method call'() {
+        given:
+        def expected = new Field(
+                new Field(
+                        new MethodCall(
+                                Literal.of('this'),
+                                'toString',
+                                new MethodInvocation([])
+                        ), Literal.of('char_array')
+                ), Literal.of('internal')
+        )
+        def code = 'this.toString().char_array.internal'
+
+        when:
+        startReading(code)
+        def output = this.parser.parseExpression()
+
+        then:
+        output == expected
+    }
+
     def 'test method call'() {
         given:
         def expected = new MethodCall(
