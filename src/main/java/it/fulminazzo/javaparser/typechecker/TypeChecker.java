@@ -29,6 +29,9 @@ import static it.fulminazzo.javaparser.typechecker.types.ValueType.*;
  * A {@link Visitor} that checks and verifies all the types of the parsed code.
  */
 public final class TypeChecker implements Visitor<Type> {
+    /**
+     * The constant FIELDS_SEPARATOR.
+     */
     public static final String FIELDS_SEPARATOR = ".";
     private final Environment<Type> environment;
 
@@ -59,9 +62,7 @@ public final class TypeChecker implements Visitor<Type> {
         if (!tempVariableName.is(LiteralType.class))
             throw TypeCheckerException.of(this.environment.alreadyDeclaredVariable(name.getLiteral()));
         LiteralType variableName = tempVariableName.check(LiteralType.class);
-        Type variableValue = value.accept(this);
-        if (variableType.is(PrimitiveType.BYTE, ClassObjectType.BYTE, PrimitiveType.SHORT, ClassObjectType.SHORT))
-            if (variableValue.is(NUMBER) || variableValue.is(CHAR)) variableValue = variableType.toType();
+        Type variableValue = parseByteAndShort(variableType, value.accept(this));
         if (variableValue.isAssignableFrom(variableType)) {
             try {
                 this.environment.declare(variableType, variableName.getLiteral(), convertValue(variableType, variableValue));
@@ -91,6 +92,22 @@ public final class TypeChecker implements Visitor<Type> {
         else if (!valueType.is(ClassObjectType.OBJECT)) // Can only be ClassObjectType at this point
             return valueType.toType();
         return value;
+    }
+
+    /**
+     * Support function for {@link #visitAssignment(Node, Literal, Node)}
+     * and {@link #visitReAssign(Node, Node)}.
+     * Converts {@link ValueType}s for {@link PrimitiveType#BYTE} and {@link PrimitiveType#SHORT}.
+     *
+     * @param variableType  the variable type
+     * @param variableValue the variable value
+     * @return the type
+     */
+    static @NotNull Type parseByteAndShort(final @NotNull ClassType variableType,
+                                           final @NotNull Type variableValue) {
+        if (variableType.is(PrimitiveType.BYTE, ClassObjectType.BYTE, PrimitiveType.SHORT, ClassObjectType.SHORT))
+            if (variableValue.is(NUMBER) || variableValue.is(CHAR)) return variableType.toType();
+        return variableValue;
     }
 
     @Override
@@ -280,7 +297,7 @@ public final class TypeChecker implements Visitor<Type> {
         try {
             String variableName = ((Literal) left).getLiteral();
             ClassType variableType = (ClassType) this.environment.lookupInfo(variableName);
-            Type variableValue = right.accept(this);
+            Type variableValue = parseByteAndShort(variableType, right.accept(this));
             if (variableValue.isAssignableFrom(variableType)) {
                 variableValue = convertValue(variableType, variableValue);
                 this.environment.update(variableName, variableValue);
