@@ -12,7 +12,7 @@ public class ScopeException extends Exception {
      *
      * @param message the message
      */
-    public ScopeException(final @NotNull String message) {
+    private ScopeException(final @NotNull String message) {
         super(message);
     }
 
