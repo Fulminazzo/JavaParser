@@ -55,6 +55,7 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
      * Reads until the given {@link TokenType} is met.
      * Then, it invokes {@link #nextSpaceless()}.
      *
+     * @param tokenType the token type
      * @return the newly read token type.
      */
     public @NotNull TokenType readUntil(final @NotNull TokenType tokenType) {
