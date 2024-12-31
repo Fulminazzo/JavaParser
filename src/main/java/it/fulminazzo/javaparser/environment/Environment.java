@@ -93,13 +93,11 @@ public class Environment<T> implements Scoped<T> {
     }
 
     @Override
-    public Environment<T> checkScopeType(@NotNull ScopeType scopeType) throws ScopeException {
+    public boolean isScopeType(final @NotNull ScopeType scopeType) throws ScopeException {
         for (Scope<T> scope : this.scopes)
-            try {
-                scope.checkScopeType(scopeType);
-                return this;
-            } catch (ScopeException ignored) {}
-        throw scopeTypeMismatch(scopeType);
+            if (scope.isScopeType(scopeType))
+                return true;
+        return false;
     }
 
     /**
