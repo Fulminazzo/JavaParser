@@ -413,7 +413,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * METHOD_CALL := EQUAL ( METHOD_INVOCATION )*
+     * METHOD_CALL := EQUAL ( .LITERAL METHOD_INVOCATION )*
      *
      * @return the node
      */
