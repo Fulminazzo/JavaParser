@@ -582,13 +582,28 @@ class JavaParserTest extends Specification {
         parsed == expected
     }
 
-    def 'test cast of #number'() {
+    def 'test invalid cast'() {
+        given:
+        def code = "(int) -+1"
+
+        when:
+        startReading(code)
+        this.parser.parseCast()
+
+        then:
+        thrown(ParserException)
+    }
+
+    def 'test cast of #object'() {
         given:
         def expected = new Cast(
                 Literal.of('double'),
-                new Cast(Literal.of('int'), numberLiteral)
+                new Cast(
+                        Literal.of('float'),
+                        new Cast(Literal.of('int'), objectLiteral)
+                )
         )
-        def code = "(double) (int) ${number}"
+        def code = "(double) (float) ((int) ${object})"
 
         when:
         startReading(code)
@@ -598,9 +613,10 @@ class JavaParserTest extends Specification {
         parsed == expected
 
         where:
-        number | numberLiteral
+        object | objectLiteral
         '1'    | new NumberValueLiteral('1')
         '-1'   | new Minus(new NumberValueLiteral('1'))
+        '-(1)' | new Minus(new NumberValueLiteral('1'))
     }
 
     def 'test minus'() {
