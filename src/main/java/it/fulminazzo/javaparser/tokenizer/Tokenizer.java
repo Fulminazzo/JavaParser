@@ -5,6 +5,8 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A converter from raw {@link InputStream} to {@link TokenType}.
@@ -54,16 +56,30 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
      * Reads until the given {@link TokenType} is met.
      * Then, it invokes {@link #nextSpaceless()}.
      *
-     * @return the newly read token type.
+     * @return the newly read token type
      */
     public @NotNull TokenType readUntil(final @NotNull TokenType tokenType) {
+        readUntilInclusive(tokenType);
+        return nextSpaceless();
+    }
+
+    /**
+     * Reads until the given {@link TokenType} is met.
+     */
+    public void readUntilInclusive(final @NotNull TokenType tokenType) {
         try {
+            final @NotNull String regex = "((?:.|\n)*)(" + tokenType.regex() + ")$";
             String read = getPreviousRead();
-            while (this.input.available() > 0 && !read.matches("(.|\n)*" + tokenType.regex() + "$"))
+            while (this.input.available() > 0 && !read.matches(regex))
                 read += updateLineCount(this.input.read());
-            this.lastRead = read;
-            this.previousRead = "";
-            return nextSpaceless();
+            Matcher matcher = Pattern.compile(regex).matcher(read);
+            if (matcher.matches()) {
+                this.lastRead = matcher.group(1);
+                this.previousRead = matcher.group(2);
+            } else {
+                this.lastRead = read;
+                this.previousRead = "";
+            }
         } catch (IOException e) {
             throw new TokenizerException(e);
         }
