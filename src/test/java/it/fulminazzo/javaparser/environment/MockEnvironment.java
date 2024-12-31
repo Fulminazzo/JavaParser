@@ -16,7 +16,8 @@ public class MockEnvironment<T> extends Environment<T> {
 
     @Override
     public Environment<T> enterScope(@NotNull ScopeType scopeType) {
-        this.enteredScopes.add(scopeType);
+        // Necessary check for super() method call.
+        if (this.enteredScopes != null) this.enteredScopes.add(scopeType);
         return super.enterScope(scopeType);
     }
 
