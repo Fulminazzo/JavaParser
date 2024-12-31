@@ -33,20 +33,20 @@ class Scope<T> implements Scoped<T> {
 
     @Override
     public @NotNull Info lookupInfo(@NotNull String name) throws ScopeException {
-        return getKey(name).map(ObjectData::getInfo).orElseThrow(() -> noSuchVariable(name));
+        return getKey(name).map(ObjectData::getInfo).orElseThrow(() -> ScopeException.noSuchVariable(name));
     }
 
     @Override
     public void declare(@NotNull Info info, @NotNull String name, @NotNull T value) throws ScopeException {
-        if (isDeclared(name)) throw alreadyDeclaredVariable(name);
+        if (isDeclared(name)) throw ScopeException.alreadyDeclaredVariable(name);
         else this.internalMap.put(new ObjectData(info, name), value);
     }
 
     @Override
     public void update(@NotNull String name, @NotNull T value) throws ScopeException {
-        ObjectData key = getKey(name).orElseThrow(() -> noSuchVariable(name));
+        ObjectData key = getKey(name).orElseThrow(() -> ScopeException.noSuchVariable(name));
         if (key.getInfo().compatibleWith(value)) this.internalMap.put(key, value);
-        else throw new ScopeException(String.format("Cannot assign %s to %s", value, key.getInfo()));
+        else throw ScopeException.cannotAssignValue(value, key.getInfo());
     }
 
     @Override

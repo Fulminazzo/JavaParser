@@ -47,7 +47,7 @@ interface Scoped<T> {
      * @throws ScopeException thrown if the variable is not declared
      */
     default @NotNull T lookup(final @NotNull String name) throws ScopeException {
-        return search(name).orElseThrow(() -> noSuchVariable(name));
+        return search(name).orElseThrow(() -> ScopeException.noSuchVariable(name));
     }
 
     /**
@@ -70,36 +70,6 @@ interface Scoped<T> {
     void update(@NotNull String name, @NotNull T value) throws ScopeException;
 
     /**
-     * Returns an exception for a variable not declared.
-     *
-     * @param name the name of the variable
-     * @return the scope exception
-     */
-    default @NotNull ScopeException noSuchVariable(final @NotNull String name) {
-        return new ScopeException("No such variable: " + name);
-    }
-
-    /**
-     * Returns an exception for a variable already declared.
-     *
-     * @param name the name of the variable
-     * @return the scope exception
-     */
-    default @NotNull ScopeException alreadyDeclaredVariable(final @NotNull String name) {
-        return new ScopeException("Variable already declared: " + name);
-    }
-
-    /**
-     * Returns an exception for a wrong scope type.
-     *
-     * @param scopeType the scope type
-     * @return the scope exception
-     */
-    default @NotNull ScopeException scopeTypeMismatch(@NotNull ScopeType scopeType) {
-        return new ScopeException("Scope type mismatch: " + scopeType() + " != " + scopeType);
-    }
-
-    /**
      * Returns the scope type of the current scope.
      *
      * @return the scope type
@@ -107,15 +77,16 @@ interface Scoped<T> {
     @NotNull ScopeType scopeType();
 
     /**
-     * Checks that the current scope is equal (or inside) the given {@link ScopeType}.
+     * Checks that the current scope is equal (or inside) to one of the given {@link ScopeType}s.
      *
-     * @param scopeType the scope type
+     * @param scopeTypes the scope types
      * @return this object
      * @throws ScopeException thrown if the current scope type does not match
      */
-    default @NotNull Scoped<T> check(final @NotNull ScopeType scopeType) throws ScopeException {
-        if (!scopeType().equals(scopeType)) throw scopeTypeMismatch(scopeType);
-        return this;
+    default @NotNull Scoped<T> check(final ScopeType @NotNull ... scopeTypes) throws ScopeException {
+        for (ScopeType scopeType : scopeTypes)
+            if (scopeType.equals(scopeType())) return this;
+        throw ScopeException.scopeTypeMismatch(scopeTypes);
     }
 
 }

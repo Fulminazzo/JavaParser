@@ -18,7 +18,7 @@ class ScopeTest extends Specification {
 
         then:
         def e = thrown(ScopeException)
-        e.message == this.scope.noSuchVariable(varName).message
+        e.message == ScopeException.noSuchVariable(varName).message
     }
 
     def 'declare should throw ScopeException on already declared variable'() {
@@ -28,7 +28,7 @@ class ScopeTest extends Specification {
 
         then:
         def e = thrown(ScopeException)
-        e.getMessage() == this.scope.alreadyDeclaredVariable('var').message
+        e.getMessage() == ScopeException.alreadyDeclaredVariable('var').message
     }
 
     def 'update should throw ScopeException on not declared variable'() {
@@ -37,7 +37,7 @@ class ScopeTest extends Specification {
 
         then:
         def e = thrown(ScopeException)
-        e.getMessage() == this.scope.noSuchVariable('var').message
+        e.getMessage() == ScopeException.noSuchVariable('var').message
     }
 
     def 'update should throw ScopeException on invalid variable'() {
