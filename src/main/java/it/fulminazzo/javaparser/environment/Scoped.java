@@ -107,75 +107,15 @@ interface Scoped<T> {
     @NotNull ScopeType scopeType();
 
     /**
-     * Checks that the current scope is equal (or inside) the given {@link scopeType}.
-     *
-     * @param scopeType the scope type
-     * @return true if it is
-     */
-    default boolean isScopeType(final @NotNull ScopeType scopeType) {
-        return scopeType().equals(scopeType);
-    }
-
-    /**
      * Checks that the current scope is equal (or inside) the given {@link ScopeType}.
      *
      * @param scopeType the scope type
      * @return this object
      * @throws ScopeException thrown if the current scope type does not match
      */
-    default Scoped<T> checkScopeType(final @NotNull ScopeType scopeType) throws ScopeException {
-        if (!isScopeType(scopeType)) throw scopeTypeMismatch(scopeType);
-        else return this;
-    }
-
-    /**
-     * Checks that the scope type is {@link ScopeType#CODE_BLOCK}.
-     *
-     * @return this object
-     * @throws ScopeException thrown if the current scope type does not match
-     */
-    default Scoped<T> checkCodeBlock() throws ScopeException {
-        return checkScopeType(ScopeType.CODE_BLOCK);
-    }
-
-    /**
-     * Checks that the scope type is {@link ScopeType#SWITCH}.
-     *
-     * @return this object
-     * @throws ScopeException thrown if the current scope type does not match
-     */
-    default Scoped<T> checkSwitch() throws ScopeException {
-        return checkScopeType(ScopeType.SWITCH);
-    }
-
-    /**
-     * Checks that the scope type is {@link ScopeType#FOR}.
-     *
-     * @return this object
-     * @throws ScopeException thrown if the current scope type does not match
-     */
-    default Scoped<T> checkFor() throws ScopeException {
-        return checkScopeType(ScopeType.FOR);
-    }
-
-    /**
-     * Checks that the scope type is {@link ScopeType#WHILE}.
-     *
-     * @return this object
-     * @throws ScopeException thrown if the current scope type does not match
-     */
-    default Scoped<T> checkWhile() throws ScopeException {
-        return checkScopeType(ScopeType.WHILE);
-    }
-
-    /**
-     * Checks that the scope type is {@link ScopeType#DO}.
-     *
-     * @return this object
-     * @throws ScopeException thrown if the current scope type does not match
-     */
-    default Scoped<T> checkDo() throws ScopeException {
-        return checkScopeType(ScopeType.DO);
+    default @NotNull Scoped<T> check(final @NotNull ScopeType scopeType) throws ScopeException {
+        if (!scopeType().equals(scopeType)) throw scopeTypeMismatch(scopeType);
+        return this;
     }
 
 }

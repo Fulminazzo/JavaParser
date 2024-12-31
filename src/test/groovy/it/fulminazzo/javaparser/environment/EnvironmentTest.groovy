@@ -1,7 +1,6 @@
 package it.fulminazzo.javaparser.environment
 
-import it.fulminazzo.fulmicollection.objects.Refl
-import it.fulminazzo.javaparser.utils.TestUtils
+
 import spock.lang.Specification
 
 class EnvironmentTest extends Specification {
@@ -18,7 +17,7 @@ class EnvironmentTest extends Specification {
 
     def 'test main scope should not be anything else'() {
         when:
-        this.environment.checkScopeType(scopeType)
+        this.environment.check(scopeType)
 
         then:
         def e = thrown(ScopeException)
@@ -46,9 +45,7 @@ class EnvironmentTest extends Specification {
         this.environment.enterScope(ScopeType.CODE_BLOCK)
 
         when:
-        this.environment.checkScopeType(scopeType)
-        if (scopeType != ScopeType.MAIN)
-            new Refl<>(this.environment).invokeMethod("check" + TestUtils.convertEnumName(scopeType))
+        this.environment.check(scopeType)
 
         then:
         notThrown(ScopeException)
