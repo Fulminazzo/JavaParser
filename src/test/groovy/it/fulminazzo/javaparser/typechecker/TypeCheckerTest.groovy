@@ -823,4 +823,9 @@ class TypeCheckerTest extends Specification {
         Literal.of('cast') | Literal.of('String') | ValueType.NUMBER
     }
 
+    @Override
+    String toString() {
+        return 'Hello, world!'
+    }
+
 }
