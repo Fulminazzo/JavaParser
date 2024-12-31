@@ -8,10 +8,12 @@ import spock.lang.Specification
 class TypeTest extends Specification {
     private Type type
     private ClassType classType
+    private ParameterTypes noParameters
 
     void setup() {
-        type = ObjectType.of(TestClass)
-        classType = ClassObjectType.of(TestClass)
+        this.type = ObjectType.of(TestClass)
+        this.classType = ClassObjectType.of(TestClass)
+        this.noParameters = new ParameterTypes([])
     }
 
     def 'test check class method'() {
@@ -149,6 +151,91 @@ class TypeTest extends Specification {
         then:
         def e = thrown(TypeException)
         e.message == TypeException.fieldNotFound(this.classType, 'invalid').message
+    }
+
+    def 'test valid getMethod #method'() {
+        when:
+        def actual = this.type.getMethod(method, parameters)
+
+        then:
+        actual == expected
+
+        where:
+        method               | expected             | parameters
+        'publicStaticMethod' | PrimitiveType.INT    | this.noParameters
+        'publicMethod'       | PrimitiveType.DOUBLE | this.noParameters
+    }
+
+    def 'test cannot access method #method from getMethod'() {
+        when:
+        this.type.getMethod(method, this.noParameters)
+
+        then:
+        def e = thrown(TypeException)
+        e.message == TypeException.cannotAccessMethod(this.type.toClassType(), TestClass.getDeclaredMethod(method)).message
+
+        where:
+        method << [
+                'packageStaticMethod','protectedStaticMethod','privateStaticMethod',
+                'packageMethod','protectedMethod','privateMethod'
+        ]
+    }
+
+    def 'test method not found'() {
+        when:
+        this.type.getMethod('invalid', this.noParameters)
+
+        then:
+        def e = thrown(TypeException)
+        e.message == TypeException.methodNotFound(this.type.toClassType(), 'invalid', this.noParameters).message
+    }
+
+    def 'test class valid getMethod #method #parameters'() {
+        when:
+        def actual = this.classType.getMethod(method, parameters)
+
+        then:
+        actual == expected
+
+        where:
+        method                     | expected           | parameters
+        'publicStaticMethod'       | PrimitiveType.INT  | this.noParameters
+    }
+
+    def 'test class cannot access non-static method'() {
+        given:
+        def method = 'publicMethod'
+
+        when:
+        this.classType.getMethod(method, this.noParameters)
+
+        then:
+        def e = thrown(TypeException)
+        e.message == TypeException.cannotAccessStaticMethod(this.classType, method, this.noParameters).message
+    }
+
+    def 'test class cannot access method #method from getMethod'() {
+        when:
+        this.classType.getMethod(method, this.noParameters)
+
+        then:
+        def e = thrown(TypeException)
+        e.message == TypeException.cannotAccessMethod(this.classType, TestClass.getDeclaredMethod(method)).message
+
+        where:
+        method << [
+                'packageStaticMethod','protectedStaticMethod','privateStaticMethod',
+                'packageMethod','protectedMethod','privateMethod'
+        ]
+    }
+
+    def 'test class method not found'() {
+        when:
+        this.classType.getMethod('invalid', this.noParameters)
+
+        then:
+        def e = thrown(TypeException)
+        e.message == TypeException.methodNotFound(this.classType, 'invalid', this.noParameters).message
     }
 
 }
