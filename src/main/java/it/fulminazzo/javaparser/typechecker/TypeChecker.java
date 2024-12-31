@@ -33,14 +33,14 @@ public final class TypeChecker implements Visitor<Type> {
      * The constant FIELDS_SEPARATOR.
      */
     public static final String FIELDS_SEPARATOR = ".";
-    private final Class<?> executingClass;
+    private final Object executingClass;
     private final Environment<Type> environment;
 
     /**
      * Instantiates a new Type checker.
      */
-    public TypeChecker(final @NotNull Class<?> executingClass) {
-        this.executingClass = executingClass;
+    public TypeChecker(final @NotNull Object executingObject) {
+        this.executingClass = executingObject;
         this.environment = new Environment<>();
     }
 
