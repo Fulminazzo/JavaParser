@@ -472,6 +472,11 @@ public final class TypeChecker implements Visitor<Type> {
     }
 
     @Override
+    public @NotNull Type visitThisLiteral() {
+        return ObjectType.of(this.executingObject.getClass());
+    }
+
+    @Override
     public @NotNull Type visitBooleanValueLiteral(@NotNull String rawValue) {
         return BOOLEAN;
     }
