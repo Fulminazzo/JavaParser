@@ -76,6 +76,7 @@ public enum TokenType {
     // General
     LITERAL("[a-zA-Z_](?:[a-zA-Z0-9._]*[a-zA-Z0-9_])*"),
     SPACE("[\r\t\n ]"),
+    DOT("\\."),
     NEW_LINE("\n"),
     EOF("")
     ;
