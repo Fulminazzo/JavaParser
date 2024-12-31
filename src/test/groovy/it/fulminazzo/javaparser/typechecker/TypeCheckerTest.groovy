@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.typechecker
 
+import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram
 import it.fulminazzo.javaparser.parser.node.literals.Literal
@@ -141,6 +142,35 @@ class TypeCheckerTest extends Specification {
         Literal.of('double')    | STRING_LIT
         Literal.of('byte')      | LONG_LIT
         Literal.of('short')     | FLOAT_LIT
+    }
+
+    def 'test visit method call: #executor #method #parameters should return #expected'() {
+        given:
+        //TODO: ValueType does not allow methods like toString or equal
+        this.typeChecker.environment.declare(
+                ClassObjectType.INTEGER,
+                'method_call_val',
+                ObjectType.INTEGER
+        )
+        this.typeChecker.environment.declare(
+                ClassObjectType.INTEGER,
+                'method_call_val_prim',
+                ObjectType.INTEGER
+        )
+
+        and:
+        def nodeExecutor = Literal.of(executor + method)
+        def methodInvocation = new MethodInvocation(parameters)
+
+        when:
+        def type = this.typeChecker.visitMethodCall(nodeExecutor, methodInvocation)
+
+        then:
+        type == expected
+
+        where:
+        executor           | method     | parameters | expected
+        'method_call_val.' | 'toString' | []         | ObjectType.STRING
     }
 
     def 'test visit re-assignment: #name = #val should return type #expected'() {
