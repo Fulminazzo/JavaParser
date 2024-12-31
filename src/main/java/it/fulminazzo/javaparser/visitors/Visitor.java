@@ -406,12 +406,12 @@ public interface Visitor<T> {
     /**
      * Converts if statement and its fields to this visitor type.
      *
-     * @param code       the code
-     * @param thenBranch the then branch
+     * @param then       the code executed
+     * @param elseBranch the alternative branch
      * @param expr       the expr
      * @return the if statement
      */
-    @NotNull T visitIfStatement(@NotNull CodeBlock code, @NotNull Node thenBranch, @NotNull Node expr);
+    @NotNull T visitIfStatement(@NotNull CodeBlock then, @NotNull Node elseBranch, @NotNull Node expr);
 
     /**
      * Converts return and its fields to this visitor type.
