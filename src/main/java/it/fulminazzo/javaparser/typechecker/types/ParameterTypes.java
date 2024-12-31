@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 /**
  * Represents the list of parameters {@link Type}s required during the invocation of a method or constructor.
  */
-public final class ParameterTypes extends ObjectWrapper<List<ClassType>> implements Type, Iterable<ClassType> {
+public final class ParameterTypes extends ObjectWrapper<List<ClassType>> implements Type {
 
     /**
      * Instantiates a new Parameter types.
@@ -53,11 +53,6 @@ public final class ParameterTypes extends ObjectWrapper<List<ClassType>> impleme
      */
     public @NotNull Stream<ClassType> stream() {
         return this.object.stream();
-    }
-
-    @Override
-    public @NotNull Iterator<ClassType> iterator() {
-        return stream().iterator();
     }
 
 }
