@@ -162,6 +162,7 @@ public interface Type {
      */
     default @NotNull ClassType getMethod(final @NotNull String methodName,
                                          final @NotNull ParameterTypes parameterTypes) throws TypeException {
+        if (isValue()) return toWrapper().getMethod(methodName, parameterTypes);
         ClassType classType = isClassType() ? (ClassType) this : toClassType();
         try {
             Class<?> javaClass = classType.toJavaClass();
