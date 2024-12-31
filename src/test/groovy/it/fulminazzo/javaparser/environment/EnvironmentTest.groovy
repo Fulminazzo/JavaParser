@@ -18,7 +18,7 @@ class EnvironmentTest extends Specification {
 
     def 'test main scope should not be anything else'() {
         when:
-        this.environment.checkScopeType(scopeType)
+        this.environment.check(scopeType)
 
         then:
         def e = thrown(ScopeException)
@@ -46,7 +46,7 @@ class EnvironmentTest extends Specification {
         this.environment.enterScope(ScopeType.CODE_BLOCK)
 
         when:
-        this.environment.checkScopeType(scopeType)
+        this.environment.check(scopeType)
         if (scopeType != ScopeType.MAIN)
             new Refl<>(this.environment).invokeMethod("check" + TestUtils.convertEnumName(scopeType))
 

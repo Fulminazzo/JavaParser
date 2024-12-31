@@ -113,7 +113,7 @@ interface Scoped<T> {
      * @return this object
      * @throws ScopeException thrown if the current scope type does not match
      */
-    default Scoped<T> checkScopeType(final @NotNull ScopeType scopeType) throws ScopeException {
+    default @NotNull Scoped<T> check(final @NotNull ScopeType scopeType) throws ScopeException {
         if (!scopeType().equals(scopeType)) throw scopeTypeMismatch(scopeType);
         return this;
     }
