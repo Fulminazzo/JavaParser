@@ -107,16 +107,6 @@ interface Scoped<T> {
     @NotNull ScopeType scopeType();
 
     /**
-     * Checks that the current scope is equal (or inside) the given {@link scopeType}.
-     *
-     * @param scopeType the scope type
-     * @return true if it is
-     */
-    default boolean isScopeType(final @NotNull ScopeType scopeType) {
-        return scopeType().equals(scopeType);
-    }
-
-    /**
      * Checks that the current scope is equal (or inside) the given {@link ScopeType}.
      *
      * @param scopeType the scope type
@@ -124,8 +114,8 @@ interface Scoped<T> {
      * @throws ScopeException thrown if the current scope type does not match
      */
     default Scoped<T> checkScopeType(final @NotNull ScopeType scopeType) throws ScopeException {
-        if (!isScopeType(scopeType)) throw scopeTypeMismatch(scopeType);
-        else return this;
+        if (!scopeType().equals(scopeType)) throw scopeTypeMismatch(scopeType);
+        return this;
     }
 
     /**
