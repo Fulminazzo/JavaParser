@@ -5,67 +5,75 @@ import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType
 import spock.lang.Specification
 
 class TypesTest extends Specification {
-    private NullType type
+    private Type type
 
     void setup() {
-        this.type = Types.NULL_TYPE
+        this.type = new Types.SingletonType('TEST_TYPE')
     }
 
     def 'test null type should be compatible with class type #classType'() {
+        given:
+        def type = Types.NULL_TYPE
+
         expect:
-        this.type.isAssignableFrom(classType)
+        type.isAssignableFrom(classType)
 
         where:
         classType << ClassObjectType.values()
     }
 
     def 'test null type should not be compatible with class type #classType'() {
+        given:
+        def type = Types.NULL_TYPE
+
         expect:
-        !this.type.isAssignableFrom(classType)
+        !type.isAssignableFrom(classType)
 
         where:
         classType << PrimitiveType.values()
     }
 
-    def 'test toClassType'() {
+    def 'test SingletonType toClassType'() {
         when:
         this.type.toClassType()
 
         then:
         def e = thrown(TypeCheckerException)
-        e.message == TypeCheckerException.noClassType(NullType).message
+        e.message == TypeCheckerException.noClassType(Types.SingletonType).message
     }
 
-    def 'test hashCode'() {
+    def 'test SingletonType hashCode'() {
         given:
         def code = this.type.hashCode()
+        int expected = Types.SingletonType.hashCode() ^ 'TEST_TYPE'.hashCode()
 
         expect:
-        code == NullType.hashCode()
+        code == expected
     }
 
-    def 'test equality'() {
+    def 'test SingletonType equality'() {
         given:
-        def second = Types.NULL_TYPE
+        def second = new Types.SingletonType('TEST_TYPE')
 
         expect:
         this.type == second
     }
 
-    def 'test inequality of #other'() {
+    def 'test SingletonType should not be equal to #other'() {
         expect:
         !this.type.equals(other)
 
         where:
-        other << [PrimitiveType.BOOLEAN, ValueType.STRING, null, 'NULL_TYPE']
+        other << [PrimitiveType.BOOLEAN, ValueType.STRING, null,
+                  new Types.SingletonType('MOCK'), 'TEST_TYPE']
     }
 
-    def 'test toString'() {
+    def 'test SingletonType toString'() {
         given:
         def string = this.type.toString()
 
         expect:
-        string == 'NULL_TYPE'
+        string == 'TEST_TYPE'
     }
 
 
