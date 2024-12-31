@@ -1,13 +1,16 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
+import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Represents a general type parsed by the {@link it.fulminazzo.javaparser.typechecker.TypeChecker}.
@@ -151,12 +154,27 @@ public interface Type {
         ClassType classType = isClassType() ? (ClassType) this : toClassType();
         try {
             Class<?> javaClass = classType.toJavaClass();
-            Method method = ReflectionUtils.getMethod(javaClass, null, methodName,
-                    parameterTypes.toJavaClassArray());
-            if (!Modifier.isPublic(method.getModifiers())) throw TypeException.cannotAccessMethod(classType, method);
-            else if (isClassType() && !Modifier.isStatic(method.getModifiers()))
-                throw TypeException.cannotAccessStaticMethod(classType, methodName, parameterTypes);
-            return ClassType.of(method.getReturnType());
+            // Lookup methods from name and parameters count
+            @NotNull List<Method> methods = ReflectionUtils.getMethods(javaClass, m ->
+                    m.getName().equals(methodName) && m.getParameterCount() == parameterTypes.size());
+            if (methods.isEmpty()) throw new IllegalArgumentException();
+
+            Refl<?> refl = new Refl<>(ReflectionUtils.class);
+            Class<?> @NotNull [] parametersTypes = parameterTypes.toJavaClassArray();
+            for (Method method : methods) {
+                // For each one, validate its parameters
+                if (Boolean.TRUE.equals(refl.invokeMethod("validateParameters",
+                        new Class[]{Class[].class, Executable.class},
+                        parametersTypes, method))) {
+                    if (!Modifier.isPublic(method.getModifiers())) throw TypeException.cannotAccessMethod(classType, method);
+                    else if (isClassType() && !Modifier.isStatic(method.getModifiers()))
+                        throw TypeException.cannotAccessStaticMethod(classType, methodName, parameterTypes);
+                    return ClassType.of(method.getReturnType());
+                }
+            }
+
+            //TODO: types mismatch
+            throw new RuntimeException("TYPES MISMATCH");
         } catch (IllegalArgumentException e) {
             throw TypeException.methodNotFound(classType, methodName, parameterTypes);
         }
