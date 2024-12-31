@@ -80,6 +80,7 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
                 this.lastRead = read;
                 this.previousRead = "";
             }
+            if (isTokenType(this.lastRead)) updateTokenType(this.lastRead);
         } catch (IOException e) {
             throw new TokenizerException(e);
         }
