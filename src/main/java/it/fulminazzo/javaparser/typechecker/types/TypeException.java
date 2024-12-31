@@ -156,9 +156,19 @@ public class TypeException extends Exception {
      */
     static @NotNull String formatMethod(final @NotNull String method,
                                         final @NotNull ParameterTypes parameterTypes) {
-        return String.format("%s(%s)", method, parameterTypes.stream()
+        return String.format("%s%s", method, formatParameterTypes(parameterTypes));
+    }
+
+    /**
+     * Formats the given method and parameter types to a string.
+     *
+     * @param parameterTypes the parameter types
+     * @return the string
+     */
+    static @NotNull String formatParameterTypes(final @NotNull ParameterTypes parameterTypes) {
+        return "(" + parameterTypes.stream()
                 .map(ClassType::toString)
-                .collect(Collectors.joining(", ")));
+                .collect(Collectors.joining(", ")) + ")";
     }
 
 }
