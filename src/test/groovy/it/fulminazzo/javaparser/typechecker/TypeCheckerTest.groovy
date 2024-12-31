@@ -238,6 +238,42 @@ class TypeCheckerTest extends Specification {
         Literal.of('short')     | FLOAT_LIT
     }
 
+    def 'test visit new object #parameters'() {
+        given:
+        def nodeExecutor = Literal.of(TestClass.canonicalName)
+        def methodInvocation = new MethodInvocation(parameters)
+
+        when:
+        def type = this.typeChecker.visitNewObject(nodeExecutor, methodInvocation)
+
+        then:
+        type == ObjectType.of(TestClass)
+
+        where:
+        parameters << [
+            [],
+            [NUMBER_LIT, BOOL_LIT]
+        ]
+    }
+
+    def 'test type exception visit new object'() {
+        given:
+        def methodInvocation = new MethodInvocation([BOOL_LIT, DOUBLE_LIT])
+
+        and:
+        def exceptionMessage = TypeException.methodNotFound(
+                ClassObjectType.INTEGER, '<init>',
+                new ParameterTypes([PrimitiveType.BOOLEAN, PrimitiveType.DOUBLE])
+        ).message
+
+        when:
+        this.typeChecker.visitNewObject(Literal.of('Integer'), methodInvocation)
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == exceptionMessage
+    }
+
     def 'test visit method call: #executor #method #parameters should return #expected'() {
         given:
         this.environment.declare(
