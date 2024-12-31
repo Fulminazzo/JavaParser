@@ -170,10 +170,10 @@ class TypeCheckerTest extends Specification {
         type == expected
 
         where:
-        executor                | method     | parameters | expected
-        ''                      | 'toString' | []         | ObjectType.STRING
-        'method_call_val.'      | 'toString' | []         | ObjectType.STRING
-        'method_call_val_prim.' | 'toString' | []         | ObjectType.STRING
+        executor                | method      | parameters | expected
+        ''                      | 'getString' | []         | ObjectType.STRING
+        'method_call_val.'      | 'toString'  | []         | ObjectType.STRING
+        'method_call_val_prim.' | 'toString'  | []         | ObjectType.STRING
     }
 
     def 'test type exception visit method call'() {
@@ -824,8 +824,7 @@ class TypeCheckerTest extends Specification {
         Literal.of('cast') | Literal.of('String') | ValueType.NUMBER
     }
 
-    @Override
-    String toString() {
+    static String getMessage() {
         return 'Hello, world!'
     }
 
