@@ -45,6 +45,34 @@ class TypeCheckerTest extends Specification {
         Optional.empty()              | new JavaProgram(new LinkedList<>([new Break()]))
     }
 
+    def 'test visit if statement of code "#code" should return #expected'() {
+        given:
+        def expr = code.expr
+        def then = code.then
+        def elseBranch = code.elseBranch
+
+        when:
+        def type = this.typeChecker.visitIfStatement(then, elseBranch, expr)
+
+        then:
+        type == expected
+
+        where:
+        expected          | code
+        ValueType.BOOLEAN | new IfStatement(BOOL_LIT, new CodeBlock(new Return(BOOL_LIT)), new Statement())
+        NoType.NO_TYPE    | new IfStatement(BOOL_LIT, new CodeBlock(new Statement()), new Statement())
+        ValueType.NUMBER  | new IfStatement(BOOL_LIT, new CodeBlock(new Return(NUMBER_LIT)),
+                new IfStatement(BOOL_LIT, new CodeBlock(new Return(NUMBER_LIT)), new Statement()))
+        NoType.NO_TYPE    | new IfStatement(BOOL_LIT, new CodeBlock(new Return(NUMBER_LIT)),
+                new IfStatement(BOOL_LIT, new CodeBlock(new Return(FLOAT_LIT)), new Statement()))
+        ValueType.DOUBLE  | new IfStatement(BOOL_LIT, new CodeBlock(new Return(DOUBLE_LIT)),
+                new IfStatement(BOOL_LIT, new CodeBlock(new Return(DOUBLE_LIT)),
+                        new CodeBlock(new Return(DOUBLE_LIT))))
+        NoType.NO_TYPE    | new IfStatement(BOOL_LIT, new CodeBlock(new Return(DOUBLE_LIT)),
+                new IfStatement(BOOL_LIT, new CodeBlock(new Return(FLOAT_LIT)),
+                        new CodeBlock(new Return(LONG_LIT))))
+    }
+
     def 'test visit assignment: #type #name = #val should return type #expected'() {
         given:
         def literalType = Literal.of(type)
