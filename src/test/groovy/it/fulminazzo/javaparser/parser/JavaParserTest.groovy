@@ -318,6 +318,31 @@ class JavaParserTest extends Specification {
         output == expected
     }
 
+    def 'test chained method call'() {
+        given:
+        def expected = new MethodCall(
+                new MethodCall(
+                        new EmptyLiteral(),
+                        'method',
+                        new MethodInvocation([
+                                Literal.of('a'),
+                                new NumberValueLiteral('1'),
+                                new BooleanValueLiteral('true')
+                        ])
+                ),
+                'toString',
+                new MethodInvocation([])
+        )
+        def code = 'method(a, 1, true).toString()'
+
+        when:
+        startReading(code)
+        def output = this.parser.parseExpression()
+
+        then:
+        output == expected
+    }
+
     def 'test method call'() {
         given:
         def expected = new MethodCall(
