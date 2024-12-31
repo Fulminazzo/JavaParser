@@ -4,11 +4,13 @@ import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.environment.MockEnvironment
 import it.fulminazzo.javaparser.environment.ScopeException
 import it.fulminazzo.javaparser.environment.ScopeType
+import it.fulminazzo.javaparser.parser.node.Assignment
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
+import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
 import it.fulminazzo.javaparser.parser.node.statements.Break
 import it.fulminazzo.javaparser.parser.node.statements.IfStatement
 import it.fulminazzo.javaparser.parser.node.statements.Return
@@ -58,6 +60,27 @@ class TypeCheckerTest extends Specification {
         type                          | program
         Optional.of(ValueType.NUMBER) | new JavaProgram(new LinkedList<>([new Return(NUMBER_LIT)]))
         Optional.empty()              | new JavaProgram(new LinkedList<>([new Statement()]))
+    }
+
+    def 'test visit for statement of (#expr) #codeBlock should return #expected'() {
+        given:
+        def assignment = new Assignment(Literal.of('int'), Literal.of('i'), NUMBER_LIT)
+        def increment = new Increment(Literal.of('i'), false)
+
+        when:
+        def type = this.typeChecker.visitForStatement(assignment, increment, codeBlock, expr)
+
+        then:
+        type == expected
+        this.environment.enteredScope(ScopeType.FOR)
+        this.environment.isMainScope()
+
+        where:
+        expected          | codeBlock                           | expr
+        ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | BOOL_LIT
+        ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | BOOL_VAR
+        NoType.NO_TYPE    | new CodeBlock(new Break())          | BOOL_LIT
+        NoType.NO_TYPE    | new CodeBlock(new Break())          | BOOL_VAR
     }
 
     def 'test visit do statement of (#expr) #codeBlock should return #expected'() {
