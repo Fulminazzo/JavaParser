@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser.typechecker;
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.environment.Environment;
 import it.fulminazzo.javaparser.environment.ScopeException;
+import it.fulminazzo.javaparser.environment.ScopeType;
 import it.fulminazzo.javaparser.parser.node.MethodInvocation;
 import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
@@ -159,10 +160,12 @@ public final class TypeChecker implements Visitor<Type> {
     @Override
     public @NotNull Type visitCodeBlock(@NotNull LinkedList<Statement> statements) {
         Type type = NoType.NO_TYPE;
+        this.environment.enterScope(ScopeType.CODE_BLOCK);
         for (Statement statement : statements) {
             Type checked = statement.accept(this);
             if (statement.is(Return.class)) type = checked;
         }
+        this.environment.exitScope();
         return type;
     }
 
