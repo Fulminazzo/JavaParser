@@ -60,7 +60,7 @@ public interface ClassType extends Type, Info {
         try {
             Class<?> javaClass = classType.toJavaClass();
             @NotNull List<Constructor<?>> constructors = Arrays.stream(javaClass.getDeclaredConstructors())
-                    .filter(c -> c.getParameterCount() == parameterTypes.size())
+                    .filter(c -> TypeUtils.verifyExecutable(parameterTypes, c))
                     .collect(Collectors.toList());
             if (constructors.isEmpty()) throw new IllegalArgumentException();
 

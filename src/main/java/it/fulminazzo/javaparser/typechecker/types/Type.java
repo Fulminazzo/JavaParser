@@ -169,7 +169,7 @@ public interface Type {
             Class<?> javaClass = classType.toJavaClass();
             // Lookup methods from name and parameters count
             @NotNull List<Method> methods = ReflectionUtils.getMethods(javaClass, m ->
-                    m.getName().equals(methodName) && m.getParameterCount() == parameterTypes.size());
+                    m.getName().equals(methodName) && TypeUtils.verifyExecutable(parameterTypes, m));
             if (methods.isEmpty()) throw new IllegalArgumentException();
 
             Refl<?> refl = new Refl<>(ReflectionUtils.class);
