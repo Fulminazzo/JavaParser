@@ -138,14 +138,10 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
             char c = updateLineCount(this.input.read());
             read += c;
             String subString = read.substring(0, read.length() - 1);
-            if (regexMatches(regex, read)) {
-                this.line = previousLine;
-                this.column = previousColumn;
-                this.previousRead = read.substring(read.length() - 1);
-                return isTokenType(subString) ? updateTokenType(subString) : TokenType.NONE;
-            } else if (!isTokenType(read)) {
+            boolean regexMatch = regexMatches(regex, read);
+            if (regexMatch || !isTokenType(read)) {
                 // Line necessary to properly read LITERAL, DOUBLE_VALUE and FLOAT_VALUE
-                if (c == '.') {
+                if (!regexMatch && c == '.') {
                     TokenType previous = TokenType.fromString(subString);
                     if (previous == TokenType.NUMBER_VALUE || previous == TokenType.LITERAL)
                         continue;
@@ -153,7 +149,7 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
                 this.line = previousLine;
                 this.column = previousColumn;
                 this.previousRead = read.substring(read.length() - 1);
-                return updateTokenType(subString);
+                return isTokenType(subString) ? updateTokenType(subString) : TokenType.NONE;
             }
         }
         this.previousRead = "";
