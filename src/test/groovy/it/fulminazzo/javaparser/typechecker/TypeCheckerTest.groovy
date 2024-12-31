@@ -871,7 +871,7 @@ class TypeCheckerTest extends Specification {
         DOUBLE_LIT  | ValueType.DOUBLE
     }
 
-    def 'test visit break with scope #scope'() {
+    def 'test visit break with scope #scope should not throw exception'() {
         given:
         this.environment.enterScope(scope)
 
@@ -910,7 +910,7 @@ class TypeCheckerTest extends Specification {
         ]
     }
 
-    def 'test visit continue with scope #scope'() {
+    def 'test visit continue with scope #scope should not throw exception'() {
         given:
         this.environment.enterScope(scope)
 
