@@ -96,6 +96,19 @@ class TypeCheckerTest extends Specification {
         NoType.NO_TYPE    | new CodeBlock(new Break())          | Literal.of('collection')
     }
 
+    def 'test visit enhanced for statement of non-iterable'() {
+        given:
+        def varType = Literal.of('int')
+        def varName = Literal.of('i')
+
+        when:
+        this.typeChecker.visitEnhancedForStatement(varType, varName, new CodeBlock(new Break()), NUMBER_LIT)
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.invalidType(ClassObjectType.of(Iterable), ValueType.NUMBER).message
+    }
+
     def 'test visit for statement of (#expr) #codeBlock should return #expected'() {
         given:
         def assignment = new Assignment(Literal.of('int'), Literal.of('i'), NUMBER_LIT)
