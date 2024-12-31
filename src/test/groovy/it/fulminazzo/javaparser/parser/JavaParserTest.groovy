@@ -36,7 +36,7 @@ class JavaParserTest extends Specification {
 
     def 'parse test_program file'() {
         given:
-        def file = new File(System.getProperty('user.dir'), 'build/resources/test/test_program.java')
+        def file = new File(System.getProperty('user.dir'), 'build/resources/test/parser_test_program.java')
         def parser = new JavaParser(file.newInputStream())
 
         when:
