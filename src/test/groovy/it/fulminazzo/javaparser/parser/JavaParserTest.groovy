@@ -493,9 +493,9 @@ class JavaParserTest extends Specification {
         output == expected
     }
 
-    def 'test parenthesized operation'() {
+    def 'test parenthesized operation: #operation'() {
         given:
-        def expected = new Divide(
+        def expected = clazz.newInstance(
                 new Add(
                         new NumberValueLiteral('1'),
                         new NumberValueLiteral('1')),
@@ -503,7 +503,7 @@ class JavaParserTest extends Specification {
                         new NumberValueLiteral('1'),
                         new NumberValueLiteral('1')
                 ))
-        def code = '(1 + 1) / (1 - 1)'
+        def code = "(1 + 1) ${operation} (1 - 1)"
 
         when:
         startReading(code)
@@ -511,6 +511,12 @@ class JavaParserTest extends Specification {
 
         then:
         output == expected
+
+        where:
+        operation | clazz
+        '/'       | Divide
+        '+'       | Add
+        '-'       | Subtract
     }
 
     def 'test simple parseBinaryOperation (#operation)'() {
