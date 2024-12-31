@@ -11,6 +11,7 @@ import it.fulminazzo.javaparser.parser.node.statements.Statement
 import it.fulminazzo.javaparser.parser.node.values.*
 import it.fulminazzo.javaparser.typechecker.types.ParameterTypes
 import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
+import it.fulminazzo.javaparser.typechecker.types.TestClass
 import it.fulminazzo.javaparser.typechecker.types.TypeException
 import it.fulminazzo.javaparser.typechecker.types.ValueType
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayClassType
@@ -31,7 +32,7 @@ class TypeCheckerTest extends Specification {
     private TypeChecker typeChecker
 
     void setup() {
-        this.typeChecker = new TypeChecker(getClass())
+        this.typeChecker = new TypeChecker(new TestClass())
     }
 
     def 'test visit program #program should return #type'() {
