@@ -225,6 +225,39 @@ class TypeCheckerTest extends Specification {
         'publicField'       | PrimitiveType.DOUBLE
     }
 
+    def 'test invalid visit field of #field should throw exception'() {
+        given:
+        def classType = ClassObjectType.of(TestClass)
+
+        and:
+        this.typeChecker.environment.declare(
+                classType,
+                'field_var_invalid',
+                ObjectType.of(TestClass)
+        )
+        def exceptionMessage = TypeException.cannotAccessField(
+                classType,
+                TestClass.getDeclaredField(field)
+        ).message
+
+        and:
+        def left = Literal.of('field_var_invalid')
+        def right = Literal.of(field)
+
+        when:
+        this.typeChecker.visitField(left, right)
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == exceptionMessage
+
+        where:
+        field << [
+                'packageStaticField', 'protectedStaticField', 'privateStaticField',
+                'packageField', 'protectedField', 'privateField'
+        ]
+    }
+
     def 'test visit re-assignment: #name = #val should return type #expected'() {
         given:
         name += '_reassign'
