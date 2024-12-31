@@ -23,6 +23,15 @@ public final class ParameterTypes extends ObjectWrapper<List<ClassType>> impleme
     }
 
     /**
+     * Converts this class to an array of Java {@link Class}es.
+     *
+     * @return the classes
+     */
+    public Class<?> @NotNull [] toJavaClassArray() {
+        return this.object.stream().map(ClassType::toJavaClass).toArray(Class[]::new);
+    }
+
+    /**
      * Returns the number of parameters.
      *
      * @return the number of parameters
