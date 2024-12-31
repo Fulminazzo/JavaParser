@@ -2,9 +2,7 @@ package it.fulminazzo.javaparser.environment;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * An object that can hold values in the form (name, value) pair.
@@ -49,7 +47,7 @@ interface Scoped<T> {
      * @throws ScopeException thrown if the variable is not declared
      */
     default @NotNull T lookup(final @NotNull String name) throws ScopeException {
-        return search(name).orElseThrow(() -> noSuchVariable(name));
+        return search(name).orElseThrow(() -> ScopeException.noSuchVariable(name));
     }
 
     /**
@@ -88,41 +86,7 @@ interface Scoped<T> {
     default @NotNull Scoped<T> check(final ScopeType @NotNull ... scopeTypes) throws ScopeException {
         for (ScopeType scopeType : scopeTypes)
             if (scopeType.equals(scopeType())) return this;
-        throw scopeTypeMismatch(scopeTypes);
-    }
-
-    /**
-     * Returns an exception for a variable not declared.
-     *
-     * @param name the name of the variable
-     * @return the scope exception
-     */
-    default @NotNull ScopeException noSuchVariable(final @NotNull String name) {
-        return new ScopeException("No such variable: " + name);
-    }
-
-    /**
-     * Returns an exception for a variable already declared.
-     *
-     * @param name the name of the variable
-     * @return the scope exception
-     */
-    default @NotNull ScopeException alreadyDeclaredVariable(final @NotNull String name) {
-        return new ScopeException("Variable already declared: " + name);
-    }
-
-    /**
-     * Returns an exception for a wrong scope type.
-     *
-     * @param scopeTypes the scope types
-     * @return the scope exception
-     */
-    default @NotNull ScopeException scopeTypeMismatch(final ScopeType @NotNull [] scopeTypes) {
-        return new ScopeException(scopeTypes.length == 0 ?
-                "Cannot compare current scope type with no types provided" :
-                "Current scope does not match any of the expected types: " +
-                        Arrays.stream(scopeTypes).map(ScopeType::name).collect(Collectors.joining(", "))
-        );
+        throw ScopeException.scopeTypeMismatch(scopeTypes);
     }
 
 }

@@ -21,7 +21,7 @@ class EnvironmentTest extends Specification {
 
         then:
         def e = thrown(ScopeException)
-        e.message == this.environment.scopeTypeMismatch(scopeType).message
+        e.message == ScopeException.scopeTypeMismatch(scopeType).message
 
         where:
         scopeType << ScopeType.values().findAll { it != ScopeType.MAIN }
@@ -32,7 +32,7 @@ class EnvironmentTest extends Specification {
         def arr = new ScopeType[0]
 
         and:
-        def exceptionMessage = this.environment.scopeTypeMismatch(arr).message
+        def exceptionMessage = ScopeException.scopeTypeMismatch(arr).message
 
         when:
         this.environment.check()
@@ -113,7 +113,7 @@ class EnvironmentTest extends Specification {
 
         then:
         def e = thrown(ScopeException)
-        e.message == this.environment.noSuchVariable(varName).message
+        e.message == ScopeException.noSuchVariable(varName).message
     }
 
     def 'test declare twice'() {
@@ -126,7 +126,7 @@ class EnvironmentTest extends Specification {
 
         then:
         def e = thrown(ScopeException)
-        e.message == this.environment.alreadyDeclaredVariable(varName).message
+        e.message == ScopeException.alreadyDeclaredVariable(varName).message
     }
 
     def 'test lookup without declare'() {
@@ -138,7 +138,7 @@ class EnvironmentTest extends Specification {
 
         then:
         def e = thrown(ScopeException)
-        e.message == this.environment.noSuchVariable(varName).message
+        e.message == ScopeException.noSuchVariable(varName).message
     }
 
     def 'test update without declare'() {
@@ -150,7 +150,7 @@ class EnvironmentTest extends Specification {
 
         then:
         def e = thrown(ScopeException)
-        e.message == this.environment.noSuchVariable(varName).message
+        e.message == ScopeException.noSuchVariable(varName).message
     }
 
 }
