@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.stream.Collectors;
 
 /**
  * An exception thrown by {@link Type} objects.
@@ -130,6 +131,20 @@ public class TypeException extends Exception {
         else if (Modifier.isPublic(modifiers)) return "public";
         else if (Modifier.isPrivate(modifiers)) return "private";
         else return "package";
+    }
+
+    /**
+     * Formats the given method and parameter types to a string.
+     *
+     * @param method         the method
+     * @param parameterTypes the parameter types
+     * @return the string
+     */
+    static @NotNull String formatMethod(final @NotNull String method,
+                                        final @NotNull ParameterTypes parameterTypes) {
+        return String.format("%s(%s)", method, parameterTypes.stream()
+                .map(ClassType::toString)
+                .collect(Collectors.joining(", ")));
     }
 
 }
