@@ -114,6 +114,18 @@ class JavaParserTest extends Specification {
         ]
     }
 
+    def 'test invalid for statement'() {
+        given:
+        def code = 'for (int i; i < 10; i++)'
+
+        when:
+        startReading(code)
+        this.parser.parseForStatement()
+
+        then:
+        thrown(ParserException)
+    }
+
     def 'test for statements'() {
         when:
         startReading(code)
