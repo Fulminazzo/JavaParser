@@ -162,14 +162,14 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitCodeBlock(@NotNull LinkedList<Statement> statements) {
-        Type type = NoType.NO_TYPE;
-        this.environment.enterScope(ScopeType.CODE_BLOCK);
-        for (Statement statement : statements) {
-            Type checked = statement.accept(this);
-            if (statement.is(Return.class)) type = checked;
-        }
-        this.environment.exitScope();
-        return type;
+        return visitScoped(ScopeType.CODE_BLOCK, () -> {
+            Type type = NoType.NO_TYPE;
+            for (Statement statement : statements) {
+                Type checked = statement.accept(this);
+                if (statement.is(Return.class)) type = checked;
+            }
+            return type;
+        });
     }
 
     @Override
@@ -380,11 +380,10 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitDoStatement(@NotNull CodeBlock code, @NotNull Node expr) {
-        this.environment.enterScope(ScopeType.DO);
-        expr.accept(this).check(BOOLEAN, ObjectType.BOOLEAN);
-        Type type = code.accept(this);
-        this.environment.exitScope();
-        return type;
+        return visitScoped(ScopeType.DO, () -> {
+            expr.accept(this).check(BOOLEAN, ObjectType.BOOLEAN);
+            return code.accept(this);
+        });
     }
 
     @Override
@@ -418,11 +417,10 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expr) {
-        this.environment.enterScope(ScopeType.WHILE);
-        expr.accept(this).check(BOOLEAN, ObjectType.BOOLEAN);
-        Type type = code.accept(this);
-        this.environment.exitScope();
-        return type;
+        return visitScoped(ScopeType.WHILE, () -> {
+            expr.accept(this).check(BOOLEAN, ObjectType.BOOLEAN);
+            return code.accept(this);
+        });
     }
 
     @Override
