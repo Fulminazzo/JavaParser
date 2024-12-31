@@ -439,7 +439,7 @@ public class JavaParser extends Parser {
         }
         while (lastToken() == DOT) {
             consume(DOT);
-            Literal methodName = parseLiteral();
+            Literal methodName = parseLiteralNoDot();
             if (lastToken() == OPEN_PAR)
                 node = new MethodCall(node, methodName.getLiteral(), parseMethodInvocation());
             else node = new Field(node, methodName);
@@ -679,6 +679,16 @@ public class JavaParser extends Parser {
         } catch (NodeException e) {
             throw invalidValueProvidedException(literal);
         }
+    }
+
+    /**
+     * Parses {@link #parseLiteral()} with no {@link TokenType#DOT}
+     *
+     * @return the node
+     */
+    protected @NotNull Literal parseLiteralNoDot() {
+        getTokenizer().readUntilInclusive(DOT);
+        return parseLiteral();
     }
 
     /**
