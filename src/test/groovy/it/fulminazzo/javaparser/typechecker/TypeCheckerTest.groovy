@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.typechecker
 
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.environment.MockEnvironment
+import it.fulminazzo.javaparser.environment.ScopeType
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram
@@ -62,6 +63,7 @@ class TypeCheckerTest extends Specification {
 
         then:
         type == expected
+        this.environment.enteredScope(ScopeType.DO)
 
         where:
         expected          | codeBlock                           | expr
@@ -77,6 +79,7 @@ class TypeCheckerTest extends Specification {
 
         then:
         type == expected
+        this.environment.enteredScope(ScopeType.WHILE)
 
         where:
         expected          | codeBlock                           | expr
@@ -97,6 +100,7 @@ class TypeCheckerTest extends Specification {
 
         when:
         def type = this.typeChecker.visitIfStatement(then, elseBranch, expr)
+        this.environment.enteredScope(ScopeType.CODE_BLOCK)
 
         then:
         type == expected
@@ -542,6 +546,7 @@ class TypeCheckerTest extends Specification {
 
         then:
         type == ValueType.NUMBER
+        this.environment.enteredScope(ScopeType.CODE_BLOCK)
     }
 
     def 'test visit array literal'() {
