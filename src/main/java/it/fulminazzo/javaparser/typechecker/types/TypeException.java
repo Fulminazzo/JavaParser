@@ -2,10 +2,7 @@ package it.fulminazzo.javaparser.typechecker.types;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Member;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -101,7 +98,7 @@ public class TypeException extends Exception {
      * @return the type exception
      */
     public static @NotNull TypeException typesMismatch(final @NotNull ClassType type,
-                                                       final @NotNull Method method,
+                                                       final @NotNull Executable method,
                                                        final @NotNull ParameterTypes parameterTypes) {
         return new TypeException("Types mismatch: cannot apply parameters %s to method %s in type %s",
                 formatParameterTypes(parameterTypes), formatMethod(method), type);
@@ -116,7 +113,7 @@ public class TypeException extends Exception {
      * @return the type exception
      */
     public static @NotNull TypeException cannotAccessMethod(final @NotNull ClassType type,
-                                                            final @NotNull Method method) {
+                                                            final @NotNull Executable method) {
         return new TypeException("Type %s cannot access method %s with access level '%s'",
                 type, formatMethod(method), getVisibilityModifier(method));
     }
@@ -157,7 +154,7 @@ public class TypeException extends Exception {
      * @param method the method
      * @return the string
      */
-    static @NotNull String formatMethod(final @NotNull Method method) {
+    static @NotNull String formatMethod(final @NotNull Executable method) {
         return formatMethod(method.getName(), new ParameterTypes(Arrays.stream(method.getParameterTypes())
                 .map(ClassType::of)
                 .collect(Collectors.toList())));
