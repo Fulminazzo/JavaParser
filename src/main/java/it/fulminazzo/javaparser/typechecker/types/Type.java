@@ -62,7 +62,7 @@ public interface Type {
      *
      * @return the current type cast to the expected one
      */
-    default ClassType checkClassType() {
+    default @NotNull ClassType checkClassType() {
         return check(ClassType.class);
     }
 
@@ -74,7 +74,7 @@ public interface Type {
      * @param classType the class of the type
      * @return the current type cast to the expected one
      */
-    default <T extends Type> T check(final @NotNull Class<T> classType) {
+    default <T extends Type> @NotNull T check(final @NotNull Class<T> classType) {
         if (is(classType)) return classType.cast(this);
         else throw TypeCheckerException.invalidType(classType, this);
     }
@@ -87,7 +87,7 @@ public interface Type {
      * @param type the expected type
      * @return the current type cast to the expected one
      */
-    default <T extends Type> T check(final @NotNull T type) {
+    default <T extends Type> @NotNull T check(final @NotNull T type) {
         if (is(type)) return type;
         else throw TypeCheckerException.invalidType(type, this);
     }
@@ -99,7 +99,7 @@ public interface Type {
      * @param expectedTypes the expected types
      * @return this type
      */
-    default Type check(final Type @NotNull ... expectedTypes) {
+    default @NotNull Type check(final Type @NotNull ... expectedTypes) {
         if (expectedTypes.length == 0)
             throw new IllegalArgumentException(String.format("Cannot compare type %s with no types", this));
         for (Type expectedType : expectedTypes)
