@@ -142,7 +142,7 @@ public final class TypeChecker implements Visitor<Type> {
         Type type = NoType.NO_TYPE;
         for (Statement statement : statements) {
             Type checked = statement.accept(this);
-            if (statement instanceof Return) type = checked;
+            if (statement.is(Return.class)) type = checked;
         }
         return type;
     }
