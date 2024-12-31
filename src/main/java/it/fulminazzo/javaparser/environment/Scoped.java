@@ -70,6 +70,26 @@ interface Scoped<T> {
     void update(@NotNull String name, @NotNull T value) throws ScopeException;
 
     /**
+     * Returns the scope type of the current scope.
+     *
+     * @return the scope type
+     */
+    @NotNull ScopeType scopeType();
+
+    /**
+     * Checks that the current scope is equal (or inside) to one of the given {@link ScopeType}s.
+     *
+     * @param scopeTypes the scope types
+     * @return this object
+     * @throws ScopeException thrown if the current scope type does not match
+     */
+    default @NotNull Scoped<T> check(final ScopeType @NotNull ... scopeTypes) throws ScopeException {
+        for (ScopeType scopeType : scopeTypes)
+            if (scopeType.equals(scopeType())) return this;
+        throw scopeTypeMismatch(scopeTypes);
+    }
+
+    /**
      * Returns an exception for a variable not declared.
      *
      * @param name the name of the variable
@@ -97,26 +117,6 @@ interface Scoped<T> {
      */
     default @NotNull ScopeException scopeTypeMismatch(@NotNull ScopeType scopeType) {
         return new ScopeException("Scope type mismatch: " + scopeType() + " != " + scopeType);
-    }
-
-    /**
-     * Returns the scope type of the current scope.
-     *
-     * @return the scope type
-     */
-    @NotNull ScopeType scopeType();
-
-    /**
-     * Checks that the current scope is equal (or inside) to one of the given {@link ScopeType}s.
-     *
-     * @param scopeTypes the scope types
-     * @return this object
-     * @throws ScopeException thrown if the current scope type does not match
-     */
-    default @NotNull Scoped<T> check(final ScopeType @NotNull ... scopeTypes) throws ScopeException {
-        for (ScopeType scopeType : scopeTypes)
-            if (scopeType.equals(scopeType())) return this;
-        throw scopeTypeMismatch(scopeTypes);
     }
 
 }
