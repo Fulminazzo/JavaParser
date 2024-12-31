@@ -300,7 +300,8 @@ class JavaParserTest extends Specification {
     def 'test execution of printf'() {
         given:
         def expected = new Statement(new MethodCall(
-                Literal.of('System.out.printf'),
+                Literal.of('System.out'),
+                'printf',
                 new MethodInvocation([
                         new StringValueLiteral('\"%s, %s!\"'),
                         new StringValueLiteral('\"Hello\"'),
@@ -321,13 +322,14 @@ class JavaParserTest extends Specification {
         given:
         def expected = new MethodCall(
                 Literal.of('var'),
+                'method',
                 new MethodInvocation([
                         Literal.of('a'),
                         new NumberValueLiteral('1'),
                         new BooleanValueLiteral('true')
                 ])
         )
-        def code = 'var(a, 1, true)'
+        def code = 'var.method(a, 1, true)'
 
         when:
         startReading(code)
