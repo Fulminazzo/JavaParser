@@ -171,6 +171,7 @@ class TypeCheckerTest extends Specification {
 
         where:
         executor                | method     | parameters | expected
+        ''                      | 'toString' | []         | ObjectType.STRING
         'method_call_val.'      | 'toString' | []         | ObjectType.STRING
         'method_call_val_prim.' | 'toString' | []         | ObjectType.STRING
     }
