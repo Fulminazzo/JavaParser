@@ -299,7 +299,7 @@ class ClassObjectTypeTest extends Specification {
 
         where:
         type << [
-                CHAR, NUMBER,
+                BYTE,
                 ObjectType.BYTE
         ]
     }
@@ -355,7 +355,7 @@ class ClassObjectTypeTest extends Specification {
 
         where:
         type << [
-                CHAR, NUMBER,
+                BYTE, SHORT,
                 ObjectType.BYTE, ObjectType.SHORT
         ]
     }
