@@ -111,5 +111,7 @@ class ClassTypeTest extends Specification {
         Type toType() {
             return null
         }
+
     }
+
 }
