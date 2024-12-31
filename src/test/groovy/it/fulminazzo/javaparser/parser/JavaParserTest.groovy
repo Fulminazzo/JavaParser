@@ -114,6 +114,18 @@ class JavaParserTest extends Specification {
         ]
     }
 
+    def 'test invalid for statement'() {
+        given:
+        def code = 'for (int i; i < 10; i++)'
+
+        when:
+        startReading(code)
+        this.parser.parseForStatement()
+
+        then:
+        thrown(ParserException)
+    }
+
     def 'test for statements'() {
         when:
         startReading(code)
@@ -225,6 +237,18 @@ class JavaParserTest extends Specification {
         )
     }
 
+    def 'test invalid array assignment'() {
+        given:
+        def code = 'int[] 1 = new int[0]'
+
+        when:
+        startReading(code)
+        this.parser.parseAssignment()
+
+        then:
+        thrown(ParserException)
+    }
+
     def 'test array assignment'() {
         given:
         def expected = new Assignment(
@@ -300,7 +324,8 @@ class JavaParserTest extends Specification {
     def 'test execution of printf'() {
         given:
         def expected = new Statement(new MethodCall(
-                Literal.of('System.out.printf'),
+                Literal.of('System.out'),
+                'printf',
                 new MethodInvocation([
                         new StringValueLiteral('\"%s, %s!\"'),
                         new StringValueLiteral('\"Hello\"'),
@@ -317,17 +342,64 @@ class JavaParserTest extends Specification {
         output == expected
     }
 
+    def 'test chained method call'() {
+        given:
+        def expected = new MethodCall(
+                new MethodCall(
+                        new EmptyLiteral(),
+                        'method',
+                        new MethodInvocation([
+                                Literal.of('a'),
+                                new NumberValueLiteral('1'),
+                                new BooleanValueLiteral('true')
+                        ])
+                ),
+                'toString',
+                new MethodInvocation([])
+        )
+        def code = 'method(a, 1, true).toString()'
+
+        when:
+        startReading(code)
+        def output = this.parser.parseExpression()
+
+        then:
+        output == expected
+    }
+
+    def 'test field retrieval from method call'() {
+        given:
+        def expected = new Field(
+                new Field(
+                        new MethodCall(
+                                Literal.of('this'),
+                                'toString',
+                                new MethodInvocation([])
+                        ), Literal.of('char_array')
+                ), Literal.of('internal')
+        )
+        def code = 'this.toString().char_array.internal'
+
+        when:
+        startReading(code)
+        def output = this.parser.parseExpression()
+
+        then:
+        output == expected
+    }
+
     def 'test method call'() {
         given:
         def expected = new MethodCall(
-                Literal.of('var'),
+                new EmptyLiteral(),
+                'method',
                 new MethodInvocation([
                         Literal.of('a'),
                         new NumberValueLiteral('1'),
                         new BooleanValueLiteral('true')
                 ])
         )
-        def code = 'var(a, 1, true)'
+        def code = 'method(a, 1, true)'
 
         when:
         startReading(code)
@@ -445,9 +517,9 @@ class JavaParserTest extends Specification {
         output == expected
     }
 
-    def 'test parenthesized operation'() {
+    def 'test parenthesized operation: #operation'() {
         given:
-        def expected = new Divide(
+        def expected = clazz.newInstance(
                 new Add(
                         new NumberValueLiteral('1'),
                         new NumberValueLiteral('1')),
@@ -455,7 +527,7 @@ class JavaParserTest extends Specification {
                         new NumberValueLiteral('1'),
                         new NumberValueLiteral('1')
                 ))
-        def code = '(1 + 1) / (1 - 1)'
+        def code = "(1 + 1) ${operation} (1 - 1)"
 
         when:
         startReading(code)
@@ -463,6 +535,12 @@ class JavaParserTest extends Specification {
 
         then:
         output == expected
+
+        where:
+        operation | clazz
+        '/'       | Divide
+        '+'       | Add
+        '-'       | Subtract
     }
 
     def 'test simple parseBinaryOperation (#operation)'() {
@@ -528,13 +606,28 @@ class JavaParserTest extends Specification {
         parsed == expected
     }
 
-    def 'test cast'() {
+    def 'test invalid cast'() {
+        given:
+        def code = "(int) -+1"
+
+        when:
+        startReading(code)
+        this.parser.parseCast()
+
+        then:
+        thrown(ParserException)
+    }
+
+    def 'test cast of #object'() {
         given:
         def expected = new Cast(
                 Literal.of('double'),
-                new Cast(Literal.of('int'), new NumberValueLiteral('1'))
+                new Cast(
+                        Literal.of('float'),
+                        new Cast(Literal.of('int'), objectLiteral)
+                )
         )
-        def code = '(double) (int) 1'
+        def code = "(double) (float) ((int) ${object})"
 
         when:
         startReading(code)
@@ -542,6 +635,12 @@ class JavaParserTest extends Specification {
 
         then:
         parsed == expected
+
+        where:
+        object | objectLiteral
+        '1'    | new NumberValueLiteral('1')
+        '-1'   | new Minus(new NumberValueLiteral('1'))
+        '-(1)' | new Minus(new NumberValueLiteral('1'))
     }
 
     def 'test minus'() {
@@ -586,6 +685,17 @@ class JavaParserTest extends Specification {
         'false'           | new BooleanValueLiteral('false')
         '\'a\''           | new CharValueLiteral('\'a\'')
         '\"Hello world\"' | new StringValueLiteral('\"Hello world\"')
+    }
+
+    def 'test invalid literal'() {
+        given:
+        this.parser.setInput('$$$')
+
+        when:
+        this.parser.parseLiteral()
+
+        then:
+        thrown(ParserException)
     }
 
     def 'test parse type of invalid'() {

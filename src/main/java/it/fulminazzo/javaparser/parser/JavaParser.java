@@ -413,14 +413,32 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * METHOD_CALL := EQUAL ( METHOD_INVOCATION )*
+     * METHOD_CALL := EQUAL ( .LITERAL METHOD_INVOCATION? )*
      *
      * @return the node
      */
     protected @NotNull Node parseMethodCall() {
         Node node = parseBinaryComparison();
-        while (lastToken() == OPEN_PAR)
-            node = new MethodCall(node, parseMethodInvocation());
+        if (node.is(Literal.class) && lastToken() == OPEN_PAR) {
+            Literal literalNode = (Literal) node;
+            String literal = literalNode.getLiteral();
+            final @NotNull Node executor;
+            final @NotNull String methodName;
+            if (literal.contains(".")) {
+                executor = getLiteralFromString(literal.substring(0, literal.lastIndexOf(".")));
+                methodName = literal.substring(literal.lastIndexOf(".") + 1);
+            } else {
+                executor = new EmptyLiteral();
+                methodName = literal;
+            }
+            node = new MethodCall(executor, methodName, parseMethodInvocation());
+        }
+        while (lastToken() == DOT) {
+            Literal methodName = parseLiteralNoDot();
+            if (lastToken() == OPEN_PAR)
+                node = new MethodCall(node, methodName.getLiteral(), parseMethodInvocation());
+            else node = new Field(node, methodName);
+        }
         return node;
     }
 
@@ -592,11 +610,14 @@ public class JavaParser extends Parser {
         else if (lastToken() == ADD) {
             consume(ADD);
             if (lastToken() == ADD) expr = new Cast(expr, parseIncrement());
+            else return new Add(expr, parseExpression());
         } else if (lastToken() == SUBTRACT) {
             consume(SUBTRACT);
             if (lastToken() == SUBTRACT) expr = new Cast(expr, parseDecrement());
-            else if (lastToken().between(MODULO, SPACE) || lastToken() == OPEN_PAR)
+            else if (expr.is(Literal.class) &&
+                    (lastToken().between(MODULO, SPACE) || lastToken() == OPEN_PAR))
                 expr = new Cast(expr, new Minus(parseAtom()));
+            else return new Subtract(expr, parseExpression());
         }
         return expr;
     }
@@ -650,12 +671,34 @@ public class JavaParser extends Parser {
      */
     protected @NotNull Literal parseLiteral() {
         final String literal = getTokenizer().lastRead();
+        Literal l = getLiteralFromString(literal);
         consume(LITERAL);
+        return l;
+    }
+
+    /**
+     * Converts the given string to a {@link Literal}.
+     * Throws {@link #invalidValueProvidedException(String)} in case of error.
+     *
+     * @param literal the string
+     * @return the literal
+     */
+    @NotNull Literal getLiteralFromString(final @NotNull String literal) {
         try {
             return Literal.of(literal);
         } catch (NodeException e) {
             throw invalidValueProvidedException(literal);
         }
+    }
+
+    /**
+     * Parses {@link #parseLiteral()} with no {@link TokenType#DOT}
+     *
+     * @return the node
+     */
+    protected @NotNull Literal parseLiteralNoDot() {
+        getTokenizer().nextUntil(DOT);
+        return parseLiteral();
     }
 
     /**
