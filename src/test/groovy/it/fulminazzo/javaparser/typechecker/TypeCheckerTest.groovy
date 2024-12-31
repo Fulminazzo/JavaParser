@@ -139,6 +139,8 @@ class TypeCheckerTest extends Specification {
         Literal.of('Integer')   | DOUBLE_LIT
         Literal.of('int')       | BOOL_LIT
         Literal.of('double')    | STRING_LIT
+        Literal.of('byte')      | LONG_LIT
+        Literal.of('short')     | FLOAT_LIT
     }
 
     def 'test visit re-assignment: #name = #val should return type #expected'() {
@@ -241,6 +243,8 @@ class TypeCheckerTest extends Specification {
         Literal.of('Integer')   | NUMBER_LIT | DOUBLE_LIT
         Literal.of('int')       | NUMBER_LIT | BOOL_LIT
         Literal.of('double')    | DOUBLE_LIT | STRING_LIT
+        Literal.of('byte')      | LONG_LIT
+        Literal.of('short')     | FLOAT_LIT
     }
 
     def 'test convertValue of #classType and #type should return #classType'() {
