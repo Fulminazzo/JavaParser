@@ -4,6 +4,7 @@ import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.environment.MockEnvironment
 import it.fulminazzo.javaparser.environment.ScopeException
 import it.fulminazzo.javaparser.environment.ScopeType
+import it.fulminazzo.javaparser.parser.JavaParser
 import it.fulminazzo.javaparser.parser.node.Assignment
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
@@ -47,6 +48,21 @@ class TypeCheckerTest extends Specification {
                 'bool',
                 ObjectType.BOOLEAN,
         )
+    }
+
+    def 'parse test_program file'() {
+        given:
+        def cwd = System.getProperty('user.dir')
+
+        and:
+        def file = new File(cwd, 'build/resources/test/typechecker_test_program.dat')
+        JavaProgram program = file.newObjectInputStream().readObject() as JavaProgram
+
+        when:
+        program.accept(this.typeChecker)
+
+        then:
+        noExceptionThrown()
     }
 
     def 'test visit program #program should return #type'() {
