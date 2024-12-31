@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
+import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import org.jetbrains.annotations.NotNull;
 
@@ -125,12 +126,12 @@ public interface Type {
         ClassType classType = isClassType() ? (ClassType) this : toClassType();
         try {
             Class<?> javaClass = classType.toJavaClass();
-            Field field = javaClass.getDeclaredField(fieldName);
+            Field field = ReflectionUtils.getField(javaClass, fieldName);
             if (!Modifier.isPublic(field.getModifiers())) throw TypeException.cannotAccessField(classType, field);
             else if (isClassType() && !Modifier.isStatic(field.getModifiers()))
                 throw TypeException.cannotAccessStaticField(classType, fieldName);
             return ClassType.of(field.getType());
-        } catch (NoSuchFieldException e) {
+        } catch (IllegalArgumentException e) {
             throw TypeException.fieldNotFound(classType, fieldName);
         }
     }
