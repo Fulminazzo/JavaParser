@@ -9,7 +9,9 @@ import it.fulminazzo.javaparser.parser.node.statements.IfStatement
 import it.fulminazzo.javaparser.parser.node.statements.Return
 import it.fulminazzo.javaparser.parser.node.statements.Statement
 import it.fulminazzo.javaparser.parser.node.values.*
+import it.fulminazzo.javaparser.typechecker.types.ParameterTypes
 import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
+import it.fulminazzo.javaparser.typechecker.types.TypeException
 import it.fulminazzo.javaparser.typechecker.types.ValueType
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayClassType
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayType
@@ -171,6 +173,32 @@ class TypeCheckerTest extends Specification {
         executor                | method     | parameters | expected
         'method_call_val.'      | 'toString' | []         | ObjectType.STRING
         'method_call_val_prim.' | 'toString' | []         | ObjectType.STRING
+    }
+
+    def 'test type exception visit method call'() {
+        given:
+        def classType = ClassObjectType.INTEGER
+        this.typeChecker.environment.declare(
+                classType,
+                'method_call_invalid_val',
+                ObjectType.INTEGER
+        )
+
+        and:
+        def nodeExecutor = Literal.of('method_call_invalid_val.nonExisting')
+        def methodInvocation = new MethodInvocation([])
+
+        and:
+        def exceptionMessage = TypeException.methodNotFound(
+                classType, 'nonExisting', new ParameterTypes([])
+        ).message
+
+        when:
+        this.typeChecker.visitMethodCall(nodeExecutor, methodInvocation)
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == exceptionMessage
     }
 
     def 'test visit re-assignment: #name = #val should return type #expected'() {
