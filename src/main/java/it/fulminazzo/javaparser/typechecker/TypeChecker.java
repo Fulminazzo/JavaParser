@@ -14,6 +14,7 @@ import it.fulminazzo.javaparser.typechecker.types.*;
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayClassType;
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayType;
 import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType;
+import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
 import it.fulminazzo.javaparser.visitors.Visitor;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,14 +34,14 @@ public final class TypeChecker implements Visitor<Type> {
      * The constant FIELDS_SEPARATOR.
      */
     public static final String FIELDS_SEPARATOR = ".";
-    private final Object executingClass;
+    private final Object executingObject;
     private final Environment<Type> environment;
 
     /**
      * Instantiates a new Type checker.
      */
     public TypeChecker(final @NotNull Object executingObject) {
-        this.executingClass = executingObject;
+        this.executingObject = executingObject;
         this.environment = new Environment<>();
     }
 
