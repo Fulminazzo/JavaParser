@@ -20,6 +20,8 @@ import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
 
+import java.util.concurrent.Callable
+
 class TypeCheckerTest extends Specification {
     private static final BOOL_LIT = new BooleanValueLiteral('true')
     private static final CHAR_LIT = new CharValueLiteral('\'a\'')
@@ -969,6 +971,24 @@ class TypeCheckerTest extends Specification {
         DOUBLE_LIT         | Literal.of('String') | ValueType.DOUBLE
         STRING_LIT         | Literal.of('int')    | ValueType.STRING
         Literal.of('cast') | Literal.of('String') | ValueType.NUMBER
+    }
+
+    def 'test visitScoped with exception #exception should throw #expected'() {
+        given:
+        Callable<Type> function = () -> {
+            throw exception.newInstance('')
+        }
+
+        when:
+        this.typeChecker.visitScoped(ScopeType.CODE_BLOCK, function)
+
+        then:
+        thrown(expected)
+
+        where:
+        exception                | expected
+        IllegalArgumentException | IllegalArgumentException
+        IOException              | TypeCheckerException
     }
 
 }
