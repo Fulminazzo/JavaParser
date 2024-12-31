@@ -168,11 +168,13 @@ class TypeCheckerTest extends Specification {
         type == expected
 
         where:
-        executor                | method               | parameters | expected
-        ''                      | 'publicMethod'       | []         | ValueType.DOUBLE
-        ''                      | 'publicStaticMethod' | []         | ValueType.NUMBER
-        'method_call_val'       | 'toString'           | []         | ObjectType.STRING
-        'method_call_val_prim'  | 'toString'           | []         | ObjectType.STRING
+        executor                | method               | parameters             | expected
+        ''                      | 'publicMethod'       | []                     | ValueType.DOUBLE
+        ''                      | 'publicMethod'       | [DOUBLE_LIT, BOOL_LIT] | ValueType.DOUBLE
+        ''                      | 'publicStaticMethod' | []                     | ValueType.NUMBER
+        ''                      | 'publicStaticMethod' | [NUMBER_LIT, BOOL_LIT] | ValueType.NUMBER
+        'method_call_val'       | 'toString'           | []                     | ObjectType.STRING
+        'method_call_val_prim'  | 'toString'           | []                     | ObjectType.STRING
     }
 
     def 'test type exception visit method call'() {
