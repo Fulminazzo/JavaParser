@@ -388,7 +388,7 @@ public final class TypeChecker implements Visitor<Type> {
     }
 
     @Override
-    public @NotNull Type visitIfStatement(@NotNull CodeBlock code, @NotNull Node thenBranch, @NotNull Node expr) {
+    public @NotNull Type visitIfStatement(@NotNull CodeBlock then, @NotNull Node elseBranch, @NotNull Node expr) {
         return null;
     }
 

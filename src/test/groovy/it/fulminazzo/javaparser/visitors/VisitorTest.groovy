@@ -308,7 +308,7 @@ class VisitorTest extends Specification {
         }
 
         @Override
-        @NotNull String visitIfStatement(@NotNull CodeBlock code, @NotNull Node thenBranch, @NotNull Node expr) {
+        @NotNull String visitIfStatement(@NotNull CodeBlock then, @NotNull Node elseBranch, @NotNull Node expr) {
             return null
         }
 
