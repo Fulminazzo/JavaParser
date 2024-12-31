@@ -19,10 +19,7 @@ import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
 import it.fulminazzo.javaparser.visitors.Visitor;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 import static it.fulminazzo.javaparser.typechecker.OperationUtils.*;
@@ -406,7 +403,21 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable, @NotNull CodeBlock code, @NotNull Node expr) {
-        return null;
+        return visitScoped(ScopeType.FOR, () -> {
+            ClassType variableType = type.accept(this).checkClassType();
+            LiteralType variableName = variable.accept(this).check(LiteralType.class);
+            this.environment.declare(variableType, variableName.getLiteral(), variableType.toType());
+
+            Type expressionType = type.accept(this);
+            if (expressionType.is(ArrayType.class)) {
+                if (!expressionType.check(ArrayType.class).getComponentType().isAssignableFrom(variableType))
+                    throw TypeCheckerException.invalidType(variableType.toType(), expressionType);
+            } else //TODO: Iterable generic should check for type
+                if (!expressionType.isAssignableFrom(ClassObjectType.of(Iterable.class)))
+                    throw TypeCheckerException.invalidType(variableType.toType(), expressionType);
+
+            return code.accept(this);
+        });
     }
 
     @Override
