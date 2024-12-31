@@ -93,6 +93,22 @@ public class TypeException extends Exception {
 
     /**
      * Generates a {@link TypeException} with message:
+     * <i>Types mismatch: cannot apply parameters %parameter_types_format% to method %method_format% in type %type%</i>
+     *
+     * @param type           the type
+     * @param method         the method
+     * @param parameterTypes the parameter types
+     * @return the type exception
+     */
+    public static @NotNull TypeException typesMismatch(final @NotNull ClassType type,
+                                                       final @NotNull Method method,
+                                                       final @NotNull ParameterTypes parameterTypes) {
+        return new TypeException("Types mismatch: cannot apply parameters %s to method %s in type %s",
+                formatParameterTypes(parameterTypes), formatMethod(method), type);
+    }
+
+    /**
+     * Generates a {@link TypeException} with message:
      * <i>Type %type% cannot access method '%method_format%' with access-level '%access-level%'</i>
      *
      * @param type   the type
