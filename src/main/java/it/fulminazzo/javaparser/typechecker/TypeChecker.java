@@ -410,8 +410,9 @@ public final class TypeChecker implements Visitor<Type> {
 
             Type expressionType = expr.accept(this);
             if (expressionType.is(ArrayType.class)) {
-                if (!expressionType.check(ArrayType.class).getComponentType().isAssignableFrom(variableType))
-                    throw TypeCheckerException.invalidType(variableType.toType(), expressionType);
+                Type componentType = expressionType.check(ArrayType.class).getComponentType();
+                if (!componentType.isAssignableFrom(variableType))
+                    throw TypeCheckerException.invalidType(componentType.toClassType(), variableType);
             } else {
                 //TODO: Iterable generic should check for type
                 ClassType iterable = ClassObjectType.of(Iterable.class);
