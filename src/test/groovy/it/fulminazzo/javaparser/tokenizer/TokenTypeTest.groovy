@@ -6,7 +6,7 @@ import static it.fulminazzo.javaparser.tokenizer.TokenType.*
 
 class TokenTypeTest extends Specification {
     static final BETWEEN_TOKENS = [
-            NULL,
+            THIS, NULL,
             NUMBER_VALUE, LONG_VALUE, DOUBLE_VALUE,
             FLOAT_VALUE, BOOLEAN_VALUE, CHAR_VALUE,
             STRING_VALUE, LITERAL
