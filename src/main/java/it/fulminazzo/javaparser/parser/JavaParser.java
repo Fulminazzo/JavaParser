@@ -437,6 +437,16 @@ public class JavaParser extends Parser {
             }
             node = new MethodCall(executor, methodName, parseMethodInvocation());
         }
+        while (lastToken() == DOT) {
+            consume(DOT);
+            Literal methodName = parseLiteral();
+            if (lastToken() == OPEN_PAR) {
+                node = new MethodCall(node, methodName.getLiteral(), parseMethodInvocation());
+            } else {
+                //TODO: fields
+                throw new IllegalStateException("Not implemented");
+            }
+        }
         return node;
     }
 
