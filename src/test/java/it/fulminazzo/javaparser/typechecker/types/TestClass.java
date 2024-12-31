@@ -16,6 +16,10 @@ public class TestClass {
         return 1;
     }
 
+    public static int publicStaticMethod(int n, Boolean b) {
+        return b ? n : 1;
+    }
+
     static int packageStaticMethod() {
         return 1;
     }
@@ -31,6 +35,10 @@ public class TestClass {
 
     public double publicMethod() {
         return 1.0;
+    }
+
+    public double publicMethod(double n, Boolean b) {
+        return b ? n : 1.0;
     }
 
     double packageMethod() {
