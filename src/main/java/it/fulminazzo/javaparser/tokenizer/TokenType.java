@@ -18,6 +18,8 @@ public enum TokenType {
     CONTINUE("continue"),
     NEW("new"),
     SWITCH("switch"),
+    CASE("case"),
+    DEFAULT("default"),
     FOR("for"),
     DO("do"),
     WHILE("while"),
