@@ -89,7 +89,7 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
      *
      * @param tokenType the token type
      * @return the token type.
-     * Might return {@link TokenType#EOF} in case the {@link TokenType} was met,
+     * Might return {@link TokenType#NONE} in case the {@link TokenType} was met,
      * but no valid {@link TokenType} was found.
      */
     public @NotNull TokenType nextUntil(final @NotNull TokenType tokenType) {
@@ -111,7 +111,7 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
      *
      * @param regex the regex
      * @return the token type
-     * Might return {@link TokenType#EOF} in case the regex was met,
+     * Might return {@link TokenType#NONE} in case the regex was met,
      * but no valid {@link TokenType} was found.
      */
     public @NotNull TokenType next(final @NotNull String regex) {
@@ -142,7 +142,7 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
                 this.line = previousLine;
                 this.column = previousColumn;
                 this.previousRead = read.substring(read.length() - 1);
-                return isTokenType(subString) ? updateTokenType(subString) : TokenType.EOF;
+                return isTokenType(subString) ? updateTokenType(subString) : TokenType.NONE;
             } else if (!isTokenType(read)) {
                 // Line necessary to properly read LITERAL, DOUBLE_VALUE and FLOAT_VALUE
                 if (c == '.') {
