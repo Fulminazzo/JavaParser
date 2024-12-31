@@ -114,25 +114,15 @@ public final class TypeChecker implements Visitor<Type> {
     }
 
     @Override
-    public @NotNull Type visitMethodCall(@NotNull Node executor, @NotNull MethodInvocation invocation) {
-        if (executor.is(Literal.class))
-            try {
-                String literal = ((Literal) executor).getLiteral();
-                final @NotNull Type executorType;
-                final @NotNull String methodName;
-                if (literal.contains(FIELDS_SEPARATOR)) {
-                    methodName = literal.substring(literal.indexOf(FIELDS_SEPARATOR) + 1);
-                    literal = literal.substring(0, literal.indexOf(FIELDS_SEPARATOR));
-                    executorType = visitLiteralImpl(literal);
-                } else {
-                    executorType = ObjectType.of(this.executingObject.getClass());
-                    methodName = literal;
-                }
-                return executorType.getMethod(methodName, (ParameterTypes) invocation.accept(this)).toType();
-            } catch (TypeException e) {
-                throw TypeCheckerException.of(e);
-            }
-        else throw TypeCheckerException.invalidType(LiteralType.class, executor.accept(this));
+    public @NotNull Type visitMethodCall(@NotNull Node executor, @NotNull String methodName,
+                                         @NotNull MethodInvocation invocation) {
+        try {
+            Type type = executor.accept(this);
+            if (type.is(NoType.NO_TYPE)) type = ObjectType.of(this.executingObject.getClass());
+            return type.getMethod(methodName, (ParameterTypes) invocation.accept(this)).toType();
+        } catch (TypeException e) {
+            throw TypeCheckerException.of(e);
+        }
     }
 
     @Override
