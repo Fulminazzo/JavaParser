@@ -9,8 +9,6 @@ import spock.lang.Specification
 import java.lang.reflect.Method
 
 class ClassTypeTest extends Specification {
-    private static ParameterTypes MOCK_PARAMETERS = new ParameterTypes([PrimitiveType.SHORT])
-
     private ClassType classType
 
     void setup () {
@@ -131,12 +129,14 @@ class ClassTypeTest extends Specification {
     }
 
     def 'test constructor not found'() {
+        given:
+        def mockParameters = new ParameterTypes([PrimitiveType.INT, PrimitiveType.DOUBLE, PrimitiveType.SHORT])
         when:
-        this.classType.newObject(MOCK_PARAMETERS)
+        this.classType.newObject(mockParameters)
 
         then:
         def e = thrown(TypeException)
-        e.message == TypeException.methodNotFound(this.classType, '<init>', MOCK_PARAMETERS).message
+        e.message == TypeException.methodNotFound(this.classType, '<init>', mockParameters).message
     }
 
     static class MockType implements Type {
