@@ -8,9 +8,9 @@ import static it.fulminazzo.javaparser.typechecker.types.ValueType.*
 
 class ValueTypeTest extends Specification {
 
-    def 'test toWrapper of #value should return #expected'() {
+    def 'test toWrapper of #type should return #expected'() {
         when:
-        def actual = value.toWrapper()
+        def actual = type.toWrapper()
 
         then:
         actual == expected
