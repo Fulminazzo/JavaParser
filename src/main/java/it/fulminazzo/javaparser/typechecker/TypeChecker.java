@@ -161,7 +161,7 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitStaticArray(int size, @NotNull Node type) {
-        ClassType componentType = type.accept(this).check(ArrayClassType.class).getComponentType();
+        ClassType componentType = type.accept(this).checkClassType();
         if (size < 0) throw TypeCheckerException.invalidArraySize(size);
         else return new ArrayType(componentType.toType());
     }

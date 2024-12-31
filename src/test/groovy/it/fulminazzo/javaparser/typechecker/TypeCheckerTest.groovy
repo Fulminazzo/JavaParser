@@ -685,7 +685,7 @@ class TypeCheckerTest extends Specification {
         given:
         def type = this.typeChecker.visitStaticArray(
                 1,
-                new ArrayLiteral(Literal.of('boolean'))
+                Literal.of('boolean')
         )
 
         and:
@@ -699,7 +699,7 @@ class TypeCheckerTest extends Specification {
         when:
         this.typeChecker.visitStaticArray(
                 -1,
-                new ArrayLiteral(Literal.of('boolean'))
+                Literal.of('boolean')
         )
 
         then:
