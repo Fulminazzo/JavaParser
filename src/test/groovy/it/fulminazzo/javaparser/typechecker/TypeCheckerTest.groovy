@@ -109,6 +109,23 @@ class TypeCheckerTest extends Specification {
         e.message == TypeCheckerException.invalidType(ClassObjectType.of(Iterable), ValueType.NUMBER).message
     }
 
+    def 'test visit enhanced for statement of array with invalid type'() {
+        given:
+        def classType = new ArrayClassType(PrimitiveType.INT)
+        this.environment.declare(classType, 'arr', new ArrayType(ValueType.NUMBER))
+
+        and:
+        def varType = Literal.of('boolean')
+        def varName = Literal.of('i')
+
+        when:
+        this.typeChecker.visitEnhancedForStatement(varType, varName, new CodeBlock(new Break()), Literal.of('arr'))
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.invalidType(classType, PrimitiveType.BOOLEAN).message
+    }
+
     def 'test visit for statement of (#expr) #codeBlock should return #expected'() {
         given:
         def assignment = new Assignment(Literal.of('int'), Literal.of('i'), NUMBER_LIT)
