@@ -157,8 +157,9 @@ public interface Type {
      *
      * @param methodName the method name
      * @return the type of the method
-     * @throws TypeException thrown in case the method could not be found or could not be accessed
+     * @throws TypeException thrown in case the method could not be found, could not be accessed
      * (only <code>public</code> modifier allowed and <code>static</code> methods from static context)
+     * or the given types did not match the expected ones
      */
     default @NotNull ClassType getMethod(final @NotNull String methodName,
                                          final @NotNull ParameterTypes parameterTypes) throws TypeException {
