@@ -160,20 +160,34 @@ class TypeCheckerTest extends Specification {
 
         where:
         type        | name  | val        | expected
+        'byte'      | 'bc'  | CHAR_LIT   | ValueType.BYTE
         'byte'      | 'b'   | NUMBER_LIT | ValueType.BYTE
+        'Byte'      | 'bWc' | CHAR_LIT   | ObjectType.BYTE
         'Byte'      | 'bW'  | NUMBER_LIT | ObjectType.BYTE
+        'short'     | 'sc'  | CHAR_LIT   | ValueType.SHORT
         'short'     | 's'   | NUMBER_LIT | ValueType.SHORT
+        'Short'     | 'sWc' | CHAR_LIT   | ObjectType.SHORT
         'Short'     | 'sW'  | NUMBER_LIT | ObjectType.SHORT
-        'char'      | 'ci'  | NUMBER_LIT | ValueType.CHAR
-        'Character' | 'ciW' | NUMBER_LIT | ObjectType.CHARACTER
         'char'      | 'c'   | CHAR_LIT   | ValueType.CHAR
+        'char'      | 'ci'  | NUMBER_LIT | ValueType.CHAR
         'Character' | 'cW'  | CHAR_LIT   | ObjectType.CHARACTER
+        'Character' | 'ciW' | NUMBER_LIT | ObjectType.CHARACTER
+        'int'       | 'ic'  | CHAR_LIT   | ValueType.NUMBER
         'int'       | 'i'   | NUMBER_LIT | ValueType.NUMBER
         'Integer'   | 'iW'  | NUMBER_LIT | ObjectType.INTEGER
+        'long'      | 'lc'  | CHAR_LIT   | ValueType.LONG
+        'long'      | 'li'  | NUMBER_LIT | ValueType.LONG
         'long'      | 'l'   | LONG_LIT   | ValueType.LONG
         'Long'      | 'lW'  | LONG_LIT   | ObjectType.LONG
+        'float'     | 'fc'  | CHAR_LIT   | ValueType.FLOAT
+        'float'     | 'fi'  | NUMBER_LIT | ValueType.FLOAT
+        'float'     | 'fl'  | LONG_LIT   | ValueType.FLOAT
         'float'     | 'f'   | FLOAT_LIT  | ValueType.FLOAT
         'Float'     | 'fW'  | FLOAT_LIT  | ObjectType.FLOAT
+        'double'    | 'dc'  | CHAR_LIT   | ValueType.DOUBLE
+        'double'    | 'di'  | NUMBER_LIT | ValueType.DOUBLE
+        'double'    | 'dl'  | LONG_LIT   | ValueType.DOUBLE
+        'double'    | 'df'  | FLOAT_LIT  | ValueType.DOUBLE
         'double'    | 'd'   | DOUBLE_LIT | ValueType.DOUBLE
         'Double'    | 'dW'  | DOUBLE_LIT | ObjectType.DOUBLE
         'boolean'   | 'bo'  | BOOL_LIT   | ValueType.BOOLEAN
