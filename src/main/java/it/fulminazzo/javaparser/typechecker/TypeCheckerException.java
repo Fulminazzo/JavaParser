@@ -106,4 +106,15 @@ public class TypeCheckerException extends RuntimeException {
         return new TypeCheckerException("Invalid array size '%s' specified: natural number required", size);
     }
 
+    /**
+     * Generates a {@link TypeCheckerException} with message:
+     * <i>Type %type% does not have any associated wrapper type</i>
+     *
+     * @param type the type
+     * @return the type exception
+     */
+    public static @NotNull TypeCheckerException noWrapper(final @NotNull Type type) {
+        return new TypeCheckerException("Type %s does not have any associated wrapper type", type);
+    }
+
 }
