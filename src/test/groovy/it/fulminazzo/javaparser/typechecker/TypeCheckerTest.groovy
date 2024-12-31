@@ -64,14 +64,11 @@ class TypeCheckerTest extends Specification {
 
     def 'test visit enhanced for statement of (#expr) #codeBlock should return #expected'() {
         given:
-        this.environment.declare(
-                new ArrayClassType(PrimitiveType.INT),
-                'arr', new ArrayType(ValueType.NUMBER)
-        )
-        this.environment.declare(
-                ClassObjectType.of(Iterable),
-                'iterable', ObjectType.of(Iterable)
-        )
+        this.environment.declare(new ArrayClassType(PrimitiveType.INT), 'arr', new ArrayType(ValueType.NUMBER))
+        this.environment.declare(ClassObjectType.of(Iterable), 'iterable', ObjectType.of(Iterable))
+        this.environment.declare(ClassObjectType.of(List), 'list', ObjectType.of(List))
+        this.environment.declare(ClassObjectType.of(Collection), 'collection', ObjectType.of(Collection))
+        this.environment.declare(ClassObjectType.of(Set), 'set', ObjectType.of(Set))
 
         and:
         def varType = Literal.of('int')
@@ -89,8 +86,14 @@ class TypeCheckerTest extends Specification {
         expected          | codeBlock                           | expr
         ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | Literal.of('arr')
         ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | Literal.of('iterable')
+        ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | Literal.of('list')
+        ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | Literal.of('set')
+        ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | Literal.of('collection')
         NoType.NO_TYPE    | new CodeBlock(new Break())          | Literal.of('arr')
         NoType.NO_TYPE    | new CodeBlock(new Break())          | Literal.of('iterable')
+        NoType.NO_TYPE    | new CodeBlock(new Break())          | Literal.of('list')
+        NoType.NO_TYPE    | new CodeBlock(new Break())          | Literal.of('set')
+        NoType.NO_TYPE    | new CodeBlock(new Break())          | Literal.of('collection')
     }
 
     def 'test visit for statement of (#expr) #codeBlock should return #expected'() {
