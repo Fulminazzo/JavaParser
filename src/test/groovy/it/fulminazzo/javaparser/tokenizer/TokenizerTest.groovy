@@ -92,6 +92,29 @@ class TokenizerTest extends Specification {
         tokenizer.nextSpaceless() == EOF
     }
 
+    def 'test tokenizer next regex should return none'() {
+        given:
+        def tokenizer = generateTokenizer('$$')
+
+        when:
+        def output = tokenizer.next('\\$')
+
+        then:
+        output == NONE
+    }
+
+    def 'test tokenizer next regex of previous should return none'() {
+        given:
+        def tokenizer = generateTokenizer('a$$')
+
+        when:
+        tokenizer.next()
+        def output = tokenizer.next('\\$')
+
+        then:
+        output == NONE
+    }
+
     def 'test tokenizer invalid dot'() {
         given:
         def tokenizer = generateTokenizer('!.')
