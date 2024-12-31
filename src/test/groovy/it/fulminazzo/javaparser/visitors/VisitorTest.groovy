@@ -100,8 +100,15 @@ class VisitorTest extends Specification {
             return null
         }
 
+        @NotNull
         @Override
-        @NotNull String visitMethodCall(@NotNull Node executor, @NotNull MethodInvocation invocation) {
+        String visitMethodCall(@NotNull Node executor, @NotNull String methodName, @NotNull MethodInvocation invocation) {
+            return null
+        }
+
+        @NotNull
+        @Override
+        String visitField(@NotNull Node left, @NotNull Node right) {
             return null
         }
 

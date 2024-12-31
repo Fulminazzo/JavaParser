@@ -1,10 +1,19 @@
 package it.fulminazzo.javaparser.parser.node;
 
-import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * An exception thrown by {@link TokenizedNode} when reading invalid value.
  */
-@NoArgsConstructor
 public final class NodeException extends Exception {
+
+    /**
+     * Instantiates a new Node exception.
+     *
+     * @param message the message
+     */
+    public NodeException(final @NotNull String message) {
+        super(message);
+    }
+
 }

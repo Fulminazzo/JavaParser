@@ -5,11 +5,16 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
+import java.util.regex.Pattern;
 
 /**
  * A converter from raw {@link InputStream} to {@link TokenType}.
  */
 public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
+    private static final TokenType[] IGNORED_TYPES = new TokenType[]{
+            TokenType.EOF, TokenType.NONE
+    };
+
     private final @NotNull InputStream input;
     private @NotNull TokenType lastToken = TokenType.EOF;
     private @NotNull String lastRead = "";
@@ -54,6 +59,7 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
      * Reads until the given {@link TokenType} is met.
      * Then, it invokes {@link #nextSpaceless()}.
      *
+     * @param tokenType the token type
      * @return the newly read token type.
      */
     public @NotNull TokenType readUntil(final @NotNull TokenType tokenType) {
@@ -83,20 +89,44 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
     }
 
     /**
+     * Reads from the input the next {@link TokenType} until the specified {@link TokenType} is met.
+     *
+     * @param tokenType the token type
+     * @return the token type.
+     * Might return {@link TokenType#NONE} in case the {@link TokenType} was met,
+     * but no valid {@link TokenType} was found.
+     */
+    public @NotNull TokenType nextUntil(final @NotNull TokenType tokenType) {
+        return next("(.|\n)*" + tokenType.regex() + "$");
+    }
+
+    /**
      * Reads from the input the next {@link TokenType}.
      *
      * @return the token type
      */
     @Override
     public @NotNull TokenType next() {
+        return next("a^");
+    }
+
+    /**
+     * Reads from the input the next {@link TokenType} or the regex is met.
+     *
+     * @param regex the regex
+     * @return the token type
+     * Might return {@link TokenType#NONE} in case the regex was met,
+     * but no valid {@link TokenType} was found.
+     */
+    public @NotNull TokenType next(final @NotNull String regex) {
         try {
             if (this.line == -1) this.line = 1;
             if (this.column == -1) this.column = 0;
             String read = getPreviousRead();
-            if (isTokenType(read)) return readTokenType(read);
+            if (isTokenType(read) || regexMatches(regex, read)) return readTokenType(read, regex);
             while (this.input.available() > 0) {
                 read += updateLineCount(this.input.read());
-                if (isTokenType(read)) return readTokenType(read);
+                if (isTokenType(read) || regexMatches(regex, read)) return readTokenType(read, regex);
             }
             return eof();
         } catch (IOException e) {
@@ -104,16 +134,18 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
         }
     }
 
-    private @NotNull TokenType readTokenType(@NotNull String read) throws IOException {
+    private @NotNull TokenType readTokenType(@NotNull String read,
+                                             final @NotNull String regex) throws IOException {
         while (this.input.available() > 0) {
             int previousLine = this.line;
             int previousColumn = this.column;
             char c = updateLineCount(this.input.read());
             read += c;
-            if (!isTokenType(read)) {
-                String subString = read.substring(0, read.length() - 1);
+            String subString = read.substring(0, read.length() - 1);
+            boolean regexMatch = regexMatches(regex, read);
+            if (regexMatch || !isTokenType(read)) {
                 // Line necessary to properly read LITERAL, DOUBLE_VALUE and FLOAT_VALUE
-                if (c == '.') {
+                if (!regexMatch && c == '.') {
                     TokenType previous = TokenType.fromString(subString);
                     if (previous == TokenType.NUMBER_VALUE || previous == TokenType.LITERAL)
                         continue;
@@ -121,11 +153,16 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
                 this.line = previousLine;
                 this.column = previousColumn;
                 this.previousRead = read.substring(read.length() - 1);
-                return updateTokenType(subString);
+                return isTokenType(subString) ? updateTokenType(subString) : TokenType.NONE;
             }
         }
         this.previousRead = "";
         return updateTokenType(read);
+    }
+
+    private boolean regexMatches(final @NotNull String regex,
+                                 final @NotNull String read) {
+        return Pattern.compile(regex).matcher(read).matches();
     }
 
     private String getPreviousRead() {
@@ -162,7 +199,10 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
 
     private boolean isTokenType(final @NotNull String read) {
         try {
-            return TokenType.fromString(read) != TokenType.EOF;
+            TokenType tokenType = TokenType.fromString(read);
+            for (TokenType type : IGNORED_TYPES)
+                if (type == tokenType) return false;
+            return true;
         } catch (IllegalArgumentException e) {
             return false;
         }

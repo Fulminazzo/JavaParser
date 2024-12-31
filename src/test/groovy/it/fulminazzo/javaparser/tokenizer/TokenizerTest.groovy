@@ -66,6 +66,19 @@ class TokenizerTest extends Specification {
         thrown(TokenizerException)
     }
 
+    def 'test next until'() {
+        given:
+        def tokenizer = generateTokenizer('hello.world')
+
+        when:
+        tokenizer.nextUntil(DOT)
+
+        then:
+        tokenizer.lastToken() == LITERAL
+        tokenizer.lastRead() == 'hello'
+        tokenizer.nextSpaceless() == DOT
+    }
+
     def 'test tokenizer next spaceless'() {
         given:
         def tokenizer = generateTokenizer('         10')
@@ -77,6 +90,29 @@ class TokenizerTest extends Specification {
         tokenizer.lastToken() == NUMBER_VALUE
         tokenizer.lastRead() == '10'
         tokenizer.nextSpaceless() == EOF
+    }
+
+    def 'test tokenizer next regex should return none'() {
+        given:
+        def tokenizer = generateTokenizer('$$')
+
+        when:
+        def output = tokenizer.next('\\$')
+
+        then:
+        output == NONE
+    }
+
+    def 'test tokenizer next regex of previous should return none'() {
+        given:
+        def tokenizer = generateTokenizer('a$$')
+
+        when:
+        tokenizer.next()
+        def output = tokenizer.next('\\$')
+
+        then:
+        output == NONE
     }
 
     def 'test tokenizer invalid dot'() {
