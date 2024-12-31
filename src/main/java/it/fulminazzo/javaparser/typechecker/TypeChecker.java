@@ -124,7 +124,7 @@ public final class TypeChecker implements Visitor<Type> {
                     literal = literal.substring(0, literal.indexOf(FIELDS_SEPARATOR));
                     executorType = visitLiteralImpl(literal);
                 } else {
-                    executorType = null;//TODO: invoking class
+                    executorType = ClassType.of(this.executingClass);
                     methodName = literal;
                 }
                 return executorType.getMethod(methodName, (ParameterTypes) invocation.accept(this)).toType();
