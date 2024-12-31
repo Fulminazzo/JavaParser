@@ -389,7 +389,11 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitIfStatement(@NotNull CodeBlock then, @NotNull Node elseBranch, @NotNull Node expr) {
-        return null;
+        expr.accept(this).check(BOOLEAN, ObjectType.BOOLEAN);
+        Type first = then.accept(this);
+        Type second = elseBranch.accept(this);
+        if (first.is(second) || second.is(NoType.NO_TYPE)) return first;
+        else return NoType.NO_TYPE;
     }
 
     @Override
