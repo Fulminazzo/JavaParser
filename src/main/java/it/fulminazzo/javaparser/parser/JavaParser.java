@@ -8,10 +8,7 @@ import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray;
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram;
-import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral;
-import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral;
-import it.fulminazzo.javaparser.parser.node.literals.Literal;
-import it.fulminazzo.javaparser.parser.node.literals.NullLiteral;
+import it.fulminazzo.javaparser.parser.node.literals.*;
 import it.fulminazzo.javaparser.parser.node.operators.binary.*;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment;
@@ -583,7 +580,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ATOM := CAST | MINUS | NOT | NULL | LITERAL | TYPE_VALUE
+     * ATOM := CAST | MINUS | NOT | NULL | THIS | LITERAL | TYPE_VALUE
      *
      * @return the node
      */
@@ -593,6 +590,7 @@ public class JavaParser extends Parser {
             case SUBTRACT: return parseMinus();
             case NOT: return parseNot();
             case NULL: return parseNull();
+            case THIS: return parseThis();
             case LITERAL: return parseLiteral();
             default: return parseTypeValue();
         }
@@ -662,6 +660,16 @@ public class JavaParser extends Parser {
     protected @NotNull Node parseNull() {
         consume(NULL);
         return new NullLiteral();
+    }
+
+    /**
+     * THIS := {@link TokenType#THIS}
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseThis() {
+        consume(THIS);
+        return new ThisLiteral();
     }
 
     /**

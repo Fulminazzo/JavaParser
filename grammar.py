@@ -1,6 +1,5 @@
 TODO: diamond operator
 TODO: lambda
-TODO: this
 TODO: try, catch and throws
 
 # JAVA_PROGRAM := SINGLE_STMT*
@@ -52,7 +51,7 @@ TODO: try, catch and throws
 # DIV := MOD ( (/ MOD)* | (/= MOD) )
 # MOD := ATOM ( (% ATOM)* | (%= ATOM) )
 
-# ATOM := CAST | MINUS | NOT | NULL | LITERAL | TYPE_VALUE
+# ATOM := CAST | MINUS | NOT | NULL | THIS | LITERAL | TYPE_VALUE
 
 # CAST := (PAR_EXPR)* (EXPR | PAR_EXPR)
 # PAR_EXPR := \( EXPR \)
@@ -60,6 +59,8 @@ TODO: try, catch and throws
 # MINUS := - EXPR
 # NOT := ! EXPR
 
+# NULL := null
+# THIS := this
 # LITERAL := [a-zA-Z_](?:[a-zA-Z0-9._]*[a-zA-Z0-9_])*
 
 # TYPE_VALUE := NUMBER_VALUE | LONG_VALUE |
