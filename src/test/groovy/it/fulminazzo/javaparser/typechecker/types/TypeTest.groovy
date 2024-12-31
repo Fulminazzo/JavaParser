@@ -176,6 +176,25 @@ class TypeTest extends Specification {
         'publicMethod'       | PrimitiveType.DOUBLE | new ParameterTypes([PrimitiveType.DOUBLE, ClassObjectType.BOOLEAN])
     }
 
+    def 'test getMethod #method(#parameters) should throw types mismatch'() {
+        when:
+        this.type.getMethod(method, parameters)
+
+        then:
+        def e = thrown(TypeException)
+        e.message == TypeException.typesMismatch(this.type.toClassType(),
+                TestClass.getDeclaredMethod(method, methodTypes), parameters).message
+
+        where:
+        method               | methodTypes                  | parameters
+        'publicStaticMethod' | new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveType.DOUBLE, ClassObjectType.BOOLEAN])
+        'publicStaticMethod' | new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveType.INT, ClassObjectType.STRING])
+        'publicStaticMethod' | new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveType.DOUBLE, ClassObjectType.STRING])
+        'publicMethod'       | new Class[]{double, Boolean} | new ParameterTypes([PrimitiveType.INT, ClassObjectType.BOOLEAN])
+        'publicMethod'       | new Class[]{double, Boolean} | new ParameterTypes([PrimitiveType.DOUBLE, ClassObjectType.STRING])
+        'publicMethod'       | new Class[]{double, Boolean} | new ParameterTypes([PrimitiveType.INT, ClassObjectType.STRING])
+    }
+
     def 'test cannot access method #method from getMethod'() {
         when:
         this.type.getMethod(method, NO_PARAMETERS)
