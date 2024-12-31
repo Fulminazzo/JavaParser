@@ -142,7 +142,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * SWITCH_STMT := switch ...
+     * SWITCH_STMT := switch \( EXPR \) \{ (CASE)* (DEFAULT)? \}
      *
      * @return the node
      */
