@@ -10,5 +10,6 @@ import org.jetbrains.annotations.NotNull;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Types {
     public static final @NotNull NoType NO_TYPE = new NoType();
+    public static final @NotNull NullType NULL_TYPE = new NullType();
 
 }
