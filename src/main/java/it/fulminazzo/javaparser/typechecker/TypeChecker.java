@@ -67,7 +67,7 @@ public final class TypeChecker implements Visitor<Type> {
         ClassType variableType = type.accept(this).checkClassType();
         Type tempVariableName = name.accept(this);
         if (!tempVariableName.is(LiteralType.class))
-            throw TypeCheckerException.of(this.environment.alreadyDeclaredVariable(name.getLiteral()));
+            throw TypeCheckerException.of(ScopeException.alreadyDeclaredVariable(name.getLiteral()));
         LiteralType variableName = tempVariableName.check(LiteralType.class);
         Type variableValue = convertByteAndShort(variableType, value.accept(this));
         if (variableValue.isAssignableFrom(variableType)) {
