@@ -12,6 +12,14 @@ public class TestClass {
     protected double protectedField = 1.0;
     private double privateField = 1.0;
 
+    public TestClass() {}
+
+    public TestClass(int i, Boolean b) {}
+
+    TestClass(boolean b) {}
+
+    private TestClass(float f) {}
+
     public static int publicStaticMethod() {
         return 1;
     }
