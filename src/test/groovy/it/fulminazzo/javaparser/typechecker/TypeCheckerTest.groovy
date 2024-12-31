@@ -910,6 +910,46 @@ class TypeCheckerTest extends Specification {
         ]
     }
 
+    def 'test visit continue with scope #scope'() {
+        given:
+        this.environment.enterScope(scope)
+
+        when:
+        this.typeChecker.visitContinue(new EmptyLiteral())
+        this.environment.exitScope()
+
+        then:
+        noExceptionThrown()
+
+        where:
+        scope << [
+                ScopeType.WHILE, ScopeType.DO,
+                ScopeType.FOR,
+        ]
+    }
+
+    def 'test invalid visit continue with scope #scope should throw exception'() {
+        given:
+        this.environment.enterScope(scope)
+
+        and:
+        def exceptionMessage = this.environment.scopeTypeMismatch(scope).message
+
+        when:
+        this.typeChecker.visitContinue(new EmptyLiteral())
+        this.environment.exitScope()
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == exceptionMessage
+
+        where:
+        scope << [
+                ScopeType.MAIN, ScopeType.CODE_BLOCK,
+                ScopeType.SWITCH
+        ]
+    }
+
     def 'test visit not'() {
         given:
         def type = this.typeChecker.visitNot(BOOL_LIT)
