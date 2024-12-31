@@ -11,19 +11,15 @@ import java.util.Arrays;
  * Represents a primitive {@link Type} name.
  */
 public enum PrimitiveType implements ClassType {
-    //TODO: byte should be compatible only with 'c', not char c;
-    //TODO: byte should be compatible only with 1, not int i;
     /**
      * <code>byte</code>
      */
-    BYTE(ValueType.BYTE, ValueType.CHAR, ValueType.NUMBER,
+    BYTE(ValueType.BYTE,
             ObjectType.BYTE),
-    //TODO: short should be compatible only with 'c', not char c;
-    //TODO: short should be compatible only with 1, not int i;
     /**
      * <code>short</code>
      */
-    SHORT(ValueType.BYTE, ValueType.SHORT, ValueType.CHAR, ValueType.NUMBER,
+    SHORT(ValueType.BYTE, ValueType.SHORT,
             ObjectType.BYTE, ObjectType.SHORT),
     /**
      * <code>char</code>
