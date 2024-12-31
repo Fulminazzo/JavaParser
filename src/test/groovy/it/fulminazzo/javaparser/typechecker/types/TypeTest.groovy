@@ -68,6 +68,10 @@ class TypeTest extends Specification {
         ].flatten()
     }
 
+    /**
+     * GET FIELD
+     */
+
     def 'test valid getField #field'() {
         when:
         def actual = this.type.getField(field)
@@ -152,6 +156,10 @@ class TypeTest extends Specification {
         def e = thrown(TypeException)
         e.message == TypeException.fieldNotFound(this.classType, 'invalid').message
     }
+
+    /**
+     * GET METHOD
+     */
 
     def 'test valid getMethod #method'() {
         when:
