@@ -377,8 +377,11 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitDoStatement(@NotNull CodeBlock code, @NotNull Node expr) {
+        this.environment.enterScope(ScopeType.DO);
         expr.accept(this).check(BOOLEAN, ObjectType.BOOLEAN);
-        return code.accept(this);
+        Type type = code.accept(this);
+        this.environment.exitScope();
+        return type;
     }
 
     @Override
@@ -412,8 +415,11 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expr) {
+        this.environment.enterScope(ScopeType.WHILE);
         expr.accept(this).check(BOOLEAN, ObjectType.BOOLEAN);
-        return code.accept(this);
+        Type type = code.accept(this);
+        this.environment.exitScope();
+        return type;
     }
 
     @Override
