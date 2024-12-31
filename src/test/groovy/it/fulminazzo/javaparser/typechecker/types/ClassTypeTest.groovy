@@ -9,6 +9,13 @@ import spock.lang.Specification
 import java.lang.reflect.Method
 
 class ClassTypeTest extends Specification {
+    private static ParameterTypes MOCK_PARAMETERS = new ParameterTypes([PrimitiveType.SHORT])
+
+    private ClassType classType
+
+    void setup () {
+        this.classType = ClassType.of(TestClass)
+    }
 
     def 'test method #toClassType should always return a wrapper for java.lang.Class'() {
         given:
@@ -75,6 +82,61 @@ class ClassTypeTest extends Specification {
                 },
                 new Object()
         ]
+    }
+
+    /**
+     * NEW OBJECT
+     */
+    def 'test valid newObject (#parameters)'() {
+        when:
+        def actual = this.classType.newObject(parameters)
+
+        then:
+        actual == expected
+
+        where:
+        expected                 | parameters
+        ObjectType.of(TestClass) | new ParameterTypes([])
+        ObjectType.of(TestClass) | new ParameterTypes([PrimitiveType.INT, ClassObjectType.BOOLEAN])
+    }
+
+    def 'test newObject (#parameters) should throw types mismatch'() {
+        when:
+        this.classType.newObject(parameters)
+
+        then:
+        def e = thrown(TypeException)
+        e.message == TypeException.typesMismatch(this.classType,
+                TestClass.getDeclaredConstructor(types), parameters).message
+
+        where:
+        types                        | parameters
+        new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveType.DOUBLE, ClassObjectType.BOOLEAN])
+        new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveType.INT, ClassObjectType.STRING])
+        new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveType.DOUBLE, ClassObjectType.STRING])
+    }
+
+    def 'test cannot access constructor (#type)'() {
+        when:
+        this.classType.newObject(new ParameterTypes([type]))
+
+        then:
+        def e = thrown(TypeException)
+        e.message == TypeException.cannotAccessMethod(this.classType, TestClass.getDeclaredConstructor(clazz)).message
+
+        where:
+        type                  | clazz
+        PrimitiveType.FLOAT   | float
+        PrimitiveType.BOOLEAN | boolean
+    }
+
+    def 'test constructor not found'() {
+        when:
+        this.classType.newObject(MOCK_PARAMETERS)
+
+        then:
+        def e = thrown(TypeException)
+        e.message == TypeException.methodNotFound(this.classType, '<init>', MOCK_PARAMETERS).message
     }
 
     static class MockType implements Type {
