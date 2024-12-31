@@ -618,7 +618,7 @@ public class JavaParser extends Parser {
         } else if (lastToken() == SUBTRACT) {
             consume(SUBTRACT);
             if (lastToken() == SUBTRACT) expr = new Cast(expr, parseDecrement());
-            else if ((expr.is(Cast.class) || expr.is(Literal.class)) &&
+            else if (expr.is(Literal.class) &&
                     (lastToken().between(MODULO, SPACE) || lastToken() == OPEN_PAR))
                 expr = new Cast(expr, new Minus(parseAtom()));
             else return new Subtract(expr, parseExpression());
