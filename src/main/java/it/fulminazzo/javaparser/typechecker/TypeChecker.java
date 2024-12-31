@@ -60,6 +60,8 @@ public final class TypeChecker implements Visitor<Type> {
             throw TypeCheckerException.of(this.environment.alreadyDeclaredVariable(name.getLiteral()));
         LiteralType variableName = tempVariableName.check(LiteralType.class);
         Type variableValue = value.accept(this);
+        if (variableType.is(PrimitiveType.BYTE, ClassObjectType.BYTE, PrimitiveType.SHORT, ClassObjectType.SHORT))
+            if (variableValue.is(NUMBER) || variableValue.is(CHAR)) variableValue = variableType.toType();
         if (variableValue.isAssignableFrom(variableType)) {
             try {
                 this.environment.declare(variableType, variableName.getLiteral(), convertValue(variableType, variableValue));
