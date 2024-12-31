@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser.typechecker
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram
+import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.statements.Break
 import it.fulminazzo.javaparser.parser.node.statements.IfStatement
@@ -161,11 +162,11 @@ class TypeCheckerTest extends Specification {
         )
 
         and:
-        def nodeExecutor = Literal.of(executor + method)
+        def nodeExecutor = executor.isEmpty() ? new EmptyLiteral() : Literal.of(executor)
         def methodInvocation = new MethodInvocation(parameters)
 
         when:
-        def type = this.typeChecker.visitMethodCall(nodeExecutor, methodInvocation)
+        def type = this.typeChecker.visitMethodCall(nodeExecutor, method, methodInvocation)
 
         then:
         type == expected
@@ -174,8 +175,8 @@ class TypeCheckerTest extends Specification {
         executor                | method               | parameters | expected
         ''                      | 'publicMethod'       | []         | ValueType.DOUBLE
         ''                      | 'publicStaticMethod' | []         | ValueType.NUMBER
-        'method_call_val.'      | 'toString'           | []         | ObjectType.STRING
-        'method_call_val_prim.' | 'toString'           | []         | ObjectType.STRING
+        'method_call_val'       | 'toString'           | []         | ObjectType.STRING
+        'method_call_val_prim'  | 'toString'           | []         | ObjectType.STRING
     }
 
     def 'test type exception visit method call'() {
@@ -188,7 +189,7 @@ class TypeCheckerTest extends Specification {
         )
 
         and:
-        def nodeExecutor = Literal.of('method_call_invalid_val.nonExisting')
+        def nodeExecutor = Literal.of('method_call_invalid_val')
         def methodInvocation = new MethodInvocation([])
 
         and:
@@ -197,7 +198,7 @@ class TypeCheckerTest extends Specification {
         ).message
 
         when:
-        this.typeChecker.visitMethodCall(nodeExecutor, methodInvocation)
+        this.typeChecker.visitMethodCall(nodeExecutor, 'nonExisting', methodInvocation)
 
         then:
         def e = thrown(TypeCheckerException)
