@@ -582,13 +582,13 @@ class JavaParserTest extends Specification {
         parsed == expected
     }
 
-    def 'test cast'() {
+    def 'test cast of #number'() {
         given:
         def expected = new Cast(
                 Literal.of('double'),
-                new Cast(Literal.of('int'), new NumberValueLiteral('1'))
+                new Cast(Literal.of('int'), numberLiteral)
         )
-        def code = '(double) (int) 1'
+        def code = "(double) (int) ${number}"
 
         when:
         startReading(code)
@@ -596,6 +596,11 @@ class JavaParserTest extends Specification {
 
         then:
         parsed == expected
+
+        where:
+        number | numberLiteral
+        '1'    | new NumberValueLiteral('1')
+        '-1'   | new Minus(new NumberValueLiteral('1'))
     }
 
     def 'test minus'() {
