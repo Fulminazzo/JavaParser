@@ -433,7 +433,7 @@ public final class TypeChecker implements Visitor<Type> {
     public @NotNull Type visitForStatement(@NotNull Node assignment, @NotNull Node increment, @NotNull CodeBlock code, @NotNull Node expr) {
         return visitScoped(ScopeType.FOR, () -> {
             assignment.accept(this);
-            expr.accept(this).check(BOOLEAN, ObjectType.BOOLEAN);
+            expr.accept(this).check(BOOLEAN, ObjectType.BOOLEAN, Types.NO_TYPE);
             increment.accept(this);
             return code.accept(this);
         });
