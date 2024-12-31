@@ -23,7 +23,7 @@ class ScopedTest extends Specification {
                             '@return this object',
                             "@throws ${ScopeException.simpleName} thrown if the current scope type does not match",
                     ],
-                    'default', "${Scoped.simpleName}<T>",
+                    'default', "@NotNull ${Scoped.simpleName}<T>",
                     s -> "check${s}",
                     ScopeException,
                     e -> ["return checkScopeType(${ScopeType.simpleName}.${e});"])
