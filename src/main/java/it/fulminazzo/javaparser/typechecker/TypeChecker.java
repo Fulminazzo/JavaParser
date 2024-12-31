@@ -408,7 +408,7 @@ public final class TypeChecker implements Visitor<Type> {
             LiteralType variableName = variable.accept(this).check(LiteralType.class);
             this.environment.declare(variableType, variableName.getLiteral(), variableType.toType());
 
-            Type expressionType = type.accept(this);
+            Type expressionType = expr.accept(this);
             if (expressionType.is(ArrayType.class)) {
                 if (!expressionType.check(ArrayType.class).getComponentType().isAssignableFrom(variableType))
                     throw TypeCheckerException.invalidType(variableType.toType(), expressionType);
