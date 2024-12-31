@@ -78,7 +78,11 @@ public enum TokenType {
     SPACE("[\r\t\n ]"),
     DOT("\\."),
     NEW_LINE("\n"),
-    EOF("")
+    EOF(""),
+    /**
+     * A token returned by {@link Tokenizer#next(String)} upon reading the regex.
+     */
+    NONE(""),
     ;
 
     private final @NotNull String regex;
