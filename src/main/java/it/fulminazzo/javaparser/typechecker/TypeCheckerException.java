@@ -75,6 +75,8 @@ public class TypeCheckerException extends RuntimeException {
      * Generates a {@link TypeCheckerException} with message:
      * <i>%clazz% does not have a {@link ClassType}</i>
      *
+     * @param <T>  the type parameter
+     * @param type the type
      * @return the type exception
      */
     public static <T extends Type> @NotNull TypeCheckerException noClassType(final @NotNull Class<T> type) {
