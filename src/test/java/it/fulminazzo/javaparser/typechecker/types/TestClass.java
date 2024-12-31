@@ -12,4 +12,37 @@ public class TestClass {
     protected double protectedField = 1.0;
     private double privateField = 1.0;
 
+    public static int publicStaticMethod() {
+        return 1;
+    }
+
+    static int packageStaticMethod() {
+        return 1;
+    }
+
+    protected static int protectedStaticMethod() {
+        return 1;
+    }
+
+    private static int privateStaticMethod() {
+        return 1;
+    }
+
+
+    public double publicMethod() {
+        return 1.0;
+    }
+
+    double packageMethod() {
+        return 1.0;
+    }
+
+    protected double protectedMethod() {
+        return 1.0;
+    }
+
+    private double privateMethod() {
+        return 1.0;
+    }
+
 }
