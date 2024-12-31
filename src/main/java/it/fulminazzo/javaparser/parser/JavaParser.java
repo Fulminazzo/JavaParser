@@ -426,11 +426,11 @@ public class JavaParser extends Parser {
             final @NotNull String methodName;
             if (literal.contains(".")) {
                 try {
-                    executor = Literal.of(literal.substring(0, literal.indexOf(".")));
+                    executor = Literal.of(literal.substring(0, literal.lastIndexOf(".")));
                 } catch (NodeException e) {
                     throw invalidValueProvidedException(literal);
                 }
-                methodName = literal.substring(literal.indexOf(".") + 1);
+                methodName = literal.substring(literal.lastIndexOf(".") + 1);
             } else {
                 executor = new EmptyLiteral();
                 methodName = literal;
