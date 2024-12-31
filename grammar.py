@@ -2,7 +2,6 @@ TODO: diamond operator
 TODO: lambda
 TODO: this
 TODO: try, catch and throws
-TODO: null
 
 # JAVA_PROGRAM := SINGLE_STMT*
 
