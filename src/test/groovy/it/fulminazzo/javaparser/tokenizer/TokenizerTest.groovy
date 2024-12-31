@@ -66,6 +66,19 @@ class TokenizerTest extends Specification {
         thrown(TokenizerException)
     }
 
+    def 'test read until inclusive'() {
+        given:
+        def tokenizer = generateTokenizer('hello.world')
+
+        when:
+        tokenizer.readUntilInclusive(DOT)
+
+        then:
+        tokenizer.lastToken() == LITERAL
+        tokenizer.lastRead() == 'hello'
+        tokenizer.nextSpaceless() == DOT
+    }
+
     def 'test tokenizer next spaceless'() {
         given:
         def tokenizer = generateTokenizer('         10')
