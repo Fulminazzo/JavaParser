@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.typechecker.types
 
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException
+import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType
 import spock.lang.Specification
 
 class NullTypeTest extends Specification {
@@ -8,6 +9,22 @@ class NullTypeTest extends Specification {
 
     void setup() {
         this.type = Types.NULL_TYPE
+    }
+
+    def 'test null type should be compatible with class type #classType'() {
+        expect:
+        this.type.isAssignableFrom(classType)
+
+        where:
+        classType << ClassObjectType.values()
+    }
+
+    def 'test null type should not be compatible with class type #classType'() {
+        expect:
+        !this.type.isAssignableFrom(classType)
+
+        where:
+        classType << PrimitiveType.values()
     }
 
     def 'test toClassType'() {
