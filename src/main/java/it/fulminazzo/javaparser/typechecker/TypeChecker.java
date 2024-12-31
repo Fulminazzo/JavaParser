@@ -403,7 +403,7 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitStatement(@NotNull Node expr) {
-        return null;
+        return expr.accept(this);
     }
 
     @Override
