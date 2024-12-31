@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser.typechecker.types;
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
+import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Executable;
@@ -105,6 +106,16 @@ public interface Type {
         for (Type expectedType : expectedTypes)
             if (is(expectedType)) return this;
         throw TypeCheckerException.invalidType(expectedTypes[0], this);
+    }
+
+    /**
+     * Converts the current object to its wrapper {@link ObjectType}.
+     * This only works for {@link ValueType}s.
+     *
+     * @return the wrapper type
+     */
+    default @NotNull ObjectType toWrapper() {
+        throw TypeCheckerException.noWrapper(this);
     }
 
     /**
