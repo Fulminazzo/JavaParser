@@ -70,7 +70,7 @@ public enum ClassObjectType implements ClassType {
 
     @Override
     public @NotNull Type cast(@NotNull Type type) {
-        //TODO: can be cast to null
+        if (type.equals(Types.NULL_TYPE)) return toType();
         if (this != OBJECT) {
             Type valueType = this.associatedType == null ?
                     ValueType.valueOf(name()) : this.associatedType.toType();
@@ -87,7 +87,8 @@ public enum ClassObjectType implements ClassType {
 
     @Override
     public boolean compatibleWith(@NotNull Type type) {
-        if (this.associatedType != null) return this.associatedType.compatibleWith(type);
+        if (type.equals(Types.NULL_TYPE)) return true;
+        else if (this.associatedType != null) return this.associatedType.compatibleWith(type);
         else {
             // Either STRING or OBJECT
             if (this == STRING) return ValueType.STRING.is(type) || ObjectType.STRING.is(type);
