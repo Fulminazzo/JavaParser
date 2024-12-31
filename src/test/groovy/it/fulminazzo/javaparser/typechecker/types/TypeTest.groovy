@@ -161,7 +161,7 @@ class TypeTest extends Specification {
      * GET METHOD
      */
 
-    def 'test valid getMethod #method'() {
+    def 'test valid getMethod #method(#parameters)'() {
         when:
         def actual = this.type.getMethod(method, parameters)
 
@@ -200,7 +200,7 @@ class TypeTest extends Specification {
         e.message == TypeException.methodNotFound(this.type.toClassType(), 'invalid', NO_PARAMETERS).message
     }
 
-    def 'test class valid getMethod #method #parameters'() {
+    def 'test class valid getMethod #method(#parameters)'() {
         when:
         def actual = this.classType.getMethod(method, parameters)
 
