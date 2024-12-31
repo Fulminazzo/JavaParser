@@ -107,9 +107,9 @@ bo = (((true == false) != (true && false)) || true);
 bo = false != true && false || true;
 bo = true && false || true;
 bo = false || true;
-bo = d == f != i && bo || false;
-bo = f != i && bo || false;
-bo = i && bo || false;
+bo = d == d && bo || false;
+bo = f != f && bo || false;
+bo = true && bo || false;
 bo = bo || false;
 bo = i < d || i <= d || f >= d || f > d;
 bo = (((i < d) || (i <= d)) || ((f >= d) || (f > d)));
@@ -221,8 +221,8 @@ int[][] arrayOfArray = new int[][]{
 
 for (int[] a : arrayOfArray) {
     System.out.println(Arrays.toString(a));
-    if (a == 5) break;
+    if (a == null) break;
     else continue;
 }
 
-return bo.toString().toString().toString();
+return bW.toString().toString().toString();

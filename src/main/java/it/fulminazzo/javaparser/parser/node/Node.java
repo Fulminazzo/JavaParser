@@ -3,10 +3,12 @@ package it.fulminazzo.javaparser.parser.node;
 import it.fulminazzo.javaparser.visitors.Visitor;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
+
 /**
  * Represents a general node of the parser.
  */
-public interface Node {
+public interface Node extends Serializable {
 
     /**
      * Allows the visitor to visit this node.

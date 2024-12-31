@@ -36,7 +36,10 @@ public enum TokenType {
     SEMICOLON(";"),
     COLON(":"),
 
-    // Binary Operations
+    // Binary Comparisons
+    AND("&&"),
+    OR("\\|\\|"),
+
     EQUAL("=="),
     NOT_EQUAL("!="),
     LESS_THAN("<"),
@@ -44,9 +47,7 @@ public enum TokenType {
     GREATER_THAN(">"),
     GREATER_THAN_EQUAL(">="),
 
-    AND("&&"),
-    OR("\\|\\|"),
-
+    // Binary Operations
     BIT_AND("&"),
     BIT_OR("\\|"),
     BIT_XOR("\\^"),
@@ -65,6 +66,7 @@ public enum TokenType {
 
     // Type values
     NULL("null"),
+    THIS("this"),
     NUMBER_VALUE("[0-9]+"),
     LONG_VALUE("[0-9]+[Ll]?"),
     DOUBLE_VALUE("[0-9]+(?:.[0-9]+)?(?:E[-0-9]+)?[Dd]?"),

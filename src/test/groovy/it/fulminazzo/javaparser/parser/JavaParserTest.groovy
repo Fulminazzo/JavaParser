@@ -11,6 +11,7 @@ import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.literals.NullLiteral
+import it.fulminazzo.javaparser.parser.node.literals.ThisLiteral
 import it.fulminazzo.javaparser.parser.node.operators.binary.*
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
@@ -36,11 +37,23 @@ class JavaParserTest extends Specification {
 
     def 'parse test_program file'() {
         given:
-        def file = new File(System.getProperty('user.dir'), 'build/resources/test/test_program.java')
+        def cwd = System.getProperty('user.dir')
+
+        and:
+        def file = new File(cwd, 'build/resources/test/parser_test_program.java')
         def parser = new JavaParser(file.newInputStream())
 
+        and:
+        def nextTestFile = new File(cwd, "src/test/resources/typechecker_test_program.dat")
+        if (nextTestFile.isFile()) nextTestFile.delete()
+
         when:
-        parser.parseProgram()
+        def parsed = parser.parseProgram()
+        nextTestFile.withObjectOutputStream {
+            it.writeObject(parsed)
+        }
+        def other = nextTestFile.newObjectInputStream().readObject()
+        other == parsed
 
         then:
         noExceptionThrown()
@@ -372,7 +385,7 @@ class JavaParserTest extends Specification {
         def expected = new Field(
                 new Field(
                         new MethodCall(
-                                Literal.of('this'),
+                                new ThisLiteral(),
                                 'toString',
                                 new MethodInvocation([])
                         ), Literal.of('char_array')
@@ -489,7 +502,8 @@ class JavaParserTest extends Specification {
                 '^ 9 | 8 & 7 || 6 && 5 ' +
                 '>= 4 > 3 <= 2 < 1 ' +
                 '!= false == true'
-        def expected = new Modulo(new NumberValueLiteral('18'), new NumberValueLiteral('17'))
+        def expected = new NumberValueLiteral('18')
+        expected = new Modulo(expected, new NumberValueLiteral('17'))
         expected = new Divide(expected, new NumberValueLiteral('16'))
         expected = new Multiply(expected, new NumberValueLiteral('15'))
         expected = new Subtract(expected, new NumberValueLiteral('14'))
@@ -501,13 +515,13 @@ class JavaParserTest extends Specification {
         expected = new BitOr(expected, new NumberValueLiteral('8'))
         expected = new BitAnd(expected, new NumberValueLiteral('7'))
         expected = new Or(expected, new NumberValueLiteral('6'))
-        expected = new And(expected, new NumberValueLiteral('5'))
-        expected = new GreaterThanEqual(expected, new NumberValueLiteral('4'))
-        expected = new GreaterThan(expected, new NumberValueLiteral('3'))
-        expected = new LessThanEqual(expected, new NumberValueLiteral('2'))
-        expected = new LessThan(expected, new NumberValueLiteral('1'))
-        expected = new NotEqual(expected, new BooleanValueLiteral('false'))
-        expected = new Equal(expected, new BooleanValueLiteral('true'))
+        def second = new GreaterThanEqual(new NumberValueLiteral('5'), new NumberValueLiteral('4'))
+        second = new GreaterThan(second, new NumberValueLiteral('3'))
+        second = new LessThanEqual(second, new NumberValueLiteral('2'))
+        second = new LessThan(second, new NumberValueLiteral('1'))
+        second = new NotEqual(second, new BooleanValueLiteral('false'))
+        second = new Equal(second, new BooleanValueLiteral('true'))
+        expected = new And(expected, second)
 
         when:
         startReading(code)

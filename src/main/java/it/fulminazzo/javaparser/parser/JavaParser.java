@@ -8,10 +8,7 @@ import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray;
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram;
-import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral;
-import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral;
-import it.fulminazzo.javaparser.parser.node.literals.Literal;
-import it.fulminazzo.javaparser.parser.node.literals.NullLiteral;
+import it.fulminazzo.javaparser.parser.node.literals.*;
 import it.fulminazzo.javaparser.parser.node.operators.binary.*;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement;
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment;
@@ -459,29 +456,29 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * EQUAL := NOT_EQUAL (== NOT_EQUAL)*
+     * AND := OR (&& OR)*
      *
      * @return the node
      */
     protected @NotNull Node parseBinaryComparison() {
-        return parseBinaryComparison(EQUAL);
+        return parseBinaryComparison(AND);
     }
 
     /**
+     * AND := OR (&& OR)* <br/>
+     * OR := EQUAL (|| EQUAL)*
      * EQUAL := NOT_EQUAL (== NOT_EQUAL)* <br/>
      * NOT_EQUAL := LESS_THAN (!= LESS_THAN)* <br/>
-     * LESS_THAN := LESS_THAN_OR_EQUAL (< LESS_THAN_OR_EQUAL)* <br/>
-     * LESS_THAN_OR_EQUAL := GREATER_THAN (<= GREATER_THAN)* <br/>
-     * GREATER_THAN := GREATER_THAN_OR_EQUAL (> GREATER_THAN_OR_EQUAL)* <br/>
-     * GREATER_THAN_OR_EQUAL := AND (>= AND)* <br/>
-     * AND := OR (&& OR)* <br/>
-     * OR := BIT_AND (|| BIT_AND)*
+     * LESS_THAN := LESS_THAN_EQUAL (< LESS_THAN_EQUAL)* <br/>
+     * LESS_THAN_EQUAL := GREATER_THAN (<= GREATER_THAN)* <br/>
+     * GREATER_THAN := GREATER_THAN_EQUAL (> GREATER_THAN_EQUAL)* <br/>
+     * GREATER_THAN_EQUAL := BIT_AND (>= BIT_AND)*
      *
      * @param comparison the {@link TokenType} that corresponds to the comparison
      * @return the node
      */
     protected @NotNull Node parseBinaryComparison(final @NotNull TokenType comparison) {
-        if (comparison.after(OR)) return parseBinaryOperation();
+        if (comparison.after(GREATER_THAN_EQUAL)) return parseBinaryOperation();
         else {
             final TokenType nextOperation = TokenType.values()[comparison.ordinal() + 1];
             Node node = parseBinaryComparison(nextOperation);
@@ -583,7 +580,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ATOM := CAST | MINUS | NOT | NULL | LITERAL | TYPE_VALUE
+     * ATOM := CAST | MINUS | NOT | NULL | THIS | LITERAL | TYPE_VALUE
      *
      * @return the node
      */
@@ -593,6 +590,7 @@ public class JavaParser extends Parser {
             case SUBTRACT: return parseMinus();
             case NOT: return parseNot();
             case NULL: return parseNull();
+            case THIS: return parseThis();
             case LITERAL: return parseLiteral();
             default: return parseTypeValue();
         }
@@ -662,6 +660,16 @@ public class JavaParser extends Parser {
     protected @NotNull Node parseNull() {
         consume(NULL);
         return new NullLiteral();
+    }
+
+    /**
+     * THIS := {@link TokenType#THIS}
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseThis() {
+        consume(THIS);
+        return new ThisLiteral();
     }
 
     /**
