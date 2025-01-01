@@ -104,6 +104,7 @@ class TypeCheckerTest extends Specification {
 
         then:
         type == expected
+        this.environment.enteredScope(ScopeType.CATCH)
 
         where:
         exceptions | variable | block | expected

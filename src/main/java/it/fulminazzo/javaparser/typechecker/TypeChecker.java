@@ -471,46 +471,48 @@ public final class TypeChecker implements Visitor<Type> {
     public @NotNull TupleType<Set<ClassType>, Type> visitCatchStatement(@NotNull List<Literal> exceptions,
                                                                          @NotNull CodeBlock block,
                                                                          @NotNull Node expression) {
-        final ClassType throwable = ClassType.of(Throwable.class);
+        return visitScoped(ScopeType.CATCH, () -> {
+            final ClassType throwable = ClassType.of(Throwable.class);
 
-        final List<ClassType> exceptionTypes = new LinkedList<>();
-        for (Literal exception : exceptions) {
-            ClassType exceptionClass = exception.accept(this).checkClassType();
-            Type exceptionType = exceptionClass.toType();
+            final List<ClassType> exceptionTypes = new LinkedList<>();
+            for (Literal exception : exceptions) {
+                ClassType exceptionClass = exception.accept(this).checkClassType();
+                Type exceptionType = exceptionClass.toType();
 
-            if (!exceptionType.isAssignableFrom(throwable))
-                throw TypeCheckerException.invalidType(throwable, exceptionClass);
-            else if (exceptionTypes.contains(exceptionClass)) 
-                throw TypeCheckerException.exceptionAlreadyCaught(exceptionClass);
-            
-            ClassType inheritedType = exceptionTypes.stream()
-                    .filter(e -> e.compatibleWith(exceptionType))
-                    .findFirst().orElse(null);
-            if (inheritedType != null)
-                throw TypeCheckerException.exceptionsNotDisjoint(exceptionClass, inheritedType);
+                if (!exceptionType.isAssignableFrom(throwable))
+                    throw TypeCheckerException.invalidType(throwable, exceptionClass);
+                else if (exceptionTypes.contains(exceptionClass))
+                    throw TypeCheckerException.exceptionAlreadyCaught(exceptionClass);
 
-            ClassType inheritingType = exceptionTypes.stream()
-                    .filter(e -> e.toType().isAssignableFrom(exceptionClass))
-                    .findFirst().orElse(null);
-            if (inheritingType != null)
-                throw TypeCheckerException.exceptionsNotDisjoint(inheritingType, exceptionClass);
+                ClassType inheritedType = exceptionTypes.stream()
+                        .filter(e -> e.compatibleWith(exceptionType))
+                        .findFirst().orElse(null);
+                if (inheritedType != null)
+                    throw TypeCheckerException.exceptionsNotDisjoint(exceptionClass, inheritedType);
 
-            exceptionTypes.add(exceptionClass);
-        }
+                ClassType inheritingType = exceptionTypes.stream()
+                        .filter(e -> e.toType().isAssignableFrom(exceptionClass))
+                        .findFirst().orElse(null);
+                if (inheritingType != null)
+                    throw TypeCheckerException.exceptionsNotDisjoint(inheritingType, exceptionClass);
 
-        try {
-            Literal literal = (Literal) expression;
-            String exceptionName = literal.getLiteral();
+                exceptionTypes.add(exceptionClass);
+            }
 
-            if (!literal.accept(this).is(LiteralType.class))
-                throw ScopeException.alreadyDeclaredVariable(exceptionName);
+            try {
+                Literal literal = (Literal) expression;
+                String exceptionName = literal.getLiteral();
 
-            this.environment.declare(exceptionTypes.get(0), exceptionName, exceptionTypes.get(0).toType());
-        } catch (ScopeException e) {
-            throw TypeCheckerException.of(e);
-        }
+                if (!literal.accept(this).is(LiteralType.class))
+                    throw ScopeException.alreadyDeclaredVariable(exceptionName);
 
-        return new TupleType<>(new LinkedHashSet<>(exceptionTypes), block.accept(this));
+                this.environment.declare(exceptionTypes.get(0), exceptionName, exceptionTypes.get(0).toType());
+            } catch (ScopeException e) {
+                throw TypeCheckerException.of(e);
+            }
+
+            return new TupleType<>(new LinkedHashSet<>(exceptionTypes), block.accept(this));
+        });
     }
 
     @Override
