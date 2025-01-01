@@ -97,6 +97,16 @@ class TypeCheckerTest extends Specification {
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         new CodeBlock(new Return(BOOL_LIT)))
         ] | new CodeBlock(new Return(NUMBER_LIT)) | ValueType.NUMBER
+        // Everything no finally
+        new AssignmentBlock([
+                new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
+                new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral())
+        ]) | new CodeBlock(new Return(BOOL_LIT)) | [
+                new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
+                        new CodeBlock(new Return(BOOL_LIT))),
+                new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
+                        new CodeBlock(new Return(BOOL_LIT)))
+        ] | new CodeBlock() | ValueType.BOOLEAN
         // Everything with different types
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
@@ -126,6 +136,15 @@ class TypeCheckerTest extends Specification {
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         new CodeBlock(new Return(BOOL_LIT)))
         ] | new CodeBlock(new Return(NUMBER_LIT)) | ValueType.NUMBER
+        // Just one assignment no finally
+        new AssignmentBlock([
+                new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral())
+        ]) | new CodeBlock(new Return(BOOL_LIT)) | [
+                new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
+                        new CodeBlock(new Return(BOOL_LIT))),
+                new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
+                        new CodeBlock(new Return(BOOL_LIT)))
+        ] | new CodeBlock() | ValueType.BOOLEAN
         // Just one assignment with different types
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral())
@@ -152,6 +171,14 @@ class TypeCheckerTest extends Specification {
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         new CodeBlock(new Return(BOOL_LIT)))
         ] | new CodeBlock(new Return(NUMBER_LIT)) | ValueType.NUMBER
+        // No assignments no finally
+        new AssignmentBlock([
+        ]) | new CodeBlock(new Return(BOOL_LIT)) | [
+                new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
+                        new CodeBlock(new Return(BOOL_LIT))),
+                new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
+                        new CodeBlock(new Return(BOOL_LIT)))
+        ] | new CodeBlock() | ValueType.BOOLEAN
         // No assignments with different types
         new AssignmentBlock([
         ]) | new CodeBlock(new Return(BOOL_LIT)) | [
@@ -176,6 +203,14 @@ class TypeCheckerTest extends Specification {
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         new CodeBlock(new Return(BOOL_LIT)))
         ] | new CodeBlock(new Return(NUMBER_LIT)) | ValueType.NUMBER
+        // Just one catch no finally
+        new AssignmentBlock([
+                new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
+                new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
+        ]) | new CodeBlock(new Return(BOOL_LIT)) | [
+                new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
+                        new CodeBlock(new Return(BOOL_LIT)))
+        ] | new CodeBlock() | ValueType.BOOLEAN
         // Just one catch with different types
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
