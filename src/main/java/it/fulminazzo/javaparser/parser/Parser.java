@@ -39,11 +39,9 @@ abstract class Parser {
     /**
      * Returns the next {@link TokenType} from the {@link Tokenizer}.
      * Uses {@link #getTokenizer()}.
-     *
-     * @return the token type
      */
-    protected @NotNull TokenType next() {
-        return getTokenizer().next();
+    protected void next() {
+        getTokenizer().next();
     }
 
     /**
