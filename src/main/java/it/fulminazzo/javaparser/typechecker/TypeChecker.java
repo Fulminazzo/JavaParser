@@ -601,11 +601,18 @@ public final class TypeChecker implements Visitor<Type> {
     @SuppressWarnings("unchecked")
     @Override
     public @NotNull Type visitThrow(@NotNull Node expression) {
-        ClassType exception = expression.accept(this).check(ClassType.of(Throwable.class)).toClassType();
-        if (!exception.isAssignableFrom(ClassType.of(RuntimeException.class))) {
-            if (!this.environment.isInTryScope((Class<? extends Throwable>) exception.toJavaClass()))
-                throw TypeCheckerException.unhandledException(exception);
-        }
+        final ClassType throwable = ClassType.of(Throwable.class);
+        final ClassType runtimeException = ClassType.of(RuntimeException.class);
+
+        Type exceptionType = expression.accept(this);
+        if (exceptionType.isAssignableFrom(throwable)) {
+            ClassType exception = exceptionType.toClassType();
+            if (!exception.isAssignableFrom(runtimeException)) {
+                if (!this.environment.isInTryScope((Class<? extends Throwable>) exception.toJavaClass()))
+                    throw TypeCheckerException.unhandledException(exception);
+            }
+        } else throw TypeCheckerException.invalidType(throwable, exceptionType);
+
         return Types.NO_TYPE;
     }
 
