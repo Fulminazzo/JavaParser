@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 /**
  * This file represents an example of Java program with all the allowed statements from the parser.
  */
@@ -221,6 +223,21 @@ switch (n) {
     default: {
         System.out.println("Error");
     }
+}
+
+// Try statement
+try {
+    System.out.println("Try statement successful!");
+} catch (IllegalArgumentException | IllegalStateException e) {
+    System.out.println("An error occurred while executing the try statement...");
+} finally {
+    System.out.println("Finally block always executed, nice!");
+}
+
+try (java.io.ByteArrayInputStream output = new java.io.ByteArrayInputStream("test".getBytes())) {
+    System.out.println(output.toString());
+} catch (IOException e) {
+    throw new RuntimeException(e);
 }
 
 // Enhanced for statement
