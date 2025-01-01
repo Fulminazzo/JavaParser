@@ -581,6 +581,15 @@ class TypeCheckerTest extends Specification {
         exception << [IOException, Exception]
     }
 
+    def 'test visit of throw statement of no exception should throw'() {
+        when:
+        this.typeChecker.visitThrow(new NewObject(Literal.of('String'), new MethodInvocation([])))
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.invalidType(ClassType.of(Throwable), ObjectType.STRING).message
+    }
+
     def 'test visit assignment block of #assignments should return #expected'() {
         when:
         def type = this.typeChecker.visitAssignmentBlock(assignments)
