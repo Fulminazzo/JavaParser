@@ -8,6 +8,7 @@ import it.fulminazzo.javaparser.typechecker.types.TypeException;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.util.Map;
 
@@ -32,6 +33,7 @@ public final class ObjectType extends ObjectWrapper<Class<?>> implements Type {
     private static final String[] IMPLIED_PACKAGES = new String[]{
             String.class.getPackage().getName(),
             Map.class.getPackage().getName(),
+            IOException.class.getPackage().getName()
     };
 
     private ObjectType(final @NotNull Class<?> innerClass) {
