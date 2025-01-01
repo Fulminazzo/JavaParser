@@ -129,6 +129,30 @@ class JavaParserTest extends Specification {
         ]
     }
 
+    def 'test parse catch statement of code: #code'() {
+        when:
+        startReading(code)
+        def block = this.parser.parseCatchStatement()
+
+        then:
+        block == expected
+
+        where:
+        code | expected
+        'catch (FirstException | SecondException | ThirdException e) {return 1;}' | new CatchStatement(
+                [Literal.of('FirstException'), Literal.of('SecondException'), Literal.of('ThirdException')],
+                Literal.of('e'), new CodeBlock(new Return(new NumberValueLiteral('1')))
+        )
+        'catch (FirstException | SecondException e) {return 1;}' | new CatchStatement(
+                [Literal.of('FirstException'), Literal.of('SecondException')],
+                Literal.of('e'), new CodeBlock(new Return(new NumberValueLiteral('1')))
+        )
+        'catch (FirstException e) {return 1;}' | new CatchStatement(
+                [Literal.of('FirstException')],
+                Literal.of('e'), new CodeBlock(new Return(new NumberValueLiteral('1')))
+        )
+    }
+
     def 'test parse switch statement of code: #code'() {
         when:
         startReading(code)
