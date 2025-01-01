@@ -1,5 +1,8 @@
 package it.fulminazzo.javaparser.environment.scopetypes;
 
+import it.fulminazzo.fulmicollection.objects.Refl;
+import org.jetbrains.annotations.NotNull;
+
 /**
  * The type of the scope defines the statement that generated it.
  * This is useful when checking for <code>continue</code> or
@@ -24,5 +27,18 @@ public interface ScopeType {
      * @return the name
      */
     String name();
+
+    /**
+     * Returns all the static {@link ScopeType}s.
+     *
+     * @return the scope types
+     */
+    static ScopeType @NotNull [] values() {
+        Refl<?> refl = new Refl<>(ScopeType.class);
+        return refl.getStaticFields().stream()
+                .map(refl::getFieldObject)
+                .map(o -> (ScopeType) o)
+                .toArray(ScopeType[]::new);
+    }
 
 }
