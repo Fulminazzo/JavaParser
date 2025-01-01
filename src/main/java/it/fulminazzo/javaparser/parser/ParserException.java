@@ -12,27 +12,30 @@ final class ParserException extends RuntimeException {
     /**
      * Instantiates a new Parser exception.
      *
-     * @param message the message of the exception
      * @param parser  the parser that generated the exception
+     * @param message the message of the exception
+     * @param args    the arguments to format
      */
-    public ParserException(final @NotNull String message,
-                           final @Nullable Parser parser) {
+    private ParserException(final @Nullable Parser parser, final @NotNull String message,
+                            final Object @NotNull ... args) {
         super(String.format("At line %s, column %s: %s",
                 parser == null ? "0" : parser.getTokenizer().line(),
                 parser == null ? "0" : parser.getTokenizer().column(),
-                message)
+                String.format(message, args))
         );
     }
 
     /**
-     * Instantiates a new Parser exception with message "<i>Unexpected token %tokenType%</i>".
+     * Generates a {@link ParserException} with message:
+     * <i>Unexpected token: %token%</i>
      *
-     * @param tokenType the token type
-     * @param parser  the parser that generated the exception
+     * @param token  the token
+     * @param parser the parser
+     * @return the parser exception
      */
-    public ParserException(final @NotNull TokenType tokenType,
-                           final @NotNull Parser parser) {
-        this("Unexpected token: "  + tokenType, parser);
+    public static @NotNull ParserException unexpectedToken(final @NotNull TokenType token,
+                                                           final @NotNull Parser parser) {
+        return new ParserException(parser, "Unexpected token: %s", token);
     }
 
 }
