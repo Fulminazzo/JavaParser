@@ -412,17 +412,17 @@ class TypeCheckerTest extends Specification {
         this.environment.isMainScope()
 
         where:
-        expected          | codeBlock                           | expression
-        ValueType.BOOLEAN | CODE_BLOCK_BOOL | Literal.of('arr')
-        ValueType.BOOLEAN | CODE_BLOCK_BOOL | Literal.of('iterable')
-        ValueType.BOOLEAN | CODE_BLOCK_BOOL | Literal.of('list')
-        ValueType.BOOLEAN | CODE_BLOCK_BOOL | Literal.of('set')
-        ValueType.BOOLEAN | CODE_BLOCK_BOOL | Literal.of('collection')
-        Types.NO_TYPE | CODE_BLOCK_BREAK | Literal.of('arr')
-        Types.NO_TYPE | CODE_BLOCK_BREAK | Literal.of('iterable')
-        Types.NO_TYPE | CODE_BLOCK_BREAK | Literal.of('list')
-        Types.NO_TYPE | CODE_BLOCK_BREAK | Literal.of('set')
-        Types.NO_TYPE | CODE_BLOCK_BREAK | Literal.of('collection')
+        expected          | codeBlock        | expression
+        ValueType.BOOLEAN | CODE_BLOCK_BOOL  | Literal.of('arr')
+        ValueType.BOOLEAN | CODE_BLOCK_BOOL  | Literal.of('iterable')
+        ValueType.BOOLEAN | CODE_BLOCK_BOOL  | Literal.of('list')
+        ValueType.BOOLEAN | CODE_BLOCK_BOOL  | Literal.of('set')
+        ValueType.BOOLEAN | CODE_BLOCK_BOOL  | Literal.of('collection')
+        Types.NO_TYPE     | CODE_BLOCK_BREAK | Literal.of('arr')
+        Types.NO_TYPE     | CODE_BLOCK_BREAK | Literal.of('iterable')
+        Types.NO_TYPE     | CODE_BLOCK_BREAK | Literal.of('list')
+        Types.NO_TYPE     | CODE_BLOCK_BREAK | Literal.of('set')
+        Types.NO_TYPE     | CODE_BLOCK_BREAK | Literal.of('collection')
     }
 
     def 'test visit enhanced for statement of non-iterable'() {
@@ -469,11 +469,11 @@ class TypeCheckerTest extends Specification {
         this.environment.isMainScope()
 
         where:
-        expected          | codeBlock                           | expression
-        ValueType.BOOLEAN | CODE_BLOCK_BOOL | BOOL_LIT
-        ValueType.BOOLEAN | CODE_BLOCK_BOOL | BOOL_VAR
-        Types.NO_TYPE | CODE_BLOCK_BREAK | BOOL_LIT
-        Types.NO_TYPE | CODE_BLOCK_BREAK | BOOL_VAR
+        expected          | codeBlock        | expression
+        ValueType.BOOLEAN | CODE_BLOCK_BOOL  | BOOL_LIT
+        ValueType.BOOLEAN | CODE_BLOCK_BOOL  | BOOL_VAR
+        Types.NO_TYPE     | CODE_BLOCK_BREAK | BOOL_LIT
+        Types.NO_TYPE     | CODE_BLOCK_BREAK | BOOL_VAR
     }
 
     def 'test visit do statement of (#expression) #codeBlock should return #expected'() {
@@ -486,11 +486,11 @@ class TypeCheckerTest extends Specification {
         this.environment.isMainScope()
 
         where:
-        expected          | codeBlock                           | expression
-        ValueType.BOOLEAN | CODE_BLOCK_BOOL | BOOL_LIT
-        ValueType.BOOLEAN | CODE_BLOCK_BOOL | BOOL_VAR
-        Types.NO_TYPE | CODE_BLOCK_BREAK | BOOL_LIT
-        Types.NO_TYPE | CODE_BLOCK_BREAK | BOOL_VAR
+        expected          | codeBlock        | expression
+        ValueType.BOOLEAN | CODE_BLOCK_BOOL  | BOOL_LIT
+        ValueType.BOOLEAN | CODE_BLOCK_BOOL  | BOOL_VAR
+        Types.NO_TYPE     | CODE_BLOCK_BREAK | BOOL_LIT
+        Types.NO_TYPE     | CODE_BLOCK_BREAK | BOOL_VAR
     }
 
     def 'test visit while statement of (#expression) #codeBlock should return #expected'() {
@@ -503,11 +503,11 @@ class TypeCheckerTest extends Specification {
         this.environment.isMainScope()
 
         where:
-        expected          | codeBlock                           | expression
-        ValueType.BOOLEAN | CODE_BLOCK_BOOL | BOOL_LIT
-        ValueType.BOOLEAN | CODE_BLOCK_BOOL | BOOL_VAR
-        Types.NO_TYPE | CODE_BLOCK_BREAK | BOOL_LIT
-        Types.NO_TYPE | CODE_BLOCK_BREAK | BOOL_VAR
+        expected          | codeBlock        | expression
+        ValueType.BOOLEAN | CODE_BLOCK_BOOL  | BOOL_LIT
+        ValueType.BOOLEAN | CODE_BLOCK_BOOL  | BOOL_VAR
+        Types.NO_TYPE     | CODE_BLOCK_BREAK | BOOL_LIT
+        Types.NO_TYPE     | CODE_BLOCK_BREAK | BOOL_VAR
     }
 
     def 'test visit if statement of code "#code" should return #expected'() {
@@ -531,15 +531,15 @@ class TypeCheckerTest extends Specification {
         expected          | code
         ValueType.BOOLEAN | new IfStatement(BOOL_LIT, CODE_BLOCK_BOOL, new Statement())
         ValueType.BOOLEAN | new IfStatement(BOOL_VAR, CODE_BLOCK_BOOL, new Statement())
-        Types.NO_TYPE | new IfStatement(BOOL_LIT, CODE_BLOCK_EMPTY, new Statement())
-        Types.NO_TYPE | new IfStatement(BOOL_VAR, CODE_BLOCK_EMPTY, new Statement())
+        Types.NO_TYPE     | new IfStatement(BOOL_LIT, CODE_BLOCK_EMPTY, new Statement())
+        Types.NO_TYPE     | new IfStatement(BOOL_VAR, CODE_BLOCK_EMPTY, new Statement())
         ValueType.NUMBER  | new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER,
                 new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER, new Statement()))
         ValueType.NUMBER  | new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER,
                 new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER, new Statement()))
-        Types.NO_TYPE | new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER,
+        Types.NO_TYPE     | new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER,
                 new IfStatement(BOOL_LIT, CODE_BLOCK_FLOAT, new Statement()))
-        Types.NO_TYPE | new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER,
+        Types.NO_TYPE     | new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER,
                 new IfStatement(BOOL_VAR, CODE_BLOCK_FLOAT, new Statement()))
         ValueType.DOUBLE  | new IfStatement(BOOL_LIT, CODE_BLOCK_DOUBLE,
                 new IfStatement(BOOL_LIT, CODE_BLOCK_DOUBLE,
@@ -547,10 +547,10 @@ class TypeCheckerTest extends Specification {
         ValueType.DOUBLE  | new IfStatement(BOOL_VAR, CODE_BLOCK_DOUBLE,
                 new IfStatement(BOOL_VAR, CODE_BLOCK_DOUBLE,
                         CODE_BLOCK_DOUBLE))
-        Types.NO_TYPE | new IfStatement(BOOL_LIT, CODE_BLOCK_DOUBLE,
+        Types.NO_TYPE     | new IfStatement(BOOL_LIT, CODE_BLOCK_DOUBLE,
                 new IfStatement(BOOL_LIT, CODE_BLOCK_FLOAT,
                         CODE_BLOCK_LONG))
-        Types.NO_TYPE | new IfStatement(BOOL_VAR, CODE_BLOCK_DOUBLE,
+        Types.NO_TYPE     | new IfStatement(BOOL_VAR, CODE_BLOCK_DOUBLE,
                 new IfStatement(BOOL_VAR, CODE_BLOCK_FLOAT,
                         CODE_BLOCK_LONG))
     }
