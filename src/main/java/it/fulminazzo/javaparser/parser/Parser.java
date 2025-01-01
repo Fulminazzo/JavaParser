@@ -65,7 +65,7 @@ abstract class Parser {
     protected void match(final @NotNull TokenType tokenType) {
         TokenType lastToken = lastToken();
         if (lastToken != tokenType)
-            throw new ParserException("Expected token " + tokenType + " but found " + lastToken, this);
+            throw ParserException.unexpectedToken(this, tokenType, lastToken);
     }
 
     /**
