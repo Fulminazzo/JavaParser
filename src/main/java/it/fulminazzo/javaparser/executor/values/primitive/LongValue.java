@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a {@link Long} {@link PrimitiveValue}.
  */
-public class LongValue extends NumberValue<Long> {
+class LongValue extends NumberValue<Long> {
 
     /**
      * Instantiates a new Long value.

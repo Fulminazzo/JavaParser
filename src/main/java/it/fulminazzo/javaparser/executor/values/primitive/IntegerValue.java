@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a {@link Integer} {@link PrimitiveValue}.
  */
-public class IntegerValue extends NumberValue<Integer> {
+class IntegerValue extends NumberValue<Integer> {
 
     /**
      * Instantiates a new Integer value.

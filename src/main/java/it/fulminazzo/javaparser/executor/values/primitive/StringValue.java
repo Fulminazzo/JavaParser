@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a {@link String} {@link PrimitiveValue}.
  */
-public class StringValue extends PrimitiveValue<String> {
+class StringValue extends PrimitiveValue<String> {
 
     /**
      * Instantiates a new String value.

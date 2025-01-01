@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a {@link Boolean} {@link PrimitiveValue}.
  */
-public class BooleanValue extends PrimitiveValue<Boolean> {
+class BooleanValue extends PrimitiveValue<Boolean> {
 
     /**
      * Instantiates a new Boolean value.
