@@ -128,4 +128,15 @@ public class TypeCheckerException extends RuntimeException {
         return new TypeCheckerException("Type %s does not have any associated wrapper type", type);
     }
 
+    /**
+     * Generates a {@link TypeCheckerException} with message:
+     * <i>Exception %type% has already been caught</i>
+     *
+     * @param type the type
+     * @return the type exception
+     */
+    public static @NotNull TypeCheckerException exceptionAlreadyCaught(final @NotNull ClassType type) {
+        return new TypeCheckerException("Exception '%s' has already been caught", type);
+    }
+
 }
