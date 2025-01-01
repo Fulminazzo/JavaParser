@@ -187,6 +187,18 @@ class JavaParserTest extends Specification {
         thrown(ParserException)
     }
 
+    def 'test parse switch of dual defaults should throw exception'() {
+        given:
+        def code = 'switch(1) { default: return 1; default: return 2; }'
+
+        when:
+        startReading(code)
+        this.parser.parseSwitchStatement()
+
+        then:
+        thrown(ParserException)
+    }
+
     def 'test parse case block of code: #code'() {
         when:
         startReading(code)
