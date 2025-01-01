@@ -107,6 +107,16 @@ class TypeCheckerTest extends Specification {
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         new CodeBlock(new Return(FLOAT_LIT)))
         ] | new CodeBlock(new Return(NUMBER_LIT)) | ValueType.NUMBER
+        // Everything with different types and no finally
+        new AssignmentBlock([
+                new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
+                new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral())
+        ]) | new CodeBlock(new Return(BOOL_LIT)) | [
+                new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
+                        new CodeBlock(new Return(DOUBLE_LIT))),
+                new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
+                        new CodeBlock(new Return(FLOAT_LIT)))
+        ] | new CodeBlock() | Types.NO_TYPE
         // Just one assignment
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral())
@@ -125,6 +135,15 @@ class TypeCheckerTest extends Specification {
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         new CodeBlock(new Return(FLOAT_LIT)))
         ] | new CodeBlock(new Return(NUMBER_LIT)) | ValueType.NUMBER
+        // Just one assignment with different types and no finally
+        new AssignmentBlock([
+                new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral())
+        ]) | new CodeBlock(new Return(BOOL_LIT)) | [
+                new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
+                        new CodeBlock(new Return(DOUBLE_LIT))),
+                new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
+                        new CodeBlock(new Return(FLOAT_LIT)))
+        ] | new CodeBlock() | Types.NO_TYPE
         // No assignments
         new AssignmentBlock([
         ]) | new CodeBlock(new Return(NUMBER_LIT)) | [
@@ -141,6 +160,14 @@ class TypeCheckerTest extends Specification {
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         new CodeBlock(new Return(FLOAT_LIT)))
         ] | new CodeBlock(new Return(NUMBER_LIT)) | ValueType.NUMBER
+        // No assignments with different types and no finally
+        new AssignmentBlock([
+        ]) | new CodeBlock(new Return(BOOL_LIT)) | [
+                new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
+                        new CodeBlock(new Return(DOUBLE_LIT))),
+                new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
+                        new CodeBlock(new Return(FLOAT_LIT)))
+        ] | new CodeBlock() | Types.NO_TYPE
         // Just one catch
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
@@ -157,6 +184,14 @@ class TypeCheckerTest extends Specification {
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         new CodeBlock(new Return(DOUBLE_LIT)))
         ] | new CodeBlock(new Return(NUMBER_LIT)) | ValueType.NUMBER
+        // Just one catch with different types and no finally
+        new AssignmentBlock([
+                new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
+                new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
+        ]) | new CodeBlock(new Return(BOOL_LIT)) | [
+                new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
+                        new CodeBlock(new Return(DOUBLE_LIT)))
+        ] | new CodeBlock() | Types.NO_TYPE
         // No catches
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
@@ -169,6 +204,12 @@ class TypeCheckerTest extends Specification {
                 new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
         ]) | new CodeBlock(new Return(BOOL_LIT)) | [
         ] | new CodeBlock(new Return(NUMBER_LIT)) | ValueType.NUMBER
+        // No catches with different types and no finally
+        new AssignmentBlock([
+                new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
+                new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
+        ]) | new CodeBlock(new Return(BOOL_LIT)) | [
+        ] | new CodeBlock() | Types.NO_TYPE
     }
 
     def 'test visit catch statement: (#exceptions #variable) #block should return #expected'() {
