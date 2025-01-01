@@ -10,7 +10,7 @@ public interface ScopeType {
      * Represents the MAIN scope when starting the program.
      * Should NOT be duplicated.
      */
-    MAIN,
+    ScopeType MAIN = new MainScopeType();
     ScopeType CODE_BLOCK = BaseScopeType.CODE_BLOCK;
     ScopeType SWITCH = BaseScopeType.SWITCH;
     ScopeType CASE = BaseScopeType.CASE;
