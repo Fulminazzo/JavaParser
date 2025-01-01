@@ -234,6 +234,12 @@ try {
     System.out.println("Finally block always executed, nice!");
 }
 
+try (java.io.ByteArrayInputStream output = new java.io.ByteArrayInputStream("test".getBytes())) {
+    System.out.println(output.toString());
+} catch (IOException e) {
+    throw new RuntimeException(e);
+}
+
 // Enhanced for statement
 int[] array = new int[]{1, 2, 3, 4, 5};
 int[] arrayCast = (int[]) array;
