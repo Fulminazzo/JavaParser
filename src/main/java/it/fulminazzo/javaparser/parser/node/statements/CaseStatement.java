@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents the code block associated with {@link it.fulminazzo.javaparser.tokenizer.TokenType#CASE}.
  */
-@Getter
 public class CaseStatement extends Statement {
     private final @NotNull CodeBlock block;
 
