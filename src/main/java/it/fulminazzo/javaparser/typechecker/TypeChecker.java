@@ -453,7 +453,7 @@ public final class TypeChecker implements Visitor<Type> {
             returnType = visitedType.is(returnType) ? returnType : Types.NO_TYPE;
 
             Type finallyType = finallyBlock.accept(this);
-            return finallyType.is(Types.NO_TYPE) ? finallyType : returnType;
+            return !finallyType.is(Types.NO_TYPE) ? finallyType : returnType;
         });
     }
 
