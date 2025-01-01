@@ -436,7 +436,7 @@ public final class TypeChecker implements Visitor<Type> {
      * the returned type of the {@link CodeBlock}
      */
     @Override
-    public @NotNull TupleType<List<ClassType>, Type> visitCatchStatement(@NotNull List<Literal> exceptions,
+    public @NotNull TupleType<Set<ClassType>, Type> visitCatchStatement(@NotNull List<Literal> exceptions,
                                                                          @NotNull CodeBlock block,
                                                                          @NotNull Node expression) {
         final ClassType throwable = ClassType.of(Throwable.class);
@@ -478,7 +478,7 @@ public final class TypeChecker implements Visitor<Type> {
             throw TypeCheckerException.of(e);
         }
 
-        return new TupleType<>(exceptionTypes, block.accept(this));
+        return new TupleType<>(new LinkedHashSet<>(exceptionTypes), block.accept(this));
     }
 
     @Override

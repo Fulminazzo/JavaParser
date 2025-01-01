@@ -88,15 +88,15 @@ class TypeCheckerTest extends Specification {
         exceptions | variable | block | expected
         [Literal.of('IllegalArgumentException'), Literal.of('IllegalStateException'), Literal.of('IllegalAccessError')] |
                 Literal.of('e') | new CodeBlock(new Return(new NumberValueLiteral('1'))) |
-                new TupleType<>([ClassType.of(IllegalArgumentException), ClassType.of(IllegalStateException),
-                             ClassType.of(IllegalAccessError)], ValueType.NUMBER)
+                new TupleType<>(new LinkedHashSet<>([ClassType.of(IllegalArgumentException), ClassType.of(IllegalStateException),
+                             ClassType.of(IllegalAccessError)]), ValueType.NUMBER)
         [Literal.of('IllegalArgumentException'), Literal.of('IllegalStateException')] |
                 Literal.of('e') | new CodeBlock(new Return(new NumberValueLiteral('1'))) |
-                new TupleType<>([ClassType.of(IllegalArgumentException), ClassType.of(IllegalStateException)],
+                new TupleType<>(new LinkedHashSet<>([ClassType.of(IllegalArgumentException), ClassType.of(IllegalStateException)]),
                         ValueType.NUMBER)
         [Literal.of('IllegalArgumentException')] |
                 Literal.of('e') | new CodeBlock(new Return(new NumberValueLiteral('1'))) |
-                new TupleType<>([ClassType.of(IllegalArgumentException)], ValueType.NUMBER)
+                new TupleType<>(new LinkedHashSet<>([ClassType.of(IllegalArgumentException)]), ValueType.NUMBER)
     }
 
     def 'test visit invalid catch statement: (#exceptions #variable) should throw #expected'() {
