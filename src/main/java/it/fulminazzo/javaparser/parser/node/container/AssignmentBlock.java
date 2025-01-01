@@ -19,7 +19,7 @@ public class AssignmentBlock extends StatementContainer {
      *
      * @param assignments the assignments
      */
-    public AssignmentBlock(@NotNull List<Assignment> assignments) {
+    public AssignmentBlock(final @NotNull List<Assignment> assignments) {
         super(assignments.stream()
                 .map(Statement::new)
                 .collect(Collectors.toCollection(LinkedList::new)));

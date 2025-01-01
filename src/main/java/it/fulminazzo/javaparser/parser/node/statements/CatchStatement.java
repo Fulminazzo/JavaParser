@@ -10,8 +10,8 @@ import java.util.List;
  * Represents the statement associated with {@link it.fulminazzo.javaparser.tokenizer.TokenType#CATCH}.
  */
 public class CatchStatement extends Statement {
-    private final List<Literal> exceptions;
-    private final CodeBlock block;
+    private final @NotNull List<Literal> exceptions;
+    private final @NotNull CodeBlock block;
 
     /**
      * Instantiates a new Catch statement.
