@@ -3,6 +3,8 @@ package it.fulminazzo.javaparser.environment.scopetypes;
 import it.fulminazzo.fulmicollection.objects.Refl;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.stream.Stream;
+
 /**
  * The type of the scope defines the statement that generated it.
  * This is useful when checking for <code>continue</code> or
@@ -27,6 +29,16 @@ public interface ScopeType {
      * @return the name
      */
     String name();
+
+    /**
+     * Gets a new instance of {@link TryScopeType} with the specified exceptions.
+     *
+     * @param exceptions the exceptions
+     * @return the try scope type
+     */
+    static @NotNull TryScopeType tryScope(final @NotNull Stream<Class<Throwable>> exceptions) {
+        return new TryScopeType(exceptions);
+    }
 
     /**
      * Returns all the static {@link ScopeType}s.
