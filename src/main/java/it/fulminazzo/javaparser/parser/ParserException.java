@@ -134,4 +134,14 @@ final class ParserException extends RuntimeException {
                 parser.lastToken(), parser.getTokenizer().lastRead());
     }
 
+    /**
+     * Generates a {@link ParserException} with message:
+     * <i>Invalid try statement: no catch or finally block specified</i>
+     *
+     * @return the parser exception
+     */
+    public static @NotNull ParserException invalidTryStatement(final @NotNull Parser parser) {
+        return new ParserException(parser, "Invalid try statement: no catch or finally block specified");
+    }
+
 }
