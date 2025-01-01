@@ -9,6 +9,7 @@ import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
+import it.fulminazzo.javaparser.parser.node.statements.CaseStatement;
 import it.fulminazzo.javaparser.parser.node.statements.Return;
 import it.fulminazzo.javaparser.parser.node.statements.Statement;
 import it.fulminazzo.javaparser.typechecker.types.*;
@@ -396,6 +397,16 @@ public final class TypeChecker implements Visitor<Type> {
             throw TypeCheckerException.of(e);
         }
         return Types.NO_TYPE;
+    }
+
+    @Override
+    public @NotNull Type visitSwitchStatement(@NotNull List<CaseStatement> cases, @NotNull CodeBlock defaultBlock, @NotNull Node expression) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Type visitCaseStatement(@NotNull CodeBlock block, @NotNull Node expression) {
+        return null;
     }
 
     @Override
