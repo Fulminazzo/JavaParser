@@ -23,7 +23,7 @@ public final class TryScopeType implements ScopeType {
      *
      * @param caughtExceptions the caught exceptions
      */
-    public TryScopeType(final @NotNull Stream<Class<Throwable>> caughtExceptions) {
+    TryScopeType(final @NotNull Stream<Class<Throwable>> caughtExceptions) {
         this.caughtExceptions = caughtExceptions.collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
