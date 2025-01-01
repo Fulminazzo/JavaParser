@@ -40,10 +40,10 @@ final class ParserException extends RuntimeException {
 
     /**
      * Generates a {@link ParserException} with message:
+     * <i>Invalid value '%value%' provided for value type '%parser#lastToken%'</i>
      *
      * @param parser the parser
      * @param value  the value
-     * @param token  the token
      * @return the parser exception
      */
     public static @NotNull ParserException invalidValueProvidedException(final @NotNull Parser parser,
