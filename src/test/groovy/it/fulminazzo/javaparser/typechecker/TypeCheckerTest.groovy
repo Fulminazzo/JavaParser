@@ -337,7 +337,7 @@ class TypeCheckerTest extends Specification {
         where:
         exceptions | variable | expected
         [Literal.of('String')] | Literal.of('e') |
-                TypeCheckerException.invalidType(ClassType.of(Throwable.class), ClassObjectType.STRING)
+                TypeCheckerException.invalidType(ClassType.of(Throwable.class), ObjectType.STRING)
         [Literal.of('Exception'), Literal.of('Exception')] | Literal.of('e') |
                 TypeCheckerException.exceptionAlreadyCaught(ClassObjectType.of('Exception'))
         [Literal.of('IllegalArgumentException'), Literal.of('RuntimeException')] | Literal.of('e') |
@@ -739,7 +739,7 @@ class TypeCheckerTest extends Specification {
     def 'test visit assignment invalid: #type invalid = #val'() {
         given:
         def errorMessage = TypeCheckerException.invalidType(
-                type.accept(this.typeChecker).checkClassType().toType(),
+                type.accept(this.typeChecker).checkClassType(),
                 val.accept(this.typeChecker)
         ).message
 
@@ -989,7 +989,7 @@ class TypeCheckerTest extends Specification {
         def actualType = type.accept(this.typeChecker).checkClassType()
         def varName = 'invalid_re_assign'
         def errorMessage = TypeCheckerException.invalidType(
-                actualType.toType(), newVal.accept(this.typeChecker)
+                actualType, newVal.accept(this.typeChecker)
         ).message
 
         and:

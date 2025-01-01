@@ -95,13 +95,11 @@ public final class TypeChecker implements Visitor<Type> {
         if (variableValue.is(Types.NO_TYPE))
             if (variableType.is(PrimitiveType.class)) variableValue = variableType.toType();
             else variableValue = Types.NULL_TYPE;
-        variableValue = convertByteAndShort(variableType, variableValue);
-        if (variableValue.isAssignableFrom(variableType)) {
-            try {
-                this.environment.declare(variableType, variableName.getLiteral(), convertValue(variableType, variableValue));
-            } catch (ScopeException ignored) {}
-            return Types.NO_TYPE;
-        } else throw TypeCheckerException.invalidType(variableType.toType(), variableValue);
+        variableValue = convertByteAndShort(variableType, variableValue).checkAssignableFrom(variableType);
+        try {
+            this.environment.declare(variableType, variableName.getLiteral(), convertValue(variableType, variableValue));
+        } catch (ScopeException ignored) {}
+        return Types.NO_TYPE;
     }
 
     /**
@@ -356,11 +354,9 @@ public final class TypeChecker implements Visitor<Type> {
             String variableName = ((Literal) left).getLiteral();
             ClassType variableType = (ClassType) this.environment.lookupInfo(variableName);
             Type variableValue = convertByteAndShort(variableType, right.accept(this));
-            if (variableValue.isAssignableFrom(variableType)) {
-                variableValue = convertValue(variableType, variableValue);
-                this.environment.update(variableName, variableValue);
-                return variableType.toType();
-            } else throw TypeCheckerException.invalidType(variableType.toType(), variableValue);
+            variableValue = convertValue(variableType, variableValue.checkAssignableFrom(variableType));
+            this.environment.update(variableName, variableValue);
+            return variableType.toType();
         } catch (ScopeException e) {
             throw TypeCheckerException.of(e);
         }
@@ -426,10 +422,7 @@ public final class TypeChecker implements Visitor<Type> {
             final ClassType autoClosable = ClassType.of(AutoCloseable.class);
 
             ParameterTypes assignments = expression.accept(this).check(ParameterTypes.class);
-            for (Class<?> assignment : assignments.toJavaClassArray()) {
-                if (!autoClosable.toJavaClass().isAssignableFrom(assignment))
-                    throw TypeCheckerException.invalidType(autoClosable, ClassType.of(assignment));
-            }
+            for (ClassType assignment : assignments) assignment.checkExtends(autoClosable);
 
             Type returnType = null;
             LinkedHashSet<ClassType> caughtExceptions = new LinkedHashSet<>();
@@ -479,11 +472,9 @@ public final class TypeChecker implements Visitor<Type> {
             final List<ClassType> exceptionTypes = new LinkedList<>();
             for (Literal exception : exceptions) {
                 ClassType exceptionClass = exception.accept(this).checkClassType();
-                Type exceptionType = exceptionClass.toType();
+                Type exceptionType = exceptionClass.toType().checkAssignableFrom(throwable);
 
-                if (!exceptionType.isAssignableFrom(throwable))
-                    throw TypeCheckerException.invalidType(throwable, exceptionClass);
-                else if (exceptionTypes.contains(exceptionClass))
+                if (exceptionTypes.contains(exceptionClass))
                     throw TypeCheckerException.exceptionAlreadyCaught(exceptionClass);
 
                 ClassType inheritedType = exceptionTypes.stream()
@@ -566,8 +557,7 @@ public final class TypeChecker implements Visitor<Type> {
             } else {
                 //TODO: Iterable generic should check for type
                 ClassType iterable = ClassObjectType.of(Iterable.class);
-                if (!expressionType.isAssignableFrom(iterable))
-                    throw TypeCheckerException.invalidType(iterable, expressionType);
+                expressionType.checkAssignableFrom(iterable);
             }
 
             return code.accept(this);
@@ -604,14 +594,12 @@ public final class TypeChecker implements Visitor<Type> {
         final ClassType throwable = ClassType.of(Throwable.class);
         final ClassType runtimeException = ClassType.of(RuntimeException.class);
 
-        Type exceptionType = expression.accept(this);
-        if (exceptionType.isAssignableFrom(throwable)) {
-            ClassType exception = exceptionType.toClassType();
-            if (!exceptionType.isAssignableFrom(runtimeException)) {
-                if (!this.environment.isInTryScope((Class<? extends Throwable>) exception.toJavaClass()))
-                    throw TypeCheckerException.unhandledException(exception);
-            }
-        } else throw TypeCheckerException.invalidType(throwable, exceptionType);
+        Type exceptionType = expression.accept(this).checkAssignableFrom(throwable);
+        ClassType exception = exceptionType.toClassType();
+        if (!exceptionType.isAssignableFrom(runtimeException)) {
+            if (!this.environment.isInTryScope((Class<? extends Throwable>) exception.toJavaClass()))
+                throw TypeCheckerException.unhandledException(exception);
+        }
 
         return Types.NO_TYPE;
     }
