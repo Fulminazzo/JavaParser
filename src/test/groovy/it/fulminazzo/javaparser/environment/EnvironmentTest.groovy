@@ -1,6 +1,6 @@
 package it.fulminazzo.javaparser.environment
 
-
+import it.fulminazzo.javaparser.environment.scopetypes.ScopeType
 import spock.lang.Specification
 
 class EnvironmentTest extends Specification {
