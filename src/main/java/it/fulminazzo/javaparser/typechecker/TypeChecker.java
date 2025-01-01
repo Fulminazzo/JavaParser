@@ -443,11 +443,27 @@ public final class TypeChecker implements Visitor<Type> {
 
         final List<ClassType> exceptionTypes = new LinkedList<>();
         for (Literal exception : exceptions) {
-            ClassType type = exception.accept(this).checkClassType();
-            if (exceptionTypes.contains(type)) throw TypeCheckerException.exceptionAlreadyCaught(type);
-            else if (!type.toType().isAssignableFrom(throwable))
-                throw TypeCheckerException.invalidType(throwable, type);
-            else exceptionTypes.add(type);
+            ClassType exceptionClass = exception.accept(this).checkClassType();
+            Type exceptionType = exceptionClass.toType();
+
+            if (!exceptionType.isAssignableFrom(throwable))
+                throw TypeCheckerException.invalidType(throwable, exceptionClass);
+            else if (exceptionTypes.contains(exceptionClass)) 
+                throw TypeCheckerException.exceptionAlreadyCaught(exceptionClass);
+            
+            ClassType inheritedType = exceptionTypes.stream()
+                    .filter(e -> e.compatibleWith(exceptionType))
+                    .findFirst().orElse(null);
+            if (inheritedType != null)
+                throw TypeCheckerException.exceptionsNotDisjoint(exceptionClass, inheritedType);
+
+            ClassType inheritingType = exceptionTypes.stream()
+                    .filter(e -> e.toType().isAssignableFrom(exceptionClass))
+                    .findFirst().orElse(null);
+            if (inheritingType != null)
+                throw TypeCheckerException.exceptionsNotDisjoint(inheritingType, exceptionClass);
+
+            exceptionTypes.add(exceptionClass);
         }
 
         String exceptionName = expression.accept(this).check(LiteralType.class).getLiteral();
