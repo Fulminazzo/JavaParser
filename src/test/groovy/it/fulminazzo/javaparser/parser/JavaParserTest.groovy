@@ -6,6 +6,7 @@ import it.fulminazzo.javaparser.parser.node.MethodCall
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray
+import it.fulminazzo.javaparser.parser.node.container.AssignmentBlock
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 
 import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
@@ -127,6 +128,42 @@ class JavaParserTest extends Specification {
                 '/*\nComment block\n',
                 '/**\n *Javadoc block\n '
         ]
+    }
+
+    def 'test parse assignment block of code: #code'() {
+        when:
+        startReading(code)
+        def block = this.parser.parseAssignmentBlock()
+
+        then:
+        block == expected
+
+        where:
+        code | expected
+        'int i = 1; int j = 2; int k = 3;' | new AssignmentBlock([
+                new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1')),
+                new Assignment(Literal.of('int'), Literal.of('j'), new NumberValueLiteral('2')),
+                new Assignment(Literal.of('int'), Literal.of('k'), new NumberValueLiteral('3'))
+        ])
+        'int i = 1; int j = 2; int k = 3' | new AssignmentBlock([
+                new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1')),
+                new Assignment(Literal.of('int'), Literal.of('j'), new NumberValueLiteral('2')),
+                new Assignment(Literal.of('int'), Literal.of('k'), new NumberValueLiteral('3'))
+        ])
+        'int i = 1; int j = 2;' | new AssignmentBlock([
+                new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1')),
+                new Assignment(Literal.of('int'), Literal.of('j'), new NumberValueLiteral('2'))
+        ])
+        'int i = 1; int j = 2' | new AssignmentBlock([
+                new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1')),
+                new Assignment(Literal.of('int'), Literal.of('j'), new NumberValueLiteral('2'))
+        ])
+        'int i = 1;' | new AssignmentBlock([
+                new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1'))
+        ])
+        'int i = 1' | new AssignmentBlock([
+                new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1'))
+        ])
     }
 
     def 'test parse catch statement of code: #code'() {
