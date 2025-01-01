@@ -252,6 +252,26 @@ class TypeCheckerTest extends Specification {
         e.message == TypeCheckerException.invalidType(ClassType.of(AutoCloseable.class), PrimitiveType.INT).message
     }
 
+    def 'test visit try statement of already caught: #catchBlocks'() {
+        when:
+        this.typeChecker.visitTryStatement(new CodeBlock(), catchBlocks, new CodeBlock(), new AssignmentBlock([]))
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.exceptionAlreadyCaught(expected).message
+
+        where:
+        expected | catchBlocks
+        ClassType.of(RuntimeException) | [
+                new CatchStatement([Literal.of(RuntimeException.canonicalName)], Literal.of('e'), new CodeBlock()),
+                new CatchStatement([Literal.of(RuntimeException.canonicalName)], Literal.of('e'), new CodeBlock())
+        ]
+        ClassType.of(IllegalArgumentException) | [
+                new CatchStatement([Literal.of(RuntimeException.canonicalName)], Literal.of('e'), new CodeBlock()),
+                new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'), new CodeBlock())
+        ]
+    }
+
     def 'test visit catch statement: (#exceptions #variable) #block should return #expected'() {
         when:
         def type = this.typeChecker.visitCatchStatement(exceptions, block, variable)
