@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.parser;
 
+import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.statements.CaseStatement;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import org.jetbrains.annotations.NotNull;
@@ -84,6 +85,19 @@ final class ParserException extends RuntimeException {
      */
     public static @NotNull ParserException defaultBlockAlreadyDefined(final @NotNull Parser parser) {
         return new ParserException(parser, "Default block already defined");
+    }
+
+    /**
+     * Generates a {@link ParserException} with message:
+     * <i>Expecting '%expected%' but got %actual% instead.</i>
+     *
+     * @param parser the parser
+     * @return the parser exception
+     */
+    public static @NotNull ParserException invalidNodeProvided(final @NotNull Parser parser,
+                                                                final @NotNull Class<? extends Node> expected,
+                                                                final @NotNull Node actual) {
+        return new ParserException(parser, "Expecting '%s' but got %s instead.", expected.getSimpleName(), actual);
     }
 
     /**
