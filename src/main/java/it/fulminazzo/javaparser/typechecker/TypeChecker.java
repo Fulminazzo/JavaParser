@@ -672,11 +672,11 @@ public final class TypeChecker implements Visitor<Type> {
      * @param function the function
      * @return the returned type by the function
      */
-    @NotNull Type visitScoped(final @NotNull ScopeType scope,
-                              final @NotNull Callable<Type> function) {
+    @NotNull <T extends Type> T visitScoped(final @NotNull ScopeType scope,
+                                            final @NotNull Callable<T> function) {
         try {
             this.environment.enterScope(scope);
-            Type type = function.call();
+            T type = function.call();
             this.environment.exitScope();
             return type;
         } catch (Exception e) {
