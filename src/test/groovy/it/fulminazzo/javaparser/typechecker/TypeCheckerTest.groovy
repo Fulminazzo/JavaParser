@@ -14,11 +14,7 @@ import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.literals.NullLiteral
 import it.fulminazzo.javaparser.parser.node.operators.binary.NewObject
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
-import it.fulminazzo.javaparser.parser.node.statements.Break
-import it.fulminazzo.javaparser.parser.node.statements.CaseStatement
-import it.fulminazzo.javaparser.parser.node.statements.IfStatement
-import it.fulminazzo.javaparser.parser.node.statements.Return
-import it.fulminazzo.javaparser.parser.node.statements.Statement
+import it.fulminazzo.javaparser.parser.node.statements.*
 import it.fulminazzo.javaparser.parser.node.values.*
 import it.fulminazzo.javaparser.typechecker.types.*
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayClassType
@@ -79,6 +75,28 @@ class TypeCheckerTest extends Specification {
         type                          | program
         Optional.of(ValueType.NUMBER) | new JavaProgram(new LinkedList<>([new Return(NUMBER_LIT)]))
         Optional.empty()              | new JavaProgram(new LinkedList<>([new Statement()]))
+    }
+
+    def 'test visit catch statement: (#exceptions #variable) #block should return #expected'() {
+        when:
+        def type = this.typeChecker.visitCatchStatement(exceptions, block, variable)
+
+        then:
+        type == expected
+
+        where:
+        exceptions | variable | block | expected
+        [Literal.of('IllegalArgumentException'), Literal.of('IllegalStateException'), Literal.of('IllegalAccessError')] |
+                Literal.of('e') | new CodeBlock(new Return(new NumberValueLiteral('1'))) |
+                new TupleType<>([ClassType.of(IllegalArgumentException), ClassType.of(IllegalStateException),
+                             ClassType.of(IllegalAccessError)], ValueType.NUMBER)
+        [Literal.of('IllegalArgumentException'), Literal.of('IllegalStateException')] |
+                Literal.of('e') | new CodeBlock(new Return(new NumberValueLiteral('1'))) |
+                new TupleType<>([ClassType.of(IllegalArgumentException), ClassType.of(IllegalStateException)],
+                        ValueType.NUMBER)
+        [Literal.of('IllegalArgumentException')] |
+                Literal.of('e') | new CodeBlock(new Return(new NumberValueLiteral('1'))) |
+                new TupleType<>([ClassType.of(IllegalArgumentException)], ValueType.NUMBER)
     }
 
     def 'test visit switch statement of #expression (#cases, #defaultBlock) should return #expected'() {
