@@ -284,12 +284,12 @@ class VisitorTest extends Specification {
         }
 
         @Override
-        @NotNull String visitBreak(@NotNull Node expr) {
+        @NotNull String visitBreak(@NotNull Node expression) {
             return null
         }
 
         @Override
-        @NotNull String visitContinue(@NotNull Node expr) {
+        @NotNull String visitContinue(@NotNull Node expression) {
             return null
         }
 
@@ -304,37 +304,37 @@ class VisitorTest extends Specification {
         }
 
         @Override
-        @NotNull String visitDoStatement(@NotNull CodeBlock code, @NotNull Node expr) {
+        @NotNull String visitDoStatement(@NotNull CodeBlock code, @NotNull Node expression) {
             return null
         }
 
         @Override
-        @NotNull String visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable, @NotNull CodeBlock code, @NotNull Node expr) {
+        @NotNull String visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable, @NotNull CodeBlock code, @NotNull Node expression) {
             return null
         }
 
         @Override
-        @NotNull String visitForStatement(@NotNull Node assignment, @NotNull Node increment, @NotNull CodeBlock code, @NotNull Node expr) {
+        @NotNull String visitForStatement(@NotNull Node assignment, @NotNull Node increment, @NotNull CodeBlock code, @NotNull Node expression) {
             return null
         }
 
         @Override
-        @NotNull String visitIfStatement(@NotNull CodeBlock then, @NotNull Node elseBranch, @NotNull Node expr) {
+        @NotNull String visitIfStatement(@NotNull CodeBlock then, @NotNull Node elseBranch, @NotNull Node expression) {
             return null
         }
 
         @Override
-        @NotNull String visitReturn(@NotNull Node expr) {
+        @NotNull String visitReturn(@NotNull Node expression) {
             return null
         }
 
         @Override
-        @NotNull String visitStatement(@NotNull Node expr) {
+        @NotNull String visitStatement(@NotNull Node expression) {
             return null
         }
 
         @Override
-        @NotNull String visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expr) {
+        @NotNull String visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expression) {
             return null
         }
 
