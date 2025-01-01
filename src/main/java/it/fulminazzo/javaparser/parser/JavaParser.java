@@ -203,7 +203,7 @@ public class JavaParser extends Parser {
         consume(OPEN_PAR);
         List<Literal> exceptions = new LinkedList<>();
         do exceptions.add(parseLiteral());
-        while (lastToken() == PIPE && consume(PIPE) == LITERAL);
+        while (lastToken() == BIT_OR && consume(BIT_OR) == LITERAL);
         Literal exceptionsName = parseLiteral();
         consume(CLOSE_PAR);
         CodeBlock block = parseBlock();
