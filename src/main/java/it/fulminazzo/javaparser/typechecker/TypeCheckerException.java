@@ -88,7 +88,7 @@ public class TypeCheckerException extends RuntimeException {
      *
      * @param <T>  the type parameter
      * @param type the type
-     * @return the type exception
+     * @return the type checker exception
      */
     public static <T extends Type> @NotNull TypeCheckerException noClassType(final @NotNull Class<T> type) {
         return new TypeCheckerException("%s does not have a %s",
@@ -100,7 +100,7 @@ public class TypeCheckerException extends RuntimeException {
      * <i>Cannot resolve symbol '%symbol%'</i>
      *
      * @param symbol the symbol
-     * @return the type exception
+     * @return the type checker exception
      */
     public static @NotNull TypeCheckerException cannotResolveSymbol(final @NotNull String symbol) {
         return new TypeCheckerException("Cannot resolve symbol '%s'", symbol);
@@ -111,7 +111,7 @@ public class TypeCheckerException extends RuntimeException {
      * <i>Invalid array size '%size%' specified: natural number required</i>
      *
      * @param size the size
-     * @return the type exception
+     * @return the type checker exception
      */
     public static @NotNull TypeCheckerException invalidArraySize(final int size) {
         return new TypeCheckerException("Invalid array size '%s' specified: natural number required", size);
@@ -122,7 +122,7 @@ public class TypeCheckerException extends RuntimeException {
      * <i>Type %type% does not have any associated wrapper type</i>
      *
      * @param type the type
-     * @return the type exception
+     * @return the type checker exception
      */
     public static @NotNull TypeCheckerException noWrapper(final @NotNull Type type) {
         return new TypeCheckerException("Type %s does not have any associated wrapper type", type);
@@ -133,7 +133,7 @@ public class TypeCheckerException extends RuntimeException {
      * <i>Exception %type% has already been caught</i>
      *
      * @param type the type
-     * @return the type exception
+     * @return the type checker exception
      */
     public static @NotNull TypeCheckerException exceptionAlreadyCaught(final @NotNull ClassType type) {
         return new TypeCheckerException("Exception '%s' has already been caught", type);
