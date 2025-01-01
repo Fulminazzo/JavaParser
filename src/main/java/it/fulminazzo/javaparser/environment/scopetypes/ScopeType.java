@@ -17,6 +17,7 @@ public interface ScopeType {
      */
     ScopeType MAIN = new MainScopeType();
     ScopeType CODE_BLOCK = BaseScopeType.CODE_BLOCK;
+    ScopeType CATCH = BaseScopeType.CATCH;
     ScopeType SWITCH = BaseScopeType.SWITCH;
     ScopeType CASE = BaseScopeType.CASE;
     ScopeType FOR = BaseScopeType.FOR;
