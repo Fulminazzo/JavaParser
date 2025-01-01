@@ -76,4 +76,14 @@ final class ParserException extends RuntimeException {
         return new ParserException(parser, "Default block already defined");
     }
 
+    /**
+     * Generates a {@link ParserException} with message:
+     * <i>No input provided</i>
+     *
+     * @return the parser exception
+     */
+    public static @NotNull ParserException noInputProvided() {
+        return new ParserException(null, "No input provided");
+    }
+
 }
