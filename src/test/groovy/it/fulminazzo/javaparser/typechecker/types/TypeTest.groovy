@@ -16,6 +16,34 @@ class TypeTest extends Specification {
         this.classType = ClassObjectType.of(TestClass)
     }
 
+    def 'test check not valid'() {
+        when:
+        this.type.checkNot(ValueType.NUMBER)
+
+        then:
+        noExceptionThrown()
+    }
+
+    def 'test check not invalid'() {
+        given:
+        def type = ObjectType.of(TestClass)
+
+        when:
+        this.type.checkNot(type)
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.invalidUnexpectedType(type).message
+    }
+
+    def 'test check empty not'() {
+        when:
+        this.type.checkNot()
+
+        then:
+        thrown(IllegalArgumentException)
+    }
+
     def 'test toWrapper should throw exception by default'() {
         when:
         this.type.toWrapper()
