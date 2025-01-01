@@ -6,6 +6,7 @@ import it.fulminazzo.javaparser.parser.node.MethodCall
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray
+import it.fulminazzo.javaparser.parser.node.container.CaseBlock
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.container.DefaultBlock
 import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
@@ -126,6 +127,22 @@ class JavaParserTest extends Specification {
                 '/*\nComment block\n',
                 '/**\n *Javadoc block\n '
         ]
+    }
+
+    def 'test parse case block of code: #code'() {
+        when:
+        startReading(code)
+        def block = this.parser.parseCaseBlock()
+
+        then:
+        block == expected
+
+        where:
+        expected                                                                                | code
+        new CaseBlock(new BooleanValueLiteral('true'), new Return(new NumberValueLiteral('1'))) |
+                'case true: return 1;}'
+        new CaseBlock(new BooleanValueLiteral('true'), new Return(new NumberValueLiteral('1'))) |
+                'case true: {return 1;}}'
     }
 
     def 'test parse default block of code: #code'() {
