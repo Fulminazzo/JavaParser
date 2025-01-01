@@ -149,7 +149,7 @@ public class JavaParser extends Parser {
      */
     protected @NotNull Statement parseSwitchStatement() {
         consume(SWITCH);
-        Node expr = parseExpression();
+        Node expression = parseExpression();
         List<CaseStatement> caseStatements = new LinkedList<>();
         CodeBlock defaultBlock = null;
         consume(OPEN_BRACE);
@@ -164,7 +164,7 @@ public class JavaParser extends Parser {
         }
         if (defaultBlock == null) defaultBlock = new CodeBlock();
         consume(CLOSE_BRACE);
-        return new SwitchStatement(expr, caseStatements, defaultBlock);
+        return new SwitchStatement(expression, caseStatements, defaultBlock);
     }
 
     /**
@@ -172,13 +172,13 @@ public class JavaParser extends Parser {
      */
     protected @NotNull CaseStatement parseCaseBlock() {
         consume(CASE);
-        Node expr = parseExpression();
+        Node expression = parseExpression();
         consume(COLON);
         LinkedList<Statement> statements = new LinkedList<>();
         if (lastToken() == OPEN_BRACE)
             statements.addAll(parseCodeBlock().getStatements());
         else while (tokenIsValidForCaseDefaultBlock()) statements.add(parseSingleStatement());
-        return new CaseStatement(expr, new CodeBlock(statements));
+        return new CaseStatement(expression, new CodeBlock(statements));
     }
 
     /**
@@ -235,10 +235,10 @@ public class JavaParser extends Parser {
      */
     private @NotNull EnhancedForStatement parseEnhancedForStatement(final @NotNull Assignment assignment) {
         consume(COLON);
-        Node expr = parseExpression();
+        Node expression = parseExpression();
         consume(CLOSE_PAR);
         CodeBlock block = parseBlock();
-        return new EnhancedForStatement(assignment.getType(), assignment.getName(), expr, block);
+        return new EnhancedForStatement(assignment.getType(), assignment.getName(), expression, block);
     }
 
     /**
@@ -649,22 +649,22 @@ public class JavaParser extends Parser {
      * @return the node
      */
     protected @NotNull Node parseCast() {
-        Node expr = parseParenthesizedExpr();
+        Node expression = parseParenthesizedExpr();
         if (lastToken().between(MODULO, SPACE) || lastToken() == OPEN_PAR)
-            expr = new Cast(expr, parseAtom());
+            expression = new Cast(expression, parseAtom());
         else if (lastToken() == ADD) {
             consume(ADD);
-            if (lastToken() == ADD) expr = new Cast(expr, parseIncrement());
-            else return new Add(expr, parseExpression());
+            if (lastToken() == ADD) expression = new Cast(expression, parseIncrement());
+            else return new Add(expression, parseExpression());
         } else if (lastToken() == SUBTRACT) {
             consume(SUBTRACT);
-            if (lastToken() == SUBTRACT) expr = new Cast(expr, parseDecrement());
-            else if (expr.is(Literal.class) &&
+            if (lastToken() == SUBTRACT) expression = new Cast(expression, parseDecrement());
+            else if (expression.is(Literal.class) &&
                     (lastToken().between(MODULO, SPACE) || lastToken() == OPEN_PAR))
-                expr = new Cast(expr, new Minus(parseAtom()));
-            else return new Subtract(expr, parseExpression());
+                expression = new Cast(expression, new Minus(parseAtom()));
+            else return new Subtract(expression, parseExpression());
         }
-        return expr;
+        return expression;
     }
 
     /**
@@ -674,9 +674,9 @@ public class JavaParser extends Parser {
      */
     protected @NotNull Node parseParenthesizedExpr() {
         consume(OPEN_PAR);
-        Node expr = parseExpression();
+        Node expression = parseExpression();
         consume(CLOSE_PAR);
-        return expr;
+        return expression;
     }
 
     /**
