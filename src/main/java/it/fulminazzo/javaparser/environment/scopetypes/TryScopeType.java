@@ -44,7 +44,7 @@ public final class TryScopeType implements ScopeType {
 
     @Override
     public String toString() {
-        return "TRY";
+        return name();
     }
 
 }
