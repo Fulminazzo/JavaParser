@@ -272,6 +272,17 @@ class TypeCheckerTest extends Specification {
         ]
     }
 
+    def 'test visit try statement of not caught but extended should not throw'() {
+        when:
+        this.typeChecker.visitTryStatement(new CodeBlock(), [
+                new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'), new CodeBlock()),
+                new CatchStatement([Literal.of(RuntimeException.canonicalName)], Literal.of('e'), new CodeBlock()),
+        ], new CodeBlock(), new AssignmentBlock([]))
+
+        then:
+        notThrown(TypeCheckerException)
+    }
+
     def 'test visit catch statement: (#exceptions #variable) #block should return #expected'() {
         when:
         def type = this.typeChecker.visitCatchStatement(exceptions, block, variable)
