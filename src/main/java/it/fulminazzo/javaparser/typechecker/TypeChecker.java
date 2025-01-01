@@ -440,7 +440,9 @@ public final class TypeChecker implements Visitor<Type> {
             if (!catchType.is(returnType)) returnType = Types.NO_TYPE;
 
             for (ClassType exception : tuple.getKey()) {
-                caughtExceptions.add(exception);
+                if (caughtExceptions.stream().anyMatch(e -> e.compatibleWith(exception.toType())))
+                    throw TypeCheckerException.exceptionAlreadyCaught(exception);
+                else caughtExceptions.add(exception);
             }
         }
 
