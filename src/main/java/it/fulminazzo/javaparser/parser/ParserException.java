@@ -56,19 +56,6 @@ final class ParserException extends RuntimeException {
 
     /**
      * Generates a {@link ParserException} with message:
-     * <i>Invalid value '%value%' provided for value type '%parser#lastToken%'</i>
-     *
-     * @param parser the parser
-     * @param value  the value
-     * @return the parser exception
-     */
-    public static @NotNull ParserException invalidValueProvidedException(final @NotNull Parser parser,
-                                                                         final @NotNull String value) {
-        return new ParserException(parser, "Invalid value '%s' provided for value type %s", value, parser.lastToken().name());
-    }
-
-    /**
-     * Generates a {@link ParserException} with message:
      * <i>Case block with expression '%expression%' already defined</i>
      *
      * @param parser    the parser
@@ -89,6 +76,19 @@ final class ParserException extends RuntimeException {
      */
     public static @NotNull ParserException defaultBlockAlreadyDefined(final @NotNull Parser parser) {
         return new ParserException(parser, "Default block already defined");
+    }
+
+    /**
+     * Generates a {@link ParserException} with message:
+     * <i>Invalid value '%value%' provided for value type '%parser#lastToken%'</i>
+     *
+     * @param parser the parser
+     * @param value  the value
+     * @return the parser exception
+     */
+    public static @NotNull ParserException invalidValueProvided(final @NotNull Parser parser,
+                                                                final @NotNull String value) {
+        return new ParserException(parser, "Invalid value '%s' provided for value type %s", value, parser.lastToken().name());
     }
 
     /**

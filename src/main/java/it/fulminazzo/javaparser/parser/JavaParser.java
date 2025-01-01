@@ -734,7 +734,7 @@ public class JavaParser extends Parser {
 
     /**
      * Converts the given string to a {@link Literal}.
-     * Throws {@link ParserException#invalidValueProvidedException(Parser, String)} in case of error.
+     * Throws {@link ParserException#invalidValueProvided(Parser, String)} in case of error.
      *
      * @param literal the string
      * @return the literal
@@ -743,7 +743,7 @@ public class JavaParser extends Parser {
         try {
             return Literal.of(literal);
         } catch (NodeException e) {
-            throw ParserException.invalidValueProvidedException(this, literal);
+            throw ParserException.invalidValueProvided(this, literal);
         }
     }
 
@@ -820,7 +820,7 @@ public class JavaParser extends Parser {
         } catch (RuntimeException e) {
             Throwable cause = e.getCause();
             if (cause instanceof NodeException)
-                throw ParserException.invalidValueProvidedException(this, rawValue);
+                throw ParserException.invalidValueProvided(this, rawValue);
             else throw e;
         }
     }

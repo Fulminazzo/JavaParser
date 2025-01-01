@@ -371,7 +371,7 @@ class JavaParserTest extends Specification {
         def code = 'int[] 1 = new int[0]'
 
         and:
-        def exceptionMessage = ParserException.invalidValueProvidedException(this.parser, TokenType.NUMBER_VALUE).message
+        def exceptionMessage = ParserException.invalidValueProvided(this.parser, TokenType.NUMBER_VALUE).message
 
         when:
         startReading(code)
@@ -831,7 +831,7 @@ class JavaParserTest extends Specification {
         this.parser.setInput('$$$')
 
         and:
-        def exceptionMessage = ParserException.invalidValueProvidedException(this.parser, '').message
+        def exceptionMessage = ParserException.invalidValueProvided(this.parser, '').message
 
         when:
         this.parser.parseLiteral()
