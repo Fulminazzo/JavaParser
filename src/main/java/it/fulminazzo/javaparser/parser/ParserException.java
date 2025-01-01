@@ -65,4 +65,15 @@ final class ParserException extends RuntimeException {
         return new ParserException(parser, "Case block with expression '%s' already defined", caseBlock.getExpression());
     }
 
+    /**
+     * Generates a {@link ParserException} with message:
+     * <i>Default block already defined</i>
+     *
+     * @param parser the parser
+     * @return the parser exception
+     */
+    public static @NotNull ParserException defaultBlockAlreadyDefined(final @NotNull Parser parser) {
+        return new ParserException(parser, "Default block already defined");
+    }
+
 }
