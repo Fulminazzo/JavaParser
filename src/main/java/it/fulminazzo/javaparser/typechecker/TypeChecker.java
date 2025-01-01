@@ -422,35 +422,37 @@ public final class TypeChecker implements Visitor<Type> {
     @Override
     public @NotNull Type visitTryStatement(@NotNull CodeBlock block, @NotNull List<CatchStatement> catchBlocks,
                                            @NotNull CodeBlock finallyBlock, @NotNull Node expression) {
-        final ClassType autoClosable = ClassType.of(AutoCloseable.class);
+        return visitScoped(ScopeType.TRY, () -> {
+            final ClassType autoClosable = ClassType.of(AutoCloseable.class);
 
-        ParameterTypes assignments = expression.accept(this).check(ParameterTypes.class);
-        for (Class<?> assignment : assignments.toJavaClassArray()) {
-            if (!autoClosable.toJavaClass().isAssignableFrom(assignment))
-                throw TypeCheckerException.invalidType(autoClosable, ClassType.of(assignment));
-        }
-
-        Type returnType = finallyBlock.accept(this);
-
-        LinkedHashSet<ClassType> caughtExceptions = new LinkedHashSet<>();
-        for (CatchStatement catchStatement : catchBlocks) {
-            TupleType<Set<ClassType>, Type> tuple = catchStatement.accept(this).check(TupleType.class);
-
-            Type catchType = tuple.getValue();
-            if (!catchType.is(returnType)) returnType = Types.NO_TYPE;
-
-            for (ClassType exception : tuple.getKey()) {
-                if (caughtExceptions.stream().anyMatch(e -> e.compatibleWith(exception.toType())))
-                    throw TypeCheckerException.exceptionAlreadyCaught(exception);
-                else caughtExceptions.add(exception);
+            ParameterTypes assignments = expression.accept(this).check(ParameterTypes.class);
+            for (Class<?> assignment : assignments.toJavaClassArray()) {
+                if (!autoClosable.toJavaClass().isAssignableFrom(assignment))
+                    throw TypeCheckerException.invalidType(autoClosable, ClassType.of(assignment));
             }
-        }
 
-        Type visitedType = visitScoped(ScopeType.tryScope(caughtExceptions.stream()
-                .map(ClassType::toJavaClass)
-                .map(c -> (Class<Throwable>) c)), () -> block.accept(this));
+            Type returnType = finallyBlock.accept(this);
 
-        return visitedType.is(returnType) ? returnType : Types.NO_TYPE;
+            LinkedHashSet<ClassType> caughtExceptions = new LinkedHashSet<>();
+            for (CatchStatement catchStatement : catchBlocks) {
+                TupleType<Set<ClassType>, Type> tuple = catchStatement.accept(this).check(TupleType.class);
+
+                Type catchType = tuple.getValue();
+                if (!catchType.is(returnType)) returnType = Types.NO_TYPE;
+
+                for (ClassType exception : tuple.getKey()) {
+                    if (caughtExceptions.stream().anyMatch(e -> e.compatibleWith(exception.toType())))
+                        throw TypeCheckerException.exceptionAlreadyCaught(exception);
+                    else caughtExceptions.add(exception);
+                }
+            }
+
+            Type visitedType = visitScoped(ScopeType.tryScope(caughtExceptions.stream()
+                    .map(ClassType::toJavaClass)
+                    .map(c -> (Class<Throwable>) c)), () -> block.accept(this));
+
+            return visitedType.is(returnType) ? returnType : Types.NO_TYPE;
+        });
     }
 
     /**
