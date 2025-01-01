@@ -16,21 +16,20 @@ import java.util.stream.Stream;
  */
 @Getter
 public final class TryScopeType implements ScopeType {
-    private final Set<Throwable> caughtExceptions;
+    private final Set<Class<Throwable>> caughtExceptions;
 
     /**
      * Instantiates a new Try scope type.
      *
      * @param caughtExceptions the caught exceptions
      */
-    public TryScopeType(final @NotNull Stream<Throwable> caughtExceptions) {
+    public TryScopeType(final @NotNull Stream<Class<Throwable>> caughtExceptions) {
         this.caughtExceptions = caughtExceptions.collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     @Override
     public String name() {
         return String.format("TRY(%s)", this.caughtExceptions.stream()
-                .map(Throwable::getClass)
                 .map(Class::getCanonicalName)
                 .collect(Collectors.joining(", ")));
     }

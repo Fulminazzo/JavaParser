@@ -12,7 +12,7 @@ class TryScopeTypeTest extends Specification {
         this.type = new TryScopeType([
                 IllegalArgumentException, IllegalStateException,
                 IllegalAccessException, ScopeException
-        ].stream() as Stream<Throwable>)
+        ].stream() as Stream<Class<Throwable>>)
     }
 
     def 'test name and toString should be equal'() {
@@ -29,15 +29,15 @@ class TryScopeTypeTest extends Specification {
                 new TryScopeType([
                         IllegalArgumentException, IllegalStateException,
                         IllegalAccessException, ScopeException
-                ].stream() as Stream<Throwable>),
+                ].stream() as Stream<Class<Throwable>>),
                 new TryScopeType([
                         ScopeException, IllegalAccessException,
                         IllegalStateException, IllegalArgumentException
-                ].stream() as Stream<Throwable>),
+                ].stream() as Stream<Class<Throwable>>),
                 new TryScopeType([
                         ScopeException, IllegalStateException,
                         IllegalAccessException, IllegalArgumentException
-                ].stream() as Stream<Throwable>),
+                ].stream() as Stream<Class<Throwable>>),
         ]
     }
 
