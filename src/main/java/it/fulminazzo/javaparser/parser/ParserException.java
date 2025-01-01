@@ -1,6 +1,6 @@
 package it.fulminazzo.javaparser.parser;
 
-import it.fulminazzo.javaparser.parser.node.container.CaseBlock;
+import it.fulminazzo.javaparser.parser.node.statements.CaseStatement;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -67,12 +67,12 @@ final class ParserException extends RuntimeException {
      * <i>Case block with expression '%expression%' already defined</i>
      *
      * @param parser    the parser
-     * @param caseBlock the case block
+     * @param caseStatement the case block
      * @return the parser exception
      */
     public static @NotNull ParserException caseBlockAlreadyDefined(final @NotNull Parser parser,
-                                                                   final @NotNull CaseBlock caseBlock) {
-        return new ParserException(parser, "Case block with expression '%s' already defined", caseBlock.getExpression());
+                                                                   final @NotNull CaseStatement caseStatement) {
+        return new ParserException(parser, "Case block with expression '%s' already defined", caseStatement.getExpression());
     }
 
     /**

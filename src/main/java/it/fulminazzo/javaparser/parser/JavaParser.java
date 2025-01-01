@@ -6,7 +6,7 @@ import it.fulminazzo.fulmicollection.utils.StringUtils;
 import it.fulminazzo.javaparser.parser.node.*;
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray;
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray;
-import it.fulminazzo.javaparser.parser.node.container.CaseBlock;
+import it.fulminazzo.javaparser.parser.node.statements.CaseStatement;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram;
 import it.fulminazzo.javaparser.parser.node.literals.*;
@@ -150,27 +150,27 @@ public class JavaParser extends Parser {
     protected @NotNull Statement parseSwitchStatement() {
         consume(SWITCH);
         Node expr = parseExpression();
-        List<CaseBlock> caseBlocks = new LinkedList<>();
+        List<CaseStatement> caseStatements = new LinkedList<>();
         CodeBlock defaultBlock = null;
         consume(OPEN_BRACE);
         while (lastToken() != CLOSE_BRACE) {
             if (lastToken() == CASE) {
-                CaseBlock caseBlock = parseCaseBlock();
-                if (caseBlocks.stream().anyMatch(c -> c.getExpression().equals(caseBlock.getExpression())))
-                    throw ParserException.caseBlockAlreadyDefined(this, caseBlock);
-                else caseBlocks.add(caseBlock);
+                CaseStatement caseStatement = parseCaseBlock();
+                if (caseStatements.stream().anyMatch(c -> c.getExpression().equals(caseStatement.getExpression())))
+                    throw ParserException.caseBlockAlreadyDefined(this, caseStatement);
+                else caseStatements.add(caseStatement);
             } else if (defaultBlock == null) defaultBlock = parseDefaultBlock();
             else throw ParserException.defaultBlockAlreadyDefined(this);
         }
         if (defaultBlock == null) defaultBlock = new CodeBlock();
         consume(CLOSE_BRACE);
-        return new SwitchStatement(expr, caseBlocks, defaultBlock);
+        return new SwitchStatement(expr, caseStatements, defaultBlock);
     }
 
     /**
      * CASE_BLOCK := case EXPR: ( CODE_BLOCK | SINGLE_STMT* )
      */
-    protected @NotNull CaseBlock parseCaseBlock() {
+    protected @NotNull CaseStatement parseCaseBlock() {
         consume(CASE);
         Node expr = parseExpression();
         consume(COLON);
@@ -178,7 +178,7 @@ public class JavaParser extends Parser {
         if (lastToken() == OPEN_BRACE)
             statements.addAll(parseCodeBlock().getStatements());
         else while (tokenIsValidForCaseDefaultBlock()) statements.add(parseSingleStatement());
-        return new CaseBlock(expr, statements);
+        return new CaseStatement(expr, statements);
     }
 
     /**

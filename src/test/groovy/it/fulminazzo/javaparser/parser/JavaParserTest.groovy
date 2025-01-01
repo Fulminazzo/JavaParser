@@ -6,7 +6,6 @@ import it.fulminazzo.javaparser.parser.node.MethodCall
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray
-import it.fulminazzo.javaparser.parser.node.container.CaseBlock
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 
 import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
@@ -143,27 +142,27 @@ class JavaParserTest extends Specification {
         'switch (1) {case 1: return 1; case 2: return 2; default: return 3;}' |
                 new SwitchStatement(new NumberValueLiteral('1'),
                 Arrays.asList(
-                        new CaseBlock(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1'))),
-                        new CaseBlock(new NumberValueLiteral('2'), new Return(new NumberValueLiteral('2'))),
+                        new CaseStatement(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1'))),
+                        new CaseStatement(new NumberValueLiteral('2'), new Return(new NumberValueLiteral('2'))),
                 ),
                 new CodeBlock(new Return(new NumberValueLiteral('3'))))
         'switch (1) {case 1: return 1; default: return 3; case 2: return 2;}' |
                 new SwitchStatement(new NumberValueLiteral('1'),
                         Arrays.asList(
-                                new CaseBlock(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1'))),
-                                new CaseBlock(new NumberValueLiteral('2'), new Return(new NumberValueLiteral('2')))
+                                new CaseStatement(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1'))),
+                                new CaseStatement(new NumberValueLiteral('2'), new Return(new NumberValueLiteral('2')))
                         ),
                         new CodeBlock(new Return(new NumberValueLiteral('3'))))
         'switch (1) {case 1: return 1; default: return 3;}' |
                 new SwitchStatement(new NumberValueLiteral('1'),
                         Arrays.asList(
-                                new CaseBlock(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1')))
+                                new CaseStatement(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1')))
                         ),
                         new CodeBlock(new Return(new NumberValueLiteral('3'))))
         'switch (1) {case 1: return 1;}' |
                 new SwitchStatement(new NumberValueLiteral('1'),
                         Arrays.asList(
-                                new CaseBlock(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1')))
+                                new CaseStatement(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1')))
                         ),
                         new CodeBlock())
         'switch (1) {default: return 3;}' |
@@ -187,7 +186,7 @@ class JavaParserTest extends Specification {
         then:
         def e = thrown(ParserException)
         e.message == ParserException.caseBlockAlreadyDefined(this.parser,
-                new CaseBlock(new NumberValueLiteral('1'),
+                new CaseStatement(new NumberValueLiteral('1'),
                         new Return(new NumberValueLiteral('1')))).message
     }
 
@@ -214,9 +213,9 @@ class JavaParserTest extends Specification {
 
         where:
         expected                                                                                | code
-        new CaseBlock(new BooleanValueLiteral('true'), new Return(new NumberValueLiteral('1'))) |
+        new CaseStatement(new BooleanValueLiteral('true'), new Return(new NumberValueLiteral('1'))) |
                 'case true: return 1;}'
-        new CaseBlock(new BooleanValueLiteral('true'), new Return(new NumberValueLiteral('1'))) |
+        new CaseStatement(new BooleanValueLiteral('true'), new Return(new NumberValueLiteral('1'))) |
                 'case true: {return 1;}}'
     }
 
