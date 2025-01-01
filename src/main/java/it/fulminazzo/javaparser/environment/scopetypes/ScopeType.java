@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser.environment.scopetypes;
 import it.fulminazzo.fulmicollection.objects.Refl;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.LinkedList;
 import java.util.stream.Stream;
 
 /**
@@ -17,6 +18,8 @@ public interface ScopeType {
      */
     ScopeType MAIN = new MainScopeType();
     ScopeType CODE_BLOCK = BaseScopeType.CODE_BLOCK;
+    ScopeType TRY = new TryScopeType();
+    ScopeType CATCH = BaseScopeType.CATCH;
     ScopeType SWITCH = BaseScopeType.SWITCH;
     ScopeType CASE = BaseScopeType.CASE;
     ScopeType FOR = BaseScopeType.FOR;

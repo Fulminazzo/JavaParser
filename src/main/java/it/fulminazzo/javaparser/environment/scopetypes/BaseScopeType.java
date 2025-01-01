@@ -5,6 +5,7 @@ package it.fulminazzo.javaparser.environment.scopetypes;
  */
 enum BaseScopeType implements ScopeType {
     CODE_BLOCK,
+    CATCH,
     SWITCH,
     CASE,
     FOR,

@@ -20,6 +20,13 @@ public final class TryScopeType implements ScopeType {
 
     /**
      * Instantiates a new Try scope type.
+     */
+    TryScopeType() {
+        this.caughtExceptions = new LinkedHashSet<>();
+    }
+
+    /**
+     * Instantiates a new Try scope type.
      *
      * @param caughtExceptions the caught exceptions
      */
