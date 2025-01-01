@@ -82,6 +82,7 @@ class JavaParserTest extends Specification {
         code        | expected
         'return 1;' | new Return(new NumberValueLiteral('1'))
         'return 1'  | new Return(new NumberValueLiteral('1'))
+        'throw 1;'  | new Throw(new NumberValueLiteral('1'))
         'break;'    | new Break()
         ';'         | new Statement()
     }
