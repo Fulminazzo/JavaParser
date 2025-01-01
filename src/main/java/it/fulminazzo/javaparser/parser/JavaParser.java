@@ -162,11 +162,17 @@ public class JavaParser extends Parser {
         final List<CatchStatement> catchBlocks = new LinkedList<>();
         while (lastToken() == CATCH) catchBlocks.add(parseCatchStatement());
 
-        final CodeBlock finallyBlock;
+        CodeBlock finallyBlock = null;
         if (lastToken() == FINALLY) {
             consume(FINALLY);
             finallyBlock = parseBlock();
-        } else finallyBlock = new CodeBlock();
+        }
+
+        // If no catch and no finally block was specified, throw error
+        if (finallyBlock == null) {
+            if (catchBlocks.isEmpty()) throw ParserException.invalidTryStatement(this);
+            else finallyBlock = new CodeBlock();
+        }
 
         return new TryStatement(assignmentBlock, block, catchBlocks, finallyBlock);
     }
