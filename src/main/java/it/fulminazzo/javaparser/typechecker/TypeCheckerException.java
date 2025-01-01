@@ -130,6 +130,17 @@ public class TypeCheckerException extends RuntimeException {
 
     /**
      * Generates a {@link TypeCheckerException} with message:
+     * <i>Unhandled exception: %type%</i>
+     *
+     * @param type the type
+     * @return the type checker exception
+     */
+    public static @NotNull TypeCheckerException unhandledException(final @NotNull ClassType type) {
+        return new TypeCheckerException("Unhandled exception: %s", type);
+    }
+
+    /**
+     * Generates a {@link TypeCheckerException} with message:
      * <i>Exception %type% has already been caught</i>
      *
      * @param type the type
