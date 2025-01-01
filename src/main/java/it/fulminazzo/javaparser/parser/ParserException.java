@@ -101,4 +101,15 @@ final class ParserException extends RuntimeException {
         return new ParserException(null, "No input provided");
     }
 
+    /**
+     * Generates a {@link ParserException} with message:
+     * <i>Unexpected end of input. Last read token: %token% (%last_read%)</i>
+     *
+     * @return the parser exception
+     */
+    public static @NotNull ParserException unexpectedEndOfInput(final @NotNull Parser parser) {
+        return new ParserException(null, "Unexpected end of input. Last read token: %s (%s)",
+                parser.lastToken(), parser.getTokenizer().lastRead());
+    }
+
 }
