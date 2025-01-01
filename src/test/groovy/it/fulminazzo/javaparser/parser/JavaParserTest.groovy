@@ -7,6 +7,7 @@ import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
+import it.fulminazzo.javaparser.parser.node.container.DefaultBlock
 import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
@@ -125,6 +126,20 @@ class JavaParserTest extends Specification {
                 '/*\nComment block\n',
                 '/**\n *Javadoc block\n '
         ]
+    }
+
+    def 'test parse default block of code: #code'() {
+        when:
+        startReading(code)
+        def block = this.parser.parseDefaultBlock()
+
+        then:
+        block == expected
+
+        where:
+        expected                                                  | code
+        new DefaultBlock(new Return(new NumberValueLiteral('1'))) | 'default: return 1;}'
+        new DefaultBlock(new Return(new NumberValueLiteral('1'))) | 'default: {return 1;}}'
     }
 
     def 'test invalid for statement'() {
