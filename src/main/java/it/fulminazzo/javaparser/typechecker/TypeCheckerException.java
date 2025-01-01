@@ -59,6 +59,17 @@ public class TypeCheckerException extends RuntimeException {
 
     /**
      * Generates a {@link TypeCheckerException} with message:
+     * <i>Invalid type received: expected not %expected%</i>
+     *
+     * @param type the expected type
+     * @return the type checker exception
+     */
+    public static @NotNull TypeCheckerException invalidUnexpectedType(final @NotNull Type type) {
+        return new TypeCheckerException("Invalid type received: expected not %s", type);
+    }
+
+    /**
+     * Generates a {@link TypeCheckerException} with message:
      * <i>Inconvertible types: cannot cast '%objectType%' to '%classToCast%'</i>
      *
      * @param classToCast the expected type
