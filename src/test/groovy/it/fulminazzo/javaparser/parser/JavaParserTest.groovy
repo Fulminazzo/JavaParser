@@ -8,7 +8,7 @@ import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray
 import it.fulminazzo.javaparser.parser.node.container.CaseBlock
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
-import it.fulminazzo.javaparser.parser.node.container.DefaultBlock
+
 import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
@@ -146,34 +146,34 @@ class JavaParserTest extends Specification {
                         new CaseBlock(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1'))),
                         new CaseBlock(new NumberValueLiteral('2'), new Return(new NumberValueLiteral('2'))),
                 ),
-                new DefaultBlock(new Return(new NumberValueLiteral('3'))))
+                new CodeBlock(new Return(new NumberValueLiteral('3'))))
         'switch (1) {case 1: return 1; default: return 3; case 2: return 2;}' |
                 new SwitchStatement(new NumberValueLiteral('1'),
                         Arrays.asList(
                                 new CaseBlock(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1'))),
                                 new CaseBlock(new NumberValueLiteral('2'), new Return(new NumberValueLiteral('2')))
                         ),
-                        new DefaultBlock(new Return(new NumberValueLiteral('3'))))
+                        new CodeBlock(new Return(new NumberValueLiteral('3'))))
         'switch (1) {case 1: return 1; default: return 3;}' |
                 new SwitchStatement(new NumberValueLiteral('1'),
                         Arrays.asList(
                                 new CaseBlock(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1')))
                         ),
-                        new DefaultBlock(new Return(new NumberValueLiteral('3'))))
+                        new CodeBlock(new Return(new NumberValueLiteral('3'))))
         'switch (1) {case 1: return 1;}' |
                 new SwitchStatement(new NumberValueLiteral('1'),
                         Arrays.asList(
                                 new CaseBlock(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1')))
                         ),
-                        new DefaultBlock())
+                        new CodeBlock())
         'switch (1) {default: return 3;}' |
                 new SwitchStatement(new NumberValueLiteral('1'),
                         new LinkedList<>(),
-                        new DefaultBlock(new Return(new NumberValueLiteral('3'))))
+                        new CodeBlock(new Return(new NumberValueLiteral('3'))))
         'switch (1) {}' |
                 new SwitchStatement(new NumberValueLiteral('1'),
                         new LinkedList<>(),
-                        new DefaultBlock())
+                        new CodeBlock())
     }
 
     def 'test parse switch of same cases should throw exception'() {
@@ -230,8 +230,8 @@ class JavaParserTest extends Specification {
 
         where:
         expected                                                  | code
-        new DefaultBlock(new Return(new NumberValueLiteral('1'))) | 'default: return 1;}'
-        new DefaultBlock(new Return(new NumberValueLiteral('1'))) | 'default: {return 1;}}'
+        new CodeBlock(new Return(new NumberValueLiteral('1'))) | 'default: return 1;}'
+        new CodeBlock(new Return(new NumberValueLiteral('1'))) | 'default: {return 1;}}'
     }
 
     def 'test invalid for statement'() {

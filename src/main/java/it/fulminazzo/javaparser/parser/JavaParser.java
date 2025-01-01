@@ -8,7 +8,6 @@ import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray;
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray;
 import it.fulminazzo.javaparser.parser.node.container.CaseBlock;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
-import it.fulminazzo.javaparser.parser.node.container.DefaultBlock;
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram;
 import it.fulminazzo.javaparser.parser.node.literals.*;
 import it.fulminazzo.javaparser.parser.node.operators.binary.*;
@@ -152,7 +151,7 @@ public class JavaParser extends Parser {
         consume(SWITCH);
         Node expr = parseExpression();
         List<CaseBlock> caseBlocks = new LinkedList<>();
-        DefaultBlock defaultBlock = null;
+        CodeBlock defaultBlock = null;
         consume(OPEN_BRACE);
         while (lastToken() != CLOSE_BRACE) {
             if (lastToken() == CASE) {
@@ -163,7 +162,7 @@ public class JavaParser extends Parser {
             } else if (defaultBlock == null) defaultBlock = parseDefaultBlock();
             else throw ParserException.defaultBlockAlreadyDefined(this);
         }
-        if (defaultBlock == null) defaultBlock = new DefaultBlock();
+        if (defaultBlock == null) defaultBlock = new CodeBlock();
         consume(CLOSE_BRACE);
         return new SwitchStatement(expr, caseBlocks, defaultBlock);
     }
@@ -185,14 +184,14 @@ public class JavaParser extends Parser {
     /**
      * DEFAULT_BLOCK := default: ( CODE_BLOCK | SINGLE_STMT* )
      */
-    protected @NotNull DefaultBlock parseDefaultBlock() {
+    protected @NotNull CodeBlock parseDefaultBlock() {
         consume(DEFAULT);
         consume(COLON);
         LinkedList<Statement> statements = new LinkedList<>();
         if (lastToken() == OPEN_BRACE)
             statements.addAll(parseCodeBlock().getStatements());
         else while (tokenIsValidForCaseDefaultBlock()) statements.add(parseSingleStatement());
-        return new DefaultBlock(statements);
+        return new CodeBlock(statements);
     }
 
     private boolean tokenIsValidForCaseDefaultBlock() {
