@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.environment;
 
 import it.fulminazzo.javaparser.environment.scopetypes.ScopeType;
+import it.fulminazzo.javaparser.environment.scopetypes.TryScopeType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
@@ -23,12 +24,32 @@ public class Environment<T> implements Scoped<T> {
     }
 
     /**
+     * Checks whether one of the {@link #scopes} is of type {@link TryScopeType}.
+     * If it is, verifies that one of its exceptions is extended by the provided exception.
+     *
+     * @param exception the exception
+     * @return true only if a match is found
+     */
+    public boolean isInTryScope(final @NotNull Class<? extends Throwable> exception) {
+        for (Scope<T> scope : scopes) {
+            ScopeType type = scope.scopeType();
+            if (type instanceof TryScopeType) {
+                TryScopeType tryType = (TryScopeType) type;
+                for (Class<Throwable> caught : tryType.getCaughtExceptions())
+                    if (caught.isAssignableFrom(exception))
+                        return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Enters a new {@link Scope} with the given {@link ScopeType} as type.
      *
      * @param scopeType the scope type
      * @return this environment
      */
-    public Environment<T> enterScope(final @NotNull ScopeType scopeType) {
+    public @NotNull Environment<T> enterScope(final @NotNull ScopeType scopeType) {
         this.scopes.addFirst(new Scope<>(scopeType));
         return this;
     }
@@ -39,7 +60,7 @@ public class Environment<T> implements Scoped<T> {
      *
      * @return this environment
      */
-    public Environment<T> exitScope() {
+    public @NotNull Environment<T> exitScope() {
         if (isMainScope()) throw new IllegalStateException("Cannot exit from main scope");
         this.scopes.removeFirst();
         return this;
@@ -108,7 +129,7 @@ public class Environment<T> implements Scoped<T> {
      *
      * @return the scope
      */
-    Scope<T> lastScope() {
+    @NotNull Scope<T> lastScope() {
         return this.scopes.getFirst();
     }
 
