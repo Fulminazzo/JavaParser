@@ -21,8 +21,8 @@ class PrimitiveValueTest extends Specification {
         'Hello, world!'  | new StringValue('Hello, world!')
         'a' as char      | new CharacterValue('a' as Character)
         1 as byte        | new IntegerValue(1)
-        2 as short       | new IntegerValue(1)
-        3                | new IntegerValue(1)
+        2 as short       | new IntegerValue(2)
+        3                | new IntegerValue(3)
     }
 
     def 'test conversion of invalid type'() {
@@ -34,7 +34,7 @@ class PrimitiveValueTest extends Specification {
 
         then:
         def e = thrown(ValueException)
-        e.message == ValueException.invalidPrimitiveValue(value).message + 'a'
+        e.message == ValueException.invalidPrimitiveValue(value).message
     }
 
 }
