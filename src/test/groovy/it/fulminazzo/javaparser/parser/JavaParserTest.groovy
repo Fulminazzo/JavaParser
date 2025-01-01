@@ -119,6 +119,7 @@ class JavaParserTest extends Specification {
         then:
         def e = thrown(ParserException)
         e.message == ParserException.unexpectedToken(this.parser, TokenType.EOF).message
+        e.message == ParserException.unexpectedEndOfInput(this.parser).message
 
         where:
         code << [
@@ -244,6 +245,7 @@ class JavaParserTest extends Specification {
         then:
         def e = thrown(ParserException)
         e.message == ParserException.unexpectedToken(this.parser, TokenType.EOF).message
+        e.message == ParserException.unexpectedEndOfInput(this.parser).message
     }
 
     def 'test for statements'() {
