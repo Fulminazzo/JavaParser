@@ -1,19 +1,14 @@
 package it.fulminazzo.javaparser.parser
 
 import it.fulminazzo.javaparser.parser.node.Assignment
-import it.fulminazzo.javaparser.parser.node.NodeException
 import it.fulminazzo.javaparser.parser.node.MethodCall
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
+import it.fulminazzo.javaparser.parser.node.NodeException
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray
 import it.fulminazzo.javaparser.parser.node.container.AssignmentBlock
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
-
-import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
-import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
-import it.fulminazzo.javaparser.parser.node.literals.Literal
-import it.fulminazzo.javaparser.parser.node.literals.NullLiteral
-import it.fulminazzo.javaparser.parser.node.literals.ThisLiteral
+import it.fulminazzo.javaparser.parser.node.literals.*
 import it.fulminazzo.javaparser.parser.node.operators.binary.*
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
@@ -164,6 +159,27 @@ class JavaParserTest extends Specification {
         'int i = 1' | new AssignmentBlock([
                 new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1'))
         ])
+    }
+
+    def 'test invalid parse assignment block of code: #code'() {
+        when:
+        startReading(code)
+        this.parser.parseAssignmentBlock()
+
+        then:
+        def e = thrown(ParserException)
+        e.message == expected
+
+        where:
+        code            | expected
+        'int i = 1;i++' | "At line -1, column -1: Expecting '${Assignment.simpleName}' but got " +
+                "${new Increment(Literal.of('i'), false)} instead."
+        'i++'           | "At line -1, column -1: Expecting '${Assignment.simpleName}' but got " +
+                "${new Increment(Literal.of('i'), false)} instead."
+        'i = 1'         | "At line -1, column -1: Expecting '${Assignment.simpleName}' but got " +
+                "${new ReAssign(Literal.of('i'), new NumberValueLiteral('1'))} instead."
+        ';'             | "At line 1, column 1: Unexpected token: ${TokenType.SEMICOLON}"
+        ''              |'At line 0, column 0: Unexpected end of input. Last read token: EOF ()'
     }
 
     def 'test parse catch statement of code: #code'() {
