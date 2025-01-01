@@ -6,7 +6,9 @@ import it.fulminazzo.fulmicollection.utils.StringUtils;
 import it.fulminazzo.javaparser.parser.node.*;
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray;
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray;
+import it.fulminazzo.javaparser.parser.node.container.CaseBlock;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
+import it.fulminazzo.javaparser.parser.node.container.DefaultBlock;
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram;
 import it.fulminazzo.javaparser.parser.node.literals.*;
 import it.fulminazzo.javaparser.parser.node.operators.binary.*;
@@ -142,13 +144,59 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * SWITCH_STMT := switch ...
+     * SWITCH_STMT := switch \( EXPR \) \{ (CASE_BLOCK)* (DEFAULT_BLOCK)? \}
      *
      * @return the node
      */
     protected @NotNull Statement parseSwitchStatement() {
-        //TODO:
-        throw new UnsupportedOperationException("Not implemented");
+        consume(SWITCH);
+        Node expr = parseExpression();
+        List<CaseBlock> caseBlocks = new LinkedList<>();
+        DefaultBlock defaultBlock = null;
+        consume(OPEN_BRACE);
+        while (lastToken() != CLOSE_BRACE) {
+            if (lastToken() == CASE) {
+                CaseBlock caseBlock = parseCaseBlock();
+                if (caseBlocks.stream().anyMatch(c -> c.getExpression().equals(caseBlock.getExpression())))
+                    throw ParserException.caseBlockAlreadyDefined(this, caseBlock);
+                else caseBlocks.add(caseBlock);
+            } else if (defaultBlock == null) defaultBlock = parseDefaultBlock();
+            else throw ParserException.defaultBlockAlreadyDefined(this);
+        }
+        if (defaultBlock == null) defaultBlock = new DefaultBlock();
+        consume(CLOSE_BRACE);
+        return new SwitchStatement(expr, caseBlocks, defaultBlock);
+    }
+
+    /**
+     * CASE_BLOCK := case EXPR: ( CODE_BLOCK | SINGLE_STMT* )
+     */
+    protected @NotNull CaseBlock parseCaseBlock() {
+        consume(CASE);
+        Node expr = parseExpression();
+        consume(COLON);
+        LinkedList<Statement> statements = new LinkedList<>();
+        if (lastToken() == OPEN_BRACE)
+            statements.addAll(parseCodeBlock().getStatements());
+        else while (tokenIsValidForCaseDefaultBlock()) statements.add(parseSingleStatement());
+        return new CaseBlock(expr, statements);
+    }
+
+    /**
+     * DEFAULT_BLOCK := default: ( CODE_BLOCK | SINGLE_STMT* )
+     */
+    protected @NotNull DefaultBlock parseDefaultBlock() {
+        consume(DEFAULT);
+        consume(COLON);
+        LinkedList<Statement> statements = new LinkedList<>();
+        if (lastToken() == OPEN_BRACE)
+            statements.addAll(parseCodeBlock().getStatements());
+        else while (tokenIsValidForCaseDefaultBlock()) statements.add(parseSingleStatement());
+        return new DefaultBlock(statements);
+    }
+
+    private boolean tokenIsValidForCaseDefaultBlock() {
+        return lastToken() != CLOSE_BRACE && lastToken() != CASE && lastToken() != DEFAULT;
     }
 
     /**
@@ -686,7 +734,7 @@ public class JavaParser extends Parser {
 
     /**
      * Converts the given string to a {@link Literal}.
-     * Throws {@link #invalidValueProvidedException(String)} in case of error.
+     * Throws {@link ParserException#invalidValueProvided(Parser, String)} in case of error.
      *
      * @param literal the string
      * @return the literal
@@ -695,7 +743,7 @@ public class JavaParser extends Parser {
         try {
             return Literal.of(literal);
         } catch (NodeException e) {
-            throw invalidValueProvidedException(literal);
+            throw ParserException.invalidValueProvided(this, literal);
         }
     }
 
@@ -750,7 +798,7 @@ public class JavaParser extends Parser {
                 break;
             }
             default:
-                throw new ParserException(lastToken(), this);
+                throw ParserException.unexpectedToken(this, lastToken());
         }
         nextSpaceless();
         return literal;
@@ -772,14 +820,9 @@ public class JavaParser extends Parser {
         } catch (RuntimeException e) {
             Throwable cause = e.getCause();
             if (cause instanceof NodeException)
-                throw invalidValueProvidedException(rawValue);
+                throw ParserException.invalidValueProvided(this, rawValue);
             else throw e;
         }
-    }
-
-    private @NotNull ParserException invalidValueProvidedException(final @NotNull String value) {
-        return new ParserException(String.format("Invalid value '%s' provided for value type %s",
-                value, lastToken().name()), this);
     }
 
 }

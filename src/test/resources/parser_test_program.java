@@ -207,6 +207,22 @@ for (int k = 0; ; ) break;
 for (; ; j++) break;
 for (; j < 10;) break;
 
+// Switch statement
+n = 20;
+
+switch (n) {
+    case 2: return true;
+    case 10: {
+        return "Hello";
+    }
+    case 20: {
+        System.out.println("Switch successful!");
+    }
+    default: {
+        System.out.println("Error");
+    }
+}
+
 // Enhanced for statement
 int[] array = new int[]{1, 2, 3, 4, 5};
 int[] arrayCast = (int[]) array;

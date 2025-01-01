@@ -6,7 +6,9 @@ import it.fulminazzo.javaparser.parser.node.MethodCall
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray
+import it.fulminazzo.javaparser.parser.node.container.CaseBlock
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
+import it.fulminazzo.javaparser.parser.node.container.DefaultBlock
 import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
@@ -116,7 +118,8 @@ class JavaParserTest extends Specification {
 
         then:
         def e = thrown(ParserException)
-        e.message == new ParserException(TokenType.EOF, this.parser).message
+        e.message == ParserException.unexpectedToken(this.parser, TokenType.EOF).message
+        e.message == ParserException.unexpectedEndOfInput(this.parser).message
 
         where:
         code << [
@@ -125,6 +128,110 @@ class JavaParserTest extends Specification {
                 '/*\nComment block\n',
                 '/**\n *Javadoc block\n '
         ]
+    }
+
+    def 'test parse switch statement of code: #code'() {
+        when:
+        startReading(code)
+        def block = this.parser.parseSwitchStatement()
+
+        then:
+        block == expected
+
+        where:
+        code | expected
+        'switch (1) {case 1: return 1; case 2: return 2; default: return 3;}' |
+                new SwitchStatement(new NumberValueLiteral('1'),
+                Arrays.asList(
+                        new CaseBlock(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1'))),
+                        new CaseBlock(new NumberValueLiteral('2'), new Return(new NumberValueLiteral('2'))),
+                ),
+                new DefaultBlock(new Return(new NumberValueLiteral('3'))))
+        'switch (1) {case 1: return 1; default: return 3; case 2: return 2;}' |
+                new SwitchStatement(new NumberValueLiteral('1'),
+                        Arrays.asList(
+                                new CaseBlock(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1'))),
+                                new CaseBlock(new NumberValueLiteral('2'), new Return(new NumberValueLiteral('2')))
+                        ),
+                        new DefaultBlock(new Return(new NumberValueLiteral('3'))))
+        'switch (1) {case 1: return 1; default: return 3;}' |
+                new SwitchStatement(new NumberValueLiteral('1'),
+                        Arrays.asList(
+                                new CaseBlock(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1')))
+                        ),
+                        new DefaultBlock(new Return(new NumberValueLiteral('3'))))
+        'switch (1) {case 1: return 1;}' |
+                new SwitchStatement(new NumberValueLiteral('1'),
+                        Arrays.asList(
+                                new CaseBlock(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1')))
+                        ),
+                        new DefaultBlock())
+        'switch (1) {default: return 3;}' |
+                new SwitchStatement(new NumberValueLiteral('1'),
+                        new LinkedList<>(),
+                        new DefaultBlock(new Return(new NumberValueLiteral('3'))))
+        'switch (1) {}' |
+                new SwitchStatement(new NumberValueLiteral('1'),
+                        new LinkedList<>(),
+                        new DefaultBlock())
+    }
+
+    def 'test parse switch of same cases should throw exception'() {
+        given:
+        def code = 'switch(1) { case 1: return 1; case 1: return 2; }'
+
+        when:
+        startReading(code)
+        this.parser.parseSwitchStatement()
+
+        then:
+        def e = thrown(ParserException)
+        e.message == ParserException.caseBlockAlreadyDefined(this.parser,
+                new CaseBlock(new NumberValueLiteral('1'),
+                        new Return(new NumberValueLiteral('1')))).message
+    }
+
+    def 'test parse switch of dual defaults should throw exception'() {
+        given:
+        def code = 'switch(1) { default: return 1; default: return 2; }'
+
+        when:
+        startReading(code)
+        this.parser.parseSwitchStatement()
+
+        then:
+        def e = thrown(ParserException)
+        e.message == ParserException.defaultBlockAlreadyDefined(this.parser).message
+    }
+
+    def 'test parse case block of code: #code'() {
+        when:
+        startReading(code)
+        def block = this.parser.parseCaseBlock()
+
+        then:
+        block == expected
+
+        where:
+        expected                                                                                | code
+        new CaseBlock(new BooleanValueLiteral('true'), new Return(new NumberValueLiteral('1'))) |
+                'case true: return 1;}'
+        new CaseBlock(new BooleanValueLiteral('true'), new Return(new NumberValueLiteral('1'))) |
+                'case true: {return 1;}}'
+    }
+
+    def 'test parse default block of code: #code'() {
+        when:
+        startReading(code)
+        def block = this.parser.parseDefaultBlock()
+
+        then:
+        block == expected
+
+        where:
+        expected                                                  | code
+        new DefaultBlock(new Return(new NumberValueLiteral('1'))) | 'default: return 1;}'
+        new DefaultBlock(new Return(new NumberValueLiteral('1'))) | 'default: {return 1;}}'
     }
 
     def 'test invalid for statement'() {
@@ -136,7 +243,9 @@ class JavaParserTest extends Specification {
         this.parser.parseForStatement()
 
         then:
-        thrown(ParserException)
+        def e = thrown(ParserException)
+        e.message == ParserException.unexpectedToken(this.parser, TokenType.EOF).message
+        e.message == ParserException.unexpectedEndOfInput(this.parser).message
     }
 
     def 'test for statements'() {
@@ -259,7 +368,8 @@ class JavaParserTest extends Specification {
         this.parser.parseAssignment()
 
         then:
-        thrown(ParserException)
+        def e = thrown(ParserException)
+        e.message == ParserException.invalidValueProvided(this.parser, '1').message
     }
 
     def 'test array assignment'() {
@@ -629,7 +739,9 @@ class JavaParserTest extends Specification {
         this.parser.parseCast()
 
         then:
-        thrown(ParserException)
+        def e = thrown(ParserException)
+        e.message == ParserException.unexpectedToken(this.parser,
+                TokenType.ADD, TokenType.NUMBER_VALUE).message
     }
 
     def 'test cast of #object'() {
@@ -705,11 +817,15 @@ class JavaParserTest extends Specification {
         given:
         this.parser.setInput('$$$')
 
+        and:
+        def exceptionMessage = ParserException.invalidValueProvided(this.parser, '').message
+
         when:
         this.parser.parseLiteral()
 
         then:
-        thrown(ParserException)
+        def e = thrown(ParserException)
+        e.message == exceptionMessage
     }
 
     def 'test parse type of invalid'() {
@@ -719,7 +835,7 @@ class JavaParserTest extends Specification {
 
         then:
         def e = thrown(ParserException)
-        e.message == new ParserException(TokenType.LITERAL, this.parser).message
+        e.message == ParserException.unexpectedToken(this.parser, TokenType.LITERAL).message
     }
 
     def 'test parse literal'() {
@@ -735,7 +851,8 @@ class JavaParserTest extends Specification {
         this.parser.createLiteral(BooleanValueLiteral, 'a')
 
         then:
-        thrown(ParserException)
+        def e = thrown(ParserException)
+        e.message == ParserException.noInputProvided().message
     }
 
     def 'test parse literal RuntimeException'() {
