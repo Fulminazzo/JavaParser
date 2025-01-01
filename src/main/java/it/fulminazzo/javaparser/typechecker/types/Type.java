@@ -124,13 +124,15 @@ public interface Type {
     }
 
     /**
-     * Converts the current object to its wrapper {@link ObjectType}.
-     * This only works for {@link ValueType}s.
+     * Checks whether the current type extends the given {@link ClassType}.
+     * If it does not, a {@link TypeCheckerException} is thrown.
      *
-     * @return the wrapper type
+     * @param classType the class type
+     * @return this type
      */
-    default @NotNull ObjectType toWrapper() {
-        throw TypeCheckerException.noWrapper(this);
+    default Type checkAssignableFrom(final @NotNull ClassType classType) {
+        if (!isAssignableFrom(classType)) throw TypeCheckerException.invalidType(classType, this);
+        else return this;
     }
 
     /**
