@@ -142,27 +142,27 @@ class JavaParserTest extends Specification {
         'switch (1) {case 1: return 1; case 2: return 2; default: return 3;}' |
                 new SwitchStatement(new NumberValueLiteral('1'),
                 Arrays.asList(
-                        new CaseStatement(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1'))),
-                        new CaseStatement(new NumberValueLiteral('2'), new Return(new NumberValueLiteral('2'))),
+                        new CaseStatement(new NumberValueLiteral('1'), new CodeBlock(new Return(new NumberValueLiteral('1')))),
+                        new CaseStatement(new NumberValueLiteral('2'), new CodeBlock(new Return(new NumberValueLiteral('2')))),
                 ),
                 new CodeBlock(new Return(new NumberValueLiteral('3'))))
         'switch (1) {case 1: return 1; default: return 3; case 2: return 2;}' |
                 new SwitchStatement(new NumberValueLiteral('1'),
                         Arrays.asList(
-                                new CaseStatement(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1'))),
-                                new CaseStatement(new NumberValueLiteral('2'), new Return(new NumberValueLiteral('2')))
+                                new CaseStatement(new NumberValueLiteral('1'), new CodeBlock(new Return(new NumberValueLiteral('1')))),
+                                new CaseStatement(new NumberValueLiteral('2'), new CodeBlock(new Return(new NumberValueLiteral('2'))))
                         ),
                         new CodeBlock(new Return(new NumberValueLiteral('3'))))
         'switch (1) {case 1: return 1; default: return 3;}' |
                 new SwitchStatement(new NumberValueLiteral('1'),
                         Arrays.asList(
-                                new CaseStatement(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1')))
+                                new CaseStatement(new NumberValueLiteral('1'), new CodeBlock(new Return(new NumberValueLiteral('1'))))
                         ),
                         new CodeBlock(new Return(new NumberValueLiteral('3'))))
         'switch (1) {case 1: return 1;}' |
                 new SwitchStatement(new NumberValueLiteral('1'),
                         Arrays.asList(
-                                new CaseStatement(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1')))
+                                new CaseStatement(new NumberValueLiteral('1'), new CodeBlock(new Return(new NumberValueLiteral('1'))))
                         ),
                         new CodeBlock())
         'switch (1) {default: return 3;}' |
@@ -187,7 +187,7 @@ class JavaParserTest extends Specification {
         def e = thrown(ParserException)
         e.message == ParserException.caseBlockAlreadyDefined(this.parser,
                 new CaseStatement(new NumberValueLiteral('1'),
-                        new Return(new NumberValueLiteral('1')))).message
+                        new CodeBlock(new Return(new NumberValueLiteral('1'))))).message
     }
 
     def 'test parse switch of dual defaults should throw exception'() {
@@ -213,9 +213,9 @@ class JavaParserTest extends Specification {
 
         where:
         expected                                                                                | code
-        new CaseStatement(new BooleanValueLiteral('true'), new Return(new NumberValueLiteral('1'))) |
+        new CaseStatement(new BooleanValueLiteral('true'), new CodeBlock(new Return(new NumberValueLiteral('1')))) |
                 'case true: return 1;}'
-        new CaseStatement(new BooleanValueLiteral('true'), new Return(new NumberValueLiteral('1'))) |
+        new CaseStatement(new BooleanValueLiteral('true'), new CodeBlock(new Return(new NumberValueLiteral('1')))) |
                 'case true: {return 1;}}'
     }
 
