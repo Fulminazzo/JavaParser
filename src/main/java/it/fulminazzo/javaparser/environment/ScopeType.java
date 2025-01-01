@@ -13,6 +13,7 @@ public enum ScopeType {
     MAIN,
     CODE_BLOCK,
     SWITCH,
+    CASE,
     FOR,
     WHILE,
     DO
