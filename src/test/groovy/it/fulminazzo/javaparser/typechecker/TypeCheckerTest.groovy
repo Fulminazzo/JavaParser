@@ -11,6 +11,7 @@ import it.fulminazzo.javaparser.parser.node.container.JavaProgram
 import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
+import it.fulminazzo.javaparser.parser.node.literals.NullLiteral
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
 import it.fulminazzo.javaparser.parser.node.statements.Break
 import it.fulminazzo.javaparser.parser.node.statements.CaseStatement
@@ -104,6 +105,20 @@ class TypeCheckerTest extends Specification {
                 new CodeBlock() | Types.NO_TYPE
         NUMBER_LIT | [] |
                 new CodeBlock() | Types.NO_TYPE
+    }
+
+    def 'test invalid visit switch statement of expression #expression should throw exception with #expected'() {
+        when:
+        this.typeChecker.visitSwitchStatement([], new CodeBlock(), expression)
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.invalidUnexpectedType(expected).message
+
+        where:
+        expression         | expected
+        new NullLiteral()  | Types.NULL_TYPE
+        new EmptyLiteral() | Types.NO_TYPE
     }
 
     def newCaseStatement(def val) {
