@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.environment;
 
 import it.fulminazzo.javaparser.environment.scopetypes.ScopeType;
+import it.fulminazzo.javaparser.environment.scopetypes.TryScopeType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
@@ -20,6 +21,26 @@ public class Environment<T> implements Scoped<T> {
     public Environment() {
         this.scopes = new LinkedList<>();
         enterScope(ScopeType.MAIN);
+    }
+
+    /**
+     * Checks whether one of the {@link #scopes} is of type {@link TryScopeType}.
+     * If it is, verifies that one of its exceptions is extended by the provided exception.
+     *
+     * @param exception the exception
+     * @return true only if a match is found
+     */
+    public boolean isInTryScope(final @NotNull Class<? extends Throwable> exception) {
+        for (Scope<T> scope : scopes) {
+            ScopeType type = scope.scopeType();
+            if (type instanceof TryScopeType) {
+                TryScopeType tryType = (TryScopeType) type;
+                for (Class<Throwable> caught : tryType.getCaughtExceptions())
+                    if (caught.isAssignableFrom(exception))
+                        return true;
+            }
+        }
+        return false;
     }
 
     /**
