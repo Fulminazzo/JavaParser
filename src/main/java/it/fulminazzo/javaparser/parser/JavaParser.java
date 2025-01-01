@@ -105,7 +105,7 @@ public class JavaParser extends Parser {
 
     /**
      * STMT := return EXPR; | break; | continue; |
-     *         SWITCH_STMT | FOR_STMT | DO_STMT | WHILE_STMT | IF_STMT
+     *         TRY_STMT | SWITCH_STMT | FOR_STMT | DO_STMT | WHILE_STMT | IF_STMT
      *         ASSIGNMENT;
      *
      * @return the node
@@ -129,6 +129,7 @@ public class JavaParser extends Parser {
                 consume(SEMICOLON);
                 return new Continue();
             }
+            case TRY: return parseTryStatement();
             case SWITCH: return parseSwitchStatement();
             case FOR: return parseForStatement();
             case DO: return parseDoStatement();
