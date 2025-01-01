@@ -735,7 +735,7 @@ public class JavaParser extends Parser {
 
     /**
      * Converts the given string to a {@link Literal}.
-     * Throws {@link #invalidValueProvidedException(String)} in case of error.
+     * Throws {@link ParserException#invalidValueProvidedException(String)} in case of error.
      *
      * @param literal the string
      * @return the literal
@@ -744,7 +744,7 @@ public class JavaParser extends Parser {
         try {
             return Literal.of(literal);
         } catch (NodeException e) {
-            throw invalidValueProvidedException(literal);
+            throw ParserException.invalidValueProvidedException(literal);
         }
     }
 
@@ -821,14 +821,9 @@ public class JavaParser extends Parser {
         } catch (RuntimeException e) {
             Throwable cause = e.getCause();
             if (cause instanceof NodeException)
-                throw invalidValueProvidedException(rawValue);
+                throw ParserException.invalidValueProvidedException(rawValue);
             else throw e;
         }
-    }
-
-    private @NotNull ParserException invalidValueProvidedException(final @NotNull String value) {
-        return new ParserException(String.format("Invalid value '%s' provided for value type %s",
-                value, lastToken().name()), this);
     }
 
 }
