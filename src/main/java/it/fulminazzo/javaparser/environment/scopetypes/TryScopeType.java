@@ -29,7 +29,10 @@ public final class TryScopeType implements ScopeType {
 
     @Override
     public String name() {
-        return "TRY";
+        return String.format("TRY(%s)", this.caughtExceptions.stream()
+                .map(Throwable::getClass)
+                .map(Class::getCanonicalName)
+                .collect(Collectors.joining(", ")));
     }
 
     @Override
