@@ -1,0 +1,50 @@
+package it.fulminazzo.javaparser.environment.scopetypes;
+
+import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+/**
+ * Represents a TRY {@link ScopeType}.
+ * This special type allows for multiple {@link Throwable}s to be
+ * passed in order to verify that the current scope matches with
+ * the caught exceptions.
+ */
+@Getter
+public final class TryScopeType implements ScopeType {
+    private final Set<Throwable> caughtExceptions;
+
+    /**
+     * Instantiates a new Try scope type.
+     *
+     * @param caughtExceptions the caught exceptions
+     */
+    public TryScopeType(final @NotNull Stream<Throwable> caughtExceptions) {
+        this.caughtExceptions = caughtExceptions.collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
+    @Override
+    public String name() {
+        return "TRY";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof TryScopeType && this.caughtExceptions.equals(((TryScopeType) o).caughtExceptions);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode() ^ this.caughtExceptions.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "TRY";
+    }
+
+}
