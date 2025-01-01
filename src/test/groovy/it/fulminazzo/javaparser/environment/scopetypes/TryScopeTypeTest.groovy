@@ -3,6 +3,8 @@ package it.fulminazzo.javaparser.environment.scopetypes
 import it.fulminazzo.javaparser.environment.ScopeException
 import spock.lang.Specification
 
+import java.util.stream.Stream
+
 class TryScopeTypeTest extends Specification {
     private TryScopeType type
 
@@ -10,7 +12,7 @@ class TryScopeTypeTest extends Specification {
         this.type = new TryScopeType([
                 IllegalArgumentException, IllegalStateException,
                 IllegalAccessException, ScopeException
-        ].stream())
+        ].stream() as Stream<Throwable>)
     }
 
     def 'test name and toString should be equal'() {
@@ -27,15 +29,15 @@ class TryScopeTypeTest extends Specification {
                 new TryScopeType([
                         IllegalArgumentException, IllegalStateException,
                         IllegalAccessException, ScopeException
-                ].stream()),
+                ].stream() as Stream<Throwable>),
                 new TryScopeType([
                         ScopeException, IllegalAccessException,
                         IllegalStateException, IllegalArgumentException
-                ].stream()),
+                ].stream() as Stream<Throwable>),
                 new TryScopeType([
                         ScopeException, IllegalStateException,
                         IllegalAccessException, IllegalArgumentException
-                ].stream()),
+                ].stream() as Stream<Throwable>),
         ]
     }
 
