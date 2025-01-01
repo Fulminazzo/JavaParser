@@ -13,6 +13,7 @@ import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
 import it.fulminazzo.javaparser.parser.node.statements.Break
+import it.fulminazzo.javaparser.parser.node.statements.CaseStatement
 import it.fulminazzo.javaparser.parser.node.statements.IfStatement
 import it.fulminazzo.javaparser.parser.node.statements.Return
 import it.fulminazzo.javaparser.parser.node.statements.Statement
@@ -76,6 +77,37 @@ class TypeCheckerTest extends Specification {
         type                          | program
         Optional.of(ValueType.NUMBER) | new JavaProgram(new LinkedList<>([new Return(NUMBER_LIT)]))
         Optional.empty()              | new JavaProgram(new LinkedList<>([new Statement()]))
+    }
+
+    def 'test visit switch statement of #expr (#cases, #defaultBlock) should return #expected'() {
+        when:
+        def type = this.typeChecker.visitSwitchStatement(cases, defaultBlock, expr)
+
+        then:
+        type == expected
+        this.environment.enteredScope(ScopeType.SWITCH)
+        this.environment.isMainScope()
+
+        where:
+        expr | cases | defaultBlock | expected
+        NUMBER_LIT | [newCaseStatement(new Return(NUMBER_LIT)), newCaseStatement(new Return(NUMBER_LIT))] |
+                new CodeBlock(new Return(NUMBER_LIT)) | ValueType.NUMBER
+        NUMBER_LIT | [newCaseStatement(new Return(NUMBER_LIT)), newCaseStatement(new Return(DOUBLE_LIT))] |
+                new CodeBlock(new Return(BOOL_LIT)) | Types.NO_TYPE
+        NUMBER_LIT | [newCaseStatement(new Return(NUMBER_LIT))] |
+                new CodeBlock(new Return(NUMBER_LIT)) | ValueType.NUMBER
+        NUMBER_LIT | [newCaseStatement(new Return(NUMBER_LIT))] |
+                new CodeBlock(new Return(BOOL_LIT)) | Types.NO_TYPE
+        NUMBER_LIT | [] |
+                new CodeBlock(new Return(NUMBER_LIT)) | ValueType.NUMBER
+        NUMBER_LIT | [newCaseStatement(new Return(NUMBER_LIT))] |
+                new CodeBlock() | Types.NO_TYPE
+        NUMBER_LIT | [] |
+                new CodeBlock() | Types.NO_TYPE
+    }
+
+    def newCaseStatement(def val) {
+        return new CaseStatement(NUMBER_LIT, new CodeBlock(val))
     }
 
     def 'test visit enhanced for statement of (#expr) #codeBlock should return #expected'() {
