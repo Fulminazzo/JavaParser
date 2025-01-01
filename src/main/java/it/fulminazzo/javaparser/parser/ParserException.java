@@ -27,8 +27,11 @@ final class ParserException extends RuntimeException {
     }
 
     /**
-     * Generates a {@link ParserException} with message:
-     * <i>Unexpected token: %token%</i>
+     * Generates a {@link ParserException} with two types of messages:
+     * <ul>
+     *     <li>if the token is {@link TokenType#EOF}, {@link #unexpectedEndOfInput(Parser)} is returned;</li>
+     *     <li>else, <i>Unexpected token: %token%</i>.</li>
+     * </ul>
      *
      * @param parser the parser
      * @param token  the token
@@ -36,12 +39,16 @@ final class ParserException extends RuntimeException {
      */
     public static @NotNull ParserException unexpectedToken(final @NotNull Parser parser,
                                                            final @NotNull TokenType token) {
-        return new ParserException(parser, "Unexpected token: %s", token);
+        if (token == TokenType.EOF) return unexpectedEndOfInput(parser);
+        else return new ParserException(parser, "Unexpected token: %s", token);
     }
 
     /**
-     * Generates a {@link ParserException} with message:
-     * <i>Unexpected token: %token%</i>
+     * Generates a {@link ParserException} with two types of messages:
+     * <ul>
+     *     <li>if the token is {@link TokenType#EOF}, {@link #unexpectedEndOfInput(Parser)} is returned;</li>
+     *     <li>else, <i>Expected token %expected% but found %actual%</i>.</li>
+     * </ul>
      *
      * @param parser   the parser
      * @param expected the expected type
@@ -51,7 +58,8 @@ final class ParserException extends RuntimeException {
     public static @NotNull ParserException unexpectedToken(final @NotNull Parser parser,
                                                            final @NotNull TokenType expected,
                                                            final @NotNull TokenType actual) {
-        return new ParserException(parser, "Expected token %s but found %s", expected, actual);
+        if (expected == TokenType.EOF) return unexpectedEndOfInput(parser);
+        else return new ParserException(parser, "Expected token %s but found %s", expected, actual);
     }
 
     /**
