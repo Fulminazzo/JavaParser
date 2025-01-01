@@ -149,8 +149,24 @@ public class JavaParser extends Parser {
      * @return the node
      */
     protected @NotNull Statement parseSwitchStatement() {
-        //TODO:
-        throw new UnsupportedOperationException("Not implemented");
+        consume(SWITCH);
+        Node expr = parseExpression();
+        List<CaseBlock> caseBlocks = new LinkedList<>();
+        DefaultBlock defaultBlock = null;
+        consume(OPEN_BRACE);
+        while (lastToken() != CLOSE_BRACE) {
+            if (lastToken() == CASE) {
+                CaseBlock caseBlock = parseCaseBlock();
+                if (caseBlocks.stream().anyMatch(c -> c.getExpression().equals(caseBlock.getExpression())))
+                    throw new ParserException(String.format("Case block with expression %s already defined",
+                            caseBlock.getExpression()), this);
+                else caseBlocks.add(caseBlock);
+            } else if (defaultBlock == null) defaultBlock = parseDefaultBlock();
+            else throw new ParserException("Default block already defined", this);
+        }
+        if (defaultBlock == null) defaultBlock = new DefaultBlock();
+        consume(CLOSE_BRACE);
+        return new SwitchStatement(expr, caseBlocks, defaultBlock);
     }
 
     /**
