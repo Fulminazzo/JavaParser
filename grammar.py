@@ -9,9 +9,11 @@ TODO: try, catch and throws
 # SINGLE_STMT := STMT | ;
 
 # STMT := return EXPR; | break; | continue; |
-#         SWITCH_STMT | FOR_STMT | DO_STMT | WHILE_STMT | IF_STMT
+#         TRY_STMT | SWITCH_STMT | FOR_STMT | DO_STMT | WHILE_STMT | IF_STMT
 #         ASSIGNMENT;
 
+TRY_STMT := try CODE_BLOCK CATCH+ ( finally CODE_BLOCK )?
+CATCH := catch \( (LITERAL \| )* LITERAL LITERAL \) CODE_BLOCK
 # SWITCH_STMT := switch ...
 # FOR_STMT := for \( ASSIGNMENT?; EXPR?; EXPR? \) BLOCK | ENHANCED_FOR_STMT
 # ENHANCED_FOR_STMT := for \( ARRAY_LITERAL LITERAL : EXPR \) BLOCK
