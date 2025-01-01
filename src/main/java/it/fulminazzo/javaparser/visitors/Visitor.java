@@ -2,11 +2,10 @@ package it.fulminazzo.javaparser.visitors;
 
 import it.fulminazzo.javaparser.parser.node.MethodInvocation;
 import it.fulminazzo.javaparser.parser.node.Node;
-import it.fulminazzo.javaparser.parser.node.container.CaseBlock;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
-import it.fulminazzo.javaparser.parser.node.container.DefaultBlock;
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
+import it.fulminazzo.javaparser.parser.node.statements.CaseStatement;
 import it.fulminazzo.javaparser.parser.node.statements.Statement;
 import org.jetbrains.annotations.NotNull;
 
@@ -361,65 +360,57 @@ public interface Visitor<T> {
     /**
      * Converts break and its fields to this visitor type.
      *
-     * @param expr the expr
+     * @param expression the expression
      * @return the break
      */
-    @NotNull T visitBreak(@NotNull Node expr);
+    @NotNull T visitBreak(@NotNull Node expression);
 
     /**
      * Converts continue and its fields to this visitor type.
      *
-     * @param expr the expr
+     * @param expression the expression
      * @return the continue
      */
-    @NotNull T visitContinue(@NotNull Node expr);
+    @NotNull T visitContinue(@NotNull Node expression);
 
     /**
      * Converts switch statement and its fields to this visitor type.
      *
      * @param cases        the cases
      * @param defaultBlock the default block
-     * @param expr         the expr
+     * @param expression   the expression
      * @return the switch statement
      */
-    @NotNull T visitSwitchStatement(@NotNull List<CaseBlock> cases, @NotNull DefaultBlock defaultBlock, @NotNull Node expr);
+    @NotNull T visitSwitchStatement(@NotNull List<CaseStatement> cases, @NotNull CodeBlock defaultBlock, @NotNull Node expression);
 
     /**
-     * Converts case block and its fields to this visitor type.
+     * Converts case statement and its fields to this visitor type.
      *
      * @param expression the expression
-     * @param statements the statements
-     * @return the case block
+     * @param block      the block
+     * @return the case statement
      */
-    @NotNull T visitCaseBlock(@NotNull Node expression, @NotNull LinkedList<Statement> statements);
-
-    /**
-     * Converts default block and its fields to this visitor type.
-     *
-     * @param statements the statements
-     * @return the default block
-     */
-    @NotNull T visitDefaultBlock(@NotNull LinkedList<Statement> statements);
+    @NotNull T visitCaseStatement(@NotNull CodeBlock block, @NotNull Node expression);
 
     /**
      * Converts do statement and its fields to this visitor type.
      *
-     * @param code the code
-     * @param expr the expr
+     * @param code       the code
+     * @param expression the expression
      * @return the do statement
      */
-    @NotNull T visitDoStatement(@NotNull CodeBlock code, @NotNull Node expr);
+    @NotNull T visitDoStatement(@NotNull CodeBlock code, @NotNull Node expression);
 
     /**
      * Converts enhanced for statement and its fields to this visitor type.
      *
-     * @param type     the type
-     * @param variable the variable
-     * @param code     the code
-     * @param expr     the expr
+     * @param type       the type
+     * @param variable   the variable
+     * @param code       the code
+     * @param expression the expression
      * @return the enhanced for statement
      */
-    @NotNull T visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable, @NotNull CodeBlock code, @NotNull Node expr);
+    @NotNull T visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable, @NotNull CodeBlock code, @NotNull Node expression);
 
     /**
      * Converts for statement and its fields to this visitor type.
@@ -427,45 +418,45 @@ public interface Visitor<T> {
      * @param assignment the assignment
      * @param increment  the increment
      * @param code       the code
-     * @param expr       the expr
+     * @param expression the expression
      * @return the for statement
      */
-    @NotNull T visitForStatement(@NotNull Node assignment, @NotNull Node increment, @NotNull CodeBlock code, @NotNull Node expr);
+    @NotNull T visitForStatement(@NotNull Node assignment, @NotNull Node increment, @NotNull CodeBlock code, @NotNull Node expression);
 
     /**
      * Converts if statement and its fields to this visitor type.
      *
      * @param then       the code executed
      * @param elseBranch the alternative branch
-     * @param expr       the expr
+     * @param expression the expression
      * @return the if statement
      */
-    @NotNull T visitIfStatement(@NotNull CodeBlock then, @NotNull Node elseBranch, @NotNull Node expr);
+    @NotNull T visitIfStatement(@NotNull CodeBlock then, @NotNull Node elseBranch, @NotNull Node expression);
 
     /**
      * Converts return and its fields to this visitor type.
      *
-     * @param expr the expr
+     * @param expression the expression
      * @return the return
      */
-    @NotNull T visitReturn(@NotNull Node expr);
+    @NotNull T visitReturn(@NotNull Node expression);
 
     /**
      * Converts statement and its fields to this visitor type.
      *
-     * @param expr the expr
+     * @param expression the expression
      * @return the statement
      */
-    @NotNull T visitStatement(@NotNull Node expr);
+    @NotNull T visitStatement(@NotNull Node expression);
 
     /**
      * Converts while statement and its fields to this visitor type.
      *
-     * @param code the code
-     * @param expr the expr
+     * @param code       the code
+     * @param expression the expression
      * @return the while statement
      */
-    @NotNull T visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expr);
+    @NotNull T visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expression);
 
     /**
      * Converts null literal and its fields to this visitor type.
