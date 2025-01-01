@@ -418,6 +418,7 @@ public final class TypeChecker implements Visitor<Type> {
         return Types.NO_TYPE;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public @NotNull Type visitTryStatement(@NotNull CodeBlock block, @NotNull List<CatchStatement> catchBlocks,
                                            @NotNull CodeBlock finallyBlock, @NotNull Node expression) {
@@ -429,9 +430,21 @@ public final class TypeChecker implements Visitor<Type> {
                 throw TypeCheckerException.invalidType(autoClosable, ClassType.of(assignment));
         }
 
-        Type returnedType = finallyBlock.accept(this);
+        Type returnType = finallyBlock.accept(this);
 
-        return returnedType;
+        LinkedHashSet<ClassType> caughtExceptions = new LinkedHashSet<>();
+        for (CatchStatement catchStatement : catchBlocks) {
+            TupleType<Set<ClassType>, Type> tuple = catchStatement.accept(this).check(TupleType.class);
+
+            Type catchType = tuple.getValue();
+            if (!catchType.is(returnType)) returnType = Types.NO_TYPE;
+
+            for (ClassType exception : tuple.getKey()) {
+                caughtExceptions.add(exception);
+            }
+        }
+
+        return returnType;
     }
 
     /**
