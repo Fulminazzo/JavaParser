@@ -1,6 +1,6 @@
 TODO: diamond operator
 TODO: lambda
-TODO: try, catch and throws
+TODO:
 
 # JAVA_PROGRAM := SINGLE_STMT*
 
@@ -8,7 +8,7 @@ TODO: try, catch and throws
 # CODE_BLOCK := \{ SINGLE_STMT* \}
 # SINGLE_STMT := STMT | ;
 
-# STMT := return EXPR; | break; | continue; |
+# STMT := return EXPR; | throw EXPR; break; | continue; |
 #         TRY_STMT | SWITCH_STMT | FOR_STMT | DO_STMT | WHILE_STMT | IF_STMT
 #         ASSIGNMENT;
 
