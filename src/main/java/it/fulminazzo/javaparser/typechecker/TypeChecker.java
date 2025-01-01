@@ -450,7 +450,7 @@ public final class TypeChecker implements Visitor<Type> {
             Type visitedType = visitScoped(ScopeType.tryScope(caughtExceptions.stream()
                     .map(ClassType::toJavaClass)
                     .map(c -> (Class<Throwable>) c)), () -> block.accept(this));
-            returnType = visitedType.is(returnType) ? returnType : Types.NO_TYPE;
+            returnType = returnType == null || visitedType.is(returnType) ? visitedType : Types.NO_TYPE;
 
             Type finallyType = finallyBlock.accept(this);
             return !finallyType.is(Types.NO_TYPE) ? finallyType : returnType;
