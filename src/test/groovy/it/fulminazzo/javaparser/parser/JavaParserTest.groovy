@@ -6,7 +6,7 @@ import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.NodeException
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray
-import it.fulminazzo.javaparser.parser.node.container.AssignmentBlock
+import it.fulminazzo.javaparser.parser.node.AssignmentBlock
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.literals.*
 import it.fulminazzo.javaparser.parser.node.operators.binary.*
