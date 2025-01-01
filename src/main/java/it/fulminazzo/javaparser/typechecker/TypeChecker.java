@@ -406,7 +406,10 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitCaseStatement(@NotNull CodeBlock block, @NotNull Node expression) {
-        return null;
+        return visitScoped(ScopeType.CASE, () -> {
+            expression.accept(this);
+            return block.accept(this);
+        });
     }
 
     @Override
