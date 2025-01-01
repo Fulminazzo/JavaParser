@@ -423,9 +423,41 @@ public final class TypeChecker implements Visitor<Type> {
         return null;
     }
 
+    /**
+     * Visits a {@link CatchStatement}.
+     * It checks that all the passed exceptions are not duplicated and extend {@link Throwable}.
+     * Then, it obtains a {@link LiteralType} from the expression,
+     * and it declares a new variable with type the first exception and name the one from the literal.
+     *
+     * @param exceptions the exceptions
+     * @param block      the block
+     * @param expression the expression
+     * @return a {@link TupleType} containing a list of all the caught exceptions and
+     * the returned type of the {@link CodeBlock}
+     */
     @Override
-    public @NotNull Type visitCatchStatement(@NotNull List<Literal> exceptions, @NotNull CodeBlock block, @NotNull Node expression) {
-        return null;
+    public @NotNull TupleType<List<ClassType>, Type> visitCatchStatement(@NotNull List<Literal> exceptions,
+                                                                         @NotNull CodeBlock block,
+                                                                         @NotNull Node expression) {
+        final ClassType throwable = ClassType.of(Throwable.class);
+
+        final List<ClassType> exceptionTypes = new LinkedList<>();
+        for (Literal exception : exceptions) {
+            ClassType type = exception.accept(this).checkClassType();
+            if (exceptionTypes.contains(type)) throw TypeCheckerException.exceptionAlreadyCaught(type);
+            else if (!type.toType().isAssignableFrom(throwable))
+                throw TypeCheckerException.invalidType(throwable, type);
+            else exceptionTypes.add(type);
+        }
+
+        String exceptionName = expression.accept(this).check(LiteralType.class).getLiteral();
+        try {
+            this.environment.declare(exceptionTypes.get(0), exceptionName, exceptionTypes.get(0).toType());
+        } catch (ScopeException e) {
+            throw TypeCheckerException.of(e);
+        }
+
+        return new TupleType<>(exceptionTypes, block.accept(this));
     }
 
     @Override
