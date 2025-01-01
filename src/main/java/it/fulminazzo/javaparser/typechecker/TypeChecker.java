@@ -66,9 +66,21 @@ public final class TypeChecker implements Visitor<Type> {
         return type.equals(Types.NO_TYPE) ? Optional.empty() : Optional.of(type);
     }
 
+    /**
+     * Visits all the {@link Assignment}s and returns a {@link ParameterTypes} with all
+     * the {@link ClassType}s of the assignments in it.
+     *
+     * @param assignments the assignments
+     * @return the {@link ParameterTypes}
+     */
     @Override
     public @NotNull Type visitAssignmentBlock(@NotNull List<Assignment> assignments) {
-        return null;
+        List<ClassType> types = new LinkedList<>();
+        for (Assignment assignment : assignments) {
+            assignment.accept(this);
+            types.add(assignment.getType().accept(this).checkClassType());
+        }
+        return new ParameterTypes(types);
     }
 
     @Override
