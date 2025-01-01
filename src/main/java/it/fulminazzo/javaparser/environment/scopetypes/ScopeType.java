@@ -5,17 +5,24 @@ package it.fulminazzo.javaparser.environment.scopetypes;
  * This is useful when checking for <code>continue</code> or
  * <code>break</code> statements being executed in the correct context.
  */
-public enum ScopeType {
+public interface ScopeType {
     /**
      * Represents the MAIN scope when starting the program.
      * Should NOT be duplicated.
      */
     MAIN,
-    CODE_BLOCK,
-    SWITCH,
-    CASE,
-    FOR,
-    WHILE,
-    DO
+    ScopeType CODE_BLOCK = BaseScopeType.CODE_BLOCK;
+    ScopeType SWITCH = BaseScopeType.SWITCH;
+    ScopeType CASE = BaseScopeType.CASE;
+    ScopeType FOR = BaseScopeType.FOR;
+    ScopeType WHILE = BaseScopeType.WHILE;
+    ScopeType DO = BaseScopeType.DO;
+
+    /**
+     * Returns the name of the current scope type.
+     *
+     * @return the name
+     */
+    String name();
 
 }
