@@ -125,6 +125,52 @@ class JavaParserTest extends Specification {
         ]
     }
 
+    def 'test parse try statement of code: #code'() {
+        when:
+        startReading(code)
+        def block = this.parser.parseTryStatement()
+
+        then:
+        block == expected
+
+        where:
+        code | expected
+        'try (int i = 1) {return 1;} catch (Exception e) {return 2;} finally {return 3;}' | new TryStatement(
+                new AssignmentBlock([new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1'))]),
+                new CodeBlock(new Return(new NumberValueLiteral('1'))),
+                [new CatchStatement([Literal.of('Exception')], Literal.of('e'),
+                        new CodeBlock(new Return(new NumberValueLiteral('2'))))],
+                new CodeBlock(new Return(new NumberValueLiteral('3'))))
+        'try {return 1;} catch (Exception e) {return 2;} finally {return 3;}' | new TryStatement(
+                new AssignmentBlock([]),
+                new CodeBlock(new Return(new NumberValueLiteral('1'))),
+                [new CatchStatement([Literal.of('Exception')], Literal.of('e'),
+                        new CodeBlock(new Return(new NumberValueLiteral('2'))))],
+                new CodeBlock(new Return(new NumberValueLiteral('3'))))
+        'try (int i = 1) {return 1;} catch (Exception e) {return 2;}' | new TryStatement(
+                new AssignmentBlock([new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1'))]),
+                new CodeBlock(new Return(new NumberValueLiteral('1'))),
+                [new CatchStatement([Literal.of('Exception')], Literal.of('e'),
+                        new CodeBlock(new Return(new NumberValueLiteral('2'))))],
+                new CodeBlock())
+        'try {return 1;} catch (Exception e) {return 2;}' | new TryStatement(
+                new AssignmentBlock([]),
+                new CodeBlock(new Return(new NumberValueLiteral('1'))),
+                [new CatchStatement([Literal.of('Exception')], Literal.of('e'),
+                        new CodeBlock(new Return(new NumberValueLiteral('2'))))],
+                new CodeBlock())
+        'try (int i = 1) {return 1;} finally {return 3;}' | new TryStatement(
+                new AssignmentBlock([new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1'))]),
+                new CodeBlock(new Return(new NumberValueLiteral('1'))),
+                [],
+                new CodeBlock(new Return(new NumberValueLiteral('3'))))
+        'try {return 1;} finally {return 3;}' | new TryStatement(
+                new AssignmentBlock([]),
+                new CodeBlock(new Return(new NumberValueLiteral('1'))),
+                [],
+                new CodeBlock(new Return(new NumberValueLiteral('3'))))
+    }
+
     def 'test parse assignment block of code: #code'() {
         when:
         startReading(code)
