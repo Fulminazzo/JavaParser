@@ -12,6 +12,7 @@ import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.literals.NullLiteral
+import it.fulminazzo.javaparser.parser.node.operators.binary.NewObject
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
 import it.fulminazzo.javaparser.parser.node.statements.Break
 import it.fulminazzo.javaparser.parser.node.statements.CaseStatement
@@ -1271,9 +1272,10 @@ class TypeCheckerTest extends Specification {
         STRING_LIT | Literal.of('String')    | ObjectType.STRING
         STRING_LIT | Literal.of('Object')    | ObjectType.OBJECT
         // custom class
-        //TODO: first ObjectType should be replaced with Literal values, but visitNew method is required
-//        ObjectType.of(TypeCheckerTest) | Literal.of(Specification.canonicalName) | ObjectType.of(Specification)
-//        ObjectType.of(TypeCheckerTest) | Literal.of('Object')                    | ObjectType.OBJECT
+        new NewObject(Literal.of(TypeCheckerTest.canonicalName), new MethodInvocation([])) |
+                Literal.of(Specification.canonicalName) | ObjectType.of(Specification)
+        new NewObject(Literal.of(TypeCheckerTest.canonicalName), new MethodInvocation([])) |
+                Literal.of('Object')                    | ObjectType.OBJECT
     }
 
     def 'test invalid visit cast #target to #cast'() {
