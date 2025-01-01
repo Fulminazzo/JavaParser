@@ -171,6 +171,19 @@ class JavaParserTest extends Specification {
                 new CodeBlock(new Return(new NumberValueLiteral('3'))))
     }
 
+    def 'test invalid parse try statement'() {
+        given:
+        def code = 'try {return 1;}'
+
+        when:
+        startReading(code)
+        this.parser.parseTryStatement()
+
+        then:
+        def e = thrown(ParserException)
+        e.message == ParserException.invalidTryStatement(this.parser).message
+    }
+
     def 'test parse assignment block of code: #code'() {
         when:
         startReading(code)
