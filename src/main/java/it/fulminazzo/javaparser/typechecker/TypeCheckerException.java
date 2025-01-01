@@ -139,4 +139,18 @@ public class TypeCheckerException extends RuntimeException {
         return new TypeCheckerException("Exception '%s' has already been caught", type);
     }
 
+    /**
+     * Generates a {@link TypeCheckerException} with message:
+     * <i>Types in a multi-catch must be disjoint: '%subtype%' is a subclass of '%type%'</i>
+     *
+     * @param subtype the subtype
+     * @param type    the type
+     * @return the type checker exception
+     */
+    public static @NotNull TypeCheckerException exceptionsNotDisjoint(final @NotNull ClassType subtype,
+                                                                      final @NotNull ClassType type) {
+        return new TypeCheckerException("Types in a multi-catch must be disjoint: '%s' is a subclass of '%s'",
+                subtype, type);
+    }
+
 }
