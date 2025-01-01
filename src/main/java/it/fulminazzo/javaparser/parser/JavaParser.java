@@ -158,7 +158,7 @@ public class JavaParser extends Parser {
             consume(CLOSE_PAR);
         } else assignmentBlock = new AssignmentBlock(new LinkedList<>());
 
-        final CodeBlock block = parseBlock();
+        final CodeBlock block = parseCodeBlock();
 
         final List<CatchStatement> catchBlocks = new LinkedList<>();
         while (lastToken() == CATCH) catchBlocks.add(parseCatchStatement());
@@ -166,7 +166,7 @@ public class JavaParser extends Parser {
         CodeBlock finallyBlock = null;
         if (lastToken() == FINALLY) {
             consume(FINALLY);
-            finallyBlock = parseBlock();
+            finallyBlock = parseCodeBlock();
         }
 
         // If no catch and no finally block was specified, throw error
