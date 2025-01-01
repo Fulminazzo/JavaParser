@@ -8,6 +8,69 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface Value {
 
+    /**
+     * Checks if the current value is character.
+     *
+     * @return true if it is
+     */
+    default boolean isCharacter() {
+        return false;
+    }
+
+    /**
+     * Checks if the current value is integer.
+     *
+     * @return true if it is
+     */
+    default boolean isInteger() {
+        return false;
+    }
+
+    /**
+     * Checks if the current value is long.
+     *
+     * @return true if it is
+     */
+    default boolean isLong() {
+        return false;
+    }
+
+    /**
+     * Checks if the current value is float.
+     *
+     * @return true if it is
+     */
+    default boolean isFloat() {
+        return false;
+    }
+
+    /**
+     * Checks if the current value is double.
+     *
+     * @return true if it is
+     */
+    default boolean isDouble() {
+        return false;
+    }
+
+    /**
+     * Checks if the current value is boolean.
+     *
+     * @return true if it is
+     */
+    default boolean isBoolean() {
+        return false;
+    }
+
+    /**
+     * Checks if the current value is string.
+     *
+     * @return true if it is
+     */
+    default boolean isString() {
+        return false;
+    }
+
     /*
         BINARY COMPARISONS
      */
