@@ -245,6 +245,7 @@ public class JavaParser extends Parser {
      * CASE_BLOCK := case EXPR: ( CODE_BLOCK | SINGLE_STMT* )
      */
     protected @NotNull CaseStatement parseCaseBlock() {
+        //TODO: merged cases
         consume(CASE);
         Node expression = parseExpression();
         consume(COLON);
