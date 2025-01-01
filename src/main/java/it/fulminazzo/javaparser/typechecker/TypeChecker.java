@@ -466,8 +466,13 @@ public final class TypeChecker implements Visitor<Type> {
             exceptionTypes.add(exceptionClass);
         }
 
-        String exceptionName = expression.accept(this).check(LiteralType.class).getLiteral();
         try {
+            Literal literal = (Literal) expression;
+            String exceptionName = literal.getLiteral();
+
+            if (!literal.accept(this).is(LiteralType.class))
+                throw ScopeException.alreadyDeclaredVariable(exceptionName);
+
             this.environment.declare(exceptionTypes.get(0), exceptionName, exceptionTypes.get(0).toType());
         } catch (ScopeException e) {
             throw TypeCheckerException.of(e);
