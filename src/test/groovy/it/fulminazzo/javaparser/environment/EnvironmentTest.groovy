@@ -15,6 +15,32 @@ class EnvironmentTest extends Specification {
         while (!this.environment.isMainScope()) this.environment.exitScope()
     }
 
+    def 'test isInTryScope of exception #exception should return true'() {
+        given:
+        this.environment.enterScope(ScopeType.tryScope([IllegalArgumentException, RuntimeException].stream()))
+
+        expect:
+        this.environment.isInTryScope(exception)
+
+        where:
+        exception << [IllegalArgumentException, RuntimeException, IllegalStateException]
+    }
+
+    def 'test isInTryScope of exception #exception should not return true'() {
+        given:
+        this.environment.enterScope(ScopeType.tryScope([IllegalArgumentException, IllegalStateException].stream()))
+        this.environment.enterScope(ScopeType.tryScope([ScopeException, IOException].stream()))
+
+        expect:
+        !this.environment.isInTryScope(exception)
+
+        where:
+        exception << [
+                RuntimeException, Exception, InstantiationException, ConcurrentModificationException,
+                NullPointerException, Throwable
+        ]
+    }
+
     def 'test main scope should not be anything else'() {
         when:
         this.environment.check(scopeType)
