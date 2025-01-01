@@ -198,18 +198,12 @@ class TypeCheckerTest extends Specification {
                 new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
         ]) | new CodeBlock(new Return(BOOL_LIT)) | [
         ] | new CodeBlock(new Return(NUMBER_LIT)) | ValueType.NUMBER
-        // No catches with different types
-        new AssignmentBlock([
-                new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
-                new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
-        ]) | new CodeBlock(new Return(BOOL_LIT)) | [
-        ] | new CodeBlock(new Return(NUMBER_LIT)) | ValueType.NUMBER
         // No catches with different types and no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
                 new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
         ]) | new CodeBlock(new Return(BOOL_LIT)) | [
-        ] | new CodeBlock() | Types.NO_TYPE
+        ] | new CodeBlock() | ValueType.BOOLEAN
     }
 
     def 'test visit catch statement: (#exceptions #variable) #block should return #expected'() {
