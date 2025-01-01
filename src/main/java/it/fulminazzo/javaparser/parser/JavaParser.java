@@ -6,7 +6,7 @@ import it.fulminazzo.fulmicollection.utils.StringUtils;
 import it.fulminazzo.javaparser.parser.node.*;
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray;
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray;
-import it.fulminazzo.javaparser.parser.node.statements.CaseStatement;
+import it.fulminazzo.javaparser.parser.node.AssignmentBlock;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram;
 import it.fulminazzo.javaparser.parser.node.literals.*;
@@ -104,8 +104,8 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * STMT := return EXPR; | break; | continue; |
-     *         SWITCH_STMT | FOR_STMT | DO_STMT | WHILE_STMT | IF_STMT
+     * STMT := return EXPR; | throw EXPR; break; | continue; |
+     *         TRY_STMT | SWITCH_STMT | FOR_STMT | DO_STMT | WHILE_STMT | IF_STMT
      *         ASSIGNMENT;
      *
      * @return the node
@@ -119,6 +119,12 @@ public class JavaParser extends Parser {
                 if (lastToken() == SEMICOLON) consume(SEMICOLON);
                 return returnNode;
             }
+            case THROW: {
+                consume(THROW);
+                Statement throwNode = new Throw(parseExpression());
+                consume(SEMICOLON);
+                return throwNode;
+            }
             case BREAK: {
                 consume(BREAK);
                 consume(SEMICOLON);
@@ -129,6 +135,7 @@ public class JavaParser extends Parser {
                 consume(SEMICOLON);
                 return new Continue();
             }
+            case TRY: return parseTryStatement();
             case SWITCH: return parseSwitchStatement();
             case FOR: return parseForStatement();
             case DO: return parseDoStatement();
@@ -140,6 +147,73 @@ public class JavaParser extends Parser {
             }
         }
         return new Statement(exp);
+    }
+
+    /**
+     * TRY_STMT := try ( \( ASSIGNMENT_BLOCK \) )? CODE_BLOCK CATCH+ ( finally CODE_BLOCK )?
+     *
+     * @return the node
+     */
+    protected @NotNull TryStatement parseTryStatement() {
+        consume(TRY);
+
+        final AssignmentBlock assignmentBlock;
+        if (lastToken() == OPEN_PAR) {
+            consume(OPEN_PAR);
+            assignmentBlock = parseAssignmentBlock();
+            consume(CLOSE_PAR);
+        } else assignmentBlock = new AssignmentBlock(new LinkedList<>());
+
+        final CodeBlock block = parseCodeBlock();
+
+        final List<CatchStatement> catchBlocks = new LinkedList<>();
+        while (lastToken() == CATCH) catchBlocks.add(parseCatchStatement());
+
+        CodeBlock finallyBlock = null;
+        if (lastToken() == FINALLY) {
+            consume(FINALLY);
+            finallyBlock = parseCodeBlock();
+        }
+
+        // If no catch and no finally block was specified, throw error
+        if (finallyBlock == null) {
+            if (catchBlocks.isEmpty()) throw ParserException.invalidTryStatement(this);
+            else finallyBlock = new CodeBlock();
+        }
+
+        return new TryStatement(assignmentBlock, block, catchBlocks, finallyBlock);
+    }
+
+    /**
+     * ASSIGNMENT_BLOCK := (ARRAY_LITERAL LITERAL (=EXPR?);)+
+     *
+     * @return the node
+     */
+    protected @NotNull AssignmentBlock parseAssignmentBlock() {
+        List<Assignment> assignments = new LinkedList<>();
+        do {
+            Node node = parseAssignment();
+            if (node.is(Assignment.class)) assignments.add((Assignment) node);
+            else throw ParserException.invalidNodeProvided(this, Assignment.class, node);
+        } while (lastToken() == SEMICOLON && consume(SEMICOLON) == LITERAL);
+        return new AssignmentBlock(assignments);
+    }
+
+    /**
+     * CATCH := catch \( (LITERAL \| )* LITERAL LITERAL \) CODE_BLOCK
+     *
+     * @return the node
+     */
+    protected @NotNull CatchStatement parseCatchStatement() {
+        consume(CATCH);
+        consume(OPEN_PAR);
+        List<Literal> exceptions = new LinkedList<>();
+        do exceptions.add(parseLiteral());
+        while (lastToken() == BIT_OR && consume(BIT_OR) == LITERAL);
+        Literal exceptionsName = parseLiteral();
+        consume(CLOSE_PAR);
+        CodeBlock block = parseCodeBlock();
+        return new CatchStatement(exceptions, exceptionsName, block);
     }
 
     /**

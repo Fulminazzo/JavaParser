@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser.visitors
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.fulmicollection.utils.ClassUtils
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils
+import it.fulminazzo.javaparser.parser.node.Assignment
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.MockNode
 import it.fulminazzo.javaparser.parser.node.Node
@@ -10,6 +11,7 @@ import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram
 import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.statements.CaseStatement
+import it.fulminazzo.javaparser.parser.node.statements.CatchStatement
 import it.fulminazzo.javaparser.parser.node.statements.Statement
 import org.jetbrains.annotations.NotNull
 import spock.lang.Specification
@@ -93,6 +95,12 @@ class VisitorTest extends Specification {
          */
         @Override
         @NotNull Optional<String> visitProgram(@NotNull JavaProgram program) {
+            return null
+        }
+
+        @NotNull
+        @Override
+        String visitAssignmentBlock(@NotNull List<Assignment> assignments) {
             return null
         }
 
@@ -293,6 +301,18 @@ class VisitorTest extends Specification {
             return null
         }
 
+        @NotNull
+        @Override
+        String visitTryStatement(@NotNull CodeBlock block, @NotNull List<CatchStatement> catchBlocks, @NotNull CodeBlock finallyBlock, @NotNull Node expression) {
+            return null
+        }
+
+        @NotNull
+        @Override
+        String visitCatchStatement(@NotNull List<Literal> exceptions, @NotNull CodeBlock block, @NotNull Node expression) {
+            return null
+        }
+
         @Override
         @NotNull String visitSwitchStatement(@NotNull List<CaseStatement> cases, @NotNull CodeBlock defaultBlock, @NotNull Node expression) {
             return null
@@ -325,6 +345,12 @@ class VisitorTest extends Specification {
 
         @Override
         @NotNull String visitReturn(@NotNull Node expression) {
+            return null
+        }
+
+        @NotNull
+        @Override
+        String visitThrow(@NotNull Node expression) {
             return null
         }
 

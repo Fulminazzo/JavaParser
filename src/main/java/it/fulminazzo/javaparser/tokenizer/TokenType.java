@@ -14,9 +14,13 @@ public enum TokenType {
 
     // Statement
     RETURN("return"),
+    THROW("throw"),
     BREAK("break"),
     CONTINUE("continue"),
     NEW("new"),
+    TRY("try"),
+    CATCH("catch"),
+    FINALLY("finally"),
     SWITCH("switch"),
     CASE("case"),
     DEFAULT("default"),

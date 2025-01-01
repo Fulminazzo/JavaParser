@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.parser;
 
+import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.statements.CaseStatement;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import org.jetbrains.annotations.NotNull;
@@ -88,6 +89,19 @@ final class ParserException extends RuntimeException {
 
     /**
      * Generates a {@link ParserException} with message:
+     * <i>Expecting '%expected%' but got %actual% instead.</i>
+     *
+     * @param parser the parser
+     * @return the parser exception
+     */
+    public static @NotNull ParserException invalidNodeProvided(final @NotNull Parser parser,
+                                                                final @NotNull Class<? extends Node> expected,
+                                                                final @NotNull Node actual) {
+        return new ParserException(parser, "Expecting '%s' but got %s instead.", expected.getSimpleName(), actual);
+    }
+
+    /**
+     * Generates a {@link ParserException} with message:
      * <i>Invalid value '%value%' provided for value type '%parser#lastToken%'</i>
      *
      * @param parser the parser
@@ -118,6 +132,16 @@ final class ParserException extends RuntimeException {
     public static @NotNull ParserException unexpectedEndOfInput(final @NotNull Parser parser) {
         return new ParserException(null, "Unexpected end of input. Last read token: %s (%s)",
                 parser.lastToken(), parser.getTokenizer().lastRead());
+    }
+
+    /**
+     * Generates a {@link ParserException} with message:
+     * <i>Invalid try statement: no catch or finally block specified</i>
+     *
+     * @return the parser exception
+     */
+    public static @NotNull ParserException invalidTryStatement(final @NotNull Parser parser) {
+        return new ParserException(parser, "Invalid try statement: no catch or finally block specified");
     }
 
 }

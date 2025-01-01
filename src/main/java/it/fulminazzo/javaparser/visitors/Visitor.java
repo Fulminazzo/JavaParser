@@ -1,11 +1,13 @@
 package it.fulminazzo.javaparser.visitors;
 
+import it.fulminazzo.javaparser.parser.node.Assignment;
 import it.fulminazzo.javaparser.parser.node.MethodInvocation;
 import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.parser.node.statements.CaseStatement;
+import it.fulminazzo.javaparser.parser.node.statements.CatchStatement;
 import it.fulminazzo.javaparser.parser.node.statements.Statement;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,6 +32,14 @@ public interface Visitor<T> {
      * @return an {@link Optional} containing the parsed value
      */
     @NotNull Optional<T> visitProgram(final @NotNull JavaProgram program);
+
+    /**
+     * Converts assignment block and its fields to this visitor type.
+     *
+     * @param assignments the assignments
+     * @return the assignment block
+     */
+    @NotNull T visitAssignmentBlock(@NotNull List<Assignment> assignments);
 
     /**
      * Converts assignment and its fields to this visitor type.
@@ -374,6 +384,28 @@ public interface Visitor<T> {
     @NotNull T visitContinue(@NotNull Node expression);
 
     /**
+     * Converts try statement and its fields to this visitor type.
+     *
+     * @param block        the block
+     * @param catchBlocks  the catch blocks
+     * @param finallyBlock the finally block
+     * @param expression   the expression
+     * @return the try statement
+     */
+    @NotNull T visitTryStatement(@NotNull CodeBlock block, @NotNull List<CatchStatement> catchBlocks,
+                                 @NotNull CodeBlock finallyBlock, @NotNull Node expression);
+
+    /**
+     * Converts catch statement and its fields to this visitor type.
+     *
+     * @param exceptions the exceptions
+     * @param block      the block
+     * @param expression the expression
+     * @return the catch statement
+     */
+    @NotNull T visitCatchStatement(@NotNull List<Literal> exceptions, @NotNull CodeBlock block, @NotNull Node expression);
+
+    /**
      * Converts switch statement and its fields to this visitor type.
      *
      * @param cases        the cases
@@ -386,8 +418,8 @@ public interface Visitor<T> {
     /**
      * Converts case statement and its fields to this visitor type.
      *
-     * @param expression the expression
      * @param block      the block
+     * @param expression the expression
      * @return the case statement
      */
     @NotNull T visitCaseStatement(@NotNull CodeBlock block, @NotNull Node expression);
@@ -440,6 +472,14 @@ public interface Visitor<T> {
      * @return the return
      */
     @NotNull T visitReturn(@NotNull Node expression);
+
+    /**
+     * Converts throw and its fields to this visitor type.
+     *
+     * @param expression the expression
+     * @return the throw
+     */
+    @NotNull T visitThrow(@NotNull Node expression);
 
     /**
      * Converts statement and its fields to this visitor type.
@@ -527,6 +567,5 @@ public interface Visitor<T> {
      * @return the string value literal
      */
     @NotNull T visitStringValueLiteral(@NotNull String rawValue);
-
 
 }
