@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser.typechecker.types;
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.environment.Info;
+import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,6 +33,17 @@ public interface ClassType extends Type, Info {
      * @return the class
      */
     @NotNull Class<?> toJavaClass();
+
+    /**
+     * Checks whether the current class type extends the provided type.
+     * If not, throws a {@link TypeCheckerException}.
+     *
+     * @param classType the class type
+     */
+    default void checkExtends(final @NotNull ClassType classType) {
+        if (!classType.toJavaClass().isAssignableFrom(toJavaClass()))
+            throw TypeCheckerException.invalidType(classType, this);
+    }
 
     /**
      * Verifies that the current class type is compatible with the provided type.
