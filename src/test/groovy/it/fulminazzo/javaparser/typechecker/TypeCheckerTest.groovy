@@ -99,6 +99,33 @@ class TypeCheckerTest extends Specification {
                 new TupleType<>([ClassType.of(IllegalArgumentException)], ValueType.NUMBER)
     }
 
+    def 'test visit invalid catch statement: (#exceptions #variable) should throw #expected'() {
+        given:
+        this.environment.declare(ClassObjectType.STRING, 'f', ObjectType.STRING)
+
+        when:
+        this.typeChecker.visitCatchStatement(exceptions, new CodeBlock(), variable)
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == expected.message
+
+        where:
+        exceptions | variable | expected
+        [Literal.of('String')] | Literal.of('e') |
+                TypeCheckerException.invalidType(ClassType.of(Throwable.class), ClassObjectType.STRING)
+        [Literal.of('Exception'), Literal.of('Exception')] | Literal.of('e') |
+                TypeCheckerException.exceptionAlreadyCaught(ClassObjectType.of('Exception'))
+        [Literal.of('IllegalArgumentException'), Literal.of('RuntimeException')] | Literal.of('e') |
+                TypeCheckerException.exceptionsNotDisjoint(ClassType.of(IllegalArgumentException),
+                        ClassType.of(RuntimeException))
+        [Literal.of('RuntimeException'), Literal.of('IllegalArgumentException')] | Literal.of('e') |
+                TypeCheckerException.exceptionsNotDisjoint(ClassType.of(IllegalArgumentException),
+                        ClassType.of(RuntimeException))
+        [Literal.of('Exception')] | Literal.of('f') |
+                TypeCheckerException.of(ScopeException.alreadyDeclaredVariable('f'))
+    }
+
     def 'test visit switch statement of #expression (#cases, #defaultBlock) should return #expected'() {
         when:
         def type = this.typeChecker.visitSwitchStatement(cases, defaultBlock, expression)
