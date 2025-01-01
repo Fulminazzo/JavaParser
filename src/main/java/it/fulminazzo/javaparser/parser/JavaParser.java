@@ -104,7 +104,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * STMT := return EXPR; | break; | continue; |
+     * STMT := return EXPR; | throw EXPR; break; | continue; |
      *         TRY_STMT | SWITCH_STMT | FOR_STMT | DO_STMT | WHILE_STMT | IF_STMT
      *         ASSIGNMENT;
      *
@@ -118,6 +118,12 @@ public class JavaParser extends Parser {
                 Statement returnNode = new Return(parseExpression());
                 if (lastToken() == SEMICOLON) consume(SEMICOLON);
                 return returnNode;
+            }
+            case THROW: {
+                consume(THROW);
+                Statement throwNode = new Throw(parseExpression());
+                consume(SEMICOLON);
+                return throwNode;
             }
             case BREAK: {
                 consume(BREAK);
