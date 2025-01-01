@@ -109,6 +109,21 @@ public interface Type {
     }
 
     /**
+     * Checks whether the current type is NOT equal to one of the expected ones.
+     * Throws a {@link TypeCheckerException} in case no match is found.
+     *
+     * @param expectedTypes the expected types
+     * @return this type
+     */
+    default @NotNull Type checkNot(final Type @NotNull ... expectedTypes) {
+        if (expectedTypes.length == 0)
+            throw new IllegalArgumentException(String.format("Cannot compare type %s with no types", this));
+        for (Type expectedType : expectedTypes)
+            if (is(expectedType)) throw TypeCheckerException.invalidUnexpectedType(expectedTypes[0]);
+        return this;
+    }
+
+    /**
      * Converts the current object to its wrapper {@link ObjectType}.
      * This only works for {@link ValueType}s.
      *
