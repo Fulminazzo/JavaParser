@@ -163,7 +163,7 @@ public class JavaParser extends Parser {
         LinkedList<Statement> statements = new LinkedList<>();
         if (lastToken() == OPEN_BRACE)
             statements.addAll(parseCodeBlock().getStatements());
-        else while (lastToken() != CLOSE_BRACE) statements.add(parseSingleStatement());
+        else while (tokenIsValidForCaseDefaultBlock()) statements.add(parseSingleStatement());
         return new CaseBlock(expr, statements);
     }
 
@@ -176,8 +176,12 @@ public class JavaParser extends Parser {
         LinkedList<Statement> statements = new LinkedList<>();
         if (lastToken() == OPEN_BRACE)
             statements.addAll(parseCodeBlock().getStatements());
-        else while (lastToken() != CLOSE_BRACE) statements.add(parseSingleStatement());
+        else while (tokenIsValidForCaseDefaultBlock()) statements.add(parseSingleStatement());
         return new DefaultBlock(statements);
+    }
+
+    private boolean tokenIsValidForCaseDefaultBlock() {
+        return lastToken() != CLOSE_BRACE && lastToken() != CASE && lastToken() != DEFAULT;
     }
 
     /**
