@@ -290,6 +290,30 @@ class TypeCheckerTest extends Specification {
                         new CodeBlock(new Return(LONG_LIT))))
     }
 
+    def 'test visit assignment block of #assignments should return #expected'() {
+        when:
+        def type = this.typeChecker.visitAssignmentBlock(assignments)
+
+        then:
+        type == expected
+
+        where:
+        assignments | expected
+        [
+                new Assignment(Literal.of('byte'), Literal.of('b'), NUMBER_LIT),
+                new Assignment(Literal.of('Byte'), Literal.of('bW'), NUMBER_LIT),
+                new Assignment(Literal.of('HashMap'), Literal.of('map'),
+                        new NewObject(Literal.of('HashMap'), new MethodInvocation([])))
+        ] | new ParameterTypes([PrimitiveType.BYTE, ClassObjectType.BYTE, ClassObjectType.of('HashMap')])
+        [
+                new Assignment(Literal.of('byte'), Literal.of('b'), NUMBER_LIT),
+                new Assignment(Literal.of('Byte'), Literal.of('bW'), NUMBER_LIT)
+        ] | new ParameterTypes([PrimitiveType.BYTE, ClassObjectType.BYTE])
+        [
+                new Assignment(Literal.of('byte'), Literal.of('b'), NUMBER_LIT)
+        ] | new ParameterTypes([PrimitiveType.BYTE])
+    }
+
     def 'test visit assignment: #type #name = #val should return type #expected'() {
         given:
         def literalType = Literal.of(type)
