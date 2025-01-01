@@ -17,4 +17,15 @@ public class ValueException extends RuntimeException {
         super(String.format(message, args));
     }
 
+    /**
+     * Generates a {@link ValueException} with message:
+     * <i>Value %value% is not a valid primitive type</i>
+     *
+     * @param value the value
+     * @return the value exception
+     */
+    public static @NotNull ValueException invalidPrimitiveValue(final @NotNull Object value) {
+        return new ValueException("Value %s is not a valid primitive type", value);
+    }
+
 }
