@@ -38,7 +38,7 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
      * @return the primitive value
      */
     @SuppressWarnings("unchecked")
-    public static @NotNull <V> PrimitiveValue<V> of(@NotNull V value) {
+    public static <V> @NotNull PrimitiveValue<V> of(@NotNull V value) {
         Value primitiveValue;
         if (value instanceof Double) primitiveValue = new DoubleValue((Double) value);
         else if (value instanceof Float) primitiveValue = new FloatValue((Float) value);
