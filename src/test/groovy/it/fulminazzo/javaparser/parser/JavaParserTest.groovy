@@ -118,7 +118,7 @@ class JavaParserTest extends Specification {
 
         then:
         def e = thrown(ParserException)
-        e.message == new ParserException(TokenType.EOF, this.parser).message
+        e.message == ParserException.unexpectedToken(this.parser, TokenType.EOF).message
 
         where:
         code << [
@@ -179,24 +179,34 @@ class JavaParserTest extends Specification {
         given:
         def code = 'switch(1) { case 1: return 1; case 1: return 2; }'
 
+        and:
+        def exceptionMessage = ParserException.caseBlockAlreadyDefined(this.parser,
+                new CaseBlock(new NumberValueLiteral('1'),
+                        new Return(new NumberValueLiteral('1')))).message
+
         when:
         startReading(code)
         this.parser.parseSwitchStatement()
 
         then:
-        thrown(ParserException)
+        def e = thrown(ParserException)
+        e.message == exceptionMessage
     }
 
     def 'test parse switch of dual defaults should throw exception'() {
         given:
         def code = 'switch(1) { default: return 1; default: return 2; }'
 
+        and:
+        def exceptionMessage = ParserException.defaultBlockAlreadyDefined(this.parser).message
+
         when:
         startReading(code)
         this.parser.parseSwitchStatement()
 
         then:
-        thrown(ParserException)
+        def e = thrown(ParserException)
+        e.message == exceptionMessage
     }
 
     def 'test parse case block of code: #code'() {
@@ -233,12 +243,16 @@ class JavaParserTest extends Specification {
         given:
         def code = 'for (int i; i < 10; i++)'
 
+        and:
+        def exceptionMessage = ParserException.unexpectedToken(this.parser, TokenType.EOF).message
+
         when:
         startReading(code)
         this.parser.parseForStatement()
 
         then:
-        thrown(ParserException)
+        def e = thrown(ParserException)
+        e.message == exceptionMessage
     }
 
     def 'test for statements'() {
@@ -356,12 +370,16 @@ class JavaParserTest extends Specification {
         given:
         def code = 'int[] 1 = new int[0]'
 
+        and:
+        def exceptionMessage = ParserException.invalidValueProvidedException(this.parser, TokenType.NUMBER_VALUE).message
+
         when:
         startReading(code)
         this.parser.parseAssignment()
 
         then:
-        thrown(ParserException)
+        def e = thrown(ParserException)
+        e.message == exceptionMessage
     }
 
     def 'test array assignment'() {
@@ -726,12 +744,17 @@ class JavaParserTest extends Specification {
         given:
         def code = "(int) -+1"
 
+        and:
+        def exceptionMessage = ParserException.unexpectedToken(this.parser,
+                TokenType.ADD, TokenType.NUMBER_VALUE).message
+
         when:
         startReading(code)
         this.parser.parseCast()
 
         then:
-        thrown(ParserException)
+        def e = thrown(ParserException)
+        e.message == exceptionMessage
     }
 
     def 'test cast of #object'() {
@@ -807,11 +830,15 @@ class JavaParserTest extends Specification {
         given:
         this.parser.setInput('$$$')
 
+        and:
+        def exceptionMessage = ParserException.invalidValueProvidedException(this.parser, '').message
+
         when:
         this.parser.parseLiteral()
 
         then:
-        thrown(ParserException)
+        def e = thrown(ParserException)
+        e.message == exceptionMessage
     }
 
     def 'test parse type of invalid'() {
@@ -821,7 +848,7 @@ class JavaParserTest extends Specification {
 
         then:
         def e = thrown(ParserException)
-        e.message == new ParserException(TokenType.LITERAL, this.parser).message
+        e.message == ParserException.unexpectedToken(this.parser, TokenType.LITERAL).message
     }
 
     def 'test parse literal'() {
@@ -836,8 +863,12 @@ class JavaParserTest extends Specification {
         when:
         this.parser.createLiteral(BooleanValueLiteral, 'a')
 
+        and:
+        def exceptionMessage = ParserException.noInputProvided().message
+
         then:
-        thrown(ParserException)
+        def e = thrown(ParserException)
+        e.message == exceptionMessage
     }
 
     def 'test parse literal RuntimeException'() {
