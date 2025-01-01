@@ -119,7 +119,7 @@ public interface Type {
         if (expectedTypes.length == 0)
             throw new IllegalArgumentException(String.format("Cannot compare type %s with no types", this));
         for (Type expectedType : expectedTypes)
-            if (is(expectedType)) throw TypeCheckerException.invalidUnexpectedType(expectedTypes[0]);
+            if (is(expectedType)) throw TypeCheckerException.invalidUnexpectedType(this);
         return this;
     }
 
