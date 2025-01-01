@@ -401,7 +401,21 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitSwitchStatement(@NotNull List<CaseStatement> cases, @NotNull CodeBlock defaultBlock, @NotNull Node expression) {
-        return null;
+        return visitScoped(ScopeType.SWITCH, () -> {
+            //TODO: check not NoType and not Null
+            Type expressionType = expression.accept(this);
+            Type returnType = null;
+            for (CaseStatement caseStatement : cases) {
+                caseStatement.getExpression().accept(this).check(expressionType);
+                Type caseType = caseStatement.accept(this);
+                if (returnType == null) returnType = caseType;
+                else if (!caseType.is(returnType)) returnType = Types.NO_TYPE;
+            }
+            Type defaultType = defaultBlock.accept(this);
+            if (returnType == null) returnType = defaultType;
+            else if (!defaultType.is(returnType)) returnType = Types.NO_TYPE;
+            return returnType;
+        });
     }
 
     @Override
