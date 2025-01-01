@@ -798,7 +798,7 @@ public class JavaParser extends Parser {
                 break;
             }
             default:
-                throw new ParserException(lastToken(), this);
+                throw ParserException.unexpectedToken(this, lastToken());
         }
         nextSpaceless();
         return literal;
