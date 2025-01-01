@@ -178,7 +178,7 @@ public class JavaParser extends Parser {
         if (lastToken() == OPEN_BRACE)
             statements.addAll(parseCodeBlock().getStatements());
         else while (tokenIsValidForCaseDefaultBlock()) statements.add(parseSingleStatement());
-        return new CaseStatement(expr, statements);
+        return new CaseStatement(expr, new CodeBlock(statements));
     }
 
     /**
