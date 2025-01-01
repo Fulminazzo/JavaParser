@@ -206,7 +206,7 @@ public class JavaParser extends Parser {
         while (lastToken() == BIT_OR && consume(BIT_OR) == LITERAL);
         Literal exceptionsName = parseLiteral();
         consume(CLOSE_PAR);
-        CodeBlock block = parseBlock();
+        CodeBlock block = parseCodeBlock();
         return new CatchStatement(exceptions, exceptionsName, block);
     }
 
