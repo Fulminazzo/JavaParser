@@ -18,4 +18,25 @@ class TryScopeTypeTest extends Specification {
         this.type.toString() == this.type.name()
     }
 
+    def 'test try scope type should be equal to #other'() {
+        expect:
+        this.type == other
+
+        where:
+        other << [
+                new TryScopeType([
+                        IllegalArgumentException, IllegalStateException,
+                        IllegalAccessException, ScopeException
+                ].stream()),
+                new TryScopeType([
+                        ScopeException, IllegalAccessException,
+                        IllegalStateException, IllegalArgumentException
+                ].stream()),
+                new TryScopeType([
+                        ScopeException, IllegalStateException,
+                        IllegalAccessException, IllegalArgumentException
+                ].stream()),
+        ]
+    }
+
 }
