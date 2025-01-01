@@ -419,8 +419,19 @@ public final class TypeChecker implements Visitor<Type> {
     }
 
     @Override
-    public @NotNull Type visitTryStatement(@NotNull CodeBlock block, @NotNull List<CatchStatement> catchBlocks, @NotNull CodeBlock finallyBlock, @NotNull Node expression) {
-        return null;
+    public @NotNull Type visitTryStatement(@NotNull CodeBlock block, @NotNull List<CatchStatement> catchBlocks,
+                                           @NotNull CodeBlock finallyBlock, @NotNull Node expression) {
+        final ClassType autoClosable = ClassType.of(AutoCloseable.class);
+
+        ParameterTypes assignments = expression.accept(this).check(ParameterTypes.class);
+        for (Class<?> assignment : assignments.toJavaClassArray()) {
+            if (!autoClosable.toJavaClass().isAssignableFrom(assignment))
+                throw TypeCheckerException.invalidType(autoClosable, ClassType.of(assignment));
+        }
+
+        Type returnedType = finallyBlock.accept(this);
+
+        return returnedType;
     }
 
     /**
