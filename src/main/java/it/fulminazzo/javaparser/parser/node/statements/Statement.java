@@ -3,13 +3,15 @@ package it.fulminazzo.javaparser.parser.node.statements;
 import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.NodeImpl;
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a general statement.
  */
+@Getter
 public class Statement extends NodeImpl {
-    private final @NotNull Node expr;
+    private final @NotNull Node expression;
 
     /**
      * Instantiates a new Statement with expression {@link EmptyLiteral}.
@@ -21,10 +23,10 @@ public class Statement extends NodeImpl {
     /**
      * Instantiates a new Statement.
      *
-     * @param expr the expression
+     * @param expression the expression
      */
-    public Statement(final @NotNull Node expr) {
-        this.expr = expr;
+    public Statement(final @NotNull Node expression) {
+        this.expression = expression;
     }
 
 }
