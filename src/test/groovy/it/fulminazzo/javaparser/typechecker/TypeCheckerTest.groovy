@@ -42,6 +42,15 @@ class TypeCheckerTest extends Specification {
     private static final RETURN_FLOAT = new Return(FLOAT_LIT)
     private static final RETURN_DOUBLE = new Return(DOUBLE_LIT)
 
+    private static final CODE_BLOCK_BOOL = new CodeBlock(RETURN_BOOL)
+    private static final CODE_BLOCK_CHAR = new CodeBlock(RETURN_CHAR)
+    private static final CODE_BLOCK_NUMBER = new CodeBlock(RETURN_NUMBER)
+    private static final CODE_BLOCK_LONG = new CodeBlock(RETURN_LONG)
+    private static final CODE_BLOCK_FLOAT = new CodeBlock(RETURN_FLOAT)
+    private static final CODE_BLOCK_DOUBLE = new CodeBlock(RETURN_DOUBLE)
+    private static final CODE_BLOCK_BREAK = new CodeBlock(new Break())
+    private static final CODE_BLOCK_EMPTY = new CodeBlock()
+
     private static final BOOL_VAR = Literal.of('bool')
 
     private TypeChecker typeChecker
@@ -99,159 +108,159 @@ class TypeCheckerTest extends Specification {
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
                 new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral())
-        ]) | new CodeBlock(RETURN_BOOL) | [
+        ]) | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_BOOL)),
+                        CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_BOOL))
-        ] | new CodeBlock(RETURN_NUMBER) | ValueType.NUMBER
+                        CODE_BLOCK_BOOL)
+        ] | CODE_BLOCK_NUMBER | ValueType.NUMBER
         // Everything no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
                 new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral())
-        ]) | new CodeBlock(RETURN_BOOL) | [
+        ]) | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_BOOL)),
+                        CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_BOOL))
-        ] | new CodeBlock() | ValueType.BOOLEAN
+                        CODE_BLOCK_BOOL)
+        ] | CODE_BLOCK_EMPTY | ValueType.BOOLEAN
         // Everything with different types
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
                 new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral())
-        ]) | new CodeBlock(RETURN_BOOL) | [
+        ]) | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_DOUBLE)),
+                        CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_FLOAT))
-        ] | new CodeBlock(RETURN_NUMBER) | ValueType.NUMBER
+                        CODE_BLOCK_FLOAT)
+        ] | CODE_BLOCK_NUMBER | ValueType.NUMBER
         // Everything with different types and no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
                 new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral())
-        ]) | new CodeBlock(RETURN_BOOL) | [
+        ]) | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_DOUBLE)),
+                        CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_FLOAT))
-        ] | new CodeBlock() | Types.NO_TYPE
+                        CODE_BLOCK_FLOAT)
+        ] | CODE_BLOCK_EMPTY | Types.NO_TYPE
         // Just one assignment
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral())
-        ]) | new CodeBlock(RETURN_BOOL) | [
+        ]) | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_BOOL)),
+                        CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_BOOL))
-        ] | new CodeBlock(RETURN_NUMBER) | ValueType.NUMBER
+                        CODE_BLOCK_BOOL)
+        ] | CODE_BLOCK_NUMBER | ValueType.NUMBER
         // Just one assignment no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral())
-        ]) | new CodeBlock(RETURN_BOOL) | [
+        ]) | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_BOOL)),
+                        CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_BOOL))
-        ] | new CodeBlock() | ValueType.BOOLEAN
+                        CODE_BLOCK_BOOL)
+        ] | CODE_BLOCK_EMPTY | ValueType.BOOLEAN
         // Just one assignment with different types
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral())
-        ]) | new CodeBlock(RETURN_BOOL) | [
+        ]) | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_DOUBLE)),
+                        CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_FLOAT))
-        ] | new CodeBlock(RETURN_NUMBER) | ValueType.NUMBER
+                        CODE_BLOCK_FLOAT)
+        ] | CODE_BLOCK_NUMBER | ValueType.NUMBER
         // Just one assignment with different types and no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral())
-        ]) | new CodeBlock(RETURN_BOOL) | [
+        ]) | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_DOUBLE)),
+                        CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_FLOAT))
-        ] | new CodeBlock() | Types.NO_TYPE
+                        CODE_BLOCK_FLOAT)
+        ] | CODE_BLOCK_EMPTY | Types.NO_TYPE
         // No assignments
         new AssignmentBlock([
-        ]) | new CodeBlock(RETURN_BOOL) | [
+        ]) | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_BOOL)),
+                        CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_BOOL))
-        ] | new CodeBlock(RETURN_NUMBER) | ValueType.NUMBER
+                        CODE_BLOCK_BOOL)
+        ] | CODE_BLOCK_NUMBER | ValueType.NUMBER
         // No assignments no finally
         new AssignmentBlock([
-        ]) | new CodeBlock(RETURN_BOOL) | [
+        ]) | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_BOOL)),
+                        CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_BOOL))
-        ] | new CodeBlock() | ValueType.BOOLEAN
+                        CODE_BLOCK_BOOL)
+        ] | CODE_BLOCK_EMPTY | ValueType.BOOLEAN
         // No assignments with different types
         new AssignmentBlock([
-        ]) | new CodeBlock(RETURN_BOOL) | [
+        ]) | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_DOUBLE)),
+                        CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_FLOAT))
-        ] | new CodeBlock(RETURN_NUMBER) | ValueType.NUMBER
+                        CODE_BLOCK_FLOAT)
+        ] | CODE_BLOCK_NUMBER | ValueType.NUMBER
         // No assignments with different types and no finally
         new AssignmentBlock([
-        ]) | new CodeBlock(RETURN_BOOL) | [
+        ]) | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_DOUBLE)),
+                        CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_FLOAT))
-        ] | new CodeBlock() | Types.NO_TYPE
+                        CODE_BLOCK_FLOAT)
+        ] | CODE_BLOCK_EMPTY | Types.NO_TYPE
         // Just one catch
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
                 new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
-        ]) | new CodeBlock(RETURN_BOOL) | [
+        ]) | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_BOOL))
-        ] | new CodeBlock(RETURN_NUMBER) | ValueType.NUMBER
+                        CODE_BLOCK_BOOL)
+        ] | CODE_BLOCK_NUMBER | ValueType.NUMBER
         // Just one catch no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
                 new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
-        ]) | new CodeBlock(RETURN_BOOL) | [
+        ]) | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_BOOL))
-        ] | new CodeBlock() | ValueType.BOOLEAN
+                        CODE_BLOCK_BOOL)
+        ] | CODE_BLOCK_EMPTY | ValueType.BOOLEAN
         // Just one catch with different types
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
                 new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
-        ]) | new CodeBlock(RETURN_BOOL) | [
+        ]) | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_DOUBLE))
-        ] | new CodeBlock(RETURN_NUMBER) | ValueType.NUMBER
+                        CODE_BLOCK_DOUBLE)
+        ] | CODE_BLOCK_NUMBER | ValueType.NUMBER
         // Just one catch with different types and no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
                 new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
-        ]) | new CodeBlock(RETURN_BOOL) | [
+        ]) | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
-                        new CodeBlock(RETURN_DOUBLE))
-        ] | new CodeBlock() | Types.NO_TYPE
+                        CODE_BLOCK_DOUBLE)
+        ] | CODE_BLOCK_EMPTY | Types.NO_TYPE
         // No catches
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
                 new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
-        ]) | new CodeBlock(RETURN_BOOL) | [
-        ] | new CodeBlock(RETURN_NUMBER) | ValueType.NUMBER
+        ]) | CODE_BLOCK_BOOL | [
+        ] | CODE_BLOCK_NUMBER | ValueType.NUMBER
         // No catches with different types and no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
                 new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
-        ]) | new CodeBlock(RETURN_BOOL) | [
-        ] | new CodeBlock() | ValueType.BOOLEAN
+        ]) | CODE_BLOCK_BOOL | [
+        ] | CODE_BLOCK_EMPTY | ValueType.BOOLEAN
     }
 
     def 'test visit try statement with no auto-closable'() {
         when:
-        this.typeChecker.visitTryStatement(new CodeBlock(), [], new CodeBlock(), new AssignmentBlock([
+        this.typeChecker.visitTryStatement(CODE_BLOCK_EMPTY, [], CODE_BLOCK_EMPTY, new AssignmentBlock([
                 new Assignment(Literal.of('int'), Literal.of('i'), NUMBER_LIT)
         ]))
 
@@ -262,7 +271,7 @@ class TypeCheckerTest extends Specification {
 
     def 'test visit try statement of already caught: #catchBlocks'() {
         when:
-        this.typeChecker.visitTryStatement(new CodeBlock(), catchBlocks, new CodeBlock(), new AssignmentBlock([]))
+        this.typeChecker.visitTryStatement(CODE_BLOCK_EMPTY, catchBlocks, CODE_BLOCK_EMPTY, new AssignmentBlock([]))
 
         then:
         def e = thrown(TypeCheckerException)
@@ -271,21 +280,21 @@ class TypeCheckerTest extends Specification {
         where:
         expected | catchBlocks
         ClassType.of(RuntimeException) | [
-                new CatchStatement([Literal.of(RuntimeException.canonicalName)], Literal.of('e'), new CodeBlock()),
-                new CatchStatement([Literal.of(RuntimeException.canonicalName)], Literal.of('e'), new CodeBlock())
+                new CatchStatement([Literal.of(RuntimeException.canonicalName)], Literal.of('e'), CODE_BLOCK_EMPTY),
+                new CatchStatement([Literal.of(RuntimeException.canonicalName)], Literal.of('e'), CODE_BLOCK_EMPTY)
         ]
         ClassType.of(IllegalArgumentException) | [
-                new CatchStatement([Literal.of(RuntimeException.canonicalName)], Literal.of('e'), new CodeBlock()),
-                new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'), new CodeBlock())
+                new CatchStatement([Literal.of(RuntimeException.canonicalName)], Literal.of('e'), CODE_BLOCK_EMPTY),
+                new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'), CODE_BLOCK_EMPTY)
         ]
     }
 
     def 'test visit try statement of not caught but extended should not throw'() {
         when:
-        this.typeChecker.visitTryStatement(new CodeBlock(), [
-                new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'), new CodeBlock()),
-                new CatchStatement([Literal.of(RuntimeException.canonicalName)], Literal.of('e'), new CodeBlock()),
-        ], new CodeBlock(), new AssignmentBlock([]))
+        this.typeChecker.visitTryStatement(CODE_BLOCK_EMPTY, [
+                new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'), CODE_BLOCK_EMPTY),
+                new CatchStatement([Literal.of(RuntimeException.canonicalName)], Literal.of('e'), CODE_BLOCK_EMPTY),
+        ], CODE_BLOCK_EMPTY, new AssignmentBlock([]))
 
         then:
         notThrown(TypeCheckerException)
@@ -302,15 +311,15 @@ class TypeCheckerTest extends Specification {
         where:
         exceptions | variable | block | expected
         [Literal.of('IllegalArgumentException'), Literal.of('IllegalStateException'), Literal.of('IllegalAccessError')] |
-                Literal.of('e') | new CodeBlock(RETURN_NUMBER) |
+                Literal.of('e') | CODE_BLOCK_NUMBER |
                 new TupleType<>(new LinkedHashSet<>([ClassType.of(IllegalArgumentException), ClassType.of(IllegalStateException),
                              ClassType.of(IllegalAccessError)]), ValueType.NUMBER)
         [Literal.of('IllegalArgumentException'), Literal.of('IllegalStateException')] |
-                Literal.of('e') | new CodeBlock(RETURN_NUMBER) |
+                Literal.of('e') | CODE_BLOCK_NUMBER |
                 new TupleType<>(new LinkedHashSet<>([ClassType.of(IllegalArgumentException), ClassType.of(IllegalStateException)]),
                         ValueType.NUMBER)
         [Literal.of('IllegalArgumentException')] |
-                Literal.of('e') | new CodeBlock(RETURN_NUMBER) |
+                Literal.of('e') | CODE_BLOCK_NUMBER |
                 new TupleType<>(new LinkedHashSet<>([ClassType.of(IllegalArgumentException)]), ValueType.NUMBER)
     }
 
@@ -319,7 +328,7 @@ class TypeCheckerTest extends Specification {
         this.environment.declare(ClassObjectType.STRING, 'f', ObjectType.STRING)
 
         when:
-        this.typeChecker.visitCatchStatement(exceptions, new CodeBlock(), variable)
+        this.typeChecker.visitCatchStatement(exceptions, CODE_BLOCK_EMPTY, variable)
 
         then:
         def e = thrown(TypeCheckerException)
@@ -353,24 +362,24 @@ class TypeCheckerTest extends Specification {
         where:
         expression | cases | defaultBlock | expected
         NUMBER_LIT | [newCaseStatement(RETURN_NUMBER), newCaseStatement(RETURN_NUMBER)] |
-                new CodeBlock(RETURN_NUMBER) | ValueType.NUMBER
+                CODE_BLOCK_NUMBER | ValueType.NUMBER
         NUMBER_LIT | [newCaseStatement(RETURN_NUMBER), newCaseStatement(RETURN_DOUBLE)] |
-                new CodeBlock(RETURN_BOOL) | Types.NO_TYPE
+                CODE_BLOCK_BOOL | Types.NO_TYPE
         NUMBER_LIT | [newCaseStatement(RETURN_NUMBER)] |
-                new CodeBlock(RETURN_NUMBER) | ValueType.NUMBER
+                CODE_BLOCK_NUMBER | ValueType.NUMBER
         NUMBER_LIT | [newCaseStatement(RETURN_NUMBER)] |
-                new CodeBlock(RETURN_BOOL) | Types.NO_TYPE
+                CODE_BLOCK_BOOL | Types.NO_TYPE
         NUMBER_LIT | [] |
-                new CodeBlock(RETURN_NUMBER) | ValueType.NUMBER
+                CODE_BLOCK_NUMBER | ValueType.NUMBER
         NUMBER_LIT | [newCaseStatement(RETURN_NUMBER)] |
-                new CodeBlock() | Types.NO_TYPE
+                CODE_BLOCK_EMPTY | Types.NO_TYPE
         NUMBER_LIT | [] |
-                new CodeBlock() | Types.NO_TYPE
+                CODE_BLOCK_EMPTY | Types.NO_TYPE
     }
 
     def 'test invalid visit switch statement of expression #expression should throw exception with #expected'() {
         when:
-        this.typeChecker.visitSwitchStatement([], new CodeBlock(), expression)
+        this.typeChecker.visitSwitchStatement([], CODE_BLOCK_EMPTY, expression)
 
         then:
         def e = thrown(TypeCheckerException)
@@ -408,16 +417,16 @@ class TypeCheckerTest extends Specification {
 
         where:
         expected          | codeBlock                           | expression
-        ValueType.BOOLEAN | new CodeBlock(RETURN_BOOL) | Literal.of('arr')
-        ValueType.BOOLEAN | new CodeBlock(RETURN_BOOL) | Literal.of('iterable')
-        ValueType.BOOLEAN | new CodeBlock(RETURN_BOOL) | Literal.of('list')
-        ValueType.BOOLEAN | new CodeBlock(RETURN_BOOL) | Literal.of('set')
-        ValueType.BOOLEAN | new CodeBlock(RETURN_BOOL) | Literal.of('collection')
-        Types.NO_TYPE | new CodeBlock(new Break()) | Literal.of('arr')
-        Types.NO_TYPE | new CodeBlock(new Break()) | Literal.of('iterable')
-        Types.NO_TYPE | new CodeBlock(new Break()) | Literal.of('list')
-        Types.NO_TYPE | new CodeBlock(new Break()) | Literal.of('set')
-        Types.NO_TYPE | new CodeBlock(new Break()) | Literal.of('collection')
+        ValueType.BOOLEAN | CODE_BLOCK_BOOL | Literal.of('arr')
+        ValueType.BOOLEAN | CODE_BLOCK_BOOL | Literal.of('iterable')
+        ValueType.BOOLEAN | CODE_BLOCK_BOOL | Literal.of('list')
+        ValueType.BOOLEAN | CODE_BLOCK_BOOL | Literal.of('set')
+        ValueType.BOOLEAN | CODE_BLOCK_BOOL | Literal.of('collection')
+        Types.NO_TYPE | CODE_BLOCK_BREAK | Literal.of('arr')
+        Types.NO_TYPE | CODE_BLOCK_BREAK | Literal.of('iterable')
+        Types.NO_TYPE | CODE_BLOCK_BREAK | Literal.of('list')
+        Types.NO_TYPE | CODE_BLOCK_BREAK | Literal.of('set')
+        Types.NO_TYPE | CODE_BLOCK_BREAK | Literal.of('collection')
     }
 
     def 'test visit enhanced for statement of non-iterable'() {
@@ -426,7 +435,7 @@ class TypeCheckerTest extends Specification {
         def varName = Literal.of('i')
 
         when:
-        this.typeChecker.visitEnhancedForStatement(varType, varName, new CodeBlock(new Break()), NUMBER_LIT)
+        this.typeChecker.visitEnhancedForStatement(varType, varName, CODE_BLOCK_BREAK, NUMBER_LIT)
 
         then:
         def e = thrown(TypeCheckerException)
@@ -443,7 +452,7 @@ class TypeCheckerTest extends Specification {
         def varName = Literal.of('i')
 
         when:
-        this.typeChecker.visitEnhancedForStatement(varType, varName, new CodeBlock(new Break()), Literal.of('arr'))
+        this.typeChecker.visitEnhancedForStatement(varType, varName, CODE_BLOCK_BREAK, Literal.of('arr'))
 
         then:
         def e = thrown(TypeCheckerException)
@@ -465,10 +474,10 @@ class TypeCheckerTest extends Specification {
 
         where:
         expected          | codeBlock                           | expression
-        ValueType.BOOLEAN | new CodeBlock(RETURN_BOOL) | BOOL_LIT
-        ValueType.BOOLEAN | new CodeBlock(RETURN_BOOL) | BOOL_VAR
-        Types.NO_TYPE | new CodeBlock(new Break()) | BOOL_LIT
-        Types.NO_TYPE | new CodeBlock(new Break()) | BOOL_VAR
+        ValueType.BOOLEAN | CODE_BLOCK_BOOL | BOOL_LIT
+        ValueType.BOOLEAN | CODE_BLOCK_BOOL | BOOL_VAR
+        Types.NO_TYPE | CODE_BLOCK_BREAK | BOOL_LIT
+        Types.NO_TYPE | CODE_BLOCK_BREAK | BOOL_VAR
     }
 
     def 'test visit do statement of (#expression) #codeBlock should return #expected'() {
@@ -482,10 +491,10 @@ class TypeCheckerTest extends Specification {
 
         where:
         expected          | codeBlock                           | expression
-        ValueType.BOOLEAN | new CodeBlock(RETURN_BOOL) | BOOL_LIT
-        ValueType.BOOLEAN | new CodeBlock(RETURN_BOOL) | BOOL_VAR
-        Types.NO_TYPE | new CodeBlock(new Break()) | BOOL_LIT
-        Types.NO_TYPE | new CodeBlock(new Break()) | BOOL_VAR
+        ValueType.BOOLEAN | CODE_BLOCK_BOOL | BOOL_LIT
+        ValueType.BOOLEAN | CODE_BLOCK_BOOL | BOOL_VAR
+        Types.NO_TYPE | CODE_BLOCK_BREAK | BOOL_LIT
+        Types.NO_TYPE | CODE_BLOCK_BREAK | BOOL_VAR
     }
 
     def 'test visit while statement of (#expression) #codeBlock should return #expected'() {
@@ -499,10 +508,10 @@ class TypeCheckerTest extends Specification {
 
         where:
         expected          | codeBlock                           | expression
-        ValueType.BOOLEAN | new CodeBlock(RETURN_BOOL) | BOOL_LIT
-        ValueType.BOOLEAN | new CodeBlock(RETURN_BOOL) | BOOL_VAR
-        Types.NO_TYPE | new CodeBlock(new Break()) | BOOL_LIT
-        Types.NO_TYPE | new CodeBlock(new Break()) | BOOL_VAR
+        ValueType.BOOLEAN | CODE_BLOCK_BOOL | BOOL_LIT
+        ValueType.BOOLEAN | CODE_BLOCK_BOOL | BOOL_VAR
+        Types.NO_TYPE | CODE_BLOCK_BREAK | BOOL_LIT
+        Types.NO_TYPE | CODE_BLOCK_BREAK | BOOL_VAR
     }
 
     def 'test visit if statement of code "#code" should return #expected'() {
@@ -524,30 +533,30 @@ class TypeCheckerTest extends Specification {
 
         where:
         expected          | code
-        ValueType.BOOLEAN | new IfStatement(BOOL_LIT, new CodeBlock(RETURN_BOOL), new Statement())
-        ValueType.BOOLEAN | new IfStatement(BOOL_VAR, new CodeBlock(RETURN_BOOL), new Statement())
-        Types.NO_TYPE | new IfStatement(BOOL_LIT, new CodeBlock(new Statement()), new Statement())
-        Types.NO_TYPE | new IfStatement(BOOL_VAR, new CodeBlock(new Statement()), new Statement())
-        ValueType.NUMBER  | new IfStatement(BOOL_LIT, new CodeBlock(RETURN_NUMBER),
-                new IfStatement(BOOL_LIT, new CodeBlock(RETURN_NUMBER), new Statement()))
-        ValueType.NUMBER  | new IfStatement(BOOL_VAR, new CodeBlock(RETURN_NUMBER),
-                new IfStatement(BOOL_VAR, new CodeBlock(RETURN_NUMBER), new Statement()))
-        Types.NO_TYPE | new IfStatement(BOOL_LIT, new CodeBlock(RETURN_NUMBER),
-                new IfStatement(BOOL_LIT, new CodeBlock(RETURN_FLOAT), new Statement()))
-        Types.NO_TYPE | new IfStatement(BOOL_VAR, new CodeBlock(RETURN_NUMBER),
-                new IfStatement(BOOL_VAR, new CodeBlock(RETURN_FLOAT), new Statement()))
-        ValueType.DOUBLE  | new IfStatement(BOOL_LIT, new CodeBlock(RETURN_DOUBLE),
-                new IfStatement(BOOL_LIT, new CodeBlock(RETURN_DOUBLE),
-                        new CodeBlock(RETURN_DOUBLE)))
-        ValueType.DOUBLE  | new IfStatement(BOOL_VAR, new CodeBlock(RETURN_DOUBLE),
-                new IfStatement(BOOL_VAR, new CodeBlock(RETURN_DOUBLE),
-                        new CodeBlock(RETURN_DOUBLE)))
-        Types.NO_TYPE | new IfStatement(BOOL_LIT, new CodeBlock(RETURN_DOUBLE),
-                new IfStatement(BOOL_LIT, new CodeBlock(RETURN_FLOAT),
-                        new CodeBlock(RETURN_LONG)))
-        Types.NO_TYPE | new IfStatement(BOOL_VAR, new CodeBlock(RETURN_DOUBLE),
-                new IfStatement(BOOL_VAR, new CodeBlock(RETURN_FLOAT),
-                        new CodeBlock(RETURN_LONG)))
+        ValueType.BOOLEAN | new IfStatement(BOOL_LIT, CODE_BLOCK_BOOL, new Statement())
+        ValueType.BOOLEAN | new IfStatement(BOOL_VAR, CODE_BLOCK_BOOL, new Statement())
+        Types.NO_TYPE | new IfStatement(BOOL_LIT, CODE_BLOCK_EMPTY, new Statement())
+        Types.NO_TYPE | new IfStatement(BOOL_VAR, CODE_BLOCK_EMPTY, new Statement())
+        ValueType.NUMBER  | new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER,
+                new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER, new Statement()))
+        ValueType.NUMBER  | new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER,
+                new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER, new Statement()))
+        Types.NO_TYPE | new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER,
+                new IfStatement(BOOL_LIT, CODE_BLOCK_FLOAT, new Statement()))
+        Types.NO_TYPE | new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER,
+                new IfStatement(BOOL_VAR, CODE_BLOCK_FLOAT, new Statement()))
+        ValueType.DOUBLE  | new IfStatement(BOOL_LIT, CODE_BLOCK_DOUBLE,
+                new IfStatement(BOOL_LIT, CODE_BLOCK_DOUBLE,
+                        CODE_BLOCK_DOUBLE))
+        ValueType.DOUBLE  | new IfStatement(BOOL_VAR, CODE_BLOCK_DOUBLE,
+                new IfStatement(BOOL_VAR, CODE_BLOCK_DOUBLE,
+                        CODE_BLOCK_DOUBLE))
+        Types.NO_TYPE | new IfStatement(BOOL_LIT, CODE_BLOCK_DOUBLE,
+                new IfStatement(BOOL_LIT, CODE_BLOCK_FLOAT,
+                        CODE_BLOCK_LONG))
+        Types.NO_TYPE | new IfStatement(BOOL_VAR, CODE_BLOCK_DOUBLE,
+                new IfStatement(BOOL_VAR, CODE_BLOCK_FLOAT,
+                        CODE_BLOCK_LONG))
     }
 
     def 'test visit assignment block of #assignments should return #expected'() {
@@ -1044,7 +1053,7 @@ class TypeCheckerTest extends Specification {
         def statements = new LinkedList<>([
                 new IfStatement(
                         BOOL_LIT,
-                        new CodeBlock(RETURN_CHAR),
+                        CODE_BLOCK_CHAR,
                         new Statement()
                 ),
                 RETURN_NUMBER
@@ -1062,7 +1071,7 @@ class TypeCheckerTest extends Specification {
         def statements = new LinkedList<>([
                 new IfStatement(
                         BOOL_LIT,
-                        new CodeBlock(RETURN_CHAR),
+                        CODE_BLOCK_CHAR,
                         new Statement()
                 ),
                 RETURN_NUMBER
