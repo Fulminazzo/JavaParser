@@ -1,8 +1,7 @@
 package it.fulminazzo.javaparser.parser.node.statements;
 
 import it.fulminazzo.javaparser.parser.node.Node;
-import it.fulminazzo.javaparser.parser.node.container.CaseBlock;
-import it.fulminazzo.javaparser.parser.node.container.DefaultBlock;
+import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -11,8 +10,8 @@ import java.util.List;
  * Represents a switch statement.
  */
 public class SwitchStatement extends Statement {
-    private final @NotNull List<CaseBlock> cases;
-    private final @NotNull DefaultBlock defaultBlock;
+    private final @NotNull List<CaseStatement> cases;
+    private final @NotNull CodeBlock defaultBlock;
 
     /**
      * Instantiates a new Switch statement.
@@ -22,8 +21,8 @@ public class SwitchStatement extends Statement {
      * @param defaultBlock the default block
      */
     public SwitchStatement(final @NotNull Node expression,
-                           final @NotNull List<CaseBlock> cases,
-                           final @NotNull DefaultBlock defaultBlock) {
+                           final @NotNull List<CaseStatement> cases,
+                           final @NotNull CodeBlock defaultBlock) {
         super(expression);
         this.cases = cases;
         this.defaultBlock = defaultBlock;
