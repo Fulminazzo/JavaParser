@@ -431,14 +431,14 @@ public final class TypeChecker implements Visitor<Type> {
                     throw TypeCheckerException.invalidType(autoClosable, ClassType.of(assignment));
             }
 
-            Type returnType = finallyBlock.accept(this);
-
+            Type returnType = null;
             LinkedHashSet<ClassType> caughtExceptions = new LinkedHashSet<>();
             for (CatchStatement catchStatement : catchBlocks) {
                 TupleType<Set<ClassType>, Type> tuple = catchStatement.accept(this).check(TupleType.class);
 
                 Type catchType = tuple.getValue();
-                if (!catchType.is(returnType)) returnType = Types.NO_TYPE;
+                if (returnType == null) returnType = catchType;
+                else if (!catchType.is(returnType)) returnType = Types.NO_TYPE;
 
                 for (ClassType exception : tuple.getKey()) {
                     if (caughtExceptions.stream().anyMatch(e -> e.compatibleWith(exception.toType())))
@@ -450,8 +450,10 @@ public final class TypeChecker implements Visitor<Type> {
             Type visitedType = visitScoped(ScopeType.tryScope(caughtExceptions.stream()
                     .map(ClassType::toJavaClass)
                     .map(c -> (Class<Throwable>) c)), () -> block.accept(this));
+            returnType = visitedType.is(returnType) ? returnType : Types.NO_TYPE;
 
-            return visitedType.is(returnType) ? returnType : Types.NO_TYPE;
+            Type finallyType = finallyBlock.accept(this);
+            return finallyType.is(Types.NO_TYPE) ? finallyType : returnType;
         });
     }
 
