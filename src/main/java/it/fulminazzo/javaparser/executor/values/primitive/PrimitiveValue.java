@@ -30,6 +30,41 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
         return this.object;
     }
 
+    @Override
+    public boolean isCharacter() {
+        return this instanceof CharacterValue;
+    }
+
+    @Override
+    public boolean isInteger() {
+        return this instanceof IntegerValue;
+    }
+
+    @Override
+    public boolean isLong() {
+        return this instanceof LongValue;
+    }
+
+    @Override
+    public boolean isFloat() {
+        return this instanceof FloatValue;
+    }
+
+    @Override
+    public boolean isDouble() {
+        return this instanceof DoubleValue;
+    }
+
+    @Override
+    public boolean isBoolean() {
+        return this instanceof BooleanValue;
+    }
+
+    @Override
+    public boolean isString() {
+        return this instanceof StringValue;
+    }
+
     /**
      * Gets the most appropriate {@link PrimitiveValue} from the given value.
      *
