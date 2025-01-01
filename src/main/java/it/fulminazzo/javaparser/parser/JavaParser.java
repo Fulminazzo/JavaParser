@@ -151,7 +151,7 @@ public class JavaParser extends Parser {
         consume(OPEN_PAR);
         List<Literal> exceptions = new LinkedList<>();
         do exceptions.add(parseLiteral());
-        while (lastToken() == PIPE);
+        while (lastToken() == PIPE && consume(PIPE) == LITERAL);
         Literal exceptionsName = parseLiteral();
         consume(CLOSE_PAR);
         CodeBlock block = parseBlock();
