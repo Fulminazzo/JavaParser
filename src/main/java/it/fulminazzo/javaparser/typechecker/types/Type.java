@@ -208,13 +208,13 @@ public interface Type {
     }
 
     /**
-     * Prints the given string to the format of a type.
+     * Converts the current object to its wrapper {@link ObjectType}.
+     * This only works for {@link ValueType}s.
      *
-     * @param output the output
-     * @return the new output
+     * @return the wrapper type
      */
-    static @NotNull String print(final @NotNull String output) {
-        return String.format("Type(%s)", output);
+    default @NotNull ObjectType toWrapper() {
+        throw TypeCheckerException.noWrapper(this);
     }
 
     /**
@@ -223,5 +223,15 @@ public interface Type {
      * @return the class type
      */
     @NotNull ClassType toClassType();
+
+    /**
+     * Prints the given string to the format of a type.
+     *
+     * @param output the output
+     * @return the new output
+     */
+    static @NotNull String print(final @NotNull String output) {
+        return String.format("Type(%s)", output);
+    }
 
 }
