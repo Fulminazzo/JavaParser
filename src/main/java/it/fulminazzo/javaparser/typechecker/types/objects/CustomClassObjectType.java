@@ -4,6 +4,7 @@ import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import it.fulminazzo.javaparser.typechecker.types.ClassType;
 import it.fulminazzo.javaparser.typechecker.types.Type;
 import it.fulminazzo.javaparser.typechecker.types.TypeWrapper;
+import it.fulminazzo.javaparser.typechecker.types.Types;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -45,7 +46,7 @@ class CustomClassObjectType extends TypeWrapper implements ClassType {
     public boolean compatibleWith(@NotNull Type type) {
         if (type instanceof ObjectType)
             return toJavaClass().isAssignableFrom(((ObjectType) type).getInnerClass());
-        else return false;
+        else return type.equals(Types.NULL_TYPE);
     }
 
     @Override
