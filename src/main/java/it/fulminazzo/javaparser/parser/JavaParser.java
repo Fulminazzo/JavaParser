@@ -6,7 +6,7 @@ import it.fulminazzo.fulmicollection.utils.StringUtils;
 import it.fulminazzo.javaparser.parser.node.*;
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray;
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray;
-import it.fulminazzo.javaparser.parser.node.container.AssignmentBlock;
+import it.fulminazzo.javaparser.parser.node.AssignmentBlock;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram;
 import it.fulminazzo.javaparser.parser.node.literals.*;

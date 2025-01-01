@@ -1,6 +1,6 @@
 package it.fulminazzo.javaparser.parser.node.statements;
 
-import it.fulminazzo.javaparser.parser.node.container.AssignmentBlock;
+import it.fulminazzo.javaparser.parser.node.AssignmentBlock;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import org.jetbrains.annotations.NotNull;
 
