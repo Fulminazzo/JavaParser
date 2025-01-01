@@ -6,6 +6,7 @@ import it.fulminazzo.fulmicollection.utils.StringUtils;
 import it.fulminazzo.javaparser.parser.node.*;
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray;
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray;
+import it.fulminazzo.javaparser.parser.node.container.AssignmentBlock;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram;
 import it.fulminazzo.javaparser.parser.node.literals.*;
@@ -139,6 +140,21 @@ public class JavaParser extends Parser {
             }
         }
         return new Statement(exp);
+    }
+
+    /**
+     * ASSIGNMENT_BLOCK := (ARRAY_LITERAL LITERAL (=EXPR?);)+
+     *
+     * @return the node
+     */
+    protected @NotNull AssignmentBlock parseAssignmentBlock() {
+        List<Assignment> assignments = new LinkedList<>();
+        do {
+            Node node = parseAssignment();
+            if (node.is(Assignment.class)) assignments.add((Assignment) node);
+            else throw ParserException.invalidNodeProvided(this, Assignment.class, node);
+        } while (lastToken() == SEMICOLON && consume(SEMICOLON) == LITERAL);
+        return new AssignmentBlock(assignments);
     }
 
     /**
