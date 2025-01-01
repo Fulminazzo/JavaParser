@@ -5,6 +5,7 @@ import it.fulminazzo.javaparser.environment.MockEnvironment
 import it.fulminazzo.javaparser.environment.ScopeException
 import it.fulminazzo.javaparser.environment.scopetypes.ScopeType
 import it.fulminazzo.javaparser.parser.node.Assignment
+import it.fulminazzo.javaparser.parser.node.AssignmentBlock
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram
@@ -75,6 +76,26 @@ class TypeCheckerTest extends Specification {
         type                          | program
         Optional.of(ValueType.NUMBER) | new JavaProgram(new LinkedList<>([new Return(NUMBER_LIT)]))
         Optional.empty()              | new JavaProgram(new LinkedList<>([new Statement()]))
+    }
+
+    def 'test visit try statement: (#expression) #block #catchBlocks #finallyBlock should return #expected'() {
+        when:
+        def type = this.typeChecker.visitTryStatement(block, catchBlocks, finallyBlock, expression)
+
+        then:
+        type == expected
+
+        where:
+        expression | block | catchBlocks | finallyBlock | expected
+        new AssignmentBlock([
+                new Assignment(Literal.of(InputStream.canonicalName), 'input', new NullLiteral()),
+                new Assignment(Literal.of(OutputStream.canonicalName), 'input', new NullLiteral()),
+        ]) | new CodeBlock(new Return(NUMBER_LIT)) | [
+                new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
+                        new CodeBlock(new Return(NUMBER_LIT))),
+                new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
+                        new CodeBlock(new Return(NUMBER_LIT)))
+        ] | new CodeBlock(new Return(NUMBER_LIT)) | ValueType.NUMBER
     }
 
     def 'test visit catch statement: (#exceptions #variable) #block should return #expected'() {
