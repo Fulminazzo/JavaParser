@@ -30,7 +30,7 @@ import static it.fulminazzo.javaparser.typechecker.types.ValueType.*;
  */
 public final class TypeChecker implements Visitor<Type> {
     private static final ScopeType[] BREAK_SCOPES = new ScopeType[] {
-            ScopeType.DO, ScopeType.WHILE, ScopeType.FOR, ScopeType.SWITCH
+            ScopeType.DO, ScopeType.WHILE, ScopeType.FOR, ScopeType.SWITCH, ScopeType.CASE
     };
     private static final ScopeType[] CONTINUE_SCOPES = new ScopeType[] {
             ScopeType.DO, ScopeType.WHILE, ScopeType.FOR

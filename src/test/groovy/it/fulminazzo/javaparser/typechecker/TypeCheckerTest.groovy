@@ -1076,6 +1076,7 @@ class TypeCheckerTest extends Specification {
         scope << [
                 ScopeType.WHILE, ScopeType.DO,
                 ScopeType.FOR, ScopeType.SWITCH,
+                ScopeType.CASE
         ]
     }
 
