@@ -11,12 +11,16 @@ public enum TokenType {
     COMMENT_INLINE("\\/\\/"),
     COMMENT_BLOCK_START("\\/\\*"),
     COMMENT_BLOCK_END("\\*\\/"),
+    PIPE("\\|"),
 
     // Statement
     RETURN("return"),
     BREAK("break"),
     CONTINUE("continue"),
     NEW("new"),
+    TRY("try"),
+    CATCH("catch"),
+    FINALLY("finally"),
     SWITCH("switch"),
     CASE("case"),
     DEFAULT("default"),
