@@ -6,7 +6,6 @@ import it.fulminazzo.fulmicollection.utils.StringUtils;
 import it.fulminazzo.javaparser.parser.node.*;
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray;
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray;
-import it.fulminazzo.javaparser.parser.node.statements.CaseStatement;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram;
 import it.fulminazzo.javaparser.parser.node.literals.*;
@@ -140,6 +139,23 @@ public class JavaParser extends Parser {
             }
         }
         return new Statement(exp);
+    }
+
+    /**
+     * CATCH := catch \( (LITERAL \| )* LITERAL LITERAL \) CODE_BLOCK
+     *
+     * @return the node
+     */
+    protected @NotNull CatchStatement parseCatchStatement() {
+        consume(CATCH);
+        consume(OPEN_PAR);
+        List<Literal> exceptions = new LinkedList<>();
+        do exceptions.add(parseLiteral());
+        while (lastToken() == PIPE);
+        Literal exceptionsName = parseLiteral();
+        consume(CLOSE_PAR);
+        CodeBlock block = parseBlock();
+        return new CatchStatement(exceptions, exceptionsName, block);
     }
 
     /**
