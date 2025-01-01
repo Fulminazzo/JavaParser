@@ -80,9 +80,9 @@ class TypeCheckerTest extends Specification {
         Optional.empty()              | new JavaProgram(new LinkedList<>([new Statement()]))
     }
 
-    def 'test visit switch statement of #expr (#cases, #defaultBlock) should return #expected'() {
+    def 'test visit switch statement of #expression (#cases, #defaultBlock) should return #expected'() {
         when:
-        def type = this.typeChecker.visitSwitchStatement(cases, defaultBlock, expr)
+        def type = this.typeChecker.visitSwitchStatement(cases, defaultBlock, expression)
 
         then:
         type == expected
@@ -90,7 +90,7 @@ class TypeCheckerTest extends Specification {
         this.environment.isMainScope()
 
         where:
-        expr | cases | defaultBlock | expected
+        expression | cases | defaultBlock | expected
         NUMBER_LIT | [newCaseStatement(new Return(NUMBER_LIT)), newCaseStatement(new Return(NUMBER_LIT))] |
                 new CodeBlock(new Return(NUMBER_LIT)) | ValueType.NUMBER
         NUMBER_LIT | [newCaseStatement(new Return(NUMBER_LIT)), newCaseStatement(new Return(DOUBLE_LIT))] |
@@ -125,7 +125,7 @@ class TypeCheckerTest extends Specification {
         return new CaseStatement(NUMBER_LIT, new CodeBlock(val))
     }
 
-    def 'test visit enhanced for statement of (#expr) #codeBlock should return #expected'() {
+    def 'test visit enhanced for statement of (#expression) #codeBlock should return #expected'() {
         given:
         this.environment.declare(new ArrayClassType(PrimitiveType.INT), 'arr', new ArrayType(ValueType.NUMBER))
         this.environment.declare(ClassObjectType.of(Iterable), 'iterable', ObjectType.of(Iterable))
@@ -138,7 +138,7 @@ class TypeCheckerTest extends Specification {
         def varName = Literal.of('i')
 
         when:
-        def type = this.typeChecker.visitEnhancedForStatement(varType, varName, codeBlock, expr)
+        def type = this.typeChecker.visitEnhancedForStatement(varType, varName, codeBlock, expression)
 
         then:
         type == expected
@@ -146,7 +146,7 @@ class TypeCheckerTest extends Specification {
         this.environment.isMainScope()
 
         where:
-        expected          | codeBlock                           | expr
+        expected          | codeBlock                           | expression
         ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | Literal.of('arr')
         ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | Literal.of('iterable')
         ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | Literal.of('list')
@@ -189,13 +189,13 @@ class TypeCheckerTest extends Specification {
         e.message == TypeCheckerException.invalidType(classType.getComponentType(), PrimitiveType.BOOLEAN).message
     }
 
-    def 'test visit for statement of (#expr) #codeBlock should return #expected'() {
+    def 'test visit for statement of (#expression) #codeBlock should return #expected'() {
         given:
         def assignment = new Assignment(Literal.of('int'), Literal.of('i'), NUMBER_LIT)
         def increment = new Increment(Literal.of('i'), false)
 
         when:
-        def type = this.typeChecker.visitForStatement(assignment, increment, codeBlock, expr)
+        def type = this.typeChecker.visitForStatement(assignment, increment, codeBlock, expression)
 
         then:
         type == expected
@@ -203,16 +203,16 @@ class TypeCheckerTest extends Specification {
         this.environment.isMainScope()
 
         where:
-        expected          | codeBlock                           | expr
+        expected          | codeBlock                           | expression
         ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | BOOL_LIT
         ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | BOOL_VAR
         Types.NO_TYPE | new CodeBlock(new Break()) | BOOL_LIT
         Types.NO_TYPE | new CodeBlock(new Break()) | BOOL_VAR
     }
 
-    def 'test visit do statement of (#expr) #codeBlock should return #expected'() {
+    def 'test visit do statement of (#expression) #codeBlock should return #expected'() {
         when:
-        def type = this.typeChecker.visitDoStatement(codeBlock, expr)
+        def type = this.typeChecker.visitDoStatement(codeBlock, expression)
 
         then:
         type == expected
@@ -220,16 +220,16 @@ class TypeCheckerTest extends Specification {
         this.environment.isMainScope()
 
         where:
-        expected          | codeBlock                           | expr
+        expected          | codeBlock                           | expression
         ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | BOOL_LIT
         ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | BOOL_VAR
         Types.NO_TYPE | new CodeBlock(new Break()) | BOOL_LIT
         Types.NO_TYPE | new CodeBlock(new Break()) | BOOL_VAR
     }
 
-    def 'test visit while statement of (#expr) #codeBlock should return #expected'() {
+    def 'test visit while statement of (#expression) #codeBlock should return #expected'() {
         when:
-        def type = this.typeChecker.visitWhileStatement(codeBlock, expr)
+        def type = this.typeChecker.visitWhileStatement(codeBlock, expression)
 
         then:
         type == expected
@@ -237,7 +237,7 @@ class TypeCheckerTest extends Specification {
         this.environment.isMainScope()
 
         where:
-        expected          | codeBlock                           | expr
+        expected          | codeBlock                           | expression
         ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | BOOL_LIT
         ValueType.BOOLEAN | new CodeBlock(new Return(BOOL_LIT)) | BOOL_VAR
         Types.NO_TYPE | new CodeBlock(new Break()) | BOOL_LIT
@@ -249,12 +249,12 @@ class TypeCheckerTest extends Specification {
         def refl = new Refl<>(code)
 
         and:
-        def expr = refl.getFieldObject('expr')
+        def expression = refl.getFieldObject('expression')
         def then = refl.getFieldObject('then')
         def elseBranch = refl.getFieldObject('elseBranch')
 
         when:
-        def type = this.typeChecker.visitIfStatement(then, elseBranch, expr)
+        def type = this.typeChecker.visitIfStatement(then, elseBranch, expression)
         this.environment.enteredScope(ScopeType.CODE_BLOCK)
         this.environment.isMainScope()
 

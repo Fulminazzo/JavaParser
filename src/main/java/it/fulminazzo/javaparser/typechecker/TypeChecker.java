@@ -380,7 +380,7 @@ public final class TypeChecker implements Visitor<Type> {
     }
 
     @Override
-    public @NotNull Type visitBreak(@NotNull Node expr) {
+    public @NotNull Type visitBreak(@NotNull Node expression) {
         try {
             this.environment.check(BREAK_SCOPES);
         } catch (ScopeException e) {
@@ -390,7 +390,7 @@ public final class TypeChecker implements Visitor<Type> {
     }
 
     @Override
-    public @NotNull Type visitContinue(@NotNull Node expr) {
+    public @NotNull Type visitContinue(@NotNull Node expression) {
         try {
             this.environment.check(CONTINUE_SCOPES);
         } catch (ScopeException e) {
@@ -426,21 +426,21 @@ public final class TypeChecker implements Visitor<Type> {
     }
 
     @Override
-    public @NotNull Type visitDoStatement(@NotNull CodeBlock code, @NotNull Node expr) {
+    public @NotNull Type visitDoStatement(@NotNull CodeBlock code, @NotNull Node expression) {
         return visitScoped(ScopeType.DO, () -> {
-            expr.accept(this).check(BOOLEAN, ObjectType.BOOLEAN);
+            expression.accept(this).check(BOOLEAN, ObjectType.BOOLEAN);
             return code.accept(this);
         });
     }
 
     @Override
-    public @NotNull Type visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable, @NotNull CodeBlock code, @NotNull Node expr) {
+    public @NotNull Type visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable, @NotNull CodeBlock code, @NotNull Node expression) {
         return visitScoped(ScopeType.FOR, () -> {
             ClassType variableType = type.accept(this).checkClassType();
             LiteralType variableName = variable.accept(this).check(LiteralType.class);
             this.environment.declare(variableType, variableName.getLiteral(), variableType.toType());
 
-            Type expressionType = expr.accept(this);
+            Type expressionType = expression.accept(this);
             if (expressionType.is(ArrayType.class)) {
                 Type componentType = expressionType.check(ArrayType.class).getComponentType();
                 if (!componentType.isAssignableFrom(variableType))
@@ -457,18 +457,18 @@ public final class TypeChecker implements Visitor<Type> {
     }
 
     @Override
-    public @NotNull Type visitForStatement(@NotNull Node assignment, @NotNull Node increment, @NotNull CodeBlock code, @NotNull Node expr) {
+    public @NotNull Type visitForStatement(@NotNull Node assignment, @NotNull Node increment, @NotNull CodeBlock code, @NotNull Node expression) {
         return visitScoped(ScopeType.FOR, () -> {
             assignment.accept(this);
-            expr.accept(this).check(BOOLEAN, ObjectType.BOOLEAN, Types.NO_TYPE);
+            expression.accept(this).check(BOOLEAN, ObjectType.BOOLEAN, Types.NO_TYPE);
             increment.accept(this);
             return code.accept(this);
         });
     }
 
     @Override
-    public @NotNull Type visitIfStatement(@NotNull CodeBlock then, @NotNull Node elseBranch, @NotNull Node expr) {
-        expr.accept(this).check(BOOLEAN, ObjectType.BOOLEAN);
+    public @NotNull Type visitIfStatement(@NotNull CodeBlock then, @NotNull Node elseBranch, @NotNull Node expression) {
+        expression.accept(this).check(BOOLEAN, ObjectType.BOOLEAN);
         Type first = then.accept(this);
         Type second = elseBranch.accept(this);
         if (first.is(second) || elseBranch.equals(new Statement())) return first;
@@ -476,19 +476,19 @@ public final class TypeChecker implements Visitor<Type> {
     }
 
     @Override
-    public @NotNull Type visitReturn(@NotNull Node expr) {
-        return expr.accept(this);
+    public @NotNull Type visitReturn(@NotNull Node expression) {
+        return expression.accept(this);
     }
 
     @Override
-    public @NotNull Type visitStatement(@NotNull Node expr) {
-        return expr.accept(this);
+    public @NotNull Type visitStatement(@NotNull Node expression) {
+        return expression.accept(this);
     }
 
     @Override
-    public @NotNull Type visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expr) {
+    public @NotNull Type visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expression) {
         return visitScoped(ScopeType.WHILE, () -> {
-            expr.accept(this).check(BOOLEAN, ObjectType.BOOLEAN);
+            expression.accept(this).check(BOOLEAN, ObjectType.BOOLEAN);
             return code.accept(this);
         });
     }
