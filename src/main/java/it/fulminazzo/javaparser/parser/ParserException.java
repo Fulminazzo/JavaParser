@@ -41,6 +41,21 @@ final class ParserException extends RuntimeException {
 
     /**
      * Generates a {@link ParserException} with message:
+     * <i>Unexpected token: %token%</i>
+     *
+     * @param parser   the parser
+     * @param expected the expected type
+     * @param actual   the actual token
+     * @return the parser exception
+     */
+    public static @NotNull ParserException unexpectedToken(final @NotNull Parser parser,
+                                                           final @NotNull TokenType expected,
+                                                           final @NotNull TokenType actual) {
+        return new ParserException(parser, "Expected token %s but found %s", expected, actual);
+    }
+
+    /**
+     * Generates a {@link ParserException} with message:
      * <i>Invalid value '%value%' provided for value type '%parser#lastToken%'</i>
      *
      * @param parser the parser
