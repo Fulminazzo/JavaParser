@@ -241,6 +241,17 @@ class TypeCheckerTest extends Specification {
         ] | new CodeBlock() | ValueType.BOOLEAN
     }
 
+    def 'test visit try statement with no auto-closable'() {
+        when:
+        this.typeChecker.visitTryStatement(new CodeBlock(), [], new CodeBlock(), new AssignmentBlock([
+                new Assignment(Literal.of('int'), Literal.of('i'), NUMBER_LIT)
+        ]))
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.invalidType(ClassType.of(AutoCloseable.class), PrimitiveType.INT).message
+    }
+
     def 'test visit catch statement: (#exceptions #variable) #block should return #expected'() {
         when:
         def type = this.typeChecker.visitCatchStatement(exceptions, block, variable)
