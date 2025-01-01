@@ -158,11 +158,10 @@ public class JavaParser extends Parser {
             if (lastToken() == CASE) {
                 CaseBlock caseBlock = parseCaseBlock();
                 if (caseBlocks.stream().anyMatch(c -> c.getExpression().equals(caseBlock.getExpression())))
-                    throw new ParserException(String.format("Case block with expression %s already defined",
-                            caseBlock.getExpression()), this);
+                    throw ParserException.caseBlockAlreadyDefined(this, caseBlock);
                 else caseBlocks.add(caseBlock);
             } else if (defaultBlock == null) defaultBlock = parseDefaultBlock();
-            else throw new ParserException("Default block already defined", this);
+            else throw ParserException.defaultBlockAlreadyDefined(this);
         }
         if (defaultBlock == null) defaultBlock = new DefaultBlock();
         consume(CLOSE_BRACE);
