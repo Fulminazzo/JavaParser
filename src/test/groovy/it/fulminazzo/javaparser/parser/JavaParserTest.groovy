@@ -175,6 +175,18 @@ class JavaParserTest extends Specification {
                         new DefaultBlock())
     }
 
+    def 'test parse switch of same cases should throw exception'() {
+        given:
+        def code = 'switch(1) { case 1: return 1; case 1: return 2; }'
+
+        when:
+        startReading(code)
+        this.parser.parseSwitchStatement()
+
+        then:
+        thrown(ParserException)
+    }
+
     def 'test parse case block of code: #code'() {
         when:
         startReading(code)
