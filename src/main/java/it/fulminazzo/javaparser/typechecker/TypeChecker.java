@@ -4,12 +4,14 @@ import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.environment.Environment;
 import it.fulminazzo.javaparser.environment.ScopeException;
 import it.fulminazzo.javaparser.environment.ScopeType;
+import it.fulminazzo.javaparser.parser.node.Assignment;
 import it.fulminazzo.javaparser.parser.node.MethodInvocation;
 import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.parser.node.statements.CaseStatement;
+import it.fulminazzo.javaparser.parser.node.statements.CatchStatement;
 import it.fulminazzo.javaparser.parser.node.statements.Return;
 import it.fulminazzo.javaparser.parser.node.statements.Statement;
 import it.fulminazzo.javaparser.typechecker.types.*;
@@ -62,6 +64,11 @@ public final class TypeChecker implements Visitor<Type> {
     public @NotNull Optional<Type> visitProgram(@NotNull JavaProgram program) {
         Type type = program.accept(this);
         return type.equals(Types.NO_TYPE) ? Optional.empty() : Optional.of(type);
+    }
+
+    @Override
+    public @NotNull Type visitAssignmentBlock(@NotNull List<Assignment> assignments) {
+        return null;
     }
 
     @Override
@@ -400,6 +407,16 @@ public final class TypeChecker implements Visitor<Type> {
     }
 
     @Override
+    public @NotNull Type visitTryStatement(@NotNull CodeBlock block, @NotNull List<CatchStatement> catchBlocks, @NotNull CodeBlock finallyBlock, @NotNull Node expression) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Type visitCatchStatement(@NotNull List<Literal> exceptions, @NotNull CodeBlock block, @NotNull Node expression) {
+        return null;
+    }
+
+    @Override
     public @NotNull Type visitSwitchStatement(@NotNull List<CaseStatement> cases, @NotNull CodeBlock defaultBlock, @NotNull Node expression) {
         return visitScoped(ScopeType.SWITCH, () -> {
             Type expressionType = expression.accept(this).checkNot(Types.NO_TYPE, Types.NULL_TYPE);
@@ -478,6 +495,11 @@ public final class TypeChecker implements Visitor<Type> {
     @Override
     public @NotNull Type visitReturn(@NotNull Node expression) {
         return expression.accept(this);
+    }
+
+    @Override
+    public @NotNull Type visitThrow(@NotNull Node expression) {
+        return null;
     }
 
     @Override
