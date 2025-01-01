@@ -607,7 +607,7 @@ public final class TypeChecker implements Visitor<Type> {
         Type exceptionType = expression.accept(this);
         if (exceptionType.isAssignableFrom(throwable)) {
             ClassType exception = exceptionType.toClassType();
-            if (!exception.isAssignableFrom(runtimeException)) {
+            if (!exceptionType.isAssignableFrom(runtimeException)) {
                 if (!this.environment.isInTryScope((Class<? extends Throwable>) exception.toJavaClass()))
                     throw TypeCheckerException.unhandledException(exception);
             }
