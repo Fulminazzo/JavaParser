@@ -129,6 +129,52 @@ class JavaParserTest extends Specification {
         ]
     }
 
+    def 'test parse switch statement of code: #code'() {
+        when:
+        startReading(code)
+        def block = this.parser.parseSwitchStatement()
+
+        then:
+        block == expected
+
+        where:
+        code | expected
+        'switch (1) {case 1: return 1; case 2: return 2; default: return 3;}' |
+                new SwitchStatement(new NumberValueLiteral('1'),
+                Arrays.asList(
+                        new CaseBlock(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1'))),
+                        new CaseBlock(new NumberValueLiteral('2'), new Return(new NumberValueLiteral('2'))),
+                ),
+                new DefaultBlock(new Return(new NumberValueLiteral('3'))))
+        'switch (1) {case 1: return 1; default: return 3; case 2: return 2;}' |
+                new SwitchStatement(new NumberValueLiteral('1'),
+                        Arrays.asList(
+                                new CaseBlock(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1'))),
+                                new CaseBlock(new NumberValueLiteral('2'), new Return(new NumberValueLiteral('2')))
+                        ),
+                        new DefaultBlock(new Return(new NumberValueLiteral('3'))))
+        'switch (1) {case 1: return 1; default: return 3;}' |
+                new SwitchStatement(new NumberValueLiteral('1'),
+                        Arrays.asList(
+                                new CaseBlock(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1')))
+                        ),
+                        new DefaultBlock(new Return(new NumberValueLiteral('3'))))
+        'switch (1) {case 1: return 1;}' |
+                new SwitchStatement(new NumberValueLiteral('1'),
+                        Arrays.asList(
+                                new CaseBlock(new NumberValueLiteral('1'), new Return(new NumberValueLiteral('1')))
+                        ),
+                        new DefaultBlock())
+        'switch (1) {default: return 3;}' |
+                new SwitchStatement(new NumberValueLiteral('1'),
+                        new LinkedList<>(),
+                        new DefaultBlock(new Return(new NumberValueLiteral('3'))))
+        'switch (1) {}' |
+                new SwitchStatement(new NumberValueLiteral('1'),
+                        new LinkedList<>(),
+                        new DefaultBlock())
+    }
+
     def 'test parse case block of code: #code'() {
         when:
         startReading(code)
