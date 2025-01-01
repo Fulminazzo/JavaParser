@@ -6,6 +6,7 @@ import it.fulminazzo.fulmicollection.utils.StringUtils;
 import it.fulminazzo.javaparser.parser.node.*;
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray;
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray;
+import it.fulminazzo.javaparser.parser.node.container.CaseBlock;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.container.DefaultBlock;
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram;
@@ -150,6 +151,20 @@ public class JavaParser extends Parser {
     protected @NotNull Statement parseSwitchStatement() {
         //TODO:
         throw new UnsupportedOperationException("Not implemented");
+    }
+
+    /**
+     * CASE_BLOCK := case EXPR: ( CODE_BLOCK | SINGLE_STMT* )
+     */
+    protected @NotNull CaseBlock parseCaseBlock() {
+        consume(CASE);
+        Node expr = parseExpression();
+        consume(COLON);
+        LinkedList<Statement> statements = new LinkedList<>();
+        if (lastToken() == OPEN_BRACE)
+            statements.addAll(parseCodeBlock().getStatements());
+        else while (lastToken() != CLOSE_BRACE) statements.add(parseSingleStatement());
+        return new CaseBlock(expr, statements);
     }
 
     /**
