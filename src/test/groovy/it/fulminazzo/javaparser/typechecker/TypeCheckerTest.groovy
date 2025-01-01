@@ -555,6 +555,32 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_LONG))
     }
 
+    def 'test visit of throw statement of exception #exception should not throw'() {
+        given:
+        this.environment.enterScope(ScopeType.tryScope([Exception].stream()))
+
+        when:
+        this.typeChecker.visitThrow(new NewObject(Literal.of(exception.canonicalName), new MethodInvocation([])))
+
+        then:
+        noExceptionThrown()
+
+        where:
+        exception << [RuntimeException, IllegalArgumentException, IOException, Exception]
+    }
+
+    def 'test visit of throw statement of exception #exception should throw'() {
+        when:
+        this.typeChecker.visitThrow(new NewObject(Literal.of(exception.canonicalName), new MethodInvocation([])))
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.unhandledException(ClassType.of(exception)).message
+
+        where:
+        exception << [IOException, Exception]
+    }
+
     def 'test visit assignment block of #assignments should return #expected'() {
         when:
         def type = this.typeChecker.visitAssignmentBlock(assignments)
