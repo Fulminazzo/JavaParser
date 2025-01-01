@@ -12,7 +12,7 @@ TODO: try, catch and throws
 #         TRY_STMT | SWITCH_STMT | FOR_STMT | DO_STMT | WHILE_STMT | IF_STMT
 #         ASSIGNMENT;
 
-TRY_STMT := try ( \( ASSIGNMENT_BLOCK \) )? CODE_BLOCK CATCH+ ( finally CODE_BLOCK )?
+# TRY_STMT := try ( \( ASSIGNMENT_BLOCK \) )? CODE_BLOCK CATCH+ ( finally CODE_BLOCK )?
 # ASSIGNMENT_BLOCK := (ARRAY_LITERAL LITERAL (=EXPR?);)+
 # CATCH := catch \( (LITERAL \| )* LITERAL LITERAL \) CODE_BLOCK
 # SWITCH_STMT := switch ...

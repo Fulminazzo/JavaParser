@@ -143,6 +143,35 @@ public class JavaParser extends Parser {
     }
 
     /**
+     * TRY_STMT := try ( \( ASSIGNMENT_BLOCK \) )? CODE_BLOCK CATCH+ ( finally CODE_BLOCK )?
+     *
+     * @return the node
+     */
+    protected @NotNull TryStatement parseTryStatement() {
+        consume(TRY);
+
+        final AssignmentBlock assignmentBlock;
+        if (lastToken() == OPEN_PAR) {
+            consume(OPEN_PAR);
+            assignmentBlock = parseAssignmentBlock();
+            consume(CLOSE_PAR);
+        } else assignmentBlock = new AssignmentBlock(new LinkedList<>());
+
+        final CodeBlock block = parseBlock();
+
+        final List<CatchStatement> catchBlocks = new LinkedList<>();
+        while (lastToken() == CATCH) catchBlocks.add(parseCatchStatement());
+
+        final CodeBlock finallyBlock;
+        if (lastToken() == FINALLY) {
+            consume(FINALLY);
+            finallyBlock = parseBlock();
+        } else finallyBlock = new CodeBlock();
+
+        return new TryStatement(assignmentBlock, block, catchBlocks, finallyBlock);
+    }
+
+    /**
      * ASSIGNMENT_BLOCK := (ARRAY_LITERAL LITERAL (=EXPR?);)+
      *
      * @return the node
