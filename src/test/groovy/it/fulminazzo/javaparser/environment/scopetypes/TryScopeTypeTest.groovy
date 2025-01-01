@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.environment.scopetypes
 
+
 import it.fulminazzo.javaparser.environment.ScopeException
 import spock.lang.Specification
 
@@ -39,6 +40,21 @@ class TryScopeTypeTest extends Specification {
                         IllegalAccessException, IllegalArgumentException
                 ].stream() as Stream<Class<Throwable>>),
         ]
+    }
+
+    def 'test try scope type should not be equal to #other'() {
+        expect:
+        !this.type.equals(other)
+
+        where:
+        other << [
+                null,
+                BaseScopeType.values(),
+                new TryScopeType([
+                        IllegalArgumentException, IllegalStateException,
+                        IllegalAccessException
+                ].stream() as Stream<Class<Throwable>>)
+        ].flatten()
     }
 
 }
