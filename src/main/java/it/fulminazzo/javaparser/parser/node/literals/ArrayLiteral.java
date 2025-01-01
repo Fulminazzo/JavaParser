@@ -23,7 +23,7 @@ public class ArrayLiteral extends NodeImpl implements Literal {
 
     @Override
     public @NotNull String getLiteral() {
-        throw new UnsupportedOperationException();
+        throw new IllegalArgumentException(String.format("Cannot convert %s to string", getClass().getSimpleName()));
     }
 
 }

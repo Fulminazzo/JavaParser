@@ -2,7 +2,9 @@ package it.fulminazzo.javaparser.visitors;
 
 import it.fulminazzo.javaparser.parser.node.MethodInvocation;
 import it.fulminazzo.javaparser.parser.node.Node;
+import it.fulminazzo.javaparser.parser.node.container.CaseBlock;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
+import it.fulminazzo.javaparser.parser.node.container.DefaultBlock;
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.parser.node.statements.Statement;
@@ -373,6 +375,33 @@ public interface Visitor<T> {
     @NotNull T visitContinue(@NotNull Node expr);
 
     /**
+     * Converts switch statement and its fields to this visitor type.
+     *
+     * @param cases        the cases
+     * @param defaultBlock the default block
+     * @param expr         the expr
+     * @return the switch statement
+     */
+    @NotNull T visitSwitchStatement(@NotNull List<CaseBlock> cases, @NotNull DefaultBlock defaultBlock, @NotNull Node expr);
+
+    /**
+     * Converts case block and its fields to this visitor type.
+     *
+     * @param expression the expression
+     * @param statements the statements
+     * @return the case block
+     */
+    @NotNull T visitCaseBlock(@NotNull Node expression, @NotNull LinkedList<Statement> statements);
+
+    /**
+     * Converts default block and its fields to this visitor type.
+     *
+     * @param statements the statements
+     * @return the default block
+     */
+    @NotNull T visitDefaultBlock(@NotNull LinkedList<Statement> statements);
+
+    /**
      * Converts do statement and its fields to this visitor type.
      *
      * @param code the code
@@ -507,5 +536,6 @@ public interface Visitor<T> {
      * @return the string value literal
      */
     @NotNull T visitStringValueLiteral(@NotNull String rawValue);
+
 
 }

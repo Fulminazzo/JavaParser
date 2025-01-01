@@ -6,7 +6,9 @@ import it.fulminazzo.fulmicollection.utils.ReflectionUtils
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.MockNode
 import it.fulminazzo.javaparser.parser.node.Node
+import it.fulminazzo.javaparser.parser.node.container.CaseBlock
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
+import it.fulminazzo.javaparser.parser.node.container.DefaultBlock
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram
 import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.statements.Statement
@@ -289,6 +291,21 @@ class VisitorTest extends Specification {
 
         @Override
         @NotNull String visitContinue(@NotNull Node expr) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitSwitchStatement(@NotNull List<CaseBlock> cases, @NotNull DefaultBlock defaultBlock, @NotNull Node expr) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitCaseBlock(@NotNull Node expression, @NotNull LinkedList<Statement> statements) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitDefaultBlock(@NotNull LinkedList<Statement> statements) {
             return null
         }
 
