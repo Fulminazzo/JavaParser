@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.environment;
 
+import it.fulminazzo.javaparser.environment.scopetypes.ScopeType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;

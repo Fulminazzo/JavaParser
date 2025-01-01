@@ -1,4 +1,4 @@
-package it.fulminazzo.javaparser.environment;
+package it.fulminazzo.javaparser.environment.scopetypes;
 
 /**
  * The type of the scope defines the statement that generated it.
