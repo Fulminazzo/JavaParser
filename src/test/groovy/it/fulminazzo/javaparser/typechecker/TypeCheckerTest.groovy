@@ -87,14 +87,46 @@ class TypeCheckerTest extends Specification {
 
         where:
         expression | block | catchBlocks | finallyBlock | expected
+        // Everything
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
-                new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
+                new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral())
         ]) | new CodeBlock(new Return(NUMBER_LIT)) | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         new CodeBlock(new Return(NUMBER_LIT))),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         new CodeBlock(new Return(NUMBER_LIT)))
+        ] | new CodeBlock(new Return(NUMBER_LIT)) | ValueType.NUMBER
+        // Just one assignment
+        new AssignmentBlock([
+                new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral())
+        ]) | new CodeBlock(new Return(NUMBER_LIT)) | [
+                new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
+                        new CodeBlock(new Return(NUMBER_LIT))),
+                new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
+                        new CodeBlock(new Return(NUMBER_LIT)))
+        ] | new CodeBlock(new Return(NUMBER_LIT)) | ValueType.NUMBER
+        // No assignments
+        new AssignmentBlock([
+        ]) | new CodeBlock(new Return(NUMBER_LIT)) | [
+                new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
+                        new CodeBlock(new Return(NUMBER_LIT))),
+                new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
+                        new CodeBlock(new Return(NUMBER_LIT)))
+        ] | new CodeBlock(new Return(NUMBER_LIT)) | ValueType.NUMBER
+        // Just one catch
+        new AssignmentBlock([
+                new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
+                new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
+        ]) | new CodeBlock(new Return(NUMBER_LIT)) | [
+                new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
+                        new CodeBlock(new Return(NUMBER_LIT)))
+        ] | new CodeBlock(new Return(NUMBER_LIT)) | ValueType.NUMBER
+        // No catches
+        new AssignmentBlock([
+                new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
+                new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
+        ]) | new CodeBlock(new Return(NUMBER_LIT)) | [
         ] | new CodeBlock(new Return(NUMBER_LIT)) | ValueType.NUMBER
     }
 
