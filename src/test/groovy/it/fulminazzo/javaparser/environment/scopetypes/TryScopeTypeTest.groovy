@@ -24,6 +24,7 @@ class TryScopeTypeTest extends Specification {
     def 'test try scope type should be equal to #other'() {
         expect:
         this.type == other
+        this.type.hashCode() == other.hashCode()
 
         where:
         other << [
