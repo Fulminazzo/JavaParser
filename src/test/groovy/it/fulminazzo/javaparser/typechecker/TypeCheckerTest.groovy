@@ -361,17 +361,17 @@ class TypeCheckerTest extends Specification {
 
         where:
         expression | cases | defaultBlock | expected
-        NUMBER_LIT | [newCaseStatement(RETURN_NUMBER), newCaseStatement(RETURN_NUMBER)] |
+        NUMBER_LIT | [new CaseStatement(NUMBER_LIT, CODE_BLOCK_NUMBER), new CaseStatement(NUMBER_LIT, CODE_BLOCK_NUMBER)] |
                 CODE_BLOCK_NUMBER | ValueType.NUMBER
-        NUMBER_LIT | [newCaseStatement(RETURN_NUMBER), newCaseStatement(RETURN_DOUBLE)] |
+        NUMBER_LIT | [new CaseStatement(NUMBER_LIT, CODE_BLOCK_NUMBER), new CaseStatement(NUMBER_LIT, CODE_BLOCK_DOUBLE)] |
                 CODE_BLOCK_BOOL | Types.NO_TYPE
-        NUMBER_LIT | [newCaseStatement(RETURN_NUMBER)] |
+        NUMBER_LIT | [new CaseStatement(NUMBER_LIT, CODE_BLOCK_NUMBER)] |
                 CODE_BLOCK_NUMBER | ValueType.NUMBER
-        NUMBER_LIT | [newCaseStatement(RETURN_NUMBER)] |
+        NUMBER_LIT | [new CaseStatement(NUMBER_LIT, CODE_BLOCK_NUMBER)] |
                 CODE_BLOCK_BOOL | Types.NO_TYPE
         NUMBER_LIT | [] |
                 CODE_BLOCK_NUMBER | ValueType.NUMBER
-        NUMBER_LIT | [newCaseStatement(RETURN_NUMBER)] |
+        NUMBER_LIT | [new CaseStatement(NUMBER_LIT, CODE_BLOCK_NUMBER)] |
                 CODE_BLOCK_EMPTY | Types.NO_TYPE
         NUMBER_LIT | [] |
                 CODE_BLOCK_EMPTY | Types.NO_TYPE
@@ -389,10 +389,6 @@ class TypeCheckerTest extends Specification {
         expression         | expected
         new NullLiteral()  | Types.NULL_TYPE
         new EmptyLiteral() | Types.NO_TYPE
-    }
-
-    def newCaseStatement(def val) {
-        return new CaseStatement(NUMBER_LIT, new CodeBlock(val))
     }
 
     def 'test visit enhanced for statement of (#expression) #codeBlock should return #expected'() {
