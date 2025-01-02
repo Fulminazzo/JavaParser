@@ -28,7 +28,7 @@ public class ObjectValue<V> extends ObjectWrapper<V> implements Value<V> {
      *
      * @param object the object
      */
-    private ObjectValue(final @NotNull V object) {
+    ObjectValue(final @NotNull V object) {
         super(object);
     }
 
