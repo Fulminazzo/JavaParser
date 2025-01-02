@@ -19,6 +19,20 @@ public class ValueException extends RuntimeException {
 
     /**
      * Generates a {@link ValueException} with message:
+     * <i>Invalid value received: expected %expected% but got %actual% instead</i>
+     *
+     * @param expected the expected value
+     * @param actual   the actual value
+     * @return the value exception
+     */
+    public static @NotNull ValueException invalidValue(final @NotNull Class<?> expected,
+                                                       final @NotNull Value actual) {
+        return new ValueException("Invalid value received: expected %s but got %s instead",
+                expected.getSimpleName(), actual);
+    }
+
+    /**
+     * Generates a {@link ValueException} with message:
      * <i>Value %value% is not a valid primitive type</i>
      *
      * @param value the value
