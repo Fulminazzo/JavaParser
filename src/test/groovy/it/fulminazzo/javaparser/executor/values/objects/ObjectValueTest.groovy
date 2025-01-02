@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.executor.values.objects
 
 import it.fulminazzo.fulmicollection.objects.Refl
+import it.fulminazzo.javaparser.executor.values.ValueRuntimeException
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
 import spock.lang.Specification
@@ -25,6 +26,18 @@ class ObjectValueTest extends Specification {
         PrimitiveValue.of(7.0d)        | ObjectValue.of(7.0d as Double)
         BooleanValue.TRUE              | ObjectValue.of(Boolean.TRUE)
         BooleanValue.FALSE             | ObjectValue.of(Boolean.FALSE)
+    }
+
+    def 'test toPrimitive of non-primitive should throw'() {
+        given:
+        def value = ObjectValue.of(this)
+
+        when:
+        value.toPrimitive()
+
+        then:
+        def e = thrown(ValueRuntimeException)
+        e.message == ValueRuntimeException.invalidPrimitiveValue(this).message
     }
 
     def 'test wrapper #wrapper and primitive #primitive should be equal'() {
