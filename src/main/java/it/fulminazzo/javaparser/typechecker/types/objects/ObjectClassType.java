@@ -91,7 +91,7 @@ public enum ObjectClassType implements ClassType {
         else if (this.associatedType != null) return this.associatedType.compatibleWith(type);
         else {
             // Either STRING or OBJECT
-            if (this == STRING) return PrimitiveType.STRING.is(type) || ObjectType.STRING.is(type);
+            if (this.equals(STRING)) return PrimitiveType.STRING.is(type) || ObjectType.STRING.is(type);
             else return true;
         }
     }
@@ -109,12 +109,7 @@ public enum ObjectClassType implements ClassType {
      * @throws TypeException the exception thrown in case the class is not found
      */
     public static @NotNull ClassType of(final @NotNull String className) throws TypeException {
-        ObjectType type = ObjectType.of(className);
-        try {
-            return ObjectClassType.valueOf(type.getInnerClass().getSimpleName().toUpperCase());
-        } catch (IllegalArgumentException e) {
-            return new CustomObjectClassType(type);
-        }
+        return of(ObjectType.of(className).getInnerClass());
     }
 
     /**
