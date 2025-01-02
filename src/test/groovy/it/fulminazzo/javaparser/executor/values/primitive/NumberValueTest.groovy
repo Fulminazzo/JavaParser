@@ -5,6 +5,116 @@ import spock.lang.Specification
 class NumberValueTest extends Specification {
     private static int INT_CHAR = (int) 'a'
 
+    def 'test #first == #second = #third'() {
+        when:
+        def eval = first.equal(second)
+
+        then:
+        eval == third
+
+        where:
+        first                      | second                          | third
+        // Integer
+        new IntegerValue(INT_CHAR) | new CharacterValue('a' as char) | BooleanValue.TRUE
+        new IntegerValue(INT_CHAR) | new CharacterValue('b' as char) | BooleanValue.FALSE
+        new IntegerValue(4)        | new IntegerValue(4)             | BooleanValue.TRUE
+        new IntegerValue(4)        | new IntegerValue(5)             | BooleanValue.FALSE
+        new IntegerValue(4)        | new LongValue(4L)               | BooleanValue.TRUE
+        new IntegerValue(4)        | new LongValue(5L)               | BooleanValue.FALSE
+        new IntegerValue(4)        | new FloatValue(4.0f)            | BooleanValue.TRUE
+        new IntegerValue(4)        | new FloatValue(5.0f)            | BooleanValue.FALSE
+        new IntegerValue(4)        | new DoubleValue(4.0d)           | BooleanValue.TRUE
+        new IntegerValue(4)        | new DoubleValue(5.0d)           | BooleanValue.FALSE
+        // Long
+        new LongValue(INT_CHAR)    | new CharacterValue('a' as char) | BooleanValue.TRUE
+        new LongValue(INT_CHAR)    | new CharacterValue('b' as char) | BooleanValue.FALSE
+        new LongValue(4L)          | new IntegerValue(4)             | BooleanValue.TRUE
+        new LongValue(4L)          | new IntegerValue(5)             | BooleanValue.FALSE
+        new LongValue(4L)          | new LongValue(4L)               | BooleanValue.TRUE
+        new LongValue(4L)          | new LongValue(5L)               | BooleanValue.FALSE
+        new LongValue(4L)          | new FloatValue(4.0f)            | BooleanValue.TRUE
+        new LongValue(4L)          | new FloatValue(5.0f)            | BooleanValue.FALSE
+        new LongValue(4L)          | new DoubleValue(4.0d)           | BooleanValue.TRUE
+        new LongValue(4L)          | new DoubleValue(5.0d)           | BooleanValue.FALSE
+        // Float
+        new FloatValue(INT_CHAR)   | new CharacterValue('a' as char) | BooleanValue.TRUE
+        new FloatValue(INT_CHAR)   | new CharacterValue('b' as char) | BooleanValue.FALSE
+        new FloatValue(4.0f)       | new IntegerValue(4)             | BooleanValue.TRUE
+        new FloatValue(4.0f)       | new IntegerValue(5)             | BooleanValue.FALSE
+        new FloatValue(4.0f)       | new LongValue(4L)               | BooleanValue.TRUE
+        new FloatValue(4.0f)       | new LongValue(5L)               | BooleanValue.FALSE
+        new FloatValue(4.0f)       | new FloatValue(4.0f)            | BooleanValue.TRUE
+        new FloatValue(4.0f)       | new FloatValue(5.0f)            | BooleanValue.FALSE
+        new FloatValue(4.0f)       | new DoubleValue(4.0d)           | BooleanValue.TRUE
+        new FloatValue(4.0f)       | new DoubleValue(5.0d)           | BooleanValue.FALSE
+        // Double
+        new DoubleValue(INT_CHAR)  | new CharacterValue('a' as char) | BooleanValue.TRUE
+        new DoubleValue(INT_CHAR)  | new CharacterValue('b' as char) | BooleanValue.FALSE
+        new DoubleValue(4.0d)      | new IntegerValue(4)             | BooleanValue.TRUE
+        new DoubleValue(4.0d)      | new IntegerValue(5)             | BooleanValue.FALSE
+        new DoubleValue(4.0d)      | new LongValue(4L)               | BooleanValue.TRUE
+        new DoubleValue(4.0d)      | new LongValue(5L)               | BooleanValue.FALSE
+        new DoubleValue(4.0d)      | new FloatValue(4.0f)            | BooleanValue.TRUE
+        new DoubleValue(4.0d)      | new FloatValue(5.0f)            | BooleanValue.FALSE
+        new DoubleValue(4.0d)      | new DoubleValue(4.0d)           | BooleanValue.TRUE
+        new DoubleValue(4.0d)      | new DoubleValue(5.0d)           | BooleanValue.FALSE
+    }
+
+    def 'test #first != #second = #third'() {
+        when:
+        def eval = first.notEqual(second)
+
+        then:
+        eval == third
+
+        where:
+        first                      | second                          | third
+        // Integer
+        new IntegerValue(INT_CHAR) | new CharacterValue('a' as char) | BooleanValue.FALSE
+        new IntegerValue(INT_CHAR) | new CharacterValue('b' as char) | BooleanValue.TRUE
+        new IntegerValue(4)        | new IntegerValue(4)             | BooleanValue.FALSE
+        new IntegerValue(4)        | new IntegerValue(5)             | BooleanValue.TRUE
+        new IntegerValue(4)        | new LongValue(4L)               | BooleanValue.FALSE
+        new IntegerValue(4)        | new LongValue(5L)               | BooleanValue.TRUE
+        new IntegerValue(4)        | new FloatValue(4.0f)            | BooleanValue.FALSE
+        new IntegerValue(4)        | new FloatValue(5.0f)            | BooleanValue.TRUE
+        new IntegerValue(4)        | new DoubleValue(4.0d)           | BooleanValue.FALSE
+        new IntegerValue(4)        | new DoubleValue(5.0d)           | BooleanValue.TRUE
+        // Long
+        new LongValue(INT_CHAR)    | new CharacterValue('a' as char) | BooleanValue.FALSE
+        new LongValue(INT_CHAR)    | new CharacterValue('b' as char) | BooleanValue.TRUE
+        new LongValue(4L)          | new IntegerValue(4)             | BooleanValue.FALSE
+        new LongValue(4L)          | new IntegerValue(5)             | BooleanValue.TRUE
+        new LongValue(4L)          | new LongValue(4L)               | BooleanValue.FALSE
+        new LongValue(4L)          | new LongValue(5L)               | BooleanValue.TRUE
+        new LongValue(4L)          | new FloatValue(4.0f)            | BooleanValue.FALSE
+        new LongValue(4L)          | new FloatValue(5.0f)            | BooleanValue.TRUE
+        new LongValue(4L)          | new DoubleValue(4.0d)           | BooleanValue.FALSE
+        new LongValue(4L)          | new DoubleValue(5.0d)           | BooleanValue.TRUE
+        // Float
+        new FloatValue(INT_CHAR)   | new CharacterValue('a' as char) | BooleanValue.FALSE
+        new FloatValue(INT_CHAR)   | new CharacterValue('b' as char) | BooleanValue.TRUE
+        new FloatValue(4.0f)       | new IntegerValue(4)             | BooleanValue.FALSE
+        new FloatValue(4.0f)       | new IntegerValue(5)             | BooleanValue.TRUE
+        new FloatValue(4.0f)       | new LongValue(4L)               | BooleanValue.FALSE
+        new FloatValue(4.0f)       | new LongValue(5L)               | BooleanValue.TRUE
+        new FloatValue(4.0f)       | new FloatValue(4.0f)            | BooleanValue.FALSE
+        new FloatValue(4.0f)       | new FloatValue(5.0f)            | BooleanValue.TRUE
+        new FloatValue(4.0f)       | new DoubleValue(4.0d)           | BooleanValue.FALSE
+        new FloatValue(4.0f)       | new DoubleValue(5.0d)           | BooleanValue.TRUE
+        // Double
+        new DoubleValue(INT_CHAR)  | new CharacterValue('a' as char) | BooleanValue.FALSE
+        new DoubleValue(INT_CHAR)  | new CharacterValue('b' as char) | BooleanValue.TRUE
+        new DoubleValue(4.0d)      | new IntegerValue(4)             | BooleanValue.FALSE
+        new DoubleValue(4.0d)      | new IntegerValue(5)             | BooleanValue.TRUE
+        new DoubleValue(4.0d)      | new LongValue(4L)               | BooleanValue.FALSE
+        new DoubleValue(4.0d)      | new LongValue(5L)               | BooleanValue.TRUE
+        new DoubleValue(4.0d)      | new FloatValue(4.0f)            | BooleanValue.FALSE
+        new DoubleValue(4.0d)      | new FloatValue(5.0f)            | BooleanValue.TRUE
+        new DoubleValue(4.0d)      | new DoubleValue(4.0d)           | BooleanValue.FALSE
+        new DoubleValue(4.0d)      | new DoubleValue(5.0d)           | BooleanValue.TRUE
+    }
+
     def 'test #first < #second = #third'() {
         when:
         def eval = first.lessThan(second)
