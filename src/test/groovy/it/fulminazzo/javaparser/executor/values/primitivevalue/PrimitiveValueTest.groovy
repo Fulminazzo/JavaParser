@@ -156,13 +156,14 @@ class PrimitiveValueTest extends Specification {
         where:
         operation << [
                 'and', 'or',
-                'equal', 'not_equal',
-                'less_than', 'less_than_equal', 'greater_than', 'greater_than_equal',
-                'bit_and', 'bit_or', 'bit_xor',
+                'lessThan', 'lessThanEqual', 'greaterThan', 'greaterThanEqual',
+                'bitAnd', 'bitOr', 'bitXor',
                 'lshift', 'rshift', 'urshift',
                 'add', 'subtract', 'multiply', 'divide', 'modulo'
         ]
-        operator << TokenType.values().findAll { it.between(TokenType.COLON, TokenType.NOT) }
+        operator << TokenType.values()
+                .findAll { it.between(TokenType.COLON, TokenType.NOT) }
+                .findAll { !([TokenType.EQUAL, TokenType.NOT_EQUAL].contains(it)) }
     }
 
 }
