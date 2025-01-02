@@ -40,6 +40,17 @@ class ObjectValueTest extends Specification {
         e.message == ValueRuntimeException.invalidPrimitiveValue(this).message
     }
 
+    def 'test invalid to'() {
+        given:
+        def value = ObjectValue.of(this)
+
+        when:
+        value.to(PrimitiveValue)
+
+        then:
+        thrown(ClassCastException)
+    }
+
     def 'test wrapper #wrapper and primitive #primitive should be equal'() {
         expect:
         wrapper.equal(primitive)
