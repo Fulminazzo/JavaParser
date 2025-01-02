@@ -309,6 +309,8 @@ class ObjectClassTypeTest extends Specification {
 
         where:
         type << [
+                CHAR,
+                SHORT,
                 LONG,
                 DOUBLE, FLOAT,
                 BOOLEAN, STRING,
@@ -337,7 +339,7 @@ class ObjectClassTypeTest extends Specification {
 
         where:
         type << [
-                LONG,
+                BYTE, SHORT, LONG,
                 DOUBLE, FLOAT,
                 BOOLEAN, STRING,
                 ObjectType.BYTE,
@@ -381,9 +383,10 @@ class ObjectClassTypeTest extends Specification {
 
         where:
         type << [
+                BYTE, SHORT,
                 CHAR, NUMBER,
-                ObjectType.BYTE, ObjectType.CHARACTER,
-                ObjectType.SHORT, ObjectType.INTEGER
+                ObjectType.BYTE, ObjectType.SHORT,
+                ObjectType.CHARACTER, ObjectType.INTEGER
         ]
     }
 
@@ -408,9 +411,10 @@ class ObjectClassTypeTest extends Specification {
 
         where:
         type << [
+                BYTE, SHORT,
                 CHAR, NUMBER, LONG,
-                ObjectType.BYTE, ObjectType.CHARACTER,
-                ObjectType.SHORT, ObjectType.INTEGER,
+                ObjectType.BYTE, ObjectType.SHORT,
+                ObjectType.CHARACTER, ObjectType.INTEGER,
                 ObjectType.LONG
         ]
     }
@@ -435,10 +439,11 @@ class ObjectClassTypeTest extends Specification {
 
         where:
         type << [
+                BYTE, SHORT,
                 CHAR, NUMBER, LONG,
                 FLOAT,
-                ObjectType.BYTE, ObjectType.CHARACTER,
-                ObjectType.SHORT, ObjectType.INTEGER,
+                ObjectType.BYTE, ObjectType.SHORT,
+                ObjectType.CHARACTER, ObjectType.INTEGER,
                 ObjectType.LONG, ObjectType.FLOAT
         ]
     }
@@ -462,10 +467,11 @@ class ObjectClassTypeTest extends Specification {
 
         where:
         type << [
+                BYTE, SHORT,
                 CHAR, NUMBER, LONG,
                 FLOAT, DOUBLE,
-                ObjectType.BYTE, ObjectType.CHARACTER,
-                ObjectType.SHORT, ObjectType.INTEGER,
+                ObjectType.BYTE, ObjectType.SHORT,
+                ObjectType.CHARACTER, ObjectType.INTEGER,
                 ObjectType.LONG, ObjectType.FLOAT,
                 ObjectType.DOUBLE
         ]
@@ -498,11 +504,12 @@ class ObjectClassTypeTest extends Specification {
 
         where:
         type << [
+                BYTE, SHORT,
                 CHAR, NUMBER, LONG,
                 DOUBLE, FLOAT,
                 STRING,
-                ObjectType.BYTE, ObjectType.CHARACTER,
-                ObjectType.SHORT, ObjectType.INTEGER,
+                ObjectType.BYTE, ObjectType.SHORT,
+                ObjectType.CHARACTER, ObjectType.INTEGER,
                 ObjectType.LONG, ObjectType.FLOAT,
                 ObjectType.DOUBLE, ObjectType.STRING
         ]
@@ -524,11 +531,12 @@ class ObjectClassTypeTest extends Specification {
 
         where:
         type << [
+                BYTE, SHORT,
                 CHAR, NUMBER, LONG,
                 DOUBLE, FLOAT,
                 BOOLEAN,
-                ObjectType.BYTE, ObjectType.CHARACTER,
-                ObjectType.SHORT, ObjectType.INTEGER,
+                ObjectType.BYTE, ObjectType.SHORT,
+                ObjectType.CHARACTER, ObjectType.INTEGER,
                 ObjectType.LONG, ObjectType.FLOAT,
                 ObjectType.DOUBLE, ObjectType.BOOLEAN
         ]
@@ -540,11 +548,11 @@ class ObjectClassTypeTest extends Specification {
 
         where:
         type << [
-                CHAR, NUMBER, LONG,
+                BYTE, SHORT, LONG,
                 DOUBLE, FLOAT,
                 BOOLEAN, STRING,
-                ObjectType.BYTE, ObjectType.CHARACTER,
-                ObjectType.SHORT, ObjectType.INTEGER,
+                ObjectType.BYTE, ObjectType.SHORT,
+                ObjectType.CHARACTER, ObjectType.INTEGER,
                 ObjectType.LONG, ObjectType.FLOAT,
                 ObjectType.DOUBLE, ObjectType.BOOLEAN,
                 ObjectType.STRING, ObjectType.OBJECT
