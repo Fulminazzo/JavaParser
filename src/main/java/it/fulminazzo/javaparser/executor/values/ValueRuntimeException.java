@@ -34,8 +34,8 @@ public class ValueRuntimeException extends RuntimeException {
      * <i>Operator '%operator%' cannot be applied to '%left%', '%right%'</i>
      *
      * @param operator the operator
-     * @param left     the left
-     * @param right    the right
+     * @param left     the left operand
+     * @param right    the right operand
      * @return the value runtime exception
      */
     public static @NotNull ValueRuntimeException unsupportedOperation(final @NotNull TokenType operator,
@@ -43,6 +43,20 @@ public class ValueRuntimeException extends RuntimeException {
                                                                       final @NotNull Value<?> right) {
         return new ValueRuntimeException("Operator '%s' cannot be applied to '%s', '%s'",
                 operator.regex().replace("\\", ""), left, right);
+    }
+
+    /**
+     * Generates a {@link ValueRuntimeException} with message:
+     * <i>Operator '%operator%' cannot be applied to '%operand%'</i>
+     *
+     * @param operator the operator
+     * @param operand  the operand
+     * @return the value runtime exception
+     */
+    public static @NotNull ValueRuntimeException unsupportedOperation(final @NotNull TokenType operator,
+                                                                      final @NotNull Value<?> operand) {
+        return new ValueRuntimeException("Operator '%s' cannot be applied to '%s'",
+                operator.regex().replace("\\", ""), operand);
     }
 
 }
