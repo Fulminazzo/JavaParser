@@ -46,4 +46,32 @@ class ExecutorTest extends Specification {
         CHAR_LIT   | NUMBER_LIT | BooleanValue.FALSE
     }
 
+    def 'test less than'() {
+        given:
+        def result = this.executor.visitLessThan(first, second)
+
+        expect:
+        result == expected
+
+        where:
+        first      | second     | expected
+        LONG_LIT   | NUMBER_LIT | BooleanValue.FALSE
+        NUMBER_LIT | LONG_LIT   | BooleanValue.TRUE
+        NUMBER_LIT | NUMBER_LIT | BooleanValue.FALSE
+    }
+
+    def 'test less than equal'() {
+        given:
+        def result = this.executor.visitLessThanEqual(first, second)
+
+        expect:
+        result == expected
+
+        where:
+        first      | second     | expected
+        LONG_LIT   | NUMBER_LIT | BooleanValue.FALSE
+        NUMBER_LIT | LONG_LIT   | BooleanValue.TRUE
+        NUMBER_LIT | NUMBER_LIT | BooleanValue.TRUE
+    }
+
 }
