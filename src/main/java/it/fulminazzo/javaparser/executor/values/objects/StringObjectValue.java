@@ -40,4 +40,9 @@ class StringObjectValue extends ObjectWrapper<String> implements Value<String> {
         return this.object;
     }
 
+    @Override
+    public String toString() {
+        return String.format("StringValue(%s)", getValue());
+    }
+
 }
