@@ -57,7 +57,7 @@ public final class ObjectValue<V> extends ObjectWrapper<V> implements Value<V> {
      * @return the class
      * @throws ValueException the exception thrown in case the class is not found
      */
-    static @NotNull Class<?> getClass(final @NotNull String className) throws ValueException {
+    static <V> @NotNull Class<V> getClass(final @NotNull String className) throws ValueException {
         try {
             return ReflectionUtils.getClass(className);
         } catch (IllegalArgumentException e) {
