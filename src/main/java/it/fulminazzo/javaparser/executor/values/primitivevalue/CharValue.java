@@ -99,6 +99,11 @@ final class CharValue extends PrimitiveValue<Character> {
         return asInteger().modulo(other);
     }
 
+    @Override
+    public @NotNull Value<?> minus() {
+        return multiply(new IntValue(-1));
+    }
+
     /**
      * Converts the current value to a {@link IntValue}.
      *

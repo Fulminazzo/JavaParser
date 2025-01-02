@@ -1,7 +1,6 @@
 package it.fulminazzo.javaparser.executor.values.primitivevalue;
 
 import it.fulminazzo.javaparser.executor.values.Value;
-import it.fulminazzo.javaparser.executor.values.ValueException;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
@@ -109,6 +108,11 @@ abstract class NumberValue<N extends Number> extends PrimitiveValue<N> {
     public @NotNull Value<?> modulo(@NotNull Value<?> other) {
         return executeBinaryOperationDecimal(other, (a, b) -> a % b, (a, b) -> a % b,
                 (a, b) -> a % b, (a, b) -> a % b);
+    }
+
+    @Override
+    public @NotNull Value<?> minus() {
+        return multiply(new IntValue(-1));
     }
 
     /**
