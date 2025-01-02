@@ -16,4 +16,13 @@ class CharacterValue extends PrimitiveValue<Character> {
         super(value);
     }
 
+    /**
+     * Converts the current value to a {@link IntegerValue}.
+     *
+     * @return the integer value
+     */
+    public @NotNull IntegerValue asInteger() {
+        return new IntegerValue((int) this.object);
+    }
+
 }
