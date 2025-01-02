@@ -5,6 +5,51 @@ import spock.lang.Specification
 class CharacterValueTest extends Specification {
     private static int INT_CHAR = (int) 'a'
 
+    def 'test #first == #second = #third'() {
+        when:
+        def eval = first.equal(second)
+
+        then:
+        eval == third
+
+        where:
+        first                           | second                            | third
+        // Character
+        new CharacterValue('d' as char) | new CharacterValue('d' as char)   | BooleanValue.TRUE
+        new CharacterValue('d' as char) | new CharacterValue('e' as char)   | BooleanValue.FALSE
+        new CharacterValue('d' as char) | new IntegerValue(100)             | BooleanValue.TRUE
+        new CharacterValue('d' as char) | new IntegerValue(101)             | BooleanValue.FALSE
+        new CharacterValue('d' as char) | new LongValue(100L)               | BooleanValue.TRUE
+        new CharacterValue('d' as char) | new LongValue(101L)               | BooleanValue.FALSE
+        new CharacterValue('d' as char) | new FloatValue(100.0f)            | BooleanValue.TRUE
+        new CharacterValue('d' as char) | new FloatValue(101.0f)            | BooleanValue.FALSE
+        new CharacterValue('d' as char) | new DoubleValue(100.0d)           | BooleanValue.TRUE
+        new CharacterValue('d' as char) | new DoubleValue(101.0d)           | BooleanValue.FALSE
+        new CharacterValue('d' as char) | new StringValue('Hello')          | BooleanValue.FALSE
+    }
+
+    def 'test #first != #second = #third'() {
+        when:
+        def eval = first.notEqual(second)
+
+        then:
+        eval == third
+
+        where:
+        first                           | second                            | third
+        // Character
+        new CharacterValue('d' as char) | new CharacterValue('d' as char)   | BooleanValue.FALSE
+        new CharacterValue('d' as char) | new CharacterValue('e' as char)   | BooleanValue.TRUE
+        new CharacterValue('d' as char) | new IntegerValue(100)             | BooleanValue.FALSE
+        new CharacterValue('d' as char) | new IntegerValue(101)             | BooleanValue.TRUE
+        new CharacterValue('d' as char) | new LongValue(100L)               | BooleanValue.FALSE
+        new CharacterValue('d' as char) | new LongValue(101L)               | BooleanValue.TRUE
+        new CharacterValue('d' as char) | new FloatValue(100.0f)            | BooleanValue.FALSE
+        new CharacterValue('d' as char) | new FloatValue(101.0f)            | BooleanValue.TRUE
+        new CharacterValue('d' as char) | new DoubleValue(100.0d)           | BooleanValue.FALSE
+        new CharacterValue('d' as char) | new DoubleValue(101.0d)           | BooleanValue.TRUE
+    }
+
     def 'test #first < #second = #third'() {
         when:
         def eval = first.lessThan(second)
