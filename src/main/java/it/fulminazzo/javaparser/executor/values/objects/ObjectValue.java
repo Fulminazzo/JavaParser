@@ -122,8 +122,9 @@ public class ObjectValue<V> extends ObjectWrapper<V> implements Value<V> {
      * @param object the object
      * @return the object value
      */
+    @SuppressWarnings("unchecked")
     public static <V> ObjectValue<V> of(final @NotNull V object) {
-        if (object instanceof String) return new StringObjectValue((String) object);
+        if (object instanceof String) return (ObjectValue<V>) new StringObjectValue((String) object);
         else return new ObjectValue<>(object);
     }
 
