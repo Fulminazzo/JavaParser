@@ -18,4 +18,14 @@ public final class BooleanValue extends PrimitiveValue<Boolean> {
         super(value);
     }
 
+    /**
+     * Gets the {@link BooleanValue} from the given boolean.
+     *
+     * @param value the boolean
+     * @return the boolean value
+     */
+    public static @NotNull BooleanValue of(boolean value) {
+        return value ? TRUE : FALSE;
+    }
+
 }
