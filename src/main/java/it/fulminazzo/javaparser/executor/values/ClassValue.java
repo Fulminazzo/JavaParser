@@ -24,7 +24,7 @@ public interface ClassValue<V> extends Value<Class<V>>, Info {
     }
 
     @Override
-    Class<V> getValue();
+    @NotNull Class<V> getValue();
 
     /**
      * Gets a new {@link ClassValue} from the given class.
