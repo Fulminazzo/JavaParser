@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.executor.values;
 
 import it.fulminazzo.javaparser.environment.Info;
+import it.fulminazzo.javaparser.executor.values.classes.PrimitiveClassValue;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -8,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @param <V> the type of the value
  */
+@SuppressWarnings("unchecked")
 public interface ClassValue<V> extends Value<Class<V>>, Info {
 
     /**
@@ -39,7 +41,8 @@ public interface ClassValue<V> extends Value<Class<V>>, Info {
     static <V> @NotNull ClassValue<V> of(final @NotNull String className) throws ValueException {
         try {
             String lowerCase = className.toLowerCase();
-            if (lowerCase.equals(className)) return PrimitiveClassValue.valueOf(className.toUpperCase());
+            if (lowerCase.equals(className))
+                return (ClassValue<V>) PrimitiveClassValue.valueOf(className.toUpperCase());
         } catch (IllegalArgumentException ignored) {}
         return ObjectClassValue.of(className);
     }
@@ -55,7 +58,7 @@ public interface ClassValue<V> extends Value<Class<V>>, Info {
      */
     static <V> @NotNull ClassValue<V> of(final @NotNull Class<V> clazz) {
         for (PrimitiveClassValue<?> value : PrimitiveClassValue.values())
-            if (value.getValue().equals(clazz)) return value;
+            if (value.getValue().equals(clazz)) return (ClassValue<V>) value;
         return ObjectClassValue.of(clazz);
     }
 
