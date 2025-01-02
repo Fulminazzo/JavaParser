@@ -212,4 +212,74 @@ class ExecutorTest extends Specification {
         NUMBER_LIT | LONG_LIT   | PrimitiveValue.of(1 >>> 2L)
     }
 
+    def 'test add'() {
+        given:
+        def result = this.executor.visitAdd(first, second)
+
+        expect:
+        result == expected
+
+        where:
+        first      | second     | expected
+        LONG_LIT   | NUMBER_LIT | PrimitiveValue.of(2L + 1)
+        FLOAT_LIT  | NUMBER_LIT | PrimitiveValue.of(3.0f + 1)
+        DOUBLE_LIT | NUMBER_LIT | PrimitiveValue.of(4.0d + 1)
+    }
+
+    def 'test subtract'() {
+        given:
+        def result = this.executor.visitSubtract(first, second)
+
+        expect:
+        result == expected
+
+        where:
+        first      | second     | expected
+        LONG_LIT   | NUMBER_LIT | PrimitiveValue.of(2L - 1)
+        FLOAT_LIT  | NUMBER_LIT | PrimitiveValue.of(3.0f - 1)
+        DOUBLE_LIT | NUMBER_LIT | PrimitiveValue.of(4.0d - 1)
+    }
+
+    def 'test multiply'() {
+        given:
+        def result = this.executor.visitMultiply(first, second)
+
+        expect:
+        result == expected
+
+        where:
+        first      | second     | expected
+        LONG_LIT   | NUMBER_LIT | PrimitiveValue.of(2L * 1)
+        FLOAT_LIT  | NUMBER_LIT | PrimitiveValue.of(3.0f * 1)
+        DOUBLE_LIT | NUMBER_LIT | PrimitiveValue.of(4.0d * 1)
+    }
+
+    def 'test divide'() {
+        given:
+        def result = this.executor.visitDivide(first, second)
+
+        expect:
+        result == expected
+
+        where:
+        first      | second     | expected
+        LONG_LIT   | NUMBER_LIT | PrimitiveValue.of(2 as long / 1)
+        FLOAT_LIT  | NUMBER_LIT | PrimitiveValue.of(3.0f / 1)
+        DOUBLE_LIT | NUMBER_LIT | PrimitiveValue.of(4.0d / 1)
+    }
+
+    def 'test modulo'() {
+        given:
+        def result = this.executor.visitModulo(first, second)
+
+        expect:
+        result == expected
+
+        where:
+        first      | second     | expected
+        LONG_LIT   | NUMBER_LIT | PrimitiveValue.of(2L % 1)
+        FLOAT_LIT  | NUMBER_LIT | PrimitiveValue.of(3.0f % 1)
+        DOUBLE_LIT | NUMBER_LIT | PrimitiveValue.of(4.0d % 1)
+    }
+
 }
