@@ -7,22 +7,42 @@ import spock.lang.Specification
 
 class ObjectValueTest extends Specification {
 
+    def 'test toPrimitive should return #expected'() {
+        given:
+        def primitive = wrapper.toPrimitive()
+
+        expect:
+        primitive == expected
+
+        where:
+        expected                       | wrapper
+        PrimitiveValue.of(1 as byte)   | ObjectValue.of(1 as Byte)
+        PrimitiveValue.of(2 as short)  | ObjectValue.of(2 as Short)
+        PrimitiveValue.of('a' as char) | ObjectValue.of('a' as Character)
+        PrimitiveValue.of(4)           | ObjectValue.of(4 as Integer)
+        PrimitiveValue.of(5L)          | ObjectValue.of(5L as Long)
+        PrimitiveValue.of(6.0f)        | ObjectValue.of(6.0f as Float)
+        PrimitiveValue.of(7.0d)        | ObjectValue.of(7.0d as Double)
+        BooleanValue.TRUE              | ObjectValue.of(Boolean.TRUE)
+        BooleanValue.FALSE             | ObjectValue.of(Boolean.FALSE)
+    }
+
     def 'test wrapper #wrapper and primitive #primitive should be equal'() {
         expect:
         wrapper.equal(primitive)
         primitive.equal(wrapper)
 
         where:
-        primitive | wrapper
-        PrimitiveValue.of(1 as byte)    | ObjectValue.of(1 as Byte)
-        PrimitiveValue.of(2 as short)   | ObjectValue.of(2 as Short)
-        PrimitiveValue.of('a' as char)  | ObjectValue.of('a' as Character)
-        PrimitiveValue.of(4)            | ObjectValue.of(4 as Integer)
-        PrimitiveValue.of(5L)           | ObjectValue.of(5L as Long)
-        PrimitiveValue.of(6.0f)         | ObjectValue.of(6.0f as Float)
-        PrimitiveValue.of(7.0d)         | ObjectValue.of(7.0d as Double)
-        BooleanValue.TRUE               | ObjectValue.of(Boolean.TRUE)
-        BooleanValue.FALSE              | ObjectValue.of(Boolean.FALSE)
+        primitive                      | wrapper
+        PrimitiveValue.of(1 as byte)   | ObjectValue.of(1 as Byte)
+        PrimitiveValue.of(2 as short)  | ObjectValue.of(2 as Short)
+        PrimitiveValue.of('a' as char) | ObjectValue.of('a' as Character)
+        PrimitiveValue.of(4)           | ObjectValue.of(4 as Integer)
+        PrimitiveValue.of(5L)          | ObjectValue.of(5L as Long)
+        PrimitiveValue.of(6.0f)        | ObjectValue.of(6.0f as Float)
+        PrimitiveValue.of(7.0d)        | ObjectValue.of(7.0d as Double)
+        BooleanValue.TRUE              | ObjectValue.of(Boolean.TRUE)
+        BooleanValue.FALSE             | ObjectValue.of(Boolean.FALSE)
     }
 
     def 'test is#method should return #expected for #value'() {
