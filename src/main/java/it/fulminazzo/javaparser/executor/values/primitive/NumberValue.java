@@ -166,7 +166,7 @@ abstract class NumberValue<N extends Number> extends PrimitiveValue<N> {
                                     @NotNull BiFunction<Integer, Integer, Object> integerOperation) {
         if (other.isCharacter()) other = ((CharacterValue) other).asInteger();
         Number first = this.object;
-        Number second = (Number) other.check(IntegerValue.class, LongValue.class).check(NumberValue.class).object;
+        Number second = (Number) other.to(NumberValue.class).object;
         final Object obj;
         if (first instanceof Long || second instanceof Long)
             obj = longOperation.apply(first.longValue(), second.longValue());

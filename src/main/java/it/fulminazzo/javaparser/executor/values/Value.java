@@ -86,21 +86,6 @@ public interface Value<V> {
     }
 
     /**
-     * Checks whether the current value is equal to one of the expected ones.
-     * Throws a {@link ValueException} in case no match is found.
-     *
-     * @param expectedValues the expected values
-     * @return this value
-     */
-    default @NotNull Value<V> check(final Class<?> @NotNull ... expectedValues) {
-        if (expectedValues.length == 0)
-            throw new IllegalArgumentException(String.format("Cannot compare value %s with no values", this));
-        for (Class<?> clazz : expectedValues)
-            if (clazz.isInstance(this)) return this;
-        throw ValueException.invalidValue(expectedValues[0], this);
-    }
-
-    /**
      * Gets value.
      *
      * @return the value
