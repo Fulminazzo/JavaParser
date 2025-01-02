@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.executor.values.objects
 
 import it.fulminazzo.fulmicollection.utils.StringUtils
 import it.fulminazzo.javaparser.executor.values.ClassValue
+import it.fulminazzo.javaparser.executor.values.Values
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
 import spock.lang.Specification
 
@@ -81,7 +82,8 @@ class ObjectClassValueTest extends Specification {
         where:
         value << [
                 BYTE,
-                BYTE_WRAPPER
+                BYTE_WRAPPER,
+                Values.NULL_VALUE
         ]
     }
 
@@ -109,7 +111,8 @@ class ObjectClassValueTest extends Specification {
         where:
         value << [
                 CHAR, INT,
-                CHARACTER
+                CHARACTER,
+                Values.NULL_VALUE
         ]
     }
 
@@ -137,7 +140,8 @@ class ObjectClassValueTest extends Specification {
         where:
         value << [
                 BYTE, SHORT,
-                BYTE_WRAPPER, SHORT_WRAPPER
+                BYTE_WRAPPER, SHORT_WRAPPER,
+                Values.NULL_VALUE
         ]
     }
 
@@ -165,7 +169,8 @@ class ObjectClassValueTest extends Specification {
         value << [
                 CHAR, INT,
                 BYTE_WRAPPER, CHARACTER,
-                SHORT_WRAPPER, INTEGER
+                SHORT_WRAPPER, INTEGER,
+                Values.NULL_VALUE
         ]
     }
 
@@ -193,7 +198,8 @@ class ObjectClassValueTest extends Specification {
                 CHAR, INT, LONG,
                 BYTE_WRAPPER, CHARACTER,
                 SHORT_WRAPPER, INTEGER,
-                LONG_WRAPPER
+                LONG_WRAPPER,
+                Values.NULL_VALUE
         ]
     }
 
@@ -221,7 +227,8 @@ class ObjectClassValueTest extends Specification {
                 FLOAT,
                 BYTE_WRAPPER, CHARACTER,
                 SHORT_WRAPPER, INTEGER,
-                LONG_WRAPPER, FLOAT_WRAPPER
+                LONG_WRAPPER, FLOAT_WRAPPER,
+                Values.NULL_VALUE
         ]
     }
 
@@ -249,7 +256,8 @@ class ObjectClassValueTest extends Specification {
                 BYTE_WRAPPER, CHARACTER,
                 SHORT_WRAPPER, INTEGER,
                 LONG_WRAPPER, FLOAT_WRAPPER,
-                DOUBLE_WRAPPER
+                DOUBLE_WRAPPER,
+                Values.NULL_VALUE
         ]
     }
 
@@ -270,7 +278,8 @@ class ObjectClassValueTest extends Specification {
 
         where:
         value << [
-                BOOLEAN, BOOLEAN_WRAPPER
+                BOOLEAN, BOOLEAN_WRAPPER,
+                Values.NULL_VALUE
         ]
     }
 
@@ -296,7 +305,8 @@ class ObjectClassValueTest extends Specification {
 
         where:
         value << [
-                STRING, STRING
+                STRING, STRING,
+                Values.NULL_VALUE
         ]
     }
 
@@ -329,7 +339,8 @@ class ObjectClassValueTest extends Specification {
                 SHORT_WRAPPER, INTEGER,
                 LONG_WRAPPER, FLOAT_WRAPPER,
                 DOUBLE_WRAPPER, BOOLEAN_WRAPPER,
-                STRING, ObjectValue.of(new Object())
+                STRING, ObjectValue.of(new Object()),
+                Values.NULL_VALUE
         ]
     }
     
