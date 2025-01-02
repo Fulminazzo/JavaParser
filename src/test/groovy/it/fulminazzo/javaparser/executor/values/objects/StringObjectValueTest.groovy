@@ -4,6 +4,17 @@ import spock.lang.Specification
 
 class StringObjectValueTest extends Specification {
 
+    def 'test to class value'() {
+        given:
+        def string = new StringObjectValue('Hello, world!')
+
+        when:
+        def classValue = string.toClassValue()
+
+        then:
+        classValue == ObjectClassValue.STRING
+    }
+
     def 'test add'() {
         given:
         def first = new StringObjectValue('Hello, ')
