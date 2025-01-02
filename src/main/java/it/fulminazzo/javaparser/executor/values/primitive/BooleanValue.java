@@ -39,6 +39,11 @@ public final class BooleanValue extends PrimitiveValue<Boolean> {
         return of(!this.object);
     }
 
+    @Override
+    public String toString() {
+        return this.object ? "TRUE" : "FALSE";
+    }
+
     /**
      * Gets the {@link BooleanValue} from the given boolean.
      *
