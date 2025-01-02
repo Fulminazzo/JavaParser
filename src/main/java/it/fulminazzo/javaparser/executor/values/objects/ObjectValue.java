@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * @param <V> the type parameter
  */
-public final class ObjectValue<V> extends ObjectWrapper<V> implements Value<V> {
+public class ObjectValue<V> extends ObjectWrapper<V> implements Value<V> {
     private static final String[] IMPLIED_PACKAGES = new String[]{
             String.class.getPackage().getName(),
             Map.class.getPackage().getName(),
