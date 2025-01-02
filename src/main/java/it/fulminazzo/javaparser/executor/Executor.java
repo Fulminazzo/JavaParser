@@ -349,20 +349,4 @@ public class Executor implements Visitor<Value<?>> {
         return null;
     }
 
-    /**
-     * Converts the given value to a {@link PrimitiveValue}.
-     * Throws {@link ExecutorException} in case of failed conversion.
-     *
-     * @param <V>   the type of the value
-     * @param value the value
-     * @return the primitive value
-     */
-    @NotNull <V> Value<V> getPrimitiveValueFromLiteral(final @NotNull V value) {
-        try {
-            return PrimitiveValue.of(value);
-        } catch (ValueException e) {
-            throw ExecutorException.of(e);
-        }
-    }
-
 }
