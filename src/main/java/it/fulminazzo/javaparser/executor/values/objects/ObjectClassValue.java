@@ -12,14 +12,14 @@ import org.jetbrains.annotations.Nullable;
 @Getter
 public final class ObjectClassValue<V> extends EnumObject implements ClassValue<V> {
     private final @NotNull Class<V> value;
-    private final @Nullable PrimitiveClassValue<V> associatedValue;
+    private final @Nullable ClassValue<V> associatedValue;
 
     private ObjectClassValue(final @NotNull Class<V> value) {
         this(value, null);
     }
 
     private ObjectClassValue(final @NotNull Class<V> value,
-                             final @Nullable PrimitiveClassValue<V> associatedValue) {
+                             final @Nullable ClassValue<V> associatedValue) {
         this.value = value;
         this.associatedValue = associatedValue;
     }
@@ -30,7 +30,7 @@ public final class ObjectClassValue<V> extends EnumObject implements ClassValue<
         if (this.associatedValue != null) return this.associatedValue.compatibleWith(value);
         else {
             // Either STRING or OBJECT
-            if (this.equals(STRING)) return STRING.is(value);
+            if (this.equals(STRING)) return STRING.equals(value);
             else return true;
         }
     }
