@@ -2,7 +2,7 @@ package it.fulminazzo.javaparser.executor.values.primitivevalue
 
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue
-import it.fulminazzo.javaparser.executor.values.ValueException
+import it.fulminazzo.javaparser.executor.values.ValueRuntimeException
 import spock.lang.Specification
 
 class PrimitiveValueTest extends Specification {
@@ -133,8 +133,8 @@ class PrimitiveValueTest extends Specification {
         PrimitiveValue.of(value)
 
         then:
-        def e = thrown(ValueException)
-        e.message == ValueException.invalidPrimitiveValue(value).message
+        def e = thrown(ValueRuntimeException)
+        e.message == ValueRuntimeException.invalidPrimitiveValue(value).message
     }
 
 }
