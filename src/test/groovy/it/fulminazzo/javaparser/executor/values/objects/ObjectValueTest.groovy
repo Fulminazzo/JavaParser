@@ -9,8 +9,8 @@ class ObjectValueTest extends Specification {
 
     def 'test wrapper #wrapper and primitive #primitive should be equal'() {
         expect:
-        wrapper == primitive
-        primitive == wrapper
+        wrapper.equal(primitive)
+        primitive.equal(wrapper)
 
         where:
         primitive | wrapper
