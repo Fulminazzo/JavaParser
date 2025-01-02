@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a {@link Byte} {@link PrimitiveValue}.
  */
-class ByteValue extends NumberValue<Byte> {
+final class ByteValue extends NumberValue<Byte> {
 
     /**
      * Instantiates a new Byte value.

@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a {@link Short} {@link PrimitiveValue}.
  */
-class ShortValue extends NumberValue<Short> {
+final class ShortValue extends NumberValue<Short> {
 
     /**
      * Instantiates a new Short value.
