@@ -320,6 +320,19 @@ public interface Value<V> {
     }
 
     /**
+     * Executes minus operation.
+     *
+     * @return the boolean value
+     */
+    default @NotNull Value<?> minus() {
+        try {
+            return multiply(PrimitiveValue.of(-1));
+        } catch (ValueException e) {
+            throw new IllegalStateException("Unreachable code");
+        }
+    }
+
+    /**
      * Executes not operation.
      *
      * @return the boolean value
