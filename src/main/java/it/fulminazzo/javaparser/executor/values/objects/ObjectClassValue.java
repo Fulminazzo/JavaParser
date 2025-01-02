@@ -123,7 +123,7 @@ public final class ObjectClassValue<V> extends EnumObject implements ClassValue<
         try {
             return (ClassValue<V>) ObjectClassValue.valueOf(clazz.getSimpleName().toUpperCase());
         } catch (IllegalArgumentException e) {
-            return new CustomObjectClassValue(clazz);
+            return new CustomObjectClassValue<>(clazz);
         }
     }
 
