@@ -13,7 +13,7 @@ import java.lang.reflect.Modifier;
 import java.util.Map;
 
 /**
- * Represents an {@link Object} value, declared from its associated class canonical name.
+ * Represents an {@link Object} type, declared from its associated class canonical name.
  * The fields in this class represent the wrapper types in Java (like {@link Integer}).
  * The distinction between these and {@link it.fulminazzo.javaparser.typechecker.types.PrimitiveType}
  * is mandatory for correct functioning of casts, operations, null assignments and more.
