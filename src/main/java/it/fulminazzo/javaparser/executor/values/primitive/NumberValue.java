@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser.executor.values.primitive;
 import it.fulminazzo.javaparser.executor.values.Value;
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
 import java.util.function.BiFunction;
 
 /**
@@ -78,6 +79,19 @@ abstract class NumberValue<N extends Number> extends PrimitiveValue<N> {
     public @NotNull Value modulo(@NotNull Value other) {
         return executeBinaryOperationDecimal(other, (a, b) -> a % b, (a, b) -> a % b,
                 (a, b) -> a % b, (a, b) -> a % b);
+    }
+
+    /**
+     * Checks if the other value is a {@link NumberValue}
+     * and compares it with the current one.
+     *
+     * @param other the other value
+     * @return the result of the comparison
+     */
+    int executeBinaryComparison(final @NotNull Value other) {
+        BigDecimal first = new BigDecimal(this.object.toString());
+        BigDecimal second = new BigDecimal(other.check(NumberValue.class).toString());
+        return first.compareTo(second);
     }
 
     /**
