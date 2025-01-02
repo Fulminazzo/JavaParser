@@ -1,9 +1,80 @@
 package it.fulminazzo.javaparser.executor.values.primitive
 
+import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.executor.values.ValueException
 import spock.lang.Specification
 
 class PrimitiveValueTest extends Specification {
+
+    def 'test is#method should return #expected for #value'() {
+        given:
+        def refl = new Refl<>(value)
+
+        when:
+        def actual = refl.invokeMethod("is${method}")
+
+        then:
+        actual == expected
+
+        where:
+        expected | method      | value
+        // Character
+        true     | "Character" | new CharacterValue('a' as char)
+        false    | "Integer"   | new CharacterValue('a' as char)
+        false    | "Long"      | new CharacterValue('a' as char)
+        false    | "Float"     | new CharacterValue('a' as char)
+        false    | "Double"    | new CharacterValue('a' as char)
+        false    | "Boolean"   | new CharacterValue('a' as char)
+        false    | "String"    | new CharacterValue('a' as char)
+        // Integer
+        false    | "Character" | new IntegerValue(1)
+        true     | "Integer"   | new IntegerValue(1)
+        false    | "Long"      | new IntegerValue(1)
+        false    | "Float"     | new IntegerValue(1)
+        false    | "Double"    | new IntegerValue(1)
+        false    | "Boolean"   | new IntegerValue(1)
+        false    | "String"    | new IntegerValue(1)
+        // Long
+        false    | "Character" | new LongValue(1L)
+        false    | "Integer"   | new LongValue(1L)
+        true     | "Long"      | new LongValue(1L)
+        false    | "Float"     | new LongValue(1L)
+        false    | "Double"    | new LongValue(1L)
+        false    | "Boolean"   | new LongValue(1L)
+        false    | "String"    | new LongValue(1L)
+        // Float
+        false    | "Character" | new FloatValue(1.0f)
+        false    | "Integer"   | new FloatValue(1.0f)
+        false    | "Long"      | new FloatValue(1.0f)
+        true     | "Float"     | new FloatValue(1.0f)
+        false    | "Double"    | new FloatValue(1.0f)
+        false    | "Boolean"   | new FloatValue(1.0f)
+        false    | "String"    | new FloatValue(1.0f)
+        // Double
+        false    | "Character" | new DoubleValue(1.0d)
+        false    | "Integer"   | new DoubleValue(1.0d)
+        false    | "Long"      | new DoubleValue(1.0d)
+        false    | "Float"     | new DoubleValue(1.0d)
+        true     | "Double"    | new DoubleValue(1.0d)
+        false    | "Boolean"   | new DoubleValue(1.0d)
+        false    | "String"    | new DoubleValue(1.0d)
+        // Boolean
+        false    | "Character" | BooleanValue.TRUE
+        false    | "Integer"   | BooleanValue.TRUE
+        false    | "Long"      | BooleanValue.TRUE
+        false    | "Float"     | BooleanValue.TRUE
+        false    | "Double"    | BooleanValue.TRUE
+        true     | "Boolean"   | BooleanValue.TRUE
+        false    | "String"    | BooleanValue.TRUE
+        // String
+        false    | "Character" | new StringValue('Hello, world!')
+        false    | "Integer"   | new StringValue('Hello, world!')
+        false    | "Long"      | new StringValue('Hello, world!')
+        false    | "Float"     | new StringValue('Hello, world!')
+        false    | "Double"    | new StringValue('Hello, world!')
+        false    | "Boolean"   | new StringValue('Hello, world!')
+        true     | "String"    | new StringValue('Hello, world!')
+    }
 
     def 'test conversion of #value should return #expected'() {
         when:
