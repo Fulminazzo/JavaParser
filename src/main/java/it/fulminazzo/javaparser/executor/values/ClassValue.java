@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.executor.values;
 
 import it.fulminazzo.javaparser.environment.Info;
+import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue;
 import org.jetbrains.annotations.NotNull;
 
 /**
