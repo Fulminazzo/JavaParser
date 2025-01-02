@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * An exception thrown by {@link Value} objects.
  */
-public class ValueException extends RuntimeException {
+public class ValueException extends Exception {
 
     /**
      * Instantiates a new Value exception.
