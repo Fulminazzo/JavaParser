@@ -37,6 +37,26 @@ public final class ObjectValue<V> extends ObjectWrapper<V> implements Value<V> {
     }
 
     /**
+     * Gets the class name from the given class.
+     * If its package is present in {@link #IMPLIED_PACKAGES},
+     * it will be stripped.
+     *
+     * @param clazz the class
+     * @return the name
+     */
+    public static @NotNull String getClassName(final @NotNull Class<?> clazz) {
+        String className = clazz.getCanonicalName();
+        for (String impliedPackage : IMPLIED_PACKAGES) {
+            impliedPackage += ".";
+            if (className.startsWith(impliedPackage)) {
+                className = className.substring(impliedPackage.length());
+                break;
+            }
+        }
+        return className;
+    }
+
+    /**
      * Obtains an instance of {@link ObjectValue} from the given object.
      *
      * @param <V>    the type of the object
