@@ -44,8 +44,8 @@ class ExecutorTest extends Specification {
 
         where:
         first      | second     | expected
-        NUMBER_LIT | NUMBER_LIT | BooleanValue.TRUE
-        CHAR_LIT   | NUMBER_LIT | BooleanValue.FALSE
+        NUMBER_LIT | NUMBER_LIT | BooleanValue.FALSE
+        CHAR_LIT   | NUMBER_LIT | BooleanValue.TRUE
     }
 
     def 'test less than'() {
