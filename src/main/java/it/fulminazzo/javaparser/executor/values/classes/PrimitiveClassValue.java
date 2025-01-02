@@ -62,4 +62,9 @@ public final class PrimitiveClassValue<V> extends ObjectWrapper<Class<V>> implem
         return false;
     }
 
+    @Override
+    public String toString() {
+        return getValue().getSimpleName().toLowerCase();
+    }
+
 }
