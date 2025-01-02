@@ -75,8 +75,7 @@ public final class ObjectClassValue<V> extends EnumObject implements ClassValue<
         if (this.associatedValue != null) return this.associatedValue.compatibleWith(value);
         else {
             // Either STRING or OBJECT
-            if (this.equals(STRING)) return value.getValue() instanceof String;
-            else return true;
+            return !equals(STRING) || value.isString();
         }
     }
 
