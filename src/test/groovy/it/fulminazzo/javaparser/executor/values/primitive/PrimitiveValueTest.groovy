@@ -89,6 +89,7 @@ class PrimitiveValueTest extends Specification {
         1.0f             | new FloatValue(1.0f)
         1L               | new LongValue(1L)
         true             | BooleanValue.TRUE
+        false            | BooleanValue.FALSE
         'Hello, world!'  | new StringValue('Hello, world!')
         'a' as char      | new CharacterValue('a' as Character)
         1 as byte        | new IntegerValue(1)
