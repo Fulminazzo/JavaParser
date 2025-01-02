@@ -6,6 +6,7 @@ import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue;
 import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.executor.values.ValueException;
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -55,6 +56,7 @@ public final class ObjectClassValue<V> extends EnumObject implements ClassValue<
     public static final ObjectClassValue<Object> OBJECT = new ObjectClassValue<>(Object.class);
     
     private final @NotNull Class<V> value;
+    @Getter(AccessLevel.NONE)
     private final @Nullable ClassValue<V> associatedValue;
 
     private ObjectClassValue(final @NotNull Class<V> value) {
