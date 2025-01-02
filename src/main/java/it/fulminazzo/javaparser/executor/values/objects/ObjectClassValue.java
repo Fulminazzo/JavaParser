@@ -5,10 +5,12 @@ import it.fulminazzo.fulmicollection.utils.StringUtils;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue;
 import it.fulminazzo.javaparser.executor.values.Value;
+import it.fulminazzo.javaparser.executor.values.ValueException;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings("unchecked")
 @Getter
 public final class ObjectClassValue<V> extends EnumObject implements ClassValue<V> {
     /**
@@ -98,6 +100,31 @@ public final class ObjectClassValue<V> extends EnumObject implements ClassValue<
      */
     public static ObjectClassValue<?> @NotNull [] values() {
         return values(ObjectClassValue.class);
+    }
+
+    /**
+     * Gets a new {@link ClassValue} from the given class name.
+     *
+     * @param className the class name
+     * @return the class value
+     * @throws ValueException the exception thrown in case the class is not found
+     */
+    public static <V> @NotNull ClassValue<V> of(final @NotNull String className) throws ValueException {
+        return of(ObjectValue.getClass(className));
+    }
+
+    /**
+     * Gets a new {@link ClassValue} from the given class name.
+     *
+     * @param clazz the class
+     * @return the respective class value
+     */
+    public static <V> @NotNull ClassValue<V> of(final @NotNull Class<V> clazz) {
+        try {
+            return (ClassValue<V>) ObjectClassValue.valueOf(clazz.getSimpleName().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return new CustomObjectClassValue(clazz);
+        }
     }
 
 }
