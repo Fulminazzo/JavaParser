@@ -46,6 +46,22 @@ class ObjectClassValueTest extends Specification {
         ObjectClassValue.OBJECT    | Object.class
     }
 
+    def 'test valueOf #name should return #expected'() {
+        given:
+        def value = ObjectClassValue.valueOf(name)
+
+        expect:
+        value == expected
+
+        where:
+        expected << ObjectClassValue.values()
+        name << [
+                'BYTE', 'SHORT', 'CHARACTER', 'INTEGER',
+                'LONG', 'FLOAT', 'DOUBLE', 'BOOLEAN',
+                'STRING', 'OBJECT'
+        ]
+    }
+
     def 'test toString of #value'() {
         given:
         def string = value.toString()
