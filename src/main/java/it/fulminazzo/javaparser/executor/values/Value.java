@@ -325,11 +325,7 @@ public interface Value<V> {
      * @return the boolean value
      */
     default @NotNull Value<?> minus() {
-        try {
-            return multiply(PrimitiveValue.of(-1));
-        } catch (ValueException e) {
-            throw new IllegalStateException("Unreachable code");
-        }
+        return multiply(PrimitiveValue.of(-1));
     }
 
     /**

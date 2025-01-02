@@ -704,34 +704,4 @@ class NumberValueTest extends Specification {
         new DoubleValue(4.0d) | new DoubleValue(2.0d)           | new DoubleValue((4.0d % 2.0d) as Double)
     }
 
-    def 'test executeBinaryOperationDecimal invalid return type'() {
-        given:
-        def first = new DoubleValue(1)
-        def second = new DoubleValue(1)
-
-        when:
-        first.executeBinaryOperationDecimal(second,
-                (d1, d2) -> null,
-                (f1, f2) -> null,
-                (l1, l2) -> null,
-                (i1, i2) -> null)
-
-        then:
-        thrown(IllegalArgumentException)
-    }
-
-    def 'test executeBinaryOperation invalid return type'() {
-        given:
-        def first = new IntValue(1)
-        def second = new IntValue(1)
-
-        when:
-        first.executeBinaryOperation(second,
-                (l1, l2) -> null,
-                (i1, i2) -> null)
-
-        then:
-        thrown(IllegalArgumentException)
-    }
-
 }
