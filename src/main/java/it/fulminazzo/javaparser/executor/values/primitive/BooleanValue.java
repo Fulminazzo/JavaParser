@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor.values.primitive;
 
+import it.fulminazzo.javaparser.executor.values.Value;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -16,6 +17,21 @@ public final class BooleanValue extends PrimitiveValue<Boolean> {
      */
     private BooleanValue(@NotNull Boolean value) {
         super(value);
+    }
+
+    @Override
+    public @NotNull Value bitAnd(@NotNull Value other) {
+        return of(this.object & other.check(BooleanValue.class).object);
+    }
+
+    @Override
+    public @NotNull Value bitOr(@NotNull Value other) {
+        return of(this.object | other.check(BooleanValue.class).object);
+    }
+
+    @Override
+    public @NotNull Value bitXor(@NotNull Value other) {
+        return of(this.object ^ other.check(BooleanValue.class).object);
     }
 
     /**
