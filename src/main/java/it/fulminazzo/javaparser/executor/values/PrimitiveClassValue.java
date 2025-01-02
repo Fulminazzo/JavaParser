@@ -1,7 +1,7 @@
 package it.fulminazzo.javaparser.executor.values;
 
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
-import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -11,7 +11,8 @@ import java.util.Arrays;
  *
  * @param <V> the type of the primitive
  */
-public final class PrimitiveClassValue<V> extends ObjectWrapper<Class<V>> implements ClassValue<V> {
+@Getter
+public final class PrimitiveClassValue<V> implements ClassValue<V> {
     public static final ClassValue<Byte> BYTE = new PrimitiveClassValue<>(byte.class,
             Byte.class, Integer.class);
     public static final ClassValue<Short> SHORT = new PrimitiveClassValue<>(short.class,
@@ -29,6 +30,7 @@ public final class PrimitiveClassValue<V> extends ObjectWrapper<Class<V>> implem
     public static final ClassValue<Boolean> BOOLEAN = new PrimitiveClassValue<>(boolean.class,
             Boolean.class);
 
+    private final Class<V> value;
     private final Class<?> @NotNull [] compatibleValues;
 
     /**
@@ -38,16 +40,11 @@ public final class PrimitiveClassValue<V> extends ObjectWrapper<Class<V>> implem
      * @param compatibleValues the compatible values
      */
     public PrimitiveClassValue(final @NotNull Class<V> clazz, Class<?> @NotNull ... compatibleValues) {
-        super(clazz);
+        this.value = clazz;
         this.compatibleValues = Arrays.stream(compatibleValues)
                 .map(c -> new Class[]{c, ReflectionUtils.getPrimitiveClass(c)})
                 .flatMap(Arrays::stream)
                 .toArray(Class[]::new);
-    }
-
-    @Override
-    public @NotNull Class<V> getValue() {
-        return this.object;
     }
 
     @Override
