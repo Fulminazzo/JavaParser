@@ -302,10 +302,9 @@ public interface Value {
     /**
      * Executes not operation.
      *
-     * @param other the other value
      * @return the boolean value
      */
-    default @NotNull BooleanValue not(final @NotNull Value other) {
+    default @NotNull BooleanValue not() {
         throw new UnsupportedOperationException();
     }
     
