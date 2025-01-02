@@ -64,6 +64,15 @@ public final class PrimitiveClassValue<V> extends ObjectWrapper<Class<V>> implem
         return false;
     }
 
+    /**
+     * Gets the name
+     *
+     * @return the name
+     */
+    public @NotNull String name() {
+        return toString().toUpperCase();
+    }
+
     @Override
     public String toString() {
         return getValue().getSimpleName().toLowerCase();
@@ -78,7 +87,7 @@ public final class PrimitiveClassValue<V> extends ObjectWrapper<Class<V>> implem
      */
     public static @NotNull PrimitiveClassValue<?> valueOf(final @NotNull String name) {
         for (PrimitiveClassValue<?> value : values())
-            if (value.toString().equalsIgnoreCase(name)) return value;
+            if (value.name().equals(name)) return value;
         throw new IllegalArgumentException(String.format("No enum constant %s.%s",
                 PrimitiveClassValue.class.getCanonicalName(), name));
     }
