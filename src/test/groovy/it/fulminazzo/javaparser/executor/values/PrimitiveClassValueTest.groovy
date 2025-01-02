@@ -75,7 +75,6 @@ class PrimitiveClassValueTest extends Specification {
         !classValue.compatibleWith(value)
 
         where:
-        //TODO: wrapper objects
         classValue                   | value
         // byte
         PrimitiveClassValue.BYTE     | ObjectValue.of(1 as Short)
@@ -172,7 +171,7 @@ class PrimitiveClassValueTest extends Specification {
         def string = value.toString()
 
         expect:
-        string == expected
+        string == ClassValue.print(expected)
 
         where:
         value                       | expected
