@@ -51,4 +51,17 @@ class BooleanValueTest extends Specification {
         FALSE | FALSE  | of(false ^ false)
     }
 
+    def 'test !#value = #expected'() {
+        when:
+        def eval = value.not()
+
+        then:
+        eval == expected
+
+        where:
+        value | expected
+        TRUE  | FALSE
+        FALSE | TRUE
+    }
+
 }
