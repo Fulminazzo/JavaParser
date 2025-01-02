@@ -183,7 +183,7 @@ class ExecutorTest extends Specification {
         where:
         first      | second     | expected
         LONG_LIT   | NUMBER_LIT | PrimitiveValue.of(2L << 1)
-        NUMBER_LIT | LONG_LIT   | PrimitiveValue.of(1 << 2L)
+        NUMBER_LIT | LONG_LIT   | PrimitiveValue.of((1 << 2L) as long)
     }
 
     def 'test rshift'() {
@@ -196,7 +196,7 @@ class ExecutorTest extends Specification {
         where:
         first      | second     | expected
         LONG_LIT   | NUMBER_LIT | PrimitiveValue.of(2L >> 1)
-        NUMBER_LIT | LONG_LIT   | PrimitiveValue.of(1 >> 2L)
+        NUMBER_LIT | LONG_LIT   | PrimitiveValue.of((1 >> 2L) as long)
     }
 
     def 'test urshift'() {
@@ -209,7 +209,7 @@ class ExecutorTest extends Specification {
         where:
         first      | second     | expected
         LONG_LIT   | NUMBER_LIT | PrimitiveValue.of(2L >>> 1)
-        NUMBER_LIT | LONG_LIT   | PrimitiveValue.of(1 >>> 2L)
+        NUMBER_LIT | LONG_LIT   | PrimitiveValue.of((1 >>> 2L) as long)
     }
 
     def 'test add'() {
@@ -222,7 +222,7 @@ class ExecutorTest extends Specification {
         where:
         first      | second     | expected
         LONG_LIT   | NUMBER_LIT | PrimitiveValue.of(2L + 1)
-        FLOAT_LIT  | NUMBER_LIT | PrimitiveValue.of(3.0f + 1)
+        FLOAT_LIT  | NUMBER_LIT | PrimitiveValue.of((3.0f + 1) as float)
         DOUBLE_LIT | NUMBER_LIT | PrimitiveValue.of(4.0d + 1)
     }
 
@@ -236,7 +236,7 @@ class ExecutorTest extends Specification {
         where:
         first      | second     | expected
         LONG_LIT   | NUMBER_LIT | PrimitiveValue.of(2L - 1)
-        FLOAT_LIT  | NUMBER_LIT | PrimitiveValue.of(3.0f - 1)
+        FLOAT_LIT  | NUMBER_LIT | PrimitiveValue.of((3.0f - 1) as float)
         DOUBLE_LIT | NUMBER_LIT | PrimitiveValue.of(4.0d - 1)
     }
 
@@ -250,7 +250,7 @@ class ExecutorTest extends Specification {
         where:
         first      | second     | expected
         LONG_LIT   | NUMBER_LIT | PrimitiveValue.of(2L * 1)
-        FLOAT_LIT  | NUMBER_LIT | PrimitiveValue.of(3.0f * 1)
+        FLOAT_LIT  | NUMBER_LIT | PrimitiveValue.of((3.0f * 1) as float)
         DOUBLE_LIT | NUMBER_LIT | PrimitiveValue.of(4.0d * 1)
     }
 
@@ -264,7 +264,7 @@ class ExecutorTest extends Specification {
         where:
         first      | second     | expected
         LONG_LIT   | NUMBER_LIT | PrimitiveValue.of(((long) 2) / 1)
-        FLOAT_LIT  | NUMBER_LIT | PrimitiveValue.of(3.0f / 1)
+        FLOAT_LIT  | NUMBER_LIT | PrimitiveValue.of((3.0f / 1) as float)
         DOUBLE_LIT | NUMBER_LIT | PrimitiveValue.of(4.0d / 1)
     }
 
@@ -278,7 +278,7 @@ class ExecutorTest extends Specification {
         where:
         first      | second     | expected
         LONG_LIT   | NUMBER_LIT | PrimitiveValue.of(2L % 1)
-        FLOAT_LIT  | NUMBER_LIT | PrimitiveValue.of(3.0f % 1)
+        FLOAT_LIT  | NUMBER_LIT | PrimitiveValue.of((3.0f % 1) as float)
         DOUBLE_LIT | NUMBER_LIT | PrimitiveValue.of(4.0d % 1)
     }
 
