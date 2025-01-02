@@ -1,6 +1,8 @@
 package it.fulminazzo.javaparser.executor.values.primitivevalue;
 
+import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
+import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue;
 import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.executor.values.ValueException;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
@@ -65,7 +67,8 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
     @SuppressWarnings("unchecked")
     @Override
     public @NotNull ClassValue<V> toClassValue() {
-        return (ClassValue<V>) ClassValue.of(getValue().getClass());
+        Class<?> clazz = ReflectionUtils.getPrimitiveClass(getClass());
+        return (ClassValue<V>) PrimitiveClassValue.valueOf(clazz.getSimpleName().toUpperCase());
     }
 
     /**
