@@ -72,30 +72,32 @@ public interface Value {
     }
 
     /**
-     * Checks whether the current value is of the specified class.
-     * If not, throws {@link ValueException}.
+     * Checks that the current value is of the specified one.
+     * Throws {@link ValueException} in case it is not.
      *
-     * @param <T>   the type of the value
-     * @param clazz the class of the value
-     * @return the converted type
+     * @param <T>   the class of the value
+     * @param value the expected value
+     * @return the current value cast to the expected one
      */
     @SuppressWarnings("unchecked")
-    default <T extends Value> @NotNull T check(final @NotNull Class<T> clazz) {
-        if (clazz.isInstance(this)) return (T) this;
-        else throw ValueException.invalidValue(clazz, this);
+    default <T extends Value> @NotNull T check(final @NotNull Class<T> value) {
+        if (value.isInstance(this)) return (T) this;
+        else throw ValueException.invalidValue(value, this);
     }
 
     /**
-     * Checks whether the current value is one of the specified classes.
-     * If not, throws {@link ValueException}.
+     * Checks whether the current value is equal to one of the expected ones.
+     * Throws a {@link ValueException} in case no match is found.
      *
-     * @param classes the classes of the values
-     * @return the converted type
+     * @param expectedValues the expected values
+     * @return this value
      */
-    default @NotNull Value check(final Class<?> @NotNull ... classes) {
-        for (Class<?> clazz : classes)
+    default @NotNull Value check(final Class<?> @NotNull ... expectedValues) {
+        if (expectedValues.length == 0)
+            throw new IllegalArgumentException(String.format("Cannot compare value %s with no values", this));
+        for (Class<?> clazz : expectedValues)
             if (clazz.isInstance(this)) return this;
-        throw ValueException.invalidValue(classes[0], this);
+        throw ValueException.invalidValue(expectedValues[0], this);
     }
 
     /*
