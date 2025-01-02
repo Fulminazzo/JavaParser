@@ -20,6 +20,17 @@ class StringObjectValue extends ObjectWrapper<String> implements Value<String> {
     }
 
     @Override
+    public boolean isString() {
+        return true;
+    }
+
+    @Override
+    public @NotNull Value<?> add(@NotNull Value<?> other) {
+        Value<String> stringOther = other.to(getClass());
+        return new StringObjectValue(getValue() + stringOther.getValue());
+    }
+
+    @Override
     public @NotNull ClassValue<String> toClassValue() {
         return ObjectClassValue.STRING;
     }
