@@ -74,17 +74,15 @@ public interface Value<V> {
     }
 
     /**
-     * Checks that the current value is of the specified one.
-     * Throws {@link ValueException} in case it is not.
+     * Converts the current value is of the specified one.
+     * This operation is unchecked.
      *
      * @param <T>   the class of the value
      * @param value the expected value
      * @return the current value cast to the expected one
      */
-    @SuppressWarnings("unchecked")
-    default <T extends Value<?>> @NotNull T check(final @NotNull Class<T> value) {
-        if (value.isInstance(this)) return (T) this;
-        else throw ValueException.invalidValue(value, this);
+    default <T extends Value<?>> @NotNull T to(final @NotNull Class<T> value) {
+        return value.cast(this);
     }
 
     /**

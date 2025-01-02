@@ -120,7 +120,7 @@ abstract class NumberValue<N extends Number> extends PrimitiveValue<N> {
     int executeBinaryComparison(@NotNull Value<?> other) {
         if (other.isCharacter()) other = ((CharacterValue) other).asInteger();
         BigDecimal first = new BigDecimal(this.object.toString());
-        BigDecimal second = new BigDecimal(other.check(NumberValue.class).object.toString());
+        BigDecimal second = new BigDecimal(other.to(NumberValue.class).object.toString());
         return first.compareTo(second);
     }
 
@@ -142,7 +142,7 @@ abstract class NumberValue<N extends Number> extends PrimitiveValue<N> {
                                            @NotNull BiFunction<Integer, Integer, Object> integerOperation) {
         if (other.isCharacter()) other = ((CharacterValue) other).asInteger();
         Number first = this.object;
-        Number second = (Number) other.check(NumberValue.class).object;
+        Number second = (Number) other.to(NumberValue.class).object;
         final Object obj;
         if (first instanceof Double || second instanceof Double)
             obj = doubleOperation.apply(first.doubleValue(), second.doubleValue());
