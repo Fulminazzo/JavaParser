@@ -53,6 +53,11 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
     }
 
     @Override
+    public @NotNull PrimitiveValue<V> toPrimitive() {
+        return this;
+    }
+
+    @Override
     public @NotNull V getValue() {
         return this.object;
     }
