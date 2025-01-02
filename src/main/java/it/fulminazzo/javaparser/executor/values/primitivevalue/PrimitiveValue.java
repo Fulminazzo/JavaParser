@@ -67,7 +67,7 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
     @SuppressWarnings("unchecked")
     @Override
     public @NotNull ClassValue<V> toClassValue() {
-        Class<?> clazz = ReflectionUtils.getPrimitiveClass(getClass());
+        Class<?> clazz = ReflectionUtils.getPrimitiveClass(getValue().getClass());
         return (ClassValue<V>) PrimitiveClassValue.valueOf(clazz.getSimpleName().toUpperCase());
     }
 
