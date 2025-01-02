@@ -15,10 +15,10 @@ public interface ClassValue<V> extends Value<Class<V>>, Info {
     /**
      * Verifies that the current class value is compatible with the provided value.
      *
-     * @param type the other type
+     * @param value the other value
      * @return true if it is
      */
-    boolean compatibleWith(final @NotNull Value<?> type);
+    boolean compatibleWith(final @NotNull Value<?> value);
 
     @Override
     default boolean compatibleWith(@NotNull Object object) {

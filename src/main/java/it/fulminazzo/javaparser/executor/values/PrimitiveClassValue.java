@@ -49,8 +49,8 @@ public final class PrimitiveClassValue<V> extends EnumObject implements ClassVal
     }
 
     @Override
-    public boolean compatibleWith(@NotNull Value<?> type) {
-        Object actual = type.getValue();
+    public boolean compatibleWith(@NotNull Value<?> value) {
+        Object actual = value.getValue();
         if (actual == null) return false;
         else if (getValue().isAssignableFrom(actual.getClass())) return true;
         else for (Class<?> compatibleValue : this.compatibleValues)
