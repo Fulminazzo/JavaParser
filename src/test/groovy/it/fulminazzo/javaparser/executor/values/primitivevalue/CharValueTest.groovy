@@ -59,7 +59,7 @@ class CharValueTest extends Specification {
 
         where:
         first                      | second                     | third
-        // Integer
+        // Character
         new CharValue('d' as char) | new CharValue('a' as char) | BooleanValue.FALSE
         new CharValue('d' as char) | new CharValue('z' as char) | BooleanValue.TRUE
         new CharValue('d' as char) | new CharValue('d' as char) | BooleanValue.FALSE
@@ -86,7 +86,7 @@ class CharValueTest extends Specification {
 
         where:
         first                      | second                     | third
-        // Integer
+        // Character
         new CharValue('d' as char) | new CharValue('a' as char) | BooleanValue.FALSE
         new CharValue('d' as char) | new CharValue('z' as char) | BooleanValue.TRUE
         new CharValue('d' as char) | new CharValue('d' as char) | BooleanValue.TRUE
@@ -113,7 +113,7 @@ class CharValueTest extends Specification {
 
         where:
         first                      | second                     | third
-        // Integer
+        // Character
         new CharValue('d' as char) | new CharValue('a' as char) | BooleanValue.TRUE
         new CharValue('d' as char) | new CharValue('z' as char) | BooleanValue.FALSE
         new CharValue('d' as char) | new CharValue('d' as char) | BooleanValue.FALSE
@@ -140,7 +140,7 @@ class CharValueTest extends Specification {
 
         where:
         first                      | second                     | third
-        // Integer
+        // Character
         new CharValue('d' as char) | new CharValue('a' as char) | BooleanValue.TRUE
         new CharValue('d' as char) | new CharValue('z' as char) | BooleanValue.FALSE
         new CharValue('d' as char) | new CharValue('d' as char) | BooleanValue.TRUE
