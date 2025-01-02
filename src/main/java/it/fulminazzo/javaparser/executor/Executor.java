@@ -2,12 +2,26 @@ package it.fulminazzo.javaparser.executor;
 
 import it.fulminazzo.javaparser.environment.Environment;
 import it.fulminazzo.javaparser.executor.values.Value;
+import it.fulminazzo.javaparser.parser.node.Assignment;
+import it.fulminazzo.javaparser.parser.node.MethodInvocation;
+import it.fulminazzo.javaparser.parser.node.Node;
+import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
+import it.fulminazzo.javaparser.parser.node.container.JavaProgram;
+import it.fulminazzo.javaparser.parser.node.literals.Literal;
+import it.fulminazzo.javaparser.parser.node.statements.CaseStatement;
+import it.fulminazzo.javaparser.parser.node.statements.CatchStatement;
+import it.fulminazzo.javaparser.parser.node.statements.Statement;
+import it.fulminazzo.javaparser.visitors.Visitor;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * A {@link Visitor} that executes all the objects of the parsed code.
  */
-public class Executor {
+public class Executor implements Visitor<Value<?>> {
     private final Object executingObject;
     private final Environment<Value<?>> environment;
 
@@ -19,6 +33,316 @@ public class Executor {
     public Executor(final @NotNull Object executingObject) {
         this.executingObject = executingObject;
         this.environment = new Environment<>();
+    }
+
+    @Override
+    public @NotNull Optional<Value<?>> visitProgram(@NotNull JavaProgram program) {
+        return Optional.empty();
+    }
+
+    @Override
+    public @NotNull Value<?> visitAssignmentBlock(@NotNull List<Assignment> assignments) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitAssignment(@NotNull Node type, @NotNull Literal name, @NotNull Node value) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitMethodCall(@NotNull Node executor, @NotNull String methodName, @NotNull MethodInvocation invocation) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitField(@NotNull Node left, @NotNull Node right) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitMethodInvocation(@NotNull List<Node> parameters) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitDynamicArray(@NotNull List<Node> parameters, @NotNull Node type) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitStaticArray(int size, @NotNull Node type) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitCodeBlock(@NotNull LinkedList<Statement> statements) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitJavaProgram(@NotNull LinkedList<Statement> statements) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitArrayLiteral(@NotNull Node type) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitEmptyLiteral() {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitLiteralImpl(@NotNull String value) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitAdd(@NotNull Node left, @NotNull Node right) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitAnd(@NotNull Node left, @NotNull Node right) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitBitAnd(@NotNull Node left, @NotNull Node right) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitBitOr(@NotNull Node left, @NotNull Node right) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitBitXor(@NotNull Node left, @NotNull Node right) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitCast(@NotNull Node left, @NotNull Node right) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitDivide(@NotNull Node left, @NotNull Node right) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitEqual(@NotNull Node left, @NotNull Node right) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitGreaterThan(@NotNull Node left, @NotNull Node right) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitGreaterThanEqual(@NotNull Node left, @NotNull Node right) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitLShift(@NotNull Node left, @NotNull Node right) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitLessThan(@NotNull Node left, @NotNull Node right) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitLessThanEqual(@NotNull Node left, @NotNull Node right) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitModulo(@NotNull Node left, @NotNull Node right) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitMultiply(@NotNull Node left, @NotNull Node right) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitNewObject(@NotNull Node left, @NotNull Node right) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitNotEqual(@NotNull Node left, @NotNull Node right) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitOr(@NotNull Node left, @NotNull Node right) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitRShift(@NotNull Node left, @NotNull Node right) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitReAssign(@NotNull Node left, @NotNull Node right) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitSubtract(@NotNull Node left, @NotNull Node right) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitURShift(@NotNull Node left, @NotNull Node right) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitDecrement(boolean before, @NotNull Node operand) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitIncrement(boolean before, @NotNull Node operand) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitMinus(@NotNull Node operand) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitNot(@NotNull Node operand) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitBreak(@NotNull Node expression) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitContinue(@NotNull Node expression) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitTryStatement(@NotNull CodeBlock block, @NotNull List<CatchStatement> catchBlocks, @NotNull CodeBlock finallyBlock, @NotNull Node expression) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitCatchStatement(@NotNull List<Literal> exceptions, @NotNull CodeBlock block, @NotNull Node expression) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitSwitchStatement(@NotNull List<CaseStatement> cases, @NotNull CodeBlock defaultBlock, @NotNull Node expression) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitCaseStatement(@NotNull CodeBlock block, @NotNull Node expression) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitDoStatement(@NotNull CodeBlock code, @NotNull Node expression) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable, @NotNull CodeBlock code, @NotNull Node expression) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitForStatement(@NotNull Node assignment, @NotNull Node increment, @NotNull CodeBlock code, @NotNull Node expression) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitIfStatement(@NotNull CodeBlock then, @NotNull Node elseBranch, @NotNull Node expression) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitReturn(@NotNull Node expression) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitThrow(@NotNull Node expression) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitStatement(@NotNull Node expression) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expression) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitNullLiteral() {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitThisLiteral() {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitBooleanValueLiteral(@NotNull String rawValue) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitCharValueLiteral(@NotNull String rawValue) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitDoubleValueLiteral(@NotNull String rawValue) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitFloatValueLiteral(@NotNull String rawValue) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitLongValueLiteral(@NotNull String rawValue) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitNumberValueLiteral(@NotNull String rawValue) {
+        return null;
+    }
+
+    @Override
+    public @NotNull Value<?> visitStringValueLiteral(@NotNull String rawValue) {
+        return null;
     }
 
 }
