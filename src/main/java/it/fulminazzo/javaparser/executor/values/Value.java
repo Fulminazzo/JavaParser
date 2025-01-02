@@ -86,6 +86,13 @@ public interface Value<V> {
     }
 
     /**
+     * Gets the class value associated with the current value.
+     *
+     * @return the class value
+     */
+    @NotNull ClassValue<V> toClassValue();
+
+    /**
      * Gets value.
      *
      * @return the value
