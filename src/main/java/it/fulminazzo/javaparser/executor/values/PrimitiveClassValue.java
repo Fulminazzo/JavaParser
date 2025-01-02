@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor.values;
 
+import it.fulminazzo.fulmicollection.objects.EnumObject;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +13,7 @@ import java.util.Arrays;
  * @param <V> the type of the primitive
  */
 @Getter
-public final class PrimitiveClassValue<V> implements ClassValue<V> {
+public final class PrimitiveClassValue<V> extends EnumObject implements ClassValue<V> {
     public static final ClassValue<Byte> BYTE = new PrimitiveClassValue<>(byte.class,
             Byte.class, Integer.class);
     public static final ClassValue<Short> SHORT = new PrimitiveClassValue<>(short.class,
