@@ -70,6 +70,20 @@ public final class PrimitiveClassValue<V> extends ObjectWrapper<Class<V>> implem
     }
 
     /**
+     * Gets the most appropriate {@link PrimitiveClassValue} from the given name.
+     * If none was found, an {@link IllegalArgumentException} is thrown.
+     *
+     * @param name the name
+     * @return the value
+     */
+    public static @NotNull PrimitiveClassValue<?> valueOf(final @NotNull String name) {
+        for (PrimitiveClassValue<?> value : values())
+            if (value.toString().equalsIgnoreCase(name)) return value;
+        throw new IllegalArgumentException(String.format("No enum constant %s.%s",
+                PrimitiveClassValue.class.getCanonicalName(), name));
+    }
+
+    /**
      * Gets the static fields present in this class.
      *
      * @return the values
