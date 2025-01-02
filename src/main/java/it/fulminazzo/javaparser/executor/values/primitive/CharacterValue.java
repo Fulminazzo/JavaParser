@@ -18,6 +18,27 @@ class CharacterValue extends PrimitiveValue<Character> {
     }
 
     @Override
+    public @NotNull BooleanValue lessThan(@NotNull Value other) {
+        return asInteger().lessThan(other);
+    }
+
+    @Override
+    public @NotNull BooleanValue lessThanEqual(@NotNull Value other) {
+        return asInteger().lessThanEqual(other);
+    }
+
+    @Override
+    public @NotNull BooleanValue greaterThan(@NotNull Value other) {
+        return asInteger().greaterThan(other);
+    }
+
+    @Override
+    public @NotNull BooleanValue greaterThanEqual(@NotNull Value other) {
+        return asInteger().greaterThanEqual(other);
+    }
+
+
+    @Override
     public @NotNull Value bitAnd(@NotNull Value other) {
         return asInteger().bitAnd(other);
     }
