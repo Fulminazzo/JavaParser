@@ -16,7 +16,7 @@ class NumberValueTest extends Specification {
         first                  | second                           | third
         // Integer
         new IntegerValue(100)  | new CharacterValue('a' as char)  | BooleanValue.TRUE
-        new IntegerValue(100)  | new CharacterValue('d' as char)  | BooleanValue.FALSE
+        new IntegerValue(100)  | new CharacterValue('z' as char)  | BooleanValue.FALSE
         new IntegerValue(100)  | new CharacterValue('d' as char)  | BooleanValue.FALSE
         new IntegerValue(100)  | new IntegerValue(2)              | BooleanValue.TRUE
         new IntegerValue(100)  | new IntegerValue(200)            | BooleanValue.FALSE
@@ -32,7 +32,7 @@ class NumberValueTest extends Specification {
         new IntegerValue(100)  | new DoubleValue(100.0d)          | BooleanValue.FALSE
         // Long
         new LongValue(100L)    | new CharacterValue('a' as char)  | BooleanValue.TRUE
-        new LongValue(100L)    | new CharacterValue('d' as char)  | BooleanValue.FALSE
+        new LongValue(100L)    | new CharacterValue('z' as char)  | BooleanValue.FALSE
         new LongValue(100L)    | new CharacterValue('d' as char)  | BooleanValue.FALSE
         new LongValue(100L)    | new IntegerValue(2)              | BooleanValue.TRUE
         new LongValue(100L)    | new IntegerValue(200)            | BooleanValue.FALSE
@@ -48,7 +48,7 @@ class NumberValueTest extends Specification {
         new LongValue(100L)    | new DoubleValue(100.0d)          | BooleanValue.FALSE
         // Float
         new FloatValue(100.0f) | new CharacterValue('a' as char)  | BooleanValue.TRUE
-        new FloatValue(100.0f) | new CharacterValue('d' as char)  | BooleanValue.FALSE
+        new FloatValue(100.0f) | new CharacterValue('z' as char)  | BooleanValue.FALSE
         new FloatValue(100.0f) | new CharacterValue('d' as char)  | BooleanValue.FALSE
         new FloatValue(100.0f) | new IntegerValue(2)              | BooleanValue.TRUE
         new FloatValue(100.0f) | new IntegerValue(200)            | BooleanValue.FALSE
@@ -64,7 +64,7 @@ class NumberValueTest extends Specification {
         new FloatValue(100.0f) | new DoubleValue(100.0d)          | BooleanValue.FALSE
         // Double
         new DoubleValue(100.0d) | new CharacterValue('a' as char) | BooleanValue.TRUE
-        new DoubleValue(100.0d) | new CharacterValue('d' as char) | BooleanValue.FALSE
+        new DoubleValue(100.0d) | new CharacterValue('z' as char) | BooleanValue.FALSE
         new DoubleValue(100.0d) | new CharacterValue('d' as char) | BooleanValue.FALSE
         new DoubleValue(100.0d) | new IntegerValue(2)             | BooleanValue.TRUE
         new DoubleValue(100.0d) | new IntegerValue(200)           | BooleanValue.FALSE
@@ -91,7 +91,7 @@ class NumberValueTest extends Specification {
         first                  | second                           | third
         // Integer
         new IntegerValue(100)  | new CharacterValue('a' as char)  | BooleanValue.TRUE
-        new IntegerValue(100)  | new CharacterValue('d' as char)  | BooleanValue.FALSE
+        new IntegerValue(100)  | new CharacterValue('z' as char)  | BooleanValue.FALSE
         new IntegerValue(100)  | new CharacterValue('d' as char)  | BooleanValue.TRUE
         new IntegerValue(100)  | new IntegerValue(2)              | BooleanValue.TRUE
         new IntegerValue(100)  | new IntegerValue(200)            | BooleanValue.FALSE
@@ -107,7 +107,7 @@ class NumberValueTest extends Specification {
         new IntegerValue(100)  | new DoubleValue(100.0d)          | BooleanValue.TRUE
         // Long
         new LongValue(100L)    | new CharacterValue('a' as char)  | BooleanValue.TRUE
-        new LongValue(100L)    | new CharacterValue('d' as char)  | BooleanValue.FALSE
+        new LongValue(100L)    | new CharacterValue('z' as char)  | BooleanValue.FALSE
         new LongValue(100L)    | new CharacterValue('d' as char)  | BooleanValue.TRUE
         new LongValue(100L)    | new IntegerValue(2)              | BooleanValue.TRUE
         new LongValue(100L)    | new IntegerValue(200)            | BooleanValue.FALSE
@@ -123,7 +123,7 @@ class NumberValueTest extends Specification {
         new LongValue(100L)    | new DoubleValue(100.0d)          | BooleanValue.TRUE
         // Float
         new FloatValue(100.0f) | new CharacterValue('a' as char)  | BooleanValue.TRUE
-        new FloatValue(100.0f) | new CharacterValue('d' as char)  | BooleanValue.FALSE
+        new FloatValue(100.0f) | new CharacterValue('z' as char)  | BooleanValue.FALSE
         new FloatValue(100.0f) | new CharacterValue('d' as char)  | BooleanValue.TRUE
         new FloatValue(100.0f) | new IntegerValue(2)              | BooleanValue.TRUE
         new FloatValue(100.0f) | new IntegerValue(200)            | BooleanValue.FALSE
@@ -139,7 +139,7 @@ class NumberValueTest extends Specification {
         new FloatValue(100.0f) | new DoubleValue(100.0d)          | BooleanValue.TRUE
         // Double
         new DoubleValue(100.0d) | new CharacterValue('a' as char) | BooleanValue.TRUE
-        new DoubleValue(100.0d) | new CharacterValue('d' as char) | BooleanValue.FALSE
+        new DoubleValue(100.0d) | new CharacterValue('z' as char) | BooleanValue.FALSE
         new DoubleValue(100.0d) | new CharacterValue('d' as char) | BooleanValue.TRUE
         new DoubleValue(100.0d) | new IntegerValue(2)             | BooleanValue.TRUE
         new DoubleValue(100.0d) | new IntegerValue(200)           | BooleanValue.FALSE
