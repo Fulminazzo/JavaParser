@@ -74,6 +74,15 @@ public interface Value<V> {
     }
 
     /**
+     * Checks if the current value is primitive.
+     *
+     * @return true if it is
+     */
+    default boolean isPrimitive() {
+        return this instanceof PrimitiveClassValue;
+    }
+
+    /**
      * Converts the current value is of the specified one.
      * This operation is unchecked.
      *
