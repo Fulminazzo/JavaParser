@@ -226,12 +226,12 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitMinus(@NotNull Node operand) {
-        return null;
+        return operand.accept(this).minus();
     }
 
     @Override
     public @NotNull Value<?> visitNot(@NotNull Node operand) {
-        return null;
+        return operand.accept(this).not();
     }
 
     @Override
