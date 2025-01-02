@@ -90,4 +90,17 @@ class PrimitiveClassValueTest extends Specification {
         PrimitiveClassValue.BOOLEAN | 'boolean'
     }
 
+    def 'test values'() {
+        expect:
+        expected == value
+
+        where:
+        value << PrimitiveClassValue.values()
+        expected << [
+                PrimitiveClassValue.BYTE, PrimitiveClassValue.SHORT, PrimitiveClassValue.CHAR,
+                PrimitiveClassValue.INT, PrimitiveClassValue.LONG, PrimitiveClassValue.FLOAT,
+                PrimitiveClassValue.DOUBLE, PrimitiveClassValue.BOOLEAN
+        ]
+    }
+
 }
