@@ -1,12 +1,8 @@
 package it.fulminazzo.javaparser.parser
 
-import it.fulminazzo.javaparser.parser.node.Assignment
-import it.fulminazzo.javaparser.parser.node.MethodCall
-import it.fulminazzo.javaparser.parser.node.MethodInvocation
-import it.fulminazzo.javaparser.parser.node.NodeException
+import it.fulminazzo.javaparser.parser.node.*
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray
-import it.fulminazzo.javaparser.parser.node.AssignmentBlock
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.literals.*
 import it.fulminazzo.javaparser.parser.node.operators.binary.*
@@ -135,37 +131,37 @@ class JavaParserTest extends Specification {
         block == expected
 
         where:
-        code | expected
+        code                                                                              | expected
         'try (int i = 1) {return 1;} catch (Exception e) {return 2;} finally {return 3;}' | new TryStatement(
                 new AssignmentBlock([new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1'))]),
                 new CodeBlock(new Return(new NumberValueLiteral('1'))),
                 [new CatchStatement([Literal.of('Exception')], Literal.of('e'),
                         new CodeBlock(new Return(new NumberValueLiteral('2'))))],
                 new CodeBlock(new Return(new NumberValueLiteral('3'))))
-        'try {return 1;} catch (Exception e) {return 2;} finally {return 3;}' | new TryStatement(
+        'try {return 1;} catch (Exception e) {return 2;} finally {return 3;}'             | new TryStatement(
                 new AssignmentBlock([]),
                 new CodeBlock(new Return(new NumberValueLiteral('1'))),
                 [new CatchStatement([Literal.of('Exception')], Literal.of('e'),
                         new CodeBlock(new Return(new NumberValueLiteral('2'))))],
                 new CodeBlock(new Return(new NumberValueLiteral('3'))))
-        'try (int i = 1) {return 1;} catch (Exception e) {return 2;}' | new TryStatement(
+        'try (int i = 1) {return 1;} catch (Exception e) {return 2;}'                     | new TryStatement(
                 new AssignmentBlock([new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1'))]),
                 new CodeBlock(new Return(new NumberValueLiteral('1'))),
                 [new CatchStatement([Literal.of('Exception')], Literal.of('e'),
                         new CodeBlock(new Return(new NumberValueLiteral('2'))))],
                 new CodeBlock())
-        'try {return 1;} catch (Exception e) {return 2;}' | new TryStatement(
+        'try {return 1;} catch (Exception e) {return 2;}'                                 | new TryStatement(
                 new AssignmentBlock([]),
                 new CodeBlock(new Return(new NumberValueLiteral('1'))),
                 [new CatchStatement([Literal.of('Exception')], Literal.of('e'),
                         new CodeBlock(new Return(new NumberValueLiteral('2'))))],
                 new CodeBlock())
-        'try (int i = 1) {return 1;} finally {return 3;}' | new TryStatement(
+        'try (int i = 1) {return 1;} finally {return 3;}'                                 | new TryStatement(
                 new AssignmentBlock([new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1'))]),
                 new CodeBlock(new Return(new NumberValueLiteral('1'))),
                 [],
                 new CodeBlock(new Return(new NumberValueLiteral('3'))))
-        'try {return 1;} finally {return 3;}' | new TryStatement(
+        'try {return 1;} finally {return 3;}'                                             | new TryStatement(
                 new AssignmentBlock([]),
                 new CodeBlock(new Return(new NumberValueLiteral('1'))),
                 [],
@@ -194,29 +190,29 @@ class JavaParserTest extends Specification {
         block == expected
 
         where:
-        code | expected
+        code                               | expected
         'int i = 1; int j = 2; int k = 3;' | new AssignmentBlock([
                 new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1')),
                 new Assignment(Literal.of('int'), Literal.of('j'), new NumberValueLiteral('2')),
                 new Assignment(Literal.of('int'), Literal.of('k'), new NumberValueLiteral('3'))
         ])
-        'int i = 1; int j = 2; int k = 3' | new AssignmentBlock([
+        'int i = 1; int j = 2; int k = 3'  | new AssignmentBlock([
                 new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1')),
                 new Assignment(Literal.of('int'), Literal.of('j'), new NumberValueLiteral('2')),
                 new Assignment(Literal.of('int'), Literal.of('k'), new NumberValueLiteral('3'))
         ])
-        'int i = 1; int j = 2;' | new AssignmentBlock([
+        'int i = 1; int j = 2;'            | new AssignmentBlock([
                 new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1')),
                 new Assignment(Literal.of('int'), Literal.of('j'), new NumberValueLiteral('2'))
         ])
-        'int i = 1; int j = 2' | new AssignmentBlock([
+        'int i = 1; int j = 2'             | new AssignmentBlock([
                 new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1')),
                 new Assignment(Literal.of('int'), Literal.of('j'), new NumberValueLiteral('2'))
         ])
-        'int i = 1;' | new AssignmentBlock([
+        'int i = 1;'                       | new AssignmentBlock([
                 new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1'))
         ])
-        'int i = 1' | new AssignmentBlock([
+        'int i = 1'                        | new AssignmentBlock([
                 new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1'))
         ])
     }
@@ -239,7 +235,7 @@ class JavaParserTest extends Specification {
         'i = 1'         | "At line -1, column -1: Expecting '${Assignment.simpleName}' but got " +
                 "${new ReAssign(Literal.of('i'), new NumberValueLiteral('1'))} instead."
         ';'             | "At line 1, column 1: Unexpected token: ${TokenType.SEMICOLON}"
-        ''              |'At line 0, column 0: Unexpected end of input. Last read token: EOF ()'
+        ''              | 'At line 0, column 0: Unexpected end of input. Last read token: EOF ()'
     }
 
     def 'test parse catch statement of code: #code'() {
@@ -251,16 +247,16 @@ class JavaParserTest extends Specification {
         block == expected
 
         where:
-        code | expected
+        code                                                                      | expected
         'catch (FirstException | SecondException | ThirdException e) {return 1;}' | new CatchStatement(
                 [Literal.of('FirstException'), Literal.of('SecondException'), Literal.of('ThirdException')],
                 Literal.of('e'), new CodeBlock(new Return(new NumberValueLiteral('1')))
         )
-        'catch (FirstException | SecondException e) {return 1;}' | new CatchStatement(
+        'catch (FirstException | SecondException e) {return 1;}'                  | new CatchStatement(
                 [Literal.of('FirstException'), Literal.of('SecondException')],
                 Literal.of('e'), new CodeBlock(new Return(new NumberValueLiteral('1')))
         )
-        'catch (FirstException e) {return 1;}' | new CatchStatement(
+        'catch (FirstException e) {return 1;}'                                    | new CatchStatement(
                 [Literal.of('FirstException')],
                 Literal.of('e'), new CodeBlock(new Return(new NumberValueLiteral('1')))
         )
@@ -275,14 +271,14 @@ class JavaParserTest extends Specification {
         block == expected
 
         where:
-        code | expected
+        code                                                                  | expected
         'switch (1) {case 1: return 1; case 2: return 2; default: return 3;}' |
                 new SwitchStatement(new NumberValueLiteral('1'),
-                Arrays.asList(
-                        new CaseStatement(new NumberValueLiteral('1'), new CodeBlock(new Return(new NumberValueLiteral('1')))),
-                        new CaseStatement(new NumberValueLiteral('2'), new CodeBlock(new Return(new NumberValueLiteral('2')))),
-                ),
-                new CodeBlock(new Return(new NumberValueLiteral('3'))))
+                        Arrays.asList(
+                                new CaseStatement(new NumberValueLiteral('1'), new CodeBlock(new Return(new NumberValueLiteral('1')))),
+                                new CaseStatement(new NumberValueLiteral('2'), new CodeBlock(new Return(new NumberValueLiteral('2')))),
+                        ),
+                        new CodeBlock(new Return(new NumberValueLiteral('3'))))
         'switch (1) {case 1: return 1; default: return 3; case 2: return 2;}' |
                 new SwitchStatement(new NumberValueLiteral('1'),
                         Arrays.asList(
@@ -290,23 +286,23 @@ class JavaParserTest extends Specification {
                                 new CaseStatement(new NumberValueLiteral('2'), new CodeBlock(new Return(new NumberValueLiteral('2'))))
                         ),
                         new CodeBlock(new Return(new NumberValueLiteral('3'))))
-        'switch (1) {case 1: return 1; default: return 3;}' |
+        'switch (1) {case 1: return 1; default: return 3;}'                   |
                 new SwitchStatement(new NumberValueLiteral('1'),
                         Arrays.asList(
                                 new CaseStatement(new NumberValueLiteral('1'), new CodeBlock(new Return(new NumberValueLiteral('1'))))
                         ),
                         new CodeBlock(new Return(new NumberValueLiteral('3'))))
-        'switch (1) {case 1: return 1;}' |
+        'switch (1) {case 1: return 1;}'                                      |
                 new SwitchStatement(new NumberValueLiteral('1'),
                         Arrays.asList(
                                 new CaseStatement(new NumberValueLiteral('1'), new CodeBlock(new Return(new NumberValueLiteral('1'))))
                         ),
                         new CodeBlock())
-        'switch (1) {default: return 3;}' |
+        'switch (1) {default: return 3;}'                                     |
                 new SwitchStatement(new NumberValueLiteral('1'),
                         new LinkedList<>(),
                         new CodeBlock(new Return(new NumberValueLiteral('3'))))
-        'switch (1) {}' |
+        'switch (1) {}'                                                       |
                 new SwitchStatement(new NumberValueLiteral('1'),
                         new LinkedList<>(),
                         new CodeBlock())
@@ -349,7 +345,7 @@ class JavaParserTest extends Specification {
         block == expected
 
         where:
-        expected                                                                                | code
+        expected                                                                                                   | code
         new CaseStatement(new BooleanValueLiteral('true'), new CodeBlock(new Return(new NumberValueLiteral('1')))) |
                 'case true: return 1;}'
         new CaseStatement(new BooleanValueLiteral('true'), new CodeBlock(new Return(new NumberValueLiteral('1')))) |
@@ -365,7 +361,7 @@ class JavaParserTest extends Specification {
         block == expected
 
         where:
-        expected                                                  | code
+        expected                                               | code
         new CodeBlock(new Return(new NumberValueLiteral('1'))) | 'default: return 1;}'
         new CodeBlock(new Return(new NumberValueLiteral('1'))) | 'default: {return 1;}}'
     }
@@ -393,50 +389,50 @@ class JavaParserTest extends Specification {
         output == expected
 
         where:
-        code | expected
+        code                                   | expected
         'for (int i = 0; true; i++) continue;' | new ForStatement(
                 new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('0')),
                 new BooleanValueLiteral('true'),
                 new Increment(Literal.of('i'), false),
                 new CodeBlock(new Continue())
         )
-        'for (i = 0; true; i++) continue;' | new ForStatement(
+        'for (i = 0; true; i++) continue;'     | new ForStatement(
                 new ReAssign(Literal.of('i'), new NumberValueLiteral('0')),
                 new BooleanValueLiteral('true'),
                 new Increment(Literal.of('i'), false),
                 new CodeBlock(new Continue())
         )
-        'for (; true; i++) continue;' | new ForStatement(
+        'for (; true; i++) continue;'          | new ForStatement(
                 new Statement(),
                 new BooleanValueLiteral('true'),
                 new Increment(Literal.of('i'), false),
                 new CodeBlock(new Continue())
         )
-        'for (int i = 0; ; i++) continue;' | new ForStatement(
+        'for (int i = 0; ; i++) continue;'     | new ForStatement(
                 new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('0')),
                 new Statement(),
                 new Increment(Literal.of('i'), false),
                 new CodeBlock(new Continue())
         )
-        'for (int i = 0; true; ) continue;' | new ForStatement(
+        'for (int i = 0; true; ) continue;'    | new ForStatement(
                 new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('0')),
                 new BooleanValueLiteral('true'),
                 new Statement(),
                 new CodeBlock(new Continue())
         )
-        'for (; ; i++) continue;' | new ForStatement(
+        'for (; ; i++) continue;'              | new ForStatement(
                 new Statement(),
                 new Statement(),
                 new Increment(Literal.of('i'), false),
                 new CodeBlock(new Continue())
         )
-        'for (int i = 0; ; ) continue;' | new ForStatement(
+        'for (int i = 0; ; ) continue;'        | new ForStatement(
                 new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('0')),
                 new Statement(),
                 new Statement(),
                 new CodeBlock(new Continue())
         )
-        'for (int i : arr) continue;' | new EnhancedForStatement(
+        'for (int i : arr) continue;'          | new EnhancedForStatement(
                 Literal.of('int'),
                 Literal.of('i'),
                 Literal.of('arr'),
@@ -453,8 +449,8 @@ class JavaParserTest extends Specification {
         output == expected
 
         where:
-        code | expected
-        'while (true) continue;' | new WhileStatement(new BooleanValueLiteral('true'), new CodeBlock(new Continue()))
+        code                         | expected
+        'while (true) continue;'     | new WhileStatement(new BooleanValueLiteral('true'), new CodeBlock(new Continue()))
         'do continue; while (true);' | new DoStatement(new BooleanValueLiteral('true'), new CodeBlock(new Continue()))
     }
 
@@ -467,13 +463,13 @@ class JavaParserTest extends Specification {
         output == expected
 
         where:
-        code | expected
-        'if (true) continue;' | new IfStatement(
+        code                                                        | expected
+        'if (true) continue;'                                       | new IfStatement(
                 new BooleanValueLiteral('true'),
                 new CodeBlock(new Continue()),
                 new Statement(new EmptyLiteral())
         )
-        'if (true) continue; else if (false) break;' | new IfStatement(
+        'if (true) continue; else if (false) break;'                | new IfStatement(
                 new BooleanValueLiteral('true'),
                 new CodeBlock(new Continue()),
                 new IfStatement(
@@ -692,7 +688,7 @@ class JavaParserTest extends Specification {
         output.isBefore() == before
 
         where:
-        code    | expected                                 | before
+        code    | expected                                | before
         'var++' | new Increment(Literal.of('var'), false) | false
         '++var' | new Increment(Literal.of('var'), true)  | true
         'var--' | new Decrement(Literal.of('var'), false) | false
@@ -714,18 +710,18 @@ class JavaParserTest extends Specification {
         output == expected
 
         where:
-        operation    | expectedClass
-        '+'          | Add.class
-        '-'          | Subtract.class
-        '*'          | Multiply.class
-        '/'          | Divide.class
-        '%'          | Modulo.class
-        '&'          | BitAnd.class
-        '|'          | BitOr.class
-        '^'          | BitXor.class
-        '<<'         | LShift.class
-        '>>'         | RShift.class
-        '>>>'        | URShift.class
+        operation | expectedClass
+        '+'       | Add.class
+        '-'       | Subtract.class
+        '*'       | Multiply.class
+        '/'       | Divide.class
+        '%'       | Modulo.class
+        '&'       | BitAnd.class
+        '|'       | BitOr.class
+        '^'       | BitXor.class
+        '<<'      | LShift.class
+        '>>'      | RShift.class
+        '>>>'     | URShift.class
     }
 
     def 'test parseReAssign with no operation'() {
@@ -819,18 +815,18 @@ class JavaParserTest extends Specification {
         output == expected
 
         where:
-        operation    | expectedClass
-        '+'          | Add.class
-        '-'          | Subtract.class
-        '*'          | Multiply.class
-        '/'          | Divide.class
-        '%'          | Modulo.class
-        '&'          | BitAnd.class
-        '|'          | BitOr.class
-        '^'          | BitXor.class
-        '<<'         | LShift.class
-        '>>'         | RShift.class
-        '>>>'        | URShift.class
+        operation | expectedClass
+        '+'       | Add.class
+        '-'       | Subtract.class
+        '*'       | Multiply.class
+        '/'       | Divide.class
+        '%'       | Modulo.class
+        '&'       | BitAnd.class
+        '|'       | BitOr.class
+        '^'       | BitXor.class
+        '<<'      | LShift.class
+        '>>'      | RShift.class
+        '>>>'     | URShift.class
     }
 
     def 'test parseAtom: #code'() {
@@ -842,12 +838,12 @@ class JavaParserTest extends Specification {
         parsed == expected
 
         where:
-        code    | expected
-        '-1'    | new Minus(new NumberValueLiteral('1'))
-        '!true' | new Not(new BooleanValueLiteral('true'))
-        '(1 + 1)'| new Add(new NumberValueLiteral('1'), new NumberValueLiteral('1'))
-        'false' | new BooleanValueLiteral('false')
-        'int'   | Literal.of('int')
+        code      | expected
+        '-1'      | new Minus(new NumberValueLiteral('1'))
+        '!true'   | new Not(new BooleanValueLiteral('true'))
+        '(1 + 1)' | new Add(new NumberValueLiteral('1'), new NumberValueLiteral('1'))
+        'false'   | new BooleanValueLiteral('false')
+        'int'     | Literal.of('int')
     }
 
     def 'test null cast'() {

@@ -1,5 +1,3 @@
-import java.io.IOException;
-
 /**
  * This file represents an example of Java program with all the allowed statements from the parser.
  */
