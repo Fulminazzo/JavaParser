@@ -183,7 +183,7 @@ public interface Value<V> {
      * @return the boolean value
      */
     default @NotNull BooleanValue lessThan(final @NotNull Value<?> other) {
-        return toPrimitive().lessThanEqual(other);
+        return toPrimitive().lessThan(other);
     }
 
     /**
