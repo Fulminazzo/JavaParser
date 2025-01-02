@@ -2,7 +2,6 @@ package it.fulminazzo.javaparser.parser.node.statements;
 
 import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
-import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -15,7 +14,7 @@ public class CaseStatement extends Statement {
      * Instantiates a new Case statement.
      *
      * @param expression the expression
-     * @param block       the body
+     * @param block      the body
      */
     public CaseStatement(final @NotNull Node expression, final @NotNull CodeBlock block) {
         super(expression);

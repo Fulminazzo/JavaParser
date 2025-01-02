@@ -16,8 +16,8 @@ public abstract class ValueLiteral extends TokenizedNode {
     /**
      * Instantiates a new Value literal.
      *
-     * @param rawValue  the raw value
-     * @param type      the type
+     * @param rawValue the raw value
+     * @param type     the type
      */
     public ValueLiteral(final @NotNull String rawValue,
                         final @NotNull TokenType type) throws NodeException {

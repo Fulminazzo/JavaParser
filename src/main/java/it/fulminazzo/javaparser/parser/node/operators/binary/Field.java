@@ -13,7 +13,7 @@ public class Field extends BinaryOperation {
     /**
      * Instantiates a new Field operation.
      *
-     * @param object  the object
+     * @param object    the object
      * @param fieldName the field name
      */
     public Field(@NotNull Node object, @NotNull Literal fieldName) {
