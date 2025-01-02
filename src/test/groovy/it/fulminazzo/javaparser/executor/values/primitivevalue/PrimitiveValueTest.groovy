@@ -16,16 +16,16 @@ class PrimitiveValueTest extends Specification {
         classValue == expected
 
         where:
-        value | expected
-        new CharValue('c' as char)      | PrimitiveClassValue.CHAR
-        new ByteValue(1 as byte)        | PrimitiveClassValue.BYTE
-        new ShortValue(1 as short)      | PrimitiveClassValue.SHORT
-        new IntValue(1)                 | PrimitiveClassValue.INT
-        new LongValue(1)                | PrimitiveClassValue.LONG
-        new FloatValue(1)               | PrimitiveClassValue.FLOAT
-        new DoubleValue(1)              | PrimitiveClassValue.DOUBLE
-        BooleanValue.TRUE               | PrimitiveClassValue.BOOLEAN
-        BooleanValue.FALSE              | PrimitiveClassValue.BOOLEAN
+        value                      | expected
+        new CharValue('c' as char) | PrimitiveClassValue.CHAR
+        new ByteValue(1 as byte)   | PrimitiveClassValue.BYTE
+        new ShortValue(1 as short) | PrimitiveClassValue.SHORT
+        new IntValue(1)            | PrimitiveClassValue.INT
+        new LongValue(1)           | PrimitiveClassValue.LONG
+        new FloatValue(1)          | PrimitiveClassValue.FLOAT
+        new DoubleValue(1)         | PrimitiveClassValue.DOUBLE
+        BooleanValue.TRUE          | PrimitiveClassValue.BOOLEAN
+        BooleanValue.FALSE         | PrimitiveClassValue.BOOLEAN
     }
 
     def 'test is#method should return #expected for #value'() {
@@ -129,16 +129,16 @@ class PrimitiveValueTest extends Specification {
         converted == expected
 
         where:
-        value            | expected
-        1.0d             | new DoubleValue(1.0d)
-        1.0f             | new FloatValue(1.0f)
-        1L               | new LongValue(1L)
-        true             | BooleanValue.TRUE
-        false            | BooleanValue.FALSE
-        'a' as char      | new CharValue('a' as Character)
-        1 as byte        | new ByteValue(1 as byte)
-        2 as short       | new ShortValue(2 as short)
-        3                | new IntValue(3)
+        value       | expected
+        1.0d        | new DoubleValue(1.0d)
+        1.0f        | new FloatValue(1.0f)
+        1L          | new LongValue(1L)
+        true        | BooleanValue.TRUE
+        false       | BooleanValue.FALSE
+        'a' as char | new CharValue('a' as Character)
+        1 as byte   | new ByteValue(1 as byte)
+        2 as short  | new ShortValue(2 as short)
+        3           | new IntValue(3)
     }
 
     def 'test conversion of invalid type'() {

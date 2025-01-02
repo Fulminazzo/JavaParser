@@ -343,5 +343,5 @@ class ObjectClassValueTest extends Specification {
                 Values.NULL_VALUE
         ]
     }
-    
+
 }
