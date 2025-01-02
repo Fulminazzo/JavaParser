@@ -137,4 +137,26 @@ class PrimitiveValueTest extends Specification {
         e.message == ValueRuntimeException.invalidPrimitiveValue(value).message
     }
 
+    def 'test operation #operation should throw unsupported by default'() {
+        given:
+        def primitive = new PrimitiveValue(1) {}
+        
+        when:
+        primitive."${operation}"(primitive)
+        
+        then:
+        thrown(UnsupportedOperationException)
+        
+        where:
+        operation << [
+                'and', 'or',
+                'equal', 'not_equal',
+                'less_than', 'less_than_equal', 'greater_than', 'greater_than_equal',
+                'bit_and', 'bit_or', 'bit_xor',
+                'lshift', 'rshift', 'urshift',
+                'add', 'subtract', 'multiply', 'divide', 'modulo',
+                'not'
+        ]
+    }
+
 }
