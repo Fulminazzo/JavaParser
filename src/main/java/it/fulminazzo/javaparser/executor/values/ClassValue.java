@@ -62,4 +62,14 @@ public interface ClassValue<V> extends Value<Class<V>>, Info {
         return ObjectClassValue.of(clazz);
     }
 
+    /**
+     * Prints the given string to the format of a class.
+     *
+     * @param output the output
+     * @return the new output
+     */
+    static @NotNull String print(final @NotNull String output) {
+        return output + ".class";
+    }
+
 }
