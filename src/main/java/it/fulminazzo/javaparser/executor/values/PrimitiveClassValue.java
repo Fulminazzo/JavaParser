@@ -54,7 +54,9 @@ public final class PrimitiveClassValue<V> extends EnumObject implements ClassVal
         if (actual == null) return false;
         else if (getValue().isAssignableFrom(actual.getClass())) return true;
         else for (Class<?> compatibleValue : this.compatibleValues)
-            if (compatibleValue.isAssignableFrom(actual.getClass())) return true;
+            if (compatibleValue.isAssignableFrom(actual.getClass()))
+                return !value.isInteger() || (value.isPrimitive() ||
+                        (!equals(BYTE) && !equals(SHORT) && !equals(CHAR)));
         return false;
     }
 
