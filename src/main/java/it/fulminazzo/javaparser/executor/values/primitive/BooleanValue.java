@@ -34,6 +34,11 @@ public final class BooleanValue extends PrimitiveValue<Boolean> {
         return of(this.object ^ other.check(BooleanValue.class).object);
     }
 
+    @Override
+    public @NotNull BooleanValue not() {
+        return of(!this.object);
+    }
+
     /**
      * Gets the {@link BooleanValue} from the given boolean.
      *
