@@ -63,11 +63,6 @@ public final class ObjectValue<V> extends ObjectWrapper<V> implements Value<V> {
     }
 
     @Override
-    public boolean isString() {
-        return getValue() instanceof String;
-    }
-
-    @Override
     public @NotNull V getValue() {
         return this.object;
     }
