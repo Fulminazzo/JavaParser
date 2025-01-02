@@ -33,6 +33,41 @@ public final class ObjectValue<V> extends ObjectWrapper<V> implements Value<V> {
     }
 
     @Override
+    public boolean isCharacter() {
+        return getValue() instanceof Character;
+    }
+
+    @Override
+    public boolean isInteger() {
+        return getValue() instanceof Integer;
+    }
+
+    @Override
+    public boolean isLong() {
+        return getValue() instanceof Long;
+    }
+
+    @Override
+    public boolean isFloat() {
+        return getValue() instanceof Float;
+    }
+
+    @Override
+    public boolean isDouble() {
+        return getValue() instanceof Double;
+    }
+
+    @Override
+    public boolean isBoolean() {
+        return getValue() instanceof Boolean;
+    }
+
+    @Override
+    public boolean isString() {
+        return getValue() instanceof String;
+    }
+
+    @Override
     public @NotNull V getValue() {
         return this.object;
     }
