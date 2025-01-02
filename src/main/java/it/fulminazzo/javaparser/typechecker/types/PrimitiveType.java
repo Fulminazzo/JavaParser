@@ -32,10 +32,6 @@ public enum PrimitiveType implements Type {
      * Type of {@link it.fulminazzo.javaparser.tokenizer.TokenType#BOOLEAN_VALUE}.
      */
     BOOLEAN,
-    /**
-     * Type of {@link it.fulminazzo.javaparser.tokenizer.TokenType#STRING_VALUE}.
-     */
-    STRING,
 
     /*
         The following types do not have an associated regex.
@@ -55,8 +51,7 @@ public enum PrimitiveType implements Type {
             case LONG: return ObjectType.LONG;
             case FLOAT: return ObjectType.FLOAT;
             case DOUBLE: return ObjectType.DOUBLE;
-            case BOOLEAN: return ObjectType.BOOLEAN;
-            default: return ObjectType.STRING;
+            default: return ObjectType.BOOLEAN;
         }
     }
 
@@ -70,8 +65,7 @@ public enum PrimitiveType implements Type {
             case NUMBER: return PrimitiveClassType.INT;
             case FLOAT: return PrimitiveClassType.FLOAT;
             case DOUBLE: return PrimitiveClassType.DOUBLE;
-            case BOOLEAN: return PrimitiveClassType.BOOLEAN;
-            default: return ObjectClassType.STRING;
+            default: return PrimitiveClassType.BOOLEAN;
         }
     }
 
