@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser.executor.values.primitivevalue
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue
 import it.fulminazzo.javaparser.executor.values.ValueRuntimeException
+import it.fulminazzo.javaparser.tokenizer.TokenType
 import spock.lang.Specification
 
 class PrimitiveValueTest extends Specification {
@@ -140,12 +141,17 @@ class PrimitiveValueTest extends Specification {
     def 'test operation #operation should throw unsupported by default'() {
         given:
         def primitive = new PrimitiveValue(1) {}
+
+        and:
+        def expected = ValueRuntimeException.unsupportedOperation(operator,
+                primitive, primitive).message
         
         when:
         primitive."${operation}"(primitive)
         
         then:
-        thrown(UnsupportedOperationException)
+        def e = thrown(ValueRuntimeException)
+        e.message == expected
         
         where:
         operation << [
@@ -154,9 +160,9 @@ class PrimitiveValueTest extends Specification {
                 'less_than', 'less_than_equal', 'greater_than', 'greater_than_equal',
                 'bit_and', 'bit_or', 'bit_xor',
                 'lshift', 'rshift', 'urshift',
-                'add', 'subtract', 'multiply', 'divide', 'modulo',
-                'not'
+                'add', 'subtract', 'multiply', 'divide', 'modulo'
         ]
+        operator << TokenType.values().findAll { it.between(TokenType.COLON, TokenType.NOT) }
     }
 
 }
