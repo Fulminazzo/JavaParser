@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor.values.primitivevalue;
 
+import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.executor.values.ValueException;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
@@ -19,11 +20,6 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
      */
     PrimitiveValue(@NotNull V value) {
         super(value);
-    }
-
-    @Override
-    public @NotNull V getValue() {
-        return this.object;
     }
 
     @Override
@@ -59,6 +55,17 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
     @Override
     public boolean isString() {
         return this instanceof StringValue;
+    }
+
+    @Override
+    public @NotNull V getValue() {
+        return this.object;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public @NotNull ClassValue<V> toClassValue() {
+        return (ClassValue<V>) ClassValue.of(getValue().getClass());
     }
 
     /**
