@@ -301,4 +301,17 @@ class ExecutorTest extends Specification {
         new DoubleValueLiteral(-4.0d) | PrimitiveValue.of(4.0d)
     }
 
+    def 'test not'() {
+        given:
+        def result = this.executor.visitNot(operand)
+
+        expect:
+        result == expected
+
+        where:
+        operand        | expected
+        BOOL_LIT_TRUE  | BooleanValue.FALSE
+        BOOL_LIT_FALSE | BooleanValue.TRUE
+    }
+
 }
