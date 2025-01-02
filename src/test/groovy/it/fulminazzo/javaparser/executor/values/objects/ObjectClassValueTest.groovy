@@ -24,6 +24,23 @@ class ObjectClassValueTest extends Specification {
     static final DOUBLE_WRAPPER = ObjectValue.of(Double.valueOf((double) 1))
     static final BOOLEAN_WRAPPER = ObjectValue.of(Boolean.valueOf(true))
     static final STRING = ObjectValue.of("Hello")
+    
+    def 'test wrapper #wrapper and primitive #primitive should be equal'() {
+        expect:
+        wrapper == primitive
+        primitive == wrapper
+        
+        where:
+        primitive | wrapper
+        BYTE      | BYTE_WRAPPER
+        SHORT     | SHORT_WRAPPER
+        CHAR      | CHARACTER
+        INT       | INTEGER
+        LONG      | LONG_WRAPPER
+        FLOAT     | FLOAT_WRAPPER
+        DOUBLE    | DOUBLE_WRAPPER
+        BOOLEAN   | BOOLEAN_WRAPPER
+    }
 
     def 'test #value getValue should return #clazz'() {
         given:
