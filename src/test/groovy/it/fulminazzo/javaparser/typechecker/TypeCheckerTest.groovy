@@ -1033,7 +1033,7 @@ class TypeCheckerTest extends Specification {
         type << [
                 PrimitiveClassType.values().collect { it.toType() },
                 PrimitiveClassType.values().collect { it.toType() },
-                PrimitiveType.STRING,
+                ObjectType.STRING,
                 ObjectType.of(Object),
                 ObjectType.of(getClass())
         ].flatten()
@@ -1350,7 +1350,7 @@ class TypeCheckerTest extends Specification {
         LONG_LIT    | LONG_LIT    | PrimitiveType.LONG
         FLOAT_LIT   | FLOAT_LIT   | PrimitiveType.FLOAT
         DOUBLE_LIT  | DOUBLE_LIT  | PrimitiveType.DOUBLE
-        STRING_LIT  | STRING_LIT  | PrimitiveType.STRING
+        STRING_LIT  | STRING_LIT  | ObjectType.STRING
     }
 
     def 'test visit subtract of #first and #second should return #expected'() {
@@ -1624,7 +1624,7 @@ class TypeCheckerTest extends Specification {
         LONG_LIT           | Literal.of('String') | PrimitiveType.LONG
         FLOAT_LIT          | Literal.of('String') | PrimitiveType.FLOAT
         DOUBLE_LIT         | Literal.of('String') | PrimitiveType.DOUBLE
-        STRING_LIT         | Literal.of('int')    | PrimitiveType.STRING
+        STRING_LIT         | Literal.of('int')    | ObjectType.STRING
         Literal.of('cast') | Literal.of('String') | PrimitiveType.NUMBER
     }
 

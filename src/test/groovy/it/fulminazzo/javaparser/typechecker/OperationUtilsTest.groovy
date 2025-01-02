@@ -12,71 +12,71 @@ class OperationUtilsTest extends Specification {
         OperationUtils.executeObjectComparison(a, b)
 
         where:
-        a       | b
+        a                  | b
         // String
-        STRING  | STRING
+        ObjectType.STRING  | ObjectType.STRING
         // Boolean
-        BOOLEAN | BOOLEAN
+        BOOLEAN            | BOOLEAN
         // Byte
-        BYTE    | BYTE
-        BYTE    | SHORT
-        BYTE    | CHAR
-        BYTE    | NUMBER
-        BYTE    | LONG
-        BYTE    | FLOAT
-        BYTE    | DOUBLE
+        BYTE               | BYTE
+        BYTE               | SHORT
+        BYTE               | CHAR
+        BYTE               | NUMBER
+        BYTE               | LONG
+        BYTE               | FLOAT
+        BYTE               | DOUBLE
         // Short
-        SHORT   | BYTE
-        SHORT   | SHORT
-        SHORT   | CHAR
-        SHORT   | NUMBER
-        SHORT   | LONG
-        SHORT   | FLOAT
-        SHORT   | DOUBLE
+        SHORT              | BYTE
+        SHORT              | SHORT
+        SHORT              | CHAR
+        SHORT              | NUMBER
+        SHORT              | LONG
+        SHORT              | FLOAT
+        SHORT              | DOUBLE
         // Char
-        CHAR    | BYTE
-        CHAR    | SHORT
-        CHAR    | CHAR
-        CHAR    | NUMBER
-        CHAR    | LONG
-        CHAR    | FLOAT
-        CHAR    | DOUBLE
+        CHAR               | BYTE
+        CHAR               | SHORT
+        CHAR               | CHAR
+        CHAR               | NUMBER
+        CHAR               | LONG
+        CHAR               | FLOAT
+        CHAR               | DOUBLE
         // Number
-        NUMBER  | BYTE
-        NUMBER  | SHORT
-        NUMBER  | CHAR
-        NUMBER  | NUMBER
-        NUMBER  | LONG
-        NUMBER  | FLOAT
-        NUMBER  | DOUBLE
+        NUMBER             | BYTE
+        NUMBER             | SHORT
+        NUMBER             | CHAR
+        NUMBER             | NUMBER
+        NUMBER             | LONG
+        NUMBER             | FLOAT
+        NUMBER             | DOUBLE
         // Long
-        LONG    | BYTE
-        LONG    | SHORT
-        LONG    | CHAR
-        LONG    | NUMBER
-        LONG    | LONG
-        LONG    | FLOAT
-        LONG    | DOUBLE
+        LONG               | BYTE
+        LONG               | SHORT
+        LONG               | CHAR
+        LONG               | NUMBER
+        LONG               | LONG
+        LONG               | FLOAT
+        LONG               | DOUBLE
         // Float
-        FLOAT   | BYTE
-        FLOAT   | SHORT
-        FLOAT   | CHAR
-        FLOAT   | NUMBER
-        FLOAT   | LONG
-        FLOAT   | FLOAT
-        FLOAT   | DOUBLE
+        FLOAT              | BYTE
+        FLOAT              | SHORT
+        FLOAT              | CHAR
+        FLOAT              | NUMBER
+        FLOAT              | LONG
+        FLOAT              | FLOAT
+        FLOAT              | DOUBLE
         // Double
-        DOUBLE  | BYTE
-        DOUBLE  | SHORT
-        DOUBLE  | CHAR
-        DOUBLE  | NUMBER
-        DOUBLE  | LONG
-        DOUBLE  | FLOAT
-        DOUBLE  | DOUBLE
+        DOUBLE             | BYTE
+        DOUBLE             | SHORT
+        DOUBLE             | CHAR
+        DOUBLE             | NUMBER
+        DOUBLE             | LONG
+        DOUBLE             | FLOAT
+        DOUBLE             | DOUBLE
         // Custom
-        STRING | ObjectType.OBJECT
-        ObjectType.OBJECT | STRING
-        ObjectType.OBJECT | ObjectType.OBJECT
+        ObjectType.STRING  | ObjectType.OBJECT
+        ObjectType.OBJECT  | ObjectType.STRING
+        ObjectType.OBJECT  | ObjectType.OBJECT
     }
 
     def 'test invalid execute object comparison: #a * #b'() {
@@ -87,46 +87,46 @@ class OperationUtilsTest extends Specification {
         thrown(TypeCheckerException)
 
         where:
-        a       | b
+        a                  | b
         // String
-        STRING  | BYTE
-        STRING  | SHORT
-        STRING  | CHAR
-        STRING  | NUMBER
-        STRING  | LONG
-        STRING  | FLOAT
-        STRING  | DOUBLE
-        STRING  | BOOLEAN
+        ObjectType.STRING  | BYTE
+        ObjectType.STRING  | SHORT
+        ObjectType.STRING  | CHAR
+        ObjectType.STRING  | NUMBER
+        ObjectType.STRING  | LONG
+        ObjectType.STRING  | FLOAT
+        ObjectType.STRING  | DOUBLE
+        ObjectType.STRING  | BOOLEAN
         // Boolean
-        BOOLEAN | BYTE
-        BOOLEAN | SHORT
-        BOOLEAN | CHAR
-        BOOLEAN | NUMBER
-        BOOLEAN | LONG
-        BOOLEAN | FLOAT
-        BOOLEAN | DOUBLE
-        BOOLEAN | STRING
+        BOOLEAN            | BYTE
+        BOOLEAN            | SHORT
+        BOOLEAN            | CHAR
+        BOOLEAN            | NUMBER
+        BOOLEAN            | LONG
+        BOOLEAN            | FLOAT
+        BOOLEAN            | DOUBLE
+        BOOLEAN            | ObjectType.STRING
         // Byte
-        BYTE    | BOOLEAN
-        BYTE    | STRING
+        BYTE               | BOOLEAN
+        BYTE               | ObjectType.STRING
         // Short
-        SHORT   | BOOLEAN
-        SHORT   | STRING
+        SHORT              | BOOLEAN
+        SHORT              | ObjectType.STRING
         // Char
-        CHAR    | BOOLEAN
-        CHAR    | STRING
+        CHAR               | BOOLEAN
+        CHAR               | ObjectType.STRING
         // Number
-        NUMBER  | BOOLEAN
-        NUMBER  | STRING
+        NUMBER             | BOOLEAN
+        NUMBER             | ObjectType.STRING
         // Long
-        LONG    | BOOLEAN
-        LONG    | STRING
+        LONG               | BOOLEAN
+        LONG               | ObjectType.STRING
         // Float
-        FLOAT   | BOOLEAN
-        FLOAT   | STRING
+        FLOAT              | BOOLEAN
+        FLOAT              | ObjectType.STRING
         // Double
-        DOUBLE  | BOOLEAN
-        DOUBLE  | STRING
+        DOUBLE             | BOOLEAN
+        DOUBLE             | ObjectType.STRING
     }
 
     def 'test execute binary comparison: #a * #b'() {
@@ -349,16 +349,16 @@ class OperationUtilsTest extends Specification {
 
         where:
         a       | b
-        STRING  | STRING
-        STRING  | ObjectType.STRING
-        ObjectType.STRING | STRING
+        ObjectType.STRING  | ObjectType.STRING
+        ObjectType.STRING  | ObjectType.STRING
         ObjectType.STRING | ObjectType.STRING
-        BOOLEAN | STRING
+        ObjectType.STRING | ObjectType.STRING
         BOOLEAN | ObjectType.STRING
-        ObjectType.BOOLEAN | STRING
+        BOOLEAN | ObjectType.STRING
         ObjectType.BOOLEAN | ObjectType.STRING
-        STRING  | BOOLEAN
-        STRING  | ObjectType.BOOLEAN
+        ObjectType.BOOLEAN | ObjectType.STRING
+        ObjectType.STRING  | BOOLEAN
+        ObjectType.STRING  | ObjectType.BOOLEAN
         ObjectType.STRING | BOOLEAN
         ObjectType.STRING | ObjectType.BOOLEAN
         BOOLEAN | BOOLEAN
@@ -929,16 +929,16 @@ class OperationUtilsTest extends Specification {
 
         where:
         a       | b
-        STRING  | STRING
-        STRING  | ObjectType.STRING
-        ObjectType.STRING | STRING
+        ObjectType.STRING  | ObjectType.STRING
+        ObjectType.STRING  | ObjectType.STRING
         ObjectType.STRING | ObjectType.STRING
-        BOOLEAN | STRING
+        ObjectType.STRING | ObjectType.STRING
         BOOLEAN | ObjectType.STRING
-        ObjectType.BOOLEAN | STRING
+        BOOLEAN | ObjectType.STRING
         ObjectType.BOOLEAN | ObjectType.STRING
-        STRING  | BOOLEAN
-        STRING  | ObjectType.BOOLEAN
+        ObjectType.BOOLEAN | ObjectType.STRING
+        ObjectType.STRING  | BOOLEAN
+        ObjectType.STRING  | ObjectType.BOOLEAN
         ObjectType.STRING | BOOLEAN
         ObjectType.STRING | ObjectType.BOOLEAN
         BOOLEAN | BOOLEAN

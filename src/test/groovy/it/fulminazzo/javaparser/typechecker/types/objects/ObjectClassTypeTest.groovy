@@ -43,7 +43,6 @@ class ObjectClassTypeTest extends Specification {
         ObjectClassType.BOOLEAN   | BOOLEAN
         ObjectClassType.BOOLEAN   | ObjectType.BOOLEAN
         // String
-        ObjectClassType.STRING    | STRING
         ObjectClassType.STRING    | ObjectType.STRING
         // Object
         ObjectClassType.OBJECT    | NUMBER
@@ -60,7 +59,6 @@ class ObjectClassTypeTest extends Specification {
         ObjectClassType.OBJECT    | ObjectType.DOUBLE
         ObjectClassType.OBJECT    | BOOLEAN
         ObjectClassType.OBJECT    | ObjectType.BOOLEAN
-        ObjectClassType.OBJECT    | STRING
         ObjectClassType.OBJECT    | ObjectType.STRING
         ObjectClassType.OBJECT    | ObjectType.OBJECT
     }
@@ -90,7 +88,6 @@ class ObjectClassTypeTest extends Specification {
         ObjectClassType.BYTE      | ObjectType.DOUBLE
         ObjectClassType.BYTE      | BOOLEAN
         ObjectClassType.BYTE      | ObjectType.BOOLEAN
-        ObjectClassType.BYTE      | STRING
         ObjectClassType.BYTE      | ObjectType.STRING
         ObjectClassType.BYTE      | ObjectType.OBJECT
         // Short
@@ -108,7 +105,6 @@ class ObjectClassTypeTest extends Specification {
         ObjectClassType.SHORT     | ObjectType.DOUBLE
         ObjectClassType.SHORT     | BOOLEAN
         ObjectClassType.SHORT     | ObjectType.BOOLEAN
-        ObjectClassType.SHORT     | STRING
         ObjectClassType.SHORT     | ObjectType.STRING
         ObjectClassType.SHORT     | ObjectType.OBJECT
         // Character
@@ -126,7 +122,6 @@ class ObjectClassTypeTest extends Specification {
         ObjectClassType.CHARACTER | ObjectType.DOUBLE
         ObjectClassType.CHARACTER | BOOLEAN
         ObjectClassType.CHARACTER | ObjectType.BOOLEAN
-        ObjectClassType.CHARACTER | STRING
         ObjectClassType.CHARACTER | ObjectType.STRING
         ObjectClassType.CHARACTER | ObjectType.OBJECT
         // Integer
@@ -144,7 +139,6 @@ class ObjectClassTypeTest extends Specification {
         ObjectClassType.INTEGER   | ObjectType.DOUBLE
         ObjectClassType.INTEGER   | BOOLEAN
         ObjectClassType.INTEGER   | ObjectType.BOOLEAN
-        ObjectClassType.INTEGER   | STRING
         ObjectClassType.INTEGER   | ObjectType.STRING
         ObjectClassType.INTEGER   | ObjectType.OBJECT
         // Long
@@ -162,7 +156,6 @@ class ObjectClassTypeTest extends Specification {
         ObjectClassType.LONG      | ObjectType.DOUBLE
         ObjectClassType.LONG      | BOOLEAN
         ObjectClassType.LONG      | ObjectType.BOOLEAN
-        ObjectClassType.LONG      | STRING
         ObjectClassType.LONG      | ObjectType.STRING
         ObjectClassType.LONG      | ObjectType.OBJECT
         // Float
@@ -180,7 +173,6 @@ class ObjectClassTypeTest extends Specification {
         ObjectClassType.FLOAT     | ObjectType.DOUBLE
         ObjectClassType.FLOAT     | BOOLEAN
         ObjectClassType.FLOAT     | ObjectType.BOOLEAN
-        ObjectClassType.FLOAT     | STRING
         ObjectClassType.FLOAT     | ObjectType.STRING
         ObjectClassType.FLOAT     | ObjectType.OBJECT
         // Double
@@ -198,7 +190,6 @@ class ObjectClassTypeTest extends Specification {
         ObjectClassType.DOUBLE    | ObjectType.FLOAT
         ObjectClassType.DOUBLE    | BOOLEAN
         ObjectClassType.DOUBLE    | ObjectType.BOOLEAN
-        ObjectClassType.DOUBLE    | STRING
         ObjectClassType.DOUBLE    | ObjectType.STRING
         ObjectClassType.DOUBLE    | ObjectType.OBJECT
         // Boolean
@@ -216,7 +207,6 @@ class ObjectClassTypeTest extends Specification {
         ObjectClassType.BOOLEAN   | ObjectType.FLOAT
         ObjectClassType.BOOLEAN   | DOUBLE
         ObjectClassType.BOOLEAN   | ObjectType.DOUBLE
-        ObjectClassType.BOOLEAN   | STRING
         ObjectClassType.BOOLEAN   | ObjectType.STRING
         ObjectClassType.BOOLEAN   | ObjectType.OBJECT
         // String
@@ -313,7 +303,7 @@ class ObjectClassTypeTest extends Specification {
                 SHORT,
                 LONG,
                 DOUBLE, FLOAT,
-                BOOLEAN, STRING,
+                BOOLEAN,
                 ObjectType.CHARACTER,
                 ObjectType.SHORT, ObjectType.INTEGER,
                 ObjectType.LONG, ObjectType.FLOAT,
@@ -341,7 +331,7 @@ class ObjectClassTypeTest extends Specification {
         type << [
                 BYTE, SHORT, LONG,
                 DOUBLE, FLOAT,
-                BOOLEAN, STRING,
+                BOOLEAN,
                 ObjectType.BYTE,
                 ObjectType.SHORT, ObjectType.INTEGER,
                 ObjectType.LONG, ObjectType.FLOAT,
@@ -369,7 +359,7 @@ class ObjectClassTypeTest extends Specification {
         type << [
                 LONG,
                 DOUBLE, FLOAT,
-                BOOLEAN, STRING,
+                BOOLEAN,
                 ObjectType.CHARACTER, ObjectType.INTEGER,
                 ObjectType.LONG, ObjectType.FLOAT,
                 ObjectType.DOUBLE, ObjectType.BOOLEAN,
@@ -398,7 +388,7 @@ class ObjectClassTypeTest extends Specification {
         type << [
                 LONG,
                 DOUBLE, FLOAT,
-                BOOLEAN, STRING,
+                BOOLEAN,
                 ObjectType.LONG, ObjectType.FLOAT,
                 ObjectType.DOUBLE, ObjectType.BOOLEAN,
                 ObjectType.STRING
@@ -426,7 +416,7 @@ class ObjectClassTypeTest extends Specification {
         where:
         type << [
                 DOUBLE, FLOAT,
-                BOOLEAN, STRING,
+                BOOLEAN,
                 ObjectType.FLOAT,
                 ObjectType.DOUBLE, ObjectType.BOOLEAN,
                 ObjectType.STRING
@@ -455,7 +445,7 @@ class ObjectClassTypeTest extends Specification {
         where:
         type << [
                 DOUBLE,
-                BOOLEAN, STRING,
+                BOOLEAN,
                 ObjectType.DOUBLE, ObjectType.BOOLEAN,
                 ObjectType.STRING
         ]
@@ -483,7 +473,7 @@ class ObjectClassTypeTest extends Specification {
 
         where:
         type << [
-                BOOLEAN, STRING,
+                BOOLEAN,
                 ObjectType.BOOLEAN, ObjectType.STRING
         ]
     }
@@ -507,7 +497,7 @@ class ObjectClassTypeTest extends Specification {
                 BYTE, SHORT,
                 CHAR, NUMBER, LONG,
                 DOUBLE, FLOAT,
-                STRING,
+               
                 ObjectType.BYTE, ObjectType.SHORT,
                 ObjectType.CHARACTER, ObjectType.INTEGER,
                 ObjectType.LONG, ObjectType.FLOAT,
@@ -521,7 +511,7 @@ class ObjectClassTypeTest extends Specification {
 
         where:
         type << [
-                STRING, ObjectType.STRING
+                ObjectType.STRING
         ]
     }
 
@@ -550,7 +540,7 @@ class ObjectClassTypeTest extends Specification {
         type << [
                 BYTE, SHORT, LONG,
                 DOUBLE, FLOAT,
-                BOOLEAN, STRING,
+                BOOLEAN,
                 ObjectType.BYTE, ObjectType.SHORT,
                 ObjectType.CHARACTER, ObjectType.INTEGER,
                 ObjectType.LONG, ObjectType.FLOAT,

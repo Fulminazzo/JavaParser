@@ -25,7 +25,6 @@ class PrimitiveTypeTest extends Specification {
         FLOAT   | ObjectType.FLOAT
         DOUBLE  | ObjectType.DOUBLE
         BOOLEAN | ObjectType.BOOLEAN
-        STRING  | ObjectType.STRING
     }
 
     def 'test #type toClassType should return #expected'() {
@@ -45,7 +44,6 @@ class PrimitiveTypeTest extends Specification {
         FLOAT   | PrimitiveClassType.FLOAT
         DOUBLE  | PrimitiveClassType.DOUBLE
         BOOLEAN | PrimitiveClassType.BOOLEAN
-        STRING  | ObjectClassType.STRING
     }
     
 }

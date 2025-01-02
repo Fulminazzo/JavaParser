@@ -123,7 +123,6 @@ class PrimitiveClassTypeTest extends Specification {
         PrimitiveClassType.BYTE    | ObjectType.DOUBLE
         PrimitiveClassType.BYTE    | BOOLEAN
         PrimitiveClassType.BYTE    | ObjectType.BOOLEAN
-        PrimitiveClassType.BYTE    | STRING
         PrimitiveClassType.BYTE    | ObjectType.STRING
         PrimitiveClassType.BYTE    | ObjectType.OBJECT
         // Short
@@ -134,7 +133,6 @@ class PrimitiveClassTypeTest extends Specification {
         PrimitiveClassType.SHORT   | ObjectType.DOUBLE
         PrimitiveClassType.SHORT   | BOOLEAN
         PrimitiveClassType.SHORT   | ObjectType.BOOLEAN
-        PrimitiveClassType.SHORT   | STRING
         PrimitiveClassType.SHORT   | ObjectType.STRING
         PrimitiveClassType.SHORT   | ObjectType.OBJECT
         // Character
@@ -146,7 +144,6 @@ class PrimitiveClassTypeTest extends Specification {
         PrimitiveClassType.CHAR    | ObjectType.DOUBLE
         PrimitiveClassType.CHAR    | BOOLEAN
         PrimitiveClassType.CHAR    | ObjectType.BOOLEAN
-        PrimitiveClassType.CHAR    | STRING
         PrimitiveClassType.CHAR    | ObjectType.STRING
         PrimitiveClassType.CHAR    | ObjectType.OBJECT
         // Integer
@@ -155,7 +152,6 @@ class PrimitiveClassTypeTest extends Specification {
         PrimitiveClassType.INT     | ObjectType.DOUBLE
         PrimitiveClassType.INT     | BOOLEAN
         PrimitiveClassType.INT     | ObjectType.BOOLEAN
-        PrimitiveClassType.INT     | STRING
         PrimitiveClassType.INT     | ObjectType.STRING
         PrimitiveClassType.INT     | ObjectType.OBJECT
         // Long
@@ -163,20 +159,17 @@ class PrimitiveClassTypeTest extends Specification {
         PrimitiveClassType.LONG    | ObjectType.DOUBLE
         PrimitiveClassType.LONG    | BOOLEAN
         PrimitiveClassType.LONG    | ObjectType.BOOLEAN
-        PrimitiveClassType.LONG    | STRING
         PrimitiveClassType.LONG    | ObjectType.STRING
         PrimitiveClassType.LONG    | ObjectType.OBJECT
         // Float
         PrimitiveClassType.FLOAT   | ObjectType.DOUBLE
         PrimitiveClassType.FLOAT   | BOOLEAN
         PrimitiveClassType.FLOAT   | ObjectType.BOOLEAN
-        PrimitiveClassType.FLOAT   | STRING
         PrimitiveClassType.FLOAT   | ObjectType.STRING
         PrimitiveClassType.FLOAT   | ObjectType.OBJECT
         // Double
         PrimitiveClassType.DOUBLE  | BOOLEAN
         PrimitiveClassType.DOUBLE  | ObjectType.BOOLEAN
-        PrimitiveClassType.DOUBLE  | STRING
         PrimitiveClassType.DOUBLE  | ObjectType.STRING
         PrimitiveClassType.DOUBLE  | ObjectType.OBJECT
         // Boolean
@@ -194,7 +187,6 @@ class PrimitiveClassTypeTest extends Specification {
         PrimitiveClassType.BOOLEAN | ObjectType.FLOAT
         PrimitiveClassType.BOOLEAN | DOUBLE
         PrimitiveClassType.BOOLEAN | ObjectType.DOUBLE
-        PrimitiveClassType.BOOLEAN | STRING
         PrimitiveClassType.BOOLEAN | ObjectType.STRING
         PrimitiveClassType.BOOLEAN | ObjectType.OBJECT
     }
@@ -224,12 +216,12 @@ class PrimitiveClassTypeTest extends Specification {
 
         then:
         def e = thrown(TypeCheckerException)
-        e.getMessage() == TypeCheckerException.invalidType(STRING, DOUBLE).message
+        e.getMessage() == TypeCheckerException.invalidType(ObjectType.STRING, DOUBLE).message
 
         where:
         types << [
-                STRING,
-                new Type[]{STRING, BOOLEAN, FLOAT}
+                ObjectType.STRING,
+                new Type[]{ObjectType.STRING, BOOLEAN, FLOAT}
         ]
     }
 

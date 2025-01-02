@@ -34,7 +34,7 @@ class ObjectTypeTest extends Specification {
 
     def 'test inequality'() {
         given:
-        def first = ObjectType.of('String')
+        def first = ObjectType.of('Map')
 
         expect:
         first != second
@@ -43,7 +43,7 @@ class ObjectTypeTest extends Specification {
         second << [
                 ObjectType.of('Object'),
                 PrimitiveClassType.BYTE,
-                PrimitiveType.STRING
+                ObjectType.STRING
         ]
     }
 
