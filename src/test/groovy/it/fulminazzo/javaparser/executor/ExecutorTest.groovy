@@ -263,9 +263,9 @@ class ExecutorTest extends Specification {
 
         where:
         first      | second     | expected
-        LONG_LIT   | NUMBER_LIT | PrimitiveValue.of(((long) 2) / 1)
-        FLOAT_LIT  | NUMBER_LIT | PrimitiveValue.of((3.0f / 1) as float)
-        DOUBLE_LIT | NUMBER_LIT | PrimitiveValue.of(4.0d / 1)
+        LONG_LIT   | NUMBER_LIT | PrimitiveValue.of(2L)
+        FLOAT_LIT  | NUMBER_LIT | PrimitiveValue.of(3.0f)
+        DOUBLE_LIT | NUMBER_LIT | PrimitiveValue.of(4.0d)
     }
 
     def 'test modulo'() {
