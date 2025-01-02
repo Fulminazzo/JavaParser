@@ -19,6 +19,16 @@ public class ExecutorException extends RuntimeException {
     }
 
     /**
+     * Generates a {@link ExecutorException} with message the one from the given {@link Throwable}.
+     *
+     * @param cause the cause
+     * @return the executor exception
+     */
+    public static @NotNull ExecutorException of(final @NotNull Throwable cause) {
+        return new ExecutorException(cause.getMessage());
+    }
+
+    /**
      * Generates a {@link ExecutorException} with message:
      * <i>%clazz% does not have a {@link ClassValue}</i>
      *
