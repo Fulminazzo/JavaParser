@@ -85,6 +85,19 @@ public interface Value {
         else throw ValueException.invalidValue(clazz, this);
     }
 
+    /**
+     * Checks whether the current value is one of the specified classes.
+     * If not, throws {@link ValueException}.
+     *
+     * @param classes the classes of the values
+     * @return the converted type
+     */
+    default @NotNull Value check(final Class<?> @NotNull ... classes) {
+        for (Class<?> clazz : classes)
+            if (clazz.isInstance(this)) return this;
+        throw ValueException.invalidValue(classes[0], this);
+    }
+
     /*
         BINARY COMPARISONS
      */
