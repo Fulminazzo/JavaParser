@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor.values;
 
+import it.fulminazzo.javaparser.tokenizer.TokenType;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -26,6 +27,22 @@ public class ValueRuntimeException extends RuntimeException {
      */
     public static @NotNull ValueRuntimeException invalidPrimitiveValue(final @NotNull Object value) {
         return new ValueRuntimeException("Value %s is not a valid primitive type", value);
+    }
+
+    /**
+     * Generates a {@link ValueRuntimeException} with message:
+     * <i>Operator '%operator%' cannot be applied to '%left%', '%right%'</i>
+     *
+     * @param operator the operator
+     * @param left     the left
+     * @param right    the right
+     * @return the value runtime exception
+     */
+    public static @NotNull ValueRuntimeException unsupportedOperation(final @NotNull TokenType operator,
+                                                                      final @NotNull Value<?> left,
+                                                                      final @NotNull Value<?> right) {
+        return new ValueRuntimeException("Operator '%s' cannot be applied to '%s', '%s'",
+                operator.regex().replace("\\", ""), left, right);
     }
 
 }
