@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.executor.values.objects;
 
 import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.Value;
+import it.fulminazzo.javaparser.executor.values.Values;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,7 +29,7 @@ class CustomObjectClassValue<V> extends ObjectWrapper<Class<V>> implements Class
     public boolean compatibleWith(@NotNull Value<?> value) {
         if (value.is(ObjectValue.class))
             return getValue().isAssignableFrom(value.getValue().getClass());
-        else return false; //TODO: check null
+        else return value.equals(Values.NULL_VALUE);
     }
 
     @Override

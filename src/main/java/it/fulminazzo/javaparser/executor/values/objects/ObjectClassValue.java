@@ -2,10 +2,8 @@ package it.fulminazzo.javaparser.executor.values.objects;
 
 import it.fulminazzo.fulmicollection.objects.EnumObject;
 import it.fulminazzo.fulmicollection.utils.StringUtils;
+import it.fulminazzo.javaparser.executor.values.*;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
-import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue;
-import it.fulminazzo.javaparser.executor.values.Value;
-import it.fulminazzo.javaparser.executor.values.ValueException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -71,8 +69,8 @@ public final class ObjectClassValue<V> extends EnumObject implements ClassValue<
 
     @Override
     public boolean compatibleWith(@NotNull Value<?> value) {
-        //TODO: Null
-        if (this.associatedValue != null) return this.associatedValue.compatibleWith(value);
+        if (value.equals(Values.NULL_VALUE)) return true;
+        else if (this.associatedValue != null) return this.associatedValue.compatibleWith(value);
         else {
             // Either STRING or OBJECT
             return !equals(STRING) || value.isString();
