@@ -7,6 +7,11 @@ import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Represents a primitive {@link ClassValue}.
+ *
+ * @param <V> the type of the primitive
+ */
 public final class PrimitiveClassValue<V> extends ObjectWrapper<Class<V>> implements ClassValue<V>, Info {
     public static final ClassValue<Byte> BYTE = new PrimitiveClassValue<>(Byte.class);
     public static final ClassValue<Short> SHORT = new PrimitiveClassValue<>(Short.class);
@@ -17,6 +22,11 @@ public final class PrimitiveClassValue<V> extends ObjectWrapper<Class<V>> implem
     public static final ClassValue<Double> DOUBLE = new PrimitiveClassValue<>(Double.class);
     public static final ClassValue<Boolean> BOOLEAN = new PrimitiveClassValue<>(Boolean.class);
 
+    /**
+     * Instantiates a new Primitive class value.
+     *
+     * @param clazz the clazz
+     */
     public PrimitiveClassValue(final @NotNull Class<V> clazz) {
         super(clazz);
     }
