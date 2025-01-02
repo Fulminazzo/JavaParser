@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.executor.values;
 
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue;
+import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -79,7 +80,7 @@ public interface Value<V> {
      * @return true if it is
      */
     default boolean isPrimitive() {
-        return this instanceof PrimitiveClassValue;
+        return this instanceof PrimitiveValue;
     }
 
     /**
