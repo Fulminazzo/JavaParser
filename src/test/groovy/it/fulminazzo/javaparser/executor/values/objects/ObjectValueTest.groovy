@@ -5,6 +5,23 @@ import spock.lang.Specification
 
 class ObjectValueTest extends Specification {
 
+    def 'test wrapper #wrapper and primitive #primitive should be equal'() {
+        expect:
+        wrapper == primitive
+        primitive == wrapper
+
+        where:
+        primitive | wrapper
+        BYTE      | BYTE_WRAPPER
+        SHORT     | SHORT_WRAPPER
+        CHAR      | CHARACTER
+        INT       | INTEGER
+        LONG      | LONG_WRAPPER
+        FLOAT     | FLOAT_WRAPPER
+        DOUBLE    | DOUBLE_WRAPPER
+        BOOLEAN   | BOOLEAN_WRAPPER
+    }
+
     def 'test is#method should return #expected for #value'() {
         given:
         def refl = new Refl<>(value)
