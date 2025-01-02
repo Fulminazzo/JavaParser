@@ -121,13 +121,15 @@ public final class ObjectValue<V> extends ObjectWrapper<V> implements Value<V> {
 
     /**
      * Obtains an instance of {@link ObjectValue} from the given object.
+     * If the object is a {@link String}, then {@link StringObjectValue} will be returned.
      *
      * @param <V>    the type of the object
      * @param object the object
      * @return the object value
      */
     public static <V> ObjectValue<V> of(final @NotNull V object) {
-        return new ObjectValue<>(object);
+        if (object instanceof String) return new StringObjectValue((String) object);
+        else return new ObjectValue<>(object);
     }
 
     /**
