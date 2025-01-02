@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.executor
 
 
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue
+import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
 import it.fulminazzo.javaparser.parser.node.values.*
 import spock.lang.Specification
 
@@ -131,6 +132,45 @@ class ExecutorTest extends Specification {
         BOOL_LIT_FALSE | BOOL_LIT_TRUE  | BooleanValue.TRUE
         BOOL_LIT_TRUE  | BOOL_LIT_FALSE | BooleanValue.TRUE
         BOOL_LIT_FALSE | BOOL_LIT_FALSE | BooleanValue.FALSE
+    }
+
+    def 'test bit and'() {
+        given:
+        def result = this.executor.visitBitAnd(first, second)
+
+        expect:
+        result == expected
+
+        where:
+        first         | second         | expected
+        BOOL_LIT_TRUE | BOOL_LIT_FALSE | PrimitiveValue.of(true & false)
+        NUMBER_LIT    | NUMBER_LIT     | PrimitiveValue.of(1 & 1)
+    }
+
+    def 'test bit or'() {
+        given:
+        def result = this.executor.visitBitOr(first, second)
+
+        expect:
+        result == expected
+
+        where:
+        first         | second         | expected
+        BOOL_LIT_TRUE | BOOL_LIT_FALSE | PrimitiveValue.of(true | false)
+        NUMBER_LIT    | NUMBER_LIT     | PrimitiveValue.of(1 | 1)
+    }
+
+    def 'test bit xor'() {
+        given:
+        def result = this.executor.visitBitXor(first, second)
+
+        expect:
+        result == expected
+
+        where:
+        first         | second         | expected
+        BOOL_LIT_TRUE | BOOL_LIT_FALSE | PrimitiveValue.of(true ^ false)
+        NUMBER_LIT    | NUMBER_LIT     | PrimitiveValue.of(1 ^ 1)
     }
 
 }
