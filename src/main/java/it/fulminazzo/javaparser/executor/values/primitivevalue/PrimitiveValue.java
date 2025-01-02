@@ -31,7 +31,7 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
 
     @Override
     public boolean isInteger() {
-        return this instanceof IntegerValue;
+        return this instanceof IntValue;
     }
 
     @Override
@@ -90,7 +90,7 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
         else if (value instanceof String) primitiveValue = new StringValue((String) value);
         else if (value instanceof Character) primitiveValue = new CharacterValue((Character) value);
         else if (value instanceof Byte || value instanceof Short || value instanceof Integer)
-            primitiveValue = new IntegerValue(Integer.parseInt(value.toString()));
+            primitiveValue = new IntValue(Integer.parseInt(value.toString()));
         else throw ValueException.invalidPrimitiveValue(value);
         return (PrimitiveValue<V>) primitiveValue;
     }

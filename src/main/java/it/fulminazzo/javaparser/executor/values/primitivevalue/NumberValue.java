@@ -132,7 +132,7 @@ abstract class NumberValue<N extends Number> extends PrimitiveValue<N> {
      * @param doubleOperation  the operation executed if one of the two values is {@link DoubleValue}
      * @param floatOperation   the operation executed if one of the two values is {@link FloatValue}
      * @param longOperation    the operation executed if one of the two values is {@link LongValue}
-     * @param integerOperation the operation executed if one of the two values is {@link IntegerValue}
+     * @param integerOperation the operation executed if one of the two values is {@link IntValue}
      * @return the result value
      */
     Value<?> executeBinaryOperationDecimal(@NotNull Value<?> other,
@@ -153,12 +153,12 @@ abstract class NumberValue<N extends Number> extends PrimitiveValue<N> {
     }
 
     /**
-     * Checks if the other value is a {@link IntegerValue} or {@link LongValue}
+     * Checks if the other value is a {@link IntValue} or {@link LongValue}
      * and executes the most appropriate operation.
      *
      * @param other            the other value
      * @param longOperation    the operation executed if one of the two values is {@link LongValue}
-     * @param integerOperation the operation executed if one of the two values is {@link IntegerValue}
+     * @param integerOperation the operation executed if one of the two values is {@link IntValue}
      * @return the result value
      */
     Value<?> executeBinaryOperation(@NotNull Value<?> other,

@@ -17,7 +17,7 @@ class PrimitiveValueTest extends Specification {
         where:
         value | expected
         new CharacterValue('c' as char) | PrimitiveClassValue.CHAR
-        new IntegerValue(1)             | PrimitiveClassValue.INT
+        new IntValue(1) | PrimitiveClassValue.INT
         new LongValue(1)                | PrimitiveClassValue.LONG
         new FloatValue(1)               | PrimitiveClassValue.FLOAT
         new DoubleValue(1)              | PrimitiveClassValue.DOUBLE
@@ -46,13 +46,13 @@ class PrimitiveValueTest extends Specification {
         false    | "Boolean"   | new CharacterValue('a' as char)
         false    | "String"    | new CharacterValue('a' as char)
         // Integer
-        false    | "Character" | new IntegerValue(1)
-        true     | "Integer"   | new IntegerValue(1)
-        false    | "Long"      | new IntegerValue(1)
-        false    | "Float"     | new IntegerValue(1)
-        false    | "Double"    | new IntegerValue(1)
-        false    | "Boolean"   | new IntegerValue(1)
-        false    | "String"    | new IntegerValue(1)
+        false    | "Character" | new IntValue(1)
+        true     | "Integer"   | new IntValue(1)
+        false    | "Long"      | new IntValue(1)
+        false    | "Float"     | new IntValue(1)
+        false    | "Double"    | new IntValue(1)
+        false    | "Boolean"   | new IntValue(1)
+        false    | "String"    | new IntValue(1)
         // Long
         false    | "Character" | new LongValue(1L)
         false    | "Integer"   | new LongValue(1L)
@@ -111,9 +111,9 @@ class PrimitiveValueTest extends Specification {
         false            | BooleanValue.FALSE
         'Hello, world!'  | new StringValue('Hello, world!')
         'a' as char      | new CharacterValue('a' as Character)
-        1 as byte        | new IntegerValue(1)
-        2 as short       | new IntegerValue(2)
-        3                | new IntegerValue(3)
+        1 as byte        | new IntValue(1)
+        2 as short       | new IntValue(2)
+        3                | new IntValue(3)
     }
 
     def 'test conversion of invalid type'() {

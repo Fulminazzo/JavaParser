@@ -100,12 +100,12 @@ class CharacterValue extends PrimitiveValue<Character> {
     }
 
     /**
-     * Converts the current value to a {@link IntegerValue}.
+     * Converts the current value to a {@link IntValue}.
      *
      * @return the integer value
      */
-    public @NotNull IntegerValue asInteger() {
-        return new IntegerValue((int) this.object);
+    public @NotNull IntValue asInteger() {
+        return new IntValue((int) this.object);
     }
 
 }
