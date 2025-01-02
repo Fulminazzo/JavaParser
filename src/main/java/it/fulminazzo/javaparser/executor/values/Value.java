@@ -337,7 +337,7 @@ public interface Value<V> {
      * @return the boolean value
      */
     default @NotNull Value<?> minus() {
-        return multiply(PrimitiveValue.of(-1));
+        return toPrimitive().minus();
     }
 
     /**
