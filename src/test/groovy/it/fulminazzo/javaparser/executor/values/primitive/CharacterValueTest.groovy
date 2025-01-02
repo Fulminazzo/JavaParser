@@ -5,6 +5,51 @@ import spock.lang.Specification
 class CharacterValueTest extends Specification {
     private static int INT_CHAR = (int) 'a'
 
+    def 'test #first << #second = #third'() {
+        when:
+        def eval = first.lshift(second)
+
+        then:
+        eval == third
+
+        where:
+        first                            | second                           | third
+        // Character
+        new CharacterValue('a' as char)  | new CharacterValue('a' as char)  | new IntegerValue((INT_CHAR << INT_CHAR) as Integer)
+        new CharacterValue('a' as char)  | new IntegerValue(2)              | new IntegerValue((INT_CHAR << 2) as Integer)
+        new CharacterValue('a' as char)  | new LongValue(2L)                | new LongValue((INT_CHAR << 2L) as Long)
+    }
+
+    def 'test #first >> #second = #third'() {
+        when:
+        def eval = first.rshift(second)
+
+        then:
+        eval == third
+
+        where:
+        first                            | second                           | third
+        // Character
+        new CharacterValue('a' as char)  | new CharacterValue('a' as char)  | new IntegerValue((INT_CHAR >> INT_CHAR) as Integer)
+        new CharacterValue('a' as char)  | new IntegerValue(2)              | new IntegerValue((INT_CHAR >> 2) as Integer)
+        new CharacterValue('a' as char)  | new LongValue(2L)                | new LongValue((INT_CHAR >> 2L) as Long)
+    }
+
+    def 'test #first >>> #second = #third'() {
+        when:
+        def eval = first.urshift(second)
+
+        then:
+        eval == third
+
+        where:
+        first                            | second                           | third
+        // Character
+        new CharacterValue('a' as char)  | new CharacterValue('a' as char)  | new IntegerValue((INT_CHAR >>> INT_CHAR) as Integer)
+        new CharacterValue('a' as char)  | new IntegerValue(2)              | new IntegerValue((INT_CHAR >>> 2) as Integer)
+        new CharacterValue('a' as char)  | new LongValue(2L)                | new LongValue((INT_CHAR >>> 2L) as Long)
+    }
+
     def 'test #first + #second = #third'() {
         when:
         def eval = first.add(second)
