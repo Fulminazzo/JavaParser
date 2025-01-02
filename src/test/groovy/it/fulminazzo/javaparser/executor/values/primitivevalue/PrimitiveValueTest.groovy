@@ -145,14 +145,14 @@ class PrimitiveValueTest extends Specification {
         and:
         def expected = ValueRuntimeException.unsupportedOperation(operator,
                 primitive, primitive).message
-        
+
         when:
         primitive."${operation}"(primitive)
-        
+
         then:
         def e = thrown(ValueRuntimeException)
         e.message == expected
-        
+
         where:
         operation << [
                 'and', 'or',
@@ -164,6 +164,26 @@ class PrimitiveValueTest extends Specification {
         operator << TokenType.values()
                 .findAll { it.between(TokenType.COLON, TokenType.NOT) }
                 .findAll { !([TokenType.EQUAL, TokenType.NOT_EQUAL].contains(it)) }
+    }
+
+    def 'test operation #operation should throw unsupported by default'() {
+        given:
+        def primitive = new PrimitiveValue(1) {}
+
+        and:
+        def expected = ValueRuntimeException.unsupportedOperation(operator,
+                primitive).message
+
+        when:
+        primitive."${operation}"()
+
+        then:
+        def e = thrown(ValueRuntimeException)
+        e.message == expected
+
+        where:
+        operation << ['minus', 'not']
+        operator << [TokenType.SUBTRACT, TokenType.NOT]
     }
 
 }
