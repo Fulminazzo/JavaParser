@@ -60,7 +60,7 @@ public final class PrimitiveClassValue<V> extends EnumObject implements ClassVal
 
     @Override
     public String toString() {
-        return getValue().getSimpleName().toLowerCase();
+        return ClassValue.print(name().toLowerCase());
     }
 
     /**
