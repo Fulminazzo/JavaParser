@@ -102,5 +102,32 @@ class PrimitiveClassValueTest extends Specification {
                 PrimitiveClassValue.DOUBLE, PrimitiveClassValue.BOOLEAN
         ]
     }
+    
+    def 'test valueOf #name should return #expected'() {
+        given:
+        def actual = PrimitiveClassValue.valueOf(name)
+
+        expect:
+        actual == expected
+
+        where:
+        expected                    | name
+        PrimitiveClassValue.BYTE    | 'BYTE'
+        PrimitiveClassValue.SHORT   | 'SHORT'
+        PrimitiveClassValue.CHAR    | 'CHAR'
+        PrimitiveClassValue.INT     | 'INT'
+        PrimitiveClassValue.LONG    | 'LONG'
+        PrimitiveClassValue.FLOAT   | 'FLOAT'
+        PrimitiveClassValue.DOUBLE  | 'DOUBLE'
+        PrimitiveClassValue.BOOLEAN | 'BOOLEAN'
+    }
+
+    def 'test valueOf invalid should throw'() {
+        when:
+        PrimitiveClassValue.valueOf('none')
+
+        then:
+        thrown(IllegalArgumentException)
+    }
 
 }
