@@ -10,6 +10,19 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface ClassValue<V> extends Value<Class<V>>, Info {
 
+    /**
+     * Verifies that the current class value is compatible with the provided value.
+     *
+     * @param type the other type
+     * @return true if it is
+     */
+    boolean compatibleWith(final @NotNull Value<?> type);
+
+    @Override
+    default boolean compatibleWith(@NotNull Object object) {
+        return object instanceof Value && compatibleWith((Value<?>) object);
+    }
+
     @Override
     Class<V> getValue();
 
