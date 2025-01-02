@@ -112,7 +112,7 @@ abstract class NumberValue<N extends Number> extends PrimitiveValue<N> {
     int executeBinaryComparison(@NotNull Value other) {
         if (other.isCharacter()) other = ((CharacterValue) other).asInteger();
         BigDecimal first = new BigDecimal(this.object.toString());
-        BigDecimal second = new BigDecimal(other.check(NumberValue.class).toString());
+        BigDecimal second = new BigDecimal(other.check(NumberValue.class).object.toString());
         return first.compareTo(second);
     }
 
