@@ -26,6 +26,11 @@ public interface ClassValue<V> extends Value<Class<V>>, Info {
     }
 
     @Override
+    default @NotNull ClassValue<Class<V>> toClassValue() {
+        return (ClassValue<Class<V>>) (Object) of(Class.class);
+    }
+
+    @Override
     @NotNull Class<V> getValue();
 
     /**
