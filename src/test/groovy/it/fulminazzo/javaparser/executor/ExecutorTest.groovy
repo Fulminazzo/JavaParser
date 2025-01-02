@@ -173,4 +173,43 @@ class ExecutorTest extends Specification {
         NUMBER_LIT    | NUMBER_LIT     | PrimitiveValue.of(1 ^ 1)
     }
 
+    def 'test lshift'() {
+        given:
+        def result = this.executor.visitLShift(first, second)
+
+        expect:
+        result == expected
+
+        where:
+        first      | second     | expected
+        LONG_LIT   | NUMBER_LIT | PrimitiveValue.of(2L << 1)
+        NUMBER_LIT | LONG_LIT   | PrimitiveValue.of(1 << 2L)
+    }
+
+    def 'test rshift'() {
+        given:
+        def result = this.executor.visitRShift(first, second)
+
+        expect:
+        result == expected
+
+        where:
+        first      | second     | expected
+        LONG_LIT   | NUMBER_LIT | PrimitiveValue.of(2L >> 1)
+        NUMBER_LIT | LONG_LIT   | PrimitiveValue.of(1 >> 2L)
+    }
+
+    def 'test urshift'() {
+        given:
+        def result = this.executor.visitURShift(first, second)
+
+        expect:
+        result == expected
+
+        where:
+        first      | second     | expected
+        LONG_LIT   | NUMBER_LIT | PrimitiveValue.of(2L >>> 1)
+        NUMBER_LIT | LONG_LIT   | PrimitiveValue.of(1 >>> 2L)
+    }
+
 }
