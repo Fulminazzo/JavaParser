@@ -6,7 +6,6 @@ import it.fulminazzo.fulmicollection.utils.StringUtils;
 import it.fulminazzo.javaparser.parser.node.*;
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray;
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray;
-import it.fulminazzo.javaparser.parser.node.AssignmentBlock;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram;
 import it.fulminazzo.javaparser.parser.node.literals.*;
@@ -105,8 +104,8 @@ public class JavaParser extends Parser {
 
     /**
      * STMT := return EXPR; | throw EXPR; break; | continue; |
-     *         TRY_STMT | SWITCH_STMT | FOR_STMT | DO_STMT | WHILE_STMT | IF_STMT
-     *         ASSIGNMENT;
+     * TRY_STMT | SWITCH_STMT | FOR_STMT | DO_STMT | WHILE_STMT | IF_STMT
+     * ASSIGNMENT;
      *
      * @return the node
      */
@@ -135,12 +134,18 @@ public class JavaParser extends Parser {
                 consume(SEMICOLON);
                 return new Continue();
             }
-            case TRY: return parseTryStatement();
-            case SWITCH: return parseSwitchStatement();
-            case FOR: return parseForStatement();
-            case DO: return parseDoStatement();
-            case WHILE: return parseWhileStatement();
-            case IF: return parseIfStatement();
+            case TRY:
+                return parseTryStatement();
+            case SWITCH:
+                return parseSwitchStatement();
+            case FOR:
+                return parseForStatement();
+            case DO:
+                return parseDoStatement();
+            case WHILE:
+                return parseWhileStatement();
+            case IF:
+                return parseIfStatement();
             default: {
                 exp = parseAssignment();
                 consume(SEMICOLON);
@@ -245,6 +250,7 @@ public class JavaParser extends Parser {
      * CASE_BLOCK := case EXPR: ( CODE_BLOCK | SINGLE_STMT* )
      */
     protected @NotNull CaseStatement parseCaseBlock() {
+        //TODO: merged cases
         consume(CASE);
         Node expression = parseExpression();
         consume(COLON);
@@ -414,8 +420,8 @@ public class JavaParser extends Parser {
 
     /**
      * NEW_OBJECT := new LITERAL METHOD_INVOCATION |
-     *               new ARRAY_LITERAL{ (EXPR)? (, EXPR)* \} |
-     *               new LITERAL(\[NUMBER_VALUE\])+
+     * new ARRAY_LITERAL{ (EXPR)? (, EXPR)* \} |
+     * new LITERAL(\[NUMBER_VALUE\])+
      *
      * @return the node
      */
@@ -707,13 +713,20 @@ public class JavaParser extends Parser {
      */
     protected @NotNull Node parseAtom() {
         switch (lastToken()) {
-            case OPEN_PAR: return parseCast();
-            case SUBTRACT: return parseMinus();
-            case NOT: return parseNot();
-            case NULL: return parseNull();
-            case THIS: return parseThis();
-            case LITERAL: return parseLiteral();
-            default: return parseTypeValue();
+            case OPEN_PAR:
+                return parseCast();
+            case SUBTRACT:
+                return parseMinus();
+            case NOT:
+                return parseNot();
+            case NULL:
+                return parseNull();
+            case THIS:
+                return parseThis();
+            case LITERAL:
+                return parseLiteral();
+            default:
+                return parseTypeValue();
         }
     }
 
@@ -832,9 +845,9 @@ public class JavaParser extends Parser {
 
     /**
      * TYPE_VALUE := {@link TokenType#NUMBER_VALUE} | {@link TokenType#LONG_VALUE} |
-     *               {@link TokenType#DOUBLE_VALUE} | {@link TokenType#FLOAT_VALUE} |
-     *               {@link TokenType#BOOLEAN_VALUE} | {@link TokenType#CHAR_VALUE} |
-     *               {@link TokenType#STRING_VALUE}
+     * {@link TokenType#DOUBLE_VALUE} | {@link TokenType#FLOAT_VALUE} |
+     * {@link TokenType#BOOLEAN_VALUE} | {@link TokenType#CHAR_VALUE} |
+     * {@link TokenType#STRING_VALUE}
      *
      * @return the node
      */
@@ -883,8 +896,8 @@ public class JavaParser extends Parser {
      *
      * @param literalType the type of the literal
      * @param rawValue    the raw value
+     * @param <L>         the type of the literal
      * @return the literal
-     * @param <L> the type of the literal
      */
     protected <L extends ValueLiteral> @NotNull L createLiteral(final @NotNull Class<L> literalType,
                                                                 final @NotNull String rawValue) {
