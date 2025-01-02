@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor.values.classes;
 
+import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.environment.Info;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
@@ -37,7 +38,8 @@ public final class PrimitiveClassValue<V> extends ObjectWrapper<Class<V>> implem
     /**
      * Instantiates a new Primitive class value.
      *
-     * @param clazz the clazz
+     * @param clazz            the clazz
+     * @param compatibleValues the compatible values
      */
     public PrimitiveClassValue(final @NotNull Class<V> clazz, Class<?> @NotNull ... compatibleValues) {
         super(clazz);
@@ -65,6 +67,19 @@ public final class PrimitiveClassValue<V> extends ObjectWrapper<Class<V>> implem
     @Override
     public String toString() {
         return getValue().getSimpleName().toLowerCase();
+    }
+
+    /**
+     * Gets the static fields present in this class.
+     *
+     * @return the values
+     */
+    public static PrimitiveClassValue<?> @NotNull [] values() {
+        Refl<?> refl = new Refl<>(PrimitiveClassValue.class);
+        return refl.getStaticFields().stream()
+                .map(refl::getFieldObject)
+                .map(o -> (PrimitiveClassValue<?>) o)
+                .toArray(PrimitiveClassValue<?>[]::new);
     }
 
 }
