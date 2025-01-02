@@ -333,4 +333,18 @@ class CharValueTest extends Specification {
         new CharValue('a' as char) | new DoubleValue(2.0d)      | new DoubleValue((INT_CHAR % 2.0d) as Double)
     }
 
+    def 'test minus operation'() {
+        given:
+        def value = new CharValue('a' as char)
+
+        and:
+        def expected = new IntValue(-97)
+
+        when:
+        def actual = value.minus()
+
+        then:
+        actual == expected
+    }
+
 }
