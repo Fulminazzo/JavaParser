@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.executor.values.objects
 
 import it.fulminazzo.javaparser.executor.values.ClassValue
 import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue
+import it.fulminazzo.javaparser.executor.values.Values
 import spock.lang.Specification
 
 class CustomObjectClassValueTest extends Specification {
@@ -9,6 +10,15 @@ class CustomObjectClassValueTest extends Specification {
     def 'test compatibleWith'() {
         given:
         def value = new ObjectValue<>(this)
+        def classValue = new CustomObjectClassValue(getClass())
+
+        expect:
+        classValue.compatibleWith(value)
+    }
+
+    def 'test compatibleWith null'() {
+        given:
+        def value = Values.NULL_VALUE
         def classValue = new CustomObjectClassValue(getClass())
 
         expect:
@@ -27,7 +37,7 @@ class CustomObjectClassValueTest extends Specification {
         value << [
                 PrimitiveClassValue.values(),
                 [new ObjectValue<>(Byte.valueOf((byte) 1)), new ObjectValue<>(Short.valueOf((short) 1)),
-                new ObjectValue<>(new Object())],
+                 new ObjectValue<>(new Object())],
                 new ObjectValue<>(this)
         ].flatten()
     }

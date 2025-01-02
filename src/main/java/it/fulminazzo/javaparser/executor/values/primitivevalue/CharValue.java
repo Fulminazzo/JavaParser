@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a {@link Character} {@link PrimitiveValue}.
  */
-class CharValue extends PrimitiveValue<Character> {
+final class CharValue extends PrimitiveValue<Character> {
 
     /**
      * Instantiates a new Character value.
@@ -97,6 +97,11 @@ class CharValue extends PrimitiveValue<Character> {
     @Override
     public @NotNull Value<?> modulo(@NotNull Value<?> other) {
         return asInteger().modulo(other);
+    }
+
+    @Override
+    public @NotNull Value<?> minus() {
+        return multiply(new IntValue(-1));
     }
 
     /**

@@ -4,6 +4,7 @@ import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.executor.values.ValueException;
+import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,6 +17,7 @@ import java.util.Map;
  *
  * @param <V> the type parameter
  */
+@SuppressWarnings("unchecked")
 public class ObjectValue<V> extends ObjectWrapper<V> implements Value<V> {
     private static final String[] IMPLIED_PACKAGES = new String[]{
             String.class.getPackage().getName(),
@@ -67,7 +69,22 @@ public class ObjectValue<V> extends ObjectWrapper<V> implements Value<V> {
         return this.object;
     }
 
-    @SuppressWarnings("unchecked")
+    @Override
+    public <T extends Value<?>> @NotNull T to(@NotNull Class<T> value) {
+        if (PrimitiveValue.class.isAssignableFrom(value))
+            if (ReflectionUtils.isWrapper(getValue().getClass()))
+                return (T) toPrimitive();
+        return Value.super.to(value);
+    }
+
+    @Override
+    public @NotNull PrimitiveValue<V> toPrimitive() {
+        V value = getValue();
+        Class<?> primitiveClass = ReflectionUtils.getPrimitiveClass(value.getClass());
+        if (!primitiveClass.equals(value.getClass())) return PrimitiveValue.of(value);
+        else return Value.super.toPrimitive();
+    }
+
     @Override
     public @NotNull ClassValue<V> toClassValue() {
         return (ClassValue<V>) ClassValue.of(getValue().getClass());
@@ -122,7 +139,6 @@ public class ObjectValue<V> extends ObjectWrapper<V> implements Value<V> {
      * @param object the object
      * @return the object value
      */
-    @SuppressWarnings("unchecked")
     public static <V> ObjectValue<V> of(final @NotNull V object) {
         if (object instanceof String) return (ObjectValue<V>) new StringObjectValue((String) object);
         else return new ObjectValue<>(object);

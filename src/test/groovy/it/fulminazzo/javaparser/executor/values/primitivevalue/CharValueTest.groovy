@@ -14,7 +14,7 @@ class CharValueTest extends Specification {
         eval == third
 
         where:
-        first                           | second                            | third
+        first                      | second                     | third
         // Character
         new CharValue('d' as char) | new CharValue('d' as char) | BooleanValue.TRUE
         new CharValue('d' as char) | new CharValue('e' as char) | BooleanValue.FALSE
@@ -36,7 +36,7 @@ class CharValueTest extends Specification {
         eval == third
 
         where:
-        first                           | second                            | third
+        first                      | second                     | third
         // Character
         new CharValue('d' as char) | new CharValue('d' as char) | BooleanValue.FALSE
         new CharValue('d' as char) | new CharValue('e' as char) | BooleanValue.TRUE
@@ -58,8 +58,8 @@ class CharValueTest extends Specification {
         eval == third
 
         where:
-        first                       | second                           | third
-        // Integer
+        first                      | second                     | third
+        // Character
         new CharValue('d' as char) | new CharValue('a' as char) | BooleanValue.FALSE
         new CharValue('d' as char) | new CharValue('z' as char) | BooleanValue.TRUE
         new CharValue('d' as char) | new CharValue('d' as char) | BooleanValue.FALSE
@@ -85,8 +85,8 @@ class CharValueTest extends Specification {
         eval == third
 
         where:
-        first                       | second                           | third
-        // Integer
+        first                      | second                     | third
+        // Character
         new CharValue('d' as char) | new CharValue('a' as char) | BooleanValue.FALSE
         new CharValue('d' as char) | new CharValue('z' as char) | BooleanValue.TRUE
         new CharValue('d' as char) | new CharValue('d' as char) | BooleanValue.TRUE
@@ -112,8 +112,8 @@ class CharValueTest extends Specification {
         eval == third
 
         where:
-        first                       | second                           | third
-        // Integer
+        first                      | second                     | third
+        // Character
         new CharValue('d' as char) | new CharValue('a' as char) | BooleanValue.TRUE
         new CharValue('d' as char) | new CharValue('z' as char) | BooleanValue.FALSE
         new CharValue('d' as char) | new CharValue('d' as char) | BooleanValue.FALSE
@@ -139,8 +139,8 @@ class CharValueTest extends Specification {
         eval == third
 
         where:
-        first                       | second                           | third
-        // Integer
+        first                      | second                     | third
+        // Character
         new CharValue('d' as char) | new CharValue('a' as char) | BooleanValue.TRUE
         new CharValue('d' as char) | new CharValue('z' as char) | BooleanValue.FALSE
         new CharValue('d' as char) | new CharValue('d' as char) | BooleanValue.TRUE
@@ -166,7 +166,7 @@ class CharValueTest extends Specification {
         eval == third
 
         where:
-        first                            | second                           | third
+        first                      | second                     | third
         // Character
         new CharValue('a' as char) | new CharValue('a' as char) | new IntValue((INT_CHAR & INT_CHAR) as Integer)
         new CharValue('a' as char) | new IntValue(2)            | new IntValue((INT_CHAR & 2) as Integer)
@@ -181,7 +181,7 @@ class CharValueTest extends Specification {
         eval == third
 
         where:
-        first                            | second                           | third
+        first                      | second                     | third
         // Character
         new CharValue('a' as char) | new CharValue('a' as char) | new IntValue((INT_CHAR | INT_CHAR) as Integer)
         new CharValue('a' as char) | new IntValue(2)            | new IntValue((INT_CHAR | 2) as Integer)
@@ -196,7 +196,7 @@ class CharValueTest extends Specification {
         eval == third
 
         where:
-        first                            | second                           | third
+        first                      | second                     | third
         // Character
         new CharValue('a' as char) | new CharValue('a' as char) | new IntValue((INT_CHAR ^ INT_CHAR) as Integer)
         new CharValue('a' as char) | new IntValue(2)            | new IntValue((INT_CHAR ^ 2) as Integer)
@@ -211,7 +211,7 @@ class CharValueTest extends Specification {
         eval == third
 
         where:
-        first                            | second                           | third
+        first                      | second                     | third
         // Character
         new CharValue('a' as char) | new CharValue('a' as char) | new IntValue((INT_CHAR << INT_CHAR) as Integer)
         new CharValue('a' as char) | new IntValue(2)            | new IntValue((INT_CHAR << 2) as Integer)
@@ -226,7 +226,7 @@ class CharValueTest extends Specification {
         eval == third
 
         where:
-        first                            | second                           | third
+        first                      | second                     | third
         // Character
         new CharValue('a' as char) | new CharValue('a' as char) | new IntValue((INT_CHAR >> INT_CHAR) as Integer)
         new CharValue('a' as char) | new IntValue(2)            | new IntValue((INT_CHAR >> 2) as Integer)
@@ -241,7 +241,7 @@ class CharValueTest extends Specification {
         eval == third
 
         where:
-        first                            | second                           | third
+        first                      | second                     | third
         // Character
         new CharValue('a' as char) | new CharValue('a' as char) | new IntValue((INT_CHAR >>> INT_CHAR) as Integer)
         new CharValue('a' as char) | new IntValue(2)            | new IntValue((INT_CHAR >>> 2) as Integer)
@@ -256,7 +256,7 @@ class CharValueTest extends Specification {
         eval == third
 
         where:
-        first                            | second                           | third
+        first                      | second                     | third
         // Character
         new CharValue('a' as char) | new CharValue('a' as char) | new IntValue((INT_CHAR + INT_CHAR) as Integer)
         new CharValue('a' as char) | new IntValue(2)            | new IntValue((INT_CHAR + 2) as Integer)
@@ -273,7 +273,7 @@ class CharValueTest extends Specification {
         eval == third
 
         where:
-        first                            | second                           | third
+        first                      | second                     | third
         // Character
         new CharValue('a' as char) | new CharValue('a' as char) | new IntValue((INT_CHAR - INT_CHAR) as Integer)
         new CharValue('a' as char) | new IntValue(2)            | new IntValue((INT_CHAR - 2) as Integer)
@@ -290,7 +290,7 @@ class CharValueTest extends Specification {
         eval == third
 
         where:
-        first                            | second                           | third
+        first                      | second                     | third
         // Character
         new CharValue('a' as char) | new CharValue('a' as char) | new IntValue((INT_CHAR * INT_CHAR) as Integer)
         new CharValue('a' as char) | new IntValue(2)            | new IntValue((INT_CHAR * 2) as Integer)
@@ -307,7 +307,7 @@ class CharValueTest extends Specification {
         eval == third
 
         where:
-        first                            | second                           | third
+        first                      | second                     | third
         // Character
         new CharValue('a' as char) | new CharValue('a' as char) | new IntValue((INT_CHAR / INT_CHAR) as Integer)
         new CharValue('a' as char) | new IntValue(2)            | new IntValue((INT_CHAR / 2) as Integer)
@@ -324,13 +324,27 @@ class CharValueTest extends Specification {
         eval == third
 
         where:
-        first                            | second                           | third
+        first                      | second                     | third
         // Character
         new CharValue('a' as char) | new CharValue('a' as char) | new IntValue((INT_CHAR % INT_CHAR) as Integer)
         new CharValue('a' as char) | new IntValue(2)            | new IntValue((INT_CHAR % 2) as Integer)
         new CharValue('a' as char) | new LongValue(2L)          | new LongValue((INT_CHAR % 2L) as Long)
         new CharValue('a' as char) | new FloatValue(2.0f)       | new FloatValue((INT_CHAR % 2.0f) as Float)
         new CharValue('a' as char) | new DoubleValue(2.0d)      | new DoubleValue((INT_CHAR % 2.0d) as Double)
+    }
+
+    def 'test minus operation'() {
+        given:
+        def value = new CharValue('a' as char)
+
+        and:
+        def expected = new IntValue(-97)
+
+        when:
+        def actual = value.minus()
+
+        then:
+        actual == expected
     }
 
 }

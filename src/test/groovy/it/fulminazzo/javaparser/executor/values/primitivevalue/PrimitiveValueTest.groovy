@@ -2,7 +2,8 @@ package it.fulminazzo.javaparser.executor.values.primitivevalue
 
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue
-import it.fulminazzo.javaparser.executor.values.ValueException
+import it.fulminazzo.javaparser.executor.values.ValueRuntimeException
+import it.fulminazzo.javaparser.tokenizer.TokenType
 import spock.lang.Specification
 
 class PrimitiveValueTest extends Specification {
@@ -15,16 +16,16 @@ class PrimitiveValueTest extends Specification {
         classValue == expected
 
         where:
-        value | expected
-        new CharValue('c' as char)      | PrimitiveClassValue.CHAR
-        new ByteValue(1 as byte)        | PrimitiveClassValue.BYTE
-        new ShortValue(1 as short)      | PrimitiveClassValue.SHORT
-        new IntValue(1)                 | PrimitiveClassValue.INT
-        new LongValue(1)                | PrimitiveClassValue.LONG
-        new FloatValue(1)               | PrimitiveClassValue.FLOAT
-        new DoubleValue(1)              | PrimitiveClassValue.DOUBLE
-        BooleanValue.TRUE               | PrimitiveClassValue.BOOLEAN
-        BooleanValue.FALSE              | PrimitiveClassValue.BOOLEAN
+        value                      | expected
+        new CharValue('c' as char) | PrimitiveClassValue.CHAR
+        new ByteValue(1 as byte)   | PrimitiveClassValue.BYTE
+        new ShortValue(1 as short) | PrimitiveClassValue.SHORT
+        new IntValue(1)            | PrimitiveClassValue.INT
+        new LongValue(1)           | PrimitiveClassValue.LONG
+        new FloatValue(1)          | PrimitiveClassValue.FLOAT
+        new DoubleValue(1)         | PrimitiveClassValue.DOUBLE
+        BooleanValue.TRUE          | PrimitiveClassValue.BOOLEAN
+        BooleanValue.FALSE         | PrimitiveClassValue.BOOLEAN
     }
 
     def 'test is#method should return #expected for #value'() {
@@ -105,6 +106,21 @@ class PrimitiveValueTest extends Specification {
         false    | "String"    | BooleanValue.TRUE
     }
 
+    def 'test toPrimitive of #expected should return #expected'() {
+        when:
+        def converted = expected.toPrimitive()
+
+        then:
+        converted == expected
+
+        where:
+        expected << [
+                new DoubleValue(1.0d), new FloatValue(1.0f), new LongValue(1L),
+                BooleanValue.TRUE, BooleanValue.FALSE, new CharValue('a' as Character),
+                new ByteValue(1 as byte), new ShortValue(2 as short), new IntValue(3)
+        ]
+    }
+
     def 'test conversion of #value should return #expected'() {
         when:
         def converted = PrimitiveValue.of(value)
@@ -113,16 +129,16 @@ class PrimitiveValueTest extends Specification {
         converted == expected
 
         where:
-        value            | expected
-        1.0d             | new DoubleValue(1.0d)
-        1.0f             | new FloatValue(1.0f)
-        1L               | new LongValue(1L)
-        true             | BooleanValue.TRUE
-        false            | BooleanValue.FALSE
-        'a' as char      | new CharValue('a' as Character)
-        1 as byte        | new ByteValue(1 as byte)
-        2 as short       | new ShortValue(2 as short)
-        3                | new IntValue(3)
+        value       | expected
+        1.0d        | new DoubleValue(1.0d)
+        1.0f        | new FloatValue(1.0f)
+        1L          | new LongValue(1L)
+        true        | BooleanValue.TRUE
+        false       | BooleanValue.FALSE
+        'a' as char | new CharValue('a' as Character)
+        1 as byte   | new ByteValue(1 as byte)
+        2 as short  | new ShortValue(2 as short)
+        3           | new IntValue(3)
     }
 
     def 'test conversion of invalid type'() {
@@ -133,8 +149,56 @@ class PrimitiveValueTest extends Specification {
         PrimitiveValue.of(value)
 
         then:
-        def e = thrown(ValueException)
-        e.message == ValueException.invalidPrimitiveValue(value).message
+        def e = thrown(ValueRuntimeException)
+        e.message == ValueRuntimeException.invalidPrimitiveValue(value).message
+    }
+
+    def 'test operation #operation should throw unsupported by default'() {
+        given:
+        def primitive = new PrimitiveValue(1) {}
+
+        and:
+        def expected = ValueRuntimeException.unsupportedOperation(operator,
+                primitive, primitive).message
+
+        when:
+        primitive."${operation}"(primitive)
+
+        then:
+        def e = thrown(ValueRuntimeException)
+        e.message == expected
+
+        where:
+        operation << [
+                'and', 'or',
+                'lessThan', 'lessThanEqual', 'greaterThan', 'greaterThanEqual',
+                'bitAnd', 'bitOr', 'bitXor',
+                'lshift', 'rshift', 'urshift',
+                'add', 'subtract', 'multiply', 'divide', 'modulo'
+        ]
+        operator << TokenType.values()
+                .findAll { it.between(TokenType.COLON, TokenType.NOT) }
+                .findAll { !([TokenType.EQUAL, TokenType.NOT_EQUAL].contains(it)) }
+    }
+
+    def 'test operation #operation should throw unsupported by default'() {
+        given:
+        def primitive = new PrimitiveValue(1) {}
+
+        and:
+        def expected = ValueRuntimeException.unsupportedOperation(operator,
+                primitive).message
+
+        when:
+        primitive."${operation}"()
+
+        then:
+        def e = thrown(ValueRuntimeException)
+        e.message == expected
+
+        where:
+        operation << ['minus', 'not']
+        operator << [TokenType.SUBTRACT, TokenType.NOT]
     }
 
 }

@@ -8,6 +8,8 @@ import java.util.Objects;
 
 /**
  * Represents a general value.
+ *
+ * @param <V> the type of the value
  */
 public interface Value<V> {
 
@@ -86,12 +88,22 @@ public interface Value<V> {
     /**
      * Checks whether the current value is of the one specified.
      *
-     * @param <T>  the type of the value
+     * @param <T>   the type of the value
      * @param value the class of the value
      * @return true if it is
      */
     default <T extends Value<?>> boolean is(final Class<T> value) {
         return value.isAssignableFrom(getClass());
+    }
+
+    /**
+     * Converts the current value to an instance of {@link PrimitiveValue}.
+     * Throws {@link ValueRuntimeException} in case of no associated primitive type.
+     *
+     * @return the primitive value
+     */
+    default @NotNull PrimitiveValue<V> toPrimitive() {
+        throw ValueRuntimeException.invalidPrimitiveValue(getValue());
     }
 
     /**
@@ -131,7 +143,7 @@ public interface Value<V> {
      * @return the boolean value
      */
     default @NotNull BooleanValue and(final @NotNull Value<?> other) {
-        throw new UnsupportedOperationException();
+        return toPrimitive().and(other);
     }
 
     /**
@@ -141,7 +153,7 @@ public interface Value<V> {
      * @return the boolean value
      */
     default @NotNull BooleanValue or(final @NotNull Value<?> other) {
-        throw new UnsupportedOperationException();
+        return toPrimitive().or(other);
     }
 
     /**
@@ -171,7 +183,7 @@ public interface Value<V> {
      * @return the boolean value
      */
     default @NotNull BooleanValue lessThan(final @NotNull Value<?> other) {
-        throw new UnsupportedOperationException();
+        return toPrimitive().lessThan(other);
     }
 
     /**
@@ -181,7 +193,7 @@ public interface Value<V> {
      * @return the boolean value
      */
     default @NotNull BooleanValue lessThanEqual(final @NotNull Value<?> other) {
-        throw new UnsupportedOperationException();
+        return toPrimitive().lessThanEqual(other);
     }
 
     /**
@@ -191,7 +203,7 @@ public interface Value<V> {
      * @return the boolean value
      */
     default @NotNull BooleanValue greaterThan(final @NotNull Value<?> other) {
-        throw new UnsupportedOperationException();
+        return toPrimitive().greaterThan(other);
     }
 
     /**
@@ -201,7 +213,7 @@ public interface Value<V> {
      * @return the boolean value
      */
     default @NotNull BooleanValue greaterThanEqual(final @NotNull Value<?> other) {
-        throw new UnsupportedOperationException();
+        return toPrimitive().greaterThanEqual(other);
     }
 
     /*
@@ -215,7 +227,7 @@ public interface Value<V> {
      * @return the value
      */
     default @NotNull Value<?> bitAnd(final @NotNull Value<?> other) {
-        throw new UnsupportedOperationException();
+        return toPrimitive().bitAnd(other);
     }
 
     /**
@@ -225,7 +237,7 @@ public interface Value<V> {
      * @return the value
      */
     default @NotNull Value<?> bitOr(final @NotNull Value<?> other) {
-        throw new UnsupportedOperationException();
+        return toPrimitive().bitOr(other);
     }
 
     /**
@@ -235,7 +247,7 @@ public interface Value<V> {
      * @return the value
      */
     default @NotNull Value<?> bitXor(final @NotNull Value<?> other) {
-        throw new UnsupportedOperationException();
+        return toPrimitive().bitXor(other);
     }
 
     /**
@@ -245,7 +257,7 @@ public interface Value<V> {
      * @return the value
      */
     default @NotNull Value<?> lshift(final @NotNull Value<?> other) {
-        throw new UnsupportedOperationException();
+        return toPrimitive().lshift(other);
     }
 
     /**
@@ -255,7 +267,7 @@ public interface Value<V> {
      * @return the value
      */
     default @NotNull Value<?> rshift(final @NotNull Value<?> other) {
-        throw new UnsupportedOperationException();
+        return toPrimitive().rshift(other);
     }
 
     /**
@@ -265,7 +277,7 @@ public interface Value<V> {
      * @return the value
      */
     default @NotNull Value<?> urshift(final @NotNull Value<?> other) {
-        throw new UnsupportedOperationException();
+        return toPrimitive().urshift(other);
     }
 
 
@@ -276,7 +288,7 @@ public interface Value<V> {
      * @return the value
      */
     default @NotNull Value<?> add(final @NotNull Value<?> other) {
-        throw new UnsupportedOperationException();
+        return toPrimitive().add(other);
     }
 
     /**
@@ -286,7 +298,7 @@ public interface Value<V> {
      * @return the value
      */
     default @NotNull Value<?> subtract(final @NotNull Value<?> other) {
-        throw new UnsupportedOperationException();
+        return toPrimitive().subtract(other);
     }
 
     /**
@@ -296,7 +308,7 @@ public interface Value<V> {
      * @return the value
      */
     default @NotNull Value<?> multiply(final @NotNull Value<?> other) {
-        throw new UnsupportedOperationException();
+        return toPrimitive().multiply(other);
     }
 
     /**
@@ -306,7 +318,7 @@ public interface Value<V> {
      * @return the value
      */
     default @NotNull Value<?> divide(final @NotNull Value<?> other) {
-        throw new UnsupportedOperationException();
+        return toPrimitive().divide(other);
     }
 
     /**
@@ -316,7 +328,16 @@ public interface Value<V> {
      * @return the value
      */
     default @NotNull Value<?> modulo(final @NotNull Value<?> other) {
-        throw new UnsupportedOperationException();
+        return toPrimitive().modulo(other);
+    }
+
+    /**
+     * Executes minus operation.
+     *
+     * @return the boolean value
+     */
+    default @NotNull Value<?> minus() {
+        return toPrimitive().minus();
     }
 
     /**
@@ -325,7 +346,7 @@ public interface Value<V> {
      * @return the boolean value
      */
     default @NotNull BooleanValue not() {
-        throw new UnsupportedOperationException();
+        return toPrimitive().not();
     }
     
 }

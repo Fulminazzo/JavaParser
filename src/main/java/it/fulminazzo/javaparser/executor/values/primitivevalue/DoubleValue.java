@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a {@link Double} {@link PrimitiveValue}.
  */
-class DoubleValue extends NumberValue<Double> {
+final class DoubleValue extends NumberValue<Double> {
 
     /**
      * Instantiates a new Double value.

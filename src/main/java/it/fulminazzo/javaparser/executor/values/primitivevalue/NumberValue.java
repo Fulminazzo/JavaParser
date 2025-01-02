@@ -1,7 +1,6 @@
 package it.fulminazzo.javaparser.executor.values.primitivevalue;
 
 import it.fulminazzo.javaparser.executor.values.Value;
-import it.fulminazzo.javaparser.executor.values.ValueException;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
@@ -111,6 +110,11 @@ abstract class NumberValue<N extends Number> extends PrimitiveValue<N> {
                 (a, b) -> a % b, (a, b) -> a % b);
     }
 
+    @Override
+    public @NotNull Value<?> minus() {
+        return multiply(new IntValue(-1));
+    }
+
     /**
      * Checks if the other value is a {@link NumberValue}
      * and compares it with the current one.
@@ -150,11 +154,7 @@ abstract class NumberValue<N extends Number> extends PrimitiveValue<N> {
         else if (first instanceof Float || second instanceof Float)
             obj = floatOperation.apply(first.floatValue(), second.floatValue());
         else return executeBinaryOperation(other, longOperation, integerOperation);
-        try {
-            return PrimitiveValue.of(obj);
-        } catch (ValueException e) {
-            throw new IllegalArgumentException("Operation did not return a primitive type", e);
-        }
+        return PrimitiveValue.of(obj);
     }
 
     /**
@@ -176,11 +176,7 @@ abstract class NumberValue<N extends Number> extends PrimitiveValue<N> {
         if (first instanceof Long || second instanceof Long)
             obj = longOperation.apply(first.longValue(), second.longValue());
         else obj = integerOperation.apply(first.intValue(), second.intValue());
-        try {
-            return PrimitiveValue.of(obj);
-        } catch (ValueException e) {
-            throw new IllegalArgumentException("Operation did not return a primitive type", e);
-        }
+        return PrimitiveValue.of(obj);
     }
 
 }

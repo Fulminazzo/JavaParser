@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a {@link Float} {@link PrimitiveValue}.
  */
-class FloatValue extends NumberValue<Float> {
+final class FloatValue extends NumberValue<Float> {
 
     /**
      * Instantiates a new Float value.

@@ -45,8 +45,8 @@ class BooleanValueTest extends Specification {
 
         where:
         first | second | third
-        TRUE  | TRUE   | of(true  && true)
-        TRUE  | FALSE  | of(true  && false)
+        TRUE  | TRUE   | of(true && true)
+        TRUE  | FALSE  | of(true && false)
         FALSE | TRUE   | of(false && true)
         FALSE | FALSE  | of(false && false)
     }
@@ -60,8 +60,8 @@ class BooleanValueTest extends Specification {
 
         where:
         first | second | third
-        TRUE  | TRUE   | of(true  || true)
-        TRUE  | FALSE  | of(true  || false)
+        TRUE  | TRUE   | of(true || true)
+        TRUE  | FALSE  | of(true || false)
         FALSE | TRUE   | of(false || true)
         FALSE | FALSE  | of(false || false)
     }
@@ -75,8 +75,8 @@ class BooleanValueTest extends Specification {
 
         where:
         first | second | third
-        TRUE  | TRUE   | of(true  & true)
-        TRUE  | FALSE  | of(true  & false)
+        TRUE  | TRUE   | of(true & true)
+        TRUE  | FALSE  | of(true & false)
         FALSE | TRUE   | of(false & true)
         FALSE | FALSE  | of(false & false)
     }
@@ -90,8 +90,8 @@ class BooleanValueTest extends Specification {
 
         where:
         first | second | third
-        TRUE  | TRUE   | of(true  | true)
-        TRUE  | FALSE  | of(true  | false)
+        TRUE  | TRUE   | of(true | true)
+        TRUE  | FALSE  | of(true | false)
         FALSE | TRUE   | of(false | true)
         FALSE | FALSE  | of(false | false)
     }
@@ -105,8 +105,8 @@ class BooleanValueTest extends Specification {
 
         where:
         first | second | third
-        TRUE  | TRUE   | of(true  ^ true)
-        TRUE  | FALSE  | of(true  ^ false)
+        TRUE  | TRUE   | of(true ^ true)
+        TRUE  | FALSE  | of(true ^ false)
         FALSE | TRUE   | of(false ^ true)
         FALSE | FALSE  | of(false ^ false)
     }

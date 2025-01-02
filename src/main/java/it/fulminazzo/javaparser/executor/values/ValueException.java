@@ -19,17 +19,6 @@ public class ValueException extends Exception {
 
     /**
      * Generates a {@link ValueException} with message:
-     * <i>Value %value% is not a valid primitive type</i>
-     *
-     * @param value the value
-     * @return the value exception
-     */
-    public static @NotNull ValueException invalidPrimitiveValue(final @NotNull Object value) {
-        return new ValueException("Value %s is not a valid primitive type", value);
-    }
-
-    /**
-     * Generates a {@link ValueException} with message:
      * <i>Could not find class '%clazz%'</i>
      *
      * @param clazz the clazz

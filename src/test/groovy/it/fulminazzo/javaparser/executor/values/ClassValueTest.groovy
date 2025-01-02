@@ -23,9 +23,9 @@ class ClassValueTest extends Specification {
         value == expected
 
         where:
-        className <<  [
+        className << [
                 PrimitiveClassValue.values().collect { it.name().toLowerCase() },
-                ObjectClassValue.values().collect { it.name() } .collect {
+                ObjectClassValue.values().collect { it.name() }.collect {
                     "${it[0]}${it.substring(1).toLowerCase()}"
                 },
                 Map.class.simpleName
