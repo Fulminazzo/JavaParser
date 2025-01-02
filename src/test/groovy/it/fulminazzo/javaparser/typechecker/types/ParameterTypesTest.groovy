@@ -1,10 +1,8 @@
 package it.fulminazzo.javaparser.typechecker.types
 
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException
-import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType
+import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType
 import spock.lang.Specification
-
-import java.util.regex.Pattern
 
 class ParameterTypesTest extends Specification {
 
@@ -21,9 +19,9 @@ class ParameterTypesTest extends Specification {
 
         where:
         parameter << [
-                PrimitiveType.values(),
-                ClassObjectType.values(),
-                ClassObjectType.of(getClass())
+                PrimitiveClassType.values(),
+                ObjectClassType.values(),
+                ObjectClassType.of(getClass())
         ].flatten()
         expected << [
                 [byte, short, char, int, long, float, double, boolean],

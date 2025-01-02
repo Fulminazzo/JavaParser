@@ -19,12 +19,12 @@ import java.util.List;
 public interface Type {
 
     /**
-     * Checks whether the current type is a basic value of Java (from {@link ValueType}).
+     * Checks whether the current type is a basic value of Java (from {@link PrimitiveType}).
      *
      * @return true if it is
      */
     default boolean isValue() {
-        return is(ValueType.class);
+        return is(PrimitiveType.class);
     }
 
     /**
@@ -211,7 +211,7 @@ public interface Type {
 
     /**
      * Converts the current object to its wrapper {@link ObjectType}.
-     * This only works for {@link ValueType}s.
+     * This only works for {@link PrimitiveType}s.
      *
      * @return the wrapper type
      */

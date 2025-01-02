@@ -1,7 +1,7 @@
 package it.fulminazzo.javaparser.typechecker.types
 
 import it.fulminazzo.fulmicollection.objects.Refl
-import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType
+import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import org.jetbrains.annotations.NotNull
 import spock.lang.Specification
@@ -20,7 +20,7 @@ class ClassTypeTest extends Specification {
         def classType = new MockClassType().toClassType()
 
         expect:
-        classType == ClassObjectType.of(Class)
+        classType == ObjectClassType.of(Class)
     }
 
     def 'test of #className should return #expected'() {
@@ -32,16 +32,16 @@ class ClassTypeTest extends Specification {
 
         where:
         className <<  [
-                PrimitiveType.values().collect { it.name().toLowerCase() },
-                ClassObjectType.values().collect { it.name() } .collect {
+                PrimitiveClassType.values().collect { it.name().toLowerCase() },
+                ObjectClassType.values().collect { it.name() } .collect {
                      "${it[0]}${it.substring(1).toLowerCase()}"
                 },
                 Map.class.simpleName
         ].flatten()
         expected << [
-                PrimitiveType.values(),
-                ClassObjectType.values(),
-                new Refl<>("${ClassObjectType.package.name}.CustomClassObjectType",
+                PrimitiveClassType.values(),
+                ObjectClassType.values(),
+                new Refl<>("${ObjectClassType.package.name}.CustomObjectClassType",
                         ObjectType.of('Map')).getObject()
         ].flatten()
     }
@@ -95,7 +95,7 @@ class ClassTypeTest extends Specification {
         where:
         expected                 | parameters
         ObjectType.of(TestClass) | new ParameterTypes([])
-        ObjectType.of(TestClass) | new ParameterTypes([PrimitiveType.INT, ClassObjectType.BOOLEAN])
+        ObjectType.of(TestClass) | new ParameterTypes([PrimitiveClassType.INT, ObjectClassType.BOOLEAN])
     }
 
     def 'test newObject (#parameters) should throw types mismatch'() {
@@ -109,9 +109,9 @@ class ClassTypeTest extends Specification {
 
         where:
         types                        | parameters
-        new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveType.DOUBLE, ClassObjectType.BOOLEAN])
-        new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveType.INT, ClassObjectType.STRING])
-        new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveType.DOUBLE, ClassObjectType.STRING])
+        new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveClassType.DOUBLE, ObjectClassType.BOOLEAN])
+        new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveClassType.INT, ObjectClassType.STRING])
+        new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveClassType.DOUBLE, ObjectClassType.STRING])
     }
 
     def 'test cannot access constructor (#type)'() {
@@ -124,13 +124,13 @@ class ClassTypeTest extends Specification {
 
         where:
         type                  | clazz
-        PrimitiveType.FLOAT   | float
-        PrimitiveType.BOOLEAN | boolean
+        PrimitiveClassType.FLOAT   | float
+        PrimitiveClassType.BOOLEAN | boolean
     }
 
     def 'test constructor not found'() {
         given:
-        def mockParameters = new ParameterTypes([PrimitiveType.INT, PrimitiveType.DOUBLE, PrimitiveType.SHORT])
+        def mockParameters = new ParameterTypes([PrimitiveClassType.INT, PrimitiveClassType.DOUBLE, PrimitiveClassType.SHORT])
         when:
         this.classType.newObject(mockParameters)
 

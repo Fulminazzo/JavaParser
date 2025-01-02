@@ -2,17 +2,17 @@ package it.fulminazzo.javaparser.typechecker.types.arrays
 
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException
 import it.fulminazzo.javaparser.typechecker.types.ClassType
+import it.fulminazzo.javaparser.typechecker.types.PrimitiveClassType
 import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
-import it.fulminazzo.javaparser.typechecker.types.ValueType
-import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType
+import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
 
 class ArrayClassTypeTest extends Specification {
     static final VALUE_TYPES = [
-            ValueType.BYTE, ValueType.SHORT, ValueType.CHAR,
-            ValueType.NUMBER, ValueType.LONG, ValueType.FLOAT,
-            ValueType.DOUBLE, ValueType.BOOLEAN
+            PrimitiveType.BYTE, PrimitiveType.SHORT, PrimitiveType.CHAR,
+            PrimitiveType.NUMBER, PrimitiveType.LONG, PrimitiveType.FLOAT,
+            PrimitiveType.DOUBLE, PrimitiveType.BOOLEAN
     ]
 
     def 'test cast of #cast to #type should return #cast'() {
@@ -24,11 +24,11 @@ class ArrayClassTypeTest extends Specification {
 
         where:
         cast << [
-                PrimitiveType.values().collect { new ArrayClassType(it) },
-                ClassObjectType.values().collect { new ArrayClassType(it) },
-                new ArrayClassType(ClassObjectType.of('Map')),
-                new ArrayClassType(ClassObjectType.of('Collection')),
-                new ArrayClassType(ClassObjectType.of('List'))
+                PrimitiveClassType.values().collect { new ArrayClassType(it) },
+                ObjectClassType.values().collect { new ArrayClassType(it) },
+                new ArrayClassType(ObjectClassType.of('Map')),
+                new ArrayClassType(ObjectClassType.of('Collection')),
+                new ArrayClassType(ObjectClassType.of('List'))
         ].flatten()
         type << [
                 VALUE_TYPES.collect { new ArrayType(it) },
@@ -49,8 +49,8 @@ class ArrayClassTypeTest extends Specification {
 
         where:
         cast << [
-                PrimitiveType.values(),
-                ClassObjectType.values()
+                PrimitiveClassType.values(),
+                ObjectClassType.values()
         ].flatten().collect { new ArrayClassType(it) }
         type << [
                 VALUE_TYPES.reverse(),
@@ -60,7 +60,7 @@ class ArrayClassTypeTest extends Specification {
 
     def 'test toString'() {
         given:
-        def arrayClassType = new ArrayClassType(new ArrayClassType(new ArrayClassType(PrimitiveType.INT)))
+        def arrayClassType = new ArrayClassType(new ArrayClassType(new ArrayClassType(PrimitiveClassType.INT)))
 
         when:
         def string = arrayClassType.toString()
@@ -71,7 +71,7 @@ class ArrayClassTypeTest extends Specification {
 
     def 'test conversion of types'() {
         given:
-        def arrayType = new ArrayType(new ArrayType(new ArrayType(ValueType.NUMBER)))
+        def arrayType = new ArrayType(new ArrayType(new ArrayType(PrimitiveType.NUMBER)))
 
         when:
         def arrayClassType = arrayType.toClassType()
@@ -79,7 +79,7 @@ class ArrayClassTypeTest extends Specification {
 
         then:
         newArrayType == arrayType
-        arrayClassType == new ArrayClassType(new ArrayClassType(new ArrayClassType(PrimitiveType.INT)))
+        arrayClassType == new ArrayClassType(new ArrayClassType(new ArrayClassType(PrimitiveClassType.INT)))
     }
 
     def 'test toJavaClass'() {
@@ -96,8 +96,8 @@ class ArrayClassTypeTest extends Specification {
     def 'test toClassType'() {
         given:
         // int[][][]
-        def classType = new ArrayClassType(new ArrayClassType(new ArrayClassType(PrimitiveType.INT)))
-        def type = new ArrayType(new ArrayType(new ArrayType(ValueType.NUMBER)))
+        def classType = new ArrayClassType(new ArrayClassType(new ArrayClassType(PrimitiveClassType.INT)))
+        def type = new ArrayType(new ArrayType(new ArrayType(PrimitiveType.NUMBER)))
 
         expect:
         type.toClassType() == classType
@@ -106,8 +106,8 @@ class ArrayClassTypeTest extends Specification {
     def 'test compatibleWith'() {
         given:
         // int[][][]
-        def classType = new ArrayClassType(new ArrayClassType(new ArrayClassType(PrimitiveType.INT)))
-        def type = new ArrayType(new ArrayType(new ArrayType(ValueType.NUMBER)))
+        def classType = new ArrayClassType(new ArrayClassType(new ArrayClassType(PrimitiveClassType.INT)))
+        def type = new ArrayType(new ArrayType(new ArrayType(PrimitiveType.NUMBER)))
 
         expect:
         classType.compatibleWith(type)
@@ -115,15 +115,15 @@ class ArrayClassTypeTest extends Specification {
 
     def 'test not compatibleWith #type'() {
         given:
-        def classType = new ArrayClassType(PrimitiveType.INT)
+        def classType = new ArrayClassType(PrimitiveClassType.INT)
 
         expect:
         !classType.compatibleWith(type)
 
         where:
         type << [
-                ValueType.values(),
-                new ArrayType(ValueType.BOOLEAN)
+                PrimitiveType.values(),
+                new ArrayType(PrimitiveType.BOOLEAN)
         ].flatten()
     }
 

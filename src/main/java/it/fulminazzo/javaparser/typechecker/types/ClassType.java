@@ -4,7 +4,7 @@ import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.environment.Info;
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
-import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType;
+import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Constructor;
@@ -97,8 +97,8 @@ public interface ClassType extends Type, Info {
 
     /**
      * Gets a new {@link ClassType} from the given class name.
-     * Tries first to obtain from {@link PrimitiveType}.
-     * If it fails, uses the fields of {@link ClassObjectType}.
+     * Tries first to obtain from {@link PrimitiveClassType}.
+     * If it fails, uses the fields of {@link ObjectClassType}.
      * Otherwise, a new type is created.
      *
      * @param className the class name
@@ -108,24 +108,24 @@ public interface ClassType extends Type, Info {
     static @NotNull ClassType of(final @NotNull String className) throws TypeException {
         try {
             String lowerCase = className.toLowerCase();
-            if (lowerCase.equals(className)) return PrimitiveType.valueOf(className.toUpperCase());
+            if (lowerCase.equals(className)) return PrimitiveClassType.valueOf(className.toUpperCase());
         } catch (IllegalArgumentException ignored) {}
-        return ClassObjectType.of(className);
+        return ObjectClassType.of(className);
     }
 
     /**
      * Gets a new {@link ClassType} from the given class.
-     * Tries first to obtain from {@link PrimitiveType}.
-     * If it fails, uses the fields of {@link ClassObjectType}.
+     * Tries first to obtain from {@link PrimitiveClassType}.
+     * If it fails, uses the fields of {@link ObjectClassType}.
      * Otherwise, a new type is created.
      *
      * @param clazz the class
      * @return the class type
      */
     static @NotNull ClassType of(final @NotNull Class<?> clazz) {
-        for (PrimitiveType type : PrimitiveType.values())
+        for (PrimitiveClassType type : PrimitiveClassType.values())
             if (type.toJavaClass().equals(clazz)) return type;
-        return ClassObjectType.of(clazz);
+        return ObjectClassType.of(clazz);
     }
 
     /**

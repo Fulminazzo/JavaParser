@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser.typechecker.types.objects;
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.typechecker.types.ClassType;
+import it.fulminazzo.javaparser.typechecker.types.PrimitiveClassType;
 import it.fulminazzo.javaparser.typechecker.types.Type;
 import it.fulminazzo.javaparser.typechecker.types.TypeException;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
@@ -15,7 +16,7 @@ import java.util.Map;
 /**
  * Represents an {@link Object} type, declared from its associated class canonical name.
  * The fields in this class represent the wrapper types in Java (like {@link Integer}).
- * The distinction between these and {@link it.fulminazzo.javaparser.typechecker.types.PrimitiveType}
+ * The distinction between these and {@link PrimitiveClassType}
  * is mandatory for correct functioning of casts, operations, null assignments and more.
  */
 public final class ObjectType extends ObjectWrapper<Class<?>> implements Type {

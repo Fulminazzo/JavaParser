@@ -1,7 +1,7 @@
 package it.fulminazzo.javaparser.typechecker.types
 
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException
-import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType
+import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
 
@@ -13,12 +13,12 @@ class TypeTest extends Specification {
 
     void setup() {
         this.type = ObjectType.of(TestClass)
-        this.classType = ClassObjectType.of(TestClass)
+        this.classType = ObjectClassType.of(TestClass)
     }
 
     def 'test check not valid'() {
         when:
-        this.type.checkNot(ValueType.NUMBER)
+        this.type.checkNot(PrimitiveType.NUMBER)
 
         then:
         noExceptionThrown()
@@ -63,11 +63,11 @@ class TypeTest extends Specification {
 
     def 'test invalid check class method'() {
         when:
-        this.type.check(ClassObjectType)
+        this.type.check(ObjectClassType)
 
         then:
         def e = thrown(TypeCheckerException)
-        e.message == TypeCheckerException.invalidType(ClassObjectType, this.type).message
+        e.message == TypeCheckerException.invalidType(ObjectClassType, this.type).message
     }
 
     def 'test is #clazz should return true for #obj'() {
@@ -76,30 +76,30 @@ class TypeTest extends Specification {
 
         where:
         obj << [
-                ValueType.values(),
-                ValueType.values(),
                 PrimitiveType.values(),
                 PrimitiveType.values(),
-                PrimitiveType.values(),
+                PrimitiveClassType.values(),
+                PrimitiveClassType.values(),
+                PrimitiveClassType.values(),
                 ObjectType.OBJECT,
                 ObjectType.OBJECT,
-                ClassObjectType.values(),
-                ClassObjectType.values(),
-                ClassObjectType.values(),
-                ClassObjectType.of(TestClass),
-                ClassObjectType.of(TestClass)
+                ObjectClassType.values(),
+                ObjectClassType.values(),
+                ObjectClassType.values(),
+                ObjectClassType.of(TestClass),
+                ObjectClassType.of(TestClass)
         ].flatten()
         clazz << [
-                ValueType.values().collect { ValueType },
-                ValueType.values().collect { Type },
                 PrimitiveType.values().collect { PrimitiveType },
-                PrimitiveType.values().collect { ClassType },
                 PrimitiveType.values().collect { Type },
+                PrimitiveClassType.values().collect { PrimitiveClassType },
+                PrimitiveClassType.values().collect { ClassType },
+                PrimitiveClassType.values().collect { Type },
                 ObjectType,
                 Type,
-                ClassObjectType.values().collect { ClassObjectType },
-                ClassObjectType.values().collect { ClassType },
-                ClassObjectType.values().collect { Type },
+                ObjectClassType.values().collect { ObjectClassType },
+                ObjectClassType.values().collect { ClassType },
+                ObjectClassType.values().collect { Type },
                 ClassType,
                 Type
         ].flatten()
@@ -118,8 +118,8 @@ class TypeTest extends Specification {
 
         where:
         field               | expected
-        'publicStaticField' | PrimitiveType.INT
-        'publicField'       | PrimitiveType.DOUBLE
+        'publicStaticField' | PrimitiveClassType.INT
+        'publicField'       | PrimitiveClassType.DOUBLE
     }
 
     def 'test cannot access field #field from getField'() {
@@ -155,7 +155,7 @@ class TypeTest extends Specification {
 
         where:
         field               | expected
-        'publicStaticField'       | PrimitiveType.INT
+        'publicStaticField'       | PrimitiveClassType.INT
     }
 
     def 'test class cannot access non-static field'() {
@@ -207,10 +207,10 @@ class TypeTest extends Specification {
 
         where:
         method               | expected             | parameters
-        'publicStaticMethod' | PrimitiveType.INT    | NO_PARAMETERS
-        'publicStaticMethod' | PrimitiveType.INT    | new ParameterTypes([PrimitiveType.INT, ClassObjectType.BOOLEAN])
-        'publicMethod'       | PrimitiveType.DOUBLE | NO_PARAMETERS
-        'publicMethod'       | PrimitiveType.DOUBLE | new ParameterTypes([PrimitiveType.DOUBLE, ClassObjectType.BOOLEAN])
+        'publicStaticMethod' | PrimitiveClassType.INT    | NO_PARAMETERS
+        'publicStaticMethod' | PrimitiveClassType.INT    | new ParameterTypes([PrimitiveClassType.INT, ObjectClassType.BOOLEAN])
+        'publicMethod'       | PrimitiveClassType.DOUBLE | NO_PARAMETERS
+        'publicMethod'       | PrimitiveClassType.DOUBLE | new ParameterTypes([PrimitiveClassType.DOUBLE, ObjectClassType.BOOLEAN])
     }
 
     def 'test getMethod #method(#parameters) should throw types mismatch'() {
@@ -224,12 +224,12 @@ class TypeTest extends Specification {
 
         where:
         method               | methodTypes                  | parameters
-        'publicStaticMethod' | new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveType.DOUBLE, ClassObjectType.BOOLEAN])
-        'publicStaticMethod' | new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveType.INT, ClassObjectType.STRING])
-        'publicStaticMethod' | new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveType.DOUBLE, ClassObjectType.STRING])
-        'publicMethod'       | new Class[]{double, Boolean} | new ParameterTypes([PrimitiveType.INT, ClassObjectType.BOOLEAN])
-        'publicMethod'       | new Class[]{double, Boolean} | new ParameterTypes([PrimitiveType.DOUBLE, ClassObjectType.STRING])
-        'publicMethod'       | new Class[]{double, Boolean} | new ParameterTypes([PrimitiveType.INT, ClassObjectType.STRING])
+        'publicStaticMethod' | new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveClassType.DOUBLE, ObjectClassType.BOOLEAN])
+        'publicStaticMethod' | new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveClassType.INT, ObjectClassType.STRING])
+        'publicStaticMethod' | new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveClassType.DOUBLE, ObjectClassType.STRING])
+        'publicMethod'       | new Class[]{double, Boolean} | new ParameterTypes([PrimitiveClassType.INT, ObjectClassType.BOOLEAN])
+        'publicMethod'       | new Class[]{double, Boolean} | new ParameterTypes([PrimitiveClassType.DOUBLE, ObjectClassType.STRING])
+        'publicMethod'       | new Class[]{double, Boolean} | new ParameterTypes([PrimitiveClassType.INT, ObjectClassType.STRING])
     }
 
     def 'test cannot access method #method from getMethod'() {
@@ -265,8 +265,8 @@ class TypeTest extends Specification {
 
         where:
         method                     | expected           | parameters
-        'publicStaticMethod'       | PrimitiveType.INT  | NO_PARAMETERS
-        'publicStaticMethod'       | PrimitiveType.INT  | new ParameterTypes([PrimitiveType.INT, ClassObjectType.BOOLEAN])
+        'publicStaticMethod'       | PrimitiveClassType.INT | NO_PARAMETERS
+        'publicStaticMethod'       | PrimitiveClassType.INT | new ParameterTypes([PrimitiveClassType.INT, ObjectClassType.BOOLEAN])
     }
 
     def 'test class cannot access non-static method #method(#parameters)'() {
@@ -279,8 +279,8 @@ class TypeTest extends Specification {
 
         where:
         method               | expected              | parameters
-        'publicMethod'       | PrimitiveType.DOUBLE  | NO_PARAMETERS
-        'publicMethod'       | PrimitiveType.DOUBLE  | new ParameterTypes([PrimitiveType.DOUBLE, ClassObjectType.BOOLEAN])
+        'publicMethod'       | PrimitiveClassType.DOUBLE | NO_PARAMETERS
+        'publicMethod'       | PrimitiveClassType.DOUBLE | new ParameterTypes([PrimitiveClassType.DOUBLE, ObjectClassType.BOOLEAN])
     }
 
     def 'test class cannot access method #method from getMethod'() {

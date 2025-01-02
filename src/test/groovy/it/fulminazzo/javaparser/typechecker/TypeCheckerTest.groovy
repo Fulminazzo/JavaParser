@@ -20,7 +20,7 @@ import it.fulminazzo.javaparser.parser.node.values.*
 import it.fulminazzo.javaparser.typechecker.types.*
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayClassType
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayType
-import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType
+import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
 
@@ -61,7 +61,7 @@ class TypeCheckerTest extends Specification {
         this.environment = new MockEnvironment<>()
         new Refl<>(this.typeChecker).setFieldObject('environment', this.environment)
         this.environment.declare(
-                ClassObjectType.BOOLEAN,
+                ObjectClassType.BOOLEAN,
                 'bool',
                 ObjectType.BOOLEAN,
         )
@@ -91,7 +91,7 @@ class TypeCheckerTest extends Specification {
 
         where:
         type                          | program
-        Optional.of(ValueType.NUMBER) | new JavaProgram(new LinkedList<>([RETURN_NUMBER]))
+        Optional.of(PrimitiveType.NUMBER) | new JavaProgram(new LinkedList<>([RETURN_NUMBER]))
         Optional.empty()              | new JavaProgram(new LinkedList<>([new Statement()]))
     }
 
@@ -113,7 +113,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL)
-        ] | CODE_BLOCK_NUMBER | ValueType.NUMBER
+        ] | CODE_BLOCK_NUMBER | PrimitiveType.NUMBER
         // Everything no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
@@ -123,7 +123,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL)
-        ] | CODE_BLOCK_EMPTY | ValueType.BOOLEAN
+        ] | CODE_BLOCK_EMPTY | PrimitiveType.BOOLEAN
         // Everything with different types
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
@@ -133,7 +133,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_FLOAT)
-        ] | CODE_BLOCK_NUMBER | ValueType.NUMBER
+        ] | CODE_BLOCK_NUMBER | PrimitiveType.NUMBER
         // Everything with different types and no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
@@ -152,7 +152,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL)
-        ] | CODE_BLOCK_NUMBER | ValueType.NUMBER
+        ] | CODE_BLOCK_NUMBER | PrimitiveType.NUMBER
         // Just one assignment no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral())
@@ -161,7 +161,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL)
-        ] | CODE_BLOCK_EMPTY | ValueType.BOOLEAN
+        ] | CODE_BLOCK_EMPTY | PrimitiveType.BOOLEAN
         // Just one assignment with different types
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral())
@@ -170,7 +170,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_FLOAT)
-        ] | CODE_BLOCK_NUMBER | ValueType.NUMBER
+        ] | CODE_BLOCK_NUMBER | PrimitiveType.NUMBER
         // Just one assignment with different types and no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral())
@@ -187,7 +187,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL)
-        ] | CODE_BLOCK_NUMBER | ValueType.NUMBER
+        ] | CODE_BLOCK_NUMBER | PrimitiveType.NUMBER
         // No assignments no finally
         new AssignmentBlock([
         ]) | CODE_BLOCK_BOOL | [
@@ -195,7 +195,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL)
-        ] | CODE_BLOCK_EMPTY | ValueType.BOOLEAN
+        ] | CODE_BLOCK_EMPTY | PrimitiveType.BOOLEAN
         // No assignments with different types
         new AssignmentBlock([
         ]) | CODE_BLOCK_BOOL | [
@@ -203,7 +203,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_FLOAT)
-        ] | CODE_BLOCK_NUMBER | ValueType.NUMBER
+        ] | CODE_BLOCK_NUMBER | PrimitiveType.NUMBER
         // No assignments with different types and no finally
         new AssignmentBlock([
         ]) | CODE_BLOCK_BOOL | [
@@ -219,7 +219,7 @@ class TypeCheckerTest extends Specification {
         ]) | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL)
-        ] | CODE_BLOCK_NUMBER | ValueType.NUMBER
+        ] | CODE_BLOCK_NUMBER | PrimitiveType.NUMBER
         // Just one catch no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
@@ -227,7 +227,7 @@ class TypeCheckerTest extends Specification {
         ]) | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL)
-        ] | CODE_BLOCK_EMPTY | ValueType.BOOLEAN
+        ] | CODE_BLOCK_EMPTY | PrimitiveType.BOOLEAN
         // Just one catch with different types
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
@@ -235,7 +235,7 @@ class TypeCheckerTest extends Specification {
         ]) | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_DOUBLE)
-        ] | CODE_BLOCK_NUMBER | ValueType.NUMBER
+        ] | CODE_BLOCK_NUMBER | PrimitiveType.NUMBER
         // Just one catch with different types and no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
@@ -249,13 +249,13 @@ class TypeCheckerTest extends Specification {
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
                 new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
         ]) | CODE_BLOCK_BOOL | [
-        ] | CODE_BLOCK_NUMBER | ValueType.NUMBER
+        ] | CODE_BLOCK_NUMBER | PrimitiveType.NUMBER
         // No catches with different types and no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
                 new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
         ]) | CODE_BLOCK_BOOL | [
-        ] | CODE_BLOCK_EMPTY | ValueType.BOOLEAN
+        ] | CODE_BLOCK_EMPTY | PrimitiveType.BOOLEAN
     }
 
     def 'test visit try statement with no auto-closable'() {
@@ -266,7 +266,7 @@ class TypeCheckerTest extends Specification {
 
         then:
         def e = thrown(TypeCheckerException)
-        e.message == TypeCheckerException.invalidType(ClassType.of(AutoCloseable.class), PrimitiveType.INT).message
+        e.message == TypeCheckerException.invalidType(ClassType.of(AutoCloseable.class), PrimitiveClassType.INT).message
     }
 
     def 'test visit try statement of already caught: #catchBlocks'() {
@@ -313,19 +313,19 @@ class TypeCheckerTest extends Specification {
         [Literal.of('IllegalArgumentException'), Literal.of('IllegalStateException'), Literal.of('IllegalAccessError')] |
                 Literal.of('e') | CODE_BLOCK_NUMBER |
                 new TupleType<>(new LinkedHashSet<>([ClassType.of(IllegalArgumentException), ClassType.of(IllegalStateException),
-                             ClassType.of(IllegalAccessError)]), ValueType.NUMBER)
+                             ClassType.of(IllegalAccessError)]), PrimitiveType.NUMBER)
         [Literal.of('IllegalArgumentException'), Literal.of('IllegalStateException')] |
                 Literal.of('e') | CODE_BLOCK_NUMBER |
                 new TupleType<>(new LinkedHashSet<>([ClassType.of(IllegalArgumentException), ClassType.of(IllegalStateException)]),
-                        ValueType.NUMBER)
+                        PrimitiveType.NUMBER)
         [Literal.of('IllegalArgumentException')] |
                 Literal.of('e') | CODE_BLOCK_NUMBER |
-                new TupleType<>(new LinkedHashSet<>([ClassType.of(IllegalArgumentException)]), ValueType.NUMBER)
+                new TupleType<>(new LinkedHashSet<>([ClassType.of(IllegalArgumentException)]), PrimitiveType.NUMBER)
     }
 
     def 'test visit invalid catch statement: (#exceptions #variable) should throw #expected'() {
         given:
-        this.environment.declare(ClassObjectType.STRING, 'f', ObjectType.STRING)
+        this.environment.declare(ObjectClassType.STRING, 'f', ObjectType.STRING)
 
         when:
         this.typeChecker.visitCatchStatement(exceptions, CODE_BLOCK_EMPTY, variable)
@@ -339,7 +339,7 @@ class TypeCheckerTest extends Specification {
         [Literal.of('String')] | Literal.of('e') |
                 TypeCheckerException.invalidType(ClassType.of(Throwable.class), ObjectType.STRING)
         [Literal.of('Exception'), Literal.of('Exception')] | Literal.of('e') |
-                TypeCheckerException.exceptionAlreadyCaught(ClassObjectType.of('Exception'))
+                TypeCheckerException.exceptionAlreadyCaught(ObjectClassType.of('Exception'))
         [Literal.of('IllegalArgumentException'), Literal.of('RuntimeException')] | Literal.of('e') |
                 TypeCheckerException.exceptionsNotDisjoint(ClassType.of(IllegalArgumentException),
                         ClassType.of(RuntimeException))
@@ -362,15 +362,15 @@ class TypeCheckerTest extends Specification {
         where:
         expression | cases | defaultBlock | expected
         NUMBER_LIT | [new CaseStatement(NUMBER_LIT, CODE_BLOCK_NUMBER), new CaseStatement(NUMBER_LIT, CODE_BLOCK_NUMBER)] |
-                CODE_BLOCK_NUMBER | ValueType.NUMBER
+                CODE_BLOCK_NUMBER | PrimitiveType.NUMBER
         NUMBER_LIT | [new CaseStatement(NUMBER_LIT, CODE_BLOCK_NUMBER), new CaseStatement(NUMBER_LIT, CODE_BLOCK_DOUBLE)] |
                 CODE_BLOCK_BOOL | Types.NO_TYPE
         NUMBER_LIT | [new CaseStatement(NUMBER_LIT, CODE_BLOCK_NUMBER)] |
-                CODE_BLOCK_NUMBER | ValueType.NUMBER
+                CODE_BLOCK_NUMBER | PrimitiveType.NUMBER
         NUMBER_LIT | [new CaseStatement(NUMBER_LIT, CODE_BLOCK_NUMBER)] |
                 CODE_BLOCK_BOOL | Types.NO_TYPE
         NUMBER_LIT | [] |
-                CODE_BLOCK_NUMBER | ValueType.NUMBER
+                CODE_BLOCK_NUMBER | PrimitiveType.NUMBER
         NUMBER_LIT | [new CaseStatement(NUMBER_LIT, CODE_BLOCK_NUMBER)] |
                 CODE_BLOCK_EMPTY | Types.NO_TYPE
         NUMBER_LIT | [] |
@@ -393,11 +393,11 @@ class TypeCheckerTest extends Specification {
 
     def 'test visit enhanced for statement of (#expression) #codeBlock should return #expected'() {
         given:
-        this.environment.declare(new ArrayClassType(PrimitiveType.INT), 'arr', new ArrayType(ValueType.NUMBER))
-        this.environment.declare(ClassObjectType.of(Iterable), 'iterable', ObjectType.of(Iterable))
-        this.environment.declare(ClassObjectType.of(List), 'list', ObjectType.of(List))
-        this.environment.declare(ClassObjectType.of(Collection), 'collection', ObjectType.of(Collection))
-        this.environment.declare(ClassObjectType.of(Set), 'set', ObjectType.of(Set))
+        this.environment.declare(new ArrayClassType(PrimitiveClassType.INT), 'arr', new ArrayType(PrimitiveType.NUMBER))
+        this.environment.declare(ObjectClassType.of(Iterable), 'iterable', ObjectType.of(Iterable))
+        this.environment.declare(ObjectClassType.of(List), 'list', ObjectType.of(List))
+        this.environment.declare(ObjectClassType.of(Collection), 'collection', ObjectType.of(Collection))
+        this.environment.declare(ObjectClassType.of(Set), 'set', ObjectType.of(Set))
 
         and:
         def varType = Literal.of('int')
@@ -413,11 +413,11 @@ class TypeCheckerTest extends Specification {
 
         where:
         expected          | codeBlock        | expression
-        ValueType.BOOLEAN | CODE_BLOCK_BOOL  | Literal.of('arr')
-        ValueType.BOOLEAN | CODE_BLOCK_BOOL  | Literal.of('iterable')
-        ValueType.BOOLEAN | CODE_BLOCK_BOOL  | Literal.of('list')
-        ValueType.BOOLEAN | CODE_BLOCK_BOOL  | Literal.of('set')
-        ValueType.BOOLEAN | CODE_BLOCK_BOOL  | Literal.of('collection')
+        PrimitiveType.BOOLEAN | CODE_BLOCK_BOOL | Literal.of('arr')
+        PrimitiveType.BOOLEAN | CODE_BLOCK_BOOL | Literal.of('iterable')
+        PrimitiveType.BOOLEAN | CODE_BLOCK_BOOL | Literal.of('list')
+        PrimitiveType.BOOLEAN | CODE_BLOCK_BOOL | Literal.of('set')
+        PrimitiveType.BOOLEAN | CODE_BLOCK_BOOL | Literal.of('collection')
         Types.NO_TYPE     | CODE_BLOCK_BREAK | Literal.of('arr')
         Types.NO_TYPE     | CODE_BLOCK_BREAK | Literal.of('iterable')
         Types.NO_TYPE     | CODE_BLOCK_BREAK | Literal.of('list')
@@ -435,13 +435,13 @@ class TypeCheckerTest extends Specification {
 
         then:
         def e = thrown(TypeCheckerException)
-        e.message == TypeCheckerException.invalidType(ClassObjectType.of(Iterable), ValueType.NUMBER).message
+        e.message == TypeCheckerException.invalidType(ObjectClassType.of(Iterable), PrimitiveType.NUMBER).message
     }
 
     def 'test visit enhanced for statement of array with invalid type'() {
         given:
-        def classType = new ArrayClassType(PrimitiveType.INT)
-        this.environment.declare(classType, 'arr', new ArrayType(ValueType.NUMBER))
+        def classType = new ArrayClassType(PrimitiveClassType.INT)
+        this.environment.declare(classType, 'arr', new ArrayType(PrimitiveType.NUMBER))
 
         and:
         def varType = Literal.of('boolean')
@@ -452,7 +452,7 @@ class TypeCheckerTest extends Specification {
 
         then:
         def e = thrown(TypeCheckerException)
-        e.message == TypeCheckerException.invalidType(classType.getComponentType(), PrimitiveType.BOOLEAN).message
+        e.message == TypeCheckerException.invalidType(classType.getComponentType(), PrimitiveClassType.BOOLEAN).message
     }
 
     def 'test visit for statement of (#expression) #codeBlock should return #expected'() {
@@ -470,8 +470,8 @@ class TypeCheckerTest extends Specification {
 
         where:
         expected          | codeBlock        | expression
-        ValueType.BOOLEAN | CODE_BLOCK_BOOL  | BOOL_LIT
-        ValueType.BOOLEAN | CODE_BLOCK_BOOL  | BOOL_VAR
+        PrimitiveType.BOOLEAN | CODE_BLOCK_BOOL | BOOL_LIT
+        PrimitiveType.BOOLEAN | CODE_BLOCK_BOOL | BOOL_VAR
         Types.NO_TYPE     | CODE_BLOCK_BREAK | BOOL_LIT
         Types.NO_TYPE     | CODE_BLOCK_BREAK | BOOL_VAR
     }
@@ -487,8 +487,8 @@ class TypeCheckerTest extends Specification {
 
         where:
         expected          | codeBlock        | expression
-        ValueType.BOOLEAN | CODE_BLOCK_BOOL  | BOOL_LIT
-        ValueType.BOOLEAN | CODE_BLOCK_BOOL  | BOOL_VAR
+        PrimitiveType.BOOLEAN | CODE_BLOCK_BOOL | BOOL_LIT
+        PrimitiveType.BOOLEAN | CODE_BLOCK_BOOL | BOOL_VAR
         Types.NO_TYPE     | CODE_BLOCK_BREAK | BOOL_LIT
         Types.NO_TYPE     | CODE_BLOCK_BREAK | BOOL_VAR
     }
@@ -504,8 +504,8 @@ class TypeCheckerTest extends Specification {
 
         where:
         expected          | codeBlock        | expression
-        ValueType.BOOLEAN | CODE_BLOCK_BOOL  | BOOL_LIT
-        ValueType.BOOLEAN | CODE_BLOCK_BOOL  | BOOL_VAR
+        PrimitiveType.BOOLEAN | CODE_BLOCK_BOOL | BOOL_LIT
+        PrimitiveType.BOOLEAN | CODE_BLOCK_BOOL | BOOL_VAR
         Types.NO_TYPE     | CODE_BLOCK_BREAK | BOOL_LIT
         Types.NO_TYPE     | CODE_BLOCK_BREAK | BOOL_VAR
     }
@@ -529,22 +529,22 @@ class TypeCheckerTest extends Specification {
 
         where:
         expected          | code
-        ValueType.BOOLEAN | new IfStatement(BOOL_LIT, CODE_BLOCK_BOOL, new Statement())
-        ValueType.BOOLEAN | new IfStatement(BOOL_VAR, CODE_BLOCK_BOOL, new Statement())
+        PrimitiveType.BOOLEAN | new IfStatement(BOOL_LIT, CODE_BLOCK_BOOL, new Statement())
+        PrimitiveType.BOOLEAN | new IfStatement(BOOL_VAR, CODE_BLOCK_BOOL, new Statement())
         Types.NO_TYPE     | new IfStatement(BOOL_LIT, CODE_BLOCK_EMPTY, new Statement())
         Types.NO_TYPE     | new IfStatement(BOOL_VAR, CODE_BLOCK_EMPTY, new Statement())
-        ValueType.NUMBER  | new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER,
+        PrimitiveType.NUMBER  | new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER,
                 new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER, new Statement()))
-        ValueType.NUMBER  | new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER,
+        PrimitiveType.NUMBER  | new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER,
                 new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER, new Statement()))
         Types.NO_TYPE     | new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER,
                 new IfStatement(BOOL_LIT, CODE_BLOCK_FLOAT, new Statement()))
         Types.NO_TYPE     | new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER,
                 new IfStatement(BOOL_VAR, CODE_BLOCK_FLOAT, new Statement()))
-        ValueType.DOUBLE  | new IfStatement(BOOL_LIT, CODE_BLOCK_DOUBLE,
+        PrimitiveType.DOUBLE  | new IfStatement(BOOL_LIT, CODE_BLOCK_DOUBLE,
                 new IfStatement(BOOL_LIT, CODE_BLOCK_DOUBLE,
                         CODE_BLOCK_DOUBLE))
-        ValueType.DOUBLE  | new IfStatement(BOOL_VAR, CODE_BLOCK_DOUBLE,
+        PrimitiveType.DOUBLE  | new IfStatement(BOOL_VAR, CODE_BLOCK_DOUBLE,
                 new IfStatement(BOOL_VAR, CODE_BLOCK_DOUBLE,
                         CODE_BLOCK_DOUBLE))
         Types.NO_TYPE     | new IfStatement(BOOL_LIT, CODE_BLOCK_DOUBLE,
@@ -604,14 +604,14 @@ class TypeCheckerTest extends Specification {
                 new Assignment(Literal.of('Byte'), Literal.of('bW'), NUMBER_LIT),
                 new Assignment(Literal.of('HashMap'), Literal.of('map'),
                         new NewObject(Literal.of('HashMap'), new MethodInvocation([])))
-        ] | new ParameterTypes([PrimitiveType.BYTE, ClassObjectType.BYTE, ClassObjectType.of('HashMap')])
+        ] | new ParameterTypes([PrimitiveClassType.BYTE, ObjectClassType.BYTE, ObjectClassType.of('HashMap')])
         [
                 new Assignment(Literal.of('byte'), Literal.of('b'), NUMBER_LIT),
                 new Assignment(Literal.of('Byte'), Literal.of('bW'), NUMBER_LIT)
-        ] | new ParameterTypes([PrimitiveType.BYTE, ClassObjectType.BYTE])
+        ] | new ParameterTypes([PrimitiveClassType.BYTE, ObjectClassType.BYTE])
         [
                 new Assignment(Literal.of('byte'), Literal.of('b'), NUMBER_LIT)
-        ] | new ParameterTypes([PrimitiveType.BYTE])
+        ] | new ParameterTypes([PrimitiveClassType.BYTE])
     }
 
     def 'test visit assignment: #type #name = #val should return type #expected'() {
@@ -628,40 +628,40 @@ class TypeCheckerTest extends Specification {
 
         where:
         type        | name  | val        | expected
-        'byte'      | 'bc'  | CHAR_LIT   | ValueType.BYTE
-        'byte'      | 'b'   | NUMBER_LIT | ValueType.BYTE
+        'byte'      | 'bc'  | CHAR_LIT   | PrimitiveType.BYTE
+        'byte'      | 'b'   | NUMBER_LIT | PrimitiveType.BYTE
         'Byte'      | 'bWc' | CHAR_LIT   | ObjectType.BYTE
         'Byte'      | 'bW'  | NUMBER_LIT | ObjectType.BYTE
-        'short'     | 'sc'  | CHAR_LIT   | ValueType.SHORT
-        'short'     | 's'   | NUMBER_LIT | ValueType.SHORT
+        'short'     | 'sc'  | CHAR_LIT   | PrimitiveType.SHORT
+        'short'     | 's'   | NUMBER_LIT | PrimitiveType.SHORT
         'Short'     | 'sWc' | CHAR_LIT   | ObjectType.SHORT
         'Short'     | 'sW'  | NUMBER_LIT | ObjectType.SHORT
-        'char'      | 'c'   | CHAR_LIT   | ValueType.CHAR
-        'char'      | 'ci'  | NUMBER_LIT | ValueType.CHAR
+        'char'      | 'c'   | CHAR_LIT   | PrimitiveType.CHAR
+        'char'      | 'ci'  | NUMBER_LIT | PrimitiveType.CHAR
         'Character' | 'cW'  | CHAR_LIT   | ObjectType.CHARACTER
         'Character' | 'ciW' | NUMBER_LIT | ObjectType.CHARACTER
-        'int'       | 'ic'  | CHAR_LIT   | ValueType.NUMBER
-        'int'       | 'i'   | NUMBER_LIT | ValueType.NUMBER
+        'int'       | 'ic'  | CHAR_LIT   | PrimitiveType.NUMBER
+        'int'       | 'i'   | NUMBER_LIT | PrimitiveType.NUMBER
         'Integer'   | 'iW'  | NUMBER_LIT | ObjectType.INTEGER
-        'long'      | 'lc'  | CHAR_LIT   | ValueType.LONG
-        'long'      | 'li'  | NUMBER_LIT | ValueType.LONG
-        'long'      | 'l'   | LONG_LIT   | ValueType.LONG
+        'long'      | 'lc'  | CHAR_LIT   | PrimitiveType.LONG
+        'long'      | 'li'  | NUMBER_LIT | PrimitiveType.LONG
+        'long'      | 'l'   | LONG_LIT   | PrimitiveType.LONG
         'Long'      | 'lW'  | LONG_LIT   | ObjectType.LONG
-        'float'     | 'fc'  | CHAR_LIT   | ValueType.FLOAT
-        'float'     | 'fi'  | NUMBER_LIT | ValueType.FLOAT
-        'float'     | 'fl'  | LONG_LIT   | ValueType.FLOAT
-        'float'     | 'f'   | FLOAT_LIT  | ValueType.FLOAT
+        'float'     | 'fc'  | CHAR_LIT   | PrimitiveType.FLOAT
+        'float'     | 'fi'  | NUMBER_LIT | PrimitiveType.FLOAT
+        'float'     | 'fl'  | LONG_LIT   | PrimitiveType.FLOAT
+        'float'     | 'f'   | FLOAT_LIT  | PrimitiveType.FLOAT
         'Float'     | 'fW'  | FLOAT_LIT  | ObjectType.FLOAT
-        'double'    | 'dc'  | CHAR_LIT   | ValueType.DOUBLE
-        'double'    | 'di'  | NUMBER_LIT | ValueType.DOUBLE
-        'double'    | 'dl'  | LONG_LIT   | ValueType.DOUBLE
-        'double'    | 'df'  | FLOAT_LIT  | ValueType.DOUBLE
-        'double'    | 'd'   | DOUBLE_LIT | ValueType.DOUBLE
+        'double'    | 'dc'  | CHAR_LIT   | PrimitiveType.DOUBLE
+        'double'    | 'di'  | NUMBER_LIT | PrimitiveType.DOUBLE
+        'double'    | 'dl'  | LONG_LIT   | PrimitiveType.DOUBLE
+        'double'    | 'df'  | FLOAT_LIT  | PrimitiveType.DOUBLE
+        'double'    | 'd'   | DOUBLE_LIT | PrimitiveType.DOUBLE
         'Double'    | 'dW'  | DOUBLE_LIT | ObjectType.DOUBLE
-        'boolean'   | 'bo'  | BOOL_LIT   | ValueType.BOOLEAN
+        'boolean'   | 'bo'  | BOOL_LIT   | PrimitiveType.BOOLEAN
         'Boolean'   | 'boW' | BOOL_LIT   | ObjectType.BOOLEAN
         'String'    | 'st'  | STRING_LIT | ObjectType.STRING
-        'Object'    | 'o'   | BOOL_LIT   | ValueType.BOOLEAN
+        'Object'    | 'o'   | BOOL_LIT   | PrimitiveType.BOOLEAN
     }
 
     def 'test visit assignment: #type #name should return type #expected'() {
@@ -678,37 +678,37 @@ class TypeCheckerTest extends Specification {
 
         where:
         type        | name  | expected
-        'byte'      | 'bc'  | ValueType.BYTE
-        'byte'      | 'b'   | ValueType.BYTE
+        'byte'      | 'bc'  | PrimitiveType.BYTE
+        'byte'      | 'b'   | PrimitiveType.BYTE
         'Byte'      | 'bWc' | Types.NULL_TYPE
         'Byte'      | 'bW'  | Types.NULL_TYPE
-        'short'     | 'sc'  | ValueType.SHORT
-        'short'     | 's'   | ValueType.SHORT
+        'short'     | 'sc'  | PrimitiveType.SHORT
+        'short'     | 's'   | PrimitiveType.SHORT
         'Short'     | 'sWc' | Types.NULL_TYPE
         'Short'     | 'sW'  | Types.NULL_TYPE
-        'char'      | 'c'   | ValueType.CHAR
-        'char'      | 'ci'  | ValueType.CHAR
+        'char'      | 'c'   | PrimitiveType.CHAR
+        'char'      | 'ci'  | PrimitiveType.CHAR
         'Character' | 'cW'  | Types.NULL_TYPE
         'Character' | 'ciW' | Types.NULL_TYPE
-        'int'       | 'ic'  | ValueType.NUMBER
-        'int'       | 'i'   | ValueType.NUMBER
+        'int'       | 'ic'  | PrimitiveType.NUMBER
+        'int'       | 'i'   | PrimitiveType.NUMBER
         'Integer'   | 'iW'  | Types.NULL_TYPE
-        'long'      | 'lc'  | ValueType.LONG
-        'long'      | 'li'  | ValueType.LONG
-        'long'      | 'l'   | ValueType.LONG
+        'long'      | 'lc'  | PrimitiveType.LONG
+        'long'      | 'li'  | PrimitiveType.LONG
+        'long'      | 'l'   | PrimitiveType.LONG
         'Long'      | 'lW'  | Types.NULL_TYPE
-        'float'     | 'fc'  | ValueType.FLOAT
-        'float'     | 'fi'  | ValueType.FLOAT
-        'float'     | 'fl'  | ValueType.FLOAT
-        'float'     | 'f'   | ValueType.FLOAT
+        'float'     | 'fc'  | PrimitiveType.FLOAT
+        'float'     | 'fi'  | PrimitiveType.FLOAT
+        'float'     | 'fl'  | PrimitiveType.FLOAT
+        'float'     | 'f'   | PrimitiveType.FLOAT
         'Float'     | 'fW'  | Types.NULL_TYPE
-        'double'    | 'dc'  | ValueType.DOUBLE
-        'double'    | 'di'  | ValueType.DOUBLE
-        'double'    | 'dl'  | ValueType.DOUBLE
-        'double'    | 'df'  | ValueType.DOUBLE
-        'double'    | 'd'   | ValueType.DOUBLE
+        'double'    | 'dc'  | PrimitiveType.DOUBLE
+        'double'    | 'di'  | PrimitiveType.DOUBLE
+        'double'    | 'dl'  | PrimitiveType.DOUBLE
+        'double'    | 'df'  | PrimitiveType.DOUBLE
+        'double'    | 'd'   | PrimitiveType.DOUBLE
         'Double'    | 'dW'  | Types.NULL_TYPE
-        'boolean'   | 'bo'  | ValueType.BOOLEAN
+        'boolean'   | 'bo'  | PrimitiveType.BOOLEAN
         'Boolean'   | 'boW' | Types.NULL_TYPE
         'String'    | 'st'  | Types.NULL_TYPE
         'Object'    | 'o'   | Types.NULL_TYPE
@@ -787,8 +787,8 @@ class TypeCheckerTest extends Specification {
 
         and:
         def exceptionMessage = TypeException.methodNotFound(
-                ClassObjectType.INTEGER, '<init>',
-                new ParameterTypes([PrimitiveType.BOOLEAN, PrimitiveType.DOUBLE])
+                ObjectClassType.INTEGER, '<init>',
+                new ParameterTypes([PrimitiveClassType.BOOLEAN, PrimitiveClassType.DOUBLE])
         ).message
 
         when:
@@ -802,14 +802,14 @@ class TypeCheckerTest extends Specification {
     def 'test visit method call: #executor #method #parameters should return #expected'() {
         given:
         this.environment.declare(
-                ClassObjectType.INTEGER,
+                ObjectClassType.INTEGER,
                 'method_call_val',
                 ObjectType.INTEGER
         )
         this.environment.declare(
-                PrimitiveType.INT,
+                PrimitiveClassType.INT,
                 'method_call_val_prim',
-                ValueType.NUMBER
+                PrimitiveType.NUMBER
         )
 
         and:
@@ -824,17 +824,17 @@ class TypeCheckerTest extends Specification {
 
         where:
         executor                | method               | parameters             | expected
-        ''                      | 'publicMethod'       | []                     | ValueType.DOUBLE
-        ''                      | 'publicMethod'       | [DOUBLE_LIT, BOOL_LIT] | ValueType.DOUBLE
-        ''                      | 'publicStaticMethod' | []                     | ValueType.NUMBER
-        ''                      | 'publicStaticMethod' | [NUMBER_LIT, BOOL_LIT] | ValueType.NUMBER
+        ''                      | 'publicMethod'       | []                     | PrimitiveType.DOUBLE
+        ''                      | 'publicMethod'       | [DOUBLE_LIT, BOOL_LIT] | PrimitiveType.DOUBLE
+        ''                      | 'publicStaticMethod' | []                     | PrimitiveType.NUMBER
+        ''                      | 'publicStaticMethod' | [NUMBER_LIT, BOOL_LIT] | PrimitiveType.NUMBER
         'method_call_val'       | 'toString'           | []                     | ObjectType.STRING
         'method_call_val_prim'  | 'toString'           | []                     | ObjectType.STRING
     }
 
     def 'test type exception visit method call'() {
         given:
-        def classType = ClassObjectType.INTEGER
+        def classType = ObjectClassType.INTEGER
         this.environment.declare(
                 classType,
                 'method_call_invalid_val',
@@ -861,7 +861,7 @@ class TypeCheckerTest extends Specification {
     def 'test visit field of #field should return #expected'() {
         given:
         this.environment.declare(
-                ClassObjectType.of(TestClass),
+                ObjectClassType.of(TestClass),
                 'field_var',
                 ObjectType.of(TestClass)
         )
@@ -878,13 +878,13 @@ class TypeCheckerTest extends Specification {
 
         where:
         field               | expected
-        'publicStaticField' | PrimitiveType.INT
-        'publicField'       | PrimitiveType.DOUBLE
+        'publicStaticField' | PrimitiveClassType.INT
+        'publicField'       | PrimitiveClassType.DOUBLE
     }
 
     def 'test invalid visit field of #field should throw exception'() {
         given:
-        def classType = ClassObjectType.of(TestClass)
+        def classType = ObjectClassType.of(TestClass)
 
         and:
         this.environment.declare(
@@ -934,37 +934,37 @@ class TypeCheckerTest extends Specification {
 
         where:
         type        | name  | val        | expected
-        'byte'      | 'bc'  | CHAR_LIT   | ValueType.BYTE
-        'byte'      | 'b'   | NUMBER_LIT | ValueType.BYTE
+        'byte'      | 'bc'  | CHAR_LIT   | PrimitiveType.BYTE
+        'byte'      | 'b'   | NUMBER_LIT | PrimitiveType.BYTE
         'Byte'      | 'bWc' | CHAR_LIT   | ObjectType.BYTE
         'Byte'      | 'bW'  | NUMBER_LIT | ObjectType.BYTE
-        'short'     | 'sc'  | CHAR_LIT   | ValueType.SHORT
-        'short'     | 's'   | NUMBER_LIT | ValueType.SHORT
+        'short'     | 'sc'  | CHAR_LIT   | PrimitiveType.SHORT
+        'short'     | 's'   | NUMBER_LIT | PrimitiveType.SHORT
         'Short'     | 'sWc' | CHAR_LIT   | ObjectType.SHORT
         'Short'     | 'sW'  | NUMBER_LIT | ObjectType.SHORT
-        'char'      | 'c'   | CHAR_LIT   | ValueType.CHAR
-        'char'      | 'ci'  | NUMBER_LIT | ValueType.CHAR
+        'char'      | 'c'   | CHAR_LIT   | PrimitiveType.CHAR
+        'char'      | 'ci'  | NUMBER_LIT | PrimitiveType.CHAR
         'Character' | 'cW'  | CHAR_LIT   | ObjectType.CHARACTER
         'Character' | 'ciW' | NUMBER_LIT | ObjectType.CHARACTER
-        'int'       | 'ic'  | CHAR_LIT   | ValueType.NUMBER
-        'int'       | 'i'   | NUMBER_LIT | ValueType.NUMBER
+        'int'       | 'ic'  | CHAR_LIT   | PrimitiveType.NUMBER
+        'int'       | 'i'   | NUMBER_LIT | PrimitiveType.NUMBER
         'Integer'   | 'iW'  | NUMBER_LIT | ObjectType.INTEGER
-        'long'      | 'lc'  | CHAR_LIT   | ValueType.LONG
-        'long'      | 'li'  | NUMBER_LIT | ValueType.LONG
-        'long'      | 'l'   | LONG_LIT   | ValueType.LONG
+        'long'      | 'lc'  | CHAR_LIT   | PrimitiveType.LONG
+        'long'      | 'li'  | NUMBER_LIT | PrimitiveType.LONG
+        'long'      | 'l'   | LONG_LIT   | PrimitiveType.LONG
         'Long'      | 'lW'  | LONG_LIT   | ObjectType.LONG
-        'float'     | 'fc'  | CHAR_LIT   | ValueType.FLOAT
-        'float'     | 'fi'  | NUMBER_LIT | ValueType.FLOAT
-        'float'     | 'fl'  | LONG_LIT   | ValueType.FLOAT
-        'float'     | 'f'   | FLOAT_LIT  | ValueType.FLOAT
+        'float'     | 'fc'  | CHAR_LIT   | PrimitiveType.FLOAT
+        'float'     | 'fi'  | NUMBER_LIT | PrimitiveType.FLOAT
+        'float'     | 'fl'  | LONG_LIT   | PrimitiveType.FLOAT
+        'float'     | 'f'   | FLOAT_LIT  | PrimitiveType.FLOAT
         'Float'     | 'fW'  | FLOAT_LIT  | ObjectType.FLOAT
-        'double'    | 'dc'  | CHAR_LIT   | ValueType.DOUBLE
-        'double'    | 'di'  | NUMBER_LIT | ValueType.DOUBLE
-        'double'    | 'dl'  | LONG_LIT   | ValueType.DOUBLE
-        'double'    | 'df'  | FLOAT_LIT  | ValueType.DOUBLE
-        'double'    | 'd'   | DOUBLE_LIT | ValueType.DOUBLE
+        'double'    | 'dc'  | CHAR_LIT   | PrimitiveType.DOUBLE
+        'double'    | 'di'  | NUMBER_LIT | PrimitiveType.DOUBLE
+        'double'    | 'dl'  | LONG_LIT   | PrimitiveType.DOUBLE
+        'double'    | 'df'  | FLOAT_LIT  | PrimitiveType.DOUBLE
+        'double'    | 'd'   | DOUBLE_LIT | PrimitiveType.DOUBLE
         'Double'    | 'dW'  | DOUBLE_LIT | ObjectType.DOUBLE
-        'boolean'   | 'bo'  | BOOL_LIT   | ValueType.BOOLEAN
+        'boolean'   | 'bo'  | BOOL_LIT   | PrimitiveType.BOOLEAN
         'Boolean'   | 'boW' | BOOL_LIT   | ObjectType.BOOLEAN
         'String'    | 'st'  | STRING_LIT | ObjectType.STRING
         'Object'    | 'o'   | BOOL_LIT   | ObjectType.OBJECT
@@ -1026,14 +1026,14 @@ class TypeCheckerTest extends Specification {
 
         where:
         classType << [
-                PrimitiveType.values(),
-                ClassObjectType.values(),
-                ClassObjectType.of(getClass())
+                PrimitiveClassType.values(),
+                ObjectClassType.values(),
+                ObjectClassType.of(getClass())
         ].flatten()
         type << [
-                PrimitiveType.values().collect { it.toType() },
-                PrimitiveType.values().collect { it.toType() },
-                ValueType.STRING,
+                PrimitiveClassType.values().collect { it.toType() },
+                PrimitiveClassType.values().collect { it.toType() },
+                PrimitiveType.STRING,
                 ObjectType.of(Object),
                 ObjectType.of(getClass())
         ].flatten()
@@ -1047,7 +1047,7 @@ class TypeCheckerTest extends Specification {
         )
 
         and:
-        def expected = new ArrayType(ValueType.BOOLEAN)
+        def expected = new ArrayType(PrimitiveType.BOOLEAN)
 
         expect:
         type == expected
@@ -1061,7 +1061,7 @@ class TypeCheckerTest extends Specification {
         )
 
         and:
-        def expected = new ArrayType(ValueType.BOOLEAN)
+        def expected = new ArrayType(PrimitiveType.BOOLEAN)
 
         expect:
         type == expected
@@ -1094,7 +1094,7 @@ class TypeCheckerTest extends Specification {
         def type = this.typeChecker.visitJavaProgram(statements)
 
         then:
-        type == ValueType.NUMBER
+        type == PrimitiveType.NUMBER
     }
 
     def 'test visit code block'() {
@@ -1112,7 +1112,7 @@ class TypeCheckerTest extends Specification {
         def type = this.typeChecker.visitCodeBlock(statements)
 
         then:
-        type == ValueType.NUMBER
+        type == PrimitiveType.NUMBER
         this.environment.enteredScope(ScopeType.CODE_BLOCK)
         this.environment.isMainScope()
     }
@@ -1122,7 +1122,7 @@ class TypeCheckerTest extends Specification {
         def type = this.typeChecker.visitArrayLiteral(Literal.of('Integer'))
 
         then:
-        type == new ArrayClassType(ClassObjectType.INTEGER)
+        type == new ArrayClassType(ObjectClassType.INTEGER)
     }
 
     def 'test decrement for #literal should return #expected'() {
@@ -1134,11 +1134,11 @@ class TypeCheckerTest extends Specification {
 
         where:
         literal     | expected
-        NUMBER_LIT  | ValueType.NUMBER
-        CHAR_LIT    | ValueType.CHAR
-        LONG_LIT    | ValueType.LONG
-        FLOAT_LIT   | ValueType.FLOAT
-        DOUBLE_LIT  | ValueType.DOUBLE
+        NUMBER_LIT  | PrimitiveType.NUMBER
+        CHAR_LIT    | PrimitiveType.CHAR
+        LONG_LIT    | PrimitiveType.LONG
+        FLOAT_LIT   | PrimitiveType.FLOAT
+        DOUBLE_LIT  | PrimitiveType.DOUBLE
     }
 
     def 'test increment for #literal should return #expected'() {
@@ -1150,11 +1150,11 @@ class TypeCheckerTest extends Specification {
 
         where:
         literal     | expected
-        NUMBER_LIT  | ValueType.NUMBER
-        CHAR_LIT    | ValueType.CHAR
-        LONG_LIT    | ValueType.LONG
-        FLOAT_LIT   | ValueType.FLOAT
-        DOUBLE_LIT  | ValueType.DOUBLE
+        NUMBER_LIT  | PrimitiveType.NUMBER
+        CHAR_LIT    | PrimitiveType.CHAR
+        LONG_LIT    | PrimitiveType.LONG
+        FLOAT_LIT   | PrimitiveType.FLOAT
+        DOUBLE_LIT  | PrimitiveType.DOUBLE
     }
 
     def 'test equal'() {
@@ -1162,7 +1162,7 @@ class TypeCheckerTest extends Specification {
         def type = this.typeChecker.visitEqual(NUMBER_LIT, NUMBER_LIT)
 
         expect:
-        type == ValueType.BOOLEAN
+        type == PrimitiveType.BOOLEAN
     }
 
     def 'test not equal'() {
@@ -1170,7 +1170,7 @@ class TypeCheckerTest extends Specification {
         def type = this.typeChecker.visitNotEqual(NUMBER_LIT, NUMBER_LIT)
 
         expect:
-        type == ValueType.BOOLEAN
+        type == PrimitiveType.BOOLEAN
     }
 
     def 'test less than'() {
@@ -1178,7 +1178,7 @@ class TypeCheckerTest extends Specification {
         def type = this.typeChecker.visitLessThan(NUMBER_LIT, NUMBER_LIT)
 
         expect:
-        type == ValueType.BOOLEAN
+        type == PrimitiveType.BOOLEAN
     }
 
     def 'test less than equal'() {
@@ -1186,7 +1186,7 @@ class TypeCheckerTest extends Specification {
         def type = this.typeChecker.visitLessThanEqual(NUMBER_LIT, NUMBER_LIT)
 
         expect:
-        type == ValueType.BOOLEAN
+        type == PrimitiveType.BOOLEAN
     }
 
     def 'test greater than'() {
@@ -1194,7 +1194,7 @@ class TypeCheckerTest extends Specification {
         def type = this.typeChecker.visitGreaterThan(NUMBER_LIT, NUMBER_LIT)
 
         expect:
-        type == ValueType.BOOLEAN
+        type == PrimitiveType.BOOLEAN
     }
 
     def 'test greater than equal'() {
@@ -1202,7 +1202,7 @@ class TypeCheckerTest extends Specification {
         def type = this.typeChecker.visitGreaterThanEqual(NUMBER_LIT, NUMBER_LIT)
 
         expect:
-        type == ValueType.BOOLEAN
+        type == PrimitiveType.BOOLEAN
     }
 
     def 'test valid and'() {
@@ -1210,7 +1210,7 @@ class TypeCheckerTest extends Specification {
         def type = this.typeChecker.visitAnd(BOOL_LIT, BOOL_LIT)
 
         expect:
-        type == ValueType.BOOLEAN
+        type == PrimitiveType.BOOLEAN
     }
 
     def 'test invalid and between #first and #second'() {
@@ -1232,7 +1232,7 @@ class TypeCheckerTest extends Specification {
         def type = this.typeChecker.visitOr(BOOL_LIT, BOOL_LIT)
 
         expect:
-        type == ValueType.BOOLEAN
+        type == PrimitiveType.BOOLEAN
     }
 
     def 'test invalid or between #first and #second'() {
@@ -1258,10 +1258,10 @@ class TypeCheckerTest extends Specification {
 
         where:
         first      | second     | expected
-        BOOL_LIT   | BOOL_LIT   | ValueType.BOOLEAN
-        CHAR_LIT   | CHAR_LIT   | ValueType.NUMBER
-        NUMBER_LIT | NUMBER_LIT | ValueType.NUMBER
-        LONG_LIT   | LONG_LIT   | ValueType.LONG
+        BOOL_LIT   | BOOL_LIT   | PrimitiveType.BOOLEAN
+        CHAR_LIT   | CHAR_LIT   | PrimitiveType.NUMBER
+        NUMBER_LIT | NUMBER_LIT | PrimitiveType.NUMBER
+        LONG_LIT   | LONG_LIT   | PrimitiveType.LONG
     }
 
     def 'test visit bit or of #first and #second should return #expected'() {
@@ -1273,10 +1273,10 @@ class TypeCheckerTest extends Specification {
 
         where:
         first      | second     | expected
-        BOOL_LIT   | BOOL_LIT   | ValueType.BOOLEAN
-        CHAR_LIT   | CHAR_LIT   | ValueType.NUMBER
-        NUMBER_LIT | NUMBER_LIT | ValueType.NUMBER
-        LONG_LIT   | LONG_LIT   | ValueType.LONG
+        BOOL_LIT   | BOOL_LIT   | PrimitiveType.BOOLEAN
+        CHAR_LIT   | CHAR_LIT   | PrimitiveType.NUMBER
+        NUMBER_LIT | NUMBER_LIT | PrimitiveType.NUMBER
+        LONG_LIT   | LONG_LIT   | PrimitiveType.LONG
     }
 
     def 'test visit bit xor of #first and #second should return #expected'() {
@@ -1288,10 +1288,10 @@ class TypeCheckerTest extends Specification {
 
         where:
         first      | second     | expected
-        BOOL_LIT   | BOOL_LIT   | ValueType.BOOLEAN
-        CHAR_LIT   | CHAR_LIT   | ValueType.NUMBER
-        NUMBER_LIT | NUMBER_LIT | ValueType.NUMBER
-        LONG_LIT   | LONG_LIT   | ValueType.LONG
+        BOOL_LIT   | BOOL_LIT   | PrimitiveType.BOOLEAN
+        CHAR_LIT   | CHAR_LIT   | PrimitiveType.NUMBER
+        NUMBER_LIT | NUMBER_LIT | PrimitiveType.NUMBER
+        LONG_LIT   | LONG_LIT   | PrimitiveType.LONG
     }
 
     def 'test visit lshift of #first and #second should return #expected'() {
@@ -1303,9 +1303,9 @@ class TypeCheckerTest extends Specification {
 
         where:
         first      | second     | expected
-        CHAR_LIT   | CHAR_LIT   | ValueType.NUMBER
-        NUMBER_LIT | NUMBER_LIT | ValueType.NUMBER
-        LONG_LIT   | LONG_LIT   | ValueType.LONG
+        CHAR_LIT   | CHAR_LIT   | PrimitiveType.NUMBER
+        NUMBER_LIT | NUMBER_LIT | PrimitiveType.NUMBER
+        LONG_LIT   | LONG_LIT   | PrimitiveType.LONG
     }
 
     def 'test visit rshift of #first and #second should return #expected'() {
@@ -1317,9 +1317,9 @@ class TypeCheckerTest extends Specification {
 
         where:
         first      | second     | expected
-        CHAR_LIT   | CHAR_LIT   | ValueType.NUMBER
-        NUMBER_LIT | NUMBER_LIT | ValueType.NUMBER
-        LONG_LIT   | LONG_LIT   | ValueType.LONG
+        CHAR_LIT   | CHAR_LIT   | PrimitiveType.NUMBER
+        NUMBER_LIT | NUMBER_LIT | PrimitiveType.NUMBER
+        LONG_LIT   | LONG_LIT   | PrimitiveType.LONG
     }
 
     def 'test visit urshift of #first and #second should return #expected'() {
@@ -1331,9 +1331,9 @@ class TypeCheckerTest extends Specification {
 
         where:
         first      | second     | expected
-        CHAR_LIT   | CHAR_LIT   | ValueType.NUMBER
-        NUMBER_LIT | NUMBER_LIT | ValueType.NUMBER
-        LONG_LIT   | LONG_LIT   | ValueType.LONG
+        CHAR_LIT   | CHAR_LIT   | PrimitiveType.NUMBER
+        NUMBER_LIT | NUMBER_LIT | PrimitiveType.NUMBER
+        LONG_LIT   | LONG_LIT   | PrimitiveType.LONG
     }
 
     def 'test visit add of #first and #second should return #expected'() {
@@ -1345,12 +1345,12 @@ class TypeCheckerTest extends Specification {
 
         where:
         first       | second      | expected
-        CHAR_LIT    | CHAR_LIT    | ValueType.NUMBER
-        NUMBER_LIT  | NUMBER_LIT  | ValueType.NUMBER
-        LONG_LIT    | LONG_LIT    | ValueType.LONG
-        FLOAT_LIT   | FLOAT_LIT   | ValueType.FLOAT
-        DOUBLE_LIT  | DOUBLE_LIT  | ValueType.DOUBLE
-        STRING_LIT  | STRING_LIT  | ValueType.STRING
+        CHAR_LIT    | CHAR_LIT    | PrimitiveType.NUMBER
+        NUMBER_LIT  | NUMBER_LIT  | PrimitiveType.NUMBER
+        LONG_LIT    | LONG_LIT    | PrimitiveType.LONG
+        FLOAT_LIT   | FLOAT_LIT   | PrimitiveType.FLOAT
+        DOUBLE_LIT  | DOUBLE_LIT  | PrimitiveType.DOUBLE
+        STRING_LIT  | STRING_LIT  | PrimitiveType.STRING
     }
 
     def 'test visit subtract of #first and #second should return #expected'() {
@@ -1362,11 +1362,11 @@ class TypeCheckerTest extends Specification {
 
         where:
         first       | second      | expected
-        CHAR_LIT    | CHAR_LIT    | ValueType.NUMBER
-        NUMBER_LIT  | NUMBER_LIT  | ValueType.NUMBER
-        LONG_LIT    | LONG_LIT    | ValueType.LONG
-        FLOAT_LIT   | FLOAT_LIT   | ValueType.FLOAT
-        DOUBLE_LIT  | DOUBLE_LIT  | ValueType.DOUBLE
+        CHAR_LIT    | CHAR_LIT    | PrimitiveType.NUMBER
+        NUMBER_LIT  | NUMBER_LIT  | PrimitiveType.NUMBER
+        LONG_LIT    | LONG_LIT    | PrimitiveType.LONG
+        FLOAT_LIT   | FLOAT_LIT   | PrimitiveType.FLOAT
+        DOUBLE_LIT  | DOUBLE_LIT  | PrimitiveType.DOUBLE
     }
 
     def 'test visit multiply of #first and #second should return #expected'() {
@@ -1378,11 +1378,11 @@ class TypeCheckerTest extends Specification {
 
         where:
         first       | second      | expected
-        CHAR_LIT    | CHAR_LIT    | ValueType.NUMBER
-        NUMBER_LIT  | NUMBER_LIT  | ValueType.NUMBER
-        LONG_LIT    | LONG_LIT    | ValueType.LONG
-        FLOAT_LIT   | FLOAT_LIT   | ValueType.FLOAT
-        DOUBLE_LIT  | DOUBLE_LIT  | ValueType.DOUBLE
+        CHAR_LIT    | CHAR_LIT    | PrimitiveType.NUMBER
+        NUMBER_LIT  | NUMBER_LIT  | PrimitiveType.NUMBER
+        LONG_LIT    | LONG_LIT    | PrimitiveType.LONG
+        FLOAT_LIT   | FLOAT_LIT   | PrimitiveType.FLOAT
+        DOUBLE_LIT  | DOUBLE_LIT  | PrimitiveType.DOUBLE
     }
 
     def 'test visit divide of #first and #second should return #expected'() {
@@ -1394,11 +1394,11 @@ class TypeCheckerTest extends Specification {
 
         where:
         first       | second      | expected
-        CHAR_LIT    | CHAR_LIT    | ValueType.NUMBER
-        NUMBER_LIT  | NUMBER_LIT  | ValueType.NUMBER
-        LONG_LIT    | LONG_LIT    | ValueType.LONG
-        FLOAT_LIT   | FLOAT_LIT   | ValueType.FLOAT
-        DOUBLE_LIT  | DOUBLE_LIT  | ValueType.DOUBLE
+        CHAR_LIT    | CHAR_LIT    | PrimitiveType.NUMBER
+        NUMBER_LIT  | NUMBER_LIT  | PrimitiveType.NUMBER
+        LONG_LIT    | LONG_LIT    | PrimitiveType.LONG
+        FLOAT_LIT   | FLOAT_LIT   | PrimitiveType.FLOAT
+        DOUBLE_LIT  | DOUBLE_LIT  | PrimitiveType.DOUBLE
     }
 
     def 'test visit modulo of #first and #second should return #expected'() {
@@ -1410,11 +1410,11 @@ class TypeCheckerTest extends Specification {
 
         where:
         first       | second      | expected
-        CHAR_LIT    | CHAR_LIT    | ValueType.NUMBER
-        NUMBER_LIT  | NUMBER_LIT  | ValueType.NUMBER
-        LONG_LIT    | LONG_LIT    | ValueType.LONG
-        FLOAT_LIT   | FLOAT_LIT   | ValueType.FLOAT
-        DOUBLE_LIT  | DOUBLE_LIT  | ValueType.DOUBLE
+        CHAR_LIT    | CHAR_LIT    | PrimitiveType.NUMBER
+        NUMBER_LIT  | NUMBER_LIT  | PrimitiveType.NUMBER
+        LONG_LIT    | LONG_LIT    | PrimitiveType.LONG
+        FLOAT_LIT   | FLOAT_LIT   | PrimitiveType.FLOAT
+        DOUBLE_LIT  | DOUBLE_LIT  | PrimitiveType.DOUBLE
     }
 
     def 'test visit minus for #literal should return #expected'() {
@@ -1426,11 +1426,11 @@ class TypeCheckerTest extends Specification {
 
         where:
         literal     | expected
-        NUMBER_LIT  | ValueType.NUMBER
-        CHAR_LIT    | ValueType.NUMBER
-        LONG_LIT    | ValueType.LONG
-        FLOAT_LIT   | ValueType.FLOAT
-        DOUBLE_LIT  | ValueType.DOUBLE
+        NUMBER_LIT  | PrimitiveType.NUMBER
+        CHAR_LIT    | PrimitiveType.NUMBER
+        LONG_LIT    | PrimitiveType.LONG
+        FLOAT_LIT   | PrimitiveType.FLOAT
+        DOUBLE_LIT  | PrimitiveType.DOUBLE
     }
 
     def 'test visit break with scope #scope should not throw exception'() {
@@ -1518,7 +1518,7 @@ class TypeCheckerTest extends Specification {
         def type = this.typeChecker.visitNot(BOOL_LIT)
 
         expect:
-        type == ValueType.BOOLEAN
+        type == PrimitiveType.BOOLEAN
     }
 
     def 'test visit this should return this object'() {
@@ -1539,57 +1539,57 @@ class TypeCheckerTest extends Specification {
         where:
         target     | cast                    | expected
         // char
-        CHAR_LIT   | Literal.of('byte')      | ValueType.BYTE
-        CHAR_LIT   | Literal.of('short')     | ValueType.SHORT
-        CHAR_LIT   | Literal.of('char')      | ValueType.CHAR
+        CHAR_LIT   | Literal.of('byte')      | PrimitiveType.BYTE
+        CHAR_LIT   | Literal.of('short')     | PrimitiveType.SHORT
+        CHAR_LIT   | Literal.of('char')      | PrimitiveType.CHAR
         CHAR_LIT   | Literal.of('Character') | ObjectType.CHARACTER
-        CHAR_LIT   | Literal.of('int')       | ValueType.NUMBER
-        CHAR_LIT   | Literal.of('long')      | ValueType.LONG
-        CHAR_LIT   | Literal.of('float')     | ValueType.FLOAT
-        CHAR_LIT   | Literal.of('double')    | ValueType.DOUBLE
+        CHAR_LIT   | Literal.of('int')       | PrimitiveType.NUMBER
+        CHAR_LIT   | Literal.of('long')      | PrimitiveType.LONG
+        CHAR_LIT   | Literal.of('float')     | PrimitiveType.FLOAT
+        CHAR_LIT   | Literal.of('double')    | PrimitiveType.DOUBLE
         CHAR_LIT   | Literal.of('Object')    | ObjectType.OBJECT
         // number
-        NUMBER_LIT | Literal.of('byte')      | ValueType.BYTE
-        NUMBER_LIT | Literal.of('short')     | ValueType.SHORT
-        NUMBER_LIT | Literal.of('char')      | ValueType.CHAR
-        NUMBER_LIT | Literal.of('int')       | ValueType.NUMBER
+        NUMBER_LIT | Literal.of('byte')      | PrimitiveType.BYTE
+        NUMBER_LIT | Literal.of('short')     | PrimitiveType.SHORT
+        NUMBER_LIT | Literal.of('char')      | PrimitiveType.CHAR
+        NUMBER_LIT | Literal.of('int')       | PrimitiveType.NUMBER
         NUMBER_LIT | Literal.of('Integer')   | ObjectType.INTEGER
-        NUMBER_LIT | Literal.of('long')      | ValueType.LONG
-        NUMBER_LIT | Literal.of('float')     | ValueType.FLOAT
-        NUMBER_LIT | Literal.of('double')    | ValueType.DOUBLE
+        NUMBER_LIT | Literal.of('long')      | PrimitiveType.LONG
+        NUMBER_LIT | Literal.of('float')     | PrimitiveType.FLOAT
+        NUMBER_LIT | Literal.of('double')    | PrimitiveType.DOUBLE
         NUMBER_LIT | Literal.of('Object')    | ObjectType.OBJECT
         // long
-        LONG_LIT   | Literal.of('byte')      | ValueType.BYTE
-        LONG_LIT   | Literal.of('short')     | ValueType.SHORT
-        LONG_LIT   | Literal.of('char')      | ValueType.CHAR
-        LONG_LIT   | Literal.of('int')       | ValueType.NUMBER
-        LONG_LIT   | Literal.of('long')      | ValueType.LONG
+        LONG_LIT   | Literal.of('byte')      | PrimitiveType.BYTE
+        LONG_LIT   | Literal.of('short')     | PrimitiveType.SHORT
+        LONG_LIT   | Literal.of('char')      | PrimitiveType.CHAR
+        LONG_LIT   | Literal.of('int')       | PrimitiveType.NUMBER
+        LONG_LIT   | Literal.of('long')      | PrimitiveType.LONG
         LONG_LIT   | Literal.of('Long')      | ObjectType.LONG
-        LONG_LIT   | Literal.of('float')     | ValueType.FLOAT
-        LONG_LIT   | Literal.of('double')    | ValueType.DOUBLE
+        LONG_LIT   | Literal.of('float')     | PrimitiveType.FLOAT
+        LONG_LIT   | Literal.of('double')    | PrimitiveType.DOUBLE
         LONG_LIT   | Literal.of('Object')    | ObjectType.OBJECT
         // float
-        FLOAT_LIT  | Literal.of('byte')      | ValueType.BYTE
-        FLOAT_LIT  | Literal.of('short')     | ValueType.SHORT
-        FLOAT_LIT  | Literal.of('char')      | ValueType.CHAR
-        FLOAT_LIT  | Literal.of('int')       | ValueType.NUMBER
-        FLOAT_LIT  | Literal.of('long')      | ValueType.LONG
-        FLOAT_LIT  | Literal.of('float')     | ValueType.FLOAT
+        FLOAT_LIT  | Literal.of('byte')      | PrimitiveType.BYTE
+        FLOAT_LIT  | Literal.of('short')     | PrimitiveType.SHORT
+        FLOAT_LIT  | Literal.of('char')      | PrimitiveType.CHAR
+        FLOAT_LIT  | Literal.of('int')       | PrimitiveType.NUMBER
+        FLOAT_LIT  | Literal.of('long')      | PrimitiveType.LONG
+        FLOAT_LIT  | Literal.of('float')     | PrimitiveType.FLOAT
         FLOAT_LIT  | Literal.of('Float')     | ObjectType.FLOAT
-        FLOAT_LIT  | Literal.of('double')    | ValueType.DOUBLE
+        FLOAT_LIT  | Literal.of('double')    | PrimitiveType.DOUBLE
         FLOAT_LIT  | Literal.of('Object')    | ObjectType.OBJECT
         // double
-        DOUBLE_LIT | Literal.of('byte')      | ValueType.BYTE
-        DOUBLE_LIT | Literal.of('short')     | ValueType.SHORT
-        DOUBLE_LIT | Literal.of('char')      | ValueType.CHAR
-        DOUBLE_LIT | Literal.of('int')       | ValueType.NUMBER
-        DOUBLE_LIT | Literal.of('long')      | ValueType.LONG
-        DOUBLE_LIT | Literal.of('float')     | ValueType.FLOAT
-        DOUBLE_LIT | Literal.of('double')    | ValueType.DOUBLE
+        DOUBLE_LIT | Literal.of('byte')      | PrimitiveType.BYTE
+        DOUBLE_LIT | Literal.of('short')     | PrimitiveType.SHORT
+        DOUBLE_LIT | Literal.of('char')      | PrimitiveType.CHAR
+        DOUBLE_LIT | Literal.of('int')       | PrimitiveType.NUMBER
+        DOUBLE_LIT | Literal.of('long')      | PrimitiveType.LONG
+        DOUBLE_LIT | Literal.of('float')     | PrimitiveType.FLOAT
+        DOUBLE_LIT | Literal.of('double')    | PrimitiveType.DOUBLE
         DOUBLE_LIT | Literal.of('Double')    | ObjectType.DOUBLE
         DOUBLE_LIT | Literal.of('Object')    | ObjectType.OBJECT
         // boolean
-        BOOL_LIT   | Literal.of('boolean')   | ValueType.BOOLEAN
+        BOOL_LIT   | Literal.of('boolean')   | PrimitiveType.BOOLEAN
         BOOL_LIT   | Literal.of('Boolean')   | ObjectType.BOOLEAN
         BOOL_LIT   | Literal.of('Object')    | ObjectType.OBJECT
         // string
@@ -1604,11 +1604,11 @@ class TypeCheckerTest extends Specification {
 
     def 'test invalid visit cast #target to #cast'() {
         given:
-        this.environment.declare(PrimitiveType.INT, 'cast', ValueType.NUMBER)
+        this.environment.declare(PrimitiveClassType.INT, 'cast', PrimitiveType.NUMBER)
 
         and:
         def expectedMessage = TypeCheckerException.invalidCast(cast.equals(Literal.of('String')) ?
-                ClassObjectType.STRING : PrimitiveType.INT, expected).message
+                ObjectClassType.STRING : PrimitiveClassType.INT, expected).message
 
         when:
         this.typeChecker.visitCast(cast, target)
@@ -1619,13 +1619,13 @@ class TypeCheckerTest extends Specification {
 
         where:
         target             | cast                 | expected
-        CHAR_LIT           | Literal.of('String') | ValueType.CHAR
-        NUMBER_LIT         | Literal.of('String') | ValueType.NUMBER
-        LONG_LIT           | Literal.of('String') | ValueType.LONG
-        FLOAT_LIT          | Literal.of('String') | ValueType.FLOAT
-        DOUBLE_LIT         | Literal.of('String') | ValueType.DOUBLE
-        STRING_LIT         | Literal.of('int')    | ValueType.STRING
-        Literal.of('cast') | Literal.of('String') | ValueType.NUMBER
+        CHAR_LIT           | Literal.of('String') | PrimitiveType.CHAR
+        NUMBER_LIT         | Literal.of('String') | PrimitiveType.NUMBER
+        LONG_LIT           | Literal.of('String') | PrimitiveType.LONG
+        FLOAT_LIT          | Literal.of('String') | PrimitiveType.FLOAT
+        DOUBLE_LIT         | Literal.of('String') | PrimitiveType.DOUBLE
+        STRING_LIT         | Literal.of('int')    | PrimitiveType.STRING
+        Literal.of('cast') | Literal.of('String') | PrimitiveType.NUMBER
     }
 
     def 'test visitScoped with exception #exception should throw #expected'() {

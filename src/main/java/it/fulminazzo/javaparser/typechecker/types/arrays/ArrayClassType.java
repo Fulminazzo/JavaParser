@@ -4,7 +4,7 @@ import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import it.fulminazzo.javaparser.typechecker.types.ClassType;
 import it.fulminazzo.javaparser.typechecker.types.Type;
 import it.fulminazzo.javaparser.typechecker.types.TypeWrapper;
-import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType;
+import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
@@ -36,7 +36,7 @@ public class ArrayClassType extends TypeWrapper implements ClassType {
     public @NotNull Type cast(@NotNull Type type) {
         ArrayType arrayType = type.check(ArrayType.class);
         Type componentType = arrayType.getComponentType();
-        if (componentType.isValue() || componentType.toClassType().is(ClassObjectType.class)) {
+        if (componentType.isValue() || componentType.toClassType().is(ObjectClassType.class)) {
             if (!getComponentType().is(componentType.toClassType()))
                 throw TypeCheckerException.invalidCast(this, type);
         }

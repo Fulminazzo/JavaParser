@@ -7,7 +7,7 @@ class TupleTypeTest extends Specification {
 
     def 'test toClassType should throw exception'() {
         given:
-        def type = new TupleType(PrimitiveType.INT, PrimitiveType.INT)
+        def type = new TupleType(PrimitiveClassType.INT, PrimitiveClassType.INT)
 
         when:
         type.toClassType()

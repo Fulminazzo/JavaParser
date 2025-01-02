@@ -3,7 +3,7 @@ package it.fulminazzo.javaparser.typechecker
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
 
-import static it.fulminazzo.javaparser.typechecker.types.ValueType.*
+import static it.fulminazzo.javaparser.typechecker.types.PrimitiveType.*
 
 class OperationUtilsTest extends Specification {
 

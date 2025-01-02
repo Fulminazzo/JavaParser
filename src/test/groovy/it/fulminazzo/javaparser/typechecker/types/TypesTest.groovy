@@ -1,7 +1,7 @@
 package it.fulminazzo.javaparser.typechecker.types
 
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException
-import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType
+import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType
 import spock.lang.Specification
 
 class TypesTest extends Specification {
@@ -19,7 +19,7 @@ class TypesTest extends Specification {
         type.isAssignableFrom(classType)
 
         where:
-        classType << ClassObjectType.values()
+        classType << ObjectClassType.values()
     }
 
     def 'test null type should not be compatible with class type #classType'() {
@@ -30,7 +30,7 @@ class TypesTest extends Specification {
         !type.isAssignableFrom(classType)
 
         where:
-        classType << PrimitiveType.values()
+        classType << PrimitiveClassType.values()
     }
 
     def 'test SingletonType toClassType'() {
@@ -64,7 +64,7 @@ class TypesTest extends Specification {
         !this.type.equals(other)
 
         where:
-        other << [PrimitiveType.BOOLEAN, ValueType.STRING, null,
+        other << [PrimitiveClassType.BOOLEAN, PrimitiveType.STRING, null,
                   new Types.SingletonType('MOCK'), 'TEST_TYPE']
     }
 

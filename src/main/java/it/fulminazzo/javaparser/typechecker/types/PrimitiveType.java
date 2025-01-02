@@ -1,116 +1,83 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
-import it.fulminazzo.javaparser.typechecker.OperationUtils;
-import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
+import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType;
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-
 /**
- * Represents a primitive {@link Type} name.
+ * Contains all the values accepted by Java.
  */
-public enum PrimitiveType implements ClassType {
+public enum PrimitiveType implements Type {
     /**
-     * <code>byte</code>
+     * Type of {@link it.fulminazzo.javaparser.tokenizer.TokenType#CHAR_VALUE}.
      */
-    BYTE(ValueType.BYTE,
-            ObjectType.BYTE),
+    CHAR,
     /**
-     * <code>short</code>
+     * Type of {@link it.fulminazzo.javaparser.tokenizer.TokenType#NUMBER_VALUE}.
      */
-    SHORT(ValueType.BYTE, ValueType.SHORT,
-            ObjectType.BYTE, ObjectType.SHORT),
+    NUMBER,
     /**
-     * <code>char</code>
+     * Type of {@link it.fulminazzo.javaparser.tokenizer.TokenType#LONG_VALUE}.
      */
-    CHAR(ValueType.CHAR, ValueType.NUMBER,
-            ObjectType.CHARACTER),
+    LONG,
     /**
-     * <code>int</code>
+     * Type of {@link it.fulminazzo.javaparser.tokenizer.TokenType#DOUBLE_VALUE}.
      */
-    INT(ValueType.BYTE, ValueType.SHORT, ValueType.CHAR, ValueType.NUMBER,
-            ObjectType.BYTE, ObjectType.SHORT, ObjectType.CHARACTER, ObjectType.INTEGER),
+    DOUBLE,
     /**
-     * <code>long</code>
+     * Type of {@link it.fulminazzo.javaparser.tokenizer.TokenType#FLOAT_VALUE}.
      */
-    LONG(ValueType.BYTE, ValueType.SHORT, ValueType.CHAR, ValueType.NUMBER, ValueType.LONG,
-            ObjectType.BYTE, ObjectType.SHORT, ObjectType.CHARACTER, ObjectType.INTEGER, ObjectType.LONG),
+    FLOAT,
     /**
-     * <code>float</code>
+     * Type of {@link it.fulminazzo.javaparser.tokenizer.TokenType#BOOLEAN_VALUE}.
      */
-    FLOAT(ValueType.BYTE, ValueType.SHORT, ValueType.CHAR, ValueType.NUMBER, ValueType.LONG,
-            ValueType.FLOAT,
-            ObjectType.BYTE, ObjectType.SHORT, ObjectType.CHARACTER, ObjectType.INTEGER, ObjectType.LONG,
-            ObjectType.FLOAT),
+    BOOLEAN,
     /**
-     * <code>double</code>
+     * Type of {@link it.fulminazzo.javaparser.tokenizer.TokenType#STRING_VALUE}.
      */
-    DOUBLE(ValueType.BYTE, ValueType.SHORT, ValueType.CHAR, ValueType.NUMBER, ValueType.LONG,
-            ValueType.FLOAT, ValueType.DOUBLE,
-            ObjectType.BYTE, ObjectType.SHORT, ObjectType.CHARACTER, ObjectType.INTEGER, ObjectType.LONG,
-            ObjectType.FLOAT, ObjectType.DOUBLE),
-    /**
-     * <code>boolean</code>
+    STRING,
+
+    /*
+        The following types do not have an associated regex.
+        They can only be identified after declaring a variable.
      */
-    BOOLEAN(ValueType.BOOLEAN,
-            ObjectType.BOOLEAN),
+    BYTE,
+    SHORT,
     ;
 
-    private final Type @NotNull [] compatibleTypes;
-
-    PrimitiveType(final Type @NotNull ... compatibleTypes) {
-        this.compatibleTypes = compatibleTypes;
-    }
-
     @Override
-    public @NotNull Type toType() {
+    public @NotNull ObjectType toWrapper() {
         switch (this) {
-            case BYTE: return ValueType.BYTE;
-            case SHORT: return ValueType.SHORT;
-            case INT: return ValueType.NUMBER;
-            case CHAR: return ValueType.CHAR;
-            case LONG: return ValueType.LONG;
-            case FLOAT: return ValueType.FLOAT;
-            case DOUBLE: return ValueType.DOUBLE;
-            default: return ValueType.BOOLEAN;
+            case BYTE: return ObjectType.BYTE;
+            case SHORT: return ObjectType.SHORT;
+            case CHAR: return ObjectType.CHARACTER;
+            case NUMBER: return ObjectType.INTEGER;
+            case LONG: return ObjectType.LONG;
+            case FLOAT: return ObjectType.FLOAT;
+            case DOUBLE: return ObjectType.DOUBLE;
+            case BOOLEAN: return ObjectType.BOOLEAN;
+            default: return ObjectType.STRING;
         }
     }
 
     @Override
-    public @NotNull Type cast(@NotNull Type type) {
-        if (this != BOOLEAN && type.is(Arrays.stream(OperationUtils.getDecimalTypes())
-                .filter(Type::isValue).toArray(Type[]::new)))
-            return toType();
-        for (Type compatibleType : this.compatibleTypes)
-            if (compatibleType.is(type)) return toType();
-        throw TypeCheckerException.invalidCast(this, type);
-    }
-
-    @Override
-    public @NotNull Class<?> toJavaClass() {
+    public @NotNull ClassType toClassType() {
         switch (this) {
-            case BYTE: return byte.class;
-            case CHAR: return char.class;
-            case SHORT: return short.class;
-            case INT: return int.class;
-            case LONG: return long.class;
-            case FLOAT: return float.class;
-            case DOUBLE: return double.class;
-            default: return boolean.class;
+            case CHAR: return PrimitiveClassType.CHAR;
+            case LONG: return PrimitiveClassType.LONG;
+            case BYTE: return PrimitiveClassType.BYTE;
+            case SHORT: return PrimitiveClassType.SHORT;
+            case NUMBER: return PrimitiveClassType.INT;
+            case FLOAT: return PrimitiveClassType.FLOAT;
+            case DOUBLE: return PrimitiveClassType.DOUBLE;
+            case BOOLEAN: return PrimitiveClassType.BOOLEAN;
+            default: return ObjectClassType.STRING;
         }
-    }
-
-    @Override
-    public boolean compatibleWith(@NotNull Type type) {
-        for (Type compatibleType : this.compatibleTypes)
-            if (compatibleType.is(type)) return true;
-        return false;
     }
 
     @Override
     public String toString() {
-        return ClassType.print(name().toLowerCase());
+        return Type.print(name() + "_VALUE");
     }
 
 }

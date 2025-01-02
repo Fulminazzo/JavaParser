@@ -3,10 +3,10 @@ package it.fulminazzo.javaparser.typechecker
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple
 import it.fulminazzo.javaparser.typechecker.types.ClassType
 import it.fulminazzo.javaparser.typechecker.types.LiteralType
-import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
+import it.fulminazzo.javaparser.typechecker.types.PrimitiveClassType
 import it.fulminazzo.javaparser.typechecker.types.TypeException
-import it.fulminazzo.javaparser.typechecker.types.ValueType
-import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType
+import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
+import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
 
@@ -19,7 +19,7 @@ class TypeCheckerLiteralTest extends Specification {
 
     def 'test visit literal from code #code should return #expected'() {
         given:
-        this.checker.environment.declare(ClassObjectType.INTEGER, 'var', ValueType.NUMBER)
+        this.checker.environment.declare(ObjectClassType.INTEGER, 'var', PrimitiveType.NUMBER)
 
         when:
         def read = this.checker.visitLiteralImpl(code)
@@ -30,19 +30,19 @@ class TypeCheckerLiteralTest extends Specification {
         where:
         code                                                        | expected
         'val'                                                       | new LiteralType('val')
-        'int'                                                       | PrimitiveType.INT
-        'String'                                                    | ClassObjectType.STRING
+        'int'                                                       | PrimitiveClassType.INT
+        'String'                                                    | ObjectClassType.STRING
         'System'                                                    | ClassType.of('System')
         //TODO: should have wrapper for class, but for this we need to implement generics
         //TODO: so, at least for now, test disabled
 //        'System.class'                                              | ObjectType.of('Class')
         'System.out'                                                | ObjectType.of(PrintStream.canonicalName)
-        'var'                                                       | ValueType.NUMBER
+        'var'                                                       | PrimitiveType.NUMBER
         'var.TYPE'                                                  | ObjectType.of('Class')
         "${FirstInnerClass.canonicalName}.second"                   | ObjectType.of(FirstInnerClass.SecondInnerClass.canonicalName)
-        "${FirstInnerClass.canonicalName}.second.version"           | ValueType.NUMBER
+        "${FirstInnerClass.canonicalName}.second.version"           | PrimitiveType.NUMBER
         "${FirstInnerClass.SecondInnerClass.canonicalName}"         | ClassType.of(FirstInnerClass.SecondInnerClass.canonicalName)
-        "${FirstInnerClass.SecondInnerClass.canonicalName}.version" | ValueType.NUMBER
+        "${FirstInnerClass.SecondInnerClass.canonicalName}.version" | PrimitiveType.NUMBER
     }
 
     def 'test visit literal invalid field'() {
@@ -71,7 +71,7 @@ class TypeCheckerLiteralTest extends Specification {
 
     def 'test getTypeFromLiteral #literal'() {
         given:
-        this.checker.environment.declare(PrimitiveType.INT, 'i', ValueType.NUMBER)
+        this.checker.environment.declare(PrimitiveClassType.INT, 'i', PrimitiveType.NUMBER)
 
         when:
         def tuple = this.checker.getTypeFromLiteral(literal)
@@ -81,8 +81,8 @@ class TypeCheckerLiteralTest extends Specification {
 
         where:
         literal   | expected
-        'int'     | new Tuple<>(PrimitiveType.INT, PrimitiveType.INT)
-        'i'       | new Tuple<>(PrimitiveType.INT, ValueType.NUMBER)
+        'int'     | new Tuple<>(PrimitiveClassType.INT, PrimitiveClassType.INT)
+        'i'       | new Tuple<>(PrimitiveClassType.INT, PrimitiveType.NUMBER)
         'invalid' | new Tuple<>()
     }
 

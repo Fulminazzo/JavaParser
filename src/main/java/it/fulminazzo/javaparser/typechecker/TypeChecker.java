@@ -17,7 +17,7 @@ import it.fulminazzo.javaparser.parser.node.statements.Statement;
 import it.fulminazzo.javaparser.typechecker.types.*;
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayClassType;
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayType;
-import it.fulminazzo.javaparser.typechecker.types.objects.ClassObjectType;
+import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType;
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
 import it.fulminazzo.javaparser.visitors.Visitor;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +26,7 @@ import java.util.*;
 import java.util.concurrent.Callable;
 
 import static it.fulminazzo.javaparser.typechecker.OperationUtils.*;
-import static it.fulminazzo.javaparser.typechecker.types.ValueType.*;
+import static it.fulminazzo.javaparser.typechecker.types.PrimitiveType.*;
 
 /**
  * A {@link Visitor} that checks and verifies all the types of the parsed code.
@@ -93,7 +93,7 @@ public final class TypeChecker implements Visitor<Type> {
         Type variableValue = value.accept(this);
         // Test for uninitialized
         if (variableValue.is(Types.NO_TYPE))
-            if (variableType.is(PrimitiveType.class)) variableValue = variableType.toType();
+            if (variableType.is(PrimitiveClassType.class)) variableValue = variableType.toType();
             else variableValue = Types.NULL_TYPE;
         variableValue = convertByteAndShort(variableType, variableValue).checkAssignableFrom(variableType);
         try {
@@ -104,12 +104,12 @@ public final class TypeChecker implements Visitor<Type> {
 
     /**
      * Converts the given {@link Type} to the most appropriate one.
-     * If it is NOT {@link ValueType}, it is returned as is.
+     * If it is NOT {@link PrimitiveType}, it is returned as is.
      * Otherwise, if the {@link ClassType} is:
      * <ul>
-     *     <li>a {@link PrimitiveType}, {@link PrimitiveType#toType()} is returned;</li>
-     *     <li>a {@link ClassObjectType}, {@link ClassObjectType#toType()} is returned only
-     *     if it is NOT {@link ClassObjectType#OBJECT}.</li>
+     *     <li>a {@link PrimitiveClassType}, {@link PrimitiveClassType#toType()} is returned;</li>
+     *     <li>a {@link ObjectClassType}, {@link ObjectClassType#toType()} is returned only
+     *     if it is NOT {@link ObjectClassType#OBJECT}.</li>
      * </ul>
      *
      * @param valueType the type of the value
@@ -119,8 +119,8 @@ public final class TypeChecker implements Visitor<Type> {
     static @NotNull Type convertValue(final @NotNull ClassType valueType,
                                       final @NotNull Type value) {
         if (!value.isValue()) return value;
-        else if (valueType.is(PrimitiveType.class)) return valueType.toType();
-        else if (!valueType.is(ClassObjectType.OBJECT)) // Can only be ClassObjectType at this point
+        else if (valueType.is(PrimitiveClassType.class)) return valueType.toType();
+        else if (!valueType.is(ObjectClassType.OBJECT)) // Can only be ClassObjectType at this point
             return valueType.toType();
         return value;
     }
@@ -128,7 +128,7 @@ public final class TypeChecker implements Visitor<Type> {
     /**
      * Support function for {@link #visitAssignment(Node, Literal, Node)}
      * and {@link #visitReAssign(Node, Node)}.
-     * Converts {@link ValueType}s for {@link PrimitiveType#BYTE} and {@link PrimitiveType#SHORT}.
+     * Converts {@link PrimitiveType}s for {@link PrimitiveClassType#BYTE} and {@link PrimitiveClassType#SHORT}.
      *
      * @param variableType  the variable type
      * @param variableValue the variable value
@@ -136,7 +136,7 @@ public final class TypeChecker implements Visitor<Type> {
      */
     static @NotNull Type convertByteAndShort(final @NotNull ClassType variableType,
                                              final @NotNull Type variableValue) {
-        if (variableType.is(PrimitiveType.BYTE, ClassObjectType.BYTE, PrimitiveType.SHORT, ClassObjectType.SHORT))
+        if (variableType.is(PrimitiveClassType.BYTE, ObjectClassType.BYTE, PrimitiveClassType.SHORT, ObjectClassType.SHORT))
             if (variableValue.is(NUMBER) || variableValue.is(CHAR)) return variableType.toType();
         return variableValue;
     }
@@ -556,7 +556,7 @@ public final class TypeChecker implements Visitor<Type> {
                     throw TypeCheckerException.invalidType(componentType.toClassType(), variableType);
             } else {
                 //TODO: Iterable generic should check for type
-                ClassType iterable = ClassObjectType.of(Iterable.class);
+                ClassType iterable = ObjectClassType.of(Iterable.class);
                 expressionType.checkAssignableFrom(iterable);
             }
 

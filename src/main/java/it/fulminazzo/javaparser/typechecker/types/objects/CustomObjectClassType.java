@@ -8,16 +8,16 @@ import it.fulminazzo.javaparser.typechecker.types.Types;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents a {@link ClassObjectType} with a class different from the default types.
+ * Represents a {@link ObjectClassType} with a class different from the default types.
  */
-class CustomClassObjectType extends TypeWrapper implements ClassType {
+class CustomObjectClassType extends TypeWrapper implements ClassType {
 
     /**
      * Instantiates a new Custom class object type.
      *
      * @param internalType the internal type
      */
-    public CustomClassObjectType(@NotNull ObjectType internalType) {
+    public CustomObjectClassType(@NotNull ObjectType internalType) {
         super(internalType);
     }
 

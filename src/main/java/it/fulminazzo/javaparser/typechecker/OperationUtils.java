@@ -1,7 +1,7 @@
 package it.fulminazzo.javaparser.typechecker;
 
 import it.fulminazzo.javaparser.typechecker.types.Type;
-import it.fulminazzo.javaparser.typechecker.types.ValueType;
+import it.fulminazzo.javaparser.typechecker.types.PrimitiveType;
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -16,13 +16,13 @@ import java.util.stream.Stream;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class OperationUtils {
     private static final Type[] NON_DECIMAL_TYPES = new Type[]{
-            ValueType.NUMBER, ValueType.BYTE, ValueType.SHORT,
-            ValueType.CHAR, ValueType.LONG,
+            PrimitiveType.NUMBER, PrimitiveType.BYTE, PrimitiveType.SHORT,
+            PrimitiveType.CHAR, PrimitiveType.LONG,
             ObjectType.INTEGER, ObjectType.BYTE, ObjectType.SHORT,
             ObjectType.CHARACTER, ObjectType.LONG
     };
     private static final Type[] DECIMAL_TYPES = new Type[]{
-            ValueType.DOUBLE, ValueType.FLOAT,
+            PrimitiveType.DOUBLE, PrimitiveType.FLOAT,
             ObjectType.DOUBLE, ObjectType.FLOAT,
     };
 
@@ -46,22 +46,22 @@ public final class OperationUtils {
 
     /**
      * Simulates a direct comparison between the two given operands.
-     * If they are both {@link ValueType}, then they are checked to verify if they are compatible.
-     * If only one of them is {@link ValueType}, or they are not compatible,
+     * If they are both {@link PrimitiveType}, then they are checked to verify if they are compatible.
+     * If only one of them is {@link PrimitiveType}, or they are not compatible,
      * a {@link TypeCheckerException} is thrown.
      *
      * @param left  the left operand
      * @param right the right operand
-     * @return {@link ValueType#BOOLEAN}
+     * @return {@link PrimitiveType#BOOLEAN}
      */
     public static @NotNull Type executeObjectComparison(final @NotNull Type left,
                                                         final @NotNull Type right) {
         if (left.isValue() && right.isValue()) {
-            if (isString(left)) right.check(ValueType.STRING, ObjectType.STRING);
-            else if (isBoolean(left)) right.check(ValueType.BOOLEAN, ObjectType.BOOLEAN);
+            if (isString(left)) right.check(PrimitiveType.STRING, ObjectType.STRING);
+            else if (isBoolean(left)) right.check(PrimitiveType.BOOLEAN, ObjectType.BOOLEAN);
             else return executeBinaryComparison(left, right);
         }
-        return ValueType.BOOLEAN;
+        return PrimitiveType.BOOLEAN;
     }
 
     /**
@@ -70,18 +70,18 @@ public final class OperationUtils {
      *
      * @param left  the left operand
      * @param right the right operand
-     * @return {@link ValueType#BOOLEAN}
+     * @return {@link PrimitiveType#BOOLEAN}
      */
     public static @NotNull Type executeBinaryComparison(final @NotNull Type left,
                                                         final @NotNull Type right) {
         left.check(getDecimalTypes());
         right.check(getDecimalTypes());
-        return ValueType.BOOLEAN;
+        return PrimitiveType.BOOLEAN;
     }
 
     /**
      * Computes the returned {@link Type} for a binary bit operation that supports <b>NON-decimal</b> types.
-     * If both {@link Type}s are {@link ValueType#BOOLEAN}, then {@link ValueType#BOOLEAN} is returned.
+     * If both {@link Type}s are {@link PrimitiveType#BOOLEAN}, then {@link PrimitiveType#BOOLEAN} is returned.
      * Throws {@link TypeCheckerException} in case of an invalid type received as operand.
      *
      * @param left  the left operand
@@ -90,7 +90,7 @@ public final class OperationUtils {
      */
     public static @NotNull Type executeBinaryBitOperation(final @NotNull Type left,
                                                           final @NotNull Type right) {
-        if (isBoolean(left) && isBoolean(right)) return ValueType.BOOLEAN;
+        if (isBoolean(left) && isBoolean(right)) return PrimitiveType.BOOLEAN;
         else return executeBinaryOperationDecimal(left.check(getNumericTypes()), right.check(getNumericTypes()));
     }
 
@@ -118,60 +118,60 @@ public final class OperationUtils {
     public static @NotNull Type executeBinaryOperationDecimal(final @NotNull Type left,
                                                               final @NotNull Type right) {
         if (isDouble(left.check(getDecimalTypes())) || isDouble(right.check(getDecimalTypes())))
-            return ValueType.DOUBLE;
-        else if (isFloat(left) || isFloat(right)) return ValueType.FLOAT;
-        else if (isLong(left) || isLong(right)) return ValueType.LONG;
-        else return ValueType.NUMBER;
+            return PrimitiveType.DOUBLE;
+        else if (isFloat(left) || isFloat(right)) return PrimitiveType.FLOAT;
+        else if (isLong(left) || isLong(right)) return PrimitiveType.LONG;
+        else return PrimitiveType.NUMBER;
     }
 
     /**
-     * Checks if the given type is {@link ValueType#LONG} or {@link ObjectType#LONG}.
+     * Checks if the given type is {@link PrimitiveType#LONG} or {@link ObjectType#LONG}.
      *
      * @param type the type
      * @return true if it is
      */
     public static boolean isLong(final Type type) {
-        return type.is(ValueType.LONG, ObjectType.LONG);
+        return type.is(PrimitiveType.LONG, ObjectType.LONG);
     }
 
     /**
-     * Checks if the given type is {@link ValueType#FLOAT} or {@link ObjectType#FLOAT}.
+     * Checks if the given type is {@link PrimitiveType#FLOAT} or {@link ObjectType#FLOAT}.
      *
      * @param type the type
      * @return true if it is
      */
     public static boolean isFloat(final Type type) {
-        return type.is(ValueType.FLOAT, ObjectType.FLOAT);
+        return type.is(PrimitiveType.FLOAT, ObjectType.FLOAT);
     }
 
     /**
-     * Checks if the given type is {@link ValueType#DOUBLE} or {@link ObjectType#DOUBLE}.
+     * Checks if the given type is {@link PrimitiveType#DOUBLE} or {@link ObjectType#DOUBLE}.
      *
      * @param type the type
      * @return true if it is
      */
     public static boolean isDouble(final Type type) {
-        return type.is(ValueType.DOUBLE, ObjectType.DOUBLE);
+        return type.is(PrimitiveType.DOUBLE, ObjectType.DOUBLE);
     }
 
     /**
-     * Checks if the given type is {@link ValueType#BOOLEAN} or {@link ObjectType#BOOLEAN}.
+     * Checks if the given type is {@link PrimitiveType#BOOLEAN} or {@link ObjectType#BOOLEAN}.
      *
      * @param type the type
      * @return true if it is
      */
     public static boolean isBoolean(final Type type) {
-        return type.is(ValueType.BOOLEAN, ObjectType.BOOLEAN);
+        return type.is(PrimitiveType.BOOLEAN, ObjectType.BOOLEAN);
     }
 
     /**
-     * Checks if the given type is {@link ValueType#STRING} or {@link ObjectType#STRING}.
+     * Checks if the given type is {@link PrimitiveType#STRING} or {@link ObjectType#STRING}.
      *
      * @param type the type
      * @return true if it is
      */
     public static boolean isString(final Type type) {
-        return type.is(ValueType.STRING, ObjectType.STRING);
+        return type.is(PrimitiveType.STRING, ObjectType.STRING);
     }
 
 }

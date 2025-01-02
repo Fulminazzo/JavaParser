@@ -10,39 +10,39 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Represents an {@link Object} class type.
  */
-public enum ClassObjectType implements ClassType {
+public enum ObjectClassType implements ClassType {
     /**
      * {@link java.lang.Byte}
      */
-    BYTE(PrimitiveType.BYTE),
+    BYTE(PrimitiveClassType.BYTE),
     /**
      * {@link java.lang.Short}
      */
-    SHORT(PrimitiveType.SHORT),
+    SHORT(PrimitiveClassType.SHORT),
     /**
      * {@link java.lang.Character}
      */
-    CHARACTER(PrimitiveType.CHAR),
+    CHARACTER(PrimitiveClassType.CHAR),
     /**
      * {@link java.lang.Integer}
      */
-    INTEGER(PrimitiveType.INT),
+    INTEGER(PrimitiveClassType.INT),
     /**
      * {@link java.lang.Long}
      */
-    LONG(PrimitiveType.LONG),
+    LONG(PrimitiveClassType.LONG),
     /**
      * {@link java.lang.Float}
      */
-    FLOAT(PrimitiveType.FLOAT),
+    FLOAT(PrimitiveClassType.FLOAT),
     /**
      * {@link java.lang.Double}
      */
-    DOUBLE(PrimitiveType.DOUBLE),
+    DOUBLE(PrimitiveClassType.DOUBLE),
     /**
      * {@link java.lang.Boolean}
      */
-    BOOLEAN(PrimitiveType.BOOLEAN),
+    BOOLEAN(PrimitiveClassType.BOOLEAN),
     /**
      * {@link java.lang.String}
      */
@@ -53,13 +53,13 @@ public enum ClassObjectType implements ClassType {
     OBJECT,
     ;
 
-    private final @Nullable PrimitiveType associatedType;
+    private final @Nullable PrimitiveClassType associatedType;
 
-    ClassObjectType() {
+    ObjectClassType() {
         this(null);
     }
 
-    ClassObjectType(final @Nullable PrimitiveType associatedType) {
+    ObjectClassType(final @Nullable PrimitiveClassType associatedType) {
         this.associatedType = associatedType;
     }
 
@@ -73,7 +73,7 @@ public enum ClassObjectType implements ClassType {
         if (type.equals(Types.NULL_TYPE)) return toType();
         if (this != OBJECT) {
             Type valueType = this.associatedType == null ?
-                    ValueType.valueOf(name()) : this.associatedType.toType();
+                    PrimitiveType.valueOf(name()) : this.associatedType.toType();
             if (!type.is(valueType, ObjectType.of(toJavaClass())))
                 throw TypeCheckerException.invalidCast(this, type);
         }
@@ -91,7 +91,7 @@ public enum ClassObjectType implements ClassType {
         else if (this.associatedType != null) return this.associatedType.compatibleWith(type);
         else {
             // Either STRING or OBJECT
-            if (this == STRING) return ValueType.STRING.is(type) || ObjectType.STRING.is(type);
+            if (this == STRING) return PrimitiveType.STRING.is(type) || ObjectType.STRING.is(type);
             else return true;
         }
     }
@@ -111,9 +111,9 @@ public enum ClassObjectType implements ClassType {
     public static @NotNull ClassType of(final @NotNull String className) throws TypeException {
         ObjectType type = ObjectType.of(className);
         try {
-            return ClassObjectType.valueOf(type.getInnerClass().getSimpleName().toUpperCase());
+            return ObjectClassType.valueOf(type.getInnerClass().getSimpleName().toUpperCase());
         } catch (IllegalArgumentException e) {
-            return new CustomClassObjectType(type);
+            return new CustomObjectClassType(type);
         }
     }
 
@@ -126,9 +126,9 @@ public enum ClassObjectType implements ClassType {
     public static @NotNull ClassType of(final @NotNull Class<?> clazz) {
         ObjectType type = ObjectType.of(clazz);
         try {
-            return ClassObjectType.valueOf(type.getInnerClass().getSimpleName().toUpperCase());
+            return ObjectClassType.valueOf(type.getInnerClass().getSimpleName().toUpperCase());
         } catch (IllegalArgumentException e) {
-            return new CustomClassObjectType(type);
+            return new CustomObjectClassType(type);
         }
     }
 
