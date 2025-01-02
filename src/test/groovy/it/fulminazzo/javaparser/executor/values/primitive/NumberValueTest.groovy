@@ -5,6 +5,63 @@ import spock.lang.Specification
 class NumberValueTest extends Specification {
     private static int INT_CHAR = (int) 'a'
 
+    def 'test #first & #second = #third'() {
+        when:
+        def eval = first.bitAnd(second)
+
+        then:
+        eval == third
+
+        where:
+        first                | second                           | third
+        // Integer
+        new IntegerValue(4)  | new CharacterValue('a' as char)  | new IntegerValue((4 & INT_CHAR) as Integer)
+        new IntegerValue(4)  | new IntegerValue(2)              | new IntegerValue((4 & 2) as Integer)
+        new IntegerValue(4)  | new LongValue(2L)                | new LongValue((4 & 2L) as Long)
+        // Long
+        new LongValue(4L)    | new CharacterValue('a' as char)  | new LongValue((4L & INT_CHAR) as Long)
+        new LongValue(4L)    | new IntegerValue(2)              | new LongValue((4L & 2) as Long)
+        new LongValue(4L)    | new LongValue(2L)                | new LongValue((4L & 2L) as Long)
+    }
+
+    def 'test #first | #second = #third'() {
+        when:
+        def eval = first.bitOr(second)
+
+        then:
+        eval == third
+
+        where:
+        first                | second                           | third
+        // Integer
+        new IntegerValue(4)  | new CharacterValue('a' as char)  | new IntegerValue((4 | INT_CHAR) as Integer)
+        new IntegerValue(4)  | new IntegerValue(2)              | new IntegerValue((4 | 2) as Integer)
+        new IntegerValue(4)  | new LongValue(2L)                | new LongValue((4 | 2L) as Long)
+        // Long
+        new LongValue(4L)    | new CharacterValue('a' as char)  | new LongValue((4L | INT_CHAR) as Long)
+        new LongValue(4L)    | new IntegerValue(2)              | new LongValue((4L | 2) as Long)
+        new LongValue(4L)    | new LongValue(2L)                | new LongValue((4L | 2L) as Long)
+    }
+
+    def 'test #first ^ #second = #third'() {
+        when:
+        def eval = first.bitXor(second)
+
+        then:
+        eval == third
+
+        where:
+        first                | second                           | third
+        // Integer
+        new IntegerValue(4)  | new CharacterValue('a' as char)  | new IntegerValue((4 ^ INT_CHAR) as Integer)
+        new IntegerValue(4)  | new IntegerValue(2)              | new IntegerValue((4 ^ 2) as Integer)
+        new IntegerValue(4)  | new LongValue(2L)                | new LongValue((4 ^ 2L) as Long)
+        // Long
+        new LongValue(4L)    | new CharacterValue('a' as char)  | new LongValue((4L ^ INT_CHAR) as Long)
+        new LongValue(4L)    | new IntegerValue(2)              | new LongValue((4L ^ 2) as Long)
+        new LongValue(4L)    | new LongValue(2L)                | new LongValue((4L ^ 2L) as Long)
+    }
+
     def 'test #first << #second = #third'() {
         when:
         def eval = first.lshift(second)
