@@ -94,4 +94,98 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
         return (PrimitiveValue<V>) primitiveValue;
     }
 
+    /*
+        To prevent StackOverflowErrors, all operations are overridden.
+     */
+
+    @Override
+    public @NotNull BooleanValue and(@NotNull Value<?> other) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public @NotNull BooleanValue or(@NotNull Value<?> other) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public @NotNull BooleanValue lessThan(@NotNull Value<?> other) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public @NotNull BooleanValue lessThanEqual(@NotNull Value<?> other) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public @NotNull BooleanValue greaterThan(@NotNull Value<?> other) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public @NotNull BooleanValue greaterThanEqual(@NotNull Value<?> other) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public @NotNull Value<?> bitAnd(@NotNull Value<?> other) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public @NotNull Value<?> bitOr(@NotNull Value<?> other) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public @NotNull Value<?> bitXor(@NotNull Value<?> other) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public @NotNull Value<?> lshift(@NotNull Value<?> other) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public @NotNull Value<?> rshift(@NotNull Value<?> other) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public @NotNull Value<?> urshift(@NotNull Value<?> other) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public @NotNull Value<?> add(@NotNull Value<?> other) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public @NotNull Value<?> subtract(@NotNull Value<?> other) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public @NotNull Value<?> multiply(@NotNull Value<?> other) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public @NotNull Value<?> divide(@NotNull Value<?> other) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public @NotNull Value<?> modulo(@NotNull Value<?> other) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public @NotNull BooleanValue not() {
+        return Value.super.not();
+    }
+
 }
