@@ -8,6 +8,8 @@ import java.util.Objects;
 
 /**
  * Represents a general value.
+ *
+ * @param <V> the type of the value
  */
 public interface Value<V> {
 
@@ -86,7 +88,7 @@ public interface Value<V> {
     /**
      * Checks whether the current value is of the one specified.
      *
-     * @param <T>  the type of the value
+     * @param <T>   the type of the value
      * @param value the class of the value
      * @return true if it is
      */
@@ -97,7 +99,7 @@ public interface Value<V> {
     /**
      * Converts the current value to an instance of {@link PrimitiveValue}.
      * Throws {@link ValueRuntimeException} in case of no associated primitive type.
-     * 
+     *
      * @return the primitive value
      */
     default @NotNull PrimitiveValue<V> toPrimitive() {
