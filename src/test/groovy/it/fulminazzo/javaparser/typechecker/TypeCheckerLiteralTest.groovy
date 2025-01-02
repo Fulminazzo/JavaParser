@@ -1,11 +1,7 @@
 package it.fulminazzo.javaparser.typechecker
 
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple
-import it.fulminazzo.javaparser.typechecker.types.ClassType
-import it.fulminazzo.javaparser.typechecker.types.LiteralType
-import it.fulminazzo.javaparser.typechecker.types.PrimitiveClassType
-import it.fulminazzo.javaparser.typechecker.types.TypeException
-import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
+import it.fulminazzo.javaparser.typechecker.types.*
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification

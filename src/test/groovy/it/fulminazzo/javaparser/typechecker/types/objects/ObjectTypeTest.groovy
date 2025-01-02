@@ -3,7 +3,6 @@ package it.fulminazzo.javaparser.typechecker.types.objects
 import it.fulminazzo.javaparser.typechecker.types.PrimitiveClassType
 import it.fulminazzo.javaparser.typechecker.types.Type
 import it.fulminazzo.javaparser.typechecker.types.TypeException
-import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
 import spock.lang.Specification
 
 class ObjectTypeTest extends Specification {

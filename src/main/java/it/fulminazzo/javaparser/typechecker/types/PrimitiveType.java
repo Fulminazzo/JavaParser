@@ -1,6 +1,5 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
-import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType;
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
 import org.jetbrains.annotations.NotNull;
 

@@ -4,7 +4,7 @@ import it.fulminazzo.javaparser.typechecker.TypeCheckerException
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
 
-import static PrimitiveType.*
+import static it.fulminazzo.javaparser.typechecker.types.PrimitiveType.*
 
 class PrimitiveClassTypeTest extends Specification {
 
