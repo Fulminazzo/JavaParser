@@ -56,7 +56,7 @@ public final class OperationUtils {
      */
     public static @NotNull Type executeObjectComparison(final @NotNull Type left,
                                                         final @NotNull Type right) {
-        if (left.isValue() && right.isValue()) {
+        if (left.isPrimitive() && right.isPrimitive()) {
             if (isString(left)) right.check(PrimitiveType.STRING, ObjectType.STRING);
             else if (isBoolean(left)) right.check(PrimitiveType.BOOLEAN, ObjectType.BOOLEAN);
             else return executeBinaryComparison(left, right);

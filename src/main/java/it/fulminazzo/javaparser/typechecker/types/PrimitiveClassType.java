@@ -80,7 +80,7 @@ public enum PrimitiveClassType implements ClassType {
     @Override
     public @NotNull Type cast(@NotNull Type type) {
         if (this != BOOLEAN && type.is(Arrays.stream(OperationUtils.getDecimalTypes())
-                .filter(Type::isValue).toArray(Type[]::new)))
+                .filter(Type::isPrimitive).toArray(Type[]::new)))
             return toType();
         for (Type compatibleType : this.compatibleTypes)
             if (compatibleType.is(type)) return toType();

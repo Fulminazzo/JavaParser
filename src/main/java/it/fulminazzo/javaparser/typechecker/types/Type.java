@@ -23,7 +23,7 @@ public interface Type {
      *
      * @return true if it is
      */
-    default boolean isValue() {
+    default boolean isPrimitive() {
         return is(PrimitiveType.class);
     }
 
@@ -180,7 +180,7 @@ public interface Type {
      */
     default @NotNull ClassType getMethod(final @NotNull String methodName,
                                          final @NotNull ParameterTypes parameterTypes) throws TypeException {
-        if (isValue()) return toWrapper().getMethod(methodName, parameterTypes);
+        if (isPrimitive()) return toWrapper().getMethod(methodName, parameterTypes);
         ClassType classType = isClassType() ? (ClassType) this : toClassType();
         try {
             Class<?> javaClass = classType.toJavaClass();
