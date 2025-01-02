@@ -43,28 +43,44 @@ public enum PrimitiveType implements Type {
     @Override
     public @NotNull ObjectType toWrapper() {
         switch (this) {
-            case BYTE: return ObjectType.BYTE;
-            case SHORT: return ObjectType.SHORT;
-            case CHAR: return ObjectType.CHARACTER;
-            case NUMBER: return ObjectType.INTEGER;
-            case LONG: return ObjectType.LONG;
-            case FLOAT: return ObjectType.FLOAT;
-            case DOUBLE: return ObjectType.DOUBLE;
-            default: return ObjectType.BOOLEAN;
+            case BYTE:
+                return ObjectType.BYTE;
+            case SHORT:
+                return ObjectType.SHORT;
+            case CHAR:
+                return ObjectType.CHARACTER;
+            case NUMBER:
+                return ObjectType.INTEGER;
+            case LONG:
+                return ObjectType.LONG;
+            case FLOAT:
+                return ObjectType.FLOAT;
+            case DOUBLE:
+                return ObjectType.DOUBLE;
+            default:
+                return ObjectType.BOOLEAN;
         }
     }
 
     @Override
     public @NotNull ClassType toClassType() {
         switch (this) {
-            case CHAR: return PrimitiveClassType.CHAR;
-            case LONG: return PrimitiveClassType.LONG;
-            case BYTE: return PrimitiveClassType.BYTE;
-            case SHORT: return PrimitiveClassType.SHORT;
-            case NUMBER: return PrimitiveClassType.INT;
-            case FLOAT: return PrimitiveClassType.FLOAT;
-            case DOUBLE: return PrimitiveClassType.DOUBLE;
-            default: return PrimitiveClassType.BOOLEAN;
+            case CHAR:
+                return PrimitiveClassType.CHAR;
+            case LONG:
+                return PrimitiveClassType.LONG;
+            case BYTE:
+                return PrimitiveClassType.BYTE;
+            case SHORT:
+                return PrimitiveClassType.SHORT;
+            case NUMBER:
+                return PrimitiveClassType.INT;
+            case FLOAT:
+                return PrimitiveClassType.FLOAT;
+            case DOUBLE:
+                return PrimitiveClassType.DOUBLE;
+            default:
+                return PrimitiveClassType.BOOLEAN;
         }
     }
 

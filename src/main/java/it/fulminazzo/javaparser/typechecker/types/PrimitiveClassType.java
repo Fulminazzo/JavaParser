@@ -66,14 +66,22 @@ public enum PrimitiveClassType implements ClassType {
     @Override
     public @NotNull Type toType() {
         switch (this) {
-            case BYTE: return PrimitiveType.BYTE;
-            case SHORT: return PrimitiveType.SHORT;
-            case INT: return PrimitiveType.NUMBER;
-            case CHAR: return PrimitiveType.CHAR;
-            case LONG: return PrimitiveType.LONG;
-            case FLOAT: return PrimitiveType.FLOAT;
-            case DOUBLE: return PrimitiveType.DOUBLE;
-            default: return PrimitiveType.BOOLEAN;
+            case BYTE:
+                return PrimitiveType.BYTE;
+            case SHORT:
+                return PrimitiveType.SHORT;
+            case INT:
+                return PrimitiveType.NUMBER;
+            case CHAR:
+                return PrimitiveType.CHAR;
+            case LONG:
+                return PrimitiveType.LONG;
+            case FLOAT:
+                return PrimitiveType.FLOAT;
+            case DOUBLE:
+                return PrimitiveType.DOUBLE;
+            default:
+                return PrimitiveType.BOOLEAN;
         }
     }
 
@@ -90,14 +98,22 @@ public enum PrimitiveClassType implements ClassType {
     @Override
     public @NotNull Class<?> toJavaClass() {
         switch (this) {
-            case BYTE: return byte.class;
-            case CHAR: return char.class;
-            case SHORT: return short.class;
-            case INT: return int.class;
-            case LONG: return long.class;
-            case FLOAT: return float.class;
-            case DOUBLE: return double.class;
-            default: return boolean.class;
+            case BYTE:
+                return byte.class;
+            case CHAR:
+                return char.class;
+            case SHORT:
+                return short.class;
+            case INT:
+                return int.class;
+            case LONG:
+                return long.class;
+            case FLOAT:
+                return float.class;
+            case DOUBLE:
+                return double.class;
+            default:
+                return boolean.class;
         }
     }
 

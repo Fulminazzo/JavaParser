@@ -128,7 +128,8 @@ public final class ObjectType extends ObjectWrapper<Class<?>> implements Type {
                 String name = impliedPackage + "." + className;
                 try {
                     return ReflectionUtils.getClass(name);
-                } catch (IllegalArgumentException ignored) {}
+                } catch (IllegalArgumentException ignored) {
+                }
             }
             throw TypeException.classNotFound(className);
         }

@@ -497,7 +497,7 @@ class ObjectClassTypeTest extends Specification {
                 BYTE, SHORT,
                 CHAR, NUMBER, LONG,
                 DOUBLE, FLOAT,
-               
+
                 ObjectType.BYTE, ObjectType.SHORT,
                 ObjectType.CHARACTER, ObjectType.INTEGER,
                 ObjectType.LONG, ObjectType.FLOAT,
@@ -548,5 +548,5 @@ class ObjectClassTypeTest extends Specification {
                 ObjectType.STRING, ObjectType.OBJECT
         ]
     }
-    
+
 }

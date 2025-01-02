@@ -45,5 +45,5 @@ class PrimitiveTypeTest extends Specification {
         DOUBLE  | PrimitiveClassType.DOUBLE
         BOOLEAN | PrimitiveClassType.BOOLEAN
     }
-    
+
 }

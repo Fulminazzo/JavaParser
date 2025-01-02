@@ -32,10 +32,10 @@ import static it.fulminazzo.javaparser.typechecker.types.PrimitiveType.*;
  * A {@link Visitor} that checks and verifies all the types of the parsed code.
  */
 public final class TypeChecker implements Visitor<Type> {
-    private static final ScopeType[] BREAK_SCOPES = new ScopeType[] {
+    private static final ScopeType[] BREAK_SCOPES = new ScopeType[]{
             ScopeType.DO, ScopeType.WHILE, ScopeType.FOR, ScopeType.SWITCH, ScopeType.CASE
     };
-    private static final ScopeType[] CONTINUE_SCOPES = new ScopeType[] {
+    private static final ScopeType[] CONTINUE_SCOPES = new ScopeType[]{
             ScopeType.DO, ScopeType.WHILE, ScopeType.FOR
     };
     private static final String FIELDS_SEPARATOR = ".";
@@ -98,7 +98,8 @@ public final class TypeChecker implements Visitor<Type> {
         variableValue = convertByteAndShort(variableType, variableValue).checkAssignableFrom(variableType);
         try {
             this.environment.declare(variableType, variableName.getLiteral(), convertValue(variableType, variableValue));
-        } catch (ScopeException ignored) {}
+        } catch (ScopeException ignored) {
+        }
         return Types.NO_TYPE;
     }
 
@@ -221,7 +222,7 @@ public final class TypeChecker implements Visitor<Type> {
             LinkedList<String> first = new LinkedList<>(Arrays.asList(value.split("\\" + FIELDS_SEPARATOR)));
             LinkedList<String> last = new LinkedList<>();
 
-            while(!first.isEmpty()) {
+            while (!first.isEmpty()) {
                 last.addFirst(first.removeLast());
 
                 tuple = getTypeFromLiteral(String.join(".", first));
@@ -464,8 +465,8 @@ public final class TypeChecker implements Visitor<Type> {
      */
     @Override
     public @NotNull TupleType<Set<ClassType>, Type> visitCatchStatement(@NotNull List<Literal> exceptions,
-                                                                         @NotNull CodeBlock block,
-                                                                         @NotNull Node expression) {
+                                                                        @NotNull CodeBlock block,
+                                                                        @NotNull Node expression) {
         return visitScoped(ScopeType.CATCH, () -> {
             final ClassType throwable = ClassType.of(Throwable.class);
 
@@ -706,7 +707,8 @@ public final class TypeChecker implements Visitor<Type> {
                 Type variable = this.environment.lookup(literal);
                 ClassType variableType = (ClassType) this.environment.lookupInfo(literal);
                 tuple.set(variableType, variable);
-            } catch (ScopeException ignored) {}
+            } catch (ScopeException ignored) {
+            }
         }
         return tuple;
     }

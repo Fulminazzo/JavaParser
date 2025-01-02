@@ -1,7 +1,7 @@
 package it.fulminazzo.javaparser.typechecker;
 
-import it.fulminazzo.javaparser.typechecker.types.Type;
 import it.fulminazzo.javaparser.typechecker.types.PrimitiveType;
+import it.fulminazzo.javaparser.typechecker.types.Type;
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

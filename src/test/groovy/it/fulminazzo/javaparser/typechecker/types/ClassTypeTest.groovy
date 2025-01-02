@@ -11,7 +11,7 @@ import java.lang.reflect.Method
 class ClassTypeTest extends Specification {
     private ClassType classType
 
-    void setup () {
+    void setup() {
         this.classType = ClassType.of(TestClass)
     }
 
@@ -31,10 +31,10 @@ class ClassTypeTest extends Specification {
         type == expected
 
         where:
-        className <<  [
+        className << [
                 PrimitiveClassType.values().collect { it.name().toLowerCase() },
-                ObjectClassType.values().collect { it.name() } .collect {
-                     "${it[0]}${it.substring(1).toLowerCase()}"
+                ObjectClassType.values().collect { it.name() }.collect {
+                    "${it[0]}${it.substring(1).toLowerCase()}"
                 },
                 Map.class.simpleName
         ].flatten()
@@ -108,10 +108,10 @@ class ClassTypeTest extends Specification {
                 TestClass.getDeclaredConstructor(types), parameters).message
 
         where:
-        types                        | parameters
-        new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveClassType.DOUBLE, ObjectClassType.BOOLEAN])
-        new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveClassType.INT, ObjectClassType.STRING])
-        new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveClassType.DOUBLE, ObjectClassType.STRING])
+        types                     | parameters
+        new Class[]{int, Boolean} | new ParameterTypes([PrimitiveClassType.DOUBLE, ObjectClassType.BOOLEAN])
+        new Class[]{int, Boolean} | new ParameterTypes([PrimitiveClassType.INT, ObjectClassType.STRING])
+        new Class[]{int, Boolean} | new ParameterTypes([PrimitiveClassType.DOUBLE, ObjectClassType.STRING])
     }
 
     def 'test cannot access constructor (#type)'() {
@@ -123,7 +123,7 @@ class ClassTypeTest extends Specification {
         e.message == TypeException.cannotAccessMethod(this.classType, TestClass.getDeclaredConstructor(clazz)).message
 
         where:
-        type                  | clazz
+        type                       | clazz
         PrimitiveClassType.FLOAT   | float
         PrimitiveClassType.BOOLEAN | boolean
     }

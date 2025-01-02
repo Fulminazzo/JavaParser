@@ -132,8 +132,8 @@ class TypeTest extends Specification {
 
         where:
         field << [
-                'packageStaticField','protectedStaticField','privateStaticField',
-                'packageField','protectedField','privateField'
+                'packageStaticField', 'protectedStaticField', 'privateStaticField',
+                'packageField', 'protectedField', 'privateField'
         ]
     }
 
@@ -155,7 +155,7 @@ class TypeTest extends Specification {
 
         where:
         field               | expected
-        'publicStaticField'       | PrimitiveClassType.INT
+        'publicStaticField' | PrimitiveClassType.INT
     }
 
     def 'test class cannot access non-static field'() {
@@ -180,8 +180,8 @@ class TypeTest extends Specification {
 
         where:
         field << [
-                'packageStaticField','protectedStaticField','privateStaticField',
-                'packageField','protectedField','privateField'
+                'packageStaticField', 'protectedStaticField', 'privateStaticField',
+                'packageField', 'protectedField', 'privateField'
         ]
     }
 
@@ -206,7 +206,7 @@ class TypeTest extends Specification {
         actual == expected
 
         where:
-        method               | expected             | parameters
+        method               | expected                  | parameters
         'publicStaticMethod' | PrimitiveClassType.INT    | NO_PARAMETERS
         'publicStaticMethod' | PrimitiveClassType.INT    | new ParameterTypes([PrimitiveClassType.INT, ObjectClassType.BOOLEAN])
         'publicMethod'       | PrimitiveClassType.DOUBLE | NO_PARAMETERS
@@ -242,8 +242,8 @@ class TypeTest extends Specification {
 
         where:
         method << [
-                'packageStaticMethod','protectedStaticMethod','privateStaticMethod',
-                'packageMethod','protectedMethod','privateMethod'
+                'packageStaticMethod', 'protectedStaticMethod', 'privateStaticMethod',
+                'packageMethod', 'protectedMethod', 'privateMethod'
         ]
     }
 
@@ -264,9 +264,9 @@ class TypeTest extends Specification {
         actual == expected
 
         where:
-        method                     | expected           | parameters
-        'publicStaticMethod'       | PrimitiveClassType.INT | NO_PARAMETERS
-        'publicStaticMethod'       | PrimitiveClassType.INT | new ParameterTypes([PrimitiveClassType.INT, ObjectClassType.BOOLEAN])
+        method               | expected               | parameters
+        'publicStaticMethod' | PrimitiveClassType.INT | NO_PARAMETERS
+        'publicStaticMethod' | PrimitiveClassType.INT | new ParameterTypes([PrimitiveClassType.INT, ObjectClassType.BOOLEAN])
     }
 
     def 'test class cannot access non-static method #method(#parameters)'() {
@@ -278,9 +278,9 @@ class TypeTest extends Specification {
         e.message == TypeException.cannotAccessStaticMethod(this.classType, method, NO_PARAMETERS).message
 
         where:
-        method               | expected              | parameters
-        'publicMethod'       | PrimitiveClassType.DOUBLE | NO_PARAMETERS
-        'publicMethod'       | PrimitiveClassType.DOUBLE | new ParameterTypes([PrimitiveClassType.DOUBLE, ObjectClassType.BOOLEAN])
+        method         | expected                  | parameters
+        'publicMethod' | PrimitiveClassType.DOUBLE | NO_PARAMETERS
+        'publicMethod' | PrimitiveClassType.DOUBLE | new ParameterTypes([PrimitiveClassType.DOUBLE, ObjectClassType.BOOLEAN])
     }
 
     def 'test class cannot access method #method from getMethod'() {
@@ -293,8 +293,8 @@ class TypeTest extends Specification {
 
         where:
         method << [
-                'packageStaticMethod','protectedStaticMethod','privateStaticMethod',
-                'packageMethod','protectedMethod','privateMethod'
+                'packageStaticMethod', 'protectedStaticMethod', 'privateStaticMethod',
+                'packageMethod', 'protectedMethod', 'privateMethod'
         ]
     }
 

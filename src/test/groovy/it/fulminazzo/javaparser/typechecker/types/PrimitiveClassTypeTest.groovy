@@ -113,7 +113,7 @@ class PrimitiveClassTypeTest extends Specification {
         e.message == TypeCheckerException.invalidCast(cast, type).message
 
         where:
-        cast                   | type
+        cast                       | type
         // Byte
         PrimitiveClassType.BYTE    | ObjectType.SHORT
         PrimitiveClassType.BYTE    | ObjectType.CHARACTER
@@ -199,7 +199,7 @@ class PrimitiveClassTypeTest extends Specification {
         actual == expected
 
         where:
-        type                  | expected
+        type                       | expected
         PrimitiveClassType.BYTE    | BYTE
         PrimitiveClassType.CHAR    | CHAR
         PrimitiveClassType.SHORT   | SHORT
@@ -239,72 +239,72 @@ class PrimitiveClassTypeTest extends Specification {
         classType.compatibleWith(type)
 
         where:
-        classType                   | type
+        classType                  | type
         // byte
-        PrimitiveClassType.BYTE     | BYTE
-        PrimitiveClassType.BYTE     | ObjectType.BYTE
-        PrimitiveClassType.BYTE     | NUMBER
+        PrimitiveClassType.BYTE    | BYTE
+        PrimitiveClassType.BYTE    | ObjectType.BYTE
+        PrimitiveClassType.BYTE    | NUMBER
         // short
-        PrimitiveClassType.SHORT    | BYTE
-        PrimitiveClassType.SHORT    | ObjectType.BYTE
-        PrimitiveClassType.SHORT    | SHORT
-        PrimitiveClassType.SHORT    | ObjectType.SHORT
-        PrimitiveClassType.SHORT    | NUMBER
+        PrimitiveClassType.SHORT   | BYTE
+        PrimitiveClassType.SHORT   | ObjectType.BYTE
+        PrimitiveClassType.SHORT   | SHORT
+        PrimitiveClassType.SHORT   | ObjectType.SHORT
+        PrimitiveClassType.SHORT   | NUMBER
         // char
-        PrimitiveClassType.CHAR     | CHAR
-        PrimitiveClassType.CHAR     | ObjectType.CHARACTER
-        PrimitiveClassType.CHAR     | NUMBER
+        PrimitiveClassType.CHAR    | CHAR
+        PrimitiveClassType.CHAR    | ObjectType.CHARACTER
+        PrimitiveClassType.CHAR    | NUMBER
         // int
-        PrimitiveClassType.INT      | BYTE
-        PrimitiveClassType.INT      | ObjectType.BYTE
-        PrimitiveClassType.INT      | SHORT
-        PrimitiveClassType.INT      | ObjectType.SHORT
-        PrimitiveClassType.INT      | CHAR
-        PrimitiveClassType.INT      | ObjectType.CHARACTER
-        PrimitiveClassType.INT      | NUMBER
-        PrimitiveClassType.INT      | ObjectType.INTEGER
+        PrimitiveClassType.INT     | BYTE
+        PrimitiveClassType.INT     | ObjectType.BYTE
+        PrimitiveClassType.INT     | SHORT
+        PrimitiveClassType.INT     | ObjectType.SHORT
+        PrimitiveClassType.INT     | CHAR
+        PrimitiveClassType.INT     | ObjectType.CHARACTER
+        PrimitiveClassType.INT     | NUMBER
+        PrimitiveClassType.INT     | ObjectType.INTEGER
         // long
-        PrimitiveClassType.LONG     | BYTE
-        PrimitiveClassType.LONG     | ObjectType.BYTE
-        PrimitiveClassType.LONG     | SHORT
-        PrimitiveClassType.LONG     | ObjectType.SHORT
-        PrimitiveClassType.LONG     | CHAR
-        PrimitiveClassType.LONG     | ObjectType.CHARACTER
-        PrimitiveClassType.LONG     | NUMBER
-        PrimitiveClassType.LONG     | ObjectType.INTEGER
-        PrimitiveClassType.LONG     | LONG
-        PrimitiveClassType.LONG     | ObjectType.LONG
+        PrimitiveClassType.LONG    | BYTE
+        PrimitiveClassType.LONG    | ObjectType.BYTE
+        PrimitiveClassType.LONG    | SHORT
+        PrimitiveClassType.LONG    | ObjectType.SHORT
+        PrimitiveClassType.LONG    | CHAR
+        PrimitiveClassType.LONG    | ObjectType.CHARACTER
+        PrimitiveClassType.LONG    | NUMBER
+        PrimitiveClassType.LONG    | ObjectType.INTEGER
+        PrimitiveClassType.LONG    | LONG
+        PrimitiveClassType.LONG    | ObjectType.LONG
         // float
-        PrimitiveClassType.FLOAT    | BYTE
-        PrimitiveClassType.FLOAT    | ObjectType.BYTE
-        PrimitiveClassType.FLOAT    | SHORT
-        PrimitiveClassType.FLOAT    | ObjectType.SHORT
-        PrimitiveClassType.FLOAT    | CHAR
-        PrimitiveClassType.FLOAT    | ObjectType.CHARACTER
-        PrimitiveClassType.FLOAT    | NUMBER
-        PrimitiveClassType.FLOAT    | ObjectType.INTEGER
-        PrimitiveClassType.FLOAT    | LONG
-        PrimitiveClassType.FLOAT    | ObjectType.LONG
-        PrimitiveClassType.FLOAT    | FLOAT
-        PrimitiveClassType.FLOAT    | ObjectType.FLOAT
+        PrimitiveClassType.FLOAT   | BYTE
+        PrimitiveClassType.FLOAT   | ObjectType.BYTE
+        PrimitiveClassType.FLOAT   | SHORT
+        PrimitiveClassType.FLOAT   | ObjectType.SHORT
+        PrimitiveClassType.FLOAT   | CHAR
+        PrimitiveClassType.FLOAT   | ObjectType.CHARACTER
+        PrimitiveClassType.FLOAT   | NUMBER
+        PrimitiveClassType.FLOAT   | ObjectType.INTEGER
+        PrimitiveClassType.FLOAT   | LONG
+        PrimitiveClassType.FLOAT   | ObjectType.LONG
+        PrimitiveClassType.FLOAT   | FLOAT
+        PrimitiveClassType.FLOAT   | ObjectType.FLOAT
         // double
-        PrimitiveClassType.DOUBLE   | BYTE
-        PrimitiveClassType.DOUBLE   | ObjectType.BYTE
-        PrimitiveClassType.DOUBLE   | SHORT
-        PrimitiveClassType.DOUBLE   | ObjectType.SHORT
-        PrimitiveClassType.DOUBLE   | CHAR
-        PrimitiveClassType.DOUBLE   | ObjectType.CHARACTER
-        PrimitiveClassType.DOUBLE   | NUMBER
-        PrimitiveClassType.DOUBLE   | ObjectType.INTEGER
-        PrimitiveClassType.DOUBLE   | LONG
-        PrimitiveClassType.DOUBLE   | ObjectType.LONG
-        PrimitiveClassType.DOUBLE   | FLOAT
-        PrimitiveClassType.DOUBLE   | ObjectType.FLOAT
-        PrimitiveClassType.DOUBLE   | DOUBLE
-        PrimitiveClassType.DOUBLE   | ObjectType.DOUBLE
+        PrimitiveClassType.DOUBLE  | BYTE
+        PrimitiveClassType.DOUBLE  | ObjectType.BYTE
+        PrimitiveClassType.DOUBLE  | SHORT
+        PrimitiveClassType.DOUBLE  | ObjectType.SHORT
+        PrimitiveClassType.DOUBLE  | CHAR
+        PrimitiveClassType.DOUBLE  | ObjectType.CHARACTER
+        PrimitiveClassType.DOUBLE  | NUMBER
+        PrimitiveClassType.DOUBLE  | ObjectType.INTEGER
+        PrimitiveClassType.DOUBLE  | LONG
+        PrimitiveClassType.DOUBLE  | ObjectType.LONG
+        PrimitiveClassType.DOUBLE  | FLOAT
+        PrimitiveClassType.DOUBLE  | ObjectType.FLOAT
+        PrimitiveClassType.DOUBLE  | DOUBLE
+        PrimitiveClassType.DOUBLE  | ObjectType.DOUBLE
         // boolean
-        PrimitiveClassType.BOOLEAN  | BOOLEAN
-        PrimitiveClassType.BOOLEAN  | ObjectType.BOOLEAN
+        PrimitiveClassType.BOOLEAN | BOOLEAN
+        PrimitiveClassType.BOOLEAN | ObjectType.BOOLEAN
     }
 
     def 'test #classType should not be compatible with #type'() {
@@ -312,86 +312,86 @@ class PrimitiveClassTypeTest extends Specification {
         !classType.compatibleWith(type)
 
         where:
-        classType                   | type
+        classType                  | type
         // byte
-        PrimitiveClassType.BYTE     | SHORT
-        PrimitiveClassType.BYTE     | ObjectType.SHORT
-        PrimitiveClassType.BYTE     | CHAR
-        PrimitiveClassType.BYTE     | ObjectType.CHARACTER
-        PrimitiveClassType.BYTE     | ObjectType.INTEGER
-        PrimitiveClassType.BYTE     | LONG
-        PrimitiveClassType.BYTE     | ObjectType.LONG
-        PrimitiveClassType.BYTE     | FLOAT
-        PrimitiveClassType.BYTE     | ObjectType.FLOAT
-        PrimitiveClassType.BYTE     | DOUBLE
-        PrimitiveClassType.BYTE     | ObjectType.DOUBLE
-        PrimitiveClassType.BYTE     | BOOLEAN
-        PrimitiveClassType.BYTE     | ObjectType.BOOLEAN
+        PrimitiveClassType.BYTE    | SHORT
+        PrimitiveClassType.BYTE    | ObjectType.SHORT
+        PrimitiveClassType.BYTE    | CHAR
+        PrimitiveClassType.BYTE    | ObjectType.CHARACTER
+        PrimitiveClassType.BYTE    | ObjectType.INTEGER
+        PrimitiveClassType.BYTE    | LONG
+        PrimitiveClassType.BYTE    | ObjectType.LONG
+        PrimitiveClassType.BYTE    | FLOAT
+        PrimitiveClassType.BYTE    | ObjectType.FLOAT
+        PrimitiveClassType.BYTE    | DOUBLE
+        PrimitiveClassType.BYTE    | ObjectType.DOUBLE
+        PrimitiveClassType.BYTE    | BOOLEAN
+        PrimitiveClassType.BYTE    | ObjectType.BOOLEAN
         // short
-        PrimitiveClassType.SHORT    | CHAR
-        PrimitiveClassType.SHORT    | ObjectType.CHARACTER
-        PrimitiveClassType.SHORT    | ObjectType.INTEGER
-        PrimitiveClassType.SHORT    | LONG
-        PrimitiveClassType.SHORT    | ObjectType.LONG
-        PrimitiveClassType.SHORT    | FLOAT
-        PrimitiveClassType.SHORT    | ObjectType.FLOAT
-        PrimitiveClassType.SHORT    | DOUBLE
-        PrimitiveClassType.SHORT    | ObjectType.DOUBLE
-        PrimitiveClassType.SHORT    | BOOLEAN
-        PrimitiveClassType.SHORT    | ObjectType.BOOLEAN
+        PrimitiveClassType.SHORT   | CHAR
+        PrimitiveClassType.SHORT   | ObjectType.CHARACTER
+        PrimitiveClassType.SHORT   | ObjectType.INTEGER
+        PrimitiveClassType.SHORT   | LONG
+        PrimitiveClassType.SHORT   | ObjectType.LONG
+        PrimitiveClassType.SHORT   | FLOAT
+        PrimitiveClassType.SHORT   | ObjectType.FLOAT
+        PrimitiveClassType.SHORT   | DOUBLE
+        PrimitiveClassType.SHORT   | ObjectType.DOUBLE
+        PrimitiveClassType.SHORT   | BOOLEAN
+        PrimitiveClassType.SHORT   | ObjectType.BOOLEAN
         // char
-        PrimitiveClassType.CHAR     | BYTE
-        PrimitiveClassType.CHAR     | ObjectType.BYTE
-        PrimitiveClassType.CHAR     | SHORT
-        PrimitiveClassType.CHAR     | ObjectType.SHORT
-        PrimitiveClassType.CHAR     | ObjectType.INTEGER
-        PrimitiveClassType.CHAR     | LONG
-        PrimitiveClassType.CHAR     | ObjectType.LONG
-        PrimitiveClassType.CHAR     | FLOAT
-        PrimitiveClassType.CHAR     | ObjectType.FLOAT
-        PrimitiveClassType.CHAR     | DOUBLE
-        PrimitiveClassType.CHAR     | ObjectType.DOUBLE
-        PrimitiveClassType.CHAR     | BOOLEAN
-        PrimitiveClassType.CHAR     | ObjectType.BOOLEAN
+        PrimitiveClassType.CHAR    | BYTE
+        PrimitiveClassType.CHAR    | ObjectType.BYTE
+        PrimitiveClassType.CHAR    | SHORT
+        PrimitiveClassType.CHAR    | ObjectType.SHORT
+        PrimitiveClassType.CHAR    | ObjectType.INTEGER
+        PrimitiveClassType.CHAR    | LONG
+        PrimitiveClassType.CHAR    | ObjectType.LONG
+        PrimitiveClassType.CHAR    | FLOAT
+        PrimitiveClassType.CHAR    | ObjectType.FLOAT
+        PrimitiveClassType.CHAR    | DOUBLE
+        PrimitiveClassType.CHAR    | ObjectType.DOUBLE
+        PrimitiveClassType.CHAR    | BOOLEAN
+        PrimitiveClassType.CHAR    | ObjectType.BOOLEAN
         // int
-        PrimitiveClassType.INT      | LONG
-        PrimitiveClassType.INT      | ObjectType.LONG
-        PrimitiveClassType.INT      | FLOAT
-        PrimitiveClassType.INT      | ObjectType.FLOAT
-        PrimitiveClassType.INT      | DOUBLE
-        PrimitiveClassType.INT      | ObjectType.DOUBLE
-        PrimitiveClassType.INT      | BOOLEAN
-        PrimitiveClassType.INT      | ObjectType.BOOLEAN
+        PrimitiveClassType.INT     | LONG
+        PrimitiveClassType.INT     | ObjectType.LONG
+        PrimitiveClassType.INT     | FLOAT
+        PrimitiveClassType.INT     | ObjectType.FLOAT
+        PrimitiveClassType.INT     | DOUBLE
+        PrimitiveClassType.INT     | ObjectType.DOUBLE
+        PrimitiveClassType.INT     | BOOLEAN
+        PrimitiveClassType.INT     | ObjectType.BOOLEAN
         // long
-        PrimitiveClassType.LONG     | FLOAT
-        PrimitiveClassType.LONG     | ObjectType.FLOAT
-        PrimitiveClassType.LONG     | DOUBLE
-        PrimitiveClassType.LONG     | ObjectType.DOUBLE
-        PrimitiveClassType.LONG     | BOOLEAN
-        PrimitiveClassType.LONG     | ObjectType.BOOLEAN
+        PrimitiveClassType.LONG    | FLOAT
+        PrimitiveClassType.LONG    | ObjectType.FLOAT
+        PrimitiveClassType.LONG    | DOUBLE
+        PrimitiveClassType.LONG    | ObjectType.DOUBLE
+        PrimitiveClassType.LONG    | BOOLEAN
+        PrimitiveClassType.LONG    | ObjectType.BOOLEAN
         // float
-        PrimitiveClassType.FLOAT    | DOUBLE
-        PrimitiveClassType.FLOAT    | ObjectType.DOUBLE
-        PrimitiveClassType.FLOAT    | BOOLEAN
-        PrimitiveClassType.FLOAT    | ObjectType.BOOLEAN
+        PrimitiveClassType.FLOAT   | DOUBLE
+        PrimitiveClassType.FLOAT   | ObjectType.DOUBLE
+        PrimitiveClassType.FLOAT   | BOOLEAN
+        PrimitiveClassType.FLOAT   | ObjectType.BOOLEAN
         // double
-        PrimitiveClassType.DOUBLE   | BOOLEAN
-        PrimitiveClassType.DOUBLE   | ObjectType.BOOLEAN
+        PrimitiveClassType.DOUBLE  | BOOLEAN
+        PrimitiveClassType.DOUBLE  | ObjectType.BOOLEAN
         // boolean
-        PrimitiveClassType.BOOLEAN  | BYTE
-        PrimitiveClassType.BOOLEAN  | ObjectType.BYTE
-        PrimitiveClassType.BOOLEAN  | SHORT
-        PrimitiveClassType.BOOLEAN  | ObjectType.SHORT
-        PrimitiveClassType.BOOLEAN  | CHAR
-        PrimitiveClassType.BOOLEAN  | ObjectType.CHARACTER
-        PrimitiveClassType.BOOLEAN  | NUMBER
-        PrimitiveClassType.BOOLEAN  | ObjectType.INTEGER
-        PrimitiveClassType.BOOLEAN  | LONG
-        PrimitiveClassType.BOOLEAN  | ObjectType.LONG
-        PrimitiveClassType.BOOLEAN  | FLOAT
-        PrimitiveClassType.BOOLEAN  | ObjectType.FLOAT
-        PrimitiveClassType.BOOLEAN  | DOUBLE
-        PrimitiveClassType.BOOLEAN  | ObjectType.DOUBLE
+        PrimitiveClassType.BOOLEAN | BYTE
+        PrimitiveClassType.BOOLEAN | ObjectType.BYTE
+        PrimitiveClassType.BOOLEAN | SHORT
+        PrimitiveClassType.BOOLEAN | ObjectType.SHORT
+        PrimitiveClassType.BOOLEAN | CHAR
+        PrimitiveClassType.BOOLEAN | ObjectType.CHARACTER
+        PrimitiveClassType.BOOLEAN | NUMBER
+        PrimitiveClassType.BOOLEAN | ObjectType.INTEGER
+        PrimitiveClassType.BOOLEAN | LONG
+        PrimitiveClassType.BOOLEAN | ObjectType.LONG
+        PrimitiveClassType.BOOLEAN | FLOAT
+        PrimitiveClassType.BOOLEAN | ObjectType.FLOAT
+        PrimitiveClassType.BOOLEAN | DOUBLE
+        PrimitiveClassType.BOOLEAN | ObjectType.DOUBLE
     }
 
     def 'test toString of #type'() {

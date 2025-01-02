@@ -61,10 +61,10 @@ public interface ClassType extends Type, Info {
     /**
      * Searches for a constructor matching the given {@link ParameterTypes}.
      * Then, returns {@link #toType()}.
-     *e
+     *
      * @return the type
      * @throws TypeException thrown in case the constructor could not be found, could not be accessed
-     * (only <code>public</code> modifier allowed) or the given types did not match the expected ones
+     *                       (only <code>public</code> modifier allowed) or the given types did not match the expected ones
      */
     default @NotNull Type newObject(final @NotNull ParameterTypes parameterTypes) throws TypeException {
         final String methodName = "<init>";
@@ -109,7 +109,8 @@ public interface ClassType extends Type, Info {
         try {
             String lowerCase = className.toLowerCase();
             if (lowerCase.equals(className)) return PrimitiveClassType.valueOf(className.toUpperCase());
-        } catch (IllegalArgumentException ignored) {}
+        } catch (IllegalArgumentException ignored) {
+        }
         return ObjectClassType.of(className);
     }
 

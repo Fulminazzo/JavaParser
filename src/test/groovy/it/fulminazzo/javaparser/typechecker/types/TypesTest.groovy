@@ -78,5 +78,4 @@ class TypesTest extends Specification {
     }
 
 
-
 }

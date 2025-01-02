@@ -152,7 +152,7 @@ public interface Type {
      * @param fieldName the field name
      * @return the type of the field
      * @throws TypeException thrown in case the field could not be found or could not be accessed
-     * (only <code>public</code> modifier allowed and <code>static</code> fields from static context)
+     *                       (only <code>public</code> modifier allowed and <code>static</code> fields from static context)
      */
     default @NotNull ClassType getField(final @NotNull String fieldName) throws TypeException {
         ClassType classType = isClassType() ? (ClassType) this : toClassType();
@@ -175,8 +175,8 @@ public interface Type {
      * @param methodName the method name
      * @return the type of the method
      * @throws TypeException thrown in case the method could not be found, could not be accessed
-     * (only <code>public</code> modifier allowed and <code>static</code> methods from static context)
-     * or the given types did not match the expected ones
+     *                       (only <code>public</code> modifier allowed and <code>static</code> methods from static context)
+     *                       or the given types did not match the expected ones
      */
     default @NotNull ClassType getMethod(final @NotNull String methodName,
                                          final @NotNull ParameterTypes parameterTypes) throws TypeException {
@@ -196,7 +196,8 @@ public interface Type {
                 if (Boolean.TRUE.equals(refl.invokeMethod("validateParameters",
                         new Class[]{Class[].class, Executable.class},
                         parametersTypes, method))) {
-                    if (!Modifier.isPublic(method.getModifiers())) throw TypeException.cannotAccessMethod(classType, method);
+                    if (!Modifier.isPublic(method.getModifiers()))
+                        throw TypeException.cannotAccessMethod(classType, method);
                     else if (isClassType() && !Modifier.isStatic(method.getModifiers()))
                         throw TypeException.cannotAccessStaticMethod(classType, methodName, parameterTypes);
                     return ClassType.of(method.getReturnType());

@@ -25,5 +25,5 @@ class TypeExceptionTest extends Specification {
         'protectedField'       | 'protected'
         'privateField'         | 'private'
     }
-    
+
 }
