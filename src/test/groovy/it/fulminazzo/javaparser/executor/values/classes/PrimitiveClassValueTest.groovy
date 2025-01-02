@@ -71,4 +71,23 @@ class PrimitiveClassValueTest extends Specification {
         PrimitiveClassValue.BOOLEAN  | PrimitiveValue.of(1.0d)
     }
 
+    def 'test toString of #value should return #expected'() {
+        given:
+        def string = value.toString()
+
+        expect:
+        string == expected
+
+        where:
+        value                       | expected
+        PrimitiveClassValue.BYTE    | 'byte'
+        PrimitiveClassValue.SHORT   | 'short'
+        PrimitiveClassValue.CHAR    | 'char'
+        PrimitiveClassValue.INT     | 'int'
+        PrimitiveClassValue.LONG    | 'long'
+        PrimitiveClassValue.FLOAT   | 'float'
+        PrimitiveClassValue.DOUBLE  | 'double'
+        PrimitiveClassValue.BOOLEAN | 'boolean'
+    }
+
 }
