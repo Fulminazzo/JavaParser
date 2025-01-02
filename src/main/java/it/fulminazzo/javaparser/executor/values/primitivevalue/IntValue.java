@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 class IntValue extends NumberValue<Integer> {
 
     /**
-     * Instantiates a new Integer value.
+     * Instantiates a new Int value.
      *
      * @param value the value
      */
