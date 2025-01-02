@@ -2,6 +2,10 @@ package it.fulminazzo.javaparser.executor;
 
 import it.fulminazzo.javaparser.environment.Environment;
 import it.fulminazzo.javaparser.executor.values.Value;
+import it.fulminazzo.javaparser.executor.values.ValueException;
+import it.fulminazzo.javaparser.executor.values.Values;
+import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
+import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
 import it.fulminazzo.javaparser.parser.node.Assignment;
 import it.fulminazzo.javaparser.parser.node.MethodInvocation;
 import it.fulminazzo.javaparser.parser.node.Node;
@@ -343,6 +347,22 @@ public class Executor implements Visitor<Value<?>> {
     @Override
     public @NotNull Value<?> visitStringValueLiteral(@NotNull String rawValue) {
         return null;
+    }
+
+    /**
+     * Converts the given value to a {@link PrimitiveValue}.
+     * Throws {@link ExecutorException} in case of failed conversion.
+     *
+     * @param <V>   the type of the value
+     * @param value the value
+     * @return the primitive value
+     */
+    @NotNull <V> Value<V> getPrimitiveValueFromLiteral(final @NotNull V value) {
+        try {
+            return PrimitiveValue.of(value);
+        } catch (ValueException e) {
+            throw ExecutorException.of(e);
+        }
     }
 
 }
