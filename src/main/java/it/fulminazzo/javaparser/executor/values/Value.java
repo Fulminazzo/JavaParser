@@ -3,6 +3,8 @@ package it.fulminazzo.javaparser.executor.values;
 import it.fulminazzo.javaparser.executor.values.primitive.BooleanValue;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 /**
  * Represents a general value.
  */
@@ -138,7 +140,7 @@ public interface Value<V> {
      * @return the boolean value
      */
     default @NotNull BooleanValue equal(final @NotNull Value<?> other) {
-        throw new UnsupportedOperationException();
+        return BooleanValue.of(Objects.equals(getValue(), other.getValue()));
     }
 
     /**
@@ -148,7 +150,7 @@ public interface Value<V> {
      * @return the boolean value
      */
     default @NotNull BooleanValue notEqual(final @NotNull Value<?> other) {
-        throw new UnsupportedOperationException();
+        return equal(other).not();
     }
 
     /**
