@@ -185,8 +185,13 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
     }
 
     @Override
+    public @NotNull Value<?> minus() {
+        throw ValueRuntimeException.unsupportedOperation(TokenType.SUBTRACT, this);
+    }
+
+    @Override
     public @NotNull BooleanValue not() {
-        return Value.super.not();
+        throw ValueRuntimeException.unsupportedOperation(TokenType.NOT, this);
     }
 
 }
