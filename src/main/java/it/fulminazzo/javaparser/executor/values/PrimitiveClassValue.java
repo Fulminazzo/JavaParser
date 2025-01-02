@@ -1,10 +1,7 @@
-package it.fulminazzo.javaparser.executor.values.classes;
+package it.fulminazzo.javaparser.executor.values;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
-import it.fulminazzo.javaparser.environment.Info;
-import it.fulminazzo.javaparser.executor.values.ClassValue;
-import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 

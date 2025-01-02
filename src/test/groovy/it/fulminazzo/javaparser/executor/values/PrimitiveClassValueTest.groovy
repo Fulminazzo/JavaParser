@@ -1,4 +1,5 @@
-package it.fulminazzo.javaparser.executor.values.classes
+package it.fulminazzo.javaparser.executor.values
+
 
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
 import spock.lang.Specification
@@ -12,7 +13,7 @@ class PrimitiveClassValueTest extends Specification {
         where:
         //TODO: wrapper objects
         classValue                  | value
-        PrimitiveClassValue.BYTE    | PrimitiveValue.of(1)
+        PrimitiveClassValue.BYTE | PrimitiveValue.of(1)
         PrimitiveClassValue.SHORT   | PrimitiveValue.of(1)
         PrimitiveClassValue.CHAR    | PrimitiveValue.of('c' as char)
         PrimitiveClassValue.CHAR    | PrimitiveValue.of(1)
