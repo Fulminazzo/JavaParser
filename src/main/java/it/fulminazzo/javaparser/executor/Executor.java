@@ -306,47 +306,47 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitNullLiteral() {
-        return null;
+        return Values.NULL_VALUE;
     }
 
     @Override
     public @NotNull Value<?> visitThisLiteral() {
-        return null;
+        return ObjectValue.of(this.executingObject);
     }
 
     @Override
     public @NotNull Value<?> visitBooleanValueLiteral(@NotNull String rawValue) {
-        return null;
+        return PrimitiveValue.of(Boolean.parseBoolean(rawValue));
     }
 
     @Override
     public @NotNull Value<?> visitCharValueLiteral(@NotNull String rawValue) {
-        return null;
+        return PrimitiveValue.of(rawValue.charAt(0));
     }
 
     @Override
     public @NotNull Value<?> visitDoubleValueLiteral(@NotNull String rawValue) {
-        return null;
+        return PrimitiveValue.of(Double.valueOf(rawValue));
     }
 
     @Override
     public @NotNull Value<?> visitFloatValueLiteral(@NotNull String rawValue) {
-        return null;
+        return PrimitiveValue.of(Float.parseFloat(rawValue));
     }
 
     @Override
     public @NotNull Value<?> visitLongValueLiteral(@NotNull String rawValue) {
-        return null;
+        return PrimitiveValue.of(Long.parseLong(rawValue));
     }
 
     @Override
     public @NotNull Value<?> visitNumberValueLiteral(@NotNull String rawValue) {
-        return null;
+        return PrimitiveValue.of(Integer.parseInt(rawValue));
     }
 
     @Override
     public @NotNull Value<?> visitStringValueLiteral(@NotNull String rawValue) {
-        return null;
+        return ObjectValue.of(rawValue);
     }
 
 }
