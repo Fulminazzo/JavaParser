@@ -21,6 +21,35 @@ abstract class NumberValue<N extends Number> extends PrimitiveValue<N> {
         super(value);
     }
 
+    @Override
+    public @NotNull Value add(@NotNull Value other) {
+        return executeBinaryOperationDecimal(other, Double::sum, Float::sum, Long::sum, Integer::sum);
+    }
+
+    @Override
+    public @NotNull Value subtract(@NotNull Value other) {
+        return executeBinaryOperationDecimal(other, (a, b) -> a - b, (a, b) -> a - b,
+                (a, b) -> a - b, (a, b) -> a - b);
+    }
+
+    @Override
+    public @NotNull Value multiply(@NotNull Value other) {
+        return executeBinaryOperationDecimal(other, (a, b) -> a * b, (a, b) -> a * b,
+                (a, b) -> a * b, (a, b) -> a * b);
+    }
+
+    @Override
+    public @NotNull Value divide(@NotNull Value other) {
+        return executeBinaryOperationDecimal(other, (a, b) -> a / b, (a, b) -> a / b,
+                (a, b) -> a / b, (a, b) -> a / b);
+    }
+
+    @Override
+    public @NotNull Value modulo(@NotNull Value other) {
+        return executeBinaryOperationDecimal(other, (a, b) -> a % b, (a, b) -> a % b,
+                (a, b) -> a % b, (a, b) -> a % b);
+    }
+
     /**
      * Checks if the other value is a {@link NumberValue}
      * and executes the most appropriate operation.
