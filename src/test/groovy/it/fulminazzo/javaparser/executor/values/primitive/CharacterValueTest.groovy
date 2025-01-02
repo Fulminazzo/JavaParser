@@ -5,6 +5,114 @@ import spock.lang.Specification
 class CharacterValueTest extends Specification {
     private static int INT_CHAR = (int) 'a'
 
+    def 'test #first < #second = #third'() {
+        when:
+        def eval = first.lessThan(second)
+
+        then:
+        eval == third
+
+        where:
+        first                       | second                           | third
+        // Integer
+        new CharacterValue('d' as char)  | new CharacterValue('a' as char)  | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new CharacterValue('z' as char)  | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new CharacterValue('d' as char)  | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new IntegerValue(2)              | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new IntegerValue(200)            | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new IntegerValue(100)            | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new LongValue(2L)                | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new LongValue(200L)              | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new LongValue(100L)              | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new FloatValue(2.0f)             | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new FloatValue(200.0f)           | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new FloatValue(100.0f)           | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new DoubleValue(2.0d)            | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new DoubleValue(200.0d)          | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new DoubleValue(100.0d)          | BooleanValue.FALSE
+    }
+
+    def 'test #first <= #second = #third'() {
+        when:
+        def eval = first.lessThanEqual(second)
+
+        then:
+        eval == third
+
+        where:
+        first                       | second                           | third
+        // Integer
+        new CharacterValue('d' as char)  | new CharacterValue('a' as char)  | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new CharacterValue('z' as char)  | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new CharacterValue('d' as char)  | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new IntegerValue(2)              | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new IntegerValue(200)            | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new IntegerValue(100)            | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new LongValue(2L)                | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new LongValue(200L)              | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new LongValue(100L)              | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new FloatValue(2.0f)             | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new FloatValue(200.0f)           | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new FloatValue(100.0f)           | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new DoubleValue(2.0d)            | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new DoubleValue(200.0d)          | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new DoubleValue(100.0d)          | BooleanValue.TRUE
+    }
+
+    def 'test #first > #second = #third'() {
+        when:
+        def eval = first.greaterThan(second)
+
+        then:
+        eval == third
+
+        where:
+        first                       | second                           | third
+        // Integer
+        new CharacterValue('d' as char)  | new CharacterValue('a' as char)  | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new CharacterValue('z' as char)  | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new CharacterValue('d' as char)  | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new IntegerValue(2)              | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new IntegerValue(200)            | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new IntegerValue(100)            | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new LongValue(2L)                | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new LongValue(200L)              | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new LongValue(100L)              | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new FloatValue(2.0f)             | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new FloatValue(200.0f)           | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new FloatValue(100.0f)           | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new DoubleValue(2.0d)            | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new DoubleValue(200.0d)          | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new DoubleValue(100.0d)          | BooleanValue.FALSE
+    }
+
+    def 'test #first >= #second = #third'() {
+        when:
+        def eval = first.greaterThanEqual(second)
+
+        then:
+        eval == third
+
+        where:
+        first                       | second                           | third
+        // Integer
+        new CharacterValue('d' as char)  | new CharacterValue('a' as char)  | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new CharacterValue('z' as char)  | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new CharacterValue('d' as char)  | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new IntegerValue(2)              | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new IntegerValue(200)            | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new IntegerValue(100)            | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new LongValue(2L)                | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new LongValue(200L)              | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new LongValue(100L)              | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new FloatValue(2.0f)             | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new FloatValue(200.0f)           | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new FloatValue(100.0f)           | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new DoubleValue(2.0d)            | BooleanValue.TRUE
+        new CharacterValue('d' as char)  | new DoubleValue(200.0d)          | BooleanValue.FALSE
+        new CharacterValue('d' as char)  | new DoubleValue(100.0d)          | BooleanValue.TRUE
+    }
+
     def 'test #first & #second = #third'() {
         when:
         def eval = first.bitAnd(second)
