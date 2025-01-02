@@ -282,4 +282,23 @@ class ExecutorTest extends Specification {
         DOUBLE_LIT | NUMBER_LIT | PrimitiveValue.of(4.0d % 1)
     }
 
+    def 'test minus'() {
+        given:
+        def result = this.executor.visitMinus(operand)
+
+        expect:
+        result == expected
+
+        where:
+        operand                       | expected
+        NUMBER_LIT                    | PrimitiveValue.of(-1)
+        new LongValueLiteral(-1)      | PrimitiveValue.of(1)
+        LONG_LIT                      | PrimitiveValue.of(-2L)
+        new LongValueLiteral(-2L)     | PrimitiveValue.of(2L)
+        FLOAT_LIT                     | PrimitiveValue.of(-3.0f)
+        new FloatValueLiteral(-3.0f)  | PrimitiveValue.of(3.0f)
+        DOUBLE_LIT                    | PrimitiveValue.of(-4.0d)
+        new DoubleValueLiteral(-4.0d) | PrimitiveValue.of(4.0d)
+    }
+
 }
