@@ -25,6 +25,7 @@ class NumberValueTest extends Specification {
         new IntegerValue(4)        | new FloatValue(5.0f)            | BooleanValue.FALSE
         new IntegerValue(4)        | new DoubleValue(4.0d)           | BooleanValue.TRUE
         new IntegerValue(4)        | new DoubleValue(5.0d)           | BooleanValue.FALSE
+        new IntegerValue(4)        | new StringValue('Hello')        | BooleanValue.FALSE
         // Long
         new LongValue(INT_CHAR)    | new CharacterValue('a' as char) | BooleanValue.TRUE
         new LongValue(INT_CHAR)    | new CharacterValue('b' as char) | BooleanValue.FALSE
@@ -36,6 +37,7 @@ class NumberValueTest extends Specification {
         new LongValue(4L)          | new FloatValue(5.0f)            | BooleanValue.FALSE
         new LongValue(4L)          | new DoubleValue(4.0d)           | BooleanValue.TRUE
         new LongValue(4L)          | new DoubleValue(5.0d)           | BooleanValue.FALSE
+        new LongValue(4L)          | new StringValue('Hello')        | BooleanValue.FALSE
         // Float
         new FloatValue(INT_CHAR)   | new CharacterValue('a' as char) | BooleanValue.TRUE
         new FloatValue(INT_CHAR)   | new CharacterValue('b' as char) | BooleanValue.FALSE
@@ -47,6 +49,7 @@ class NumberValueTest extends Specification {
         new FloatValue(4.0f)       | new FloatValue(5.0f)            | BooleanValue.FALSE
         new FloatValue(4.0f)       | new DoubleValue(4.0d)           | BooleanValue.TRUE
         new FloatValue(4.0f)       | new DoubleValue(5.0d)           | BooleanValue.FALSE
+        new FloatValue(4.0f)       | new StringValue('Hello')        | BooleanValue.FALSE
         // Double
         new DoubleValue(INT_CHAR)  | new CharacterValue('a' as char) | BooleanValue.TRUE
         new DoubleValue(INT_CHAR)  | new CharacterValue('b' as char) | BooleanValue.FALSE
@@ -58,6 +61,7 @@ class NumberValueTest extends Specification {
         new DoubleValue(4.0d)      | new FloatValue(5.0f)            | BooleanValue.FALSE
         new DoubleValue(4.0d)      | new DoubleValue(4.0d)           | BooleanValue.TRUE
         new DoubleValue(4.0d)      | new DoubleValue(5.0d)           | BooleanValue.FALSE
+        new DoubleValue(4.0d)      | new StringValue('Hello')        | BooleanValue.FALSE
     }
 
     def 'test #first != #second = #third'() {
