@@ -6,6 +6,36 @@ import static it.fulminazzo.javaparser.executor.values.primitive.BooleanValue.*
 
 class BooleanValueTest extends Specification {
 
+    def 'test #first == #second = #third'() {
+        when:
+        def eval = first.equal(second)
+
+        then:
+        eval == third
+
+        where:
+        first | second | third
+        TRUE  | TRUE   | TRUE
+        TRUE  | FALSE  | FALSE
+        FALSE | TRUE   | FALSE
+        FALSE | FALSE  | TRUE
+    }
+
+    def 'test #first != #second = #third'() {
+        when:
+        def eval = first.notEqual(second)
+
+        then:
+        eval == third
+
+        where:
+        first | second | third
+        TRUE  | TRUE   | FALSE
+        TRUE  | FALSE  | TRUE
+        FALSE | TRUE   | TRUE
+        FALSE | FALSE  | FALSE
+    }
+
     def 'test #first && #second = #third'() {
         when:
         def eval = first.and(second)
