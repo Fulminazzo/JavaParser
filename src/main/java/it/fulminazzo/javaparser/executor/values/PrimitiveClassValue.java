@@ -1,6 +1,5 @@
 package it.fulminazzo.javaparser.executor.values;
 
-import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
@@ -61,45 +60,9 @@ public final class PrimitiveClassValue<V> extends ObjectWrapper<Class<V>> implem
         return false;
     }
 
-    /**
-     * Gets the name
-     *
-     * @return the name
-     */
-    public @NotNull String name() {
-        return toString().toUpperCase();
-    }
-
     @Override
     public String toString() {
         return getValue().getSimpleName().toLowerCase();
-    }
-
-    /**
-     * Gets the most appropriate {@link PrimitiveClassValue} from the given name.
-     * If none was found, an {@link IllegalArgumentException} is thrown.
-     *
-     * @param name the name
-     * @return the value
-     */
-    public static @NotNull PrimitiveClassValue<?> valueOf(final @NotNull String name) {
-        for (PrimitiveClassValue<?> value : values())
-            if (value.name().equals(name)) return value;
-        throw new IllegalArgumentException(String.format("No enum constant %s.%s",
-                PrimitiveClassValue.class.getCanonicalName(), name));
-    }
-
-    /**
-     * Gets the static fields present in this class.
-     *
-     * @return the values
-     */
-    public static PrimitiveClassValue<?> @NotNull [] values() {
-        Refl<?> refl = new Refl<>(PrimitiveClassValue.class);
-        return refl.getStaticFields().stream()
-                .map(refl::getFieldObject)
-                .map(o -> (PrimitiveClassValue<?>) o)
-                .toArray(PrimitiveClassValue<?>[]::new);
     }
 
 }
