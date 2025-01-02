@@ -4,6 +4,63 @@ import spock.lang.Specification
 
 class NumberValueTest extends Specification {
 
+    def 'test #first << #second = #third'() {
+        when:
+        def eval = first.lshift(second)
+
+        then:
+        eval == third
+
+        where:
+        first                | second                           | third
+        // Integer
+        new IntegerValue(4)  | new CharacterValue('a' as char)  | new IntegerValue(8)
+        new IntegerValue(4)  | new IntegerValue(2)              | new IntegerValue(16)
+        new IntegerValue(4)  | new LongValue(2L)                | new LongValue(16)
+        // Long
+        new LongValue(4L)    | new CharacterValue('a' as char)  | new LongValue(8)
+        new LongValue(4L)    | new IntegerValue(2)              | new LongValue(16)
+        new LongValue(4L)    | new LongValue(2L)                | new LongValue(34359738368)
+    }
+
+    def 'test #first >> #second = #third'() {
+        when:
+        def eval = first.rshift(second)
+
+        then:
+        eval == third
+
+        where:
+        first                | second                           | third
+        // Integer
+        new IntegerValue(4)  | new CharacterValue('a' as char)  | new IntegerValue(2)
+        new IntegerValue(4)  | new IntegerValue(2)              | new IntegerValue(1)
+        new IntegerValue(4)  | new LongValue(2L)                | new LongValue(1)
+        // Long
+        new LongValue(4L)    | new CharacterValue('a' as char)  | new LongValue(101)
+        new LongValue(4L)    | new IntegerValue(2)              | new LongValue(6)
+        new LongValue(4L)    | new LongValue(2L)                | new LongValue(6)
+    }
+
+    def 'test #first >>> #second = #third'() {
+        when:
+        def eval = first.urshift(second)
+
+        then:
+        eval == third
+
+        where:
+        first                | second                           | third
+        // Integer
+        new IntegerValue(4)  | new CharacterValue('a' as char)  | new IntegerValue(101)
+        new IntegerValue(4)  | new IntegerValue(2)              | new IntegerValue(6)
+        new IntegerValue(4)  | new LongValue(2L)                | new LongValue(6)
+        // Long
+        new LongValue(4L)    | new CharacterValue('a' as char)  | new LongValue(101)
+        new LongValue(4L)    | new IntegerValue(2)              | new LongValue(6)
+        new LongValue(4L)    | new LongValue(2L)                | new LongValue(6)
+    }
+
     def 'test #first + #second = #third'() {
         when:
         def eval = first.add(second)
