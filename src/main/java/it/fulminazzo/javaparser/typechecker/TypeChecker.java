@@ -244,7 +244,7 @@ public final class TypeChecker implements Visitor<Type> {
     @Override
     public @NotNull Type visitAdd(@NotNull Node left, @NotNull Node right) {
         Type leftType = left.accept(this);
-        if (leftType.is(STRING)) return right.accept(this).check(STRING);
+        if (leftType.is(ObjectType.STRING)) return right.accept(this).check(ObjectType.STRING);
         else return executeBinaryOperationDecimal(leftType, right.accept(this));
     }
 
@@ -659,7 +659,7 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitStringValueLiteral(@NotNull String rawValue) {
-        return STRING;
+        return ObjectType.STRING;
     }
 
     /**

@@ -57,7 +57,7 @@ public final class OperationUtils {
     public static @NotNull Type executeObjectComparison(final @NotNull Type left,
                                                         final @NotNull Type right) {
         if (left.isPrimitive() && right.isPrimitive()) {
-            if (isString(left)) right.check(PrimitiveType.STRING, ObjectType.STRING);
+            if (left.is(ObjectType.STRING)) right.check(ObjectType.STRING);
             else if (isBoolean(left)) right.check(PrimitiveType.BOOLEAN, ObjectType.BOOLEAN);
             else return executeBinaryComparison(left, right);
         }
@@ -162,16 +162,6 @@ public final class OperationUtils {
      */
     public static boolean isBoolean(final Type type) {
         return type.is(PrimitiveType.BOOLEAN, ObjectType.BOOLEAN);
-    }
-
-    /**
-     * Checks if the given type is {@link PrimitiveType#STRING} or {@link ObjectType#STRING}.
-     *
-     * @param type the type
-     * @return true if it is
-     */
-    public static boolean isString(final Type type) {
-        return type.is(PrimitiveType.STRING, ObjectType.STRING);
     }
 
 }

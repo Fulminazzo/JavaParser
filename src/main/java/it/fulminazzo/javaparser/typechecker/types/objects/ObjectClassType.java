@@ -72,8 +72,7 @@ public enum ObjectClassType implements ClassType {
     public @NotNull Type cast(@NotNull Type type) {
         if (type.equals(Types.NULL_TYPE)) return toType();
         if (this != OBJECT) {
-            Type valueType = this.associatedType == null ?
-                    PrimitiveType.valueOf(name()) : this.associatedType.toType();
+            Type valueType = this.associatedType == null ? STRING : this.associatedType.toType();
             if (!type.is(valueType, ObjectType.of(toJavaClass())))
                 throw TypeCheckerException.invalidCast(this, type);
         }
@@ -91,7 +90,7 @@ public enum ObjectClassType implements ClassType {
         else if (this.associatedType != null) return this.associatedType.compatibleWith(type);
         else {
             // Either STRING or OBJECT
-            if (this.equals(STRING)) return PrimitiveType.STRING.is(type) || ObjectType.STRING.is(type);
+            if (this.equals(STRING)) return ObjectType.STRING.is(type);
             else return true;
         }
     }
