@@ -22,6 +22,21 @@ abstract class NumberValue<N extends Number> extends PrimitiveValue<N> {
     }
 
     @Override
+    public @NotNull Value bitAnd(@NotNull Value other) {
+        return executeBinaryOperation(other, (a, b) -> a & b, (a, b) -> a & b);
+    }
+
+    @Override
+    public @NotNull Value bitOr(@NotNull Value other) {
+        return executeBinaryOperation(other, (a, b) -> a | b, (a, b) -> a | b);
+    }
+
+    @Override
+    public @NotNull Value bitXor(@NotNull Value other) {
+        return executeBinaryOperation(other, (a, b) -> a ^ b, (a, b) -> a ^ b);
+    }
+
+    @Override
     public @NotNull Value lshift(@NotNull Value other) {
         return executeBinaryOperation(other, (a, b) -> a << b, (a, b) -> a << b);
     }
