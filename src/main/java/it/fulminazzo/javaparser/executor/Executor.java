@@ -106,27 +106,27 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitAdd(@NotNull Node left, @NotNull Node right) {
-        return null;
+        return left.accept(this).add(right.accept(this));
     }
 
     @Override
     public @NotNull Value<?> visitAnd(@NotNull Node left, @NotNull Node right) {
-        return null;
+        return left.accept(this).and(right.accept(this));
     }
 
     @Override
     public @NotNull Value<?> visitBitAnd(@NotNull Node left, @NotNull Node right) {
-        return null;
+        return left.accept(this).bitAnd(right.accept(this));
     }
 
     @Override
     public @NotNull Value<?> visitBitOr(@NotNull Node left, @NotNull Node right) {
-        return null;
+        return left.accept(this).bitOr(right.accept(this));
     }
 
     @Override
     public @NotNull Value<?> visitBitXor(@NotNull Node left, @NotNull Node right) {
-        return null;
+        return left.accept(this).bitXor(right.accept(this));
     }
 
     @Override
@@ -136,47 +136,47 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitDivide(@NotNull Node left, @NotNull Node right) {
-        return null;
+        return left.accept(this).divide(right.accept(this));
     }
 
     @Override
     public @NotNull Value<?> visitEqual(@NotNull Node left, @NotNull Node right) {
-        return null;
+        return left.accept(this).equal(right.accept(this));
     }
 
     @Override
     public @NotNull Value<?> visitGreaterThan(@NotNull Node left, @NotNull Node right) {
-        return null;
+        return left.accept(this).greaterThan(right.accept(this));
     }
 
     @Override
     public @NotNull Value<?> visitGreaterThanEqual(@NotNull Node left, @NotNull Node right) {
-        return null;
+        return left.accept(this).greaterThanEqual(right.accept(this));
     }
 
     @Override
     public @NotNull Value<?> visitLShift(@NotNull Node left, @NotNull Node right) {
-        return null;
+        return left.accept(this).lshift(right.accept(this));
     }
 
     @Override
     public @NotNull Value<?> visitLessThan(@NotNull Node left, @NotNull Node right) {
-        return null;
+        return left.accept(this).lessThan(right.accept(this));
     }
 
     @Override
     public @NotNull Value<?> visitLessThanEqual(@NotNull Node left, @NotNull Node right) {
-        return null;
+        return left.accept(this).lessThanEqual(right.accept(this));
     }
 
     @Override
     public @NotNull Value<?> visitModulo(@NotNull Node left, @NotNull Node right) {
-        return null;
+        return left.accept(this).modulo(right.accept(this));
     }
 
     @Override
     public @NotNull Value<?> visitMultiply(@NotNull Node left, @NotNull Node right) {
-        return null;
+        return left.accept(this).multiply(right.accept(this));
     }
 
     @Override
@@ -186,17 +186,17 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitNotEqual(@NotNull Node left, @NotNull Node right) {
-        return null;
+        return left.accept(this).notEqual(right.accept(this));
     }
 
     @Override
     public @NotNull Value<?> visitOr(@NotNull Node left, @NotNull Node right) {
-        return null;
+        return left.accept(this).or(right.accept(this));
     }
 
     @Override
     public @NotNull Value<?> visitRShift(@NotNull Node left, @NotNull Node right) {
-        return null;
+        return left.accept(this).rshift(right.accept(this));
     }
 
     @Override
@@ -206,12 +206,12 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitSubtract(@NotNull Node left, @NotNull Node right) {
-        return null;
+        return left.accept(this).subtract(right.accept(this));
     }
 
     @Override
     public @NotNull Value<?> visitURShift(@NotNull Node left, @NotNull Node right) {
-        return null;
+        return left.accept(this).urshift(right.accept(this));
     }
 
     @Override
