@@ -15,7 +15,7 @@ import java.util.Arrays;
  *
  * @param <V> the type of the primitive
  */
-public final class PrimitiveClassValue<V> extends ObjectWrapper<Class<V>> implements ClassValue<V>, Info {
+public final class PrimitiveClassValue<V> extends ObjectWrapper<Class<V>> implements ClassValue<V> {
     public static final ClassValue<Byte> BYTE = new PrimitiveClassValue<>(byte.class,
             Byte.class, Integer.class);
     public static final ClassValue<Short> SHORT = new PrimitiveClassValue<>(short.class,
