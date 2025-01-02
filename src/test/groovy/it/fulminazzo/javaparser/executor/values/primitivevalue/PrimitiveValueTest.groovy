@@ -16,8 +16,10 @@ class PrimitiveValueTest extends Specification {
 
         where:
         value | expected
-        new CharValue('c' as char) | PrimitiveClassValue.CHAR
-        new IntValue(1) | PrimitiveClassValue.INT
+        new CharValue('c' as char)      | PrimitiveClassValue.CHAR
+        new ByteValue(1 as byte)        | PrimitiveClassValue.BYTE
+        new ShortValue(1 as short)      | PrimitiveClassValue.SHORT
+        new IntValue(1)                 | PrimitiveClassValue.INT
         new LongValue(1)                | PrimitiveClassValue.LONG
         new FloatValue(1)               | PrimitiveClassValue.FLOAT
         new DoubleValue(1)              | PrimitiveClassValue.DOUBLE
@@ -37,6 +39,22 @@ class PrimitiveValueTest extends Specification {
 
         where:
         expected | method      | value
+        // Byte
+        false    | "Character" | new ByteValue(1 as byte)
+        false    | "Integer"   | new ByteValue(1 as byte)
+        false    | "Long"      | new ByteValue(1 as byte)
+        false    | "Float"     | new ByteValue(1 as byte)
+        false    | "Double"    | new ByteValue(1 as byte)
+        false    | "Boolean"   | new ByteValue(1 as byte)
+        false    | "String"    | new ByteValue(1 as byte)
+        // Short
+        false    | "Character" | new ShortValue(1 as short)
+        false    | "Integer"   | new ShortValue(1 as short)
+        false    | "Long"      | new ShortValue(1 as short)
+        false    | "Float"     | new ShortValue(1 as short)
+        false    | "Double"    | new ShortValue(1 as short)
+        false    | "Boolean"   | new ShortValue(1 as short)
+        false    | "String"    | new ShortValue(1 as short)
         // Character
         true     | "Character" | new CharValue('a' as char)
         false    | "Integer"   | new CharValue('a' as char)
@@ -102,8 +120,8 @@ class PrimitiveValueTest extends Specification {
         true             | BooleanValue.TRUE
         false            | BooleanValue.FALSE
         'a' as char      | new CharValue('a' as Character)
-        1 as byte        | new IntValue(1)
-        2 as short       | new IntValue(2)
+        1 as byte        | new ByteValue(1 as byte)
+        2 as short       | new ShortValue(2 as short)
         3                | new IntValue(3)
     }
 
