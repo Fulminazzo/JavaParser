@@ -1,6 +1,5 @@
 package it.fulminazzo.javaparser.executor.values.primitivevalue
 
-import it.fulminazzo.javaparser.executor.values.objects.StringValue
 import spock.lang.Specification
 
 class NumberValueTest extends Specification {
@@ -16,7 +15,7 @@ class NumberValueTest extends Specification {
         where:
         first                      | second                          | third
         // Integer
-        new IntValue(INT_CHAR) | new CharValue('a' as char)     | BooleanValue.TRUE
+        new IntValue(INT_CHAR) | new CharValue('a' as char)      | BooleanValue.TRUE
         new IntValue(INT_CHAR) | new CharValue('b' as char)     | BooleanValue.FALSE
         new IntValue(4)        | new IntValue(4)                 | BooleanValue.TRUE
         new IntValue(4)        | new IntValue(5)                 | BooleanValue.FALSE
@@ -26,7 +25,6 @@ class NumberValueTest extends Specification {
         new IntValue(4)        | new FloatValue(5.0f)            | BooleanValue.FALSE
         new IntValue(4)        | new DoubleValue(4.0d)           | BooleanValue.TRUE
         new IntValue(4)        | new DoubleValue(5.0d)           | BooleanValue.FALSE
-        new IntValue(4)        | new StringValue('Hello') | BooleanValue.FALSE
         // Long
         new LongValue(INT_CHAR)    | new CharValue('a' as char) | BooleanValue.TRUE
         new LongValue(INT_CHAR)    | new CharValue('b' as char) | BooleanValue.FALSE
@@ -38,7 +36,6 @@ class NumberValueTest extends Specification {
         new LongValue(4L)          | new FloatValue(5.0f)            | BooleanValue.FALSE
         new LongValue(4L)          | new DoubleValue(4.0d)           | BooleanValue.TRUE
         new LongValue(4L)          | new DoubleValue(5.0d)           | BooleanValue.FALSE
-        new LongValue(4L)          | new StringValue('Hello')        | BooleanValue.FALSE
         // Float
         new FloatValue(INT_CHAR)   | new CharValue('a' as char) | BooleanValue.TRUE
         new FloatValue(INT_CHAR)   | new CharValue('b' as char) | BooleanValue.FALSE
@@ -50,7 +47,6 @@ class NumberValueTest extends Specification {
         new FloatValue(4.0f)       | new FloatValue(5.0f)            | BooleanValue.FALSE
         new FloatValue(4.0f)       | new DoubleValue(4.0d)           | BooleanValue.TRUE
         new FloatValue(4.0f)       | new DoubleValue(5.0d)           | BooleanValue.FALSE
-        new FloatValue(4.0f)       | new StringValue('Hello')        | BooleanValue.FALSE
         // Double
         new DoubleValue(INT_CHAR)  | new CharValue('a' as char) | BooleanValue.TRUE
         new DoubleValue(INT_CHAR)  | new CharValue('b' as char) | BooleanValue.FALSE
@@ -62,7 +58,6 @@ class NumberValueTest extends Specification {
         new DoubleValue(4.0d)      | new FloatValue(5.0f)            | BooleanValue.FALSE
         new DoubleValue(4.0d)      | new DoubleValue(4.0d)           | BooleanValue.TRUE
         new DoubleValue(4.0d)      | new DoubleValue(5.0d)           | BooleanValue.FALSE
-        new DoubleValue(4.0d)      | new StringValue('Hello')        | BooleanValue.FALSE
     }
 
     def 'test #first != #second = #third'() {

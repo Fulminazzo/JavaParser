@@ -5,7 +5,6 @@ import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue;
 import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.executor.values.ValueException;
-import it.fulminazzo.javaparser.executor.values.objects.StringValue;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
@@ -56,11 +55,6 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
     }
 
     @Override
-    public boolean isString() {
-        return this instanceof StringValue;
-    }
-
-    @Override
     public @NotNull V getValue() {
         return this.object;
     }
@@ -88,7 +82,6 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
         else if (value instanceof Boolean)
             if (value == Boolean.TRUE) primitiveValue = BooleanValue.TRUE;
             else primitiveValue = BooleanValue.FALSE;
-        else if (value instanceof String) primitiveValue = new StringValue((String) value);
         else if (value instanceof Character) primitiveValue = new CharValue((Character) value);
         else if (value instanceof Byte || value instanceof Short || value instanceof Integer)
             primitiveValue = new IntValue(Integer.parseInt(value.toString()));

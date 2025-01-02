@@ -3,7 +3,6 @@ package it.fulminazzo.javaparser.executor.values.primitivevalue
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue
 import it.fulminazzo.javaparser.executor.values.ValueException
-import it.fulminazzo.javaparser.executor.values.objects.StringValue
 import spock.lang.Specification
 
 class PrimitiveValueTest extends Specification {
@@ -86,14 +85,6 @@ class PrimitiveValueTest extends Specification {
         false    | "Double"    | BooleanValue.TRUE
         true     | "Boolean"   | BooleanValue.TRUE
         false    | "String"    | BooleanValue.TRUE
-        // String
-        false    | "Character" | new StringValue('Hello, world!')
-        false    | "Integer"   | new StringValue('Hello, world!')
-        false    | "Long"      | new StringValue('Hello, world!')
-        false    | "Float"     | new StringValue('Hello, world!')
-        false    | "Double"    | new StringValue('Hello, world!')
-        false    | "Boolean"   | new StringValue('Hello, world!')
-        true     | "String"    | new StringValue('Hello, world!')
     }
 
     def 'test conversion of #value should return #expected'() {
@@ -110,7 +101,6 @@ class PrimitiveValueTest extends Specification {
         1L               | new LongValue(1L)
         true             | BooleanValue.TRUE
         false            | BooleanValue.FALSE
-        'Hello, world!'  | new StringValue('Hello, world!')
         'a' as char      | new CharValue('a' as Character)
         1 as byte        | new IntValue(1)
         2 as short       | new IntValue(2)
