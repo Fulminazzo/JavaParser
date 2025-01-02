@@ -95,6 +95,16 @@ public interface Value<V> {
     }
 
     /**
+     * Converts the current value to an instance of {@link PrimitiveValue}.
+     * Throws {@link ValueRuntimeException} in case of no associated primitive type.
+     *
+     * @return the primitive value
+     */
+    default @NotNull PrimitiveValue<V> toPrimitive() {
+        throw ValueRuntimeException.invalidPrimitiveValue(getValue());
+    }
+
+    /**
      * Converts the current value is of the specified one.
      * This operation is unchecked.
      *
