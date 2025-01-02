@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor.values
 
+import it.fulminazzo.javaparser.executor.values.objects.ObjectValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
 import spock.lang.Specification
 
@@ -10,27 +11,63 @@ class PrimitiveClassValueTest extends Specification {
         classValue.compatibleWith(value)
 
         where:
-        //TODO: wrapper objects
-        classValue                  | value
-        PrimitiveClassValue.BYTE | PrimitiveValue.of(1)
-        PrimitiveClassValue.SHORT   | PrimitiveValue.of(1)
-        PrimitiveClassValue.CHAR    | PrimitiveValue.of('c' as char)
-        PrimitiveClassValue.CHAR    | PrimitiveValue.of(1)
-        PrimitiveClassValue.INT     | PrimitiveValue.of(1)
-        PrimitiveClassValue.INT     | PrimitiveValue.of('c' as char)
-        PrimitiveClassValue.LONG    | PrimitiveValue.of(1)
-        PrimitiveClassValue.LONG    | PrimitiveValue.of(1L)
-        PrimitiveClassValue.LONG    | PrimitiveValue.of('c' as char)
-        PrimitiveClassValue.FLOAT   | PrimitiveValue.of(1)
-        PrimitiveClassValue.FLOAT   | PrimitiveValue.of(1L)
-        PrimitiveClassValue.FLOAT   | PrimitiveValue.of(1.0f)
-        PrimitiveClassValue.FLOAT   | PrimitiveValue.of('c' as char)
-        PrimitiveClassValue.DOUBLE  | PrimitiveValue.of(1)
-        PrimitiveClassValue.DOUBLE  | PrimitiveValue.of(1L)
-        PrimitiveClassValue.DOUBLE  | PrimitiveValue.of(1.0f)
-        PrimitiveClassValue.DOUBLE  | PrimitiveValue.of(1.0d)
-        PrimitiveClassValue.DOUBLE  | PrimitiveValue.of('c' as char)
-        PrimitiveClassValue.BOOLEAN | PrimitiveValue.of(true)
+        classValue                   | value
+        // byte
+        PrimitiveClassValue.BYTE     | PrimitiveValue.of(1)
+        PrimitiveClassValue.BYTE     | ObjectValue.of(1 as Byte)
+        // short
+        PrimitiveClassValue.SHORT    | PrimitiveValue.of(1)
+        PrimitiveClassValue.SHORT    | ObjectValue.of(1 as Byte)
+        PrimitiveClassValue.SHORT    | ObjectValue.of(1 as Short)
+        // char
+        PrimitiveClassValue.CHAR     | PrimitiveValue.of(1)
+        PrimitiveClassValue.CHAR     | PrimitiveValue.of('a' as char)
+        PrimitiveClassValue.CHAR     | ObjectValue.of('a' as Character)
+        // int
+        PrimitiveClassValue.INT      | PrimitiveValue.of(1)
+        PrimitiveClassValue.INT      | ObjectValue.of(1 as Byte)
+        PrimitiveClassValue.INT      | ObjectValue.of(1 as Short)
+        PrimitiveClassValue.INT      | PrimitiveValue.of('a' as char)
+        PrimitiveClassValue.INT      | ObjectValue.of('a' as Character)
+        PrimitiveClassValue.INT      | ObjectValue.of(1 as Integer)
+        // long
+        PrimitiveClassValue.LONG     | PrimitiveValue.of(1)
+        PrimitiveClassValue.LONG     | ObjectValue.of(1 as Byte)
+        PrimitiveClassValue.LONG     | ObjectValue.of(1 as Short)
+        PrimitiveClassValue.LONG     | PrimitiveValue.of('a' as char)
+        PrimitiveClassValue.LONG     | ObjectValue.of('a' as Character)
+        PrimitiveClassValue.LONG     | ObjectValue.of(1 as Integer)
+        PrimitiveClassValue.LONG     | PrimitiveValue.of(1L)
+        PrimitiveClassValue.LONG     | ObjectValue.of(1L)
+        // float
+        PrimitiveClassValue.FLOAT    | PrimitiveValue.of(1)
+        PrimitiveClassValue.FLOAT    | ObjectValue.of(1 as Byte)
+        PrimitiveClassValue.FLOAT    | ObjectValue.of(1 as Short)
+        PrimitiveClassValue.FLOAT    | PrimitiveValue.of('a' as char)
+        PrimitiveClassValue.FLOAT    | ObjectValue.of('a' as Character)
+        PrimitiveClassValue.FLOAT    | ObjectValue.of(1 as Integer)
+        PrimitiveClassValue.FLOAT    | PrimitiveValue.of(1L)
+        PrimitiveClassValue.FLOAT    | ObjectValue.of(1L)
+        PrimitiveClassValue.FLOAT    | PrimitiveValue.of(1.0f)
+        PrimitiveClassValue.FLOAT    | ObjectValue.of(1.0f)
+        // double
+        PrimitiveClassValue.DOUBLE   | PrimitiveValue.of(1)
+        PrimitiveClassValue.DOUBLE   | ObjectValue.of(1 as Byte)
+        PrimitiveClassValue.DOUBLE   | ObjectValue.of(1 as Short)
+        PrimitiveClassValue.DOUBLE   | PrimitiveValue.of('a' as char)
+        PrimitiveClassValue.DOUBLE   | ObjectValue.of('a' as Character)
+        PrimitiveClassValue.DOUBLE   | ObjectValue.of(1 as Integer)
+        PrimitiveClassValue.DOUBLE   | PrimitiveValue.of(1L)
+        PrimitiveClassValue.DOUBLE   | ObjectValue.of(1L)
+        PrimitiveClassValue.DOUBLE   | PrimitiveValue.of(1.0f)
+        PrimitiveClassValue.DOUBLE   | ObjectValue.of(1.0f)
+        PrimitiveClassValue.DOUBLE   | PrimitiveValue.of(1.0d)
+        PrimitiveClassValue.DOUBLE   | ObjectValue.of(1.0d)
+        // boolean
+        PrimitiveClassValue.BOOLEAN  | PrimitiveValue.of(true)
+        PrimitiveClassValue.BOOLEAN  | PrimitiveValue.of(false)
+        PrimitiveClassValue.BOOLEAN  | ObjectValue.of(true as Boolean)
+        PrimitiveClassValue.BOOLEAN  | ObjectValue.of(false as Boolean)
     }
 
     def 'test #classValue should not be compatible with #value'() {
