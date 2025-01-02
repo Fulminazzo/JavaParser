@@ -1,6 +1,6 @@
 package it.fulminazzo.javaparser.executor.values.classes
 
-import it.fulminazzo.javaparser.executor.values.primitive.PrimitiveValue
+import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
 import spock.lang.Specification
 
 class PrimitiveClassValueTest extends Specification {

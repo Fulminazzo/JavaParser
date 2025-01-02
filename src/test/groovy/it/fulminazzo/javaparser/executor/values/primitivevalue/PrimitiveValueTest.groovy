@@ -1,4 +1,4 @@
-package it.fulminazzo.javaparser.executor.values.primitive
+package it.fulminazzo.javaparser.executor.values.primitivevalue
 
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.executor.values.ValueException

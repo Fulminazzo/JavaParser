@@ -1,6 +1,6 @@
 package it.fulminazzo.javaparser.executor.values;
 
-import it.fulminazzo.javaparser.executor.values.primitive.BooleanValue;
+import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;

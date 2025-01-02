@@ -1,4 +1,4 @@
-package it.fulminazzo.javaparser.executor.values.primitive
+package it.fulminazzo.javaparser.executor.values.primitivevalue
 
 import spock.lang.Specification
 
