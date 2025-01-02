@@ -1,10 +1,8 @@
 package it.fulminazzo.javaparser.executor.values.primitivevalue;
 
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
+import it.fulminazzo.javaparser.executor.values.*;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
-import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue;
-import it.fulminazzo.javaparser.executor.values.Value;
-import it.fulminazzo.javaparser.executor.values.ValueException;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
@@ -68,13 +66,14 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
 
     /**
      * Gets the most appropriate {@link PrimitiveValue} from the given value.
+     * Throws {@link ValueRuntimeException} in case of an invalid value.
      *
      * @param <V>   the type of the value
      * @param value the value
      * @return the primitive value
      */
     @SuppressWarnings("unchecked")
-    public static <V> @NotNull PrimitiveValue<V> of(@NotNull V value) throws ValueException {
+    public static <V> @NotNull PrimitiveValue<V> of(@NotNull V value) {
         Value<?> primitiveValue;
         if (value instanceof Double) primitiveValue = new DoubleValue((Double) value);
         else if (value instanceof Float) primitiveValue = new FloatValue((Float) value);
@@ -86,7 +85,7 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
         else if (value instanceof Byte) primitiveValue = new ByteValue(Byte.parseByte(value.toString()));
         else if (value instanceof Short) primitiveValue = new ShortValue(Short.parseShort(value.toString()));
         else if (value instanceof Integer) primitiveValue = new IntValue(Integer.parseInt(value.toString()));
-        else throw ValueException.invalidPrimitiveValue(value);
+        else throw ValueRuntimeException.invalidPrimitiveValue(value);
         return (PrimitiveValue<V>) primitiveValue;
     }
 
