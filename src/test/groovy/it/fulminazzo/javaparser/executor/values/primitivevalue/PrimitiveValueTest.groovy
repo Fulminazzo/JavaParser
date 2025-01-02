@@ -1,10 +1,29 @@
 package it.fulminazzo.javaparser.executor.values.primitivevalue
 
 import it.fulminazzo.fulmicollection.objects.Refl
+import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue
 import it.fulminazzo.javaparser.executor.values.ValueException
 import spock.lang.Specification
 
 class PrimitiveValueTest extends Specification {
+
+    def 'test toClassValue of #value should return #expected'() {
+        when:
+        def classValue = value.toClassValue()
+
+        then:
+        classValue == expected
+
+        where:
+        value | expected
+        new CharacterValue('c' as char) | PrimitiveClassValue.CHAR
+        new IntegerValue(1)             | PrimitiveClassValue.INT
+        new LongValue(1)                | PrimitiveClassValue.LONG
+        new FloatValue(1)               | PrimitiveClassValue.FLOAT
+        new DoubleValue(1)              | PrimitiveClassValue.DOUBLE
+        BooleanValue.TRUE               | PrimitiveClassValue.BOOLEAN
+        BooleanValue.FALSE              | PrimitiveClassValue.BOOLEAN
+    }
 
     def 'test is#method should return #expected for #value'() {
         given:
