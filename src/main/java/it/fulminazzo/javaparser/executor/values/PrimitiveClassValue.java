@@ -63,4 +63,23 @@ public final class PrimitiveClassValue<V> extends EnumObject implements ClassVal
         return getValue().getSimpleName().toLowerCase();
     }
 
+    /**
+     * Gets the most appropriate {@link PrimitiveClassValue} from the given name.
+     *
+     * @param name the name
+     * @return the primitive class value
+     */
+    public static @NotNull PrimitiveClassValue<?> valueOf(final @NotNull String name) {
+        return valueOf(PrimitiveClassValue.class, name);
+    }
+
+    /**
+     * Gets all the static values.
+     *
+     * @return the primitive class values
+     */
+    public static PrimitiveClassValue<?> @NotNull [] values() {
+        return values(PrimitiveClassValue.class);
+    }
+
 }
