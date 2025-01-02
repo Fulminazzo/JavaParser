@@ -263,7 +263,7 @@ class ExecutorTest extends Specification {
 
         where:
         first      | second     | expected
-        LONG_LIT   | NUMBER_LIT | PrimitiveValue.of(2 as long / 1)
+        LONG_LIT   | NUMBER_LIT | PrimitiveValue.of(((long) 2) / 1)
         FLOAT_LIT  | NUMBER_LIT | PrimitiveValue.of(3.0f / 1)
         DOUBLE_LIT | NUMBER_LIT | PrimitiveValue.of(4.0d / 1)
     }
@@ -323,9 +323,9 @@ class ExecutorTest extends Specification {
 
         where:
         literal                           | expected
-        CHAR_LIT                          | null
+        CHAR_LIT                          | PrimitiveValue.of('a' as char)
         // int
-        NUMBER_LIT                        | null
+        NUMBER_LIT                        | PrimitiveValue.of(1)
         // long
         new LongValueLiteral('10L')       | PrimitiveValue.of(10L as Long)
         new LongValueLiteral('10l')       | PrimitiveValue.of(10l as Long)
