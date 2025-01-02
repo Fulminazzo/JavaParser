@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.executor.values.objects;
 
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
+import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.executor.values.ValueException;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
@@ -34,6 +35,12 @@ public final class ObjectValue<V> extends ObjectWrapper<V> implements Value<V> {
     @Override
     public @NotNull V getValue() {
         return this.object;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public @NotNull ClassValue<V> toClassValue() {
+        return (ClassValue<V>) ClassValue.of(getValue().getClass());
     }
 
     @Override
