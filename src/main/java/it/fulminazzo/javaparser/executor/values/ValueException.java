@@ -28,4 +28,15 @@ public class ValueException extends RuntimeException {
         return new ValueException("Value %s is not a valid primitive type", value);
     }
 
+    /**
+     * Generates a {@link ValueException} with message:
+     * <i>Could not find class '%clazz%'</i>
+     *
+     * @param clazz the clazz
+     * @return the value exception
+     */
+    public static @NotNull ValueException classNotFound(final @NotNull String clazz) {
+        return new ValueException("Could not find class '%s'", clazz);
+    }
+
 }
