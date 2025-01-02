@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a general value.
  */
-public interface Value {
+public interface Value<V> {
 
     /**
      * Checks if the current value is character.
@@ -80,7 +80,7 @@ public interface Value {
      * @return the current value cast to the expected one
      */
     @SuppressWarnings("unchecked")
-    default <T extends Value> @NotNull T check(final @NotNull Class<T> value) {
+    default <T extends Value<?>> @NotNull T check(final @NotNull Class<T> value) {
         if (value.isInstance(this)) return (T) this;
         else throw ValueException.invalidValue(value, this);
     }
@@ -92,13 +92,20 @@ public interface Value {
      * @param expectedValues the expected values
      * @return this value
      */
-    default @NotNull Value check(final Class<?> @NotNull ... expectedValues) {
+    default @NotNull Value<V> check(final Class<?> @NotNull ... expectedValues) {
         if (expectedValues.length == 0)
             throw new IllegalArgumentException(String.format("Cannot compare value %s with no values", this));
         for (Class<?> clazz : expectedValues)
             if (clazz.isInstance(this)) return this;
         throw ValueException.invalidValue(expectedValues[0], this);
     }
+
+    /**
+     * Gets value.
+     *
+     * @return the value
+     */
+    V getValue();
 
     /*
         BINARY COMPARISONS
@@ -110,7 +117,7 @@ public interface Value {
      * @param other the other value
      * @return the boolean value
      */
-    default @NotNull BooleanValue and(final @NotNull Value other) {
+    default @NotNull BooleanValue and(final @NotNull Value<?> other) {
         throw new UnsupportedOperationException();
     }
 
@@ -120,7 +127,7 @@ public interface Value {
      * @param other the other value
      * @return the boolean value
      */
-    default @NotNull BooleanValue or(final @NotNull Value other) {
+    default @NotNull BooleanValue or(final @NotNull Value<?> other) {
         throw new UnsupportedOperationException();
     }
 
@@ -130,7 +137,7 @@ public interface Value {
      * @param other the other value
      * @return the boolean value
      */
-    default @NotNull BooleanValue equal(final @NotNull Value other) {
+    default @NotNull BooleanValue equal(final @NotNull Value<?> other) {
         throw new UnsupportedOperationException();
     }
 
@@ -140,7 +147,7 @@ public interface Value {
      * @param other the other value
      * @return the boolean value
      */
-    default @NotNull BooleanValue notEqual(final @NotNull Value other) {
+    default @NotNull BooleanValue notEqual(final @NotNull Value<?> other) {
         throw new UnsupportedOperationException();
     }
 
@@ -150,7 +157,7 @@ public interface Value {
      * @param other the other value
      * @return the boolean value
      */
-    default @NotNull BooleanValue lessThan(final @NotNull Value other) {
+    default @NotNull BooleanValue lessThan(final @NotNull Value<?> other) {
         throw new UnsupportedOperationException();
     }
 
@@ -160,7 +167,7 @@ public interface Value {
      * @param other the other value
      * @return the boolean value
      */
-    default @NotNull BooleanValue lessThanEqual(final @NotNull Value other) {
+    default @NotNull BooleanValue lessThanEqual(final @NotNull Value<?> other) {
         throw new UnsupportedOperationException();
     }
 
@@ -170,7 +177,7 @@ public interface Value {
      * @param other the other value
      * @return the boolean value
      */
-    default @NotNull BooleanValue greaterThan(final @NotNull Value other) {
+    default @NotNull BooleanValue greaterThan(final @NotNull Value<?> other) {
         throw new UnsupportedOperationException();
     }
 
@@ -180,7 +187,7 @@ public interface Value {
      * @param other the other value
      * @return the boolean value
      */
-    default @NotNull BooleanValue greaterThanEqual(final @NotNull Value other) {
+    default @NotNull BooleanValue greaterThanEqual(final @NotNull Value<?> other) {
         throw new UnsupportedOperationException();
     }
 
@@ -194,7 +201,7 @@ public interface Value {
      * @param other the other value
      * @return the value
      */
-    default @NotNull Value bitAnd(final @NotNull Value other) {
+    default @NotNull Value<?> bitAnd(final @NotNull Value<?> other) {
         throw new UnsupportedOperationException();
     }
 
@@ -204,7 +211,7 @@ public interface Value {
      * @param other the other value
      * @return the value
      */
-    default @NotNull Value bitOr(final @NotNull Value other) {
+    default @NotNull Value<?> bitOr(final @NotNull Value<?> other) {
         throw new UnsupportedOperationException();
     }
 
@@ -214,7 +221,7 @@ public interface Value {
      * @param other the other value
      * @return the value
      */
-    default @NotNull Value bitXor(final @NotNull Value other) {
+    default @NotNull Value<?> bitXor(final @NotNull Value<?> other) {
         throw new UnsupportedOperationException();
     }
 
@@ -224,7 +231,7 @@ public interface Value {
      * @param other the other value
      * @return the value
      */
-    default @NotNull Value lshift(final @NotNull Value other) {
+    default @NotNull Value<?> lshift(final @NotNull Value<?> other) {
         throw new UnsupportedOperationException();
     }
 
@@ -234,7 +241,7 @@ public interface Value {
      * @param other the other value
      * @return the value
      */
-    default @NotNull Value rshift(final @NotNull Value other) {
+    default @NotNull Value<?> rshift(final @NotNull Value<?> other) {
         throw new UnsupportedOperationException();
     }
 
@@ -244,7 +251,7 @@ public interface Value {
      * @param other the other value
      * @return the value
      */
-    default @NotNull Value urshift(final @NotNull Value other) {
+    default @NotNull Value<?> urshift(final @NotNull Value<?> other) {
         throw new UnsupportedOperationException();
     }
 
@@ -255,7 +262,7 @@ public interface Value {
      * @param other the other value
      * @return the value
      */
-    default @NotNull Value add(final @NotNull Value other) {
+    default @NotNull Value<?> add(final @NotNull Value<?> other) {
         throw new UnsupportedOperationException();
     }
 
@@ -265,7 +272,7 @@ public interface Value {
      * @param other the other value
      * @return the value
      */
-    default @NotNull Value subtract(final @NotNull Value other) {
+    default @NotNull Value<?> subtract(final @NotNull Value<?> other) {
         throw new UnsupportedOperationException();
     }
 
@@ -275,7 +282,7 @@ public interface Value {
      * @param other the other value
      * @return the value
      */
-    default @NotNull Value multiply(final @NotNull Value other) {
+    default @NotNull Value<?> multiply(final @NotNull Value<?> other) {
         throw new UnsupportedOperationException();
     }
 
@@ -285,7 +292,7 @@ public interface Value {
      * @param other the other value
      * @return the value
      */
-    default @NotNull Value divide(final @NotNull Value other) {
+    default @NotNull Value<?> divide(final @NotNull Value<?> other) {
         throw new UnsupportedOperationException();
     }
 
@@ -295,7 +302,7 @@ public interface Value {
      * @param other the other value
      * @return the value
      */
-    default @NotNull Value modulo(final @NotNull Value other) {
+    default @NotNull Value<?> modulo(final @NotNull Value<?> other) {
         throw new UnsupportedOperationException();
     }
 

@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @param <V> the type of the value
  */
-public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Value {
+public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Value<V> {
 
     /**
      * Instantiates a new Primitive value.
@@ -21,11 +21,7 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
         super(value);
     }
 
-    /**
-     * Gets value.
-     *
-     * @return the value
-     */
+    @Override
     public @NotNull V getValue() {
         return this.object;
     }
@@ -74,7 +70,7 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
      */
     @SuppressWarnings("unchecked")
     public static <V> @NotNull PrimitiveValue<V> of(@NotNull V value) {
-        Value primitiveValue;
+        Value<?> primitiveValue;
         if (value instanceof Double) primitiveValue = new DoubleValue((Double) value);
         else if (value instanceof Float) primitiveValue = new FloatValue((Float) value);
         else if (value instanceof Long) primitiveValue = new LongValue((Long) value);

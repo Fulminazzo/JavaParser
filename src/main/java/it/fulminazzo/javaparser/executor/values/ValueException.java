@@ -26,7 +26,7 @@ public class ValueException extends RuntimeException {
      * @return the value exception
      */
     public static @NotNull ValueException invalidValue(final @NotNull Class<?> expected,
-                                                       final @NotNull Value actual) {
+                                                       final @NotNull Value<?> actual) {
         return new ValueException("Invalid value received: expected %s but got %s instead",
                 expected.getSimpleName(), actual);
     }

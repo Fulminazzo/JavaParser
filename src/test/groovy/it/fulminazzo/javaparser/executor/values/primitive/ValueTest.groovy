@@ -18,6 +18,10 @@ class ValueTest extends Specification {
 
     static class MockValue implements Value {
 
+        @Override
+        Object getValue() {
+            return null
+        }
     }
 
 }
