@@ -169,7 +169,7 @@ class ExecutorTest extends Specification {
 
         where:
         first         | second         | expected
-        BOOL_LIT_TRUE | BOOL_LIT_FALSE | PrimitiveValue.of(true ^ false)
+        BOOL_LIT_TRUE | BOOL_LIT_FALSE | PrimitiveValue.of(true)
         NUMBER_LIT    | NUMBER_LIT     | PrimitiveValue.of(1 ^ 1)
     }
 
