@@ -2,13 +2,12 @@ package it.fulminazzo.javaparser.executor.values.objects;
 
 import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.Value;
-import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a {@link String} {@link ObjectValue}, with support for special operations.
  */
-class StringObjectValue extends ObjectWrapper<String> implements Value<String> {
+class StringObjectValue extends ObjectValue<String> {
 
     /**
      * Instantiates a new String object value.
@@ -33,16 +32,6 @@ class StringObjectValue extends ObjectWrapper<String> implements Value<String> {
     @Override
     public @NotNull ClassValue<String> toClassValue() {
         return ObjectClassValue.STRING;
-    }
-
-    @Override
-    public @NotNull String getValue() {
-        return this.object;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("StringValue(%s)", getValue());
     }
 
 }
