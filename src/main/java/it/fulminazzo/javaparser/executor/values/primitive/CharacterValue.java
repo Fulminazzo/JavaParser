@@ -18,6 +18,12 @@ class CharacterValue extends PrimitiveValue<Character> {
     }
 
     @Override
+    public @NotNull BooleanValue equal(@NotNull Value<?> other) {
+        if (other instanceof NumberValue) return asInteger().equal(other);
+        else return super.equal(other);
+    }
+
+    @Override
     public @NotNull BooleanValue lessThan(@NotNull Value<?> other) {
         return asInteger().lessThan(other);
     }
