@@ -81,4 +81,23 @@ public final class ObjectClassValue<V> extends EnumObject implements ClassValue<
         return ClassValue.print(StringUtils.capitalize(name()));
     }
 
+    /**
+     * Gets the most appropriate {@link ObjectClassValue} from the given name.
+     *
+     * @param name the name
+     * @return the primitive class value
+     */
+    public static @NotNull ObjectClassValue<?> valueOf(final @NotNull String name) {
+        return valueOf(ObjectClassValue.class, name);
+    }
+
+    /**
+     * Gets all the static values.
+     *
+     * @return the primitive class values
+     */
+    public static ObjectClassValue<?> @NotNull [] values() {
+        return values(ObjectClassValue.class);
+    }
+
 }
