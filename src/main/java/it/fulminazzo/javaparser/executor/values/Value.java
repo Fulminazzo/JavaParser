@@ -71,6 +71,20 @@ public interface Value {
         return false;
     }
 
+    /**
+     * Checks whether the current value is of the specified class.
+     * If not, throws {@link ValueException}.
+     *
+     * @param <T>   the type of the value
+     * @param clazz the class of the value
+     * @return the converted type
+     */
+    @SuppressWarnings("unchecked")
+    default <T extends Value> @NotNull T check(final @NotNull Class<T> clazz) {
+        if (clazz.isInstance(this)) return (T) this;
+        else throw ValueException.invalidValue(clazz, this);
+    }
+
     /*
         BINARY COMPARISONS
      */
