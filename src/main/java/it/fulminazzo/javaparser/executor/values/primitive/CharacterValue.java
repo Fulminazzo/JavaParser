@@ -18,6 +18,21 @@ class CharacterValue extends PrimitiveValue<Character> {
     }
 
     @Override
+    public @NotNull Value bitAnd(@NotNull Value other) {
+        return asInteger().bitAnd(other);
+    }
+
+    @Override
+    public @NotNull Value bitOr(@NotNull Value other) {
+        return asInteger().bitOr(other);
+    }
+
+    @Override
+    public @NotNull Value bitXor(@NotNull Value other) {
+        return asInteger().bitXor(other);
+    }
+
+    @Override
     public @NotNull Value lshift(@NotNull Value other) {
         return asInteger().lshift(other);
     }
