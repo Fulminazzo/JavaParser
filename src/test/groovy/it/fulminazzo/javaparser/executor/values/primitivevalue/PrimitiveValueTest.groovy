@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser.executor.values.primitivevalue
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue
 import it.fulminazzo.javaparser.executor.values.ValueException
+import it.fulminazzo.javaparser.executor.values.objects.StringValue
 import spock.lang.Specification
 
 class PrimitiveValueTest extends Specification {

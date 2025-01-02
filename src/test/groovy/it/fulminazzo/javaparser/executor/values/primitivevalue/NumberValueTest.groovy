@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor.values.primitivevalue
 
+import it.fulminazzo.javaparser.executor.values.objects.StringValue
 import spock.lang.Specification
 
 class NumberValueTest extends Specification {
@@ -25,7 +26,7 @@ class NumberValueTest extends Specification {
         new IntValue(4)        | new FloatValue(5.0f)            | BooleanValue.FALSE
         new IntValue(4)        | new DoubleValue(4.0d)           | BooleanValue.TRUE
         new IntValue(4)        | new DoubleValue(5.0d)           | BooleanValue.FALSE
-        new IntValue(4)        | new StringValue('Hello')        | BooleanValue.FALSE
+        new IntValue(4)        | new StringValue('Hello') | BooleanValue.FALSE
         // Long
         new LongValue(INT_CHAR)    | new CharValue('a' as char) | BooleanValue.TRUE
         new LongValue(INT_CHAR)    | new CharValue('b' as char) | BooleanValue.FALSE

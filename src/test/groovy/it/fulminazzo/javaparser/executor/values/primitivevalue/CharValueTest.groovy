@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor.values.primitivevalue
 
+import it.fulminazzo.javaparser.executor.values.objects.StringValue
 import spock.lang.Specification
 
 class CharValueTest extends Specification {
@@ -25,7 +26,7 @@ class CharValueTest extends Specification {
         new CharValue('d' as char) | new FloatValue(101.0f)     | BooleanValue.FALSE
         new CharValue('d' as char) | new DoubleValue(100.0d)    | BooleanValue.TRUE
         new CharValue('d' as char) | new DoubleValue(101.0d)    | BooleanValue.FALSE
-        new CharValue('d' as char) | new StringValue('Hello')   | BooleanValue.FALSE
+        new CharValue('d' as char) | new StringValue('Hello') | BooleanValue.FALSE
     }
 
     def 'test #first != #second = #third'() {
