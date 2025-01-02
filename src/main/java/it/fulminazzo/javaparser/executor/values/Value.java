@@ -84,6 +84,17 @@ public interface Value<V> {
     }
 
     /**
+     * Checks whether the current value is of the one specified.
+     *
+     * @param <T>  the type of the value
+     * @param value the class of the value
+     * @return true if it is
+     */
+    default <T extends Value<?>> boolean is(final Class<T> value) {
+        return value.isAssignableFrom(getClass());
+    }
+
+    /**
      * Converts the current value is of the specified one.
      * This operation is unchecked.
      *
