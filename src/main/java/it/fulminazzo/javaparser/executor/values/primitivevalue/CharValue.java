@@ -6,14 +6,14 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a {@link Character} {@link PrimitiveValue}.
  */
-class CharacterValue extends PrimitiveValue<Character> {
+class CharValue extends PrimitiveValue<Character> {
 
     /**
      * Instantiates a new Character value.
      *
      * @param value the value
      */
-    public CharacterValue(@NotNull Character value) {
+    public CharValue(@NotNull Character value) {
         super(value);
     }
 

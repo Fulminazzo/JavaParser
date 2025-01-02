@@ -24,7 +24,7 @@ abstract class NumberValue<N extends Number> extends PrimitiveValue<N> {
 
     @Override
     public @NotNull BooleanValue equal(@NotNull Value<?> other) {
-        if (other.isCharacter()) other = other.to(CharacterValue.class).asInteger();
+        if (other.isCharacter()) other = other.to(CharValue.class).asInteger();
         if (other instanceof NumberValue)
             return BooleanValue.of(executeBinaryComparison(other) == 0);
         else return super.equal(other);
@@ -118,7 +118,7 @@ abstract class NumberValue<N extends Number> extends PrimitiveValue<N> {
      * @return the result of the comparison
      */
     int executeBinaryComparison(@NotNull Value<?> other) {
-        if (other.isCharacter()) other = other.to(CharacterValue.class).asInteger();
+        if (other.isCharacter()) other = other.to(CharValue.class).asInteger();
         BigDecimal first = new BigDecimal(this.object.toString());
         BigDecimal second = new BigDecimal(other.to(NumberValue.class).object.toString());
         return first.compareTo(second);
@@ -140,7 +140,7 @@ abstract class NumberValue<N extends Number> extends PrimitiveValue<N> {
                                            @NotNull BiFunction<Float, Float, Object> floatOperation,
                                            @NotNull BiFunction<Long, Long, Object> longOperation,
                                            @NotNull BiFunction<Integer, Integer, Object> integerOperation) {
-        if (other.isCharacter()) other = other.to(CharacterValue.class).asInteger();
+        if (other.isCharacter()) other = other.to(CharValue.class).asInteger();
         Number first = this.object;
         Number second = (Number) other.to(NumberValue.class).object;
         final Object obj;
@@ -164,7 +164,7 @@ abstract class NumberValue<N extends Number> extends PrimitiveValue<N> {
     Value<?> executeBinaryOperation(@NotNull Value<?> other,
                                     @NotNull BiFunction<Long, Long, Object> longOperation,
                                     @NotNull BiFunction<Integer, Integer, Object> integerOperation) {
-        if (other.isCharacter()) other = other.to(CharacterValue.class).asInteger();
+        if (other.isCharacter()) other = other.to(CharValue.class).asInteger();
         Number first = this.object;
         Number second = (Number) other.to(NumberValue.class).object;
         final Object obj;

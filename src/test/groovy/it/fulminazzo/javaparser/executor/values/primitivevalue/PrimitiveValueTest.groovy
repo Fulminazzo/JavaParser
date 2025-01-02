@@ -16,7 +16,7 @@ class PrimitiveValueTest extends Specification {
 
         where:
         value | expected
-        new CharacterValue('c' as char) | PrimitiveClassValue.CHAR
+        new CharValue('c' as char) | PrimitiveClassValue.CHAR
         new IntValue(1) | PrimitiveClassValue.INT
         new LongValue(1)                | PrimitiveClassValue.LONG
         new FloatValue(1)               | PrimitiveClassValue.FLOAT
@@ -38,13 +38,13 @@ class PrimitiveValueTest extends Specification {
         where:
         expected | method      | value
         // Character
-        true     | "Character" | new CharacterValue('a' as char)
-        false    | "Integer"   | new CharacterValue('a' as char)
-        false    | "Long"      | new CharacterValue('a' as char)
-        false    | "Float"     | new CharacterValue('a' as char)
-        false    | "Double"    | new CharacterValue('a' as char)
-        false    | "Boolean"   | new CharacterValue('a' as char)
-        false    | "String"    | new CharacterValue('a' as char)
+        true     | "Character" | new CharValue('a' as char)
+        false    | "Integer"   | new CharValue('a' as char)
+        false    | "Long"      | new CharValue('a' as char)
+        false    | "Float"     | new CharValue('a' as char)
+        false    | "Double"    | new CharValue('a' as char)
+        false    | "Boolean"   | new CharValue('a' as char)
+        false    | "String"    | new CharValue('a' as char)
         // Integer
         false    | "Character" | new IntValue(1)
         true     | "Integer"   | new IntValue(1)
@@ -110,7 +110,7 @@ class PrimitiveValueTest extends Specification {
         true             | BooleanValue.TRUE
         false            | BooleanValue.FALSE
         'Hello, world!'  | new StringValue('Hello, world!')
-        'a' as char      | new CharacterValue('a' as Character)
+        'a' as char      | new CharValue('a' as Character)
         1 as byte        | new IntValue(1)
         2 as short       | new IntValue(2)
         3                | new IntValue(3)

@@ -26,7 +26,7 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
 
     @Override
     public boolean isCharacter() {
-        return this instanceof CharacterValue;
+        return this instanceof CharValue;
     }
 
     @Override
@@ -88,7 +88,7 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
             if (value == Boolean.TRUE) primitiveValue = BooleanValue.TRUE;
             else primitiveValue = BooleanValue.FALSE;
         else if (value instanceof String) primitiveValue = new StringValue((String) value);
-        else if (value instanceof Character) primitiveValue = new CharacterValue((Character) value);
+        else if (value instanceof Character) primitiveValue = new CharValue((Character) value);
         else if (value instanceof Byte || value instanceof Short || value instanceof Integer)
             primitiveValue = new IntValue(Integer.parseInt(value.toString()));
         else throw ValueException.invalidPrimitiveValue(value);
