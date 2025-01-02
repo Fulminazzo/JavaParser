@@ -13,14 +13,14 @@ import org.jetbrains.annotations.NotNull;
  * @param <V> the type of the primitive
  */
 public final class PrimitiveClassValue<V> extends ObjectWrapper<Class<V>> implements ClassValue<V>, Info {
-    public static final ClassValue<Byte> BYTE = new PrimitiveClassValue<>(Byte.class);
-    public static final ClassValue<Short> SHORT = new PrimitiveClassValue<>(Short.class);
-    public static final ClassValue<Character> CHAR = new PrimitiveClassValue<>(Character.class);
-    public static final ClassValue<Integer> INT = new PrimitiveClassValue<>(Integer.class);
-    public static final ClassValue<Long> LONG = new PrimitiveClassValue<>(Long.class);
-    public static final ClassValue<Float> FLOAT = new PrimitiveClassValue<>(Float.class);
-    public static final ClassValue<Double> DOUBLE = new PrimitiveClassValue<>(Double.class);
-    public static final ClassValue<Boolean> BOOLEAN = new PrimitiveClassValue<>(Boolean.class);
+    public static final ClassValue<Byte> BYTE = new PrimitiveClassValue<>(byte.class);
+    public static final ClassValue<Short> SHORT = new PrimitiveClassValue<>(short.class);
+    public static final ClassValue<Character> CHAR = new PrimitiveClassValue<>(char.class);
+    public static final ClassValue<Integer> INT = new PrimitiveClassValue<>(int.class);
+    public static final ClassValue<Long> LONG = new PrimitiveClassValue<>(long.class);
+    public static final ClassValue<Float> FLOAT = new PrimitiveClassValue<>(float.class);
+    public static final ClassValue<Double> DOUBLE = new PrimitiveClassValue<>(double.class);
+    public static final ClassValue<Boolean> BOOLEAN = new PrimitiveClassValue<>(boolean.class);
 
     /**
      * Instantiates a new Primitive class value.
