@@ -6,7 +6,8 @@ import it.fulminazzo.javaparser.parser.node.values.*
 import spock.lang.Specification
 
 class ExecutorTest extends Specification {
-    private static final BOOL_LIT = new BooleanValueLiteral('true')
+    private static final BOOL_LIT_TRUE = new BooleanValueLiteral('true')
+    private static final BOOL_LIT_FALSE = new BooleanValueLiteral('false')
     private static final CHAR_LIT = new CharValueLiteral('\'a\'')
     private static final NUMBER_LIT = new NumberValueLiteral('1')
     private static final LONG_LIT = new LongValueLiteral('2L')
@@ -100,6 +101,36 @@ class ExecutorTest extends Specification {
         LONG_LIT   | NUMBER_LIT | BooleanValue.TRUE
         NUMBER_LIT | LONG_LIT   | BooleanValue.FALSE
         NUMBER_LIT | NUMBER_LIT | BooleanValue.TRUE
+    }
+
+    def 'test and'() {
+        given:
+        def result = this.executor.visitAnd(first, second)
+
+        expect:
+        result == expected
+
+        where:
+        first          | second         | expected
+        BOOL_LIT_TRUE  | BOOL_LIT_TRUE  | BooleanValue.TRUE
+        BOOL_LIT_FALSE | BOOL_LIT_TRUE  | BooleanValue.FALSE
+        BOOL_LIT_TRUE  | BOOL_LIT_FALSE | BooleanValue.FALSE
+        BOOL_LIT_FALSE | BOOL_LIT_FALSE | BooleanValue.FALSE
+    }
+
+    def 'test or'() {
+        given:
+        def result = this.executor.visitOr(first, second)
+
+        expect:
+        result == expected
+
+        where:
+        first          | second         | expected
+        BOOL_LIT_TRUE  | BOOL_LIT_TRUE  | BooleanValue.TRUE
+        BOOL_LIT_FALSE | BOOL_LIT_TRUE  | BooleanValue.TRUE
+        BOOL_LIT_TRUE  | BOOL_LIT_FALSE | BooleanValue.TRUE
+        BOOL_LIT_FALSE | BOOL_LIT_FALSE | BooleanValue.FALSE
     }
 
 }
