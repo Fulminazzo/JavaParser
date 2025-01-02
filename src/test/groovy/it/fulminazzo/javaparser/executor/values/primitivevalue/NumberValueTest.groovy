@@ -704,4 +704,23 @@ class NumberValueTest extends Specification {
         new DoubleValue(4.0d) | new DoubleValue(2.0d)           | new DoubleValue((4.0d % 2.0d) as Double)
     }
 
+    def 'test -#first = #expected'() {
+        when:
+        def eval = first.minus()
+
+        then:
+        eval == expected
+
+        where:
+        first                 | expected
+        // Integer
+        new IntValue(4)       | new IntValue((-4) as Integer)
+        // Long
+        new LongValue(4L)     | new LongValue((-4L) as Long)
+        // Float
+        new FloatValue(4.0f)  | new FloatValue((-4.0f) as Float)
+        // Double
+        new DoubleValue(4.0d) | new DoubleValue((-4.0d) as Double)
+    }
+
 }
