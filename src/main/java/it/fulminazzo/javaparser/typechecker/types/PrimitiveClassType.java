@@ -105,7 +105,7 @@ public enum PrimitiveClassType implements ClassType {
     public boolean compatibleWith(@NotNull Type type) {
         for (Type compatibleType : this.compatibleTypes)
             if (compatibleType.is(type)) return true;
-        return false;
+        return (equals(BYTE) || equals(SHORT)) && type.is(PrimitiveType.NUMBER);
     }
 
     @Override
