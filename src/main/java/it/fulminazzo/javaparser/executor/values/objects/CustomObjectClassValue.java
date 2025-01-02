@@ -26,7 +26,7 @@ class CustomObjectClassValue<V> extends ObjectWrapper<Class<V>> implements Class
 
     @Override
     public boolean compatibleWith(@NotNull Value<?> value) {
-        if (value instanceof ObjectValue) 
+        if (value.is(ObjectValue.class))
             return getValue().isAssignableFrom(value.getValue().getClass());
         else return false; //TODO: check null
     }

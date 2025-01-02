@@ -25,7 +25,7 @@ abstract class NumberValue<N extends Number> extends PrimitiveValue<N> {
     @Override
     public @NotNull BooleanValue equal(@NotNull Value<?> other) {
         if (other.isCharacter()) other = other.to(CharValue.class).asInteger();
-        if (other instanceof NumberValue)
+        if (other.is(NumberValue.class))
             return BooleanValue.of(executeBinaryComparison(other) == 0);
         else return super.equal(other);
     }

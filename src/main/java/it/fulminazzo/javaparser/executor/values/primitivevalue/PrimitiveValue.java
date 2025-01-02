@@ -26,32 +26,32 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
 
     @Override
     public boolean isCharacter() {
-        return this instanceof CharValue;
+        return is(CharValue.class);
     }
 
     @Override
     public boolean isInteger() {
-        return this instanceof IntValue;
+        return is(IntValue.class);
     }
 
     @Override
     public boolean isLong() {
-        return this instanceof LongValue;
+        return is(LongValue.class);
     }
 
     @Override
     public boolean isFloat() {
-        return this instanceof FloatValue;
+        return is(FloatValue.class);
     }
 
     @Override
     public boolean isDouble() {
-        return this instanceof DoubleValue;
+        return is(DoubleValue.class);
     }
 
     @Override
     public boolean isBoolean() {
-        return this instanceof BooleanValue;
+        return is(BooleanValue.class);
     }
 
     @Override

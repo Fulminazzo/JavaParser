@@ -19,7 +19,7 @@ class CharValue extends PrimitiveValue<Character> {
 
     @Override
     public @NotNull BooleanValue equal(@NotNull Value<?> other) {
-        if (other instanceof NumberValue) return asInteger().equal(other);
+        if (other.is(NumberValue.class)) return asInteger().equal(other);
         else return super.equal(other);
     }
 
