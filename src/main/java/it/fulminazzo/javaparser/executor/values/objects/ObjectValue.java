@@ -36,6 +36,27 @@ public final class ObjectValue<V> extends ObjectWrapper<V> implements Value<V> {
         return this.object;
     }
 
+    @Override
+    public String toString() {
+        Class<?> valueClass = getValue().getClass();
+        for (String packageName : IMPLIED_PACKAGES) {
+            if (valueClass.getPackage().getName().equals(packageName)) {
+                String className = valueClass.getSimpleName();
+                if (shouldBeRenamed(valueClass)) className += "Wrapper";
+                return String.format("%sValue(%s)", className, getValue());
+            }
+        }
+        return super.toString();
+    }
+
+    private boolean shouldBeRenamed(final @NotNull Class<?> clazz) {
+        if (ReflectionUtils.isWrapper(clazz)) {
+            for (Class<?> c : new Class[]{Integer.class, Character.class, String.class})
+                if (c.equals(clazz)) return false;
+            return true;
+        } else return false;
+    }
+
     /**
      * Gets the class name from the given class.
      * If its package is present in {@link #IMPLIED_PACKAGES},
