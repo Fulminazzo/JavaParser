@@ -1,6 +1,6 @@
 package it.fulminazzo.javaparser.executor
 
-
+import it.fulminazzo.javaparser.executor.values.objects.ObjectValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
 import it.fulminazzo.javaparser.parser.node.values.*
@@ -312,6 +312,67 @@ class ExecutorTest extends Specification {
         operand        | expected
         BOOL_LIT_TRUE  | BooleanValue.FALSE
         BOOL_LIT_FALSE | BooleanValue.TRUE
+    }
+
+    def 'test conversion of #literal should return #expected'() {
+        when:
+        def converted = literal.accept(this.executor)
+
+        then:
+        converted == expected
+
+        where:
+        literal                           | expected
+        CHAR_LIT                          | null
+        // int
+        NUMBER_LIT                        | null
+        // long
+        new LongValueLiteral('10L')       | PrimitiveValue.of(10L as Long)
+        new LongValueLiteral('10l')       | PrimitiveValue.of(10l as Long)
+        new LongValueLiteral('10')        | PrimitiveValue.of(10 as Long)
+        // float
+        new FloatValueLiteral('2.1E2f')   | PrimitiveValue.of(2.1E2f as Float)
+        new FloatValueLiteral('2.1E-2f')  | PrimitiveValue.of(2.1E-2f as Float)
+        new FloatValueLiteral('2.1E2F')   | PrimitiveValue.of(2.1E2F as Float)
+        new FloatValueLiteral('2.1E-2F')  | PrimitiveValue.of(2.1E-2F as Float)
+        new FloatValueLiteral('2.1E2')    | PrimitiveValue.of(2.1E2 as Float)
+        new FloatValueLiteral('2.1E-2')   | PrimitiveValue.of(2.1E-2 as Float)
+        new FloatValueLiteral('2.1f')     | PrimitiveValue.of(2.1f as Float)
+        new FloatValueLiteral('2.1f')     | PrimitiveValue.of(2.1f as Float)
+        new FloatValueLiteral('2.1F')     | PrimitiveValue.of(2.1F as Float)
+        new FloatValueLiteral('2.1F')     | PrimitiveValue.of(2.1F as Float)
+        new FloatValueLiteral('2.1')      | PrimitiveValue.of(2.1 as Float)
+        new FloatValueLiteral('2.1')      | PrimitiveValue.of(2.1 as Float)
+        new FloatValueLiteral('2f')       | PrimitiveValue.of(2f as Float)
+        new FloatValueLiteral('2f')       | PrimitiveValue.of(2f as Float)
+        new FloatValueLiteral('2F')       | PrimitiveValue.of(2F as Float)
+        new FloatValueLiteral('2F')       | PrimitiveValue.of(2F as Float)
+        new FloatValueLiteral('2')        | PrimitiveValue.of(2 as Float)
+        new FloatValueLiteral('2')        | PrimitiveValue.of(2 as Float)
+        // double
+        new DoubleValueLiteral('2.1E2d')  | PrimitiveValue.of(2.1E2d as Double)
+        new DoubleValueLiteral('2.1E-2d') | PrimitiveValue.of(2.1E-2d as Double)
+        new DoubleValueLiteral('2.1E2D')  | PrimitiveValue.of(2.1E2D as Double)
+        new DoubleValueLiteral('2.1E-2D') | PrimitiveValue.of(2.1E-2D as Double)
+        new DoubleValueLiteral('2.1E2')   | PrimitiveValue.of(2.1E2 as Double)
+        new DoubleValueLiteral('2.1E-2')  | PrimitiveValue.of(2.1E-2 as Double)
+        new DoubleValueLiteral('2.1d')    | PrimitiveValue.of(2.1d as Double)
+        new DoubleValueLiteral('2.1d')    | PrimitiveValue.of(2.1d as Double)
+        new DoubleValueLiteral('2.1D')    | PrimitiveValue.of(2.1D as Double)
+        new DoubleValueLiteral('2.1D')    | PrimitiveValue.of(2.1D as Double)
+        new DoubleValueLiteral('2.1')     | PrimitiveValue.of(2.1 as Double)
+        new DoubleValueLiteral('2.1')     | PrimitiveValue.of(2.1 as Double)
+        new DoubleValueLiteral('2d')      | PrimitiveValue.of(2d as Double)
+        new DoubleValueLiteral('2d')      | PrimitiveValue.of(2d as Double)
+        new DoubleValueLiteral('2D')      | PrimitiveValue.of(2D as Double)
+        new DoubleValueLiteral('2D')      | PrimitiveValue.of(2D as Double)
+        new DoubleValueLiteral('2')       | PrimitiveValue.of(2 as Double)
+        new DoubleValueLiteral('2')       | PrimitiveValue.of(2 as Double)
+        // boolean
+        BOOL_LIT_TRUE                     | BooleanValue.TRUE
+        BOOL_LIT_FALSE                    | BooleanValue.FALSE
+        // String
+        STRING_LIT                        | ObjectValue.of('Hello, world!')
     }
 
 }
