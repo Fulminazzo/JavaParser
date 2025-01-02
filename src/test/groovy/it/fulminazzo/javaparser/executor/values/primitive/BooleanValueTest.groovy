@@ -64,4 +64,17 @@ class BooleanValueTest extends Specification {
         FALSE | TRUE
     }
 
+    def 'test #value toString = #expected'() {
+        when:
+        def eval = value.toString()
+
+        then:
+        eval == expected
+
+        where:
+        value | expected
+        TRUE  | 'TRUE'
+        FALSE | 'FALSE'
+    }
+
 }
