@@ -80,7 +80,7 @@ public class Executor implements Visitor<Value<?>> {
      * </ul>
      *
      * @param typeValue the type of the value
-     * @param value      the value
+     * @param value     the value
      * @return the value converted
      */
     static @NotNull Value<?> convertValue(final @NotNull ClassValue<?> typeValue,
@@ -421,7 +421,7 @@ public class Executor implements Visitor<Value<?>> {
      *
      * @param literal the literal
      * @return if a {@link ClassValue} is found, the tuple key and value will both be equal to the value itself.
-     * If a variable is found, the tuple key will have the value in which the variable was declared, 
+     * If a variable is found, the tuple key will have the value in which the variable was declared,
      * while the value its actual value.
      * Otherwise, the tuple will be empty.
      */
