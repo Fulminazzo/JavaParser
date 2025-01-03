@@ -30,6 +30,24 @@ class ExecutorTest extends Specification {
         this.executor = new Executor(new TestClass())
     }
 
+    def 'test visit new object #parameters'() {
+        given:
+        def nodeExecutor = Literal.of(TestClass.canonicalName)
+        def methodInvocation = new MethodInvocation(parameters)
+
+        when:
+        def type = this.executor.visitNewObject(nodeExecutor, methodInvocation)
+
+        then:
+        type == ObjectValue.of(expected)
+
+        where:
+        parameters                   | expected
+        []                           | new TestClass()
+        [NUMBER_LIT, BOOL_LIT_TRUE]  | new TestClass(1, true)
+        [NUMBER_LIT, BOOL_LIT_FALSE] | new TestClass(1, false)
+    }
+
     def 'test visit method call: #object #method #parameters should return #expected'() {
         given:
         this.executor.environment.declare(
