@@ -385,18 +385,17 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitDoStatement(@NotNull CodeBlock code, @NotNull Node expression) {
-        Value<?> returnedValue = Values.NO_VALUE;
         do {
             try {
-                returnedValue = code.accept(this);
+                Value<?> returnedValue = code.accept(this);
                 // Return occurred
                 if (!returnedValue.is(Values.NO_VALUE)) return returnedValue;
             } catch (BreakException ignored) {
-                return returnedValue;
+                return Values.NO_VALUE;
             } catch (ContinueException ignored) {
             }
         } while (expression.accept(this).is(BooleanValue.TRUE));
-        return returnedValue;
+        return Values.NO_VALUE;
     }
 
     @Override
@@ -406,18 +405,17 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitForStatement(@NotNull Node assignment, @NotNull Node increment, @NotNull CodeBlock code, @NotNull Node expression) {
-        Value<?> returnedValue = Values.NO_VALUE;
         for (assignment.accept(this); expression.accept(this).is(BooleanValue.TRUE); increment.accept(this)) {
             try {
-                returnedValue = code.accept(this);
+                Value<?> returnedValue = code.accept(this);
                 // Return occurred
                 if (!returnedValue.is(Values.NO_VALUE)) return returnedValue;
             } catch (BreakException ignored) {
-                return returnedValue;
+                return Values.NO_VALUE;
             } catch (ContinueException ignored) {
             }
         }
-        return returnedValue;
+        return Values.NO_VALUE;
     }
 
     @Override
@@ -445,17 +443,17 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expression) {
-        Value<?> returnedValue = Values.NO_VALUE;
-        while (expression.accept(this).is(BooleanValue.TRUE))
+        while (expression.accept(this).is(BooleanValue.TRUE)) {
             try {
-                returnedValue = code.accept(this);
+                Value<?> returnedValue = code.accept(this);
                 // Return occurred
                 if (!returnedValue.is(Values.NO_VALUE)) return returnedValue;
             } catch (BreakException ignored) {
-                return returnedValue;
+                return Values.NO_VALUE;
             } catch (ContinueException ignored) {
             }
-        return returnedValue;
+        }
+        return Values.NO_VALUE;
     }
 
     @Override
