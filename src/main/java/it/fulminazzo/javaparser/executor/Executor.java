@@ -446,6 +446,7 @@ public class Executor implements Visitor<Value<?>> {
      * It does so by first converting it to {@link ClassValue}.
      * If it fails, it tries with a variable declared in {@link #environment}.
      *
+     * @param <V>     the type parameter
      * @param literal the literal
      * @return if a {@link ClassValue} is found, the tuple key and value will both be equal to the value itself.
      * If a variable is found, the tuple key will have the value in which the variable was declared,
