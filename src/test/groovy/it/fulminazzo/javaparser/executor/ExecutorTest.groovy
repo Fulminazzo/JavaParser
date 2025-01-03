@@ -90,6 +90,42 @@ class ExecutorTest extends Specification {
                         new Add(Literal.of('counter'), Literal.of('i')))))
     }
 
+    def 'test visit for statement'() {
+        given:
+        this.executor.environment.declare(PrimitiveClassValue.INT, 'i', PrimitiveValue.of(0))
+        this.executor.environment.declare(PrimitiveClassValue.INT, 'j', PrimitiveValue.of(1))
+
+        when:
+        def value = this.executor.visitForStatement(
+                new ReAssign(Literal.of('i'), new NumberValueLiteral('1')),
+                new Increment(Literal.of('i'), false),
+                new CodeBlock(block),
+                new LessThan(Literal.of('i'), new NumberValueLiteral('10'))
+        )
+        def counter = this.executor.environment.lookup('i')
+
+        then:
+        value == expected
+        counter == expectedCounter
+
+        where:
+        expected             | expectedCounter       | block
+        PrimitiveValue.of(3) | PrimitiveValue.of(5)  | new IfStatement(
+                new Equal(Literal.of('i'), new NumberValueLiteral('5')), CODE_BLOCK_3, new CodeBlock()
+        )
+        Values.NO_VALUE      | PrimitiveValue.of(4)  | new Statement[]{
+                new Statement(new ReAssign(Literal.of('j'), new Multiply(Literal.of('j'), Literal.of('i')))),
+                new IfStatement(
+                        new GreaterThanEqual(Literal.of('j'), new NumberValueLiteral('10')),
+                        new CodeBlock(new Break()), new CodeBlock()
+                )
+        }
+        Values.NO_VALUE      | PrimitiveValue.of(5)  | new IfStatement(
+                new Equal(Literal.of('i'), new NumberValueLiteral('5')), new CodeBlock(new Break()), new CodeBlock()
+        )
+        Values.NO_VALUE      | PrimitiveValue.of(10) | new Statement()
+    }
+
     def 'test visit do statement of (#expression) #codeBlock should return #expected'() {
         given:
         this.executor.environment.declare(PrimitiveClassValue.INT, 'i', PrimitiveValue.of(0))
