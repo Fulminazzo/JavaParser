@@ -120,7 +120,25 @@ public interface Value<V> {
      * @return the value
      */
     default <T> @NotNull Value<T> cast(final @NotNull ClassValue<T> classValue) {
-        return of(classValue.getValue().cast(getValue()));
+        Object value = getValue();
+        if (classValue.isPrimitive()) {
+            if (classValue.equals(PrimitiveClassValue.BOOLEAN))
+                return (Value<T>) of((boolean) value);
+            Number valueNumber = value instanceof Number ? (Number) value : (int) (char) value;
+            if (classValue.equals(PrimitiveClassValue.BYTE))
+                return (Value<T>) of(valueNumber.byteValue());
+            else if (classValue.equals(PrimitiveClassValue.SHORT))
+                return (Value<T>) of(valueNumber.shortValue());
+            else if (classValue.equals(PrimitiveClassValue.CHAR))
+                return (Value<T>) of((char) valueNumber.intValue());
+            else if (classValue.equals(PrimitiveClassValue.INT))
+                return (Value<T>) of(valueNumber.intValue());
+            else if (classValue.equals(PrimitiveClassValue.LONG))
+                return (Value<T>) of(valueNumber.longValue());
+            else if (classValue.equals(PrimitiveClassValue.FLOAT))
+                return (Value<T>) of(valueNumber.floatValue());
+            else return (Value<T>) of(valueNumber.doubleValue());
+        } else return of(classValue.getValue().cast(value));
     }
 
     /**
