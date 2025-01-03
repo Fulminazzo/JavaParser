@@ -541,7 +541,8 @@ public final class TypeChecker implements Visitor<Type> {
     }
 
     @Override
-    public @NotNull Type visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable, @NotNull CodeBlock code, @NotNull Node expression) {
+    public @NotNull Type visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable,
+                                                   @NotNull CodeBlock code, @NotNull Node expression) {
         return visitScoped(ScopeType.FOR, () -> {
             ClassType variableType = type.accept(this).checkClassType();
             LiteralType variableName = variable.accept(this).check(LiteralType.class);
@@ -563,7 +564,8 @@ public final class TypeChecker implements Visitor<Type> {
     }
 
     @Override
-    public @NotNull Type visitForStatement(@NotNull Node assignment, @NotNull Node increment, @NotNull CodeBlock code, @NotNull Node expression) {
+    public @NotNull Type visitForStatement(@NotNull Node assignment, @NotNull Node increment,
+                                           @NotNull CodeBlock code, @NotNull Node expression) {
         return visitScoped(ScopeType.FOR, () -> {
             assignment.accept(this);
             expression.accept(this).check(BOOLEAN, ObjectType.BOOLEAN, Types.NO_TYPE);
