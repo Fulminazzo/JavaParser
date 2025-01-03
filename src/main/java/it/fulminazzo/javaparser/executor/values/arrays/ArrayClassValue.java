@@ -5,20 +5,23 @@ import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
+
 /**
  * Represents the class value for an array.
  *
  * @param <V> the type of the components
  */
-public class ArrayClassValue<V> extends ObjectWrapper<Class<V[]>> implements ClassValue<V[]> {
+@SuppressWarnings("unchecked")
+public class ArrayClassValue<V> extends ObjectWrapper<ClassValue<V>> implements ClassValue<V[]> {
 
     /**
      * Instantiates a new Array class value.
      *
-     * @param arrayClass the array class
+     * @param classValue the {@link ClassValue} of the components
      */
-    public ArrayClassValue(final @NotNull Class<V[]> arrayClass) {
-        super(arrayClass);
+    public ArrayClassValue(final ClassValue<V> classValue) {
+        super(classValue);
     }
 
     @Override
@@ -28,7 +31,7 @@ public class ArrayClassValue<V> extends ObjectWrapper<Class<V[]>> implements Cla
 
     @Override
     public @NotNull Class<V[]> getValue() {
-        return this.object;
+        return (Class<V[]>) Array.newInstance(this.object.getValue(), 0).getClass();
     }
 
 }
