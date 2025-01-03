@@ -268,7 +268,7 @@ class ExecutorTest extends Specification {
 
     def 'test visit dynamic array'() {
         given:
-        def type = this.executor.visitDynamicArray(
+        def value = this.executor.visitDynamicArray(
                 Arrays.asList(BOOL_LIT_TRUE, BOOL_LIT_FALSE),
                 new ArrayLiteral(Literal.of('boolean'))
         )
@@ -277,7 +277,21 @@ class ExecutorTest extends Specification {
         def expected = ArrayValue.of(PrimitiveClassValue.BOOLEAN, [BooleanValue.TRUE, BooleanValue.FALSE])
 
         expect:
-        type == expected
+        value == expected
+    }
+
+    def 'test visit static array'() {
+        given:
+        def value = this.executor.visitStaticArray(
+                1,
+                new ArrayLiteral(Literal.of('boolean'))
+        )
+
+        and:
+        def expected = ArrayValue.of(PrimitiveClassValue.BOOLEAN, 1)
+
+        expect:
+        value == expected
     }
 
     def 'test visit #operation of #literal should return #value and update variable to #expected'() {
