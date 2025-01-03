@@ -419,7 +419,15 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expression) {
-        return null;
+        Value<?> returnedValue = Values.NO_VALUE;
+        while (expression.accept(this).is(BooleanValue.TRUE))
+            try {
+                returnedValue = code.accept(this);
+            } catch (BreakException ignored) {
+                return returnedValue;
+            } catch (ContinueException ignored) {
+            }
+        return returnedValue;
     }
 
     @Override
