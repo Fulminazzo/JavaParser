@@ -47,6 +47,22 @@ class ClassValueTest extends Specification {
         PrimitiveValue.of(7.0d)                       | PrimitiveClassValue.INT     | PrimitiveValue.of(7)
     }
 
+    /**
+     * NEW OBJECT
+     */
+    def 'test valid newObject (#parameters)'() {
+        when:
+        def actual = ClassValue.of(TestClass).newObject(parameters)
+
+        then:
+        actual == expected
+
+        where:
+        expected                 | parameters
+        ObjectValue.of(new TestClass()) | new ParameterValues([])
+        ObjectValue.of(new TestClass(1, true)) | new ParameterValues([PrimitiveValue.of(1), ObjectValue.of(true)])
+    }
+
     def 'test method #toClassValue should always return a wrapper for java.lang.Class'() {
         given:
         def classValue = new MockClassValue().toClassValue()
