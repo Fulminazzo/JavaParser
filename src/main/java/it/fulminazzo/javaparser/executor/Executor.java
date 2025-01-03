@@ -142,13 +142,15 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitCodeBlock(@NotNull LinkedList<Statement> statements) {
-        Value<?> returnedValue = Values.NO_VALUE;
-        for (Statement statement : statements) {
-            returnedValue = statement.accept(this);
-            // Something was returned
-            if (!returnedValue.is(Values.NO_VALUE)) break;
-        }
-        return returnedValue;
+        return visitScoped(ScopeType.CODE_BLOCK, () -> {
+            Value<?> returnedValue = Values.NO_VALUE;
+            for (Statement statement : statements) {
+                returnedValue = statement.accept(this);
+                // Something was returned
+                if (!returnedValue.is(Values.NO_VALUE)) break;
+            }
+            return returnedValue;
+        });
     }
 
     @Override
@@ -387,51 +389,57 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitDoStatement(@NotNull CodeBlock code, @NotNull Node expression) {
-        do {
-            Optional<Value<?>> returnedValue = visitLoopCodeBlock(code);
-            if (returnedValue.isPresent()) return returnedValue.get();
-        } while (expression.accept(this).is(BooleanValue.TRUE));
-        return Values.NO_VALUE;
+        return visitScoped(ScopeType.DO, () -> {
+            do {
+                Optional<Value<?>> returnedValue = visitLoopCodeBlock(code);
+                if (returnedValue.isPresent()) return returnedValue.get();
+            } while (expression.accept(this).is(BooleanValue.TRUE));
+            return Values.NO_VALUE;
+        });
     }
 
     @Override
     public @NotNull Value<?> visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable,
                                                        @NotNull CodeBlock code, @NotNull Node expression) {
-        ClassValue<?> variableType = type.accept(this).to(ClassValue.class);
-        LiteralValue variableName = variable.accept(this).to(LiteralValue.class);
-        Value<?> iterable = expression.accept(this);
+        return visitScoped(ScopeType.FOR, () -> {
+            ClassValue<?> variableType = type.accept(this).to(ClassValue.class);
+            LiteralValue variableName = variable.accept(this).to(LiteralValue.class);
+            Value<?> iterable = expression.accept(this);
 
-        final Iterator<?> iterator;
-        if (iterable.is(ArrayValue.class)) {
-            ArrayValue<?> arrayValue = (ArrayValue<?>) iterable;
-            iterator = Arrays.stream(arrayValue.getValue()).map(Value::getValue).iterator();
-        } else iterator = ((Iterable<?>) iterable.getValue()).iterator();
+            final Iterator<?> iterator;
+            if (iterable.is(ArrayValue.class)) {
+                ArrayValue<?> arrayValue = (ArrayValue<?>) iterable;
+                iterator = Arrays.stream(arrayValue.getValue()).map(Value::getValue).iterator();
+            } else iterator = ((Iterable<?>) iterable.getValue()).iterator();
 
-        try {
-            this.environment.declare(variableType, variableName.getValue(), variableType.toValue());
-        } catch (ScopeException ignored) {
-        }
-
-        while (iterator.hasNext()) {
             try {
-                this.environment.update(variableName.getValue(), Value.of(iterator.next()));
+                this.environment.declare(variableType, variableName.getValue(), variableType.toValue());
             } catch (ScopeException ignored) {
             }
-            Optional<Value<?>> returnedValue = visitLoopCodeBlock(code);
-            if (returnedValue.isPresent()) return returnedValue.get();
-        }
 
-        return Values.NO_VALUE;
+            while (iterator.hasNext()) {
+                try {
+                    this.environment.update(variableName.getValue(), Value.of(iterator.next()));
+                } catch (ScopeException ignored) {
+                }
+                Optional<Value<?>> returnedValue = visitLoopCodeBlock(code);
+                if (returnedValue.isPresent()) return returnedValue.get();
+            }
+
+            return Values.NO_VALUE;
+        });
     }
 
     @Override
     public @NotNull Value<?> visitForStatement(@NotNull Node assignment, @NotNull Node increment,
                                                @NotNull CodeBlock code, @NotNull Node expression) {
-        for (assignment.accept(this); expression.accept(this).is(BooleanValue.TRUE); increment.accept(this)) {
-            Optional<Value<?>> returnedValue = visitLoopCodeBlock(code);
-            if (returnedValue.isPresent()) return returnedValue.get();
-        }
-        return Values.NO_VALUE;
+        return visitScoped(ScopeType.FOR, () -> {
+            for (assignment.accept(this); expression.accept(this).is(BooleanValue.TRUE); increment.accept(this)) {
+                Optional<Value<?>> returnedValue = visitLoopCodeBlock(code);
+                if (returnedValue.isPresent()) return returnedValue.get();
+            }
+            return Values.NO_VALUE;
+        });
     }
 
     @Override
@@ -459,11 +467,13 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expression) {
-        while (expression.accept(this).is(BooleanValue.TRUE)) {
-            Optional<Value<?>> returnedValue = visitLoopCodeBlock(code);
-            if (returnedValue.isPresent()) return returnedValue.get();
-        }
-        return Values.NO_VALUE;
+        return visitScoped(ScopeType.WHILE, () -> {
+            while (expression.accept(this).is(BooleanValue.TRUE)) {
+                Optional<Value<?>> returnedValue = visitLoopCodeBlock(code);
+                if (returnedValue.isPresent()) return returnedValue.get();
+            }
+            return Values.NO_VALUE;
+        });
     }
 
     @Override
