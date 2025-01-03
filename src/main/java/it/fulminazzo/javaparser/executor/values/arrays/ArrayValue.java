@@ -76,10 +76,11 @@ public class ArrayValue<V> extends ObjectWrapper<Value<V>[]> implements Value<Va
 
     @Override
     public String toString() {
-        return String.format("%s([%s])", getClass().getSimpleName(), Arrays.stream(this.object)
-                .map(Value::getValue)
-                .map(o -> o == null ? "null" : o.toString())
-                .collect(Collectors.joining(", ")));
+        return String.format("%s(%s, [%s])", getClass().getSimpleName(), this.componentsType,
+                Arrays.stream(this.object)
+                        .map(Value::getValue)
+                        .map(o -> o == null ? "null" : o.toString())
+                        .collect(Collectors.joining(", ")));
     }
 
 }
