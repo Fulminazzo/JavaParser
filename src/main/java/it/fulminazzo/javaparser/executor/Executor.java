@@ -66,7 +66,7 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitField(@NotNull Node left, @NotNull Node right) {
-        return null;
+        return left.accept(this).getField(right.accept(this).to(LiteralValue.class).getValue()).getValue();
     }
 
     @Override
