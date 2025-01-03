@@ -13,6 +13,7 @@ import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
+import it.fulminazzo.javaparser.parser.node.operators.binary.Equal
 import it.fulminazzo.javaparser.parser.node.operators.binary.LessThan
 import it.fulminazzo.javaparser.parser.node.operators.binary.LessThanEqual
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
@@ -58,8 +59,16 @@ class ExecutorTest extends Specification {
 
         where:
         expected | expectedCounter | expression | codeBlock
+        PrimitiveValue.of(3) | PrimitiveValue.of(5) | new LessThan(Literal.of('i'), new NumberValueLiteral('10')) |
+                new CodeBlock(
+                        new IfStatement(new Equal(Literal.of('i'), new NumberValueLiteral('5')),
+                                CODE_BLOCK_3, new CodeBlock()),
+                        new Statement(new Increment(Literal.of('i'), false))
+                )
         Values.NO_VALUE | PrimitiveValue.of(10) | new LessThan(Literal.of('i'), new NumberValueLiteral('10')) |
-                new CodeBlock(new Statement(new Increment(Literal.of('i'), false)))
+                new CodeBlock(
+                        new Statement(new Increment(Literal.of('i'), false))
+                )
         PrimitiveValue.of(1) | PrimitiveValue.of(0) | BOOL_LIT_TRUE | CODE_BLOCK_1
         Values.NO_VALUE | PrimitiveValue.of(0) | BOOL_LIT_FALSE | CODE_BLOCK_EMPTY
     }
