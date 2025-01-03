@@ -22,10 +22,7 @@ import it.fulminazzo.javaparser.parser.node.statements.Statement;
 import it.fulminazzo.javaparser.visitors.Visitor;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.BiFunction;
 
 /**
@@ -128,10 +125,10 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitDynamicArray(@NotNull List<Node> parameters, @NotNull Node type) {
-        ClassValue<?> componentsType = type.accept(this).to(ClassValue.class);
-        List<Value<?>> components = new LinkedList<>();
-        for (Node component : parameters) components.add(component.accept(this));
-        return new ArrayValue<>(componentsType, components);
+        ClassValue<Object> componentsType = type.accept(this).to(ClassValue.class);
+        Collection<Value<Object>> components = new LinkedList<>();
+        for (Node component : parameters) components.add((Value<Object>) component.accept(this));
+        return ArrayValue.of(componentsType, components);
     }
 
     @Override
@@ -151,7 +148,7 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitArrayLiteral(@NotNull Node type) {
-        return new ArrayClassValue<>(type.accept(this).to(ClassValue.class));
+        return ArrayClassValue.of(type.accept(this).to(ClassValue.class));
     }
 
     @Override
