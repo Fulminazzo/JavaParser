@@ -3,10 +3,8 @@ package it.fulminazzo.javaparser.executor;
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.environment.Environment;
 import it.fulminazzo.javaparser.environment.ScopeException;
+import it.fulminazzo.javaparser.executor.values.*;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
-import it.fulminazzo.javaparser.executor.values.Value;
-import it.fulminazzo.javaparser.executor.values.ValueException;
-import it.fulminazzo.javaparser.executor.values.Values;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
 import it.fulminazzo.javaparser.parser.node.Assignment;
@@ -21,6 +19,7 @@ import it.fulminazzo.javaparser.parser.node.statements.Statement;
 import it.fulminazzo.javaparser.visitors.Visitor;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +29,8 @@ import java.util.Optional;
  */
 @SuppressWarnings("unchecked")
 public class Executor implements Visitor<Value<?>> {
+    private static final String FIELDS_SEPARATOR = ".";
+
     private final Object executingObject;
     private final Environment<Value<?>> environment;
 
@@ -105,7 +106,27 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitLiteralImpl(@NotNull String value) {
-        return null;
+        Tuple<ClassValue<Object>, Value<Object>> tuple = getValueFromLiteral(value);
+        // Class was parsed
+        if (tuple.isPresent()) return tuple.getValue();
+        else if (value.contains(FIELDS_SEPARATOR)) {
+            LinkedList<String> first = new LinkedList<>(Arrays.asList(value.split("\\" + FIELDS_SEPARATOR)));
+            LinkedList<String> last = new LinkedList<>();
+
+            while (!first.isEmpty()) {
+                last.addFirst(first.removeLast());
+Integer i;
+                tuple = getValueFromLiteral(String.join(".", first));
+                if (tuple.isPresent()) {
+                    Tuple<ClassValue<Object>, Value<Object>> field = tuple.copy();
+                    do {
+                        field = field.getValue().getField(last.removeFirst());
+                    } while (!last.isEmpty());
+                    return field.getValue();
+                }
+            }
+            throw ExecutorException.cannotResolveSymbol(value);
+        } else return new LiteralValue(value);
     }
 
     @Override
