@@ -5,12 +5,25 @@ import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
+
 /**
  * Represents a general array {@link Value}.
  *
  * @param <V> the type of the array
  */
+@SuppressWarnings("unchecked")
 public class ArrayValue<V> extends ObjectWrapper<V[]> implements Value<V[]> {
+
+    /**
+     * Instantiates a static array value.
+     *
+     * @param arrayClass the array class
+     * @param size       the size of the array
+     */
+    public ArrayValue(final Class<V[]> arrayClass, final int size) {
+       this((V[]) Array.newInstance(arrayClass, size));
+    }
 
     /**
      * Instantiates a new Array value.
