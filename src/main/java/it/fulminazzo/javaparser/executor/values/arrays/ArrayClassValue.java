@@ -34,4 +34,18 @@ public class ArrayClassValue<V> extends ObjectWrapper<ClassValue<V>> implements 
         return (Class<V[]>) Array.newInstance(this.object.getValue(), 0).getClass();
     }
 
+    /**
+     * Gets the components type.
+     *
+     * @return the components type
+     */
+    public ClassValue<V> getComponentsType() {
+        return this.object;
+    }
+
+    @Override
+    public String toString() {
+        return getComponentsType().toString().replace(".class", "[].class");
+    }
+
 }
