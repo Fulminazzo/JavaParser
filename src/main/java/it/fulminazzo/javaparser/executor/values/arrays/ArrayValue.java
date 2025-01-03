@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.executor.values.arrays;
 
 import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.Value;
+import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +26,7 @@ public class ArrayValue<V> extends ObjectWrapper<Value<V>[]> implements Value<Va
      * @param size            the size of the array
      */
     public ArrayValue(final @NotNull ClassValue<V> componentsClass, final int size) {
-        this((Value<V>[]) Array.newInstance(componentsClass.getValue(), size));
+        this((Value<V>[]) Array.newInstance(valueClassFromClassValue(componentsClass), size));
     }
 
     /**
@@ -35,7 +36,7 @@ public class ArrayValue<V> extends ObjectWrapper<Value<V>[]> implements Value<Va
      * @param values          the values of the array
      */
     public ArrayValue(final @NotNull ClassValue<V> componentsClass, final @NotNull Collection<Value<V>> values) {
-        this(values.toArray((Value<V>[]) Array.newInstance(componentsClass.getValue(), values.size())));
+        this(values.stream().toArray(a -> (Value<V>[]) Array.newInstance(valueClassFromClassValue(componentsClass), a)));
     }
 
     /**
@@ -77,6 +78,20 @@ public class ArrayValue<V> extends ObjectWrapper<Value<V>[]> implements Value<Va
                 .map(Value::getValue)
                 .map(o -> o == null ? "null" : o.toString())
                 .collect(Collectors.joining(", ")));
+    }
+
+    /**
+     * Gets the most appropriate {@link Value} class from the given {@link ClassValue}.
+     *
+     * @param <V>        the type of the value
+     * @param classValue the class value
+     * @return the class
+     */
+    static <V> Class<Value<V>> valueClassFromClassValue(final @NotNull ClassValue<V> classValue) {
+        final Class<?> valueClass;
+        if (classValue.isPrimitive()) valueClass = classValue.toValue().getClass();
+        else valueClass = ObjectValue.class;
+        return (Class<Value<V>>) valueClass;
     }
 
 }
