@@ -25,6 +25,28 @@ class ValueTest extends Specification {
         'publicField'       | ObjectClassValue.of(Double) | ObjectValue.of(1.0d)
     }
 
+    def 'test #object . #methodName #parameters should return #expected'() {
+        given:
+        def value = Value.of(object)
+        def parameterValues = new ParameterValues(parameters)
+
+        when:
+        def returned = value.invokeMethod(methodName, parameterValues)
+
+        then:
+        returned == expected
+
+        where:
+        object          | methodName           | parameters                                      | expected
+        new TestClass() | 'publicStaticMethod' | []                                              | PrimitiveValue.of(1)
+        new TestClass() | 'publicStaticMethod' | [PrimitiveValue.of(10), ObjectValue.of(true)]   | PrimitiveValue.of(10)
+        new TestClass() | 'publicMethod'       | []                                              | PrimitiveValue.of(1.0d)
+        new TestClass() | 'publicMethod'       | [PrimitiveValue.of(7.0d), ObjectValue.of(true)] | PrimitiveValue.of(7.0d)
+        1               | 'toString'           | []                                              | ObjectValue.of('1')
+        1               | 'equals'             | [PrimitiveValue.of(1)]                          | BooleanValue.TRUE
+        1               | 'equals'             | [PrimitiveValue.of(2)]                          | BooleanValue.FALSE
+    }
+
     def 'test of #object should return #expected'() {
         given:
         def value = Value.of(object)
