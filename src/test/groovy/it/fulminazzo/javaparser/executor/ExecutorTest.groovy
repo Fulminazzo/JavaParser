@@ -194,7 +194,7 @@ class ExecutorTest extends Specification {
         'Boolean'   | 'boW' | BOOL_LIT_FALSE | ObjectValue.of(false)
         'Boolean'   | 'boW' | BOOL_LIT_TRUE  | ObjectValue.of(true)
         'String'    | 'st'  | STRING_LIT     | ObjectValue.of('Hello, world!')
-        'Object'    | 'o'   | BOOL_LIT_TRUE  | PrimitiveValue.of(true)
+        'Object'    | 'o'   | BOOL_LIT_TRUE  | ObjectValue.of(true)
     }
 
     def 'test visit re-assignment not declared'() {
