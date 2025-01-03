@@ -188,7 +188,9 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitCast(@NotNull Node left, @NotNull Node right) {
-        return null;
+        ClassValue<?> cast = left.accept(this).to(ClassValue.class);
+        Value<?> value = right.accept(this);
+        return cast.cast(value);
     }
 
     @Override
