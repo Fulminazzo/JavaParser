@@ -558,9 +558,9 @@ public class Executor implements Visitor<Value<?>> {
                                                 final @NotNull Callable<V> function) {
         try {
             this.environment.enterScope(scope);
-            V type = function.call();
+            V value = function.call();
             this.environment.exitScope();
-            return type;
+            return value;
         } catch (Exception e) {
             if (e instanceof RuntimeException) throw (RuntimeException) e;
             else throw ExecutorException.of(e);
