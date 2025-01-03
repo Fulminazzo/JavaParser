@@ -114,58 +114,6 @@ public interface Value<V> {
     }
 
     /**
-     * Converts the current {@link Value} to the specified {@link ClassValue}.
-     *
-     * @param <T>        the type of the new value
-     * @param classValue the class of the value
-     * @return the value
-     */
-    default <T> @NotNull Value<T> cast(final @NotNull ClassValue<T> classValue) {
-        Object value = getValue();
-        if (classValue.is(PrimitiveClassValue.class))
-            if (classValue.is(PrimitiveClassValue.BOOLEAN))
-                return (Value<T>) PrimitiveValue.of(value.equals(true));
-            else {
-                Number numberValue = value instanceof Number ? (Number) value : (int) (char) value;
-                if (classValue.is(PrimitiveClassValue.BYTE))
-                    return (Value<T>) PrimitiveValue.of(numberValue.byteValue());
-                else if (classValue.is(PrimitiveClassValue.SHORT))
-                    return (Value<T>) PrimitiveValue.of(numberValue.shortValue());
-                else if (classValue.is(PrimitiveClassValue.CHAR))
-                    return (Value<T>) PrimitiveValue.of((char) numberValue.intValue());
-                else if (classValue.is(PrimitiveClassValue.INT))
-                    return (Value<T>) PrimitiveValue.of(numberValue.intValue());
-                else if (classValue.is(PrimitiveClassValue.LONG))
-                    return (Value<T>) PrimitiveValue.of(numberValue.longValue());
-                else if (classValue.is(PrimitiveClassValue.FLOAT))
-                    return (Value<T>) PrimitiveValue.of(numberValue.floatValue());
-                else if (classValue.is(PrimitiveClassValue.DOUBLE))
-                    return (Value<T>) PrimitiveValue.of(numberValue.doubleValue());
-            }
-        else if (classValue.is(ObjectClassValue.class))
-            if (classValue.is(ObjectClassValue.BOOLEAN))
-                return (Value<T>) ObjectValue.of(value.equals(true));
-            else {
-                Number numberValue = value instanceof Number ? (Number) value : (int) (char) value;
-                if (classValue.is(ObjectClassValue.BYTE))
-                    return (Value<T>) ObjectValue.of(numberValue.byteValue());
-                else if (classValue.is(ObjectClassValue.SHORT))
-                    return (Value<T>) ObjectValue.of(numberValue.shortValue());
-                else if (classValue.is(ObjectClassValue.CHARACTER))
-                    return (Value<T>) ObjectValue.of((char) numberValue.intValue());
-                else if (classValue.is(ObjectClassValue.INTEGER))
-                    return (Value<T>) ObjectValue.of(numberValue.intValue());
-                else if (classValue.is(ObjectClassValue.LONG))
-                    return (Value<T>) ObjectValue.of(numberValue.longValue());
-                else if (classValue.is(ObjectClassValue.FLOAT))
-                    return (Value<T>) ObjectValue.of(numberValue.floatValue());
-                else if (classValue.is(ObjectClassValue.DOUBLE))
-                    return (Value<T>) ObjectValue.of(numberValue.doubleValue());
-            }
-        return of(classValue.getValue().cast(value));
-    }
-
-    /**
      * Gets the specified field from the current value.
      *
      * @param <T>       the type of the field
