@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Objects;
 
 /**
@@ -139,9 +140,16 @@ public interface Value<V> {
      */
     default <T> @NotNull Value<T> invokeMethod(final @NotNull String methodName,
                                                final @NotNull ParameterValues parameterValues) {
-        return of(new Refl<>(getValue()).invokeMethod(methodName, parameterValues.stream()
-                .map(Value::getValue)
-                .toArray(Object[]::new)));
+        Refl<V> executor = new Refl<>(getValue());
+        Object[] parameters = parameterValues.stream().map(Value::getValue).toArray(Object[]::new);
+        Method method = executor.getMethod(methodName, parameters);
+        Class<?> returnType = method.getReturnType();
+        Object returned = executor.invokeMethod(returnType, methodName, parameters);
+        final Value<?> returnedValue;
+        if (Void.TYPE.equals(returnType)) returnedValue = Values.NO_VALUE;
+        else if (returnType.isPrimitive()) returnedValue = PrimitiveValue.of(returned);
+        else returnedValue = of(returned);
+        return (Value<T>) returnedValue;
     }
 
     /**
