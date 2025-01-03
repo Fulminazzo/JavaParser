@@ -23,7 +23,8 @@ public interface ClassValue<V> extends Value<Class<V>>, Info {
      */
     default @NotNull Value<V> cast(final @NotNull Value<?> value) {
         Object object = value.getValue();
-        if (is(PrimitiveClassValue.class))
+        if (object == null) return (Value<V>) Values.NULL_VALUE;
+        else if (is(PrimitiveClassValue.class))
             if (is(PrimitiveClassValue.BOOLEAN))
                 return (Value<V>) PrimitiveValue.of(object.equals(true));
             else {
