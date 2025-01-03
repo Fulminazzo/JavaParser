@@ -15,15 +15,10 @@ import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.operators.binary.Equal
 import it.fulminazzo.javaparser.parser.node.operators.binary.LessThan
-import it.fulminazzo.javaparser.parser.node.operators.binary.LessThanEqual
 import it.fulminazzo.javaparser.parser.node.operators.binary.Modulo
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
-import it.fulminazzo.javaparser.parser.node.statements.Break
-import it.fulminazzo.javaparser.parser.node.statements.Continue
-import it.fulminazzo.javaparser.parser.node.statements.IfStatement
-import it.fulminazzo.javaparser.parser.node.statements.Return
-import it.fulminazzo.javaparser.parser.node.statements.Statement
+import it.fulminazzo.javaparser.parser.node.statements.*
 import it.fulminazzo.javaparser.parser.node.values.*
 import spock.lang.Specification
 
@@ -61,32 +56,32 @@ class ExecutorTest extends Specification {
         counter == expectedCounter
 
         where:
-        expected | expectedCounter | expression | codeBlock
-        Values.NO_VALUE  | PrimitiveValue.of(11) | new LessThan(Literal.of('i'), new NumberValueLiteral('10')) |
+        expected             | expectedCounter       | expression                                                  | codeBlock
+        Values.NO_VALUE      | PrimitiveValue.of(11) | new LessThan(Literal.of('i'), new NumberValueLiteral('10')) |
                 new CodeBlock(
                         new Statement(new Increment(Literal.of('i'), false)),
                         new IfStatement(new Equal(new Modulo(Literal.of('i'), new NumberValueLiteral('2')), NUMBER_LIT),
                                 new CodeBlock(new Continue()), new CodeBlock()),
                         new Statement(new Increment(Literal.of('i'), false))
                 )
-        Values.NO_VALUE  | PrimitiveValue.of(5) | new LessThan(Literal.of('i'), new NumberValueLiteral('10')) |
+        Values.NO_VALUE      | PrimitiveValue.of(5)  | new LessThan(Literal.of('i'), new NumberValueLiteral('10')) |
                 new CodeBlock(
                         new IfStatement(new Equal(Literal.of('i'), new NumberValueLiteral('5')),
                                 new CodeBlock(new Break()), new CodeBlock()),
                         new Statement(new Increment(Literal.of('i'), false))
                 )
-        PrimitiveValue.of(3) | PrimitiveValue.of(5) | new LessThan(Literal.of('i'), new NumberValueLiteral('10')) |
+        PrimitiveValue.of(3) | PrimitiveValue.of(5)  | new LessThan(Literal.of('i'), new NumberValueLiteral('10')) |
                 new CodeBlock(
                         new IfStatement(new Equal(Literal.of('i'), new NumberValueLiteral('5')),
                                 CODE_BLOCK_3, new CodeBlock()),
                         new Statement(new Increment(Literal.of('i'), false))
                 )
-        Values.NO_VALUE | PrimitiveValue.of(10) | new LessThan(Literal.of('i'), new NumberValueLiteral('10')) |
+        Values.NO_VALUE      | PrimitiveValue.of(10) | new LessThan(Literal.of('i'), new NumberValueLiteral('10')) |
                 new CodeBlock(
                         new Statement(new Increment(Literal.of('i'), false))
                 )
-        PrimitiveValue.of(1) | PrimitiveValue.of(0) | BOOL_LIT_TRUE | CODE_BLOCK_1
-        Values.NO_VALUE | PrimitiveValue.of(0) | BOOL_LIT_FALSE | CODE_BLOCK_EMPTY
+        PrimitiveValue.of(1) | PrimitiveValue.of(0)  | BOOL_LIT_TRUE                                               | CODE_BLOCK_1
+        Values.NO_VALUE      | PrimitiveValue.of(0)  | BOOL_LIT_FALSE                                              | CODE_BLOCK_EMPTY
     }
 
     def 'test visit if statement of code "#code" should return #expected'() {
