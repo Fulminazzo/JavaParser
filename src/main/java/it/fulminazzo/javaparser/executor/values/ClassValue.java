@@ -12,6 +12,11 @@ import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("unchecked")
 public interface ClassValue<V> extends Value<Class<V>>, Info {
 
+    @Override
+    default boolean isPrimitive() {
+        return is(PrimitiveClassValue.class);
+    }
+
     /**
      * Verifies that the current class value is compatible with the provided value.
      *
