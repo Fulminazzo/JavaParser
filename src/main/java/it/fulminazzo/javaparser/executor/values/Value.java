@@ -98,8 +98,18 @@ public interface Value<V> {
      * @param value the class of the value
      * @return true if it is
      */
-    default <T extends Value<?>> boolean is(final Class<T> value) {
+    default <T extends Value<?>> boolean is(final @NotNull Class<T> value) {
         return value.isAssignableFrom(getClass());
+    }
+
+    /**
+     * Checks whether the current value is of the one specified.
+     *
+     * @param value the other value
+     * @return true if it is
+     */
+    default boolean is(final @NotNull Value<?> value) {
+        return equals(value);
     }
 
     /**
