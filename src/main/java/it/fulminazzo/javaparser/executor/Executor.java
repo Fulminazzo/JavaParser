@@ -386,14 +386,8 @@ public class Executor implements Visitor<Value<?>> {
     @Override
     public @NotNull Value<?> visitDoStatement(@NotNull CodeBlock code, @NotNull Node expression) {
         do {
-            try {
-                Value<?> returnedValue = code.accept(this);
-                // Return occurred
-                if (!returnedValue.is(Values.NO_VALUE)) return returnedValue;
-            } catch (BreakException ignored) {
-                return Values.NO_VALUE;
-            } catch (ContinueException ignored) {
-            }
+            Optional<Value<?>> returnedValue = visitLoopCodeBlock(code);
+            if (returnedValue.isPresent()) return returnedValue.get();
         } while (expression.accept(this).is(BooleanValue.TRUE));
         return Values.NO_VALUE;
     }
@@ -404,16 +398,11 @@ public class Executor implements Visitor<Value<?>> {
     }
 
     @Override
-    public @NotNull Value<?> visitForStatement(@NotNull Node assignment, @NotNull Node increment, @NotNull CodeBlock code, @NotNull Node expression) {
+    public @NotNull Value<?> visitForStatement(@NotNull Node assignment, @NotNull Node increment,
+                                               @NotNull CodeBlock code, @NotNull Node expression) {
         for (assignment.accept(this); expression.accept(this).is(BooleanValue.TRUE); increment.accept(this)) {
-            try {
-                Value<?> returnedValue = code.accept(this);
-                // Return occurred
-                if (!returnedValue.is(Values.NO_VALUE)) return returnedValue;
-            } catch (BreakException ignored) {
-                return Values.NO_VALUE;
-            } catch (ContinueException ignored) {
-            }
+            Optional<Value<?>> returnedValue = visitLoopCodeBlock(code);
+            if (returnedValue.isPresent()) return returnedValue.get();
         }
         return Values.NO_VALUE;
     }
@@ -444,14 +433,8 @@ public class Executor implements Visitor<Value<?>> {
     @Override
     public @NotNull Value<?> visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expression) {
         while (expression.accept(this).is(BooleanValue.TRUE)) {
-            try {
-                Value<?> returnedValue = code.accept(this);
-                // Return occurred
-                if (!returnedValue.is(Values.NO_VALUE)) return returnedValue;
-            } catch (BreakException ignored) {
-                return Values.NO_VALUE;
-            } catch (ContinueException ignored) {
-            }
+            Optional<Value<?>> returnedValue = visitLoopCodeBlock(code);
+            if (returnedValue.isPresent()) return returnedValue.get();
         }
         return Values.NO_VALUE;
     }
