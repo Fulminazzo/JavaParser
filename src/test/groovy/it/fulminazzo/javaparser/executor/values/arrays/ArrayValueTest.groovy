@@ -59,6 +59,30 @@ class ArrayValueTest extends Specification {
         classValue.compatibleWith(value)
     }
 
+    def 'test equals and hashCode'() {
+        given:
+        def first = new ArrayValue(String, ['Hello', 'world!'])
+        def second = new ArrayValue(String, ['Hello', 'world!'])
+
+        expect:
+        first == second
+        first.hashCode() == second.hashCode()
+    }
+
+    def 'test toString'() {
+        given:
+        def array = ['Hello', 'world!']
+
+        and:
+        def value = new ArrayValue(array)
+
+        when:
+        def string = value.toString()
+
+        then:
+        string == "${ArrayValue.simpleName}(${array})"
+    }
+
     def 'test ofPrimitive #componentsClass should return #expected'() {
         given:
         def size = 3
