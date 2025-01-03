@@ -42,6 +42,8 @@ class ValueTest extends Specification {
         new TestClass() | 'publicStaticMethod' | [PrimitiveValue.of(10), ObjectValue.of(true)]   | PrimitiveValue.of(10)
         new TestClass() | 'publicMethod'       | []                                              | PrimitiveValue.of(1.0d)
         new TestClass() | 'publicMethod'       | [PrimitiveValue.of(7.0d), ObjectValue.of(true)] | PrimitiveValue.of(7.0d)
+        new TestClass() | 'wave'               | [ObjectValue.of('Jake')]                        | Values.NO_VALUE
+        new TestClass() | 'returnNull'         | []                                              | Values.NULL_VALUE
         1               | 'toString'           | []                                              | ObjectValue.of('1')
         1               | 'equals'             | [PrimitiveValue.of(1)]                          | BooleanValue.TRUE
         1               | 'equals'             | [PrimitiveValue.of(2)]                          | BooleanValue.FALSE
