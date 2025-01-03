@@ -140,10 +140,12 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitCodeBlock(@NotNull LinkedList<Statement> statements) {
-        //TODO: does not take into account break and continue statements
         Value<?> returnedValue = Values.NO_VALUE;
-        for (Statement statement : statements)
+        for (Statement statement : statements) {
             returnedValue = statement.accept(this);
+            // Something was returned
+            if (!returnedValue.is(Values.NO_VALUE)) break;
+        }
         return returnedValue;
     }
 
