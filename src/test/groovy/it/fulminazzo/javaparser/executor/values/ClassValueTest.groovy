@@ -45,6 +45,7 @@ class ClassValueTest extends Specification {
             return false
         }
 
+        @NotNull
         @Override
         Class<Object> getValue() {
             return null

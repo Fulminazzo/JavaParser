@@ -1,9 +1,14 @@
 package it.fulminazzo.javaparser.executor.values;
 
+import it.fulminazzo.fulmicollection.objects.Refl;
+import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
+import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Field;
 import java.util.Objects;
 
 /**
@@ -11,6 +16,7 @@ import java.util.Objects;
  *
  * @param <V> the type of the value
  */
+@SuppressWarnings("unchecked")
 public interface Value<V> {
 
     /**
@@ -107,6 +113,23 @@ public interface Value<V> {
     }
 
     /**
+     * Gets the specified field from the current value.
+     *
+     * @param <T>       the type of the field
+     * @param fieldName the field name
+     * @return a tuple containing the class and the actual value of the field
+     */
+    default <T> @NotNull Tuple<ClassValue<T>, Value<T>> getField(final @NotNull String fieldName) {
+        Refl<?> refl = new Refl<>(getValue());
+        Field field = refl.getField(fieldName);
+        Object object = refl.getFieldObject(field);
+        ClassValue<T> classValue = ClassValue.of((Class<T>) field.getType());
+        Value<T> value = (Value<T>) of(object);
+        if (classValue.isPrimitive()) value = value.toPrimitive();
+        return new Tuple<>(classValue, value);
+    }
+
+    /**
      * Converts the current value is of the specified one.
      * This operation is unchecked.
      *
@@ -131,6 +154,99 @@ public interface Value<V> {
      * @return the value
      */
     V getValue();
+
+    /**
+     * Converts the given byte to a {@link Value}.
+     *
+     * @param value the value
+     * @return the associated value
+     */
+    static @NotNull Value<Byte> of(final byte value) {
+        return PrimitiveValue.of(value);
+    }
+
+    /**
+     * Converts the given short to a {@link Value}.
+     *
+     * @param value the value
+     * @return the associated value
+     */
+    static @NotNull Value<Short> of(final short value) {
+        return PrimitiveValue.of(value);
+    }
+
+    /**
+     * Converts the given char to a {@link Value}.
+     *
+     * @param value the value
+     * @return the associated value
+     */
+    static @NotNull Value<Character> of(final char value) {
+        return PrimitiveValue.of(value);
+    }
+
+    /**
+     * Converts the given int to a {@link Value}.
+     *
+     * @param value the value
+     * @return the associated value
+     */
+    static @NotNull Value<Integer> of(final int value) {
+        return PrimitiveValue.of(value);
+    }
+
+    /**
+     * Converts the given long to a {@link Value}.
+     *
+     * @param value the value
+     * @return the associated value
+     */
+    static @NotNull Value<Long> of(final long value) {
+        return PrimitiveValue.of(value);
+    }
+
+    /**
+     * Converts the given float to a {@link Value}.
+     *
+     * @param value the value
+     * @return the associated value
+     */
+    static @NotNull Value<Float> of(final float value) {
+        return PrimitiveValue.of(value);
+    }
+
+    /**
+     * Converts the given double to a {@link Value}.
+     *
+     * @param value the value
+     * @return the associated value
+     */
+    static @NotNull Value<Double> of(final double value) {
+        return PrimitiveValue.of(value);
+    }
+
+    /**
+     * Converts the given boolean to a {@link Value}.
+     *
+     * @param value the value
+     * @return the associated value
+     */
+    static @NotNull Value<Boolean> of(final boolean value) {
+        return PrimitiveValue.of(value);
+    }
+
+    /**
+     * Converts the given object to a {@link Value}.
+     *
+     * @param <T>   the type of the value
+     * @param value the value
+     * @return the associated value
+     */
+    @SuppressWarnings("unchecked")
+    static <T> @NotNull Value<T> of(final @Nullable T value) {
+        if (value == null) return (Value<T>) Values.NULL_VALUE;
+        else return ObjectValue.of(value);
+    }
 
     /*
         BINARY COMPARISONS
@@ -348,5 +464,5 @@ public interface Value<V> {
     default @NotNull BooleanValue not() {
         return toPrimitive().not();
     }
-    
+
 }
