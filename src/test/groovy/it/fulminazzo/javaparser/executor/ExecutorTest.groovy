@@ -1,9 +1,11 @@
 package it.fulminazzo.javaparser.executor
 
 import it.fulminazzo.javaparser.executor.values.TestClass
+import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
+import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.values.*
 import spock.lang.Specification
 
@@ -21,6 +23,30 @@ class ExecutorTest extends Specification {
 
     void setup() {
         this.executor = new Executor(new TestClass())
+    }
+
+    def 'test visit field of #field should return #expected'() {
+        given:
+        this.executor.environment.declare(
+                ObjectClassValue.of(TestClass),
+                'field_var',
+                ObjectValue.of(new TestClass())
+        )
+
+        and:
+        def left = Literal.of('field_var')
+        def right = Literal.of(field)
+
+        when:
+        def type = this.executor.visitField(left, right)
+
+        then:
+        type == expected
+
+        where:
+        field               | expected
+        'publicStaticField' | PrimitiveValue.of(1)
+        'publicField'       | ObjectValue.of(1.0d)
     }
 
     def 'test equal'() {
