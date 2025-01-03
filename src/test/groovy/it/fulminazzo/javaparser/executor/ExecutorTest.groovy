@@ -52,6 +52,8 @@ class ExecutorTest extends Specification {
         this.executor.environment.declare(ArrayClassValue.of(PrimitiveClassValue.INT), 'arr',
                 ArrayValue.of(PrimitiveClassValue.INT, (1..9).collect { Value.of(it) })
         )
+        this.executor.environment.declare(ClassValue.of(List.class), 'list',
+                Value.of(1..4))
 
         when:
         def value = this.executor.visitEnhancedForStatement(
@@ -64,14 +66,22 @@ class ExecutorTest extends Specification {
         counter == expectedCounter
 
         where:
-        expected             | expectedCounter      | object            | code
-        PrimitiveValue.of(3) | PrimitiveValue.of(1) | Literal.of('arr') |
+        expected             | expectedCounter      | object             | code
+        PrimitiveValue.of(3) | PrimitiveValue.of(1) | Literal.of('list') |
                 new CodeBlock(
                         new IfStatement(new Equal(Literal.of('counter'), NUMBER_LIT),
                                 CODE_BLOCK_3, CODE_BLOCK_EMPTY),
                         new Statement(new Increment(Literal.of('counter'), false))
                 )
-        Values.NO_VALUE      | PrimitiveValue.of(9) | Literal.of('arr') |
+        Values.NO_VALUE      | PrimitiveValue.of(4) | Literal.of('list') |
+                new CodeBlock(new Statement(new Increment(Literal.of('counter'), false)))
+        PrimitiveValue.of(3) | PrimitiveValue.of(1) | Literal.of('arr')  |
+                new CodeBlock(
+                        new IfStatement(new Equal(Literal.of('counter'), NUMBER_LIT),
+                                CODE_BLOCK_3, CODE_BLOCK_EMPTY),
+                        new Statement(new Increment(Literal.of('counter'), false))
+                )
+        Values.NO_VALUE      | PrimitiveValue.of(9) | Literal.of('arr')  |
                 new CodeBlock(new Statement(new Increment(Literal.of('counter'), false)))
     }
 
