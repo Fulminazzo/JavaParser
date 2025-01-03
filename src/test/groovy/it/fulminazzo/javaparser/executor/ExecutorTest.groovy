@@ -786,6 +786,13 @@ class ExecutorTest extends Specification {
         BOOL_LIT_FALSE | BooleanValue.TRUE
     }
 
+    def 'test visit this should return this object'() {
+        when:
+        def value = this.executor.visitThisLiteral()
+
+        then:
+        value == ObjectValue.of(new TestClass())
+    }
 
     def 'test visit cast #target to #cast should be of type #expected'() {
         given:
