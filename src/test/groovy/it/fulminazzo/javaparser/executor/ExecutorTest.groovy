@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor
 
+import it.fulminazzo.javaparser.executor.values.TestClass
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
@@ -19,7 +20,7 @@ class ExecutorTest extends Specification {
     private Executor executor
 
     void setup() {
-        this.executor = new Executor(getClass())
+        this.executor = new Executor(new TestClass())
     }
 
     def 'test equal'() {
