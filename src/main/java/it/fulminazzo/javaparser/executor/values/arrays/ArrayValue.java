@@ -19,21 +19,21 @@ public class ArrayValue<V> extends ObjectWrapper<V[]> implements Value<V[]> {
     /**
      * Instantiates a static array value.
      *
-     * @param arrayClass the array class
-     * @param size       the size of the array
+     * @param componentsClass the components class
+     * @param size            the size of the array
      */
-    public ArrayValue(final Class<V[]> arrayClass, final int size) {
-       this((V[]) Array.newInstance(arrayClass, size));
+    public ArrayValue(final Class<V> componentsClass, final int size) {
+        this((V[]) Array.newInstance(componentsClass, size));
     }
 
     /**
      * Instantiates a dynamic array value.
      *
-     * @param arrayClass the array class
-     * @param values     the values of the array
+     * @param componentsClass the components class
+     * @param values          the values of the array
      */
-    public ArrayValue(final Class<V[]> arrayClass, final @NotNull Collection<V> values) {
-        this(values.toArray((V[]) Array.newInstance(arrayClass, values.size())));
+    public ArrayValue(final Class<V> componentsClass, final @NotNull Collection<V> values) {
+        this(values.toArray((V[]) Array.newInstance(componentsClass, values.size())));
     }
 
     /**
