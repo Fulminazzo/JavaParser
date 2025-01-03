@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser.executor
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.environment.ScopeException
 import it.fulminazzo.javaparser.executor.values.*
+import it.fulminazzo.javaparser.executor.values.arrays.ArrayClassValue
 import it.fulminazzo.javaparser.executor.values.arrays.ArrayValue
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue
@@ -41,6 +42,37 @@ class ExecutorTest extends Specification {
 
     void setup() {
         this.executor = new Executor(new TestClass())
+    }
+
+    def 'test visit enhanced for statement of #object should return #expected'() {
+        given:
+        this.executor.environment.declare(PrimitiveClassValue.INT, 'counter', PrimitiveValue.of(0))
+
+        and:
+        this.executor.environment.declare(ArrayClassValue.of(PrimitiveClassValue.INT), 'arr',
+                ArrayValue.of(PrimitiveClassValue.INT, (1..9).collect { Value.of(it) })
+        )
+
+        when:
+        def value = this.executor.visitEnhancedForStatement(
+                Literal.of('int'), Literal.of('i'),
+                code, object)
+        def counter = this.executor.environment.lookup('counter')
+
+        then:
+        value == expected
+        counter == expectedCounter
+
+        where:
+        expected             | expectedCounter      | object            | code
+        PrimitiveValue.of(3) | PrimitiveValue.of(1) | Literal.of('arr') |
+                new CodeBlock(
+                        new IfStatement(new Equal(Literal.of('counter'), NUMBER_LIT),
+                                CODE_BLOCK_3, CODE_BLOCK_EMPTY),
+                        new Statement(new Increment(Literal.of('counter'), false))
+                )
+        Values.NO_VALUE      | PrimitiveValue.of(9) | Literal.of('arr') |
+                new CodeBlock(new Statement(new Increment(Literal.of('counter'), false)))
     }
 
     def 'test visit do statement of (#expression) #codeBlock should return #expected'() {
