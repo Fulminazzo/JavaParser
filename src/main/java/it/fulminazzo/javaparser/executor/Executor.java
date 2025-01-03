@@ -1,6 +1,9 @@
 package it.fulminazzo.javaparser.executor;
 
+import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.environment.Environment;
+import it.fulminazzo.javaparser.environment.ScopeException;
+import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.executor.values.ValueException;
 import it.fulminazzo.javaparser.executor.values.Values;
@@ -25,6 +28,7 @@ import java.util.Optional;
 /**
  * A {@link Visitor} that executes all the objects of the parsed code.
  */
+@SuppressWarnings("unchecked")
 public class Executor implements Visitor<Value<?>> {
     private final Object executingObject;
     private final Environment<Value<?>> environment;
@@ -347,6 +351,33 @@ public class Executor implements Visitor<Value<?>> {
     @Override
     public @NotNull Value<?> visitStringValueLiteral(@NotNull String rawValue) {
         return ObjectValue.of(rawValue);
+    }
+
+    /**
+     * Tries to convert the given literal to a {@link Value}.
+     * It does so by first converting it to {@link ClassValue}.
+     * If it fails, it tries with a variable declared in {@link #environment}.
+     *
+     * @param literal the literal
+     * @return if a {@link ClassValue} is found, the tuple key and value will both be equal to the value itself.
+     * If a variable is found, the tuple key will have the value in which the variable was declared, 
+     * while the value its actual value.
+     * Otherwise, the tuple will be empty.
+     */
+    <V> @NotNull Tuple<ClassValue<V>, Value<V>> getValueFromLiteral(final @NotNull String literal) {
+        Tuple<ClassValue<V>, Value<V>> tuple = new Tuple<>();
+        try {
+            ClassValue<V> value = ClassValue.of(literal);
+            tuple.set(value, (Value<V>) value);
+        } catch (ValueException e) {
+            try {
+                Value<V> variable = (Value<V>) this.environment.lookup(literal);
+                ClassValue<V> variableValue = (ClassValue<V>) this.environment.lookupInfo(literal);
+                tuple.set(variableValue, variable);
+            } catch (ScopeException ignored) {
+            }
+        }
+        return tuple;
     }
 
 }
