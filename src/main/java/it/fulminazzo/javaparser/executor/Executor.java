@@ -405,7 +405,7 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitStatement(@NotNull Node expression) {
-        return null;
+        return expression.accept(this);
     }
 
     @Override
