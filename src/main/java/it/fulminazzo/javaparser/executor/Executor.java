@@ -64,8 +64,7 @@ public class Executor implements Visitor<Value<?>> {
         if (variableValue.is(Values.NO_VALUE)) variableValue = variableType.toValue();
         try {
             this.environment.declare(variableType, variableName.getValue(), convertValue(variableType, variableValue));
-        } catch (ScopeException e) {
-            throw new RuntimeException(e);
+        } catch (ScopeException ignored) {
         }
         return Values.NO_VALUE;
     }
