@@ -12,6 +12,7 @@ import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
+import it.fulminazzo.javaparser.parser.node.container.JavaProgram
 import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
@@ -43,6 +44,21 @@ class ExecutorTest extends Specification {
 
     void setup() {
         this.executor = new Executor(new TestClass())
+    }
+
+    def 'parse test_program file'() {
+        given:
+        def cwd = System.getProperty('user.dir')
+
+        and:
+        def file = new File(cwd, 'build/resources/test/typechecker_test_program.dat')
+        JavaProgram program = file.newObjectInputStream().readObject() as JavaProgram
+
+        when:
+        program.accept(this.executor)
+
+        then:
+        noExceptionThrown()
     }
 
     def 'test visit enhanced for statement of #object should return #expected'() {
