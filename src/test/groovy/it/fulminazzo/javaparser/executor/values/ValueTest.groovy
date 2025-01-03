@@ -1,11 +1,9 @@
-package it.fulminazzo.javaparser.executor.values.primitivevalue
+package it.fulminazzo.javaparser.executor.values
 
-import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue
-import it.fulminazzo.javaparser.executor.values.TestClass
-import it.fulminazzo.javaparser.executor.values.Value
-import it.fulminazzo.javaparser.executor.values.Values
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue
+import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue
+import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
 import spock.lang.Specification
 
 class ValueTest extends Specification {
@@ -19,7 +17,7 @@ class ValueTest extends Specification {
 
         where:
         value                                         | classValue                  | expected
-        PrimitiveValue.of((byte) 1)                   | ObjectClassValue.BYTE       | ObjectValue.of(Byte.valueOf((byte) 1))
+        PrimitiveValue.of((byte) 1) | ObjectClassValue.BYTE | ObjectValue.of(Byte.valueOf((byte) 1))
         ObjectValue.of(Byte.valueOf((byte) 1))        | PrimitiveClassValue.BYTE    | PrimitiveValue.of((byte) 1)
         PrimitiveValue.of((short) 2)                  | ObjectClassValue.SHORT      | ObjectValue.of(Short.valueOf((short) 2))
         ObjectValue.of(Short.valueOf((short) 2))      | PrimitiveClassValue.SHORT   | PrimitiveValue.of((short) 2)
