@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
 
 /**
  * A {@link Visitor} that executes all the objects of the parsed code.
@@ -284,31 +285,32 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitDecrement(boolean before, @NotNull Node operand) {
-        Literal literal = (Literal) operand;
-        Value<?> value = operand.accept(this);
-        try {
-            if (before) {
-                value = value.subtract(INCREMENT_VALUE);
-                this.environment.update(literal.getLiteral(), value);
-            } else {
-                this.environment.update(literal.getLiteral(), value.subtract(INCREMENT_VALUE));
-                return value;
-            }
-        } catch (ScopeException ignored) {
-        }
-        return value;
+        return visitPrefixedOperation(before, operand, Value::subtract);
     }
 
     @Override
     public @NotNull Value<?> visitIncrement(boolean before, @NotNull Node operand) {
+        return visitPrefixedOperation(before, operand, Value::add);
+    }
+
+    /**
+     * Support method for {@link #visitIncrement(boolean, Node)} and {@link #visitDecrement(boolean, Node)}.
+     *
+     * @param before          true if the returned value was already computed
+     * @param operand         the operand
+     * @param actualOperation the actual operation
+     * @return the value
+     */
+    @NotNull Value<?> visitPrefixedOperation(final boolean before, final @NotNull Node operand,
+                                             final @NotNull BiFunction<Value<?>, Value<?>, Value<?>> actualOperation) {
         Literal literal = (Literal) operand;
         Value<?> value = operand.accept(this);
         try {
             if (before) {
-                value = value.add(INCREMENT_VALUE);
+                value = actualOperation.apply(value, INCREMENT_VALUE);
                 this.environment.update(literal.getLiteral(), value);
             } else {
-                this.environment.update(literal.getLiteral(), value.add(INCREMENT_VALUE));
+                this.environment.update(literal.getLiteral(), actualOperation.apply(value, INCREMENT_VALUE));
                 return value;
             }
         } catch (ScopeException ignored) {
