@@ -3,8 +3,9 @@ package it.fulminazzo.javaparser.executor;
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.environment.Environment;
 import it.fulminazzo.javaparser.environment.ScopeException;
-import it.fulminazzo.javaparser.executor.values.*;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
+import it.fulminazzo.javaparser.executor.values.*;
+import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
 import it.fulminazzo.javaparser.parser.node.Assignment;
@@ -62,11 +63,34 @@ public class Executor implements Visitor<Value<?>> {
         // Test for uninitialized
         if (varValue.is(Values.NO_VALUE)) varValue = varType.toValue();
         try {
-            this.environment.declare(varType, varName.getValue(), varValue);
+            this.environment.declare(varType, varName.getValue(), convertValue(varType, varValue));
         } catch (ScopeException e) {
             throw new RuntimeException(e);
         }
         return Values.NO_VALUE;
+    }
+
+    /**
+     * Converts the given {@link Value} to the most appropriate one.
+     * If it is NOT {@link PrimitiveValue}, it is returned as is.
+     * Otherwise, if the {@link ClassValue} is:
+     * <ul>
+     *     <li>a {@link PrimitiveClassValue}, {@link PrimitiveClassValue#toValue()} is returned;</li>
+     *     <li>a {@link ObjectClassValue}, {@link ObjectClassValue#toValue()} is returned only
+     *     if it is NOT {@link ObjectClassValue#OBJECT}.</li>
+     * </ul>
+     *
+     * @param typeValue the type of the value
+     * @param value      the value
+     * @return the value converted
+     */
+    static @NotNull Value<?> convertValue(final @NotNull ClassValue<?> typeValue,
+                                          final @NotNull Value<?> value) {
+        if (!value.isPrimitive()) return value;
+        else if (typeValue.is(PrimitiveClassValue.class)) return value.cast(typeValue);
+        else if (!typeValue.is(ObjectClassValue.OBJECT)) // Can only be ClassObjectValue at this point
+            return value.cast(typeValue);
+        return value;
     }
 
     @Override
