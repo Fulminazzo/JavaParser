@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.executor
 
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.environment.ScopeException
+import it.fulminazzo.javaparser.environment.scopetypes.ScopeType
 import it.fulminazzo.javaparser.executor.values.*
 import it.fulminazzo.javaparser.executor.values.arrays.ArrayClassValue
 import it.fulminazzo.javaparser.executor.values.arrays.ArrayValue
@@ -20,6 +21,8 @@ import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
 import it.fulminazzo.javaparser.parser.node.statements.*
 import it.fulminazzo.javaparser.parser.node.values.*
 import spock.lang.Specification
+
+import java.util.concurrent.Callable
 
 class ExecutorTest extends Specification {
     private static final BOOL_LIT_TRUE = new BooleanValueLiteral('true')
@@ -920,6 +923,24 @@ class ExecutorTest extends Specification {
         BOOL_LIT_FALSE                    | BooleanValue.FALSE
         // String
         STRING_LIT                        | ObjectValue.of('Hello, world!')
+    }
+
+    def 'test visitScoped with exception #exception should throw #expected'() {
+        given:
+        Callable<Value<?>> function = () -> {
+            throw exception.newInstance('')
+        }
+
+        when:
+        this.executor.visitScoped(ScopeType.CODE_BLOCK, function)
+
+        then:
+        thrown(expected)
+
+        where:
+        exception                | expected
+        IllegalArgumentException | IllegalArgumentException
+        IOException              | ExecutorException
     }
 
 }
