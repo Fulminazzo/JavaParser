@@ -5,6 +5,7 @@ import it.fulminazzo.javaparser.environment.Environment;
 import it.fulminazzo.javaparser.environment.ScopeException;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.*;
+import it.fulminazzo.javaparser.executor.values.arrays.ArrayValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
@@ -126,7 +127,10 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitDynamicArray(@NotNull List<Node> parameters, @NotNull Node type) {
-        return null;
+        ClassValue<?> componentsType = type.accept(this).to(ClassValue.class);
+        List<Value<?>> components = new LinkedList<>();
+        for (Node component : parameters) components.add(component.accept(this));
+        return new ArrayValue<>(componentsType, components);
     }
 
     @Override
