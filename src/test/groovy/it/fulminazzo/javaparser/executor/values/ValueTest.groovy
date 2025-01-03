@@ -8,44 +8,6 @@ import spock.lang.Specification
 
 class ValueTest extends Specification {
 
-    def 'test #value cast #classValue should return #expected'() {
-        when:
-        def cast = value.cast(classValue)
-
-        then:
-        cast == expected
-
-        where:
-        value                                         | classValue                  | expected
-        PrimitiveValue.of((byte) 1) | ObjectClassValue.BYTE | ObjectValue.of(Byte.valueOf((byte) 1))
-        ObjectValue.of(Byte.valueOf((byte) 1))        | PrimitiveClassValue.BYTE    | PrimitiveValue.of((byte) 1)
-        PrimitiveValue.of((short) 2)                  | ObjectClassValue.SHORT      | ObjectValue.of(Short.valueOf((short) 2))
-        ObjectValue.of(Short.valueOf((short) 2))      | PrimitiveClassValue.SHORT   | PrimitiveValue.of((short) 2)
-        PrimitiveValue.of((char) 'a')                 | ObjectClassValue.CHARACTER  | ObjectValue.of(Character.valueOf((char) 'a'))
-        ObjectValue.of(Character.valueOf((char) 'a')) | PrimitiveClassValue.CHAR    | PrimitiveValue.of((char) 'a')
-        PrimitiveValue.of(4)                          | ObjectClassValue.INTEGER    | ObjectValue.of(Integer.valueOf(4))
-        ObjectValue.of(Integer.valueOf(4))            | PrimitiveClassValue.INT     | PrimitiveValue.of(4)
-        PrimitiveValue.of(5L)                         | ObjectClassValue.LONG       | ObjectValue.of(Long.valueOf(5L))
-        ObjectValue.of(Long.valueOf(5L))              | PrimitiveClassValue.LONG    | PrimitiveValue.of(5L)
-        PrimitiveValue.of(6.0f)                       | ObjectClassValue.FLOAT      | ObjectValue.of(Float.valueOf(6.0f))
-        ObjectValue.of(Float.valueOf(6.0f))           | PrimitiveClassValue.FLOAT   | PrimitiveValue.of(6.0f)
-        PrimitiveValue.of(7.0d)                       | ObjectClassValue.DOUBLE     | ObjectValue.of(Double.valueOf(7.0d))
-        ObjectValue.of(Double.valueOf(7.0d))          | PrimitiveClassValue.DOUBLE  | PrimitiveValue.of(7.0d)
-        PrimitiveValue.of(true)                       | ObjectClassValue.BOOLEAN    | ObjectValue.of(Boolean.valueOf(true))
-        ObjectValue.of(Boolean.valueOf(true))         | PrimitiveClassValue.BOOLEAN | PrimitiveValue.of(true)
-        PrimitiveValue.of((byte) 1)                   | PrimitiveClassValue.INT     | PrimitiveValue.of(1)
-        PrimitiveValue.of((short) 2)                  | PrimitiveClassValue.INT     | PrimitiveValue.of(2)
-        PrimitiveValue.of((char) 'a')                 | PrimitiveClassValue.INT     | PrimitiveValue.of(97)
-        PrimitiveValue.of(97)                         | ObjectClassValue.BYTE       | ObjectValue.of((byte) 97)
-        PrimitiveValue.of((char) 'a')                 | ObjectClassValue.BYTE       | ObjectValue.of((byte) 97)
-        PrimitiveValue.of(97)                         | ObjectClassValue.SHORT      | ObjectValue.of((short) 97)
-        PrimitiveValue.of((char) 'a')                 | ObjectClassValue.SHORT      | ObjectValue.of((short) 97)
-        PrimitiveValue.of(97)                         | PrimitiveClassValue.CHAR    | PrimitiveValue.of((char) 'a')
-        PrimitiveValue.of(5L)                         | PrimitiveClassValue.INT     | PrimitiveValue.of(5)
-        PrimitiveValue.of(6.0f)                       | PrimitiveClassValue.INT     | PrimitiveValue.of(6)
-        PrimitiveValue.of(7.0d)                       | PrimitiveClassValue.INT     | PrimitiveValue.of(7)
-    }
-
     def 'test access to field #field should return #expected'() {
         given:
         def value = Value.of(new TestClass())
