@@ -502,6 +502,26 @@ public class Executor implements Visitor<Value<?>> {
     }
 
     /**
+     * Support method for many break and continue supported statements.
+     *
+     * @param code the code
+     * @return null in case nothing was returned,
+     * {@link Values#NO_VALUE} in case a {@link #visitBreak(Node)} occurred,
+     * otherwise the actual returned type of the codeblock
+     */
+    @NotNull Optional<Value<?>> visitLoopCodeBlock(final @NotNull CodeBlock code) {
+        try {
+            Value<?> returnedValue = code.accept(this);
+            // Return occurred
+            if (!returnedValue.is(Values.NO_VALUE)) return Optional.of(returnedValue);
+        } catch (BreakException ignored) {
+            return Optional.of(Values.NO_VALUE);
+        } catch (ContinueException ignored) {
+        }
+        return Optional.empty();
+    }
+
+    /**
      * Tries to convert the given literal to a {@link Value}.
      * It does so by first converting it to {@link ClassValue}.
      * If it fails, it tries with a variable declared in {@link #environment}.
