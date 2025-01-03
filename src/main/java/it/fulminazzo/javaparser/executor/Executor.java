@@ -393,8 +393,33 @@ public class Executor implements Visitor<Value<?>> {
     }
 
     @Override
-    public @NotNull Value<?> visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable, @NotNull CodeBlock code, @NotNull Node expression) {
-        return null;
+    public @NotNull Value<?> visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable,
+                                                       @NotNull CodeBlock code, @NotNull Node expression) {
+        ClassValue<?> variableType = type.accept(this).to(ClassValue.class);
+        LiteralValue variableName = variable.accept(this).to(LiteralValue.class);
+        Value<?> iterable = expression.accept(this);
+
+        final Iterator<?> iterator;
+        if (iterable.is(ArrayValue.class)) {
+            ArrayValue<?> arrayValue = (ArrayValue<?>) iterable;
+            iterator = Arrays.stream(arrayValue.getValue()).map(Value::getValue).iterator();
+        } else iterator = ((Iterable<?>) iterable.getValue()).iterator();
+
+        try {
+            this.environment.declare(variableType, variableName.getValue(), variableType.toValue());
+        } catch (ScopeException ignored) {
+        }
+
+        while (iterator.hasNext()) {
+            Optional<Value<?>> returnedValue = visitLoopCodeBlock(code);
+            if (returnedValue.isPresent()) return returnedValue.get();
+            try {
+                this.environment.update(variableName.getValue(), Value.of(iterator.next()));
+            } catch (ScopeException ignored) {
+            }
+        }
+
+        return Values.NO_VALUE;
     }
 
     @Override
