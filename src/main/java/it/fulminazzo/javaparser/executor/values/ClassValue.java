@@ -18,6 +18,15 @@ public interface ClassValue<V> extends Value<Class<V>>, Info {
     }
 
     /**
+     * Converts the current class value to an initialized {@link Value}.
+     *
+     * @return the value
+     */
+    default @NotNull Value<V> toValue() {
+        return (Value<V>) Values.NULL_VALUE;
+    }
+
+    /**
      * Verifies that the current class value is compatible with the provided value.
      *
      * @param value the other value
@@ -44,6 +53,7 @@ public interface ClassValue<V> extends Value<Class<V>>, Info {
      * If it fails, uses the fields of {@link ObjectClassValue}.
      * Otherwise, a new value is created.
      *
+     * @param <V>       the type parameter
      * @param className the class name
      * @return the class type
      * @throws ValueException the exception thrown in case the class is not found
@@ -63,6 +73,7 @@ public interface ClassValue<V> extends Value<Class<V>>, Info {
      * If it fails, uses the fields of {@link ObjectClassValue}.
      * Otherwise, a new value is created.
      *
+     * @param <V>   the type parameter
      * @param clazz the class
      * @return the class value
      */
