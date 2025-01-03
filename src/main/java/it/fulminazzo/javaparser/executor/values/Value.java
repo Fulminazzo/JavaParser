@@ -113,16 +113,6 @@ public interface Value<V> {
     }
 
     /**
-     * Converts the current value to an instance of {@link PrimitiveValue}.
-     * Throws {@link ValueRuntimeException} in case of no associated primitive type.
-     *
-     * @return the primitive value
-     */
-    default @NotNull PrimitiveValue<V> toPrimitive() {
-        throw ValueRuntimeException.invalidPrimitiveValue(getValue());
-    }
-
-    /**
      * Gets the specified field from the current value.
      *
      * @param <T>       the type of the field
@@ -137,6 +127,16 @@ public interface Value<V> {
         Value<T> value = (Value<T>) of(object);
         if (classValue.isPrimitive()) value = value.toPrimitive();
         return new Tuple<>(classValue, value);
+    }
+
+    /**
+     * Converts the current value to an instance of {@link PrimitiveValue}.
+     * Throws {@link ValueRuntimeException} in case of no associated primitive type.
+     *
+     * @return the primitive value
+     */
+    default @NotNull PrimitiveValue<V> toPrimitive() {
+        throw ValueRuntimeException.invalidPrimitiveValue(getValue());
     }
 
     /**
