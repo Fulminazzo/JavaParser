@@ -2,7 +2,6 @@ package it.fulminazzo.javaparser.executor.values;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
-import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
@@ -128,6 +127,21 @@ public interface Value<V> {
         Value<T> value = (Value<T>) of(object);
         if (classValue.isPrimitive()) value = value.toPrimitive();
         return new Tuple<>(classValue, value);
+    }
+
+    /**
+     * Executes the method associated with the given name with {@link ParameterValues} as parameters.
+     *
+     * @param <T>             the type of the returned value
+     * @param methodName      the method name
+     * @param parameterValues the parameter values
+     * @return the returned value
+     */
+    default <T> @NotNull Value<T> invokeMethod(final @NotNull String methodName,
+                                               final @NotNull ParameterValues parameterValues) {
+        return of(new Refl<>(getValue()).invokeMethod(methodName, parameterValues.stream()
+                .map(Value::getValue)
+                .toArray(Object[]::new)));
     }
 
     /**
