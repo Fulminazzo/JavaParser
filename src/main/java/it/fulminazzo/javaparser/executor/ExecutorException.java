@@ -30,6 +30,17 @@ public class ExecutorException extends RuntimeException {
 
     /**
      * Generates a {@link ExecutorException} with message:
+     * <i>Cannot resolve symbol '%symbol%'</i>
+     *
+     * @param symbol the symbol
+     * @return the type checker exception
+     */
+    public static @NotNull ExecutorException cannotResolveSymbol(final @NotNull String symbol) {
+        return new ExecutorException("Cannot resolve symbol '%s'", symbol);
+    }
+
+    /**
+     * Generates a {@link ExecutorException} with message:
      * <i>%clazz% does not have a {@link ClassValue}</i>
      *
      * @param <V>   the type parameter
