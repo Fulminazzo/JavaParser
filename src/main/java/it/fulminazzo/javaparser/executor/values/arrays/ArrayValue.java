@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.executor.values.arrays;
 
 import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.Value;
+import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,28 +22,31 @@ public class ArrayValue<V> extends ObjectWrapper<Value<V>[]> implements Value<Va
     /**
      * Instantiates a static array value.
      *
-     * @param size the size of the array
+     * @param componentsType the components type
+     * @param size           the size of the array
      */
-    public ArrayValue(final int size) {
-        this((Value<V>[]) Array.newInstance(Value.class, size));
+    public ArrayValue(final @NotNull ClassValue<V> componentsType, final int size) {
+        this(componentsType, (Value<V>[]) Array.newInstance(Value.class, size));
     }
 
     /**
      * Instantiates a dynamic array value.
      *
-     * @param values the values of the array
+     * @param componentsType the components type
+     * @param values         the values of the array
      */
-    public ArrayValue(final @NotNull Collection<Value<V>> values) {
-        this(values.stream().toArray(a -> (Value<V>[]) Array.newInstance(Value.class, a)));
+    public ArrayValue(final @NotNull ClassValue<V> componentsType, final @NotNull Collection<Value<V>> values) {
+        this(componentsType, values.stream().toArray(a -> (Value<V>[]) Array.newInstance(Value.class, a)));
     }
 
     /**
      * Instantiates a new Array value.
      *
-     * @param values the values
+     * @param componentsType the components type
+     * @param values         the values
      */
     @SafeVarargs
-    public ArrayValue(final Value<V> @NotNull ... values) {
+    public ArrayValue(final @NotNull ClassValue<V> componentsType, final Value<V> @NotNull ... values) {
         super(values);
     }
 
@@ -75,6 +79,20 @@ public class ArrayValue<V> extends ObjectWrapper<Value<V>[]> implements Value<Va
                 .map(Value::getValue)
                 .map(o -> o == null ? "null" : o.toString())
                 .collect(Collectors.joining(", ")));
+    }
+
+    /**
+     * Gets the most appropriate {@link Value} class from the given {@link ClassValue}.
+     *
+     * @param <V>        the type of the value
+     * @param classValue the class value
+     * @return the class
+     */
+    static <V> Class<Value<V>> valueClassFromClassValue(final @NotNull ClassValue<V> classValue) {
+        final Class<?> valueClass;
+        if (classValue.isPrimitive()) valueClass = classValue.toValue().getClass();
+        else valueClass = ObjectValue.class;
+        return (Class<Value<V>>) valueClass;
     }
 
 }
