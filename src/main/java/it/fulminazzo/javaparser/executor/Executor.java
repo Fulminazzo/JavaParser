@@ -98,7 +98,9 @@ public class Executor implements Visitor<Value<?>> {
     public @NotNull Value<?> visitMethodCall(@NotNull Node executor, @NotNull String methodName,
                                              @NotNull MethodInvocation invocation) {
         ParameterValues parameters = invocation.accept(this).to(ParameterValues.class);
-        return executor.accept(this).invokeMethod(methodName, parameters);
+        Value<?> executorValue = executor.accept(this);
+        if (executorValue.is(Values.NO_VALUE)) executorValue = ObjectValue.of(this.executingObject);
+        return executorValue.invokeMethod(methodName, parameters);
     }
 
     @Override
