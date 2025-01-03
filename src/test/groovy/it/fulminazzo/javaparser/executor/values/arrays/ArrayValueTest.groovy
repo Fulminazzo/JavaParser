@@ -74,7 +74,7 @@ class ArrayValueTest extends Specification {
         def array = ['Hello', 'world!']
 
         and:
-        def value = new ArrayValue(array)
+        def value = new ArrayValue(String, array)
 
         when:
         def string = value.toString()
