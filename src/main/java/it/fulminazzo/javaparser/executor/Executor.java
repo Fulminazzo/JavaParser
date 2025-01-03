@@ -111,7 +111,7 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitEmptyLiteral() {
-        return null;
+        return Values.NO_VALUE;
     }
 
     @Override
