@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.executor.values.arrays;
 
 import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.Value;
+import it.fulminazzo.javaparser.executor.values.Values;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,6 +27,7 @@ public class ArrayClassValue<V> extends ObjectWrapper<ClassValue<V>> implements 
 
     @Override
     public boolean compatibleWith(@NotNull Value<?> value) {
+        if (value.is(Values.NULL_VALUE) && !this.object.isPrimitive()) return true;
         if (value.is(ArrayValue.class)) {
             Class<V> objectClass = this.object.getValue();
             Class<?> componentsClass = ((ArrayValue<?>) value).getComponentsType().getValue();
