@@ -692,7 +692,10 @@ public final class TypeChecker implements Visitor<Type> {
      * If it fails, it tries with a variable declared in {@link #environment}.
      *
      * @param literal the literal
-     * @return if a {@link ClassType} is found, the tuple key and value will both be equal to the type itself. If a variable is found, the tuple key will have the type in which the variable was declared, while the value its actual value type. Otherwise, the tuple will be empty.
+     * @return if a {@link ClassType} is found, the tuple key and value will both be equal to the type itself.
+     * If a variable is found, the tuple key will have the type in which the variable was declared,
+     * while the value its actual value type.
+     * Otherwise, the tuple will be empty.
      */
     @NotNull Tuple<ClassType, Type> getTypeFromLiteral(final @NotNull String literal) {
         Tuple<ClassType, Type> tuple = new Tuple<>();
