@@ -353,12 +353,12 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitBreak(@NotNull Node expression) {
-        return null;
+        throw new BreakException();
     }
 
     @Override
     public @NotNull Value<?> visitContinue(@NotNull Node expression) {
-        return null;
+        throw new ContinueException();
     }
 
     @Override
