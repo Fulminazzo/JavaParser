@@ -56,7 +56,17 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitAssignment(@NotNull Node type, @NotNull Literal name, @NotNull Node value) {
-        return null;
+        ClassValue<?> varType = type.accept(this).toClassValue();
+        LiteralValue varName = name.accept(this).to(LiteralValue.class);
+        Value<?> varValue = value.accept(this);
+        // Test for uninitialized
+        if (varValue.is(Values.NO_VALUE)) varValue = varType.toValue();
+        try {
+            this.environment.declare(varType, varName.getValue(), varValue);
+        } catch (ScopeException e) {
+            throw new RuntimeException(e);
+        }
+        return Values.NO_VALUE;
     }
 
     @Override
