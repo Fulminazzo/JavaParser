@@ -10,7 +10,7 @@ class TypeCheckerLiteralTest extends Specification {
     private TypeChecker checker
 
     void setup() {
-        this.checker = new TypeChecker()
+        this.checker = new TypeChecker(getClass())
     }
 
     def 'test visit literal from code #code should return #expected'() {
@@ -28,10 +28,8 @@ class TypeCheckerLiteralTest extends Specification {
         'val'                                                       | new LiteralType('val')
         'int'                                                       | PrimitiveClassType.INT
         'String'                                                    | ObjectClassType.STRING
-        'System'                                                    | ClassType.of('System')
-        //TODO: should have wrapper for class, but for this we need to implement generics
-        //TODO: so, at least for now, test disabled
-//        'System.class'                                              | ObjectType.of('Class')
+        'System'                                                    | ClassType.of(System)
+        'System.class'                                              | ClassType.of(Class)
         'System.out'                                                | ObjectType.of(PrintStream.canonicalName)
         'var'                                                       | PrimitiveType.NUMBER
         'var.TYPE'                                                  | ObjectType.of('Class')
