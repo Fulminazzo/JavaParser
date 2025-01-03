@@ -63,7 +63,8 @@ public interface ClassValue<V> extends Value<Class<V>>, Info {
             String lowerCase = className.toLowerCase();
             if (lowerCase.equals(className))
                 return (ClassValue<V>) PrimitiveClassValue.valueOf(className.toUpperCase());
-        } catch (IllegalArgumentException ignored) {}
+        } catch (IllegalArgumentException ignored) {
+        }
         return ObjectClassValue.of(className);
     }
 
