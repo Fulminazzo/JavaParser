@@ -701,8 +701,13 @@ public final class TypeChecker implements Visitor<Type> {
     @NotNull Tuple<ClassType, Type> getTypeFromLiteral(final @NotNull String literal) {
         Tuple<ClassType, Type> tuple = new Tuple<>();
         try {
-            ClassType type = ClassType.of(literal);
-            tuple.set(type, type);
+            if (literal.endsWith(".class")) {
+                ClassType type = ClassType.of(literal.substring(0, literal.length() - 6));
+                tuple.set(type.toClassType(), type.toClassType());
+            } else {
+                ClassType type = ClassType.of(literal);
+                tuple.set(type, type);
+            }
         } catch (TypeException e) {
             try {
                 Type variable = this.environment.lookup(literal);
