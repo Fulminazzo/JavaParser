@@ -48,6 +48,17 @@ class ArrayValueTest extends Specification {
         Arrays.equals(actual, expected)
     }
 
+    def 'test toClassValue of array should return compatible array class'() {
+        given:
+        def value = new ArrayValue(String, 3)
+
+        when:
+        def classValue = value.toClassValue()
+
+        then:
+        classValue.compatibleWith(value)
+    }
+
     def 'test ofPrimitive #componentsClass should return #expected'() {
         given:
         def size = 3
