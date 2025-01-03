@@ -113,13 +113,32 @@ public interface Value<V> {
     }
 
     /**
-     * Converts the current value to an instance of {@link PrimitiveValue}.
-     * Throws {@link ValueRuntimeException} in case of no associated primitive type.
+     * Converts the current {@link Value} to the specified {@link ClassValue}.
      *
-     * @return the primitive value
+     * @param <T>        the type of the new value
+     * @param classValue the class of the value
+     * @return the value
      */
-    default @NotNull PrimitiveValue<V> toPrimitive() {
-        throw ValueRuntimeException.invalidPrimitiveValue(getValue());
+    default <T> @NotNull Value<T> cast(final @NotNull ClassValue<T> classValue) {
+        Object value = getValue();
+        if (classValue.isPrimitive()) {
+            if (classValue.equals(PrimitiveClassValue.BOOLEAN))
+                return (Value<T>) of((boolean) value);
+            Number valueNumber = value instanceof Number ? (Number) value : (int) (char) value;
+            if (classValue.equals(PrimitiveClassValue.BYTE))
+                return (Value<T>) of(valueNumber.byteValue());
+            else if (classValue.equals(PrimitiveClassValue.SHORT))
+                return (Value<T>) of(valueNumber.shortValue());
+            else if (classValue.equals(PrimitiveClassValue.CHAR))
+                return (Value<T>) of((char) valueNumber.intValue());
+            else if (classValue.equals(PrimitiveClassValue.INT))
+                return (Value<T>) of(valueNumber.intValue());
+            else if (classValue.equals(PrimitiveClassValue.LONG))
+                return (Value<T>) of(valueNumber.longValue());
+            else if (classValue.equals(PrimitiveClassValue.FLOAT))
+                return (Value<T>) of(valueNumber.floatValue());
+            else return (Value<T>) of(valueNumber.doubleValue());
+        } else return of(classValue.getValue().cast(value));
     }
 
     /**
@@ -137,6 +156,16 @@ public interface Value<V> {
         Value<T> value = (Value<T>) of(object);
         if (classValue.isPrimitive()) value = value.toPrimitive();
         return new Tuple<>(classValue, value);
+    }
+
+    /**
+     * Converts the current value to an instance of {@link PrimitiveValue}.
+     * Throws {@link ValueRuntimeException} in case of no associated primitive type.
+     *
+     * @return the primitive value
+     */
+    default @NotNull PrimitiveValue<V> toPrimitive() {
+        throw ValueRuntimeException.invalidPrimitiveValue(getValue());
     }
 
     /**
