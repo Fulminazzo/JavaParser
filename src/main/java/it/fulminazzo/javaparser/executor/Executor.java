@@ -387,8 +387,13 @@ public class Executor implements Visitor<Value<?>> {
     <V> @NotNull Tuple<ClassValue<V>, Value<V>> getValueFromLiteral(final @NotNull String literal) {
         Tuple<ClassValue<V>, Value<V>> tuple = new Tuple<>();
         try {
-            ClassValue<V> value = ClassValue.of(literal);
-            tuple.set(value, (Value<V>) value);
+            if (literal.endsWith(".class")) {
+                ClassValue<V> value = ClassValue.of(literal.substring(0, literal.length() - 6));
+                tuple.set((ClassValue<V>) value.toClassValue(), (Value<V>) value.toClassValue());
+            } else {
+                ClassValue<V> value = ClassValue.of(literal);
+                tuple.set(value, (Value<V>) value);
+            }
         } catch (ValueException e) {
             try {
                 Value<V> variable = (Value<V>) this.environment.lookup(literal);
