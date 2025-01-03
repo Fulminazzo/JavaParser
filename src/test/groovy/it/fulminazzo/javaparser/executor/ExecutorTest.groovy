@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor
 
+import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.environment.ScopeException
 import it.fulminazzo.javaparser.executor.values.*
 import it.fulminazzo.javaparser.executor.values.arrays.ArrayValue
@@ -8,11 +9,14 @@ import it.fulminazzo.javaparser.executor.values.objects.ObjectValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
+import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
+import it.fulminazzo.javaparser.parser.node.statements.IfStatement
+import it.fulminazzo.javaparser.parser.node.statements.Return
 import it.fulminazzo.javaparser.parser.node.values.*
 import spock.lang.Specification
 
@@ -26,10 +30,54 @@ class ExecutorTest extends Specification {
     private static final DOUBLE_LIT = new DoubleValueLiteral('4.0d')
     private static final STRING_LIT = new StringValueLiteral('\"Hello, world!\"')
 
+    private static final CODE_BLOCK_EMPTY = new CodeBlock()
+    private static final CODE_BLOCK_1 = new CodeBlock(new Return(new NumberValueLiteral('1')))
+    private static final CODE_BLOCK_2 = new CodeBlock(new Return(new NumberValueLiteral('2')))
+    private static final CODE_BLOCK_3 = new CodeBlock(new Return(new NumberValueLiteral('3')))
+
     private Executor executor
 
     void setup() {
         this.executor = new Executor(new TestClass())
+    }
+
+    def 'test visit if statement of code "#code" should return #expected'() {
+        given:
+        def refl = new Refl<>(code)
+
+        and:
+        def expression = refl.getFieldObject('expression')
+        def then = refl.getFieldObject('then')
+        def elseBranch = refl.getFieldObject('elseBranch')
+
+        when:
+        def value = this.executor.visitIfStatement(then, elseBranch, expression)
+
+        then:
+        value == expected
+
+        where:
+        expected             | code
+        // one if, no else
+        PrimitiveValue.of(1) | new IfStatement(BOOL_LIT_TRUE, CODE_BLOCK_1, CODE_BLOCK_EMPTY)
+        Values.NO_VALUE      | new IfStatement(BOOL_LIT_FALSE, CODE_BLOCK_1, CODE_BLOCK_EMPTY)
+        // one if, one else
+        PrimitiveValue.of(1) | new IfStatement(BOOL_LIT_TRUE, CODE_BLOCK_1, CODE_BLOCK_3)
+        PrimitiveValue.of(3) | new IfStatement(BOOL_LIT_FALSE, CODE_BLOCK_1, CODE_BLOCK_3)
+        // two if, no else
+        PrimitiveValue.of(1) | new IfStatement(BOOL_LIT_TRUE, CODE_BLOCK_1,
+                new IfStatement(BOOL_LIT_TRUE, CODE_BLOCK_2, CODE_BLOCK_EMPTY))
+        PrimitiveValue.of(2) | new IfStatement(BOOL_LIT_FALSE, CODE_BLOCK_1,
+                new IfStatement(BOOL_LIT_TRUE, CODE_BLOCK_2, CODE_BLOCK_EMPTY))
+        Values.NO_VALUE      | new IfStatement(BOOL_LIT_FALSE, CODE_BLOCK_1,
+                new IfStatement(BOOL_LIT_FALSE, CODE_BLOCK_2, CODE_BLOCK_EMPTY))
+        // two if, one else
+        PrimitiveValue.of(1) | new IfStatement(BOOL_LIT_TRUE, CODE_BLOCK_1,
+                new IfStatement(BOOL_LIT_TRUE, CODE_BLOCK_2, CODE_BLOCK_3))
+        PrimitiveValue.of(2) | new IfStatement(BOOL_LIT_FALSE, CODE_BLOCK_1,
+                new IfStatement(BOOL_LIT_TRUE, CODE_BLOCK_2, CODE_BLOCK_3))
+        PrimitiveValue.of(3) | new IfStatement(BOOL_LIT_FALSE, CODE_BLOCK_1,
+                new IfStatement(BOOL_LIT_FALSE, CODE_BLOCK_2, CODE_BLOCK_3))
     }
 
     def 'test visit new object #parameters'() {
