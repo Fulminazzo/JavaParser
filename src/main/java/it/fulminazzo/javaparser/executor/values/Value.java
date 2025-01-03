@@ -1,10 +1,14 @@
 package it.fulminazzo.javaparser.executor.values;
 
+import it.fulminazzo.fulmicollection.objects.Refl;
+import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
+import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Field;
 import java.util.Objects;
 
 /**
@@ -106,6 +110,20 @@ public interface Value<V> {
      */
     default @NotNull PrimitiveValue<V> toPrimitive() {
         throw ValueRuntimeException.invalidPrimitiveValue(getValue());
+    }
+
+    /**
+     * Gets the specified field from the current value.
+     *
+     * @param <T>       the type of the field
+     * @param fieldName the field name
+     * @return a tuple containing the class and the actual value of the field
+     */
+    default <T> @NotNull Tuple<ClassValue<T>, Value<T>> getField(final @NotNull String fieldName) {
+        Refl<?> refl = new Refl<>(getValue());
+        Field field = refl.getField(fieldName);
+        Object object = refl.getFieldObject(field);
+        return new Tuple<>(ClassValue.of((Class<T>) field.getType()), of((T) object));
     }
 
     /**
