@@ -16,9 +16,11 @@ import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.operators.binary.Equal
 import it.fulminazzo.javaparser.parser.node.operators.binary.LessThan
 import it.fulminazzo.javaparser.parser.node.operators.binary.LessThanEqual
+import it.fulminazzo.javaparser.parser.node.operators.binary.Modulo
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
 import it.fulminazzo.javaparser.parser.node.statements.Break
+import it.fulminazzo.javaparser.parser.node.statements.Continue
 import it.fulminazzo.javaparser.parser.node.statements.IfStatement
 import it.fulminazzo.javaparser.parser.node.statements.Return
 import it.fulminazzo.javaparser.parser.node.statements.Statement
@@ -60,6 +62,13 @@ class ExecutorTest extends Specification {
 
         where:
         expected | expectedCounter | expression | codeBlock
+        Values.NO_VALUE  | PrimitiveValue.of(11) | new LessThan(Literal.of('i'), new NumberValueLiteral('10')) |
+                new CodeBlock(
+                        new Statement(new Increment(Literal.of('i'), false)),
+                        new IfStatement(new Equal(new Modulo(Literal.of('i'), new NumberValueLiteral('2')), NUMBER_LIT),
+                                new CodeBlock(new Continue()), new CodeBlock()),
+                        new Statement(new Increment(Literal.of('i'), false))
+                )
         Values.NO_VALUE  | PrimitiveValue.of(5) | new LessThan(Literal.of('i'), new NumberValueLiteral('10')) |
                 new CodeBlock(
                         new IfStatement(new Equal(Literal.of('i'), new NumberValueLiteral('5')),
