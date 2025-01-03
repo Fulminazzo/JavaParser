@@ -14,9 +14,7 @@ import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
-import it.fulminazzo.javaparser.parser.node.operators.binary.Equal
-import it.fulminazzo.javaparser.parser.node.operators.binary.LessThan
-import it.fulminazzo.javaparser.parser.node.operators.binary.Modulo
+import it.fulminazzo.javaparser.parser.node.operators.binary.*
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
 import it.fulminazzo.javaparser.parser.node.statements.*
@@ -66,23 +64,27 @@ class ExecutorTest extends Specification {
         counter == expectedCounter
 
         where:
-        expected             | expectedCounter      | object             | code
-        PrimitiveValue.of(3) | PrimitiveValue.of(1) | Literal.of('list') |
+        expected             | expectedCounter       | object             | code
+        PrimitiveValue.of(3) | PrimitiveValue.of(3)  | Literal.of('list') |
                 new CodeBlock(
-                        new IfStatement(new Equal(Literal.of('counter'), NUMBER_LIT),
+                        new IfStatement(new Equal(Literal.of('counter'), new NumberValueLiteral('3')),
                                 CODE_BLOCK_3, CODE_BLOCK_EMPTY),
-                        new Statement(new Increment(Literal.of('counter'), false))
+                        new Statement(new ReAssign(Literal.of('counter'),
+                                new Add(Literal.of('counter'), Literal.of('i'))))
                 )
-        Values.NO_VALUE      | PrimitiveValue.of(4) | Literal.of('list') |
-                new CodeBlock(new Statement(new Increment(Literal.of('counter'), false)))
-        PrimitiveValue.of(3) | PrimitiveValue.of(1) | Literal.of('arr')  |
+        Values.NO_VALUE      | PrimitiveValue.of(10) | Literal.of('list') |
+                new CodeBlock(new Statement(new ReAssign(Literal.of('counter'),
+                        new Add(Literal.of('counter'), Literal.of('i')))))
+        PrimitiveValue.of(3) | PrimitiveValue.of(15) | Literal.of('arr')  |
                 new CodeBlock(
-                        new IfStatement(new Equal(Literal.of('counter'), NUMBER_LIT),
+                        new IfStatement(new Equal(Literal.of('counter'), new NumberValueLiteral('15')),
                                 CODE_BLOCK_3, CODE_BLOCK_EMPTY),
-                        new Statement(new Increment(Literal.of('counter'), false))
+                        new Statement(new ReAssign(Literal.of('counter'),
+                                new Add(Literal.of('counter'), Literal.of('i'))))
                 )
-        Values.NO_VALUE      | PrimitiveValue.of(9) | Literal.of('arr')  |
-                new CodeBlock(new Statement(new Increment(Literal.of('counter'), false)))
+        Values.NO_VALUE      | PrimitiveValue.of(45) | Literal.of('arr')  |
+                new CodeBlock(new Statement(new ReAssign(Literal.of('counter'),
+                        new Add(Literal.of('counter'), Literal.of('i')))))
     }
 
     def 'test visit do statement of (#expression) #codeBlock should return #expected'() {
