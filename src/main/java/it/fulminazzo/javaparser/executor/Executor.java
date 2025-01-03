@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser.executor;
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.environment.Environment;
 import it.fulminazzo.javaparser.environment.ScopeException;
+import it.fulminazzo.javaparser.environment.scopetypes.ScopeType;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.*;
 import it.fulminazzo.javaparser.executor.values.arrays.ArrayClassValue;
@@ -24,6 +25,7 @@ import it.fulminazzo.javaparser.visitors.Visitor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.function.BiFunction;
 
 /**
@@ -527,6 +529,32 @@ public class Executor implements Visitor<Value<?>> {
         } catch (ContinueException ignored) {
         }
         return Optional.empty();
+    }
+
+    /**
+     * Enters the specified {@link ScopeType}, executes the given function and
+     * exits the scope.
+     * If an exception is thrown:
+     * <ul>
+     *     <li>if its {@link RuntimeException}, it is thrown as is;</li>
+     *     <li>otherwise, it is wrapped using {@link ExecutorException#of(Throwable)}.</li>
+     * </ul>
+     *
+     * @param scope    the scope
+     * @param function the function
+     * @return the returned value by the function
+     */
+    @NotNull <V extends Value<?>> V visitScoped(final @NotNull ScopeType scope,
+                                                final @NotNull Callable<V> function) {
+        try {
+            this.environment.enterScope(scope);
+            V type = function.call();
+            this.environment.exitScope();
+            return type;
+        } catch (Exception e) {
+            if (e instanceof RuntimeException) throw (RuntimeException) e;
+            else throw ExecutorException.of(e);
+        }
     }
 
     /**
