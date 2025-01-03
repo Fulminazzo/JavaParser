@@ -59,6 +59,23 @@ public class ArrayValue<V> extends ObjectWrapper<V[]> implements Value<V[]> {
         return this.object;
     }
 
+    @Override
+    public int hashCode() {
+        int code = getClass().hashCode();
+        for (V v : this.object) code ^= v == null ? 0 : v.hashCode();
+        return code;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof ArrayValue && Arrays.equals(this.object, ((ArrayValue<?>) o).object);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s(%s)", getClass().getSimpleName(), Arrays.toString(this.object));
+    }
+
     /**
      * Creates a new {@link ArrayValue} for a primitive type
      * (essentially initializing all its values to 0).
