@@ -7,18 +7,33 @@ public class TestClass {
     protected static int protectedStaticField = 1;
     private static int privateStaticField = 1;
 
-    public double publicField = 1.0;
+    public Double publicField = 1.0;
     double packageField = 1.0;
     protected double protectedField = 1.0;
     private double privateField = 1.0;
 
-    public TestClass() {}
+    private final int i;
+    private final Boolean b;
 
-    public TestClass(int i, Boolean b) {}
+    public TestClass() {
+        i = 0;
+        b = null;
+    }
 
-    TestClass(boolean b) {}
+    public TestClass(int i, Boolean b) {
+        this.i = i;
+        this.b = b;
+    }
 
-    private TestClass(float f) {}
+    TestClass(boolean b) {
+        i = 0;
+        this.b = b;
+    }
+
+    private TestClass(float f) {
+        i = (int) f;
+        b = null;
+    }
 
     public static int publicStaticMethod() {
         return 1;
@@ -59,6 +74,14 @@ public class TestClass {
 
     private double privateMethod() {
         return 1.0;
+    }
+
+    public void wave(String name) {
+        System.out.println("Hello, " + name + "!");
+    }
+
+    public Object returnNull() {
+        return null;
     }
 
 }
