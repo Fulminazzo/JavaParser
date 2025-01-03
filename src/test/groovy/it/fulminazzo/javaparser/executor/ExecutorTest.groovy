@@ -13,10 +13,13 @@ import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
+import it.fulminazzo.javaparser.parser.node.operators.binary.LessThan
+import it.fulminazzo.javaparser.parser.node.operators.binary.LessThanEqual
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
 import it.fulminazzo.javaparser.parser.node.statements.IfStatement
 import it.fulminazzo.javaparser.parser.node.statements.Return
+import it.fulminazzo.javaparser.parser.node.statements.Statement
 import it.fulminazzo.javaparser.parser.node.values.*
 import spock.lang.Specification
 
@@ -39,6 +42,26 @@ class ExecutorTest extends Specification {
 
     void setup() {
         this.executor = new Executor(new TestClass())
+    }
+
+    def 'test visit while statement of (#expression) #codeBlock should return #expected'() {
+        given:
+        this.executor.environment.declare(PrimitiveClassValue.INT, 'i', PrimitiveValue.of(0))
+
+        when:
+        def value = this.executor.visitWhileStatement(codeBlock, expression)
+        def counter = this.executor.environment.lookup('i')
+
+        then:
+        value == expected
+        counter == expectedCounter
+
+        where:
+        expected | expectedCounter | expression | codeBlock
+        Values.NO_VALUE | PrimitiveValue.of(10) | new LessThan(Literal.of('i'), new NumberValueLiteral('10')) |
+                new CodeBlock(new Statement(new Increment(Literal.of('i'), false)))
+        PrimitiveValue.of(1) | PrimitiveValue.of(0) | BOOL_LIT_TRUE | CODE_BLOCK_1
+        Values.NO_VALUE | PrimitiveValue.of(0) | BOOL_LIT_FALSE | CODE_BLOCK_EMPTY
     }
 
     def 'test visit if statement of code "#code" should return #expected'() {
