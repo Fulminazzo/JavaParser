@@ -43,7 +43,11 @@ public interface ClassValue<V> extends Value<Class<V>>, Info {
                     return (Value<V>) PrimitiveValue.of(numberValue.doubleValue());
             }
         else if (is(ObjectClassValue.class))
-            if (is(ObjectClassValue.BOOLEAN))
+            if (is(ObjectClassValue.OBJECT))
+                return (Value<V>) ObjectValue.of(object);
+            else if (is(ObjectClassValue.STRING))
+                return (Value<V>) ObjectValue.of((String) object);
+            else if (is(ObjectClassValue.BOOLEAN))
                 return (Value<V>) ObjectValue.of(object.equals(true));
             else {
                 Number numberValue = object instanceof Number ? (Number) object : (int) (char) object;
