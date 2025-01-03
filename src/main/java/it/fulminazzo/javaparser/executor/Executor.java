@@ -259,7 +259,15 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitReAssign(@NotNull Node left, @NotNull Node right) {
-        return null;
+        try {
+            String variableName = ((Literal) left).getLiteral();
+            ClassValue<?> variableType = (ClassValue<?>) this.environment.lookupInfo(variableName);
+            Value<?> variableValue = convertValue(variableType, right.accept(this));
+            this.environment.update(variableName, variableValue);
+            return variableValue.cast(variableType);
+        } catch (ScopeException e) {
+            throw ExecutorException.of(e);
+        }
     }
 
     @Override
