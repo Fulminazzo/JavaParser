@@ -2,11 +2,13 @@ package it.fulminazzo.javaparser.executor
 
 import it.fulminazzo.javaparser.environment.ScopeException
 import it.fulminazzo.javaparser.executor.values.*
+import it.fulminazzo.javaparser.executor.values.arrays.ArrayValue
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
+import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
@@ -262,6 +264,20 @@ class ExecutorTest extends Specification {
         then:
         def e = thrown(ExecutorException)
         e.message == ScopeException.noSuchVariable(varName).message
+    }
+
+    def 'test visit dynamic array'() {
+        given:
+        def type = this.executor.visitDynamicArray(
+                Arrays.asList(BOOL_LIT_TRUE, BOOL_LIT_FALSE),
+                new ArrayLiteral(Literal.of('boolean'))
+        )
+
+        and:
+        def expected = new ArrayValue(BooleanValue, [BooleanValue.TRUE, BooleanValue.FALSE])
+
+        expect:
+        type == expected
     }
 
     def 'test visit #operation of #literal should return #value and update variable to #expected'() {
