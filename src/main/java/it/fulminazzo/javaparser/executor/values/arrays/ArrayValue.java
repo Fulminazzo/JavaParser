@@ -22,30 +22,31 @@ public class ArrayValue<V> extends ObjectWrapper<Value<V>[]> implements Value<Va
     /**
      * Instantiates a static array value.
      *
-     * @param componentsClass the components class
-     * @param size            the size of the array
+     * @param componentsType the components type
+     * @param size           the size of the array
      */
-    public ArrayValue(final @NotNull ClassValue<V> componentsClass, final int size) {
-        this((Value<V>[]) Array.newInstance(valueClassFromClassValue(componentsClass), size));
+    public ArrayValue(final @NotNull ClassValue<V> componentsType, final int size) {
+        this(componentsType, (Value<V>[]) Array.newInstance(Value.class, size));
     }
 
     /**
      * Instantiates a dynamic array value.
      *
-     * @param componentsClass the components class
-     * @param values          the values of the array
+     * @param componentsType the components type
+     * @param values         the values of the array
      */
-    public ArrayValue(final @NotNull ClassValue<V> componentsClass, final @NotNull Collection<Value<V>> values) {
-        this(values.stream().toArray(a -> (Value<V>[]) Array.newInstance(valueClassFromClassValue(componentsClass), a)));
+    public ArrayValue(final @NotNull ClassValue<V> componentsType, final @NotNull Collection<Value<V>> values) {
+        this(componentsType, values.stream().toArray(a -> (Value<V>[]) Array.newInstance(Value.class, a)));
     }
 
     /**
      * Instantiates a new Array value.
      *
-     * @param values the values
+     * @param componentsType the components type
+     * @param values         the values
      */
     @SafeVarargs
-    public ArrayValue(final Value<V> @NotNull ... values) {
+    public ArrayValue(final @NotNull ClassValue<V> componentsType, final Value<V> @NotNull ... values) {
         super(values);
     }
 
