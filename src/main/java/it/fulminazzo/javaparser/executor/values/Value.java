@@ -138,11 +138,12 @@ public interface Value<V> {
                 return (Value<T>) of(valueNumber.longValue());
             else if (classValue.equals(PrimitiveClassValue.FLOAT))
                 return (Value<T>) of(valueNumber.floatValue());
-            else return (Value<T>) of(valueNumber.doubleValue());
+            else if (classValue.equals(PrimitiveClassValue.DOUBLE))
+                return (Value<T>) of(valueNumber.doubleValue());
         } else if (isPrimitive()) {
-            if (isCharacter() && (classValue.equals(ObjectClassValue.BYTE)))
+            if (isCharacter() && classValue.equals(ObjectClassValue.BYTE))
                 return (Value<T>) ObjectValue.of((byte) (char) value);
-            else if (isCharacter() && (classValue.equals(ObjectClassValue.SHORT)))
+            else if (isCharacter() && classValue.equals(ObjectClassValue.SHORT))
                 return (Value<T>) ObjectValue.of((short) (char) value);
         }
         return of(classValue.getValue().cast(value));
