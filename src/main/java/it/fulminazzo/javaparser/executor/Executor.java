@@ -31,6 +31,7 @@ import java.util.Optional;
 @SuppressWarnings("unchecked")
 public class Executor implements Visitor<Value<?>> {
     private static final String FIELDS_SEPARATOR = ".";
+    public static final @NotNull PrimitiveValue<Integer> INCREMENT_VALUE = PrimitiveValue.of(1);
 
     private final Object executingObject;
     private final Environment<Value<?>> environment;
@@ -288,7 +289,19 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitIncrement(boolean before, @NotNull Node operand) {
-        return null;
+        Literal literal = (Literal) operand;
+        Value<?> value = operand.accept(this);
+        try {
+            if (before) {
+                value = value.add(INCREMENT_VALUE);
+                this.environment.update(literal.getLiteral(), value);
+            } else {
+                this.environment.update(literal.getLiteral(), value.add(INCREMENT_VALUE));
+                return value;
+            }
+        } catch (ScopeException ignored) {
+        }
+        return value;
     }
 
     @Override
