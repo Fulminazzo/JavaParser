@@ -1,10 +1,13 @@
 package it.fulminazzo.javaparser.executor
 
 import it.fulminazzo.javaparser.executor.values.TestClass
+import it.fulminazzo.javaparser.executor.values.Value
+import it.fulminazzo.javaparser.executor.values.Values
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
+import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.values.*
 import spock.lang.Specification
@@ -47,6 +50,92 @@ class ExecutorTest extends Specification {
         field               | expected
         'publicStaticField' | PrimitiveValue.of(1)
         'publicField'       | ObjectValue.of(1.0d)
+    }
+
+    def 'test visit assignment: #valueClass #name = #val should return value #expected'() {
+        given:
+        def literalType = Literal.of(valueClass)
+        def literalName = Literal.of(name)
+
+        when:
+        this.executor.visitAssignment(literalType, literalName, val)
+        def value = this.executor.environment.lookup(name)
+
+        then:
+        value == expected
+
+        where:
+        valueClass        | name  | val        | expected
+        'byte'      | 'bc'  | CHAR_LIT   | Value.of((byte) 97)
+        'byte'      | 'b'   | NUMBER_LIT | Value.of((byte) 1)
+        'Byte'      | 'bWc' | CHAR_LIT   | Value.of((Byte) 97)
+        'Byte'      | 'bW'  | NUMBER_LIT | Value.of((Byte) 1)
+        'short'     | 'sc'  | CHAR_LIT   | Value.of((short) 97)
+        'short'     | 's'   | NUMBER_LIT | Value.of((short) 1)
+        'Short'     | 'sWc' | CHAR_LIT   | Value.of((Short) 97)
+        'Short'     | 'sW'  | NUMBER_LIT | Value.of((Short) 1)
+        'char'      | 'c'   | CHAR_LIT   | Value.of((char) 'a')
+        'char'      | 'ci'  | NUMBER_LIT | Value.of((char) 1)
+        'Character' | 'cW'  | CHAR_LIT   | Value.of(Character.valueOf(97 as char))
+        'Character' | 'ciW' | NUMBER_LIT | Value.of(Character.valueOf(1 as char))
+        'int'       | 'ic'  | CHAR_LIT   | Value.of((int) 97)
+        'int'       | 'i'   | NUMBER_LIT | Value.of((int) 1)
+        'Integer'   | 'iW'  | NUMBER_LIT | Value.of((Integer) 1)
+        'long'      | 'lc'  | CHAR_LIT   | Value.of((long) 97)
+        'long'      | 'li'  | NUMBER_LIT | Value.of((long) 1)
+        'long'      | 'l'   | LONG_LIT   |  Value.of((long) 2L)
+        'Long'      | 'lW'  | LONG_LIT   |  Value.of((Long) 2L)
+        'float'     | 'fc'  | CHAR_LIT   | Value.of((float) 97)
+        'float'     | 'fi'  | NUMBER_LIT | Value.of((float) 1)
+        'float'     | 'fl'  | LONG_LIT   |  Value.of((float) 2L)
+        'float'     | 'f'   | FLOAT_LIT  |  Value.of((float) 3.0f)
+        'Float'     | 'fW'  | FLOAT_LIT  |  Value.of((Float) 3.0f)
+        'double'    | 'dc'  | CHAR_LIT   | Value.of((double) 97)
+        'double'    | 'di'  | NUMBER_LIT | Value.of((double) 1)
+        'double'    | 'dl'  | LONG_LIT   |  Value.of((double) 2L)
+        'double'    | 'df'  | FLOAT_LIT  |  Value.of((double) 3.0f)
+        'double'    | 'd'   | DOUBLE_LIT |  Value.of((double) 4.0d)
+        'Double'    | 'dW'  | DOUBLE_LIT |  Value.of((Double) 4.0d)
+        'boolean'   | 'bo'  | BOOL_LIT_FALSE   | BooleanValue.FALSE
+        'boolean'   | 'bo'  | BOOL_LIT_TRUE   | BooleanValue.TRUE
+        'Boolean'   | 'boW' | BOOL_LIT_FALSE   | ObjectValue.of(false)
+        'Boolean'   | 'boW' | BOOL_LIT_TRUE   | ObjectValue.of(true)
+        'String'    | 'st'  | STRING_LIT | ObjectValue.of('Hello, world!')
+        'Object'    | 'o'   | BOOL_LIT_TRUE   | PrimitiveValue.of(true)
+    }
+
+    def 'test visit assignment: #valueClass #name should return value #expected'() {
+        given:
+        def literalType = Literal.of(valueClass)
+        def literalName = Literal.of(name)
+
+        when:
+        this.executor.visitAssignment(literalType, literalName, new EmptyLiteral())
+        def value = this.executor.environment.lookup(name)
+
+        then:
+        value == expected
+
+        where:
+        valueClass        | name  | expected
+        'byte'      | 'b'   | PrimitiveValue.of((byte) 0)
+        'Byte'      | 'bW'  | Values.NULL_VALUE
+        'short'     | 's'   | PrimitiveValue.of((short) 0)
+        'Short'     | 'sW'  | Values.NULL_VALUE
+        'char'      | 'c'   | PrimitiveValue.of((char) 0)
+        'Character' | 'cW'  | Values.NULL_VALUE
+        'int'       | 'i'   | PrimitiveValue.of(0)
+        'Integer'   | 'iW'  | Values.NULL_VALUE
+        'long'      | 'l'   | PrimitiveValue.of((long) 0)
+        'Long'      | 'lW'  | Values.NULL_VALUE
+        'float'     | 'f'   | PrimitiveValue.of((float) 0)
+        'Float'     | 'fW'  | Values.NULL_VALUE
+        'double'    | 'd'   | PrimitiveValue.of((double) 0)
+        'Double'    | 'dW'  | Values.NULL_VALUE
+        'boolean'   | 'bo'  | PrimitiveValue.of((boolean) false)
+        'Boolean'   | 'boW' | Values.NULL_VALUE
+        'String'    | 'st'  | Values.NULL_VALUE
+        'Object'    | 'o'   | Values.NULL_VALUE
     }
 
     def 'test equal'() {
