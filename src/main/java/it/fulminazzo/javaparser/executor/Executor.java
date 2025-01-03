@@ -411,12 +411,12 @@ public class Executor implements Visitor<Value<?>> {
         }
 
         while (iterator.hasNext()) {
-            Optional<Value<?>> returnedValue = visitLoopCodeBlock(code);
-            if (returnedValue.isPresent()) return returnedValue.get();
             try {
                 this.environment.update(variableName.getValue(), Value.of(iterator.next()));
             } catch (ScopeException ignored) {
             }
+            Optional<Value<?>> returnedValue = visitLoopCodeBlock(code);
+            if (returnedValue.isPresent()) return returnedValue.get();
         }
 
         return Values.NO_VALUE;
