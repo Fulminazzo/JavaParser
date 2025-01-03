@@ -2,7 +2,6 @@ package it.fulminazzo.javaparser.executor.values;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
-import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
@@ -10,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Objects;
 
 /**
@@ -128,6 +128,28 @@ public interface Value<V> {
         Value<T> value = (Value<T>) of(object);
         if (classValue.isPrimitive()) value = value.toPrimitive();
         return new Tuple<>(classValue, value);
+    }
+
+    /**
+     * Executes the method associated with the given name with {@link ParameterValues} as parameters.
+     *
+     * @param <T>             the type of the returned value
+     * @param methodName      the method name
+     * @param parameterValues the parameter values
+     * @return the returned value
+     */
+    default <T> @NotNull Value<T> invokeMethod(final @NotNull String methodName,
+                                               final @NotNull ParameterValues parameterValues) {
+        Refl<V> executor = new Refl<>(getValue());
+        Object[] parameters = parameterValues.stream().map(Value::getValue).toArray(Object[]::new);
+        Method method = executor.getMethod(methodName, parameters);
+        Class<?> returnType = method.getReturnType();
+        Object returned = executor.invokeMethod(returnType, methodName, parameters);
+        final Value<?> returnedValue;
+        if (Void.TYPE.equals(returnType)) returnedValue = Values.NO_VALUE;
+        else if (returnType.isPrimitive()) returnedValue = PrimitiveValue.of(returned);
+        else returnedValue = of(returned);
+        return (Value<T>) returnedValue;
     }
 
     /**

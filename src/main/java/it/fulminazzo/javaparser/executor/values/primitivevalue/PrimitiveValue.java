@@ -85,7 +85,7 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
         else if (value instanceof Float) primitiveValue = new FloatValue((Float) value);
         else if (value instanceof Long) primitiveValue = new LongValue((Long) value);
         else if (value instanceof Boolean)
-            if (value == Boolean.TRUE) primitiveValue = BooleanValue.TRUE;
+            if (Boolean.TRUE.equals(value)) primitiveValue = BooleanValue.TRUE;
             else primitiveValue = BooleanValue.FALSE;
         else if (value instanceof Character) primitiveValue = new CharValue((Character) value);
         else if (value instanceof Byte) primitiveValue = new ByteValue(Byte.parseByte(value.toString()));
