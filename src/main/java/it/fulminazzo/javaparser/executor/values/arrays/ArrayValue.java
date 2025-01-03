@@ -1,7 +1,6 @@
 package it.fulminazzo.javaparser.executor.values.arrays;
 
 import it.fulminazzo.javaparser.executor.values.ClassValue;
-import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue;
 import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
@@ -78,22 +77,6 @@ public class ArrayValue<V> extends ObjectWrapper<Value<V>[]> implements Value<Va
                 .map(Value::getValue)
                 .map(o -> o == null ? "null" : o.toString())
                 .collect(Collectors.joining(", ")));
-    }
-
-    /**
-     * Creates a new {@link ArrayValue} for a primitive type
-     * (essentially initializing all its values to 0).
-     *
-     * @param <V>             the primitive type
-     * @param componentsClass the components class
-     * @param size            the size of the array
-     * @return the array value
-     */
-    public static <V> @NotNull ArrayValue<V> ofPrimitive(final PrimitiveClassValue<V> componentsClass,
-                                                         final int size) {
-        ArrayValue<V> value = new ArrayValue<>(componentsClass, size);
-        Arrays.fill(value.object, componentsClass.toValue().getValue());
-        return value;
     }
 
 }
