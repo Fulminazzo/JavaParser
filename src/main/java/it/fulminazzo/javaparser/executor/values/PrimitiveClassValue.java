@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.executor.values;
 
 import it.fulminazzo.fulmicollection.objects.EnumObject;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
+import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -46,6 +47,21 @@ public final class PrimitiveClassValue<V> extends EnumObject implements ClassVal
                 .map(c -> new Class[]{c, ReflectionUtils.getPrimitiveClass(c)})
                 .flatMap(Arrays::stream)
                 .toArray(Class[]::new);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public @NotNull Value<V> toValue() {
+        Object value;
+        if (this.value == byte.class) value = (byte) 0;
+        else if (this.value == short.class) value = (short) 0;
+        else if (this.value == char.class) value = (char) 0;
+        else if (this.value == int.class) value = 0;
+        else if (this.value == long.class) value = 0L;
+        else if (this.value == float.class) value = 0.0f;
+        else if (this.value == double.class) value = 0.0d;
+        else value = false;
+        return (Value<V>) PrimitiveValue.of(value);
     }
 
     @Override
