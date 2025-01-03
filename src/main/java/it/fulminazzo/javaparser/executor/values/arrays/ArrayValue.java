@@ -6,6 +6,7 @@ import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
+import java.util.Collection;
 
 /**
  * Represents a general array {@link Value}.
@@ -23,6 +24,16 @@ public class ArrayValue<V> extends ObjectWrapper<V[]> implements Value<V[]> {
      */
     public ArrayValue(final Class<V[]> arrayClass, final int size) {
        this((V[]) Array.newInstance(arrayClass, size));
+    }
+
+    /**
+     * Instantiates a dynamic array value.
+     *
+     * @param arrayClass the array class
+     * @param values     the values of the array
+     */
+    public ArrayValue(final Class<V[]> arrayClass, final @NotNull Collection<V> values) {
+        this(values.toArray((V[]) Array.newInstance(arrayClass, values.size())));
     }
 
     /**
