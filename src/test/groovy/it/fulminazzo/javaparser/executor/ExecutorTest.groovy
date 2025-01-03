@@ -9,8 +9,10 @@ import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
+import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
+import it.fulminazzo.javaparser.parser.node.operators.binary.NewObject
 import it.fulminazzo.javaparser.parser.node.values.*
 import spock.lang.Specification
 
@@ -497,6 +499,84 @@ class ExecutorTest extends Specification {
         operand        | expected
         BOOL_LIT_TRUE  | BooleanValue.FALSE
         BOOL_LIT_FALSE | BooleanValue.TRUE
+    }
+
+
+    def 'test visit cast #target to #cast should be of type #expected'() {
+        given:
+        def type = this.executor.visitCast(cast, target)
+
+        expect:
+        type == expected
+
+        where:
+        target                                            | cast                                    | expected
+        // char
+        CHAR_LIT                                          | Literal.of('byte')                      | PrimitiveValue.of((byte) 'a')
+        CHAR_LIT                                          | Literal.of('short')                     | PrimitiveValue.of((short) 'a')
+        CHAR_LIT                                          | Literal.of('char')                      | PrimitiveValue.of((char) 'a')
+        CHAR_LIT                                          | Literal.of('Character')                 | ObjectValue.of((Character) 'a')
+        CHAR_LIT                                          | Literal.of('int')                       | PrimitiveValue.of((int) 'a')
+        CHAR_LIT                                          | Literal.of('long')                      | PrimitiveValue.of((long) 'a')
+        CHAR_LIT                                          | Literal.of('float')                     | PrimitiveValue.of((float) 'a')
+        CHAR_LIT                                          | Literal.of('double')                    | PrimitiveValue.of((double) 'a')
+        CHAR_LIT                                          | Literal.of('Object')                    | ObjectValue.of((char) 'a')
+        // number
+        NUMBER_LIT                                        | Literal.of('byte')                      | PrimitiveValue.of((byte) 1)
+        NUMBER_LIT                                        | Literal.of('short')                     | PrimitiveValue.of((short) 1)
+        NUMBER_LIT                                        | Literal.of('char')                      | PrimitiveValue.of((char) 1)
+        NUMBER_LIT                                        | Literal.of('int')                       | PrimitiveValue.of((int) 1)
+        NUMBER_LIT                                        | Literal.of('Integer')                   | ObjectValue.of((Integer) 1)
+        NUMBER_LIT                                        | Literal.of('long')                      | PrimitiveValue.of((long) 1)
+        NUMBER_LIT                                        | Literal.of('float')                     | PrimitiveValue.of((float) 1)
+        NUMBER_LIT                                        | Literal.of('double')                    | PrimitiveValue.of((double) 1)
+        NUMBER_LIT                                        | Literal.of('Object')                    | ObjectValue.of(1)
+        // long
+        LONG_LIT                                          | Literal.of('byte')                      | PrimitiveValue.of((byte) 2L)
+        LONG_LIT                                          | Literal.of('short')                     | PrimitiveValue.of((short) 2L)
+        LONG_LIT                                          | Literal.of('char')                      | PrimitiveValue.of((char) 2L)
+        LONG_LIT                                          | Literal.of('int')                       | PrimitiveValue.of((int) 2L)
+        LONG_LIT                                          | Literal.of('long')                      | PrimitiveValue.of((long) 2L)
+        LONG_LIT                                          | Literal.of('Long')                      | ObjectValue.of((long) 2L)
+        LONG_LIT                                          | Literal.of('float')                     | PrimitiveValue.of((float) 2L)
+        LONG_LIT                                          | Literal.of('double')                    | PrimitiveValue.of((double) 2L)
+        LONG_LIT                                          | Literal.of('Object')                    | ObjectValue.of(2L)
+        // float
+        FLOAT_LIT                                         | Literal.of('byte')                      | PrimitiveValue.of((byte) 3.0f)
+        FLOAT_LIT                                         | Literal.of('short')                     | PrimitiveValue.of((short) 3.0f)
+        FLOAT_LIT                                         | Literal.of('char')                      | PrimitiveValue.of((char) 3.0f)
+        FLOAT_LIT                                         | Literal.of('int')                       | PrimitiveValue.of((int) 3.0f)
+        FLOAT_LIT                                         | Literal.of('long')                      | PrimitiveValue.of((long) 3.0f)
+        FLOAT_LIT                                         | Literal.of('float')                     | PrimitiveValue.of((float) 3.0f)
+        FLOAT_LIT                                         | Literal.of('Float')                     | ObjectValue.of((float) 3.0f)
+        FLOAT_LIT                                         | Literal.of('double')                    | PrimitiveValue.of((double) 3.0f)
+        FLOAT_LIT                                         | Literal.of('Object')                    | ObjectValue.of(3.0f)
+        // double
+        DOUBLE_LIT                                        | Literal.of('byte')                      | PrimitiveValue.of((byte) 4.0d)
+        DOUBLE_LIT                                        | Literal.of('short')                     | PrimitiveValue.of((short) 4.0d)
+        DOUBLE_LIT                                        | Literal.of('char')                      | PrimitiveValue.of((char) 4.0d)
+        DOUBLE_LIT                                        | Literal.of('int')                       | PrimitiveValue.of((int) 4.0d)
+        DOUBLE_LIT                                        | Literal.of('long')                      | PrimitiveValue.of((long) 4.0d)
+        DOUBLE_LIT                                        | Literal.of('float')                     | PrimitiveValue.of((float) 4.0d)
+        DOUBLE_LIT                                        | Literal.of('double')                    | PrimitiveValue.of((double) 4.0d)
+        DOUBLE_LIT                                        | Literal.of('Double')                    | ObjectValue.of((double) 4.0d)
+        DOUBLE_LIT                                        | Literal.of('Object')                    | ObjectValue.of(4.0d)
+        // boolean
+        BOOL_LIT_TRUE                                     | Literal.of('boolean')                   | PrimitiveValue.of(true)
+        BOOL_LIT_FALSE                                    | Literal.of('boolean')                   | PrimitiveValue.of(false)
+        BOOL_LIT_TRUE                                     | Literal.of('Boolean')                   | ObjectValue.of(true)
+        BOOL_LIT_FALSE                                    | Literal.of('Boolean')                   | ObjectValue.of(false)
+        BOOL_LIT_TRUE                                     | Literal.of('Object')                    | ObjectValue.of(true)
+        BOOL_LIT_FALSE                                    | Literal.of('Object')                    | ObjectValue.of(false)
+        // string
+        STRING_LIT                                        | Literal.of('String')                    | ObjectValue.of((String) 'Hello, world!')
+        STRING_LIT                                        | Literal.of('Object')                    | ObjectValue.of('Hello, world!')
+        // custom class
+        //TODO:
+//        new NewObject(Literal.of(ExecutorTest.canonicalName),
+//                new MethodInvocation([]))                 | Literal.of(Specification.canonicalName) | ObjectValue.of((Specification) this)
+//        new NewObject(Literal.of(ExecutorTest.canonicalName),
+//                new MethodInvocation([]))                 | Literal.of('Object')                    | ObjectValue.of(this)
     }
 
     def 'test conversion of #literal should return #expected'() {
