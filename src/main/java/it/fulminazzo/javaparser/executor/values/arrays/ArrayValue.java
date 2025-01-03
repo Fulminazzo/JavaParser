@@ -1,7 +1,7 @@
 package it.fulminazzo.javaparser.executor.values.arrays;
 
-import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
+import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue;
 import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * Represents a general array {@link Value}.
@@ -16,7 +17,7 @@ import java.util.Collection;
  * @param <V> the type of the array
  */
 @SuppressWarnings("unchecked")
-public class ArrayValue<V> extends ObjectWrapper<V[]> implements Value<V[]> {
+public class ArrayValue<V> extends ObjectWrapper<Value<V>[]> implements Value<Value<V>[]> {
 
     /**
      * Instantiates a static array value.
@@ -24,8 +25,8 @@ public class ArrayValue<V> extends ObjectWrapper<V[]> implements Value<V[]> {
      * @param componentsClass the components class
      * @param size            the size of the array
      */
-    public ArrayValue(final Class<V> componentsClass, final int size) {
-        this((V[]) Array.newInstance(componentsClass, size));
+    public ArrayValue(final @NotNull ClassValue<V> componentsClass, final int size) {
+        this((Value<V>[]) Array.newInstance(componentsClass.getValue(), size));
     }
 
     /**
@@ -34,35 +35,35 @@ public class ArrayValue<V> extends ObjectWrapper<V[]> implements Value<V[]> {
      * @param componentsClass the components class
      * @param values          the values of the array
      */
-    public ArrayValue(final Class<V> componentsClass, final @NotNull Collection<V> values) {
-        this(values.toArray((V[]) Array.newInstance(componentsClass, values.size())));
+    public ArrayValue(final @NotNull ClassValue<V> componentsClass, final @NotNull Collection<Value<V>> values) {
+        this(values.toArray((Value<V>[]) Array.newInstance(componentsClass.getValue(), values.size())));
     }
 
     /**
      * Instantiates a new Array value.
      *
-     * @param array the array
+     * @param values the values
      */
     @SafeVarargs
-    public ArrayValue(final V @NotNull ... array) {
-        super(array);
+    public ArrayValue(final Value<V> @NotNull ... values) {
+        super(values);
     }
 
     @Override
-    public @NotNull ClassValue<V[]> toClassValue() {
+    public @NotNull ArrayClassValue<V> toClassValue() {
         Class<V> componentsClass = (Class<V>) getValue().getClass().getComponentType();
         return new ArrayClassValue<>(ClassValue.of(componentsClass));
     }
 
     @Override
-    public V[] getValue() {
+    public Value<V>[] getValue() {
         return this.object;
     }
 
     @Override
     public int hashCode() {
         int code = getClass().hashCode();
-        for (V v : this.object) code ^= v == null ? 0 : v.hashCode();
+        for (Value<V> v : this.object) code ^= v.hashCode();
         return code;
     }
 
@@ -73,7 +74,10 @@ public class ArrayValue<V> extends ObjectWrapper<V[]> implements Value<V[]> {
 
     @Override
     public String toString() {
-        return String.format("%s(%s)", getClass().getSimpleName(), Arrays.toString(this.object));
+        return String.format("%s([%s])", getClass().getSimpleName(), Arrays.stream(this.object)
+                .map(Value::getValue)
+                .map(o -> o == null ? "null" : o.toString())
+                .collect(Collectors.joining(", ")));
     }
 
     /**
@@ -85,11 +89,11 @@ public class ArrayValue<V> extends ObjectWrapper<V[]> implements Value<V[]> {
      * @param size            the size of the array
      * @return the array value
      */
-    public static <V> @NotNull ArrayValue<V> ofPrimitive(final Class<V> componentsClass,
+    public static <V> @NotNull ArrayValue<V> ofPrimitive(final PrimitiveClassValue<V> componentsClass,
                                                          final int size) {
-        ArrayValue<?> value = new ArrayValue<>(ReflectionUtils.getWrapperClass(componentsClass), size);
-        Arrays.fill(value.object, ClassValue.of(componentsClass).toValue().getValue());
-        return (ArrayValue<V>) value;
+        ArrayValue<V> value = new ArrayValue<>(componentsClass, size);
+        Arrays.fill(value.object, componentsClass.toValue().getValue());
+        return value;
     }
 
 }
