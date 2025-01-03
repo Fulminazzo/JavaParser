@@ -1,5 +1,7 @@
 package it.fulminazzo.javaparser.executor
 
+import it.fulminazzo.javaparser.environment.ScopeException
+import it.fulminazzo.javaparser.executor.values.ClassValue
 import it.fulminazzo.javaparser.executor.values.TestClass
 import it.fulminazzo.javaparser.executor.values.Value
 import it.fulminazzo.javaparser.executor.values.Values
@@ -136,6 +138,77 @@ class ExecutorTest extends Specification {
         'Boolean'   | 'boW' | Values.NULL_VALUE
         'String'    | 'st'  | Values.NULL_VALUE
         'Object'    | 'o'   | Values.NULL_VALUE
+    }
+
+    def 'test visit re-assignment: #name = #val should return value #expected'() {
+        given:
+        name += '_reassign'
+        def literalName = Literal.of(name)
+
+        and:
+        this.executor.environment.declare(
+                Literal.of(valueClass).accept(this.executor).to(ClassValue),
+                name, val.accept(this.executor)
+        )
+
+        when:
+        def value = this.executor.visitReAssign(literalName, val)
+
+        then:
+        value == expected
+
+        where:
+        valueClass  | name  | val            | expected
+        'byte'      | 'bc'  | CHAR_LIT       | Value.of((byte) 97)
+        'byte'      | 'b'   | NUMBER_LIT     | Value.of((byte) 1)
+        'Byte'      | 'bWc' | CHAR_LIT       | ObjectValue.of((Byte) 97)
+        'Byte'      | 'bW'  | NUMBER_LIT     | ObjectValue.of((Byte) 1)
+        'short'     | 'sc'  | CHAR_LIT       | Value.of((short) 97)
+        'short'     | 's'   | NUMBER_LIT     | Value.of((short) 1)
+        'Short'     | 'sWc' | CHAR_LIT       | ObjectValue.of((Short) 97)
+        'Short'     | 'sW'  | NUMBER_LIT     | ObjectValue.of((Short) 1)
+        'char'      | 'c'   | CHAR_LIT       | Value.of((char) 'a')
+        'char'      | 'ci'  | NUMBER_LIT     | Value.of((char) 1)
+        'Character' | 'cW'  | CHAR_LIT       | ObjectValue.of(Character.valueOf(97 as char))
+        'Character' | 'ciW' | NUMBER_LIT     | ObjectValue.of(Character.valueOf(1 as char))
+        'int'       | 'ic'  | CHAR_LIT       | Value.of((int) 97)
+        'int'       | 'i'   | NUMBER_LIT     | Value.of((int) 1)
+        'Integer'   | 'iW'  | NUMBER_LIT     | ObjectValue.of((Integer) 1)
+        'long'      | 'lc'  | CHAR_LIT       | Value.of((long) 97)
+        'long'      | 'li'  | NUMBER_LIT     | Value.of((long) 1)
+        'long'      | 'l'   | LONG_LIT       | Value.of((long) 2L)
+        'Long'      | 'lW'  | LONG_LIT       | ObjectValue.of((Long) 2L)
+        'float'     | 'fc'  | CHAR_LIT       | Value.of((float) 97)
+        'float'     | 'fi'  | NUMBER_LIT     | Value.of((float) 1)
+        'float'     | 'fl'  | LONG_LIT       | Value.of((float) 2L)
+        'float'     | 'f'   | FLOAT_LIT      | Value.of((float) 3.0f)
+        'Float'     | 'fW'  | FLOAT_LIT      | ObjectValue.of((Float) 3.0f)
+        'double'    | 'dc'  | CHAR_LIT       | Value.of((double) 97)
+        'double'    | 'di'  | NUMBER_LIT     | Value.of((double) 1)
+        'double'    | 'dl'  | LONG_LIT       | Value.of((double) 2L)
+        'double'    | 'df'  | FLOAT_LIT      | Value.of((double) 3.0f)
+        'double'    | 'd'   | DOUBLE_LIT     | Value.of((double) 4.0d)
+        'Double'    | 'dW'  | DOUBLE_LIT     | ObjectValue.of((Double) 4.0d)
+        'boolean'   | 'bo'  | BOOL_LIT_FALSE | BooleanValue.FALSE
+        'boolean'   | 'bo'  | BOOL_LIT_TRUE  | BooleanValue.TRUE
+        'Boolean'   | 'boW' | BOOL_LIT_FALSE | ObjectValue.of(false)
+        'Boolean'   | 'boW' | BOOL_LIT_TRUE  | ObjectValue.of(true)
+        'String'    | 'st'  | STRING_LIT     | ObjectValue.of('Hello, world!')
+        'Object'    | 'o'   | BOOL_LIT_TRUE  | PrimitiveValue.of(true)
+    }
+
+    def 'test visit re-assignment not declared'() {
+        given:
+        def varName = 'visit_re_assignment_declared'
+        def name = Literal.of(varName)
+        def value = NUMBER_LIT
+
+        when:
+        this.executor.visitReAssign(name, value)
+
+        then:
+        def e = thrown(ExecutorException)
+        e.message == ScopeException.noSuchVariable(varName).message
     }
 
     def 'test equal'() {
