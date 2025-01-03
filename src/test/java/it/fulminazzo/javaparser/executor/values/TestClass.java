@@ -12,16 +12,27 @@ public class TestClass {
     protected double protectedField = 1.0;
     private double privateField = 1.0;
 
+    private final int i;
+    private final Boolean b;
+
     public TestClass() {
+        i = 0;
+        b = null;
     }
 
     public TestClass(int i, Boolean b) {
+        this.i = i;
+        this.b = b;
     }
 
     TestClass(boolean b) {
+        i = 0;
+        this.b = b;
     }
 
     private TestClass(float f) {
+        i = (int) f;
+        b = null;
     }
 
     public static int publicStaticMethod() {
