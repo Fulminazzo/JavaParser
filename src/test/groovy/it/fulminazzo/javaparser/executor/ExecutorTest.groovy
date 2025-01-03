@@ -65,43 +65,43 @@ class ExecutorTest extends Specification {
         value == expected
 
         where:
-        valueClass        | name  | val        | expected
-        'byte'      | 'bc'  | CHAR_LIT   | Value.of((byte) 97)
-        'byte'      | 'b'   | NUMBER_LIT | Value.of((byte) 1)
-        'Byte'      | 'bWc' | CHAR_LIT   | Value.of((Byte) 97)
-        'Byte'      | 'bW'  | NUMBER_LIT | Value.of((Byte) 1)
-        'short'     | 'sc'  | CHAR_LIT   | Value.of((short) 97)
-        'short'     | 's'   | NUMBER_LIT | Value.of((short) 1)
-        'Short'     | 'sWc' | CHAR_LIT   | Value.of((Short) 97)
-        'Short'     | 'sW'  | NUMBER_LIT | Value.of((Short) 1)
-        'char'      | 'c'   | CHAR_LIT   | Value.of((char) 'a')
-        'char'      | 'ci'  | NUMBER_LIT | Value.of((char) 1)
-        'Character' | 'cW'  | CHAR_LIT   | Value.of(Character.valueOf(97 as char))
-        'Character' | 'ciW' | NUMBER_LIT | Value.of(Character.valueOf(1 as char))
-        'int'       | 'ic'  | CHAR_LIT   | Value.of((int) 97)
-        'int'       | 'i'   | NUMBER_LIT | Value.of((int) 1)
-        'Integer'   | 'iW'  | NUMBER_LIT | Value.of((Integer) 1)
-        'long'      | 'lc'  | CHAR_LIT   | Value.of((long) 97)
-        'long'      | 'li'  | NUMBER_LIT | Value.of((long) 1)
-        'long'      | 'l'   | LONG_LIT   |  Value.of((long) 2L)
-        'Long'      | 'lW'  | LONG_LIT   |  Value.of((Long) 2L)
-        'float'     | 'fc'  | CHAR_LIT   | Value.of((float) 97)
-        'float'     | 'fi'  | NUMBER_LIT | Value.of((float) 1)
-        'float'     | 'fl'  | LONG_LIT   |  Value.of((float) 2L)
-        'float'     | 'f'   | FLOAT_LIT  |  Value.of((float) 3.0f)
-        'Float'     | 'fW'  | FLOAT_LIT  |  Value.of((Float) 3.0f)
-        'double'    | 'dc'  | CHAR_LIT   | Value.of((double) 97)
-        'double'    | 'di'  | NUMBER_LIT | Value.of((double) 1)
-        'double'    | 'dl'  | LONG_LIT   |  Value.of((double) 2L)
-        'double'    | 'df'  | FLOAT_LIT  |  Value.of((double) 3.0f)
-        'double'    | 'd'   | DOUBLE_LIT |  Value.of((double) 4.0d)
-        'Double'    | 'dW'  | DOUBLE_LIT |  Value.of((Double) 4.0d)
-        'boolean'   | 'bo'  | BOOL_LIT_FALSE   | BooleanValue.FALSE
-        'boolean'   | 'bo'  | BOOL_LIT_TRUE   | BooleanValue.TRUE
-        'Boolean'   | 'boW' | BOOL_LIT_FALSE   | ObjectValue.of(false)
-        'Boolean'   | 'boW' | BOOL_LIT_TRUE   | ObjectValue.of(true)
-        'String'    | 'st'  | STRING_LIT | ObjectValue.of('Hello, world!')
-        'Object'    | 'o'   | BOOL_LIT_TRUE   | PrimitiveValue.of(true)
+        valueClass  | name  | val            | expected
+        'byte'      | 'bc'  | CHAR_LIT       | Value.of((byte) 97)
+        'byte'      | 'b'   | NUMBER_LIT     | Value.of((byte) 1)
+        'Byte'      | 'bWc' | CHAR_LIT       | Value.of((Byte) 97)
+        'Byte'      | 'bW'  | NUMBER_LIT     | Value.of((Byte) 1)
+        'short'     | 'sc'  | CHAR_LIT       | Value.of((short) 97)
+        'short'     | 's'   | NUMBER_LIT     | Value.of((short) 1)
+        'Short'     | 'sWc' | CHAR_LIT       | Value.of((Short) 97)
+        'Short'     | 'sW'  | NUMBER_LIT     | Value.of((Short) 1)
+        'char'      | 'c'   | CHAR_LIT       | Value.of((char) 'a')
+        'char'      | 'ci'  | NUMBER_LIT     | Value.of((char) 1)
+        'Character' | 'cW'  | CHAR_LIT       | Value.of(Character.valueOf(97 as char))
+        'Character' | 'ciW' | NUMBER_LIT     | Value.of(Character.valueOf(1 as char))
+        'int'       | 'ic'  | CHAR_LIT       | Value.of((int) 97)
+        'int'       | 'i'   | NUMBER_LIT     | Value.of((int) 1)
+        'Integer'   | 'iW'  | NUMBER_LIT     | Value.of((Integer) 1)
+        'long'      | 'lc'  | CHAR_LIT       | Value.of((long) 97)
+        'long'      | 'li'  | NUMBER_LIT     | Value.of((long) 1)
+        'long'      | 'l'   | LONG_LIT       | Value.of((long) 2L)
+        'Long'      | 'lW'  | LONG_LIT       | Value.of((Long) 2L)
+        'float'     | 'fc'  | CHAR_LIT       | Value.of((float) 97)
+        'float'     | 'fi'  | NUMBER_LIT     | Value.of((float) 1)
+        'float'     | 'fl'  | LONG_LIT       | Value.of((float) 2L)
+        'float'     | 'f'   | FLOAT_LIT      | Value.of((float) 3.0f)
+        'Float'     | 'fW'  | FLOAT_LIT      | Value.of((Float) 3.0f)
+        'double'    | 'dc'  | CHAR_LIT       | Value.of((double) 97)
+        'double'    | 'di'  | NUMBER_LIT     | Value.of((double) 1)
+        'double'    | 'dl'  | LONG_LIT       | Value.of((double) 2L)
+        'double'    | 'df'  | FLOAT_LIT      | Value.of((double) 3.0f)
+        'double'    | 'd'   | DOUBLE_LIT     | Value.of((double) 4.0d)
+        'Double'    | 'dW'  | DOUBLE_LIT     | Value.of((Double) 4.0d)
+        'boolean'   | 'bo'  | BOOL_LIT_FALSE | BooleanValue.FALSE
+        'boolean'   | 'bo'  | BOOL_LIT_TRUE  | BooleanValue.TRUE
+        'Boolean'   | 'boW' | BOOL_LIT_FALSE | ObjectValue.of(false)
+        'Boolean'   | 'boW' | BOOL_LIT_TRUE  | ObjectValue.of(true)
+        'String'    | 'st'  | STRING_LIT     | ObjectValue.of('Hello, world!')
+        'Object'    | 'o'   | BOOL_LIT_TRUE  | PrimitiveValue.of(true)
     }
 
     def 'test visit assignment: #valueClass #name should return value #expected'() {
@@ -117,7 +117,7 @@ class ExecutorTest extends Specification {
         value == expected
 
         where:
-        valueClass        | name  | expected
+        valueClass  | name  | expected
         'byte'      | 'b'   | PrimitiveValue.of((byte) 0)
         'Byte'      | 'bW'  | Values.NULL_VALUE
         'short'     | 's'   | PrimitiveValue.of((short) 0)
@@ -406,11 +406,11 @@ class ExecutorTest extends Specification {
         result == expected
 
         where:
-        operand                         | expected
-        NUMBER_LIT                      | PrimitiveValue.of(-1)
-        LONG_LIT                        | PrimitiveValue.of(-2L)
-        FLOAT_LIT                       | PrimitiveValue.of(-3.0f)
-        DOUBLE_LIT                      | PrimitiveValue.of(-4.0d)
+        operand    | expected
+        NUMBER_LIT | PrimitiveValue.of(-1)
+        LONG_LIT   | PrimitiveValue.of(-2L)
+        FLOAT_LIT  | PrimitiveValue.of(-3.0f)
+        DOUBLE_LIT | PrimitiveValue.of(-4.0d)
     }
 
     def 'test not'() {
