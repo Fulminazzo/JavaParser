@@ -6,6 +6,25 @@ import spock.lang.Specification
 
 class PrimitiveClassValueTest extends Specification {
 
+    def 'test #classValue toValue should return #expected'() {
+        when:
+        def value = classValue.toValue()
+
+        then:
+        value == expected
+
+        where:
+        classValue                  | expected
+        PrimitiveClassValue.BYTE    | PrimitiveValue.of((byte) 0)
+        PrimitiveClassValue.SHORT   | PrimitiveValue.of((short) 0)
+        PrimitiveClassValue.CHAR    | PrimitiveValue.of((char) 0)
+        PrimitiveClassValue.INT     | PrimitiveValue.of(0)
+        PrimitiveClassValue.LONG    | PrimitiveValue.of(0L)
+        PrimitiveClassValue.FLOAT   | PrimitiveValue.of(0.0f)
+        PrimitiveClassValue.DOUBLE  | PrimitiveValue.of(0.0d)
+        PrimitiveClassValue.BOOLEAN | PrimitiveValue.of(false)
+    }
+
     def 'test #classValue should be compatible with #value'() {
         expect:
         classValue.compatibleWith(value)
