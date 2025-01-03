@@ -218,7 +218,6 @@ public final class TypeChecker implements Visitor<Type> {
         // Class was parsed
         if (tuple.isPresent()) return tuple.getValue();
         else if (value.contains(FIELDS_SEPARATOR)) {
-
             LinkedList<String> first = new LinkedList<>(Arrays.asList(value.split("\\" + FIELDS_SEPARATOR)));
             LinkedList<String> last = new LinkedList<>();
 
