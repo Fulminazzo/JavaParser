@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.executor.values;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
+import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
@@ -138,7 +139,13 @@ public interface Value<V> {
             else if (classValue.equals(PrimitiveClassValue.FLOAT))
                 return (Value<T>) of(valueNumber.floatValue());
             else return (Value<T>) of(valueNumber.doubleValue());
-        } else return of(classValue.getValue().cast(value));
+        } else if (isPrimitive()) {
+            if (isCharacter() && (classValue.equals(ObjectClassValue.BYTE)))
+                return (Value<T>) ObjectValue.of((byte) (char) value);
+            else if (isCharacter() && (classValue.equals(ObjectClassValue.SHORT)))
+                return (Value<T>) ObjectValue.of((short) (char) value);
+        }
+        return of(classValue.getValue().cast(value));
     }
 
     /**
