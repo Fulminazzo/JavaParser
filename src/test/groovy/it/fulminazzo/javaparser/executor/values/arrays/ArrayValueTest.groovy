@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser.executor.values.arrays
 import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue
 import it.fulminazzo.javaparser.executor.values.Value
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue
+import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
 import spock.lang.Specification
 
 class ArrayValueTest extends Specification {
@@ -12,7 +13,11 @@ class ArrayValueTest extends Specification {
         def value = new ArrayValue<>(PrimitiveClassValue.INT, 3)
 
         and:
-        def expected = new Integer[3]
+        def expected = new Value[]{
+                PrimitiveValue.of(0),
+                PrimitiveValue.of(0),
+                PrimitiveValue.of(0)
+        }
 
         when:
         def actual = value.getValue()
