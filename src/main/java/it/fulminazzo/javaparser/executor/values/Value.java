@@ -113,6 +113,17 @@ public interface Value<V> {
     }
 
     /**
+     * Converts the current {@link Value} to the specified {@link ClassValue}.
+     *
+     * @param <T>        the type of the new value
+     * @param classValue the class of the value
+     * @return the value
+     */
+    default <T> @NotNull Value<T> cast(final @NotNull ClassValue<T> classValue) {
+        return of(classValue.getValue().cast(getValue()));
+    }
+
+    /**
      * Gets the specified field from the current value.
      *
      * @param <T>       the type of the field
