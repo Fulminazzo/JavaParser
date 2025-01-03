@@ -106,7 +106,10 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitMethodInvocation(@NotNull List<Node> parameters) {
-        return null;
+        List<Value<?>> parameterValues = new LinkedList<>();
+        for (Node parameter : parameters)
+            parameterValues.add(parameter.accept(this));
+        return new ParameterValues(parameterValues);
     }
 
     @Override
