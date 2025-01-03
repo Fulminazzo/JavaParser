@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
  */
 @SuppressWarnings("unchecked")
 public class ArrayValue<V> extends ObjectWrapper<Value<V>[]> implements Value<Value<V>[]> {
+    private final @NotNull ClassValue<V> componentsType;
 
     /**
      * Instantiates a static array value.
@@ -48,6 +49,7 @@ public class ArrayValue<V> extends ObjectWrapper<Value<V>[]> implements Value<Va
     @SafeVarargs
     public ArrayValue(final @NotNull ClassValue<V> componentsType, final Value<V> @NotNull ... values) {
         super(values);
+        this.componentsType = componentsType;
     }
 
     @Override
