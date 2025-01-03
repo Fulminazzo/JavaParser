@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor.values;
 
+import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.javaparser.environment.Info;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
@@ -94,6 +95,18 @@ public interface ClassValue<V> extends Value<Class<V>>, Info {
     @Override
     default boolean compatibleWith(@NotNull Object object) {
         return object instanceof Value && compatibleWith((Value<?>) object);
+    }
+
+    /**
+     * Creates a new object from the current value with {@link ParameterValues} as parameters.
+     *
+     * @param parameterValues the parameter values
+     * @return the returned value
+     */
+    default @NotNull Value<V> newObject(final @NotNull ParameterValues parameterValues) {
+        Object[] parameters = parameterValues.stream().map(Value::getValue).toArray(Object[]::new);
+        Refl<V> object = new Refl<>(getValue(), parameters);
+        return Value.of(object.getObject());
     }
 
     @Override
