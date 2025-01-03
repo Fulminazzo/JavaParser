@@ -1,5 +1,7 @@
 package it.fulminazzo.javaparser.executor.values;
 
+import java.util.Objects;
+
 @SuppressWarnings({"unused", "FieldMayBeFinal"})
 public class TestClass {
     public static int publicStaticField = 1;
@@ -82,6 +84,11 @@ public class TestClass {
 
     public Object returnNull() {
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof TestClass && this.i == ((TestClass) o).i && Objects.equals(this.b, ((TestClass) o).b);
     }
 
 }
