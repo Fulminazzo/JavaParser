@@ -65,4 +65,12 @@ public class TestClass {
         return 1.0;
     }
 
+    public void wave(String name) {
+        System.out.println("Hello, " + name + "!");
+    }
+
+    public Object returnNull() {
+        return null;
+    }
+
 }
