@@ -9,6 +9,7 @@ import it.fulminazzo.javaparser.executor.values.arrays.ArrayClassValue;
 import it.fulminazzo.javaparser.executor.values.arrays.ArrayValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
+import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
 import it.fulminazzo.javaparser.parser.node.Assignment;
 import it.fulminazzo.javaparser.parser.node.MethodInvocation;
@@ -393,7 +394,8 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitIfStatement(@NotNull CodeBlock then, @NotNull Node elseBranch, @NotNull Node expression) {
-        return null;
+        if (expression.accept(this).is(BooleanValue.TRUE)) return then.accept(this);
+        else return elseBranch.accept(this);
     }
 
     @Override
