@@ -27,7 +27,7 @@ public class ArrayValue<V> extends ObjectWrapper<Value<V>[]> implements Value<Va
      * @param componentsType the components type
      * @param size           the size of the array
      */
-    public ArrayValue(final @NotNull ClassValue<V> componentsType, final int size) {
+    ArrayValue(final @NotNull ClassValue<V> componentsType, final int size) {
         this(componentsType, (Value<V>[]) Array.newInstance(Value.class, size));
         for (int i = 0; i < size; i++) this.object[i] = componentsType.toValue();
     }
@@ -38,7 +38,7 @@ public class ArrayValue<V> extends ObjectWrapper<Value<V>[]> implements Value<Va
      * @param componentsType the components type
      * @param values         the values of the array
      */
-    public ArrayValue(final @NotNull ClassValue<V> componentsType, final @NotNull Collection<Value<V>> values) {
+    ArrayValue(final @NotNull ClassValue<V> componentsType, final @NotNull Collection<Value<V>> values) {
         this(componentsType, values.stream().toArray(a -> (Value<V>[]) Array.newInstance(Value.class, a)));
     }
 
@@ -49,7 +49,7 @@ public class ArrayValue<V> extends ObjectWrapper<Value<V>[]> implements Value<Va
      * @param values         the values
      */
     @SafeVarargs
-    public ArrayValue(final @NotNull ClassValue<V> componentsType, final Value<V> @NotNull ... values) {
+    private ArrayValue(final @NotNull ClassValue<V> componentsType, final Value<V> @NotNull ... values) {
         super(values);
         this.componentsType = componentsType;
     }
@@ -83,6 +83,32 @@ public class ArrayValue<V> extends ObjectWrapper<Value<V>[]> implements Value<Va
                         .map(Value::getValue)
                         .map(o -> o == null ? "null" : o.toString())
                         .collect(Collectors.joining(", ")));
+    }
+
+    /**
+     * Instantiates a static array value.
+     *
+     * @param <V>            the type of the value
+     * @param componentsType the components type
+     * @param size           the size of the array
+     * @return the array value
+     */
+    public static <V> @NotNull ArrayValue<V> of(final @NotNull ClassValue<V> componentsType,
+                                                final int size) {
+        return new ArrayValue<>(componentsType, size);
+    }
+
+    /**
+     * Instantiates a dynamic array value.
+     *
+     * @param <V>            the type of the value
+     * @param componentsType the components type
+     * @param values         the values of the array
+     * @return the array value
+     */
+    public static <V> @NotNull ArrayValue<V> of(final @NotNull ClassValue<V> componentsType,
+                                                final @NotNull Collection<Value<V>> values) {
+        return new ArrayValue<>(componentsType, values);
     }
 
 }
