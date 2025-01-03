@@ -249,7 +249,7 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitNewObject(@NotNull Node left, @NotNull Node right) {
-        return null;
+        return left.accept(this).to(ClassValue.class).newObject(right.accept(this).to(ParameterValues.class));
     }
 
     @Override
