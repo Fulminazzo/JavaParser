@@ -26,7 +26,11 @@ public class ArrayClassValue<V> extends ObjectWrapper<ClassValue<V>> implements 
 
     @Override
     public boolean compatibleWith(@NotNull Value<?> value) {
-        return value.is(ArrayValue.class) && this.object.compatibleWith(((ArrayValue<?>) value).getComponentsType());
+        if (value.is(ArrayValue.class)) {
+            Class<V> objectClass = this.object.getValue();
+            Class<?> componentsClass = ((ArrayValue<?>) value).getComponentsType().getValue();
+            return objectClass.isAssignableFrom(componentsClass);
+        } else return false;
     }
 
     @Override
