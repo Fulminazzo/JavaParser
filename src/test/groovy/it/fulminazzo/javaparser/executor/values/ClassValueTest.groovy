@@ -18,7 +18,7 @@ class ClassValueTest extends Specification {
 
         where:
         value                                         | classValue                  | expected
-        PrimitiveValue.of((byte) 1) | ObjectClassValue.BYTE | ObjectValue.of(Byte.valueOf((byte) 1))
+        PrimitiveValue.of((byte) 1)                   | ObjectClassValue.BYTE       | ObjectValue.of(Byte.valueOf((byte) 1))
         ObjectValue.of(Byte.valueOf((byte) 1))        | PrimitiveClassValue.BYTE    | PrimitiveValue.of((byte) 1)
         PrimitiveValue.of((short) 2)                  | ObjectClassValue.SHORT      | ObjectValue.of(Short.valueOf((short) 2))
         ObjectValue.of(Short.valueOf((short) 2))      | PrimitiveClassValue.SHORT   | PrimitiveValue.of((short) 2)
@@ -58,8 +58,8 @@ class ClassValueTest extends Specification {
         actual == expected
 
         where:
-        expected                 | parameters
-        ObjectValue.of(new TestClass()) | new ParameterValues([])
+        expected                               | parameters
+        ObjectValue.of(new TestClass())        | new ParameterValues([])
         ObjectValue.of(new TestClass(1, true)) | new ParameterValues([PrimitiveValue.of(1), ObjectValue.of(true)])
     }
 
