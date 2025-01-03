@@ -141,7 +141,7 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitJavaProgram(@NotNull LinkedList<Statement> statements) {
-        return null;
+        return visitCodeBlock(statements);
     }
 
     @Override
