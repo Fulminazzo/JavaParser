@@ -1,20 +1,26 @@
 package it.fulminazzo.javaparser.executor.values.arrays
 
-import it.fulminazzo.javaparser.executor.values.ClassValue
+
 import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue
+import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue
 import spock.lang.Specification
+
+import java.lang.reflect.Array
 
 class ArrayClassValueTest extends Specification {
 
     def 'test getValue should return class'() {
         given:
-        def arrayClassValue = new ArrayClassValue(ClassValue.of(String))
+        def classValue = ObjectClassValue.STRING
+
+        and:
+        def arrayClassValue = new ArrayClassValue(classValue)
 
         when:
         def value = arrayClassValue.getValue()
 
         then:
-        value == String[]
+        value == Array.newInstance(classValue.class, 0).class
     }
 
     def 'test toString'() {
