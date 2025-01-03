@@ -406,7 +406,18 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitForStatement(@NotNull Node assignment, @NotNull Node increment, @NotNull CodeBlock code, @NotNull Node expression) {
-        return null;
+        Value<?> returnedValue = Values.NO_VALUE;
+        for (assignment.accept(this); expression.accept(this).is(BooleanValue.TRUE); increment.accept(this)) {
+            try {
+                returnedValue = code.accept(this);
+                // Return occurred
+                if (!returnedValue.is(Values.NO_VALUE)) return returnedValue;
+            } catch (BreakException ignored) {
+                return returnedValue;
+            } catch (ContinueException ignored) {
+            }
+        }
+        return returnedValue;
     }
 
     @Override
