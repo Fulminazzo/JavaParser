@@ -385,7 +385,18 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitDoStatement(@NotNull CodeBlock code, @NotNull Node expression) {
-        return null;
+        Value<?> returnedValue = Values.NO_VALUE;
+        do {
+            try {
+                returnedValue = code.accept(this);
+                // Return occurred
+                if (!returnedValue.is(Values.NO_VALUE)) return returnedValue;
+            } catch (BreakException ignored) {
+                return returnedValue;
+            } catch (ContinueException ignored) {
+            }
+        } while (expression.accept(this).is(BooleanValue.TRUE));
+        return returnedValue;
     }
 
     @Override
