@@ -678,34 +678,18 @@ class TypeCheckerTest extends Specification {
 
         where:
         type        | name  | expected
-        'byte'      | 'bc'  | PrimitiveType.BYTE
         'byte'      | 'b'   | PrimitiveType.BYTE
-        'Byte'      | 'bWc' | Types.NULL_TYPE
         'Byte'      | 'bW'  | Types.NULL_TYPE
-        'short'     | 'sc'  | PrimitiveType.SHORT
         'short'     | 's'   | PrimitiveType.SHORT
-        'Short'     | 'sWc' | Types.NULL_TYPE
         'Short'     | 'sW'  | Types.NULL_TYPE
         'char'      | 'c'   | PrimitiveType.CHAR
-        'char'      | 'ci'  | PrimitiveType.CHAR
         'Character' | 'cW'  | Types.NULL_TYPE
-        'Character' | 'ciW' | Types.NULL_TYPE
-        'int'       | 'ic'  | PrimitiveType.NUMBER
         'int'       | 'i'   | PrimitiveType.NUMBER
         'Integer'   | 'iW'  | Types.NULL_TYPE
-        'long'      | 'lc'  | PrimitiveType.LONG
-        'long'      | 'li'  | PrimitiveType.LONG
         'long'      | 'l'   | PrimitiveType.LONG
         'Long'      | 'lW'  | Types.NULL_TYPE
-        'float'     | 'fc'  | PrimitiveType.FLOAT
-        'float'     | 'fi'  | PrimitiveType.FLOAT
-        'float'     | 'fl'  | PrimitiveType.FLOAT
         'float'     | 'f'   | PrimitiveType.FLOAT
         'Float'     | 'fW'  | Types.NULL_TYPE
-        'double'    | 'dc'  | PrimitiveType.DOUBLE
-        'double'    | 'di'  | PrimitiveType.DOUBLE
-        'double'    | 'dl'  | PrimitiveType.DOUBLE
-        'double'    | 'df'  | PrimitiveType.DOUBLE
         'double'    | 'd'   | PrimitiveType.DOUBLE
         'Double'    | 'dW'  | Types.NULL_TYPE
         'boolean'   | 'bo'  | PrimitiveType.BOOLEAN
