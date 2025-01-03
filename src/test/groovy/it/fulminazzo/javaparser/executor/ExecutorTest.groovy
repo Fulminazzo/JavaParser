@@ -274,7 +274,8 @@ class ExecutorTest extends Specification {
         )
 
         and:
-        def expected = ArrayValue.of(PrimitiveClassValue.BOOLEAN, [BooleanValue.TRUE, BooleanValue.FALSE])
+        def expected = ArrayValue.of(PrimitiveClassValue.BOOLEAN,
+                [BooleanValue.TRUE, BooleanValue.FALSE])
 
         expect:
         value == expected
