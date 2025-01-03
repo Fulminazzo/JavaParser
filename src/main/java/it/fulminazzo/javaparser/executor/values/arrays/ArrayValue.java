@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser.executor.values.arrays;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
  *
  * @param <V> the type of the array
  */
+@Getter
 @SuppressWarnings("unchecked")
 public class ArrayValue<V> extends ObjectWrapper<Value<V>[]> implements Value<Value<V>[]> {
     private final @NotNull ClassValue<V> componentsType;
