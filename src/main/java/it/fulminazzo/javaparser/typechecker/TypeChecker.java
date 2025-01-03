@@ -215,9 +215,9 @@ public final class TypeChecker implements Visitor<Type> {
     @Override
     public @NotNull Type visitLiteralImpl(@NotNull String value) {
         @NotNull Tuple<ClassType, Type> tuple = getTypeFromLiteral(value);
-        if (value.contains(FIELDS_SEPARATOR)) {
-            // Class was parsed
-            if (tuple.isPresent()) return tuple.getValue();
+        // Class was parsed
+        if (tuple.isPresent()) return tuple.getValue();
+        else if (value.contains(FIELDS_SEPARATOR)) {
 
             LinkedList<String> first = new LinkedList<>(Arrays.asList(value.split("\\" + FIELDS_SEPARATOR)));
             LinkedList<String> last = new LinkedList<>();
@@ -236,10 +236,7 @@ public final class TypeChecker implements Visitor<Type> {
                     }
             }
             throw TypeCheckerException.cannotResolveSymbol(value);
-        } else {
-            if (tuple.isPresent()) return tuple.getValue();
-            else return new LiteralType(value);
-        }
+        } else return new LiteralType(value);
     }
 
     @Override
