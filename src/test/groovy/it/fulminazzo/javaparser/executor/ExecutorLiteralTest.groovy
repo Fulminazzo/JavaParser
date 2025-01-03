@@ -33,11 +33,11 @@ class ExecutorLiteralTest extends Specification {
         'int'                                                       | PrimitiveClassValue.INT
         'String'                                                    | ObjectClassValue.STRING
         'System'                                                    | ClassValue.of(System)
-        'System.class'                                              | Value.of(Class)
+        'System.class'                                              | ClassValue.of(Class)
         'System.out'                                                | ObjectValue.of(System.out)
         'var'                                                       | PrimitiveValue.of(1)
         'var.TYPE'                                                  | ObjectValue.of(int)
-        "${FirstInnerClass.canonicalName}.second"                   | ObjectValue.of(FirstInnerClass.SecondInnerClass)
+        "${FirstInnerClass.canonicalName}.second"                   | ObjectValue.of(FirstInnerClass.second)
         "${FirstInnerClass.canonicalName}.second.version"           | PrimitiveValue.of(2)
         "${FirstInnerClass.SecondInnerClass.canonicalName}"         | ClassValue.of(FirstInnerClass.SecondInnerClass)
         "${FirstInnerClass.SecondInnerClass.canonicalName}.version" | PrimitiveValue.of(2)
