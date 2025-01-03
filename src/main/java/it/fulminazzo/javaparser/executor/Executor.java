@@ -5,6 +5,7 @@ import it.fulminazzo.javaparser.environment.Environment;
 import it.fulminazzo.javaparser.environment.ScopeException;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.*;
+import it.fulminazzo.javaparser.executor.values.arrays.ArrayClassValue;
 import it.fulminazzo.javaparser.executor.values.arrays.ArrayValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
@@ -150,7 +151,7 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitArrayLiteral(@NotNull Node type) {
-        return null;
+        return new ArrayClassValue<>(type.accept(this).to(ClassValue.class));
     }
 
     @Override
