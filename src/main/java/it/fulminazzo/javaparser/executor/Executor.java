@@ -54,7 +54,15 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitAssignmentBlock(@NotNull List<Assignment> assignments) {
-        return null;
+        List<Value<?>> values = new LinkedList<>();
+        for (Assignment assignment : assignments) {
+            assignment.accept(this);
+            try {
+                values.add(this.environment.lookup(assignment.getName().getLiteral()));
+            } catch (ScopeException ignored) {
+            }
+        }
+        return new ParameterValues(values);
     }
 
     @Override
