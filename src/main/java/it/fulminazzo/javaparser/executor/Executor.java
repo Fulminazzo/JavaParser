@@ -87,9 +87,9 @@ public class Executor implements Visitor<Value<?>> {
     static @NotNull Value<?> convertValue(final @NotNull ClassValue<?> typeValue,
                                           final @NotNull Value<?> value) {
         if (!value.isPrimitive()) return value;
-        else if (typeValue.is(PrimitiveClassValue.class)) return value.cast(typeValue);
+        else if (typeValue.is(PrimitiveClassValue.class)) return typeValue.cast(value);
         else if (!typeValue.is(ObjectClassValue.OBJECT)) // Can only be ClassObjectValue at this point
-            return value.cast(typeValue);
+            return typeValue.cast(value);
         return value;
     }
 
@@ -264,7 +264,7 @@ public class Executor implements Visitor<Value<?>> {
             ClassValue<?> variableType = (ClassValue<?>) this.environment.lookupInfo(variableName);
             Value<?> variableValue = convertValue(variableType, right.accept(this));
             this.environment.update(variableName, variableValue);
-            return variableValue.cast(variableType);
+            return variableType.cast(variableValue);
         } catch (ScopeException e) {
             throw ExecutorException.of(e);
         }
