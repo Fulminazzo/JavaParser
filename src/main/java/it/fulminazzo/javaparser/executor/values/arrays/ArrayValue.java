@@ -50,7 +50,8 @@ public class ArrayValue<V> extends ObjectWrapper<V[]> implements Value<V[]> {
 
     @Override
     public @NotNull ClassValue<V[]> toClassValue() {
-        return new ArrayClassValue<>((Class<V[]>) getValue().getClass());
+        Class<V> componentsClass = (Class<V>) getValue().getClass().getComponentType();
+        return new ArrayClassValue<>(ClassValue.of(componentsClass));
     }
 
     @Override
