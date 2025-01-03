@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser.executor.values;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -131,6 +132,20 @@ public interface Value<V> {
      * @return the value
      */
     V getValue();
+
+    /**
+     * Converts the given object to a {@link Value}.
+     *
+     * @param <T>   the type of the value
+     * @param value the value
+     * @return the associated value
+     */
+    @SuppressWarnings("unchecked")
+    static <T> @NotNull Value<T> of(final @Nullable T value) {
+        if (value == null) return (Value<T>) Values.NULL_VALUE;
+        else if (ReflectionUtils.isPrimitive(value.getClass())) return PrimitiveValue.of(value);
+        else return ObjectValue.of(value);
+    }
 
     /*
         BINARY COMPARISONS
