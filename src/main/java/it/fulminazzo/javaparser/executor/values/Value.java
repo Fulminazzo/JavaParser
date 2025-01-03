@@ -123,7 +123,10 @@ public interface Value<V> {
         Refl<?> refl = new Refl<>(getValue());
         Field field = refl.getField(fieldName);
         Object object = refl.getFieldObject(field);
-        return new Tuple<>(ClassValue.of((Class<T>) field.getType()), of((T) object));
+        ClassValue<T> classValue = ClassValue.of((Class<T>) field.getType());
+        Value<T> value = (Value<T>) of(object);
+        if (classValue.isPrimitive()) value = value.toPrimitive();
+        return new Tuple<>(classValue, value);
     }
 
     /**
