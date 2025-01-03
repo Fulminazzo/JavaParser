@@ -115,13 +115,12 @@ public class Executor implements Visitor<Value<?>> {
 
             while (!first.isEmpty()) {
                 last.addFirst(first.removeLast());
-Integer i;
+
                 tuple = getValueFromLiteral(String.join(".", first));
                 if (tuple.isPresent()) {
                     Tuple<ClassValue<Object>, Value<Object>> field = tuple.copy();
-                    do {
-                        field = field.getValue().getField(last.removeFirst());
-                    } while (!last.isEmpty());
+                    do field = field.getValue().getField(last.removeFirst());
+                    while (!last.isEmpty());
                     return field.getValue();
                 }
             }
