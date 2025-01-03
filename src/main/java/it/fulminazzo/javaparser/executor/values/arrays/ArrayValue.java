@@ -28,6 +28,7 @@ public class ArrayValue<V> extends ObjectWrapper<Value<V>[]> implements Value<Va
      */
     public ArrayValue(final @NotNull ClassValue<V> componentsType, final int size) {
         this(componentsType, (Value<V>[]) Array.newInstance(Value.class, size));
+        for (int i = 0; i < size; i++) this.object[i] = componentsType.toValue();
     }
 
     /**
