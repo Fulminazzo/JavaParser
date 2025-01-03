@@ -425,6 +425,8 @@ public class Executor implements Visitor<Value<?>> {
         while (expression.accept(this).is(BooleanValue.TRUE))
             try {
                 returnedValue = code.accept(this);
+                // Return occurred
+                if (!returnedValue.is(Values.NO_VALUE)) return returnedValue;
             } catch (BreakException ignored) {
                 return returnedValue;
             } catch (ContinueException ignored) {
