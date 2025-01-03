@@ -21,7 +21,7 @@ public class ArrayClassValue<V> extends ObjectWrapper<ClassValue<V>> implements 
      *
      * @param classValue the {@link ClassValue} of the components
      */
-    public ArrayClassValue(final ClassValue<V> classValue) {
+    ArrayClassValue(final ClassValue<V> classValue) {
         super(classValue);
     }
 
@@ -52,6 +52,17 @@ public class ArrayClassValue<V> extends ObjectWrapper<ClassValue<V>> implements 
     @Override
     public String toString() {
         return getComponentsType().toString().replace(".class", "[].class");
+    }
+
+    /**
+     * Instantiates a new {@link ArrayClassValue} from the given {@link ClassValue}.
+     *
+     * @param <V>        the type of the value
+     * @param classValue the class value
+     * @return the array class value
+     */
+    public static <V> @NotNull ArrayClassValue<V> of(final ClassValue<V> classValue) {
+        return new ArrayClassValue<>(classValue);
     }
 
 }
