@@ -6,6 +6,7 @@ import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
+import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
@@ -27,6 +28,41 @@ class ExecutorTest extends Specification {
 
     void setup() {
         this.executor = new Executor(new TestClass())
+    }
+
+    def 'test visit method call: #object #method #parameters should return #expected'() {
+        given:
+        this.executor.environment.declare(
+                ObjectClassValue.INTEGER,
+                'method_call_val',
+                ObjectValue.of(1)
+        )
+        this.executor.environment.declare(
+                PrimitiveClassValue.INT,
+                'method_call_val_prim',
+                PrimitiveValue.of(1)
+        )
+
+        and:
+        def nodeExecutor = object.isEmpty() ? new EmptyLiteral() : Literal.of(object)
+        def methodInvocation = new MethodInvocation(parameters)
+
+        when:
+        def value = this.executor.visitMethodCall(nodeExecutor, method, methodInvocation)
+
+        then:
+        value == expected
+
+        where:
+        object                 | method               | parameters                                   | expected
+        ''                     | 'publicMethod'       | []                                           | PrimitiveValue.of(1.0d)
+        ''                     | 'publicMethod'       | [DOUBLE_LIT, BOOL_LIT_TRUE]                  | PrimitiveValue.of(4.0d)
+        ''                     | 'publicMethod'       | [DOUBLE_LIT, BOOL_LIT_FALSE]                 | PrimitiveValue.of(1.0d)
+        ''                     | 'publicStaticMethod' | []                                           | PrimitiveValue.of(1)
+        ''                     | 'publicStaticMethod' | [new NumberValueLiteral('7'), BOOL_LIT_TRUE] | PrimitiveValue.of(7)
+        ''                     | 'publicStaticMethod' | [NUMBER_LIT, BOOL_LIT_FALSE]                 | PrimitiveValue.of(1)
+        'method_call_val'      | 'toString'           | []                                           | ObjectValue.of('1')
+        'method_call_val_prim' | 'toString'           | []                                           | ObjectValue.of('1')
     }
 
     def 'test visit field of #field should return #expected'() {
