@@ -43,6 +43,51 @@ class ExecutorTest extends Specification {
         this.executor = new Executor(new TestClass())
     }
 
+    def 'test visit do statement of (#expression) #codeBlock should return #expected'() {
+        given:
+        this.executor.environment.declare(PrimitiveClassValue.INT, 'i', PrimitiveValue.of(0))
+
+        when:
+        def value = this.executor.visitDoStatement(codeBlock, expression)
+        def counter = this.executor.environment.lookup('i')
+
+        then:
+        value == expected
+        counter == expectedCounter
+
+        where:
+        expected             | expectedCounter       | expression                                                  | codeBlock
+        Values.NO_VALUE      | PrimitiveValue.of(11) | new LessThan(Literal.of('i'), new NumberValueLiteral('10')) |
+                new CodeBlock(
+                        new Statement(new Increment(Literal.of('i'), false)),
+                        new IfStatement(new Equal(new Modulo(Literal.of('i'), new NumberValueLiteral('2')), NUMBER_LIT),
+                                new CodeBlock(new Continue()), new CodeBlock()),
+                        new Statement(new Increment(Literal.of('i'), false))
+                )
+        Values.NO_VALUE      | PrimitiveValue.of(5)  | new LessThan(Literal.of('i'), new NumberValueLiteral('10')) |
+                new CodeBlock(
+                        new IfStatement(new Equal(Literal.of('i'), new NumberValueLiteral('5')),
+                                new CodeBlock(new Break()), new CodeBlock()),
+                        new Statement(new Increment(Literal.of('i'), false))
+                )
+        PrimitiveValue.of(3) | PrimitiveValue.of(5)  | new LessThan(Literal.of('i'), new NumberValueLiteral('10')) |
+                new CodeBlock(
+                        new IfStatement(new Equal(Literal.of('i'), new NumberValueLiteral('5')),
+                                CODE_BLOCK_3, new CodeBlock()),
+                        new Statement(new Increment(Literal.of('i'), false))
+                )
+        Values.NO_VALUE      | PrimitiveValue.of(10) | new LessThan(Literal.of('i'), new NumberValueLiteral('10')) |
+                new CodeBlock(
+                        new Statement(new Increment(Literal.of('i'), false))
+                )
+        PrimitiveValue.of(1) | PrimitiveValue.of(0)  | BOOL_LIT_TRUE                                               | CODE_BLOCK_1
+        Values.NO_VALUE      | PrimitiveValue.of(1)  | BOOL_LIT_FALSE                                              |
+                new CodeBlock(
+                        new Statement(new Increment(Literal.of('i'), false))
+                )
+        Values.NO_VALUE      | PrimitiveValue.of(0)  | BOOL_LIT_FALSE                                              | CODE_BLOCK_EMPTY
+    }
+
     def 'test visit while statement of (#expression) #codeBlock should return #expected'() {
         given:
         this.executor.environment.declare(PrimitiveClassValue.INT, 'i', PrimitiveValue.of(0))
