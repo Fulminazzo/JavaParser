@@ -284,7 +284,19 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitDecrement(boolean before, @NotNull Node operand) {
-        return null;
+        Literal literal = (Literal) operand;
+        Value<?> value = operand.accept(this);
+        try {
+            if (before) {
+                value = value.subtract(INCREMENT_VALUE);
+                this.environment.update(literal.getLiteral(), value);
+            } else {
+                this.environment.update(literal.getLiteral(), value.subtract(INCREMENT_VALUE));
+                return value;
+            }
+        } catch (ScopeException ignored) {
+        }
+        return value;
     }
 
     @Override
