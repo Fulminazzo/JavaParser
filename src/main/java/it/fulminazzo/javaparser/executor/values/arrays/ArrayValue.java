@@ -56,7 +56,9 @@ public class ArrayValue<V> extends ObjectWrapper<List<V>> implements Value<V[]> 
 
     @Override
     public V[] getValue() {
-        return this.object;
+        Class<V> componentsType = this.componentsType.getWrapperValue();
+        V[] array = (V[]) Array.newInstance(componentsType, this.object.size());
+        return this.object.toArray(array);
     }
 
     @Override
