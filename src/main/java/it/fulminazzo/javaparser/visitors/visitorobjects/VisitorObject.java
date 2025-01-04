@@ -53,8 +53,9 @@ public interface VisitorObject<
      *
      * @param fieldName the field name
      * @return the field
+     * @throws VisitorObjectException the exception thrown in case of errors
      */
-    @NotNull Tuple<C, O> getField(final @NotNull String fieldName);
+    @NotNull Tuple<C, O> getField(final @NotNull String fieldName) throws VisitorObjectException;
 
     /**
      * Searches and invokes the given method from the associated {@link ClassVisitorObject} and
@@ -63,8 +64,9 @@ public interface VisitorObject<
      * @param methodName the method name
      * @param parameters the parameters
      * @return the returned object from the method
+     * @throws VisitorObjectException the exception thrown in case of errors
      */
-    @NotNull O invokeMethod(final @NotNull String methodName, final @NotNull P parameters);
+    @NotNull O invokeMethod(final @NotNull String methodName, final @NotNull P parameters) throws VisitorObjectException;
 
     /**
      * Converts the current object to its primitive associated object.

@@ -31,8 +31,9 @@ public interface ClassVisitorObject<
      *
      * @param parameters the parameters
      * @return the object associated with this class
+     * @throws VisitorObjectException the exception thrown in case of errors
      */
-    @NotNull O newObject(final @NotNull P parameters);
+    @NotNull O newObject(final @NotNull P parameters) throws VisitorObjectException;
 
     /**
      * Checks if the current class is extending the provided class.
