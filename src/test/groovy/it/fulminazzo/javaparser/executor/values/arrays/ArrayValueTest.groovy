@@ -60,7 +60,7 @@ class ArrayValueTest extends Specification {
         def string = value.toString()
 
         then:
-        string == "${ArrayValue.simpleName}(${ObjectClassValue.STRING}, ${array.collect { it.getValue() }})"
+        string == "${ArrayValue.simpleName}(${ObjectClassValue.STRING}, ${array})"
     }
 
 }

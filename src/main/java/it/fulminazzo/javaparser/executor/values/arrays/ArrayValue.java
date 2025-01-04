@@ -11,7 +11,6 @@ import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Represents a general array {@link Value}.
@@ -62,8 +61,7 @@ public class ArrayValue<V> extends ObjectWrapper<List<Value<V>>> implements Valu
 
     @Override
     public String toString() {
-        return String.format("%s(%s, %s)", getClass().getSimpleName(), this.componentsType,
-                this.object.stream().map(Value::getValue).collect(Collectors.toList()));
+        return String.format("%s(%s, %s)", getClass().getSimpleName(), this.componentsType, this.object);
     }
 
     /**
