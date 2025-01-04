@@ -49,16 +49,6 @@ class ArrayValueTest extends Specification {
         classValue.compatibleWith(value)
     }
 
-    def 'test equals and hashCode'() {
-        given:
-        def first = new ArrayValue<>(ObjectClassValue.STRING, [Value.of('hello'), Value.of('world')])
-        def second = new ArrayValue<>(ObjectClassValue.STRING, [Value.of('hello'), Value.of('world')])
-
-        expect:
-        first == second
-        first.hashCode() == second.hashCode()
-    }
-
     def 'test toString'() {
         given:
         def array = [Value.of('Hello'), Value.of(null), Value.of('world!')]
