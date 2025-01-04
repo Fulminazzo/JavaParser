@@ -26,6 +26,15 @@ public class ArrayClassValue<V> extends ObjectWrapper<ClassValue<V>> implements 
     }
 
     @Override
+    public @NotNull Value<V[]> cast(@NotNull Value<?> value) {
+        Object[] internal = (Object[]) value.getValue();
+        Value<V[]> returnedValue = ArrayValue.of(getComponentsType(), internal.length);
+        for (int i = 0; i < internal.length; i++)
+            returnedValue.getValue()[i] = getComponentsType().cast(Value.of(internal)).getValue();
+        return returnedValue;
+    }
+
+    @Override
     public boolean compatibleWith(@NotNull Value<?> value) {
         if (value.is(Values.NULL_VALUE) && !this.object.isPrimitive()) return true;
         if (value.is(ArrayValue.class)) {
