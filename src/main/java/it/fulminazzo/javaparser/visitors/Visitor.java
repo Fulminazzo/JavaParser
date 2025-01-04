@@ -343,9 +343,9 @@ public interface Visitor<
      * Converts method invocation and its fields to this visitor type.
      *
      * @param parameters the parameters
-     * @return the method invocation
+     * @return the respective {@link ParameterVisitorObjects}
      */
-    @NotNull O visitMethodInvocation(@NotNull List<Node> parameters);
+    @NotNull P visitMethodInvocation(@NotNull List<Node> parameters);
 
     /**
      * Converts and and its fields to this visitor type.
