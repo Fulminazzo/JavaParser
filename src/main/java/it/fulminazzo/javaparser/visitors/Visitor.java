@@ -11,6 +11,7 @@ import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.parser.node.statements.CaseStatement;
 import it.fulminazzo.javaparser.parser.node.statements.CatchStatement;
 import it.fulminazzo.javaparser.parser.node.statements.Statement;
+import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
@@ -25,7 +26,7 @@ import java.util.concurrent.Callable;
  *
  * @param <T> the returned type
  */
-public interface Visitor<T> {
+public interface Visitor<T extends VisitorObject<?, T, ?>> {
 
     /**
      * Gets the object executing this visitor.
