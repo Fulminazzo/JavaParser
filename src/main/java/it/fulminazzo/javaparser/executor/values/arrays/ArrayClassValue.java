@@ -14,7 +14,7 @@ import java.lang.reflect.Array;
  * @param <V> the type of the components
  */
 @SuppressWarnings("unchecked")
-public class ArrayClassValue<V> extends ObjectWrapper<ClassValue<V>> implements ClassValue<Value<V>[]> {
+public class ArrayClassValue<V> extends ObjectWrapper<ClassValue<V>> implements ClassValue<V[]> {
 
     /**
      * Instantiates a new Array class value.
@@ -36,8 +36,8 @@ public class ArrayClassValue<V> extends ObjectWrapper<ClassValue<V>> implements 
     }
 
     @Override
-    public @NotNull Class<Value<V>[]> getValue() {
-        return (Class<Value<V>[]>) Array.newInstance(this.object.getClass(), 0).getClass();
+    public @NotNull Class<V[]> getValue() {
+        return (Class<V[]>) Array.newInstance(this.object.getValue(), 0).getClass();
     }
 
     /**
