@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.executor.values;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
+import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.environment.Info;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
@@ -113,6 +114,15 @@ public interface ClassValue<V> extends Value<Class<V>>, Info {
     @Override
     default @NotNull ClassValue<Class<V>> toClassValue() {
         return (ClassValue<Class<V>>) (Object) of(Class.class);
+    }
+
+    /**
+     * Converts the {@link #getValue()} to its respective wrapper type.
+     *
+     * @return the wrapper value
+     */
+    default @NotNull Class<V> getWrapperValue() {
+        return (Class<V>) ReflectionUtils.getWrapperClass(getValue());
     }
 
     @Override
