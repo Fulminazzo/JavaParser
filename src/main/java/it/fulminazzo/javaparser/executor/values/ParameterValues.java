@@ -22,6 +22,15 @@ public final class ParameterValues extends ObjectWrapper<List<Value<?>>> impleme
         super(parameters);
     }
 
+    /**
+     * Returns the number of parameters.
+     *
+     * @return the number of parameters
+     */
+    public int size() {
+        return this.object.size();
+    }
+
     @Override
     public @NotNull ClassValue<List<Value<?>>> toClassValue() {
         throw ExecutorException.noClassValue(getClass());
