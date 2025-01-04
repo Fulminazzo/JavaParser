@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.executor.values;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
+import it.fulminazzo.javaparser.executor.values.arrays.ArrayValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
@@ -278,6 +279,7 @@ public interface Value<V> {
     @SuppressWarnings("unchecked")
     static <T> @NotNull Value<T> of(final @Nullable T value) {
         if (value == null) return (Value<T>) Values.NULL_VALUE;
+        else if (value.getClass().isArray()) return (Value<T>) ArrayValue.of(value);
         else return ObjectValue.of(value);
     }
 
