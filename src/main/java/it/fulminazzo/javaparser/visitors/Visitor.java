@@ -339,7 +339,10 @@ public interface Visitor<T extends VisitorObject<?, T, ?>> {
      * @param right the right
      * @return the and
      */
-    @NotNull T visitAnd(@NotNull Node left, @NotNull Node right);
+    @NotNull
+    default T visitAnd(@NotNull Node left, @NotNull Node right) {
+        return left.accept(this).and(right.accept(this));
+    }
 
     /**
      * Converts or and its fields to this visitor type.
@@ -348,7 +351,10 @@ public interface Visitor<T extends VisitorObject<?, T, ?>> {
      * @param right the right
      * @return the or
      */
-    @NotNull T visitOr(@NotNull Node left, @NotNull Node right);
+    @NotNull
+    default T visitOr(@NotNull Node left, @NotNull Node right) {
+        return left.accept(this).or(right.accept(this));
+    }
 
     /**
      * Converts equal and its fields to this visitor type.
@@ -357,7 +363,10 @@ public interface Visitor<T extends VisitorObject<?, T, ?>> {
      * @param right the right
      * @return the equal
      */
-    @NotNull T visitEqual(@NotNull Node left, @NotNull Node right);
+    @NotNull
+    default T visitEqual(@NotNull Node left, @NotNull Node right) {
+        return left.accept(this).equal(right.accept(this));
+    }
 
     /**
      * Converts not equal and its fields to this visitor type.
@@ -366,7 +375,10 @@ public interface Visitor<T extends VisitorObject<?, T, ?>> {
      * @param right the right
      * @return the not equal
      */
-    @NotNull T visitNotEqual(@NotNull Node left, @NotNull Node right);
+    @NotNull
+    default T visitNotEqual(@NotNull Node left, @NotNull Node right) {
+        return left.accept(this).notEqual(right.accept(this));
+    }
 
     /**
      * Converts less than and its fields to this visitor type.
@@ -375,7 +387,10 @@ public interface Visitor<T extends VisitorObject<?, T, ?>> {
      * @param right the right
      * @return the less than
      */
-    @NotNull T visitLessThan(@NotNull Node left, @NotNull Node right);
+    @NotNull
+    default T visitLessThan(@NotNull Node left, @NotNull Node right) {
+        return left.accept(this).lessThan(right.accept(this));
+    }
 
     /**
      * Converts less than equal and its fields to this visitor type.
@@ -384,7 +399,10 @@ public interface Visitor<T extends VisitorObject<?, T, ?>> {
      * @param right the right
      * @return the less than equal
      */
-    @NotNull T visitLessThanEqual(@NotNull Node left, @NotNull Node right);
+    @NotNull
+    default T visitLessThanEqual(@NotNull Node left, @NotNull Node right) {
+        return left.accept(this).lessThanEqual(right.accept(this));
+    }
 
     /**
      * Converts greater than and its fields to this visitor type.
@@ -393,7 +411,10 @@ public interface Visitor<T extends VisitorObject<?, T, ?>> {
      * @param right the right
      * @return the greater than
      */
-    @NotNull T visitGreaterThan(@NotNull Node left, @NotNull Node right);
+    @NotNull
+    default T visitGreaterThan(@NotNull Node left, @NotNull Node right) {
+        return left.accept(this).greaterThan(right.accept(this));
+    }
 
     /**
      * Converts greater than equal and its fields to this visitor type.
@@ -402,7 +423,10 @@ public interface Visitor<T extends VisitorObject<?, T, ?>> {
      * @param right the right
      * @return the greater than equal
      */
-    @NotNull T visitGreaterThanEqual(@NotNull Node left, @NotNull Node right);
+    @NotNull
+    default T visitGreaterThanEqual(@NotNull Node left, @NotNull Node right) {
+        return left.accept(this).greaterThanEqual(right.accept(this));
+    }
 
     /**
      * Converts bit and and its fields to this visitor type.
@@ -411,7 +435,10 @@ public interface Visitor<T extends VisitorObject<?, T, ?>> {
      * @param right the right
      * @return the bit and
      */
-    @NotNull T visitBitAnd(@NotNull Node left, @NotNull Node right);
+    @NotNull
+    default T visitBitAnd(@NotNull Node left, @NotNull Node right) {
+        return left.accept(this).bitAnd(right.accept(this));
+    }
 
     /**
      * Converts bit or and its fields to this visitor type.
@@ -420,7 +447,10 @@ public interface Visitor<T extends VisitorObject<?, T, ?>> {
      * @param right the right
      * @return the bit or
      */
-    @NotNull T visitBitOr(@NotNull Node left, @NotNull Node right);
+    @NotNull
+    default T visitBitOr(@NotNull Node left, @NotNull Node right) {
+        return left.accept(this).bitOr(right.accept(this));
+    }
 
     /**
      * Converts bit xor and its fields to this visitor type.
@@ -429,7 +459,10 @@ public interface Visitor<T extends VisitorObject<?, T, ?>> {
      * @param right the right
      * @return the bit xor
      */
-    @NotNull T visitBitXor(@NotNull Node left, @NotNull Node right);
+    @NotNull
+    default T visitBitXor(@NotNull Node left, @NotNull Node right) {
+        return left.accept(this).bitXor(right.accept(this));
+    }
 
     /**
      * Converts l shift and its fields to this visitor type.
@@ -438,7 +471,10 @@ public interface Visitor<T extends VisitorObject<?, T, ?>> {
      * @param right the right
      * @return the l shift
      */
-    @NotNull T visitLShift(@NotNull Node left, @NotNull Node right);
+    @NotNull
+    default T visitLShift(@NotNull Node left, @NotNull Node right) {
+        return left.accept(this).lshift(right.accept(this));
+    }
 
     /**
      * Converts r shift and its fields to this visitor type.
@@ -447,7 +483,10 @@ public interface Visitor<T extends VisitorObject<?, T, ?>> {
      * @param right the right
      * @return the r shift
      */
-    @NotNull T visitRShift(@NotNull Node left, @NotNull Node right);
+    @NotNull
+    default T visitRShift(@NotNull Node left, @NotNull Node right) {
+        return left.accept(this).rshift(right.accept(this));
+    }
 
     /**
      * Converts ur shift and its fields to this visitor type.
@@ -456,7 +495,10 @@ public interface Visitor<T extends VisitorObject<?, T, ?>> {
      * @param right the right
      * @return the ur shift
      */
-    @NotNull T visitURShift(@NotNull Node left, @NotNull Node right);
+    @NotNull
+    default T visitURShift(@NotNull Node left, @NotNull Node right) {
+        return left.accept(this).urshift(right.accept(this));
+    }
 
     /**
      * Converts add and its fields to this visitor type.
@@ -465,7 +507,10 @@ public interface Visitor<T extends VisitorObject<?, T, ?>> {
      * @param right the right
      * @return the add
      */
-    @NotNull T visitAdd(@NotNull Node left, @NotNull Node right);
+    @NotNull
+    default T visitAdd(@NotNull Node left, @NotNull Node right) {
+        return left.accept(this).add(right.accept(this));
+    }
 
     /**
      * Converts subtract and its fields to this visitor type.
@@ -474,7 +519,10 @@ public interface Visitor<T extends VisitorObject<?, T, ?>> {
      * @param right the right
      * @return the subtract
      */
-    @NotNull T visitSubtract(@NotNull Node left, @NotNull Node right);
+    @NotNull
+    default T visitSubtract(@NotNull Node left, @NotNull Node right) {
+        return left.accept(this).subtract(right.accept(this));
+    }
 
     /**
      * Converts multiply and its fields to this visitor type.
@@ -483,7 +531,10 @@ public interface Visitor<T extends VisitorObject<?, T, ?>> {
      * @param right the right
      * @return the multiply
      */
-    @NotNull T visitMultiply(@NotNull Node left, @NotNull Node right);
+    @NotNull
+    default T visitMultiply(@NotNull Node left, @NotNull Node right) {
+        return left.accept(this).multiply(right.accept(this));
+    }
 
     /**
      * Converts divide and its fields to this visitor type.
@@ -492,7 +543,10 @@ public interface Visitor<T extends VisitorObject<?, T, ?>> {
      * @param right the right
      * @return the divide
      */
-    @NotNull T visitDivide(@NotNull Node left, @NotNull Node right);
+    @NotNull
+    default T visitDivide(@NotNull Node left, @NotNull Node right) {
+        return left.accept(this).divide(right.accept(this));
+    }
 
     /**
      * Converts modulo and its fields to this visitor type.
@@ -501,7 +555,10 @@ public interface Visitor<T extends VisitorObject<?, T, ?>> {
      * @param right the right
      * @return the modulo
      */
-    @NotNull T visitModulo(@NotNull Node left, @NotNull Node right);
+    @NotNull
+    default T visitModulo(@NotNull Node left, @NotNull Node right) {
+        return left.accept(this).modulo(right.accept(this));
+    }
 
     /**
      * Converts cast and its fields to this visitor type.
@@ -518,7 +575,10 @@ public interface Visitor<T extends VisitorObject<?, T, ?>> {
      * @param operand the operand
      * @return the minus
      */
-    @NotNull T visitMinus(@NotNull Node operand);
+    @NotNull
+    default T visitMinus(@NotNull Node operand) {
+        return operand.accept(this).minus();
+    }
 
     /**
      * Converts not and its fields to this visitor type.
@@ -526,7 +586,10 @@ public interface Visitor<T extends VisitorObject<?, T, ?>> {
      * @param operand the operand
      * @return the not
      */
-    @NotNull T visitNot(@NotNull Node operand);
+    @NotNull
+    default T visitNot(@NotNull Node operand) {
+        return operand.accept(this).not();
+    }
 
     /**
      * Converts null literal and its fields to this visitor type.
