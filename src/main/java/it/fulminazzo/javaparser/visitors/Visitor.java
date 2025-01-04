@@ -300,7 +300,10 @@ public interface Visitor<
      * @param operand the operand
      * @return the increment
      */
-    @NotNull O visitIncrement(boolean before, @NotNull Node operand);
+    default @NotNull O visitIncrement(boolean before, @NotNull Node operand) {
+        //TODO: should fix the casts
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Converts decrement and its fields to this visitor type.
@@ -309,7 +312,10 @@ public interface Visitor<
      * @param operand the operand
      * @return the decrement
      */
-    @NotNull O visitDecrement(boolean before, @NotNull Node operand);
+    default @NotNull O visitDecrement(boolean before, @NotNull Node operand) {
+        //TODO: should fix the casts
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Converts method call and its fields to this visitor type.
