@@ -67,24 +67,6 @@ public interface Visitor<T> {
     @NotNull T visitAssignment(@NotNull Node type, @NotNull Literal name, @NotNull Node value);
 
     /**
-     * Converts dynamic array and its fields to this visitor type.
-     *
-     * @param parameters the parameters
-     * @param type       the type
-     * @return the dynamic array
-     */
-    @NotNull T visitDynamicArray(@NotNull List<Node> parameters, @NotNull Node type);
-
-    /**
-     * Converts static array and its fields to this visitor type.
-     *
-     * @param size the size
-     * @param type the type
-     * @return the static array
-     */
-    @NotNull T visitStaticArray(int size, @NotNull Node type);
-
-    /**
      * Converts code block and its fields to this visitor type.
      *
      * @param statements the statements
@@ -99,23 +81,6 @@ public interface Visitor<T> {
      * @return the java program
      */
     @NotNull T visitJavaProgram(@NotNull LinkedList<Statement> statements);
-
-    /**
-     * Converts array literal and its fields to this visitor type.
-     *
-     * @param type the type
-     * @return the array literal
-     */
-    @NotNull T visitArrayLiteral(@NotNull Node type);
-
-    /**
-     * Converts new object and its fields to this visitor type.
-     *
-     * @param left  the left
-     * @param right the right
-     * @return the new object
-     */
-    @NotNull T visitNewObject(@NotNull Node left, @NotNull Node right);
 
     /**
      * Converts re assign and its fields to this visitor type.
@@ -256,6 +221,41 @@ public interface Visitor<T> {
      * @return the while statement
      */
     @NotNull T visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expression);
+
+    /**
+     * Converts new object and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the new object
+     */
+    @NotNull T visitNewObject(@NotNull Node left, @NotNull Node right);
+
+    /**
+     * Converts dynamic array and its fields to this visitor type.
+     *
+     * @param parameters the parameters
+     * @param type       the type
+     * @return the dynamic array
+     */
+    @NotNull T visitDynamicArray(@NotNull List<Node> parameters, @NotNull Node type);
+
+    /**
+     * Converts static array and its fields to this visitor type.
+     *
+     * @param size the size
+     * @param type the type
+     * @return the static array
+     */
+    @NotNull T visitStaticArray(int size, @NotNull Node type);
+
+    /**
+     * Converts array literal and its fields to this visitor type.
+     *
+     * @param type the type
+     * @return the array literal
+     */
+    @NotNull T visitArrayLiteral(@NotNull Node type);
 
     /**
      * Converts increment and its fields to this visitor type.
