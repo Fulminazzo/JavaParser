@@ -151,123 +151,6 @@ public interface Visitor<T> {
     @NotNull T visitLiteralImpl(@NotNull String value);
 
     /**
-     * Converts add and its fields to this visitor type.
-     *
-     * @param left  the left
-     * @param right the right
-     * @return the add
-     */
-    @NotNull T visitAdd(@NotNull Node left, @NotNull Node right);
-
-    /**
-     * Converts and and its fields to this visitor type.
-     *
-     * @param left  the left
-     * @param right the right
-     * @return the and
-     */
-    @NotNull T visitAnd(@NotNull Node left, @NotNull Node right);
-
-    /**
-     * Converts bit and and its fields to this visitor type.
-     *
-     * @param left  the left
-     * @param right the right
-     * @return the bit and
-     */
-    @NotNull T visitBitAnd(@NotNull Node left, @NotNull Node right);
-
-    /**
-     * Converts bit or and its fields to this visitor type.
-     *
-     * @param left  the left
-     * @param right the right
-     * @return the bit or
-     */
-    @NotNull T visitBitOr(@NotNull Node left, @NotNull Node right);
-
-    /**
-     * Converts bit xor and its fields to this visitor type.
-     *
-     * @param left  the left
-     * @param right the right
-     * @return the bit xor
-     */
-    @NotNull T visitBitXor(@NotNull Node left, @NotNull Node right);
-
-    /**
-     * Converts equal and its fields to this visitor type.
-     *
-     * @param left  the left
-     * @param right the right
-     * @return the equal
-     */
-    @NotNull T visitEqual(@NotNull Node left, @NotNull Node right);
-
-    /**
-     * Converts greater than and its fields to this visitor type.
-     *
-     * @param left  the left
-     * @param right the right
-     * @return the greater than
-     */
-    @NotNull T visitGreaterThan(@NotNull Node left, @NotNull Node right);
-
-    /**
-     * Converts greater than equal and its fields to this visitor type.
-     *
-     * @param left  the left
-     * @param right the right
-     * @return the greater than equal
-     */
-    @NotNull T visitGreaterThanEqual(@NotNull Node left, @NotNull Node right);
-
-    /**
-     * Converts l shift and its fields to this visitor type.
-     *
-     * @param left  the left
-     * @param right the right
-     * @return the l shift
-     */
-    @NotNull T visitLShift(@NotNull Node left, @NotNull Node right);
-
-    /**
-     * Converts less than and its fields to this visitor type.
-     *
-     * @param left  the left
-     * @param right the right
-     * @return the less than
-     */
-    @NotNull T visitLessThan(@NotNull Node left, @NotNull Node right);
-
-    /**
-     * Converts less than equal and its fields to this visitor type.
-     *
-     * @param left  the left
-     * @param right the right
-     * @return the less than equal
-     */
-    @NotNull T visitLessThanEqual(@NotNull Node left, @NotNull Node right);
-
-    /**
-     * Converts modulo and its fields to this visitor type.
-     *
-     * @param left  the left
-     * @param right the right
-     * @return the modulo
-     */
-    @NotNull T visitModulo(@NotNull Node left, @NotNull Node right);
-
-    /**
-     * Converts multiply and its fields to this visitor type.
-     *
-     * @param left  the left
-     * @param right the right
-     * @return the multiply
-     */
-    @NotNull T visitMultiply(@NotNull Node left, @NotNull Node right);
-
-    /**
      * Converts new object and its fields to this visitor type.
      *
      * @param left  the left
@@ -277,33 +160,6 @@ public interface Visitor<T> {
     @NotNull T visitNewObject(@NotNull Node left, @NotNull Node right);
 
     /**
-     * Converts not equal and its fields to this visitor type.
-     *
-     * @param left  the left
-     * @param right the right
-     * @return the not equal
-     */
-    @NotNull T visitNotEqual(@NotNull Node left, @NotNull Node right);
-
-    /**
-     * Converts or and its fields to this visitor type.
-     *
-     * @param left  the left
-     * @param right the right
-     * @return the or
-     */
-    @NotNull T visitOr(@NotNull Node left, @NotNull Node right);
-
-    /**
-     * Converts r shift and its fields to this visitor type.
-     *
-     * @param left  the left
-     * @param right the right
-     * @return the r shift
-     */
-    @NotNull T visitRShift(@NotNull Node left, @NotNull Node right);
-
-    /**
      * Converts re assign and its fields to this visitor type.
      *
      * @param left  the left
@@ -311,24 +167,6 @@ public interface Visitor<T> {
      * @return the re assign
      */
     @NotNull T visitReAssign(@NotNull Node left, @NotNull Node right);
-
-    /**
-     * Converts subtract and its fields to this visitor type.
-     *
-     * @param left  the left
-     * @param right the right
-     * @return the subtract
-     */
-    @NotNull T visitSubtract(@NotNull Node left, @NotNull Node right);
-
-    /**
-     * Converts ur shift and its fields to this visitor type.
-     *
-     * @param left  the left
-     * @param right the right
-     * @return the ur shift
-     */
-    @NotNull T visitURShift(@NotNull Node left, @NotNull Node right);
 
     /**
      * Converts decrement and its fields to this visitor type.
@@ -478,6 +316,177 @@ public interface Visitor<T> {
      * @return the while statement
      */
     @NotNull T visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expression);
+
+    /**
+     * Converts and and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the and
+     */
+    @NotNull T visitAnd(@NotNull Node left, @NotNull Node right);
+
+    /**
+     * Converts or and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the or
+     */
+    @NotNull T visitOr(@NotNull Node left, @NotNull Node right);
+
+    /**
+     * Converts equal and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the equal
+     */
+    @NotNull T visitEqual(@NotNull Node left, @NotNull Node right);
+
+    /**
+     * Converts not equal and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the not equal
+     */
+    @NotNull T visitNotEqual(@NotNull Node left, @NotNull Node right);
+
+    /**
+     * Converts less than and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the less than
+     */
+    @NotNull T visitLessThan(@NotNull Node left, @NotNull Node right);
+
+    /**
+     * Converts less than equal and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the less than equal
+     */
+    @NotNull T visitLessThanEqual(@NotNull Node left, @NotNull Node right);
+
+    /**
+     * Converts greater than and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the greater than
+     */
+    @NotNull T visitGreaterThan(@NotNull Node left, @NotNull Node right);
+
+    /**
+     * Converts greater than equal and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the greater than equal
+     */
+    @NotNull T visitGreaterThanEqual(@NotNull Node left, @NotNull Node right);
+
+    /**
+     * Converts bit and and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the bit and
+     */
+    @NotNull T visitBitAnd(@NotNull Node left, @NotNull Node right);
+
+    /**
+     * Converts bit or and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the bit or
+     */
+    @NotNull T visitBitOr(@NotNull Node left, @NotNull Node right);
+
+    /**
+     * Converts bit xor and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the bit xor
+     */
+    @NotNull T visitBitXor(@NotNull Node left, @NotNull Node right);
+
+    /**
+     * Converts l shift and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the l shift
+     */
+    @NotNull T visitLShift(@NotNull Node left, @NotNull Node right);
+
+    /**
+     * Converts r shift and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the r shift
+     */
+    @NotNull T visitRShift(@NotNull Node left, @NotNull Node right);
+
+    /**
+     * Converts ur shift and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the ur shift
+     */
+    @NotNull T visitURShift(@NotNull Node left, @NotNull Node right);
+
+    /**
+     * Converts add and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the add
+     */
+    @NotNull T visitAdd(@NotNull Node left, @NotNull Node right);
+
+    /**
+     * Converts subtract and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the subtract
+     */
+    @NotNull T visitSubtract(@NotNull Node left, @NotNull Node right);
+
+    /**
+     * Converts multiply and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the multiply
+     */
+    @NotNull T visitMultiply(@NotNull Node left, @NotNull Node right);
+
+    /**
+     * Converts divide and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the divide
+     */
+    @NotNull T visitDivide(@NotNull Node left, @NotNull Node right);
+
+    /**
+     * Converts modulo and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the modulo
+     */
+    @NotNull T visitModulo(@NotNull Node left, @NotNull Node right);
 
     /**
      * Converts cast and its fields to this visitor type.
