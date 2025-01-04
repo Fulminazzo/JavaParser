@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor.values
 
+import it.fulminazzo.javaparser.executor.values.arrays.ArrayValue
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue
@@ -57,18 +58,28 @@ class ValueTest extends Specification {
         value == expected
 
         where:
-        object          | expected
-        1 as byte       | PrimitiveValue.of(1 as byte)
-        2 as short      | PrimitiveValue.of(2 as short)
-        'a' as char     | PrimitiveValue.of('a' as char)
-        4               | PrimitiveValue.of(4)
-        5L              | PrimitiveValue.of(5L)
-        6.0f            | PrimitiveValue.of(6.0f)
-        7.0d            | PrimitiveValue.of(7.0d)
-        true            | BooleanValue.TRUE
-        false           | BooleanValue.FALSE
-        'Hello, world!' | ObjectValue.of('Hello, world!')
-        null            | Values.NULL_VALUE
+        object                          | expected
+        1 as byte                       | PrimitiveValue.of(1 as byte)
+        2 as short                      | PrimitiveValue.of(2 as short)
+        'a' as char                     | PrimitiveValue.of('a' as char)
+        4                               | PrimitiveValue.of(4)
+        5L                              | PrimitiveValue.of(5L)
+        6.0f                            | PrimitiveValue.of(6.0f)
+        7.0d                            | PrimitiveValue.of(7.0d)
+        true                            | BooleanValue.TRUE
+        false                           | BooleanValue.FALSE
+        'Hello, world!'                 | ObjectValue.of('Hello, world!')
+        null                            | Values.NULL_VALUE
+        new byte[]{1}                   | ArrayValue.of(PrimitiveClassValue.BYTE, [(byte) 1].collect { Value.of(it) })
+        new short[]{1}                  | ArrayValue.of(PrimitiveClassValue.SHORT, [(short) 1].collect { Value.of(it) })
+        new char[]{'a'}                 | ArrayValue.of(PrimitiveClassValue.CHAR, [(char) 'a'].collect { Value.of(it) })
+        new int[]{1}                    | ArrayValue.of(PrimitiveClassValue.INT, [1].collect { Value.of(it) })
+        new long[]{1}                   | ArrayValue.of(PrimitiveClassValue.LONG, [1L].collect { Value.of(it) })
+        new float[]{1}                  | ArrayValue.of(PrimitiveClassValue.FLOAT, [1.0f].collect { Value.of(it) })
+        new double[]{1}                 | ArrayValue.of(PrimitiveClassValue.DOUBLE, [1.0d].collect { Value.of(it) })
+        new boolean[]{true}             | ArrayValue.of(PrimitiveClassValue.BOOLEAN, [true].collect { Value.of(it) })
+        new String[]{'Hello', 'world!'} | ArrayValue.of(ObjectClassValue.STRING, ['Hello', 'world!']
+                .collect { Value.of(it) })
     }
 
 }
