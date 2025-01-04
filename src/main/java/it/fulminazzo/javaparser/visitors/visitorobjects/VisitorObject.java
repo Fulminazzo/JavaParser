@@ -69,6 +69,15 @@ public interface VisitorObject<
     @NotNull O invokeMethod(final @NotNull String methodName, final @NotNull P parameters) throws VisitorObjectException;
 
     /**
+     * Checks that the current object is an instance of the specified one.
+     *
+     * @param <T>   the type of the class
+     * @param clazz the class
+     * @return this object cast to the given class
+     */
+    <T extends VisitorObject<C, O, P>> @NotNull T check(final @NotNull Class<T> clazz);
+
+    /**
      * Checks that the current object is {@link ClassVisitorObject}.
      *
      * @return the current object cast to the expected one
