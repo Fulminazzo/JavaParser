@@ -27,8 +27,8 @@ public class ScopeException extends Exception {
      * @param name the name of the variable
      * @return the scope exception
      */
-    public static @NotNull ScopeException noSuchVariable(final @NotNull String name) {
-        return new ScopeException("No such variable: " + name);
+    public static @NotNull ScopeException noSuchVariable(final @NotNull NamedEntity name) {
+        return new ScopeException("No such variable: " + name.getName());
     }
 
     /**
@@ -38,8 +38,8 @@ public class ScopeException extends Exception {
      * @param name the name of the variable
      * @return the scope exception
      */
-    public static @NotNull ScopeException alreadyDeclaredVariable(final @NotNull String name) {
-        return new ScopeException("Variable already declared: " + name);
+    public static @NotNull ScopeException alreadyDeclaredVariable(final @NotNull NamedEntity name) {
+        return new ScopeException("Variable already declared: " + name.getName());
     }
 
     /**
