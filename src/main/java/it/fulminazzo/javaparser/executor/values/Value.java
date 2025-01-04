@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.executor.values;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
+import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.executor.values.arrays.ArrayValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue;
@@ -9,8 +10,11 @@ import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -141,16 +145,49 @@ public interface Value<V> {
      */
     default <T> @NotNull Value<T> invokeMethod(final @NotNull String methodName,
                                                final @NotNull ParameterValues parameterValues) {
-        Refl<V> executor = new Refl<>(getValue());
-        Object[] parameters = parameterValues.stream().map(Value::getValue).toArray(Object[]::new);
-        Method method = executor.getMethod(methodName, parameters);
-        Class<?> returnType = method.getReturnType();
-        Object returned = executor.invokeMethod(returnType, methodName, parameters);
-        final Value<?> returnedValue;
-        if (Void.TYPE.equals(returnType)) returnedValue = Values.NO_VALUE;
-        else if (returnType.isPrimitive()) returnedValue = PrimitiveValue.of(returned);
-        else returnedValue = of(returned);
-        return (Value<T>) returnedValue;
+        V value = getValue();
+        Class<?> javaClass = is(ClassValue.class) ? (Class<?>) value : value.getClass();
+        // Lookup methods from name and parameters count
+        @NotNull List<Method> methods = ReflectionUtils.getMethods(javaClass, m ->
+                m.getName().equals(methodName) && ValueUtils.verifyExecutable(parameterValues, m));
+
+        Refl<?> refl = new Refl<>(ReflectionUtils.class);
+        Class<?> @NotNull [] parametersTypes = parameterValues.getValue().stream()
+                .map(Value::toClassValue)
+                .map(ClassValue::getValue)
+                .toArray(Class[]::new);
+
+        for (Method method : methods) {
+            // For each one, validate its parameters
+            if (Boolean.TRUE.equals(refl.invokeMethod("validateParameters",
+                    new Class[]{Class[].class, Executable.class},
+                    parametersTypes, method))) {
+                //TODO: reworkd
+                Refl<V> executor = new Refl<>(getValue());
+                List<Object> parametersList = new ArrayList<>();
+                parametersTypes = method.getParameterTypes();
+                List<Value<?>> parametersValues = parameterValues.getValue();
+                for (int i = 0; i < parametersTypes.length; i++) {
+                    if (i == parametersTypes.length - 1) {
+                        if (parametersValues.size() == i + 1)
+                            parametersList.add(parametersValues.get(i).getValue());
+                        else parametersList.add(parametersValues
+                                .subList(i, parametersValues.size())
+                                .stream()
+                                .map(Value::getValue)
+                                .toArray());
+                    } else parametersList.add(parametersValues.get(i).getValue());
+                }
+                Class<?> returnType = method.getReturnType();
+                Object returned = executor.invokeMethod(returnType, methodName, parametersList.toArray());
+                final Value<?> returnedValue;
+                if (Void.TYPE.equals(returnType)) returnedValue = Values.NO_VALUE;
+                else if (returnType.isPrimitive()) returnedValue = PrimitiveValue.of(returned);
+                else returnedValue = of(returned);
+                return (Value<T>) returnedValue;
+            }
+        }
+        throw new IllegalStateException("Cannot find method " + methodName + " in " + javaClass);
     }
 
     /**
