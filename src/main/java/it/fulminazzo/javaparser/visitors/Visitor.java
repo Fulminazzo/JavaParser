@@ -46,7 +46,7 @@ public interface Visitor<T> {
      * @param program the program
      * @return an {@link Optional} containing the parsed value
      */
-    @NotNull Optional<T> visitProgram(final @NotNull JavaProgram program);
+    @NotNull Optional<T> visitProgram(@NotNull JavaProgram program);
 
     /**
      * Converts java program and its fields to this visitor type.
@@ -54,7 +54,7 @@ public interface Visitor<T> {
      * @param statements the statements
      * @return the java program
      */
-    default @NotNull T visitJavaProgram(@NotNull LinkedList<Statement> statements) {
+    default @NotNull T visitJavaProgram(final @NotNull LinkedList<Statement> statements) {
         return visitCodeBlock(statements);
     }
 
@@ -72,7 +72,7 @@ public interface Visitor<T> {
      * @param expression the expression
      * @return the return
      */
-    default @NotNull T visitReturn(@NotNull Node expression) {
+    default @NotNull T visitReturn(final @NotNull Node expression) {
         return expression.accept(this);
     }
 
@@ -136,7 +136,8 @@ public interface Visitor<T> {
      * @param expression the expression
      * @return the catch statement
      */
-    @NotNull T visitCatchStatement(@NotNull List<Literal> exceptions, @NotNull CodeBlock block, @NotNull Node expression);
+    @NotNull T visitCatchStatement(@NotNull List<Literal> exceptions, @NotNull CodeBlock block,
+                                   @NotNull Node expression);
 
     /**
      * Converts switch statement and its fields to this visitor type.
@@ -146,7 +147,8 @@ public interface Visitor<T> {
      * @param expression   the expression
      * @return the switch statement
      */
-    @NotNull T visitSwitchStatement(@NotNull List<CaseStatement> cases, @NotNull CodeBlock defaultBlock, @NotNull Node expression);
+    @NotNull T visitSwitchStatement(@NotNull List<CaseStatement> cases, @NotNull CodeBlock defaultBlock,
+                                    @NotNull Node expression);
 
     /**
      * Converts case statement and its fields to this visitor type.
@@ -166,7 +168,8 @@ public interface Visitor<T> {
      * @param expression the expression
      * @return the for statement
      */
-    @NotNull T visitForStatement(@NotNull Node assignment, @NotNull Node increment, @NotNull CodeBlock code, @NotNull Node expression);
+    @NotNull T visitForStatement(@NotNull Node assignment, @NotNull Node increment, @NotNull CodeBlock code,
+                                 @NotNull Node expression);
 
     /**
      * Converts enhanced for statement and its fields to this visitor type.
@@ -177,7 +180,8 @@ public interface Visitor<T> {
      * @param expression the expression
      * @return the enhanced for statement
      */
-    @NotNull T visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable, @NotNull CodeBlock code, @NotNull Node expression);
+    @NotNull T visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable, @NotNull CodeBlock code,
+                                         @NotNull Node expression);
 
     /**
      * Converts do statement and its fields to this visitor type.
@@ -287,7 +291,8 @@ public interface Visitor<T> {
      * @param invocation the invocation
      * @return the method call
      */
-    @NotNull T visitMethodCall(@NotNull Node executor, @NotNull String methodName, @NotNull MethodInvocation invocation);
+    @NotNull T visitMethodCall(@NotNull Node executor, @NotNull String methodName,
+                               @NotNull MethodInvocation invocation);
 
     /**
      * Converts field and its fields to this visitor type.
