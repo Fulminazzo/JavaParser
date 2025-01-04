@@ -24,6 +24,7 @@ import it.fulminazzo.javaparser.parser.node.statements.Statement;
 import it.fulminazzo.javaparser.visitors.Visitor;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.function.BiFunction;
@@ -403,7 +404,7 @@ public class Executor implements Visitor<Value<?>> {
                                                        @NotNull CodeBlock code, @NotNull Node expression) {
         return visitScoped(ScopeType.FOR, () -> {
             ClassValue<?> variableType = type.accept(this).to(ClassValue.class);
-            LiteralValue variableName = variable.accept(this).to(LiteralValue.class);
+            String variableName = variable.accept(this).to(LiteralValue.class).getValue();
             Value<?> iterable = expression.accept(this);
 
             final Iterator<?> iterator;
@@ -412,15 +413,12 @@ public class Executor implements Visitor<Value<?>> {
                 iterator = Arrays.stream(arrayValue.getValue()).iterator();
             } else iterator = ((Iterable<?>) iterable.getValue()).iterator();
 
-            try {
-                this.environment.declare(variableType, variableName.getValue(), variableType.toValue());
-            } catch (ScopeException ignored) {
-            }
-
             while (iterator.hasNext()) {
+                Value<?> next = Value.of(iterator.next());
                 try {
-                    this.environment.update(variableName.getValue(), Value.of(iterator.next()));
+                    this.environment.update(variableName, next);
                 } catch (ScopeException ignored) {
+                    this.environment.declare(variableType, variableName, next);
                 }
                 Optional<Value<?>> returnedValue = visitLoopCodeBlock(code);
                 if (returnedValue.isPresent()) return returnedValue.get();
