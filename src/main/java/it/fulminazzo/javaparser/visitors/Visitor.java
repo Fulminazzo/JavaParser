@@ -139,47 +139,6 @@ public interface Visitor<T> {
     @NotNull T visitCaseStatement(@NotNull CodeBlock block, @NotNull Node expression);
 
     /**
-     * Converts do statement and its fields to this visitor type.
-     *
-     * @param code       the code
-     * @param expression the expression
-     * @return the do statement
-     */
-    @NotNull T visitDoStatement(@NotNull CodeBlock code, @NotNull Node expression);
-
-    /**
-     * Converts enhanced for statement and its fields to this visitor type.
-     *
-     * @param type       the type
-     * @param variable   the variable
-     * @param code       the code
-     * @param expression the expression
-     * @return the enhanced for statement
-     */
-    @NotNull T visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable, @NotNull CodeBlock code, @NotNull Node expression);
-
-    /**
-     * Converts for statement and its fields to this visitor type.
-     *
-     * @param assignment the assignment
-     * @param increment  the increment
-     * @param code       the code
-     * @param expression the expression
-     * @return the for statement
-     */
-    @NotNull T visitForStatement(@NotNull Node assignment, @NotNull Node increment, @NotNull CodeBlock code, @NotNull Node expression);
-
-    /**
-     * Converts if statement and its fields to this visitor type.
-     *
-     * @param then       the code executed
-     * @param elseBranch the alternative branch
-     * @param expression the expression
-     * @return the if statement
-     */
-    @NotNull T visitIfStatement(@NotNull CodeBlock then, @NotNull Node elseBranch, @NotNull Node expression);
-
-    /**
      * Converts return and its fields to this visitor type.
      *
      * @param expression the expression
@@ -204,6 +163,37 @@ public interface Visitor<T> {
     @NotNull T visitStatement(@NotNull Node expression);
 
     /**
+     * Converts for statement and its fields to this visitor type.
+     *
+     * @param assignment the assignment
+     * @param increment  the increment
+     * @param code       the code
+     * @param expression the expression
+     * @return the for statement
+     */
+    @NotNull T visitForStatement(@NotNull Node assignment, @NotNull Node increment, @NotNull CodeBlock code, @NotNull Node expression);
+
+    /**
+     * Converts enhanced for statement and its fields to this visitor type.
+     *
+     * @param type       the type
+     * @param variable   the variable
+     * @param code       the code
+     * @param expression the expression
+     * @return the enhanced for statement
+     */
+    @NotNull T visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable, @NotNull CodeBlock code, @NotNull Node expression);
+
+    /**
+     * Converts do statement and its fields to this visitor type.
+     *
+     * @param code       the code
+     * @param expression the expression
+     * @return the do statement
+     */
+    @NotNull T visitDoStatement(@NotNull CodeBlock code, @NotNull Node expression);
+
+    /**
      * Converts while statement and its fields to this visitor type.
      *
      * @param code       the code
@@ -211,6 +201,16 @@ public interface Visitor<T> {
      * @return the while statement
      */
     @NotNull T visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expression);
+
+    /**
+     * Converts if statement and its fields to this visitor type.
+     *
+     * @param then       the code executed
+     * @param elseBranch the alternative branch
+     * @param expression the expression
+     * @return the if statement
+     */
+    @NotNull T visitIfStatement(@NotNull CodeBlock then, @NotNull Node elseBranch, @NotNull Node expression);
 
     /**
      * Converts assignment and its fields to this visitor type.
