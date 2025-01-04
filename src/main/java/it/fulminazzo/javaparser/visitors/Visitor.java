@@ -136,21 +136,6 @@ public interface Visitor<T> {
     @NotNull T visitArrayLiteral(@NotNull Node type);
 
     /**
-     * Converts empty literal and its fields to this visitor type.
-     *
-     * @return the empty literal
-     */
-    @NotNull T visitEmptyLiteral();
-
-    /**
-     * Converts literal and its fields to this visitor type.
-     *
-     * @param value the value
-     * @return the literal
-     */
-    @NotNull T visitLiteralImpl(@NotNull String value);
-
-    /**
      * Converts new object and its fields to this visitor type.
      *
      * @param left  the left
@@ -582,5 +567,20 @@ public interface Visitor<T> {
      * @return the string value literal
      */
     @NotNull T visitStringValueLiteral(@NotNull String rawValue);
+
+    /**
+     * Converts literal and its fields to this visitor type.
+     *
+     * @param value the value
+     * @return the literal
+     */
+    @NotNull T visitLiteralImpl(@NotNull String value);
+
+    /**
+     * Converts empty literal and its fields to this visitor type.
+     *
+     * @return the empty literal
+     */
+    @NotNull T visitEmptyLiteral();
 
 }
