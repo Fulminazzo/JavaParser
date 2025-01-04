@@ -601,7 +601,10 @@ public interface Visitor<
      * @param right the right
      * @return the cast
      */
-    @NotNull O visitCast(@NotNull Node left, @NotNull Node right);
+    default @NotNull O visitCast(@NotNull Node left, @NotNull Node right) {
+        O cast = left.accept(this);
+        return cast.checkClass().cast(right.accept(this));
+    }
 
     /**
      * Converts minus and its fields to this visitor type.
