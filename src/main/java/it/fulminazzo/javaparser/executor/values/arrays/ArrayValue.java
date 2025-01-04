@@ -63,7 +63,7 @@ public class ArrayValue<V> extends ObjectWrapper<List<V>> implements Value<V[]> 
 
     @Override
     public String toString() {
-        return String.format("%s(%s, [%s])", getClass().getSimpleName(), this.componentsType, this.object);
+        return String.format("%s(%s, %s)", getClass().getSimpleName(), this.componentsType, this.object);
     }
 
     /**
