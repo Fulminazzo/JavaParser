@@ -39,18 +39,7 @@ public class ArrayValue<V> extends ObjectWrapper<V[]> implements Value<V[]> {
      * @param values         the values of the array
      */
     ArrayValue(final @NotNull ClassValue<V> componentsType, final @NotNull Collection<Value<V>> values) {
-        this(componentsType, values.stream().toArray(a -> (Value<V>[]) Array.newInstance(Value.class, a)));
-    }
-
-    /**
-     * Instantiates a new Array value.
-     *
-     * @param componentsType the components type
-     * @param values         the values
-     */
-    @SafeVarargs
-    private ArrayValue(final @NotNull ClassValue<V> componentsType, final Value<V> @NotNull ... values) {
-        super(Arrays.stream(values).map(Value::getValue).toArray(a -> (V[]) Array.newInstance(componentsType.getValue(), a)));
+        super(values.stream().map(Value::getValue).toArray(a -> (V[]) Array.newInstance(componentsType.getValue(), a)));
         this.componentsType = componentsType;
     }
 
