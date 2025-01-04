@@ -27,4 +27,15 @@ public class VisitorException extends RuntimeException {
         return new VisitorException(cause.getMessage());
     }
 
+    /**
+     * Generates a {@link VisitorException} with message:
+     * <i>%clazz% does not have a class</i>
+     *
+     * @param type the type
+     * @return the type checker exception
+     */
+    public static @NotNull VisitorException noClassType(final @NotNull Class<?> type) {
+        return new VisitorException("%s does not have a class", type.getSimpleName());
+    }
+
 }
