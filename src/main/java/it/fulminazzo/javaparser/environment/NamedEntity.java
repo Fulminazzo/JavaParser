@@ -14,4 +14,15 @@ public interface NamedEntity {
      */
     @NotNull String getName();
 
+    /**
+     * Gets an instance of {@link NamedEntity} from the given name.
+     *
+     * @param name the name
+     * @return the named entity
+     */
+    static @NotNull NamedEntity of(@NotNull String name) {
+        return new StringNamedEntity(name);
+    }
+
+
 }
