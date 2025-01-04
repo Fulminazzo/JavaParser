@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  */
 @Getter
 @SuppressWarnings("unchecked")
-public class ArrayValue<V> extends ObjectWrapper<V[]> implements Value<V[]> {
+public class ArrayValue<V> extends ObjectWrapper<List<V>> implements Value<V[]> {
     private final @NotNull ClassValue<V> componentsType;
 
     /**
@@ -31,9 +31,9 @@ public class ArrayValue<V> extends ObjectWrapper<V[]> implements Value<V[]> {
      * @param size           the size of the array
      */
     ArrayValue(final @NotNull ClassValue<V> componentsType, final int size) {
-        super((V[]) Array.newInstance(componentsType.getWrapperValue(), size));
+        super(new LinkedList<>());
         this.componentsType = componentsType;
-        for (int i = 0; i < size; i++) this.object[i] = componentsType.toValue().getValue();
+        for (int i = 0; i < size; i++) this.object.add(componentsType.toValue().getValue());
     }
 
     /**
@@ -43,9 +43,10 @@ public class ArrayValue<V> extends ObjectWrapper<V[]> implements Value<V[]> {
      * @param values         the values of the array
      */
     ArrayValue(final @NotNull ClassValue<V> componentsType, final @NotNull Collection<Value<V>> values) {
-        this(componentsType, values.size());
+        super(new LinkedList<>());
+        this.componentsType = componentsType;
         List<Value<V>> list = new LinkedList<>(values);
-        for (int i = 0; i < values.size(); i++) this.object[i] = list.get(i).getValue();
+        for (int i = 0; i < values.size(); i++) this.object.add(list.get(i).getValue());
     }
 
     @Override
