@@ -72,7 +72,9 @@ public interface Visitor<T> {
      * @param expression the expression
      * @return the return
      */
-    @NotNull T visitReturn(@NotNull Node expression);
+    default @NotNull T visitReturn(@NotNull Node expression) {
+        return expression.accept(this);
+    }
 
     /**
      * Converts throw and its fields to this visitor type.
