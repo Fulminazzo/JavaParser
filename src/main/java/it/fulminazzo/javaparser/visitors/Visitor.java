@@ -523,17 +523,9 @@ public interface Visitor<T> {
     /**
      * Converts this literal and its fields to this visitor type.
      *
-     * @return the this literal
+     * @return the 'this' literal
      */
     @NotNull T visitThisLiteral();
-
-    /**
-     * Converts boolean value literal and its fields to this visitor type.
-     *
-     * @param rawValue the raw value
-     * @return the boolean value literal
-     */
-    @NotNull T visitBooleanValueLiteral(@NotNull String rawValue);
 
     /**
      * Converts char value literal and its fields to this visitor type.
@@ -542,6 +534,22 @@ public interface Visitor<T> {
      * @return the char value literal
      */
     @NotNull T visitCharValueLiteral(@NotNull String rawValue);
+
+    /**
+     * Converts number value literal and its fields to this visitor type.
+     *
+     * @param rawValue the raw value
+     * @return the number value literal
+     */
+    @NotNull T visitNumberValueLiteral(@NotNull String rawValue);
+
+    /**
+     * Converts long value literal and its fields to this visitor type.
+     *
+     * @param rawValue the raw value
+     * @return the long value literal
+     */
+    @NotNull T visitLongValueLiteral(@NotNull String rawValue);
 
     /**
      * Converts double value literal and its fields to this visitor type.
@@ -560,20 +568,12 @@ public interface Visitor<T> {
     @NotNull T visitFloatValueLiteral(@NotNull String rawValue);
 
     /**
-     * Converts long value literal and its fields to this visitor type.
+     * Converts boolean value literal and its fields to this visitor type.
      *
      * @param rawValue the raw value
-     * @return the long value literal
+     * @return the boolean value literal
      */
-    @NotNull T visitLongValueLiteral(@NotNull String rawValue);
-
-    /**
-     * Converts number value literal and its fields to this visitor type.
-     *
-     * @param rawValue the raw value
-     * @return the number value literal
-     */
-    @NotNull T visitNumberValueLiteral(@NotNull String rawValue);
+    @NotNull T visitBooleanValueLiteral(@NotNull String rawValue);
 
     /**
      * Converts string value literal and its fields to this visitor type.
