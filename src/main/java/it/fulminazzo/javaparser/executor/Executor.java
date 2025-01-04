@@ -128,7 +128,7 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitDynamicArray(@NotNull List<Node> parameters, @NotNull Node type) {
-        ClassValue<Object> componentsType = type.accept(this).to(ClassValue.class);
+        ClassValue<Object> componentsType = type.accept(this).to(ArrayClassValue.class).getComponentsType();
         Collection<Value<Object>> components = new LinkedList<>();
         for (Node component : parameters) components.add((Value<Object>) component.accept(this));
         return ArrayValue.of(componentsType, components);
