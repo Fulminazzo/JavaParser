@@ -108,7 +108,10 @@ public interface Visitor<T> {
      * @param expression the expression
      * @return the statement
      */
-    @NotNull T visitStatement(@NotNull Node expression);
+    default @NotNull T visitStatement(final @NotNull Node expression) {
+        expression.accept(this);
+        return visitEmptyLiteral();
+    }
 
     /**
      * Converts try statement and its fields to this visitor type.
