@@ -8,7 +8,6 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -102,12 +101,12 @@ public class ArrayValue<V> extends ObjectWrapper<List<Value<V>>> implements Valu
      * @return the array value
      */
     public static <V, T> @NotNull ArrayValue<V> of(final @NotNull T object) {
-        final V[] array;
         Class<V> componentType = (Class<V>) object.getClass().getComponentType();
-        if (componentType.isPrimitive())
-            array = new Refl<>(ArrayUtils.class).invokeMethod("toWrapperArray", object);
-        else array = (V[]) object;
-        return of(ClassValue.of(componentType), Arrays.stream(array).map(Value::of).collect(Collectors.toList()));
+        final Collection<Value<V>> values;
+        Refl<?> arrayUtils = new Refl<>(ArrayUtils.class);
+        if (componentType.isPrimitive()) values = arrayUtils.invokeMethod("toValueCollection", object);
+        else values = arrayUtils.invokeMethod("toValueCollection", new Class[]{Object[].class}, object);
+        return of(ClassValue.of(componentType), values);
     }
 
 }
