@@ -196,24 +196,6 @@ public interface Visitor<T> {
     @NotNull T visitBitXor(@NotNull Node left, @NotNull Node right);
 
     /**
-     * Converts cast and its fields to this visitor type.
-     *
-     * @param left  the left
-     * @param right the right
-     * @return the cast
-     */
-    @NotNull T visitCast(@NotNull Node left, @NotNull Node right);
-
-    /**
-     * Converts divide and its fields to this visitor type.
-     *
-     * @param left  the left
-     * @param right the right
-     * @return the divide
-     */
-    @NotNull T visitDivide(@NotNull Node left, @NotNull Node right);
-
-    /**
      * Converts equal and its fields to this visitor type.
      *
      * @param left  the left
@@ -496,6 +478,15 @@ public interface Visitor<T> {
      * @return the while statement
      */
     @NotNull T visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expression);
+
+    /**
+     * Converts cast and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the cast
+     */
+    @NotNull T visitCast(@NotNull Node left, @NotNull Node right);
 
     /**
      * Converts minus and its fields to this visitor type.
