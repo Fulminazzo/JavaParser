@@ -9,8 +9,11 @@ import java.util.Arrays;
 /**
  * The object that will be returned by a {@link Visitor} instance.
  * Provides various useful methods for the visitor itself.
+ *
+ * @param <C> the type of the {@link ClassVisitorObject}
+ * @param <O> the type of the {@link VisitorObject}
  */
-public interface VisitorObject {
+public interface VisitorObject<C extends ClassVisitorObject<?, ?>, O extends VisitorObject<?, ?>> {
 
     /**
      * Checks whether the current object is a basic object of Java.
@@ -26,7 +29,7 @@ public interface VisitorObject {
      * @param object the class of the object
      * @return true if it is
      */
-    default <V extends VisitorObject> boolean is(final @NotNull Class<V> object) {
+    default <V extends O> boolean is(final @NotNull Class<V> object) {
         return object.isAssignableFrom(getClass());
     }
 
@@ -36,7 +39,7 @@ public interface VisitorObject {
      * @param objects the objects
      * @return true if it is for at least one of them
      */
-    default boolean is(final VisitorObject @NotNull ... objects) {
+    default boolean is(final O @NotNull ... objects) {
         return Arrays.asList(objects).contains(this);
     }
 
@@ -46,7 +49,7 @@ public interface VisitorObject {
      * @param fieldName the field name
      * @return the field
      */
-    @NotNull Tuple<ClassVisitorObject, VisitorObject> getField(final @NotNull String fieldName);
+    @NotNull Tuple<C, O> getField(final @NotNull String fieldName);
 
     /**
      * Searches and invokes the given method from the associated {@link ClassVisitorObject} and
@@ -57,29 +60,29 @@ public interface VisitorObject {
      * @param parameters the parameters
      * @return the returned object from the method
      */
-    <V extends VisitorObject> @NotNull VisitorObject invokeMethod(final @NotNull String methodName,
-                                                                  final @NotNull ParameterVisitorObjects<V> parameters);
+    <V extends O> @NotNull O invokeMethod(final @NotNull String methodName,
+                                          final @NotNull ParameterVisitorObjects<V> parameters);
 
     /**
      * Converts the current object to its primitive associated object.
      *
      * @return the primitive object
      */
-    @NotNull VisitorObject toPrimitive();
+    @NotNull O toPrimitive();
 
     /**
      * Converts the current object to its wrapper associated object.
      *
      * @return the wrapper object
      */
-    @NotNull VisitorObject toWrapper();
+    @NotNull O toWrapper();
 
     /**
      * Gets the class associated with the current object.
      *
      * @return the class object
      */
-    @NotNull ClassVisitorObject toClass();
+    @NotNull C toClass();
     
     /*
         BINARY COMPARISONS
@@ -89,65 +92,65 @@ public interface VisitorObject {
      * Executes and comparison.
      *
      * @param other the other object
-     * @return the boolean object
+     * @return a boolean object
      */
-    @NotNull VisitorObject and(final @NotNull VisitorObject other);
+    @NotNull O and(final @NotNull O other);
 
     /**
      * Executes or comparison.
      *
      * @param other the other object
-     * @return the boolean object
+     * @return a boolean object
      */
-    @NotNull VisitorObject or(final @NotNull VisitorObject other);
+    @NotNull O or(final @NotNull O other);
 
     /**
      * Executes equal comparison.
      *
      * @param other the other object
-     * @return the boolean object
+     * @return a boolean object
      */
-    @NotNull VisitorObject equal(final @NotNull VisitorObject other);
+    @NotNull O equal(final @NotNull O other);
 
     /**
      * Executes not equal comparison.
      *
      * @param other the other object
-     * @return the boolean object
+     * @return a boolean object
      */
-    @NotNull VisitorObject notEqual(final @NotNull VisitorObject other);
+    @NotNull O notEqual(final @NotNull O other);
 
     /**
      * Executes less than comparison.
      *
      * @param other the other object
-     * @return the boolean object
+     * @return a boolean object
      */
-    @NotNull VisitorObject lessThan(final @NotNull VisitorObject other);
+    @NotNull O lessThan(final @NotNull O other);
 
     /**
      * Executes less than equal comparison.
      *
      * @param other the other object
-     * @return the boolean object
+     * @return a boolean object
      */
-    @NotNull VisitorObject lessThanEqual(final @NotNull VisitorObject other);
+    @NotNull O lessThanEqual(final @NotNull O other);
 
     /**
      * Executes greater than comparison.
      *
      * @param other the other object
-     * @return the boolean object
+     * @return a boolean object
      */
-    @NotNull VisitorObject greaterThan(final @NotNull VisitorObject other);
+    @NotNull O greaterThan(final @NotNull O other);
 
     /**
      * Executes greater than equal comparison.
      *
      * @param other the other object
-     * @return the boolean object
+     * @return a boolean object
      */
-    @NotNull VisitorObject greaterThanEqual(final @NotNull VisitorObject other);
+    @NotNull O greaterThanEqual(final @NotNull O other);
 
     /*
         BINARY OPERATIONS
@@ -157,103 +160,103 @@ public interface VisitorObject {
      * Executes bit and operation.
      *
      * @param other the other object
-     * @return the object
+     * @return the resulting object
      */
-    @NotNull VisitorObject bitAnd(final @NotNull VisitorObject other);
+    @NotNull O bitAnd(final @NotNull O other);
 
     /**
      * Executes bit or operation.
      *
      * @param other the other object
-     * @return the object
+     * @return the resulting object
      */
-    @NotNull VisitorObject bitOr(final @NotNull VisitorObject other);
+    @NotNull O bitOr(final @NotNull O other);
 
     /**
      * Executes bit xor operation.
      *
      * @param other the other object
-     * @return the object
+     * @return the resulting object
      */
-    @NotNull VisitorObject bitXor(final @NotNull VisitorObject other);
+    @NotNull O bitXor(final @NotNull O other);
 
     /**
      * Executes lshift operation.
      *
      * @param other the other object
-     * @return the object
+     * @return the resulting object
      */
-    @NotNull VisitorObject lshift(final @NotNull VisitorObject other);
+    @NotNull O lshift(final @NotNull O other);
 
     /**
      * Executes rshift operation.
      *
      * @param other the other object
-     * @return the object
+     * @return the resulting object
      */
-    @NotNull VisitorObject rshift(final @NotNull VisitorObject other);
+    @NotNull O rshift(final @NotNull O other);
 
     /**
      * Executes urshift operation.
      *
      * @param other the other object
-     * @return the object
+     * @return the resulting object
      */
-    @NotNull VisitorObject urshift(final @NotNull VisitorObject other);
+    @NotNull O urshift(final @NotNull O other);
 
 
     /**
      * Executes add operation.
      *
      * @param other the other object
-     * @return the object
+     * @return the resulting object
      */
-    @NotNull VisitorObject add(final @NotNull VisitorObject other);
+    @NotNull O add(final @NotNull O other);
 
     /**
      * Executes subtract operation.
      *
      * @param other the other object
-     * @return the object
+     * @return the resulting object
      */
-    @NotNull VisitorObject subtract(final @NotNull VisitorObject other);
+    @NotNull O subtract(final @NotNull O other);
 
     /**
      * Executes multiply operation.
      *
      * @param other the other object
-     * @return the object
+     * @return the resulting object
      */
-    @NotNull VisitorObject multiply(final @NotNull VisitorObject other);
+    @NotNull O multiply(final @NotNull O other);
 
     /**
      * Executes divide operation.
      *
      * @param other the other object
-     * @return the object
+     * @return the resulting object
      */
-    @NotNull VisitorObject divide(final @NotNull VisitorObject other);
+    @NotNull O divide(final @NotNull O other);
 
     /**
      * Executes modulo operation.
      *
      * @param other the other object
-     * @return the object
+     * @return the resulting object
      */
-    @NotNull VisitorObject modulo(final @NotNull VisitorObject other);
+    @NotNull O modulo(final @NotNull O other);
 
     /**
      * Executes minus operation.
      *
-     * @return the boolean object
+     * @return a boolean object
      */
-    @NotNull VisitorObject minus();
+    @NotNull O minus();
 
     /**
      * Executes not operation.
      *
-     * @return the boolean object
+     * @return a boolean object
      */
-    @NotNull VisitorObject not();
+    @NotNull O not();
 
 }
