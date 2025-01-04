@@ -9,6 +9,8 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -40,9 +42,9 @@ public class ArrayValue<V> extends ObjectWrapper<V[]> implements Value<V[]> {
      * @param values         the values of the array
      */
     ArrayValue(final @NotNull ClassValue<V> componentsType, final @NotNull Collection<Value<V>> values) {
-        super(values.stream().map(Value::getValue).toArray(a ->
-                (V[]) Array.newInstance(componentsType.getWrapperValue(), a)));
-        this.componentsType = componentsType;
+        this(componentsType, values.size());
+        List<Value<V>> list = new LinkedList<>(values);
+        for (int i = 0; i < values.size(); i++) this.object[i] = list.get(i).getValue();
     }
 
     @Override
