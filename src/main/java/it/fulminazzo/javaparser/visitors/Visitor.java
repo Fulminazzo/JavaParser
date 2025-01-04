@@ -367,22 +367,6 @@ public interface Visitor<T> {
     @NotNull T visitIncrement(boolean before, @NotNull Node operand);
 
     /**
-     * Converts minus and its fields to this visitor type.
-     *
-     * @param operand the operand
-     * @return the minus
-     */
-    @NotNull T visitMinus(@NotNull Node operand);
-
-    /**
-     * Converts not and its fields to this visitor type.
-     *
-     * @param operand the operand
-     * @return the not
-     */
-    @NotNull T visitNot(@NotNull Node operand);
-
-    /**
      * Converts break and its fields to this visitor type.
      *
      * @param expression the expression
@@ -512,6 +496,22 @@ public interface Visitor<T> {
      * @return the while statement
      */
     @NotNull T visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expression);
+
+    /**
+     * Converts minus and its fields to this visitor type.
+     *
+     * @param operand the operand
+     * @return the minus
+     */
+    @NotNull T visitMinus(@NotNull Node operand);
+
+    /**
+     * Converts not and its fields to this visitor type.
+     *
+     * @param operand the operand
+     * @return the not
+     */
+    @NotNull T visitNot(@NotNull Node operand);
 
     /**
      * Converts null literal and its fields to this visitor type.
