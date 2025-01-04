@@ -67,33 +67,6 @@ public interface Visitor<T> {
     @NotNull T visitAssignment(@NotNull Node type, @NotNull Literal name, @NotNull Node value);
 
     /**
-     * Converts method call and its fields to this visitor type.
-     *
-     * @param executor   the executor
-     * @param methodName the method name
-     * @param invocation the invocation
-     * @return the method call
-     */
-    @NotNull T visitMethodCall(@NotNull Node executor, @NotNull String methodName, @NotNull MethodInvocation invocation);
-
-    /**
-     * Converts field and its fields to this visitor type.
-     *
-     * @param left  the left
-     * @param right the right
-     * @return the field
-     */
-    @NotNull T visitField(@NotNull Node left, @NotNull Node right);
-
-    /**
-     * Converts method invocation and its fields to this visitor type.
-     *
-     * @param parameters the parameters
-     * @return the method invocation
-     */
-    @NotNull T visitMethodInvocation(@NotNull List<Node> parameters);
-
-    /**
      * Converts dynamic array and its fields to this visitor type.
      *
      * @param parameters the parameters
@@ -152,24 +125,6 @@ public interface Visitor<T> {
      * @return the re assign
      */
     @NotNull T visitReAssign(@NotNull Node left, @NotNull Node right);
-
-    /**
-     * Converts decrement and its fields to this visitor type.
-     *
-     * @param before  the before
-     * @param operand the operand
-     * @return the decrement
-     */
-    @NotNull T visitDecrement(boolean before, @NotNull Node operand);
-
-    /**
-     * Converts increment and its fields to this visitor type.
-     *
-     * @param before  the before
-     * @param operand the operand
-     * @return the increment
-     */
-    @NotNull T visitIncrement(boolean before, @NotNull Node operand);
 
     /**
      * Converts break and its fields to this visitor type.
@@ -301,6 +256,51 @@ public interface Visitor<T> {
      * @return the while statement
      */
     @NotNull T visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expression);
+
+    /**
+     * Converts increment and its fields to this visitor type.
+     *
+     * @param before  the before
+     * @param operand the operand
+     * @return the increment
+     */
+    @NotNull T visitIncrement(boolean before, @NotNull Node operand);
+
+    /**
+     * Converts decrement and its fields to this visitor type.
+     *
+     * @param before  the before
+     * @param operand the operand
+     * @return the decrement
+     */
+    @NotNull T visitDecrement(boolean before, @NotNull Node operand);
+
+    /**
+     * Converts method call and its fields to this visitor type.
+     *
+     * @param executor   the executor
+     * @param methodName the method name
+     * @param invocation the invocation
+     * @return the method call
+     */
+    @NotNull T visitMethodCall(@NotNull Node executor, @NotNull String methodName, @NotNull MethodInvocation invocation);
+
+    /**
+     * Converts field and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the field
+     */
+    @NotNull T visitField(@NotNull Node left, @NotNull Node right);
+
+    /**
+     * Converts method invocation and its fields to this visitor type.
+     *
+     * @param parameters the parameters
+     * @return the method invocation
+     */
+    @NotNull T visitMethodInvocation(@NotNull List<Node> parameters);
 
     /**
      * Converts and and its fields to this visitor type.
