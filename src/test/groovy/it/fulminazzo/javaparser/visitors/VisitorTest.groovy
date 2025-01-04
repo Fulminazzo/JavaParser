@@ -3,12 +3,12 @@ package it.fulminazzo.javaparser.visitors
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.fulmicollection.utils.ClassUtils
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils
+import it.fulminazzo.javaparser.environment.Environment
 import it.fulminazzo.javaparser.parser.node.Assignment
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.MockNode
 import it.fulminazzo.javaparser.parser.node.Node
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
-import it.fulminazzo.javaparser.parser.node.container.JavaProgram
 import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.statements.CaseStatement
 import it.fulminazzo.javaparser.parser.node.statements.CatchStatement
@@ -94,13 +94,87 @@ class VisitorTest extends Specification {
          * UNUSED METHODS
          */
         @Override
-        @NotNull Optional<String> visitProgram(@NotNull JavaProgram program) {
+        @NotNull Object getExecutingObject() {
             return null
         }
 
-        @NotNull
         @Override
-        String visitAssignmentBlock(@NotNull List<Assignment> assignments) {
+        @NotNull Environment<String> getEnvironment() {
+            return null
+        }
+
+        @Override
+        @NotNull String visitCodeBlock(@NotNull LinkedList<Statement> statements) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitThrow(@NotNull Node expression) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitBreak(@NotNull Node expression) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitContinue(@NotNull Node expression) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitTryStatement(@NotNull CodeBlock block, @NotNull List<CatchStatement> catchBlocks,
+                                          @NotNull CodeBlock finallyBlock, @NotNull Node expression) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitAssignmentBlock(@NotNull List<Assignment> assignments) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitCatchStatement(@NotNull List<Literal> exceptions, @NotNull CodeBlock block,
+                                            @NotNull Node expression) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitSwitchStatement(@NotNull List<CaseStatement> cases, @NotNull CodeBlock defaultBlock,
+                                             @NotNull Node expression) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitCaseStatement(@NotNull CodeBlock block, @NotNull Node expression) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitForStatement(@NotNull Node assignment, @NotNull Node increment,
+                                          @NotNull CodeBlock code, @NotNull Node expression) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable,
+                                                  @NotNull CodeBlock code, @NotNull Node expression) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitDoStatement(@NotNull CodeBlock code, @NotNull Node expression) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expression) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitIfStatement(@NotNull CodeBlock then, @NotNull Node elseBranch, @NotNull Node expression) {
             return null
         }
 
@@ -109,20 +183,13 @@ class VisitorTest extends Specification {
             return null
         }
 
-        @NotNull
         @Override
-        String visitMethodCall(@NotNull Node executor, @NotNull String methodName, @NotNull MethodInvocation invocation) {
-            return null
-        }
-
-        @NotNull
-        @Override
-        String visitField(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitReAssign(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        @NotNull String visitMethodInvocation(@NotNull List<Node> parameters) {
+        @NotNull String visitNewObject(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
@@ -137,37 +204,73 @@ class VisitorTest extends Specification {
         }
 
         @Override
-        @NotNull String visitCodeBlock(@NotNull LinkedList<Statement> statements) {
-            return null
-        }
-
-        @Override
-        @NotNull String visitJavaProgram(@NotNull LinkedList<Statement> statements) {
-            return null
-        }
-
-        @Override
         @NotNull String visitArrayLiteral(@NotNull Node type) {
             return null
         }
 
         @Override
-        @NotNull String visitEmptyLiteral() {
+        @NotNull String visitIncrement(boolean before, @NotNull Node operand) {
             return null
         }
 
         @Override
-        @NotNull String visitLiteralImpl(@NotNull String value) {
+        @NotNull String visitDecrement(boolean before, @NotNull Node operand) {
             return null
         }
 
         @Override
-        @NotNull String visitAdd(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitMethodCall(@NotNull Node executor, @NotNull String methodName,
+                                        @NotNull MethodInvocation invocation) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitField(@NotNull Node left, @NotNull Node right) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitMethodInvocation(@NotNull List<Node> parameters) {
             return null
         }
 
         @Override
         @NotNull String visitAnd(@NotNull Node left, @NotNull Node right) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitOr(@NotNull Node left, @NotNull Node right) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitEqual(@NotNull Node left, @NotNull Node right) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitNotEqual(@NotNull Node left, @NotNull Node right) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitLessThan(@NotNull Node left, @NotNull Node right) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitLessThanEqual(@NotNull Node left, @NotNull Node right) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitGreaterThan(@NotNull Node left, @NotNull Node right) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitGreaterThanEqual(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
@@ -187,67 +290,7 @@ class VisitorTest extends Specification {
         }
 
         @Override
-        @NotNull String visitCast(@NotNull Node left, @NotNull Node right) {
-            return null
-        }
-
-        @Override
-        @NotNull String visitDivide(@NotNull Node left, @NotNull Node right) {
-            return null
-        }
-
-        @Override
-        @NotNull String visitEqual(@NotNull Node left, @NotNull Node right) {
-            return null
-        }
-
-        @Override
-        @NotNull String visitGreaterThan(@NotNull Node left, @NotNull Node right) {
-            return null
-        }
-
-        @Override
-        @NotNull String visitGreaterThanEqual(@NotNull Node left, @NotNull Node right) {
-            return null
-        }
-
-        @Override
         @NotNull String visitLShift(@NotNull Node left, @NotNull Node right) {
-            return null
-        }
-
-        @Override
-        @NotNull String visitLessThan(@NotNull Node left, @NotNull Node right) {
-            return null
-        }
-
-        @Override
-        @NotNull String visitLessThanEqual(@NotNull Node left, @NotNull Node right) {
-            return null
-        }
-
-        @Override
-        @NotNull String visitModulo(@NotNull Node left, @NotNull Node right) {
-            return null
-        }
-
-        @Override
-        @NotNull String visitMultiply(@NotNull Node left, @NotNull Node right) {
-            return null
-        }
-
-        @Override
-        @NotNull String visitNewObject(@NotNull Node left, @NotNull Node right) {
-            return null
-        }
-
-        @Override
-        @NotNull String visitNotEqual(@NotNull Node left, @NotNull Node right) {
-            return null
-        }
-
-        @Override
-        @NotNull String visitOr(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
@@ -257,7 +300,12 @@ class VisitorTest extends Specification {
         }
 
         @Override
-        @NotNull String visitReAssign(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitURShift(@NotNull Node left, @NotNull Node right) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitAdd(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
@@ -267,17 +315,22 @@ class VisitorTest extends Specification {
         }
 
         @Override
-        @NotNull String visitURShift(@NotNull Node left, @NotNull Node right) {
+        @NotNull String visitMultiply(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        @NotNull String visitDecrement(boolean before, @NotNull Node operand) {
+        @NotNull String visitDivide(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
         @Override
-        @NotNull String visitIncrement(boolean before, @NotNull Node operand) {
+        @NotNull String visitModulo(@NotNull Node left, @NotNull Node right) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitCast(@NotNull Node left, @NotNull Node right) {
             return null
         }
 
@@ -292,79 +345,6 @@ class VisitorTest extends Specification {
         }
 
         @Override
-        @NotNull String visitBreak(@NotNull Node expression) {
-            return null
-        }
-
-        @Override
-        @NotNull String visitContinue(@NotNull Node expression) {
-            return null
-        }
-
-        @NotNull
-        @Override
-        String visitTryStatement(@NotNull CodeBlock block, @NotNull List<CatchStatement> catchBlocks, @NotNull CodeBlock finallyBlock, @NotNull Node expression) {
-            return null
-        }
-
-        @NotNull
-        @Override
-        String visitCatchStatement(@NotNull List<Literal> exceptions, @NotNull CodeBlock block, @NotNull Node expression) {
-            return null
-        }
-
-        @Override
-        @NotNull String visitSwitchStatement(@NotNull List<CaseStatement> cases, @NotNull CodeBlock defaultBlock, @NotNull Node expression) {
-            return null
-        }
-
-        @Override
-        @NotNull String visitCaseStatement(@NotNull CodeBlock block, @NotNull Node expression) {
-            return null
-        }
-
-        @Override
-        @NotNull String visitDoStatement(@NotNull CodeBlock code, @NotNull Node expression) {
-            return null
-        }
-
-        @Override
-        @NotNull String visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable, @NotNull CodeBlock code, @NotNull Node expression) {
-            return null
-        }
-
-        @Override
-        @NotNull String visitForStatement(@NotNull Node assignment, @NotNull Node increment, @NotNull CodeBlock code, @NotNull Node expression) {
-            return null
-        }
-
-        @Override
-        @NotNull String visitIfStatement(@NotNull CodeBlock then, @NotNull Node elseBranch, @NotNull Node expression) {
-            return null
-        }
-
-        @Override
-        @NotNull String visitReturn(@NotNull Node expression) {
-            return null
-        }
-
-        @NotNull
-        @Override
-        String visitThrow(@NotNull Node expression) {
-            return null
-        }
-
-        @Override
-        @NotNull String visitStatement(@NotNull Node expression) {
-            return null
-        }
-
-        @Override
-        @NotNull String visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expression) {
-            return null
-        }
-
-        @Override
         @NotNull String visitNullLiteral() {
             return null
         }
@@ -375,12 +355,17 @@ class VisitorTest extends Specification {
         }
 
         @Override
-        @NotNull String visitBooleanValueLiteral(@NotNull String rawValue) {
+        @NotNull String visitCharValueLiteral(@NotNull String rawValue) {
             return null
         }
 
         @Override
-        @NotNull String visitCharValueLiteral(@NotNull String rawValue) {
+        @NotNull String visitNumberValueLiteral(@NotNull String rawValue) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitLongValueLiteral(@NotNull String rawValue) {
             return null
         }
 
@@ -395,12 +380,7 @@ class VisitorTest extends Specification {
         }
 
         @Override
-        @NotNull String visitLongValueLiteral(@NotNull String rawValue) {
-            return null
-        }
-
-        @Override
-        @NotNull String visitNumberValueLiteral(@NotNull String rawValue) {
+        @NotNull String visitBooleanValueLiteral(@NotNull String rawValue) {
             return null
         }
 
@@ -408,6 +388,17 @@ class VisitorTest extends Specification {
         @NotNull String visitStringValueLiteral(@NotNull String rawValue) {
             return null
         }
+
+        @Override
+        @NotNull String visitLiteralImpl(@NotNull String value) {
+            return null
+        }
+
+        @Override
+        @NotNull String visitEmptyLiteral() {
+            return null
+        }
+
     }
 
 }
