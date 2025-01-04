@@ -12,16 +12,23 @@ import java.util.stream.Stream;
  * Represents the list of parameters required during the invocation
  * of a method or the initialization of an object.
  *
- * @param <V> the type of the parameters
+ * @param <C> the class type of the parameters
+ * @param <O> the type of the parameters
+ * @param <P> the type of the {@link ParameterVisitorObjects}
  */
-public abstract class ParameterVisitorObjects<V extends VisitorObject> extends ObjectWrapper<List<V>> implements VisitorObject, Iterable<V> {
+public abstract class ParameterVisitorObjects<
+        C extends ClassVisitorObject<C, O, P>,
+        O extends VisitorObject<C, O, P>,
+        P extends ParameterVisitorObjects<C, O, P>
+        > extends ObjectWrapper<List<O>>
+        implements VisitorObject<C, O, P>, Iterable<O> {
 
     /**
      * Instantiates a new Parameter visitor object.
      *
      * @param parameters the parameters
      */
-    public ParameterVisitorObjects(final @NotNull List<V> parameters) {
+    public ParameterVisitorObjects(final @NotNull List<O> parameters) {
         super(parameters);
     }
 
@@ -35,7 +42,7 @@ public abstract class ParameterVisitorObjects<V extends VisitorObject> extends O
     }
 
     @Override
-    public @NotNull ClassVisitorObject toClass() {
+    public @NotNull C toClass() {
         throw VisitorException.noClassType(getClass());
     }
 
@@ -44,12 +51,12 @@ public abstract class ParameterVisitorObjects<V extends VisitorObject> extends O
      *
      * @return the stream
      */
-    public @NotNull Stream<V> stream() {
+    public @NotNull Stream<O> stream() {
         return this.object.stream();
     }
 
     @Override
-    public @NotNull Iterator<V> iterator() {
+    public @NotNull Iterator<O> iterator() {
         return stream().iterator();
     }
 
