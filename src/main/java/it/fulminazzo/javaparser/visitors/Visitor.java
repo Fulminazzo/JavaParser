@@ -356,7 +356,8 @@ public interface Visitor<
      */
     @NotNull
     default O visitAnd(@NotNull Node left, @NotNull Node right) {
-        return left.accept(this).and(right.accept(this));
+        O o = left.accept(this);
+        return o.and(right.accept(this));
     }
 
     /**
@@ -368,7 +369,8 @@ public interface Visitor<
      */
     @NotNull
     default O visitOr(@NotNull Node left, @NotNull Node right) {
-        return left.accept(this).or(right.accept(this));
+        O o = left.accept(this);
+        return o.or(right.accept(this));
     }
 
     /**
@@ -380,7 +382,8 @@ public interface Visitor<
      */
     @NotNull
     default O visitEqual(@NotNull Node left, @NotNull Node right) {
-        return left.accept(this).equal(right.accept(this));
+        O o = left.accept(this);
+        return o.equal(right.accept(this));
     }
 
     /**
@@ -392,7 +395,8 @@ public interface Visitor<
      */
     @NotNull
     default O visitNotEqual(@NotNull Node left, @NotNull Node right) {
-        return left.accept(this).notEqual(right.accept(this));
+        O o = left.accept(this);
+        return o.notEqual(right.accept(this));
     }
 
     /**
@@ -404,7 +408,8 @@ public interface Visitor<
      */
     @NotNull
     default O visitLessThan(@NotNull Node left, @NotNull Node right) {
-        return left.accept(this).lessThan(right.accept(this));
+        O o = left.accept(this);
+        return o.lessThan(right.accept(this));
     }
 
     /**
@@ -416,7 +421,8 @@ public interface Visitor<
      */
     @NotNull
     default O visitLessThanEqual(@NotNull Node left, @NotNull Node right) {
-        return left.accept(this).lessThanEqual(right.accept(this));
+        O o = left.accept(this);
+        return o.lessThanEqual(right.accept(this));
     }
 
     /**
@@ -428,7 +434,8 @@ public interface Visitor<
      */
     @NotNull
     default O visitGreaterThan(@NotNull Node left, @NotNull Node right) {
-        return left.accept(this).greaterThan(right.accept(this));
+        O o = left.accept(this);
+        return o.greaterThan(right.accept(this));
     }
 
     /**
@@ -440,7 +447,8 @@ public interface Visitor<
      */
     @NotNull
     default O visitGreaterThanEqual(@NotNull Node left, @NotNull Node right) {
-        return left.accept(this).greaterThanEqual(right.accept(this));
+        O o = left.accept(this);
+        return o.greaterThanEqual(right.accept(this));
     }
 
     /**
@@ -452,7 +460,8 @@ public interface Visitor<
      */
     @NotNull
     default O visitBitAnd(@NotNull Node left, @NotNull Node right) {
-        return left.accept(this).bitAnd(right.accept(this));
+        O o = left.accept(this);
+        return o.bitAnd(right.accept(this));
     }
 
     /**
@@ -464,7 +473,8 @@ public interface Visitor<
      */
     @NotNull
     default O visitBitOr(@NotNull Node left, @NotNull Node right) {
-        return left.accept(this).bitOr(right.accept(this));
+        O o = left.accept(this);
+        return o.bitOr(right.accept(this));
     }
 
     /**
@@ -476,7 +486,8 @@ public interface Visitor<
      */
     @NotNull
     default O visitBitXor(@NotNull Node left, @NotNull Node right) {
-        return left.accept(this).bitXor(right.accept(this));
+        O o = left.accept(this);
+        return o.bitXor(right.accept(this));
     }
 
     /**
@@ -488,7 +499,8 @@ public interface Visitor<
      */
     @NotNull
     default O visitLShift(@NotNull Node left, @NotNull Node right) {
-        return left.accept(this).lshift(right.accept(this));
+        O o = left.accept(this);
+        return o.lshift(right.accept(this));
     }
 
     /**
@@ -500,7 +512,8 @@ public interface Visitor<
      */
     @NotNull
     default O visitRShift(@NotNull Node left, @NotNull Node right) {
-        return left.accept(this).rshift(right.accept(this));
+        O o = left.accept(this);
+        return o.rshift(right.accept(this));
     }
 
     /**
@@ -512,7 +525,8 @@ public interface Visitor<
      */
     @NotNull
     default O visitURShift(@NotNull Node left, @NotNull Node right) {
-        return left.accept(this).urshift(right.accept(this));
+        O o = left.accept(this);
+        return o.urshift(right.accept(this));
     }
 
     /**
@@ -524,7 +538,8 @@ public interface Visitor<
      */
     @NotNull
     default O visitAdd(@NotNull Node left, @NotNull Node right) {
-        return left.accept(this).add(right.accept(this));
+        O o = left.accept(this);
+        return o.add(right.accept(this));
     }
 
     /**
@@ -536,7 +551,8 @@ public interface Visitor<
      */
     @NotNull
     default O visitSubtract(@NotNull Node left, @NotNull Node right) {
-        return left.accept(this).subtract(right.accept(this));
+        O o = left.accept(this);
+        return o.subtract(right.accept(this));
     }
 
     /**
@@ -548,7 +564,8 @@ public interface Visitor<
      */
     @NotNull
     default O visitMultiply(@NotNull Node left, @NotNull Node right) {
-        return left.accept(this).multiply(right.accept(this));
+        O o = left.accept(this);
+        return o.multiply(right.accept(this));
     }
 
     /**
@@ -560,7 +577,8 @@ public interface Visitor<
      */
     @NotNull
     default O visitDivide(@NotNull Node left, @NotNull Node right) {
-        return left.accept(this).divide(right.accept(this));
+        O o = left.accept(this);
+        return o.divide(right.accept(this));
     }
 
     /**
@@ -572,7 +590,8 @@ public interface Visitor<
      */
     @NotNull
     default O visitModulo(@NotNull Node left, @NotNull Node right) {
-        return left.accept(this).modulo(right.accept(this));
+        O o = left.accept(this);
+        return o.modulo(right.accept(this));
     }
 
     /**
@@ -592,7 +611,8 @@ public interface Visitor<
      */
     @NotNull
     default O visitMinus(@NotNull Node operand) {
-        return operand.accept(this).minus();
+        O o = operand.accept(this);
+        return o.minus();
     }
 
     /**
@@ -603,7 +623,8 @@ public interface Visitor<
      */
     @NotNull
     default O visitNot(@NotNull Node operand) {
-        return operand.accept(this).not();
+        O o = operand.accept(this);
+        return o.not();
     }
 
     /**
