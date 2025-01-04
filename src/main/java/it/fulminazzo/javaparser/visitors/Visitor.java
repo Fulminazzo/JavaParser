@@ -11,10 +11,7 @@ import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.parser.node.statements.CaseStatement;
 import it.fulminazzo.javaparser.parser.node.statements.CatchStatement;
 import it.fulminazzo.javaparser.parser.node.statements.Statement;
-import it.fulminazzo.javaparser.visitors.visitorobjects.ClassVisitorObject;
-import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects;
-import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
-import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObjectException;
+import it.fulminazzo.javaparser.visitors.visitorobjects.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
@@ -350,12 +347,21 @@ public interface Visitor<
 
     /**
      * Converts field and its fields to this visitor type.
+     * Throws {@link VisitorException} in case of error.
      *
-     * @param left  the left
-     * @param right the right
+     * @param executor  the executor
+     * @param fieldName the field name
      * @return the field
      */
-    @NotNull O visitField(@NotNull Node left, @NotNull Node right);
+    default @NotNull O visitField(@NotNull Node executor, @NotNull Node fieldName) {
+        O actualExecutor = executor.accept(this);
+        O actualFieldName = fieldName.accept(this);
+        try {
+            return actualExecutor.getField(actualFieldName.check(LiteralObject.class).getName()).getValue();
+        } catch (VisitorObjectException e) {
+            throw VisitorException.of(e);
+        }
+    }
 
     /**
      * Converts method invocation and its fields to this visitor type.
