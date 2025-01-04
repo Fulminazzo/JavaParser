@@ -30,7 +30,7 @@ public class ArrayClassValue<V> extends ObjectWrapper<ClassValue<V>> implements 
         Object[] internal = (Object[]) value.getValue();
         Value<V[]> returnedValue = ArrayValue.of(getComponentsType(), internal.length);
         for (int i = 0; i < internal.length; i++)
-            returnedValue.getValue()[i] = getComponentsType().cast(Value.of(internal)).getValue();
+            returnedValue.getValue()[i] = getComponentsType().cast(Value.of(internal[i])).getValue();
         return returnedValue;
     }
 
