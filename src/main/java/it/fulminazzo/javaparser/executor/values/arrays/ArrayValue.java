@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  */
 @Getter
 @SuppressWarnings("unchecked")
-public class ArrayValue<V> extends ObjectWrapper<Value<V>[]> implements Value<Value<V>[]> {
+public class ArrayValue<V> extends ObjectWrapper<V[]> implements Value<V[]> {
     private final @NotNull ClassValue<V> componentsType;
 
     /**
@@ -29,7 +29,7 @@ public class ArrayValue<V> extends ObjectWrapper<Value<V>[]> implements Value<Va
      */
     ArrayValue(final @NotNull ClassValue<V> componentsType, final int size) {
         this(componentsType, (Value<V>[]) Array.newInstance(Value.class, size));
-        for (int i = 0; i < size; i++) this.object[i] = componentsType.toValue();
+        for (int i = 0; i < size; i++) this.object[i] = componentsType.toValue().getValue();
     }
 
     /**
@@ -50,24 +50,24 @@ public class ArrayValue<V> extends ObjectWrapper<Value<V>[]> implements Value<Va
      */
     @SafeVarargs
     private ArrayValue(final @NotNull ClassValue<V> componentsType, final Value<V> @NotNull ... values) {
-        super(values);
+        super(Arrays.stream(values).map(Value::getValue).toArray(a -> (V[]) Array.newInstance(componentsType.getValue(), a)));
         this.componentsType = componentsType;
     }
 
     @Override
-    public @NotNull ClassValue<Value<V>[]> toClassValue() {
+    public @NotNull ClassValue<V[]> toClassValue() {
         return new ArrayClassValue<>(this.componentsType);
     }
 
     @Override
-    public Value<V>[] getValue() {
+    public V[] getValue() {
         return this.object;
     }
 
     @Override
     public int hashCode() {
         int code = getClass().hashCode();
-        for (Value<V> v : this.object) code ^= v.hashCode();
+        for (V v : this.object) code ^= v.hashCode();
         return code;
     }
 
@@ -80,7 +80,6 @@ public class ArrayValue<V> extends ObjectWrapper<Value<V>[]> implements Value<Va
     public String toString() {
         return String.format("%s(%s, [%s])", getClass().getSimpleName(), this.componentsType,
                 Arrays.stream(this.object)
-                        .map(Value::getValue)
                         .map(o -> o == null ? "null" : o.toString())
                         .collect(Collectors.joining(", ")));
     }
