@@ -57,16 +57,6 @@ public interface Visitor<T> {
     @NotNull T visitAssignmentBlock(@NotNull List<Assignment> assignments);
 
     /**
-     * Converts assignment and its fields to this visitor type.
-     *
-     * @param type  the type
-     * @param name  the name
-     * @param value the value
-     * @return the assignment
-     */
-    @NotNull T visitAssignment(@NotNull Node type, @NotNull Literal name, @NotNull Node value);
-
-    /**
      * Converts code block and its fields to this visitor type.
      *
      * @param statements the statements
@@ -221,6 +211,16 @@ public interface Visitor<T> {
      * @return the while statement
      */
     @NotNull T visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expression);
+
+    /**
+     * Converts assignment and its fields to this visitor type.
+     *
+     * @param type  the type
+     * @param name  the name
+     * @param value the value
+     * @return the assignment
+     */
+    @NotNull T visitAssignment(@NotNull Node type, @NotNull Literal name, @NotNull Node value);
 
     /**
      * Converts new object and its fields to this visitor type.
