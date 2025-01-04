@@ -29,6 +29,7 @@ import java.util.concurrent.Callable;
  *
  * @param <O> the returned object
  */
+@SuppressWarnings("unchecked")
 public interface Visitor<
         C extends ClassVisitorObject<C, O, P>,
         O extends VisitorObject<C, O, P>,
@@ -260,12 +261,22 @@ public interface Visitor<
 
     /**
      * Converts new object and its fields to this visitor type.
+     * Throws {@link VisitorException} in case of error.
      *
      * @param left  the left
      * @param right the right
      * @return the new object
      */
-    @NotNull O visitNewObject(@NotNull Node left, @NotNull Node right);
+    default @NotNull O visitNewObject(@NotNull Node left, @NotNull Node right) {
+        try {
+            O type = left.accept(this);
+            O parameters = right.accept(this);
+            P actualParameters = (P) parameters.check(ParameterVisitorObjects.class);
+            return type.checkClass().newObject(actualParameters);
+        } catch (VisitorObjectException e) {
+            throw VisitorException.of(e);
+        }
+    }
 
     /**
      * Converts dynamic array and its fields to this visitor type.
@@ -319,6 +330,7 @@ public interface Visitor<
 
     /**
      * Converts method call and its fields to this visitor type.
+     * Throws {@link VisitorException} in case of error.
      *
      * @param executor   the executor
      * @param methodName the method name
