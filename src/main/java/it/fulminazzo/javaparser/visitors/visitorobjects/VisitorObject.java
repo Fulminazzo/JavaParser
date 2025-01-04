@@ -12,8 +12,13 @@ import java.util.Arrays;
  *
  * @param <C> the type of the {@link ClassVisitorObject}
  * @param <O> the type of the {@link VisitorObject}
+ * @param <P> the type of the {@link ParameterVisitorObjects}
  */
-public interface VisitorObject<C extends ClassVisitorObject<?, ?>, O extends VisitorObject<?, ?>> {
+public interface VisitorObject<
+        C extends ClassVisitorObject<C, O, P>,
+        O extends VisitorObject<C, O, P>,
+        P extends ParameterVisitorObjects<C, O, P>
+        > {
 
     /**
      * Checks whether the current object is a basic object of Java.
@@ -55,13 +60,11 @@ public interface VisitorObject<C extends ClassVisitorObject<?, ?>, O extends Vis
      * Searches and invokes the given method from the associated {@link ClassVisitorObject} and
      * returns the value returned from it.
      *
-     * @param <V>        the type of the parameters
      * @param methodName the method name
      * @param parameters the parameters
      * @return the returned object from the method
      */
-    <V extends O> @NotNull O invokeMethod(final @NotNull String methodName,
-                                          final @NotNull ParameterVisitorObjects<V> parameters);
+    @NotNull O invokeMethod(final @NotNull String methodName, final @NotNull P parameters);
 
     /**
      * Converts the current object to its primitive associated object.
