@@ -102,6 +102,8 @@ public interface Visitor<T> {
 
     /**
      * Converts statement and its fields to this visitor type.
+     * Since the only statements allowed are assignments,
+     * this method should not return anything.
      *
      * @param expression the expression
      * @return the statement
