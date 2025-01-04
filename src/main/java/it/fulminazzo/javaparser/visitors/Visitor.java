@@ -48,7 +48,10 @@ public interface Visitor<T> {
      * @param program the program
      * @return an {@link Optional} containing the parsed value
      */
-    @NotNull Optional<T> visitProgram(@NotNull JavaProgram program);
+    default @NotNull Optional<T> visitProgram(final @NotNull JavaProgram program) {
+        T t = program.accept(this);
+        return t.equals(visitEmptyLiteral()) ? Optional.empty() : Optional.of(t);
+    }
 
     /**
      * Converts java program and its fields to this visitor type.
