@@ -847,7 +847,21 @@ class ExecutorTest extends Specification {
         value == ObjectValue.of(new TestClass())
     }
 
-    def 'test visit cast #target to #cast should be of type #expected'() {
+    def 'test visit cast of array'() {
+        given:
+        def array = new StaticArray(Literal.of('int'), new NumberValueLiteral('0'))
+
+        and:
+        def cast = new ArrayLiteral(Literal.of('int'))
+
+        when:
+        def value = this.executor.visitCast(cast, array)
+
+        then:
+        value == ArrayValue.of(PrimitiveClassValue.INT, 0)
+    }
+
+    def 'test visit cast #target to #cast should be #expected'() {
         given:
         def value = this.executor.visitCast(cast, target)
 
