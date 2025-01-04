@@ -409,7 +409,7 @@ public class Executor implements Visitor<Value<?>> {
             final Iterator<?> iterator;
             if (iterable.is(ArrayValue.class)) {
                 ArrayValue<?> arrayValue = (ArrayValue<?>) iterable;
-                iterator = Arrays.stream(arrayValue.getValue()).map(Value::getValue).iterator();
+                iterator = Arrays.stream(arrayValue.getValue()).iterator();
             } else iterator = ((Iterable<?>) iterable.getValue()).iterator();
 
             try {
