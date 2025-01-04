@@ -521,7 +521,7 @@ class ExecutorTest extends Specification {
         given:
         def value = this.executor.visitStaticArray(
                 1,
-                new ArrayLiteral(Literal.of('boolean'))
+                Literal.of('boolean')
         )
 
         and:

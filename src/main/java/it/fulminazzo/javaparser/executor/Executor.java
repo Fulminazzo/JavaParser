@@ -136,8 +136,8 @@ public class Executor implements Visitor<Value<?>> {
 
     @Override
     public @NotNull Value<?> visitStaticArray(int size, @NotNull Node type) {
-        ArrayClassValue<?> componentsType = type.accept(this).to(ArrayClassValue.class);
-        return ArrayValue.of(componentsType.getComponentsType(), size);
+        ClassValue<?> componentsType = type.accept(this).to(ClassValue.class);
+        return ArrayValue.of(componentsType, size);
     }
 
     @Override
