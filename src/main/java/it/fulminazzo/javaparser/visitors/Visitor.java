@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.visitors;
 
+import it.fulminazzo.javaparser.environment.Environment;
 import it.fulminazzo.javaparser.parser.node.Assignment;
 import it.fulminazzo.javaparser.parser.node.MethodInvocation;
 import it.fulminazzo.javaparser.parser.node.Node;
@@ -23,6 +24,20 @@ import java.util.Optional;
  * @param <T> the returned type
  */
 public interface Visitor<T> {
+
+    /**
+     * Gets the object executing this visitor.
+     *
+     * @return the object
+     */
+    @NotNull Object getExecutingObject();
+
+    /**
+     * Gets the environment where all the scoped assignments will be handled.
+     *
+     * @return the environment
+     */
+    @NotNull Environment<T> getEnvironment();
 
     /**
      * Starting point of the {@link Visitor}.
