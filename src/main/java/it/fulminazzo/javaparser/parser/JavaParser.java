@@ -295,13 +295,13 @@ public class JavaParser extends Parser {
                 if (!ass.isInitialized() && lastToken() == COLON)
                     return parseEnhancedForStatement(ass);
             }
-        } else assignment = new Statement();
+        } else assignment = new EmptyLiteral();
         consume(SEMICOLON);
 
-        Node condition = lastToken() == SEMICOLON ? new Statement() : parseExpression();
+        Node condition = lastToken() == SEMICOLON ? new EmptyLiteral() : parseExpression();
         consume(SEMICOLON);
 
-        Node increment = lastToken() == CLOSE_PAR ? new Statement() : parseExpression();
+        Node increment = lastToken() == CLOSE_PAR ? new EmptyLiteral() : parseExpression();
         consume(CLOSE_PAR);
 
         CodeBlock block = parseBlock();
@@ -362,7 +362,7 @@ public class JavaParser extends Parser {
                 return new IfStatement(expression, codeBlock, parseIfStatement());
             else return new IfStatement(expression, codeBlock, parseBlock());
         }
-        return new IfStatement(expression, codeBlock, new Statement());
+        return new IfStatement(expression, codeBlock, new EmptyLiteral());
     }
 
     /**
