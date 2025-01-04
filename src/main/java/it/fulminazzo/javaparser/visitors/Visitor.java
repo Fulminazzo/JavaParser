@@ -49,14 +49,6 @@ public interface Visitor<T> {
     @NotNull Optional<T> visitProgram(final @NotNull JavaProgram program);
 
     /**
-     * Converts assignment block and its fields to this visitor type.
-     *
-     * @param assignments the assignments
-     * @return the assignment block
-     */
-    @NotNull T visitAssignmentBlock(@NotNull List<Assignment> assignments);
-
-    /**
      * Converts code block and its fields to this visitor type.
      *
      * @param statements the statements
@@ -98,6 +90,30 @@ public interface Visitor<T> {
     @NotNull T visitContinue(@NotNull Node expression);
 
     /**
+     * Converts return and its fields to this visitor type.
+     *
+     * @param expression the expression
+     * @return the return
+     */
+    @NotNull T visitReturn(@NotNull Node expression);
+
+    /**
+     * Converts throw and its fields to this visitor type.
+     *
+     * @param expression the expression
+     * @return the throw
+     */
+    @NotNull T visitThrow(@NotNull Node expression);
+
+    /**
+     * Converts statement and its fields to this visitor type.
+     *
+     * @param expression the expression
+     * @return the statement
+     */
+    @NotNull T visitStatement(@NotNull Node expression);
+
+    /**
      * Converts try statement and its fields to this visitor type.
      *
      * @param block        the block
@@ -108,6 +124,14 @@ public interface Visitor<T> {
      */
     @NotNull T visitTryStatement(@NotNull CodeBlock block, @NotNull List<CatchStatement> catchBlocks,
                                  @NotNull CodeBlock finallyBlock, @NotNull Node expression);
+
+    /**
+     * Converts assignment block and its fields to this visitor type.
+     *
+     * @param assignments the assignments
+     * @return the assignment block
+     */
+    @NotNull T visitAssignmentBlock(@NotNull List<Assignment> assignments);
 
     /**
      * Converts catch statement and its fields to this visitor type.
@@ -137,30 +161,6 @@ public interface Visitor<T> {
      * @return the case statement
      */
     @NotNull T visitCaseStatement(@NotNull CodeBlock block, @NotNull Node expression);
-
-    /**
-     * Converts return and its fields to this visitor type.
-     *
-     * @param expression the expression
-     * @return the return
-     */
-    @NotNull T visitReturn(@NotNull Node expression);
-
-    /**
-     * Converts throw and its fields to this visitor type.
-     *
-     * @param expression the expression
-     * @return the throw
-     */
-    @NotNull T visitThrow(@NotNull Node expression);
-
-    /**
-     * Converts statement and its fields to this visitor type.
-     *
-     * @param expression the expression
-     * @return the statement
-     */
-    @NotNull T visitStatement(@NotNull Node expression);
 
     /**
      * Converts for statement and its fields to this visitor type.
