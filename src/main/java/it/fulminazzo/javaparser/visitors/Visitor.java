@@ -69,7 +69,17 @@ public interface Visitor<T> {
      * @param statements the statements
      * @return the code block
      */
-    @NotNull T visitCodeBlock(@NotNull LinkedList<Statement> statements);
+    default @NotNull T visitCodeBlock(@NotNull LinkedList<Statement> statements) {
+        return visitScoped(ScopeType.CODE_BLOCK, () -> {
+            T empty = visitEmptyLiteral();
+            for (Statement statement : statements) {
+                T t = statement.accept(this);
+                // Something was returned
+                if (!t.equals(empty)) return t;
+            }
+            return empty;
+        });
+    }
 
     /**
      * Converts return and its fields to this visitor type.
