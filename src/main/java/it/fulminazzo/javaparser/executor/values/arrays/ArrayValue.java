@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor.values.arrays;
 
+import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
@@ -101,6 +102,23 @@ public class ArrayValue<V> extends ObjectWrapper<V[]> implements Value<V[]> {
     public static <V> @NotNull ArrayValue<V> of(final @NotNull ClassValue<V> componentsType,
                                                 final @NotNull Collection<Value<V>> values) {
         return new ArrayValue<>(componentsType, values);
+    }
+
+    /**
+     * Instantiates a new array value from the given array.
+     *
+     * @param <V>    the components type
+     * @param <T>    the type of the object
+     * @param object the object
+     * @return the array value
+     */
+    public static <V, T> @NotNull ArrayValue<V> of(final @NotNull T object) {
+        final V[] array;
+        Class<V> componentType = (Class<V>) object.getClass().getComponentType();
+        if (componentType.isPrimitive())
+            array = new Refl<>(ArrayUtils.class).invokeMethod("toWrapperArray", object);
+        else array = (V[]) object;
+        return of(ClassValue.of(componentType), Arrays.stream(array).map(Value::of).collect(Collectors.toList()));
     }
 
 }
