@@ -49,20 +49,20 @@ public interface Visitor<T> {
     @NotNull Optional<T> visitProgram(final @NotNull JavaProgram program);
 
     /**
-     * Converts code block and its fields to this visitor type.
-     *
-     * @param statements the statements
-     * @return the code block
-     */
-    @NotNull T visitCodeBlock(@NotNull LinkedList<Statement> statements);
-
-    /**
      * Converts java program and its fields to this visitor type.
      *
      * @param statements the statements
      * @return the java program
      */
     @NotNull T visitJavaProgram(@NotNull LinkedList<Statement> statements);
+
+    /**
+     * Converts code block and its fields to this visitor type.
+     *
+     * @param statements the statements
+     * @return the code block
+     */
+    @NotNull T visitCodeBlock(@NotNull LinkedList<Statement> statements);
 
     /**
      * Converts return and its fields to this visitor type.
