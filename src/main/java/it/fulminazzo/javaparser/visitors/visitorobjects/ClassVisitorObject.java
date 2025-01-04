@@ -8,9 +8,14 @@ import org.jetbrains.annotations.NotNull;
  *
  * @param <C> the type of the {@link ClassVisitorObject}
  * @param <O> the type of the {@link VisitorObject}
+ * @param <P> the type of the {@link ParameterVisitorObjects}
  */
-public interface ClassVisitorObject<C extends ClassVisitorObject<?, ?>, O extends VisitorObject<?, ?>>
-        extends VisitorObject<C, O>, Info {
+public interface ClassVisitorObject<
+        C extends ClassVisitorObject<C, O, P>,
+        O extends VisitorObject<C, O, P>,
+        P extends ParameterVisitorObjects<C, O, P>
+        >
+        extends VisitorObject<C, O, P>, Info {
 
     /**
      * Checks and converts the given object to the current class.
@@ -24,11 +29,10 @@ public interface ClassVisitorObject<C extends ClassVisitorObject<?, ?>, O extend
      * Creates a new object from the current class with the parameters
      * as constructor parameters.
      *
-     * @param <V>        the type of the parameters
      * @param parameters the parameters
      * @return the object associated with this class
      */
-    <V extends O> @NotNull O newObject(final @NotNull ParameterVisitorObjects<V> parameters);
+    @NotNull O newObject(final @NotNull P parameters);
 
     /**
      * Checks if the current class is extending the provided class.
