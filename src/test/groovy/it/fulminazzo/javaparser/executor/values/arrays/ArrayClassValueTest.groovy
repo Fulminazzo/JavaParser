@@ -35,16 +35,13 @@ class ArrayClassValueTest extends Specification {
 
     def 'test getValue should return class'() {
         given:
-        def classValue = ObjectClassValue.STRING
-
-        and:
-        def arrayClassValue = new ArrayClassValue(classValue)
+        def arrayClassValue = new ArrayClassValue(ObjectClassValue.STRING)
 
         when:
         def value = arrayClassValue.getValue()
 
         then:
-        value == Array.newInstance(classValue.class, 0).class
+        value == Array.newInstance(String, 0).class
     }
 
     def 'test toString'() {
