@@ -11,14 +11,13 @@ import java.util.List;
 /**
  * An utility class for {@link ArrayValue} objects.
  */
-@SuppressWarnings("unchecked")
 final class ArrayUtils {
 
     /**
      * Converts the given byte array to a collection of {@link Value}s.
      *
      * @param array the array
-     * @return the wrapped byte array
+     * @return the values collection
      */
     public static @NotNull Collection<Value<Byte>> toValueCollection(final byte @NotNull [] array) {
         List<Value<Byte>> list = new ArrayList<>();
@@ -30,7 +29,7 @@ final class ArrayUtils {
      * Converts the given short array to a collection of {@link Value}s.
      *
      * @param array the array
-     * @return the wrapped short array
+     * @return the values collection
      */
     public static @NotNull Collection<Value<Short>> toValueCollection(final short @NotNull [] array) {
         List<Value<Short>> list = new ArrayList<>();
@@ -66,7 +65,7 @@ final class ArrayUtils {
      * Converts the given long array to a collection of {@link Value}s.
      *
      * @param array the array
-     * @return the wrapped long array
+     * @return the values collection
      */
     public static @NotNull Collection<Value<Long>> toValueCollection(final long @NotNull [] array) {
         List<Value<Long>> list = new ArrayList<>();
@@ -78,7 +77,7 @@ final class ArrayUtils {
      * Converts the given float array to a collection of {@link Value}s.
      *
      * @param array the array
-     * @return the wrapped float array
+     * @return the values collection
      */
     public static @NotNull Collection<Value<Float>> toValueCollection(final float @NotNull [] array) {
         List<Value<Float>> list = new ArrayList<>();
@@ -90,7 +89,7 @@ final class ArrayUtils {
      * Converts the given double array to a collection of {@link Value}s.
      *
      * @param array the array
-     * @return the wrapped double array
+     * @return the values collection
      */
     public static @NotNull Collection<Value<Double>> toValueCollection(final double @NotNull [] array) {
         List<Value<Double>> list = new ArrayList<>();
@@ -102,7 +101,7 @@ final class ArrayUtils {
      * Converts the given boolean array to a collection of {@link Value}s.
      *
      * @param array the array
-     * @return the wrapped boolean array
+     * @return the values collection
      */
     public static @NotNull Collection<Value<Boolean>> toValueCollection(final boolean @NotNull [] array) {
         List<Value<Boolean>> list = new ArrayList<>();
@@ -114,7 +113,7 @@ final class ArrayUtils {
      * Converts the given object array to a collection of {@link Value}s.
      *
      * @param array the array
-     * @return the object boolean array
+     * @return the values collection
      */
     public static @NotNull Collection<Value<Object>> toValueCollection(final Object @NotNull [] array) {
         List<Value<Object>> list = new ArrayList<>();
