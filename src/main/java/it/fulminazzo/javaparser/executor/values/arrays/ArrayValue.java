@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor.values.arrays;
 
+import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
@@ -28,7 +29,8 @@ public class ArrayValue<V> extends ObjectWrapper<V[]> implements Value<V[]> {
      * @param size           the size of the array
      */
     ArrayValue(final @NotNull ClassValue<V> componentsType, final int size) {
-        this(componentsType, (Value<V>[]) Array.newInstance(Value.class, size));
+        super((V[]) Array.newInstance(ReflectionUtils.getWrapperClass(componentsType.getValue()), size));
+        this.componentsType = componentsType;
         for (int i = 0; i < size; i++) this.object[i] = componentsType.toValue().getValue();
     }
 
