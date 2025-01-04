@@ -62,18 +62,6 @@ public class ArrayValue<V> extends ObjectWrapper<List<V>> implements Value<V[]> 
     }
 
     @Override
-    public int hashCode() {
-        int code = getClass().hashCode();
-        for (V v : this.object) code ^= v.hashCode();
-        return code;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return o instanceof ArrayValue && Arrays.equals(this.object, ((ArrayValue<?>) o).object);
-    }
-
-    @Override
     public String toString() {
         return String.format("%s(%s, [%s])", getClass().getSimpleName(), this.componentsType,
                 Arrays.stream(this.object)
