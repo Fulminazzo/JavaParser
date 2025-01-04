@@ -65,13 +65,20 @@ public interface Visitor<T> {
     @NotNull T visitJavaProgram(@NotNull LinkedList<Statement> statements);
 
     /**
-     * Converts re assign and its fields to this visitor type.
+     * Converts return and its fields to this visitor type.
      *
-     * @param left  the left
-     * @param right the right
-     * @return the re assign
+     * @param expression the expression
+     * @return the return
      */
-    @NotNull T visitReAssign(@NotNull Node left, @NotNull Node right);
+    @NotNull T visitReturn(@NotNull Node expression);
+
+    /**
+     * Converts throw and its fields to this visitor type.
+     *
+     * @param expression the expression
+     * @return the throw
+     */
+    @NotNull T visitThrow(@NotNull Node expression);
 
     /**
      * Converts break and its fields to this visitor type.
@@ -88,22 +95,6 @@ public interface Visitor<T> {
      * @return the continue
      */
     @NotNull T visitContinue(@NotNull Node expression);
-
-    /**
-     * Converts return and its fields to this visitor type.
-     *
-     * @param expression the expression
-     * @return the return
-     */
-    @NotNull T visitReturn(@NotNull Node expression);
-
-    /**
-     * Converts throw and its fields to this visitor type.
-     *
-     * @param expression the expression
-     * @return the throw
-     */
-    @NotNull T visitThrow(@NotNull Node expression);
 
     /**
      * Converts statement and its fields to this visitor type.
