@@ -26,6 +26,11 @@ public class ArrayClassValue<V> extends ObjectWrapper<ClassValue<V>> implements 
     }
 
     @Override
+    public @NotNull Class<V[]> getWrapperValue() {
+        return of(ClassValue.of(getComponentsType().getWrapperValue())).getValue();
+    }
+
+    @Override
     public @NotNull Value<V[]> cast(@NotNull Value<?> value) {
         Object[] internal = (Object[]) value.getValue();
         Value<V[]> returnedValue = ArrayValue.of(getComponentsType(), internal.length);
