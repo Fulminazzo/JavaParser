@@ -223,6 +223,15 @@ public interface Visitor<T> {
     @NotNull T visitAssignment(@NotNull Node type, @NotNull Literal name, @NotNull Node value);
 
     /**
+     * Converts re assign and its fields to this visitor type.
+     *
+     * @param left  the left
+     * @param right the right
+     * @return the re assign
+     */
+    @NotNull T visitReAssign(@NotNull Node left, @NotNull Node right);
+
+    /**
      * Converts new object and its fields to this visitor type.
      *
      * @param left  the left
