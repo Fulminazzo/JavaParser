@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  */
 @Getter
 @SuppressWarnings("unchecked")
-public class ArrayValue<V> extends ObjectWrapper<List<V>> implements Value<V[]> {
+public class ArrayValue<V> extends ObjectWrapper<List<Value<V>>> implements Value<V[]> {
     private final @NotNull ClassValue<V> componentsType;
 
     /**
@@ -33,7 +33,7 @@ public class ArrayValue<V> extends ObjectWrapper<List<V>> implements Value<V[]> 
     ArrayValue(final @NotNull ClassValue<V> componentsType, final int size) {
         super(new LinkedList<>());
         this.componentsType = componentsType;
-        for (int i = 0; i < size; i++) this.object.add(componentsType.toValue().getValue());
+        for (int i = 0; i < size; i++) this.object.add(componentsType.toValue());
     }
 
     /**
@@ -46,7 +46,7 @@ public class ArrayValue<V> extends ObjectWrapper<List<V>> implements Value<V[]> 
         super(new LinkedList<>());
         this.componentsType = componentsType;
         List<Value<V>> list = new LinkedList<>(values);
-        for (int i = 0; i < values.size(); i++) this.object.add(list.get(i).getValue());
+        for (int i = 0; i < values.size(); i++) this.object.add(list.get(i));
     }
 
     @Override
@@ -57,13 +57,14 @@ public class ArrayValue<V> extends ObjectWrapper<List<V>> implements Value<V[]> 
     @Override
     public V[] getValue() {
         Class<V> componentsType = this.componentsType.getWrapperValue();
-        V[] array = (V[]) Array.newInstance(componentsType, this.object.size());
-        return this.object.toArray(array);
+        return this.object.stream().map(Value::getValue).toArray(a -> (V[])
+                Array.newInstance(componentsType, this.object.size()));
     }
 
     @Override
     public String toString() {
-        return String.format("%s(%s, %s)", getClass().getSimpleName(), this.componentsType, this.object);
+        return String.format("%s(%s, %s)", getClass().getSimpleName(), this.componentsType,
+                this.object.stream().map(Value::getValue).collect(Collectors.toList()));
     }
 
     /**
