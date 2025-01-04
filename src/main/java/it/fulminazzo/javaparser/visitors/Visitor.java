@@ -11,7 +11,10 @@ import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.parser.node.statements.CaseStatement;
 import it.fulminazzo.javaparser.parser.node.statements.CatchStatement;
 import it.fulminazzo.javaparser.parser.node.statements.Statement;
+import it.fulminazzo.javaparser.visitors.visitorobjects.ClassVisitorObject;
+import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
+import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObjectException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
@@ -26,7 +29,11 @@ import java.util.concurrent.Callable;
  *
  * @param <O> the returned object
  */
-public interface Visitor<O extends VisitorObject<?, O, ?>> {
+public interface Visitor<
+        C extends ClassVisitorObject<C, O, P>,
+        O extends VisitorObject<C, O, P>,
+        P extends ParameterVisitorObjects<C, O, P>
+        > {
 
     /**
      * Gets the object executing this visitor.
@@ -312,8 +319,16 @@ public interface Visitor<O extends VisitorObject<?, O, ?>> {
      * @param invocation the invocation
      * @return the method call
      */
-    @NotNull T visitMethodCall(@NotNull Node executor, @NotNull String methodName,
-                               @NotNull MethodInvocation invocation);
+    default @NotNull O visitMethodCall(@NotNull Node executor, @NotNull String methodName,
+                                       @NotNull MethodInvocation invocation) {
+        try {
+            O actualExecutor = executor.accept(this);
+            if (actualExecutor.equals(visitEmptyLiteral())) actualExecutor = visitThisLiteral();
+            return actualExecutor.invokeMethod(methodName, invocation.accept(this));
+        } catch (VisitorObjectException e) {
+            throw VisitorException.of(e);
+        }
+    }
 
     /**
      * Converts field and its fields to this visitor type.
