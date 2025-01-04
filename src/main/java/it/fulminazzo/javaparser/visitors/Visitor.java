@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.visitors;
 
 import it.fulminazzo.javaparser.environment.Environment;
+import it.fulminazzo.javaparser.environment.scopetypes.ScopeType;
 import it.fulminazzo.javaparser.parser.node.Assignment;
 import it.fulminazzo.javaparser.parser.node.MethodInvocation;
 import it.fulminazzo.javaparser.parser.node.Node;
@@ -15,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Callable;
 
 /**
  * A <b>Visitor</b> is a special object capable of reading and parsing
@@ -596,5 +598,31 @@ public interface Visitor<T> {
      * @return the empty literal
      */
     @NotNull T visitEmptyLiteral();
+
+    /**
+     * Enters the specified {@link ScopeType}, executes the given function and
+     * exits the scope.
+     * If an exception is thrown:
+     * <ul>
+     *     <li>if its {@link RuntimeException}, it is thrown as is;</li>
+     *     <li>otherwise, it is wrapped using {@link VisitorException#of(Throwable)}.</li>
+     * </ul>
+     *
+     * @param scope    the scope
+     * @param function the function
+     * @return the returned type by the function
+     */
+    default @NotNull T visitScoped(final @NotNull ScopeType scope,
+                                   final @NotNull Callable<T> function) {
+        try {
+            getEnvironment().enterScope(scope);
+            T object = function.call();
+            getEnvironment().exitScope();
+            return object;
+        } catch (Exception e) {
+            if (e instanceof RuntimeException) throw (RuntimeException) e;
+            else throw VisitorException.of(e);
+        }
+    }
 
 }
