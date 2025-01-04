@@ -11,6 +11,7 @@ import it.fulminazzo.javaparser.executor.values.objects.ObjectValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
+import it.fulminazzo.javaparser.parser.node.arrays.StaticArray
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram
 import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
@@ -273,10 +274,10 @@ class ExecutorTest extends Specification {
         def methodInvocation = new MethodInvocation(parameters)
 
         when:
-        def type = this.executor.visitNewObject(nodeExecutor, methodInvocation)
+        def value = this.executor.visitNewObject(nodeExecutor, methodInvocation)
 
         then:
-        type == ObjectValue.of(expected)
+        value == ObjectValue.of(expected)
 
         where:
         parameters                   | expected
@@ -333,10 +334,10 @@ class ExecutorTest extends Specification {
         def right = Literal.of(field)
 
         when:
-        def type = this.executor.visitField(left, right)
+        def value = this.executor.visitField(left, right)
 
         then:
-        type == expected
+        value == expected
 
         where:
         field               | expected
@@ -848,10 +849,10 @@ class ExecutorTest extends Specification {
 
     def 'test visit cast #target to #cast should be of type #expected'() {
         given:
-        def type = this.executor.visitCast(cast, target)
+        def value = this.executor.visitCast(cast, target)
 
         expect:
-        type == expected
+        value == expected
 
         where:
         target                                     | cast                                | expected
