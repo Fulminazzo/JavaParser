@@ -69,6 +69,13 @@ public interface VisitorObject<
     @NotNull O invokeMethod(final @NotNull String methodName, final @NotNull P parameters) throws VisitorObjectException;
 
     /**
+     * Checks that the current object is {@link ClassVisitorObject}.
+     *
+     * @return the current object cast to the expected one
+     */
+    @NotNull C checkClass();
+
+    /**
      * Converts the current object to its primitive associated object.
      *
      * @return the primitive object
