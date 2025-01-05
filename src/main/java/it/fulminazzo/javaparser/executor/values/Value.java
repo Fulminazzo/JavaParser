@@ -7,13 +7,13 @@ import it.fulminazzo.javaparser.executor.values.arrays.ArrayValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
+import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -24,7 +24,7 @@ import java.util.Objects;
  * @param <V> the type of the value
  */
 @SuppressWarnings("unchecked")
-public interface Value<V> {
+public interface Value<V> extends VisitorObject<ClassValue<?>, Value<?>, ParameterValues> {
 
     /**
      * Checks if the current value is character.
