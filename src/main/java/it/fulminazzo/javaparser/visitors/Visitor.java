@@ -358,8 +358,7 @@ public interface Visitor<
      * @return the increment
      */
     default @NotNull O visitIncrement(final boolean before, final @NotNull Node operand) {
-        //TODO: should fix the casts
-        throw new UnsupportedOperationException();
+        return visitPrefixedOperation(before, operand, VisitorObject::add);
     }
 
     /**
@@ -370,8 +369,7 @@ public interface Visitor<
      * @return the decrement
      */
     default @NotNull O visitDecrement(final boolean before, final @NotNull Node operand) {
-        //TODO: should fix the casts
-        throw new UnsupportedOperationException();
+        return visitPrefixedOperation(before, operand, VisitorObject::subtract);
     }
 
     /**
