@@ -58,6 +58,13 @@ public interface ClassVisitorObject<
     }
 
     /**
+     * Converts the current class visitor object to its associated class.
+     *
+     * @return the class
+     */
+    @NotNull Class<?> toJavaClass();
+
+    /**
      * Converts the current class object to the appropriate {@link VisitorObject}.
      *
      * @return the object
