@@ -168,30 +168,30 @@ public interface VisitorObject<
      */
 
     /**
-     * Generates a {@link RuntimeException} with message:
+     * Generates a {@link VisitorObjectException} with message:
      * <i>Could not find method %method_format% in type %type%</i>
      *
      * @param classObject the class object
      * @param method      the method
      * @param parameters  the parameters
-     * @return the runtime exception
+     * @return the visitor object exception
      */
-    @NotNull RuntimeException methodNotFound(final @NotNull C classObject,
-                                             final @NotNull String method,
-                                             final @NotNull P parameters);
+    @NotNull VisitorObjectException methodNotFound(final @NotNull C classObject,
+                                                   final @NotNull String method,
+                                                   final @NotNull P parameters);
 
     /**
-     * Generates a {@link RuntimeException} with message:
+     * Generates a {@link VisitorObjectException} with message:
      * <i>Types mismatch: cannot apply parameters %parameter_types_format% to method %method_format% in type %type%</i>
      *
      * @param classObject the class object
      * @param method      the method
      * @param parameters  the parameters
-     * @return the runtime exception
+     * @return the visitor object exception
      */
-    @NotNull RuntimeException typesMismatch(final @NotNull C classObject,
-                                            final @NotNull Executable method,
-                                            final @NotNull P parameters);
+    @NotNull VisitorObjectException typesMismatch(final @NotNull C classObject,
+                                                  final @NotNull Executable method,
+                                                  final @NotNull P parameters);
 
     /**
      * Generates a {@link RuntimeException} with message:

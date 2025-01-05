@@ -61,12 +61,12 @@ public class MockVisitorObject implements VisitorObject {
     }
 
     @Override
-    public @NotNull RuntimeException methodNotFound(@NotNull ClassVisitorObject classObject, @NotNull String method, @NotNull ParameterVisitorObjects parameters) {
+    public @NotNull VisitorObjectException methodNotFound(@NotNull ClassVisitorObject classObject, @NotNull String method, @NotNull ParameterVisitorObjects parameters) {
         return null;
     }
 
     @Override
-    public @NotNull RuntimeException typesMismatch(@NotNull ClassVisitorObject classObject, @NotNull Executable method, @NotNull ParameterVisitorObjects parameters) {
+    public @NotNull VisitorObjectException typesMismatch(@NotNull ClassVisitorObject classObject, @NotNull Executable method, @NotNull ParameterVisitorObjects parameters) {
         return null;
     }
 
