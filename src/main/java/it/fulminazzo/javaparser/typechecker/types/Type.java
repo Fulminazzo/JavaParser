@@ -112,46 +112,15 @@ public interface Type {
         return new Tuple<>(fieldClassType, fieldClassType.toType());
     }
 
-    /**
-     * Searches the given method in the class of {@link #toClassType()} (if not already {@link ClassType}).
-     * Then, returns the declared type of the method in form of {@link ClassType}.
-     *
-     * @param methodName the method name
-     * @return the type of the method
-     * @throws TypeException thrown in case the method could not be found, could not be accessed
-     *                       (only <code>public</code> modifier allowed and <code>static</code> methods from static context)
-     *                       or the given types did not match the expected ones
-     */
-    default @NotNull ClassType invokeMethod(final @NotNull String methodName,
-                                            final @NotNull ParameterTypes parameterTypes) throws TypeException {
-        if (isPrimitive()) return toWrapper().invokeMethod(methodName, parameterTypes);
+    @Override
+    default @NotNull Type invokeMethod(final @NotNull Method method,
+                                       final @NotNull ParameterTypes parameterTypes) throws TypeException {
         ClassType classType = isClassType() ? (ClassType) this : toClassType();
-        try {
-            Class<?> javaClass = classType.toJavaClass();
-            // Lookup methods from name and parameters count
-            @NotNull List<Method> methods = ReflectionUtils.getMethods(javaClass, m ->
-                    m.getName().equals(methodName) && TypeUtils.verifyExecutable(parameterTypes, m));
-            if (methods.isEmpty()) throw new IllegalArgumentException();
-
-            Refl<?> refl = new Refl<>(ReflectionUtils.class);
-            Class<?> @NotNull [] parametersTypes = parameterTypes.toJavaClassArray();
-            for (Method method : methods) {
-                // For each one, validate its parameters
-                if (Boolean.TRUE.equals(refl.invokeMethod("validateParameters",
-                        new Class[]{Class[].class, Executable.class},
-                        parametersTypes, method))) {
-                    if (!Modifier.isPublic(method.getModifiers()))
-                        throw TypeException.cannotAccessMethod(classType, method);
-                    else if (isClassType() && !Modifier.isStatic(method.getModifiers()))
-                        throw TypeException.cannotAccessStaticMethod(classType, methodName, parameterTypes);
-                    return ClassType.of(method.getReturnType());
-                }
-            }
-
-            throw TypeException.typesMismatch(classType, methods.get(0), parameterTypes);
-        } catch (IllegalArgumentException e) {
-            throw TypeException.methodNotFound(classType, methodName, parameterTypes);
-        }
+        if (!Modifier.isPublic(method.getModifiers()))
+            throw TypeException.cannotAccessMethod(classType, method);
+        else if (isClassType() && !Modifier.isStatic(method.getModifiers()))
+            throw TypeException.cannotAccessStaticMethod(classType, method.getName(), parameterTypes);
+        return ClassType.of(method.getReturnType());
     }
 
     /**
