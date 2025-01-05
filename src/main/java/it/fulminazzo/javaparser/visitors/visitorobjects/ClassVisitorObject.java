@@ -71,6 +71,17 @@ public interface ClassVisitorObject<
     }
 
     /**
+     * Creates a new object from the current class with
+     * the given constructor and parameters.
+     *
+     * @param parameters the parameters
+     * @return the object associated with this class
+     * @throws VisitorObjectException the exception thrown in case of errors
+     */
+    @NotNull O newObject(final @NotNull Constructor<?> constructor,
+                         final @NotNull P parameters) throws VisitorObjectException;
+
+    /**
      * Checks if the current class is extending the provided class.
      *
      * @param classObject the class object
