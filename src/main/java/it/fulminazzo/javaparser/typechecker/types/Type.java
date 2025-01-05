@@ -96,7 +96,7 @@ public interface Type extends VisitorObject<ClassType, Type, ParameterTypes> {
      * @param classType the class type
      * @return this type
      */
-    default Type checkAssignableFrom(final @NotNull ClassType classType) {
+    default @NotNull Type checkAssignableFrom(final @NotNull ClassType classType) {
         if (!isAssignableFrom(classType)) throw TypeCheckerException.invalidType(classType, this);
         else return this;
     }

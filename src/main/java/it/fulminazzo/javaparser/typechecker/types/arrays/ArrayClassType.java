@@ -59,7 +59,7 @@ public class ArrayClassType extends TypeWrapper implements ClassType {
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return getInternalType().toString().replace(".class", "[].class");
     }
 

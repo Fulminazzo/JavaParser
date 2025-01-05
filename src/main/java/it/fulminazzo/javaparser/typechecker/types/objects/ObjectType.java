@@ -61,7 +61,7 @@ public final class ObjectType extends ObjectWrapper<Class<?>> implements Type {
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return Type.print(getClassName(getInnerClass()));
     }
 

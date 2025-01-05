@@ -226,7 +226,7 @@ public final class OperationUtils {
      * @param type the type
      * @return true if it is
      */
-    public static boolean isLong(final Type type) {
+    public static boolean isLong(final @NotNull Type type) {
         return type.is(PrimitiveType.LONG, ObjectType.LONG);
     }
 
@@ -236,7 +236,7 @@ public final class OperationUtils {
      * @param type the type
      * @return true if it is
      */
-    public static boolean isFloat(final Type type) {
+    public static boolean isFloat(final @NotNull Type type) {
         return type.is(PrimitiveType.FLOAT, ObjectType.FLOAT);
     }
 
@@ -246,7 +246,7 @@ public final class OperationUtils {
      * @param type the type
      * @return true if it is
      */
-    public static boolean isDouble(final Type type) {
+    public static boolean isDouble(final @NotNull Type type) {
         return type.is(PrimitiveType.DOUBLE, ObjectType.DOUBLE);
     }
 
@@ -256,7 +256,7 @@ public final class OperationUtils {
      * @param type the type
      * @return true if it is
      */
-    public static boolean isBoolean(final Type type) {
+    public static boolean isBoolean(final @NotNull Type type) {
         return type.is(PrimitiveType.BOOLEAN, ObjectType.BOOLEAN);
     }
 

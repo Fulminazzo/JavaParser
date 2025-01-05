@@ -64,7 +64,7 @@ public final class Types {
         }
 
         @Override
-        public String toString() {
+        public @NotNull String toString() {
             return this.typeName;
         }
 

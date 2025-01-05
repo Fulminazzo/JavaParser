@@ -51,7 +51,7 @@ class CustomObjectClassType extends TypeWrapper implements ClassType {
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return ClassType.print(ObjectType.getClassName(((ObjectType) this.object).getInnerClass()));
     }
 

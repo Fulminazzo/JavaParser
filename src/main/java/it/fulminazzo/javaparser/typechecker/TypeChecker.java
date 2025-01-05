@@ -40,8 +40,8 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
             ScopeType.DO, ScopeType.WHILE, ScopeType.FOR
     };
 
-    private final Object executingObject;
-    private final Environment<Type> environment;
+    private final @NotNull Object executingObject;
+    private final @NotNull Environment<Type> environment;
 
     /**
      * Instantiates a new Type checker.

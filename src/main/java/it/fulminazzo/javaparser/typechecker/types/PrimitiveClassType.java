@@ -124,7 +124,7 @@ public enum PrimitiveClassType implements ClassType {
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return ClassType.print(name().toLowerCase());
     }
 

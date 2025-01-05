@@ -96,7 +96,7 @@ public enum ObjectClassType implements ClassType {
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return ClassType.print(StringUtils.capitalize(name()));
     }
 
