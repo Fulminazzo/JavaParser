@@ -4,6 +4,7 @@ import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
+import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Executable;
@@ -14,7 +15,7 @@ import java.lang.reflect.Modifier;
 /**
  * Represents a general type parsed by the {@link it.fulminazzo.javaparser.typechecker.TypeChecker}.
  */
-public interface Type {
+public interface Type extends VisitorObject<ClassType, Type, ParameterTypes> {
 
     @Override
     default boolean isPrimitive() {
@@ -53,7 +54,7 @@ public interface Type {
      * @param classType the class of the type
      * @return the current type cast to the expected one
      */
-    default <T extends Type> @NotNull T check(final @NotNull Class<T> classType) {
+    default <T extends VisitorObject<ClassType, Type, ParameterTypes>> @NotNull T check(final @NotNull Class<T> classType) {
         if (is(classType)) return classType.cast(this);
         else throw TypeCheckerException.invalidType(classType, this);
     }
@@ -172,14 +173,14 @@ public interface Type {
 
     @Override
     default @NotNull RuntimeException unsupportedOperation(final @NotNull TokenType operator,
-                                                           final @NotNull Type left,
-                                                           final @NotNull Type right) {
+                                                           final @NotNull VisitorObject<ClassType, Type, ParameterTypes> left,
+                                                           final @NotNull VisitorObject<ClassType, Type, ParameterTypes> right) {
         return TypeCheckerException.unsupportedOperation(operator, left, right);
     }
 
     @Override
     default @NotNull RuntimeException unsupportedOperation(final @NotNull TokenType operator,
-                                                           final @NotNull Type operand) {
+                                                           final @NotNull VisitorObject<ClassType, Type, ParameterTypes> operand) {
         return TypeCheckerException.unsupportedOperation(operator, operand);
     }
 
