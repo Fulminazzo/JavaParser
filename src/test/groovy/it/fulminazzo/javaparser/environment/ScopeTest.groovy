@@ -15,36 +15,36 @@ class ScopeTest extends Specification {
         def varName = 'var'
 
         when:
-        this.scope.lookupInfo(varName)
+        this.scope.lookupInfo(NamedEntity.of(varName))
 
         then:
         def e = thrown(ScopeException)
-        e.message == ScopeException.noSuchVariable(varName).message
+        e.message == ScopeException.noSuchVariable(NamedEntity.of(varName)).message
     }
 
     def 'declare should throw ScopeException on already declared variable'() {
         when:
-        this.scope.declare(new WrapperInfo<>(String), 'var', '1')
-        this.scope.declare(new WrapperInfo<>(String), 'var', '1')
+        this.scope.declare(new WrapperInfo<>(String), NamedEntity.of('var'), '1')
+        this.scope.declare(new WrapperInfo<>(String), NamedEntity.of('var'), '1')
 
         then:
         def e = thrown(ScopeException)
-        e.getMessage() == ScopeException.alreadyDeclaredVariable('var').message
+        e.getMessage() == ScopeException.alreadyDeclaredVariable(NamedEntity.of('var')).message
     }
 
     def 'update should throw ScopeException on not declared variable'() {
         when:
-        this.scope.update('var', '1')
+        this.scope.update(NamedEntity.of('var'), '1')
 
         then:
         def e = thrown(ScopeException)
-        e.getMessage() == ScopeException.noSuchVariable('var').message
+        e.getMessage() == ScopeException.noSuchVariable(NamedEntity.of('var')).message
     }
 
     def 'update should throw ScopeException on invalid variable'() {
         when:
-        this.scope.declare(new WrapperInfo<>(String), 'var', '1')
-        this.scope.update('var', 10)
+        this.scope.declare(new WrapperInfo<>(String), NamedEntity.of('var'), '1')
+        this.scope.update(NamedEntity.of('var'), 10)
 
         then:
         def e = thrown(ScopeException)
@@ -53,31 +53,31 @@ class ScopeTest extends Specification {
 
     def 'test object data equality'() {
         given:
-        def data = new Scope.ObjectData(new WrapperInfo<>(String), 'var')
+        def data = new Scope.ObjectData(new WrapperInfo<>(String), NamedEntity.of('var'))
 
         expect:
-        data == new Scope.ObjectData(new WrapperInfo<>(String), 'var')
+        data == new Scope.ObjectData(new WrapperInfo<>(String), NamedEntity.of('var'))
     }
 
     def 'test object data should not be equal to #other'() {
         given:
-        def data = new Scope.ObjectData(new WrapperInfo<>(String), 'var')
+        def data = new Scope.ObjectData(new WrapperInfo<>(String), NamedEntity.of('var'))
 
         expect:
         data != other
 
         where:
         other << [
-                new Scope.ObjectData(new WrapperInfo<>(Integer), 'var'),
-                new Scope.ObjectData(new WrapperInfo<>(String), 'other'),
-                new Scope.ObjectData(new WrapperInfo<>(Integer), 'other'),
+                new Scope.ObjectData(new WrapperInfo<>(Integer), NamedEntity.of('var')),
+                new Scope.ObjectData(new WrapperInfo<>(String), NamedEntity.of('other')),
+                new Scope.ObjectData(new WrapperInfo<>(Integer), NamedEntity.of('other')),
                 new WrapperInfo<>(Integer)
         ]
     }
 
     def 'test object data toString'() {
         given:
-        def data = new Scope.ObjectData(new WrapperInfo<>(String), 'var')
+        def data = new Scope.ObjectData(new WrapperInfo<>(String), NamedEntity.of('var'))
 
         expect:
         data.toString() == "${Scope.ObjectData.simpleName}(${new WrapperInfo<>(String).toString()}, var)"

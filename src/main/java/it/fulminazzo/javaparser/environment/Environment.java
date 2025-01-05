@@ -13,7 +13,7 @@ import java.util.Optional;
  * @param <T> the type of the values
  */
 public class Environment<T> implements Scoped<T> {
-    private final LinkedList<Scope<T>> scopes;
+    private final @NotNull LinkedList<Scope<T>> scopes;
 
     /**
      * Instantiates a new Environment.
@@ -76,7 +76,7 @@ public class Environment<T> implements Scoped<T> {
     }
 
     @Override
-    public @NotNull Optional<T> search(@NotNull final String name) {
+    public @NotNull Optional<T> search(@NotNull final NamedEntity name) {
         return this.scopes.stream()
                 .map(s -> s.search(name))
                 .filter(Optional::isPresent)
@@ -85,7 +85,7 @@ public class Environment<T> implements Scoped<T> {
     }
 
     @Override
-    public @NotNull Info lookupInfo(@NotNull String name) throws ScopeException {
+    public @NotNull Info lookupInfo(@NotNull NamedEntity name) throws ScopeException {
         for (Scope<T> scope : this.scopes)
             try {
                 return scope.lookupInfo(name);
@@ -94,13 +94,13 @@ public class Environment<T> implements Scoped<T> {
     }
 
     @Override
-    public void declare(@NotNull Info info, @NotNull String name, @NotNull T value) throws ScopeException {
+    public void declare(@NotNull Info info, @NotNull NamedEntity name, @NotNull T value) throws ScopeException {
         if (isDeclared(name)) throw ScopeException.alreadyDeclaredVariable(name);
         else lastScope().declare(info, name, value);
     }
 
     @Override
-    public void update(@NotNull String name, @NotNull T value) throws ScopeException {
+    public void update(@NotNull NamedEntity name, @NotNull T value) throws ScopeException {
         for (Scope<T> scope : this.scopes)
             if (scope.isDeclared(name)) {
                 scope.update(name, value);

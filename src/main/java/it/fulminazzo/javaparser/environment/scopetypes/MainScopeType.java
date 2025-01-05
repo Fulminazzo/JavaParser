@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.environment.scopetypes;
 
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents the initial {@link ScopeType} of a scoped object.
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 final class MainScopeType implements ScopeType {
 
     @Override
-    public String name() {
+    public @NotNull String name() {
         return "MAIN";
     }
 
@@ -24,7 +25,7 @@ final class MainScopeType implements ScopeType {
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return name();
     }
 
