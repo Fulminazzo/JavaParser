@@ -139,41 +139,4 @@ class ClassTypeTest extends Specification {
         e.message == TypeException.methodNotFound(this.classType, '<init>', mockParameters).message
     }
 
-    static class MockType implements Type {
-
-        @NotNull
-        @Override
-        ClassType toClass() {
-            return null
-        }
-
-    }
-
-    static class MockClassType implements ClassType {
-
-        @NotNull
-        @Override
-        Type cast(@NotNull Type type) {
-            return null
-        }
-
-        @NotNull
-        @Override
-        Class<?> toJavaClass() {
-            return null
-        }
-
-        @Override
-        boolean compatibleWith(@NotNull Type type) {
-            return type instanceof MockType
-        }
-
-        @NotNull
-        @Override
-        Type toType() {
-            return null
-        }
-
-    }
-
 }
