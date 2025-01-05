@@ -68,12 +68,12 @@ class TypeCheckerLiteralTest extends Specification {
         e.message == TypeCheckerException.cannotResolveSymbol(literal).message
     }
 
-    def 'test getTypeFromLiteral #literal'() {
+    def 'test getObjectFromLiteral #literal'() {
         given:
         this.environment.declare(PrimitiveClassType.INT, 'i', PrimitiveType.INT)
 
         when:
-        def tuple = this.typeChecker.getTypeFromLiteral(literal)
+        def tuple = this.typeChecker.getObjectFromLiteral(literal)
 
         then:
         tuple == expected
