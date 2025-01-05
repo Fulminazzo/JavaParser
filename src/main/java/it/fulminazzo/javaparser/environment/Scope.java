@@ -14,8 +14,8 @@ import java.util.Optional;
  * @param <T> the type of the value
  */
 class Scope<T> implements Scoped<T> {
-    private final Map<ObjectData, T> internalMap;
-    private final ScopeType scopeType;
+    private final @NotNull Map<ObjectData, T> internalMap;
+    private final @NotNull ScopeType scopeType;
 
     /**
      * Instantiates a new Scope.

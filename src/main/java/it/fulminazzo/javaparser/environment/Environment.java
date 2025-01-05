@@ -13,7 +13,7 @@ import java.util.Optional;
  * @param <T> the type of the values
  */
 public class Environment<T> implements Scoped<T> {
-    private final LinkedList<Scope<T>> scopes;
+    private final @NotNull LinkedList<Scope<T>> scopes;
 
     /**
      * Instantiates a new Environment.
