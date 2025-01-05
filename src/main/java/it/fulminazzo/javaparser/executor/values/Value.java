@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -100,6 +101,17 @@ public interface Value<V> {
      */
     default boolean isPrimitive() {
         return this instanceof PrimitiveValue;
+    }
+
+    @Override
+    default <T extends VisitorObject<ClassValue<?>, Value<?>, ParameterValues> @NotNull T check(final @NotNull Class<T> classValue) {
+        if (is(classValue)) return classValue.cast(this);
+        else throw ExecutorException.invalidValue(classValue, this);
+    }
+
+    @Override
+    default @NotNull ClassValue<V> checkClass() {
+        return (ClassValue<V>) check(ClassValue.class);
     }
 
     @Override
