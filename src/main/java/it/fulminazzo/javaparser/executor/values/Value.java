@@ -281,21 +281,21 @@ public interface Value<V> extends VisitorObject<ClassValue<?>, Value<?>, Paramet
     @Override
     default @NotNull ValueException fieldNotFound(final @NotNull ClassValue<?> classVisitorObject,
                                                   final @NotNull String field) {
-        return ValueException.notImplemented();
+        return ValueException.fieldNotFound(classVisitorObject, field);
     }
 
     @Override
     default @NotNull ValueException methodNotFound(final @NotNull ClassValue<?> classObject,
                                                    final @NotNull String method,
                                                    final @NotNull ParameterValues parameters) {
-        return ValueException.notImplemented();
+        return ValueException.methodNotFound(classObject, method, parameters);
     }
 
     @Override
     default @NotNull ValueException typesMismatch(final @NotNull ClassValue<?> classObject,
                                                   final @NotNull Executable method,
                                                   final @NotNull ParameterValues parameters) {
-        return ValueException.notImplemented();
+        return ValueException.valuesMismatch(classObject, method, parameters);
     }
 
     @Override
