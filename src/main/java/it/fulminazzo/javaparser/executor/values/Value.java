@@ -425,8 +425,11 @@ public interface Value<V> extends VisitorObject<ClassValue<?>, Value<?>, Paramet
 
     @Override
     default @NotNull Value<?> add(final @NotNull Value<?> other) {
-        //TODO: String concatenation
-        return OperationUtils.executeBinaryOperationDecimal(this, other,
+        if (isString() || other.isString()) {
+            Object first = getValue();
+            Object second = other.getValue();
+            return ObjectValue.of(String.format("%s%s", first, second));
+        } else return OperationUtils.executeBinaryOperationDecimal(this, other,
                 Double::sum, Float::sum,
                 Long::sum, Integer::sum
         );
