@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.executor.values.objects
 
 import it.fulminazzo.fulmicollection.objects.Refl
+import it.fulminazzo.javaparser.executor.ExecutorException
 import it.fulminazzo.javaparser.executor.values.ValueRuntimeException
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
@@ -37,7 +38,7 @@ class ObjectValueTest extends Specification {
 
         then:
         def e = thrown(ValueRuntimeException)
-        e.message == ValueRuntimeException.invalidPrimitiveValue(this).message
+        e.message == ExecutorException.invalidPrimitiveValue(this).message
     }
 
     def 'test invalid to'() {

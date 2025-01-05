@@ -89,6 +89,17 @@ public class ExecutorException extends RuntimeException {
 
     /**
      * Generates a {@link ExecutorException} with message:
+     * <i>Value %value% is not a valid primitive type</i>
+     *
+     * @param value the value
+     * @return the executor exception
+     */
+    public static @NotNull ExecutorException invalidPrimitiveValue(final @NotNull Object value) {
+        return new ExecutorException("Value %s is not a valid primitive type", value);
+    }
+
+    /**
+     * Generates a {@link ExecutorException} with message:
      * <i>Not implemented</i>
      *
      * @return the executor exception

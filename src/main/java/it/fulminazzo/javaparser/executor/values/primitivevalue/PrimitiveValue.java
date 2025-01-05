@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.executor.values.primitivevalue;
 
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
+import it.fulminazzo.javaparser.executor.ExecutorException;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue;
 import it.fulminazzo.javaparser.executor.values.Value;
@@ -92,7 +93,7 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
         else if (value instanceof Byte) primitiveValue = new ByteValue(Byte.parseByte(value.toString()));
         else if (value instanceof Short) primitiveValue = new ShortValue(Short.parseShort(value.toString()));
         else if (value instanceof Integer) primitiveValue = new IntValue(Integer.parseInt(value.toString()));
-        else throw ValueRuntimeException.invalidPrimitiveValue(value);
+        else throw ExecutorException.invalidPrimitiveValue(value);
         return (PrimitiveValue<V>) primitiveValue;
     }
 

@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.executor.values.primitivevalue
 
 import it.fulminazzo.fulmicollection.objects.Refl
+import it.fulminazzo.javaparser.executor.ExecutorException
 import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue
 import it.fulminazzo.javaparser.executor.values.ValueRuntimeException
 import it.fulminazzo.javaparser.tokenizer.TokenType
@@ -150,7 +151,7 @@ class PrimitiveValueTest extends Specification {
 
         then:
         def e = thrown(ValueRuntimeException)
-        e.message == ValueRuntimeException.invalidPrimitiveValue(value).message
+        e.message == ExecutorException.invalidPrimitiveValue(value).message
     }
 
     def 'test operation #operation should throw unsupported by default'() {

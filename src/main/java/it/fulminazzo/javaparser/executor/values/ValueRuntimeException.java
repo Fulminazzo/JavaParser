@@ -20,17 +20,6 @@ public class ValueRuntimeException extends RuntimeException {
 
     /**
      * Generates a {@link ValueRuntimeException} with message:
-     * <i>Value %value% is not a valid primitive type</i>
-     *
-     * @param value the value
-     * @return the value runtime exception
-     */
-    public static @NotNull ValueRuntimeException invalidPrimitiveValue(final @NotNull Object value) {
-        return new ValueRuntimeException("Value %s is not a valid primitive type", value);
-    }
-
-    /**
-     * Generates a {@link ValueRuntimeException} with message:
      * <i>Operator '%operator%' cannot be applied to '%left%', '%right%'</i>
      *
      * @param operator the operator
