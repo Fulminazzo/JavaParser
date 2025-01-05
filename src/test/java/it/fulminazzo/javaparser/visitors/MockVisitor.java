@@ -4,6 +4,7 @@ import it.fulminazzo.javaparser.environment.Environment;
 import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.visitors.visitorobjects.ClassVisitorObject;
+import it.fulminazzo.javaparser.visitors.visitorobjects.LiteralObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
 import org.jetbrains.annotations.NotNull;
@@ -132,6 +133,11 @@ public class MockVisitor implements Visitor {
     }
 
     @Override
+    public @NotNull LiteralObject newLiteralObject(@NotNull String value) {
+        return null;
+    }
+
+    @Override
     public @NotNull VisitorObject visitEmptyLiteral() {
         return null;
     }
@@ -143,6 +149,11 @@ public class MockVisitor implements Visitor {
 
     @Override
     public @NotNull RuntimeException exceptionWrapper(@NotNull Exception exception) {
+        return null;
+    }
+
+    @Override
+    public @NotNull RuntimeException cannotResolveSymbol(@NotNull String symbol) {
         return null;
     }
 
