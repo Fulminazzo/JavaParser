@@ -15,7 +15,7 @@ class TypeCheckerLiteralTest extends Specification {
 
     def 'test visit literal from code #code should return #expected'() {
         given:
-        this.checker.environment.declare(ObjectClassType.INTEGER, 'var', PrimitiveType.NUMBER)
+        this.checker.environment.declare(ObjectClassType.INTEGER, 'var', PrimitiveType.INT)
 
         when:
         def read = this.checker.visitLiteralImpl(code)
@@ -31,12 +31,12 @@ class TypeCheckerLiteralTest extends Specification {
         'System'                                                    | ClassType.of(System)
         'System.class'                                              | ClassType.of(Class)
         'System.out'                                                | ObjectType.of(PrintStream.canonicalName)
-        'var'                                                       | PrimitiveType.NUMBER
+        'var'                                                       | PrimitiveType.INT
         'var.TYPE'                                                  | ObjectType.of('Class')
         "${FirstInnerClass.canonicalName}.second"                   | ObjectType.of(FirstInnerClass.SecondInnerClass.canonicalName)
-        "${FirstInnerClass.canonicalName}.second.version"           | PrimitiveType.NUMBER
+        "${FirstInnerClass.canonicalName}.second.version"           | PrimitiveType.INT
         "${FirstInnerClass.SecondInnerClass.canonicalName}"         | ClassType.of(FirstInnerClass.SecondInnerClass.canonicalName)
-        "${FirstInnerClass.SecondInnerClass.canonicalName}.version" | PrimitiveType.NUMBER
+        "${FirstInnerClass.SecondInnerClass.canonicalName}.version" | PrimitiveType.INT
     }
 
     def 'test visit literal invalid field'() {
@@ -65,7 +65,7 @@ class TypeCheckerLiteralTest extends Specification {
 
     def 'test getTypeFromLiteral #literal'() {
         given:
-        this.checker.environment.declare(PrimitiveClassType.INT, 'i', PrimitiveType.NUMBER)
+        this.checker.environment.declare(PrimitiveClassType.INT, 'i', PrimitiveType.INT)
 
         when:
         def tuple = this.checker.getTypeFromLiteral(literal)
@@ -76,7 +76,7 @@ class TypeCheckerLiteralTest extends Specification {
         where:
         literal   | expected
         'int'     | new Tuple<>(PrimitiveClassType.INT, PrimitiveClassType.INT)
-        'i'       | new Tuple<>(PrimitiveClassType.INT, PrimitiveType.NUMBER)
+        'i'       | new Tuple<>(PrimitiveClassType.INT, PrimitiveType.INT)
         'invalid' | new Tuple<>()
     }
 

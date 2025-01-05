@@ -47,7 +47,7 @@ public final class ObjectType extends ObjectWrapper<Class<?>> implements Type {
         if (equals(BYTE)) return PrimitiveType.BYTE;
         else if (equals(SHORT)) return PrimitiveType.SHORT;
         else if (equals(CHARACTER)) return PrimitiveType.CHAR;
-        else if (equals(INTEGER)) return PrimitiveType.NUMBER;
+        else if (equals(INTEGER)) return PrimitiveType.INT;
         else if (equals(LONG)) return PrimitiveType.LONG;
         else if (equals(FLOAT)) return PrimitiveType.FLOAT;
         else if (equals(DOUBLE)) return PrimitiveType.DOUBLE;

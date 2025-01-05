@@ -23,29 +23,29 @@ public enum PrimitiveClassType implements ClassType {
     /**
      * <code>char</code>
      */
-    CHAR(PrimitiveType.CHAR, PrimitiveType.NUMBER,
+    CHAR(PrimitiveType.CHAR, PrimitiveType.INT,
             ObjectType.CHARACTER),
     /**
      * <code>int</code>
      */
-    INT(PrimitiveType.BYTE, PrimitiveType.SHORT, PrimitiveType.CHAR, PrimitiveType.NUMBER,
+    INT(PrimitiveType.BYTE, PrimitiveType.SHORT, PrimitiveType.CHAR, PrimitiveType.INT,
             ObjectType.BYTE, ObjectType.SHORT, ObjectType.CHARACTER, ObjectType.INTEGER),
     /**
      * <code>long</code>
      */
-    LONG(PrimitiveType.BYTE, PrimitiveType.SHORT, PrimitiveType.CHAR, PrimitiveType.NUMBER, PrimitiveType.LONG,
+    LONG(PrimitiveType.BYTE, PrimitiveType.SHORT, PrimitiveType.CHAR, PrimitiveType.INT, PrimitiveType.LONG,
             ObjectType.BYTE, ObjectType.SHORT, ObjectType.CHARACTER, ObjectType.INTEGER, ObjectType.LONG),
     /**
      * <code>float</code>
      */
-    FLOAT(PrimitiveType.BYTE, PrimitiveType.SHORT, PrimitiveType.CHAR, PrimitiveType.NUMBER, PrimitiveType.LONG,
+    FLOAT(PrimitiveType.BYTE, PrimitiveType.SHORT, PrimitiveType.CHAR, PrimitiveType.INT, PrimitiveType.LONG,
             PrimitiveType.FLOAT,
             ObjectType.BYTE, ObjectType.SHORT, ObjectType.CHARACTER, ObjectType.INTEGER, ObjectType.LONG,
             ObjectType.FLOAT),
     /**
      * <code>double</code>
      */
-    DOUBLE(PrimitiveType.BYTE, PrimitiveType.SHORT, PrimitiveType.CHAR, PrimitiveType.NUMBER, PrimitiveType.LONG,
+    DOUBLE(PrimitiveType.BYTE, PrimitiveType.SHORT, PrimitiveType.CHAR, PrimitiveType.INT, PrimitiveType.LONG,
             PrimitiveType.FLOAT, PrimitiveType.DOUBLE,
             ObjectType.BYTE, ObjectType.SHORT, ObjectType.CHARACTER, ObjectType.INTEGER, ObjectType.LONG,
             ObjectType.FLOAT, ObjectType.DOUBLE),
@@ -70,7 +70,7 @@ public enum PrimitiveClassType implements ClassType {
             case SHORT:
                 return PrimitiveType.SHORT;
             case INT:
-                return PrimitiveType.NUMBER;
+                return PrimitiveType.INT;
             case CHAR:
                 return PrimitiveType.CHAR;
             case LONG:
@@ -120,7 +120,7 @@ public enum PrimitiveClassType implements ClassType {
     public boolean compatibleWith(@NotNull Type type) {
         for (Type compatibleType : this.compatibleTypes)
             if (compatibleType.is(type)) return true;
-        return (equals(BYTE) || equals(SHORT)) && type.is(PrimitiveType.NUMBER);
+        return (equals(BYTE) || equals(SHORT)) && type.is(PrimitiveType.INT);
     }
 
     @Override

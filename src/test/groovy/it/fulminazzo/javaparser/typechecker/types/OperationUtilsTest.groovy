@@ -23,7 +23,7 @@ class OperationUtilsTest extends Specification {
         BYTE              | BYTE
         BYTE              | SHORT
         BYTE              | CHAR
-        BYTE              | NUMBER
+        BYTE   | INT
         BYTE              | LONG
         BYTE              | FLOAT
         BYTE              | DOUBLE
@@ -31,7 +31,7 @@ class OperationUtilsTest extends Specification {
         SHORT             | BYTE
         SHORT             | SHORT
         SHORT             | CHAR
-        SHORT             | NUMBER
+        SHORT  | INT
         SHORT             | LONG
         SHORT             | FLOAT
         SHORT             | DOUBLE
@@ -39,23 +39,23 @@ class OperationUtilsTest extends Specification {
         CHAR              | BYTE
         CHAR              | SHORT
         CHAR              | CHAR
-        CHAR              | NUMBER
+        CHAR   | INT
         CHAR              | LONG
         CHAR              | FLOAT
         CHAR              | DOUBLE
         // Number
-        NUMBER            | BYTE
-        NUMBER            | SHORT
-        NUMBER            | CHAR
-        NUMBER            | NUMBER
-        NUMBER            | LONG
-        NUMBER            | FLOAT
-        NUMBER            | DOUBLE
+        INT    | BYTE
+        INT    | SHORT
+        INT    | CHAR
+        INT    | INT
+        INT    | LONG
+        INT    | FLOAT
+        INT    | DOUBLE
         // Long
         LONG              | BYTE
         LONG              | SHORT
         LONG              | CHAR
-        LONG              | NUMBER
+        LONG   | INT
         LONG              | LONG
         LONG              | FLOAT
         LONG              | DOUBLE
@@ -63,7 +63,7 @@ class OperationUtilsTest extends Specification {
         FLOAT             | BYTE
         FLOAT             | SHORT
         FLOAT             | CHAR
-        FLOAT             | NUMBER
+        FLOAT  | INT
         FLOAT             | LONG
         FLOAT             | FLOAT
         FLOAT             | DOUBLE
@@ -71,7 +71,7 @@ class OperationUtilsTest extends Specification {
         DOUBLE            | BYTE
         DOUBLE            | SHORT
         DOUBLE            | CHAR
-        DOUBLE            | NUMBER
+        DOUBLE | INT
         DOUBLE            | LONG
         DOUBLE            | FLOAT
         DOUBLE            | DOUBLE
@@ -94,7 +94,7 @@ class OperationUtilsTest extends Specification {
         ObjectType.STRING | BYTE
         ObjectType.STRING | SHORT
         ObjectType.STRING | CHAR
-        ObjectType.STRING | NUMBER
+        ObjectType.STRING | INT
         ObjectType.STRING | LONG
         ObjectType.STRING | FLOAT
         ObjectType.STRING | DOUBLE
@@ -103,7 +103,7 @@ class OperationUtilsTest extends Specification {
         BOOLEAN           | BYTE
         BOOLEAN           | SHORT
         BOOLEAN           | CHAR
-        BOOLEAN           | NUMBER
+        BOOLEAN           | INT
         BOOLEAN           | LONG
         BOOLEAN           | FLOAT
         BOOLEAN           | DOUBLE
@@ -118,8 +118,8 @@ class OperationUtilsTest extends Specification {
         CHAR              | BOOLEAN
         CHAR              | ObjectType.STRING
         // Number
-        NUMBER            | BOOLEAN
-        NUMBER            | ObjectType.STRING
+        INT               | BOOLEAN
+        INT               | ObjectType.STRING
         // Long
         LONG              | BOOLEAN
         LONG              | ObjectType.STRING
@@ -150,9 +150,9 @@ class OperationUtilsTest extends Specification {
         BYTE                 | ObjectType.CHARACTER
         ObjectType.BYTE      | CHAR
         ObjectType.BYTE      | ObjectType.CHARACTER
-        BYTE                 | NUMBER
+        BYTE                 | INT
         BYTE                 | ObjectType.INTEGER
-        ObjectType.BYTE      | NUMBER
+        ObjectType.BYTE      | INT
         ObjectType.BYTE      | ObjectType.INTEGER
         BYTE                 | LONG
         BYTE                 | ObjectType.LONG
@@ -179,9 +179,9 @@ class OperationUtilsTest extends Specification {
         SHORT                | ObjectType.CHARACTER
         ObjectType.SHORT     | CHAR
         ObjectType.SHORT     | ObjectType.CHARACTER
-        SHORT                | NUMBER
+        SHORT                | INT
         SHORT                | ObjectType.INTEGER
-        ObjectType.SHORT     | NUMBER
+        ObjectType.SHORT     | INT
         ObjectType.SHORT     | ObjectType.INTEGER
         SHORT                | LONG
         SHORT                | ObjectType.LONG
@@ -208,9 +208,9 @@ class OperationUtilsTest extends Specification {
         CHAR                 | ObjectType.CHARACTER
         ObjectType.CHARACTER | CHAR
         ObjectType.CHARACTER | ObjectType.CHARACTER
-        CHAR                 | NUMBER
+        CHAR                 | INT
         CHAR                 | ObjectType.INTEGER
-        ObjectType.CHARACTER | NUMBER
+        ObjectType.CHARACTER | INT
         ObjectType.CHARACTER | ObjectType.INTEGER
         CHAR                 | LONG
         CHAR                 | ObjectType.LONG
@@ -225,32 +225,32 @@ class OperationUtilsTest extends Specification {
         ObjectType.CHARACTER | DOUBLE
         ObjectType.CHARACTER | ObjectType.DOUBLE
         // Number
-        NUMBER               | BYTE
-        NUMBER               | ObjectType.BYTE
+        INT                  | BYTE
+        INT                  | ObjectType.BYTE
         ObjectType.INTEGER   | BYTE
         ObjectType.INTEGER   | ObjectType.BYTE
-        NUMBER               | SHORT
-        NUMBER               | ObjectType.SHORT
+        INT                  | SHORT
+        INT                  | ObjectType.SHORT
         ObjectType.INTEGER   | SHORT
         ObjectType.INTEGER   | ObjectType.SHORT
-        NUMBER               | CHAR
-        NUMBER               | ObjectType.CHARACTER
+        INT                  | CHAR
+        INT                  | ObjectType.CHARACTER
         ObjectType.INTEGER   | CHAR
         ObjectType.INTEGER   | ObjectType.CHARACTER
-        NUMBER               | NUMBER
-        NUMBER               | ObjectType.INTEGER
-        ObjectType.INTEGER   | NUMBER
+        INT                  | INT
+        INT                  | ObjectType.INTEGER
+        ObjectType.INTEGER   | INT
         ObjectType.INTEGER   | ObjectType.INTEGER
-        NUMBER               | LONG
-        NUMBER               | ObjectType.LONG
+        INT                  | LONG
+        INT                  | ObjectType.LONG
         ObjectType.INTEGER   | LONG
         ObjectType.INTEGER   | ObjectType.LONG
-        NUMBER               | FLOAT
-        NUMBER               | ObjectType.FLOAT
+        INT                  | FLOAT
+        INT                  | ObjectType.FLOAT
         ObjectType.INTEGER   | FLOAT
         ObjectType.INTEGER   | ObjectType.FLOAT
-        NUMBER               | DOUBLE
-        NUMBER               | ObjectType.DOUBLE
+        INT                  | DOUBLE
+        INT                  | ObjectType.DOUBLE
         ObjectType.INTEGER   | DOUBLE
         ObjectType.INTEGER   | ObjectType.DOUBLE
         // Long
@@ -266,9 +266,9 @@ class OperationUtilsTest extends Specification {
         LONG                 | ObjectType.CHARACTER
         ObjectType.LONG      | CHAR
         ObjectType.LONG      | ObjectType.CHARACTER
-        LONG                 | NUMBER
+        LONG                 | INT
         LONG                 | ObjectType.INTEGER
-        ObjectType.LONG      | NUMBER
+        ObjectType.LONG      | INT
         ObjectType.LONG      | ObjectType.INTEGER
         LONG                 | LONG
         LONG                 | ObjectType.LONG
@@ -295,9 +295,9 @@ class OperationUtilsTest extends Specification {
         FLOAT                | ObjectType.CHARACTER
         ObjectType.FLOAT     | CHAR
         ObjectType.FLOAT     | ObjectType.CHARACTER
-        FLOAT                | NUMBER
+        FLOAT                | INT
         FLOAT                | ObjectType.INTEGER
-        ObjectType.FLOAT     | NUMBER
+        ObjectType.FLOAT     | INT
         ObjectType.FLOAT     | ObjectType.INTEGER
         FLOAT                | LONG
         FLOAT                | ObjectType.LONG
@@ -324,9 +324,9 @@ class OperationUtilsTest extends Specification {
         DOUBLE               | ObjectType.CHARACTER
         ObjectType.DOUBLE    | CHAR
         ObjectType.DOUBLE    | ObjectType.CHARACTER
-        DOUBLE               | NUMBER
+        DOUBLE               | INT
         DOUBLE               | ObjectType.INTEGER
-        ObjectType.DOUBLE    | NUMBER
+        ObjectType.DOUBLE    | INT
         ObjectType.DOUBLE    | ObjectType.INTEGER
         DOUBLE               | LONG
         DOUBLE               | ObjectType.LONG
@@ -376,45 +376,45 @@ class OperationUtilsTest extends Specification {
         where:
         a                    | b                    | c
         // Char
-        CHAR                 | BYTE                 | NUMBER
-        CHAR                 | ObjectType.BYTE      | NUMBER
-        ObjectType.CHARACTER | BYTE                 | NUMBER
-        ObjectType.CHARACTER | ObjectType.BYTE      | NUMBER
-        CHAR                 | SHORT                | NUMBER
-        CHAR                 | ObjectType.SHORT     | NUMBER
-        ObjectType.CHARACTER | SHORT                | NUMBER
-        ObjectType.CHARACTER | ObjectType.SHORT     | NUMBER
-        CHAR                 | CHAR                 | NUMBER
-        CHAR                 | ObjectType.CHARACTER | NUMBER
-        ObjectType.CHARACTER | CHAR                 | NUMBER
-        ObjectType.CHARACTER | ObjectType.CHARACTER | NUMBER
-        CHAR                 | NUMBER               | NUMBER
-        CHAR                 | ObjectType.INTEGER   | NUMBER
-        ObjectType.CHARACTER | NUMBER               | NUMBER
-        ObjectType.CHARACTER | ObjectType.INTEGER   | NUMBER
+        CHAR                 | BYTE                 | INT
+        CHAR                 | ObjectType.BYTE      | INT
+        ObjectType.CHARACTER | BYTE                 | INT
+        ObjectType.CHARACTER | ObjectType.BYTE      | INT
+        CHAR                 | SHORT                | INT
+        CHAR                 | ObjectType.SHORT     | INT
+        ObjectType.CHARACTER | SHORT                | INT
+        ObjectType.CHARACTER | ObjectType.SHORT     | INT
+        CHAR                 | CHAR                 | INT
+        CHAR                 | ObjectType.CHARACTER | INT
+        ObjectType.CHARACTER | CHAR                 | INT
+        ObjectType.CHARACTER | ObjectType.CHARACTER | INT
+        CHAR                 | INT                  | INT
+        CHAR                 | ObjectType.INTEGER   | INT
+        ObjectType.CHARACTER | INT                  | INT
+        ObjectType.CHARACTER | ObjectType.INTEGER   | INT
         CHAR                 | LONG                 | LONG
         CHAR                 | ObjectType.LONG      | LONG
         ObjectType.CHARACTER | LONG                 | LONG
         ObjectType.CHARACTER | ObjectType.LONG      | LONG
         // Number
-        NUMBER               | BYTE                 | NUMBER
-        NUMBER               | ObjectType.BYTE      | NUMBER
-        ObjectType.INTEGER   | BYTE                 | NUMBER
-        ObjectType.INTEGER   | ObjectType.BYTE      | NUMBER
-        NUMBER               | SHORT                | NUMBER
-        NUMBER               | ObjectType.SHORT     | NUMBER
-        ObjectType.INTEGER   | SHORT                | NUMBER
-        ObjectType.INTEGER   | ObjectType.SHORT     | NUMBER
-        NUMBER               | CHAR                 | NUMBER
-        NUMBER               | ObjectType.CHARACTER | NUMBER
-        ObjectType.INTEGER   | CHAR                 | NUMBER
-        ObjectType.INTEGER   | ObjectType.CHARACTER | NUMBER
-        NUMBER               | NUMBER               | NUMBER
-        NUMBER               | ObjectType.INTEGER   | NUMBER
-        ObjectType.INTEGER   | NUMBER               | NUMBER
-        ObjectType.INTEGER   | ObjectType.INTEGER   | NUMBER
-        NUMBER               | LONG                 | LONG
-        NUMBER               | ObjectType.LONG      | LONG
+        INT                  | BYTE                 | INT
+        INT                  | ObjectType.BYTE      | INT
+        ObjectType.INTEGER   | BYTE                 | INT
+        ObjectType.INTEGER   | ObjectType.BYTE      | INT
+        INT                  | SHORT                | INT
+        INT                  | ObjectType.SHORT     | INT
+        ObjectType.INTEGER   | SHORT                | INT
+        ObjectType.INTEGER   | ObjectType.SHORT     | INT
+        INT                  | CHAR                 | INT
+        INT                  | ObjectType.CHARACTER | INT
+        ObjectType.INTEGER   | CHAR                 | INT
+        ObjectType.INTEGER   | ObjectType.CHARACTER | INT
+        INT                  | INT                  | INT
+        INT                  | ObjectType.INTEGER   | INT
+        ObjectType.INTEGER   | INT                  | INT
+        ObjectType.INTEGER   | ObjectType.INTEGER   | INT
+        INT                  | LONG                 | LONG
+        INT                  | ObjectType.LONG      | LONG
         ObjectType.INTEGER   | LONG                 | LONG
         ObjectType.INTEGER   | ObjectType.LONG      | LONG
         // Long
@@ -430,9 +430,9 @@ class OperationUtilsTest extends Specification {
         LONG                 | ObjectType.CHARACTER | LONG
         ObjectType.LONG      | CHAR                 | LONG
         ObjectType.LONG      | ObjectType.CHARACTER | LONG
-        LONG                 | NUMBER               | LONG
+        LONG                 | INT                  | LONG
         LONG                 | ObjectType.INTEGER   | LONG
-        ObjectType.LONG      | NUMBER               | LONG
+        ObjectType.LONG      | INT                  | LONG
         ObjectType.LONG      | ObjectType.INTEGER   | LONG
         LONG                 | LONG                 | LONG
         LONG                 | ObjectType.LONG      | LONG
@@ -467,9 +467,9 @@ class OperationUtilsTest extends Specification {
         FLOAT                | ObjectType.CHARACTER
         ObjectType.FLOAT     | CHAR
         ObjectType.FLOAT     | ObjectType.CHARACTER
-        FLOAT                | NUMBER
+        FLOAT              | INT
         FLOAT                | ObjectType.INTEGER
-        ObjectType.FLOAT     | NUMBER
+        ObjectType.FLOAT   | INT
         ObjectType.FLOAT     | ObjectType.INTEGER
         FLOAT                | LONG
         FLOAT                | ObjectType.LONG
@@ -500,9 +500,9 @@ class OperationUtilsTest extends Specification {
         DOUBLE               | ObjectType.CHARACTER
         ObjectType.DOUBLE    | CHAR
         ObjectType.DOUBLE    | ObjectType.CHARACTER
-        DOUBLE               | NUMBER
+        DOUBLE             | INT
         DOUBLE               | ObjectType.INTEGER
-        ObjectType.DOUBLE    | NUMBER
+        ObjectType.DOUBLE  | INT
         ObjectType.DOUBLE    | ObjectType.INTEGER
         DOUBLE               | LONG
         DOUBLE               | ObjectType.LONG
@@ -533,9 +533,9 @@ class OperationUtilsTest extends Specification {
         BOOLEAN              | ObjectType.CHARACTER
         ObjectType.BOOLEAN   | CHAR
         ObjectType.BOOLEAN   | ObjectType.CHARACTER
-        BOOLEAN              | NUMBER
+        BOOLEAN            | INT
         BOOLEAN              | ObjectType.INTEGER
-        ObjectType.BOOLEAN   | NUMBER
+        ObjectType.BOOLEAN | INT
         ObjectType.BOOLEAN   | ObjectType.INTEGER
         BOOLEAN              | LONG
         BOOLEAN              | ObjectType.LONG
@@ -561,8 +561,8 @@ class OperationUtilsTest extends Specification {
         CHAR                 | ObjectType.BOOLEAN
         ObjectType.CHARACTER | BOOLEAN
         ObjectType.CHARACTER | ObjectType.BOOLEAN
-        NUMBER               | BOOLEAN
-        NUMBER               | ObjectType.BOOLEAN
+        INT                | BOOLEAN
+        INT                | ObjectType.BOOLEAN
         ObjectType.INTEGER   | BOOLEAN
         ObjectType.INTEGER   | ObjectType.BOOLEAN
         LONG                 | BOOLEAN
@@ -578,45 +578,45 @@ class OperationUtilsTest extends Specification {
         where:
         a                    | b                    | c
         // Char
-        CHAR                 | BYTE                 | NUMBER
-        CHAR                 | ObjectType.BYTE      | NUMBER
-        ObjectType.CHARACTER | BYTE                 | NUMBER
-        ObjectType.CHARACTER | ObjectType.BYTE      | NUMBER
-        CHAR                 | SHORT                | NUMBER
-        CHAR                 | ObjectType.SHORT     | NUMBER
-        ObjectType.CHARACTER | SHORT                | NUMBER
-        ObjectType.CHARACTER | ObjectType.SHORT     | NUMBER
-        CHAR                 | CHAR                 | NUMBER
-        CHAR                 | ObjectType.CHARACTER | NUMBER
-        ObjectType.CHARACTER | CHAR                 | NUMBER
-        ObjectType.CHARACTER | ObjectType.CHARACTER | NUMBER
-        CHAR                 | NUMBER               | NUMBER
-        CHAR                 | ObjectType.INTEGER   | NUMBER
-        ObjectType.CHARACTER | NUMBER               | NUMBER
-        ObjectType.CHARACTER | ObjectType.INTEGER   | NUMBER
+        CHAR                 | BYTE                 | INT
+        CHAR                 | ObjectType.BYTE      | INT
+        ObjectType.CHARACTER | BYTE                 | INT
+        ObjectType.CHARACTER | ObjectType.BYTE      | INT
+        CHAR                 | SHORT                | INT
+        CHAR                 | ObjectType.SHORT     | INT
+        ObjectType.CHARACTER | SHORT                | INT
+        ObjectType.CHARACTER | ObjectType.SHORT     | INT
+        CHAR                 | CHAR                 | INT
+        CHAR                 | ObjectType.CHARACTER | INT
+        ObjectType.CHARACTER | CHAR                 | INT
+        ObjectType.CHARACTER | ObjectType.CHARACTER | INT
+        CHAR                 | INT                  | INT
+        CHAR                 | ObjectType.INTEGER   | INT
+        ObjectType.CHARACTER | INT                  | INT
+        ObjectType.CHARACTER | ObjectType.INTEGER   | INT
         CHAR                 | LONG                 | LONG
         CHAR                 | ObjectType.LONG      | LONG
         ObjectType.CHARACTER | LONG                 | LONG
         ObjectType.CHARACTER | ObjectType.LONG      | LONG
         // Number
-        NUMBER               | BYTE                 | NUMBER
-        NUMBER               | ObjectType.BYTE      | NUMBER
-        ObjectType.INTEGER   | BYTE                 | NUMBER
-        ObjectType.INTEGER   | ObjectType.BYTE      | NUMBER
-        NUMBER               | SHORT                | NUMBER
-        NUMBER               | ObjectType.SHORT     | NUMBER
-        ObjectType.INTEGER   | SHORT                | NUMBER
-        ObjectType.INTEGER   | ObjectType.SHORT     | NUMBER
-        NUMBER               | CHAR                 | NUMBER
-        NUMBER               | ObjectType.CHARACTER | NUMBER
-        ObjectType.INTEGER   | CHAR                 | NUMBER
-        ObjectType.INTEGER   | ObjectType.CHARACTER | NUMBER
-        NUMBER               | NUMBER               | NUMBER
-        NUMBER               | ObjectType.INTEGER   | NUMBER
-        ObjectType.INTEGER   | NUMBER               | NUMBER
-        ObjectType.INTEGER   | ObjectType.INTEGER   | NUMBER
-        NUMBER               | LONG                 | LONG
-        NUMBER               | ObjectType.LONG      | LONG
+        INT                  | BYTE                 | INT
+        INT                  | ObjectType.BYTE      | INT
+        ObjectType.INTEGER   | BYTE                 | INT
+        ObjectType.INTEGER   | ObjectType.BYTE      | INT
+        INT                  | SHORT                | INT
+        INT                  | ObjectType.SHORT     | INT
+        ObjectType.INTEGER   | SHORT                | INT
+        ObjectType.INTEGER   | ObjectType.SHORT     | INT
+        INT                  | CHAR                 | INT
+        INT                  | ObjectType.CHARACTER | INT
+        ObjectType.INTEGER   | CHAR                 | INT
+        ObjectType.INTEGER   | ObjectType.CHARACTER | INT
+        INT                  | INT                  | INT
+        INT                  | ObjectType.INTEGER   | INT
+        ObjectType.INTEGER   | INT                  | INT
+        ObjectType.INTEGER   | ObjectType.INTEGER   | INT
+        INT                  | LONG                 | LONG
+        INT                  | ObjectType.LONG      | LONG
         ObjectType.INTEGER   | LONG                 | LONG
         ObjectType.INTEGER   | ObjectType.LONG      | LONG
         // Long
@@ -632,9 +632,9 @@ class OperationUtilsTest extends Specification {
         LONG                 | ObjectType.CHARACTER | LONG
         ObjectType.LONG      | CHAR                 | LONG
         ObjectType.LONG      | ObjectType.CHARACTER | LONG
-        LONG                 | NUMBER               | LONG
+        LONG                 | INT                  | LONG
         LONG                 | ObjectType.INTEGER   | LONG
-        ObjectType.LONG      | NUMBER               | LONG
+        ObjectType.LONG      | INT                  | LONG
         ObjectType.LONG      | ObjectType.INTEGER   | LONG
         LONG                 | LONG                 | LONG
         LONG                 | ObjectType.LONG      | LONG
@@ -664,9 +664,9 @@ class OperationUtilsTest extends Specification {
         FLOAT             | ObjectType.CHARACTER
         ObjectType.FLOAT  | CHAR
         ObjectType.FLOAT  | ObjectType.CHARACTER
-        FLOAT             | NUMBER
+        FLOAT             | INT
         FLOAT             | ObjectType.INTEGER
-        ObjectType.FLOAT  | NUMBER
+        ObjectType.FLOAT  | INT
         ObjectType.FLOAT  | ObjectType.INTEGER
         FLOAT             | LONG
         FLOAT             | ObjectType.LONG
@@ -693,9 +693,9 @@ class OperationUtilsTest extends Specification {
         DOUBLE            | ObjectType.CHARACTER
         ObjectType.DOUBLE | CHAR
         ObjectType.DOUBLE | ObjectType.CHARACTER
-        DOUBLE            | NUMBER
+        DOUBLE            | INT
         DOUBLE            | ObjectType.INTEGER
-        ObjectType.DOUBLE | NUMBER
+        ObjectType.DOUBLE | INT
         ObjectType.DOUBLE | ObjectType.INTEGER
         DOUBLE            | LONG
         DOUBLE            | ObjectType.LONG
@@ -718,22 +718,22 @@ class OperationUtilsTest extends Specification {
         where:
         a                    | b                    | c
         // Byte
-        BYTE                 | BYTE                 | NUMBER
-        BYTE                 | ObjectType.BYTE      | NUMBER
-        ObjectType.BYTE      | BYTE                 | NUMBER
-        ObjectType.BYTE      | ObjectType.BYTE      | NUMBER
-        BYTE                 | SHORT                | NUMBER
-        BYTE                 | ObjectType.SHORT     | NUMBER
-        ObjectType.BYTE      | SHORT                | NUMBER
-        ObjectType.BYTE      | ObjectType.SHORT     | NUMBER
-        BYTE                 | CHAR                 | NUMBER
-        BYTE                 | ObjectType.CHARACTER | NUMBER
-        ObjectType.BYTE      | CHAR                 | NUMBER
-        ObjectType.BYTE      | ObjectType.CHARACTER | NUMBER
-        BYTE                 | NUMBER               | NUMBER
-        BYTE                 | ObjectType.INTEGER   | NUMBER
-        ObjectType.BYTE      | NUMBER               | NUMBER
-        ObjectType.BYTE      | ObjectType.INTEGER   | NUMBER
+        BYTE                 | BYTE                 | INT
+        BYTE                 | ObjectType.BYTE      | INT
+        ObjectType.BYTE      | BYTE                 | INT
+        ObjectType.BYTE      | ObjectType.BYTE      | INT
+        BYTE                 | SHORT                | INT
+        BYTE                 | ObjectType.SHORT     | INT
+        ObjectType.BYTE      | SHORT                | INT
+        ObjectType.BYTE      | ObjectType.SHORT     | INT
+        BYTE                 | CHAR                 | INT
+        BYTE                 | ObjectType.CHARACTER | INT
+        ObjectType.BYTE      | CHAR                 | INT
+        ObjectType.BYTE      | ObjectType.CHARACTER | INT
+        BYTE                 | INT                  | INT
+        BYTE                 | ObjectType.INTEGER   | INT
+        ObjectType.BYTE      | INT                  | INT
+        ObjectType.BYTE      | ObjectType.INTEGER   | INT
         BYTE                 | LONG                 | LONG
         BYTE                 | ObjectType.LONG      | LONG
         ObjectType.BYTE      | LONG                 | LONG
@@ -747,22 +747,22 @@ class OperationUtilsTest extends Specification {
         ObjectType.BYTE      | DOUBLE               | DOUBLE
         ObjectType.BYTE      | ObjectType.DOUBLE    | DOUBLE
         // Short
-        SHORT                | BYTE                 | NUMBER
-        SHORT                | ObjectType.BYTE      | NUMBER
-        ObjectType.SHORT     | BYTE                 | NUMBER
-        ObjectType.SHORT     | ObjectType.BYTE      | NUMBER
-        SHORT                | SHORT                | NUMBER
-        SHORT                | ObjectType.SHORT     | NUMBER
-        ObjectType.SHORT     | SHORT                | NUMBER
-        ObjectType.SHORT     | ObjectType.SHORT     | NUMBER
-        SHORT                | CHAR                 | NUMBER
-        SHORT                | ObjectType.CHARACTER | NUMBER
-        ObjectType.SHORT     | CHAR                 | NUMBER
-        ObjectType.SHORT     | ObjectType.CHARACTER | NUMBER
-        SHORT                | NUMBER               | NUMBER
-        SHORT                | ObjectType.INTEGER   | NUMBER
-        ObjectType.SHORT     | NUMBER               | NUMBER
-        ObjectType.SHORT     | ObjectType.INTEGER   | NUMBER
+        SHORT                | BYTE                 | INT
+        SHORT                | ObjectType.BYTE      | INT
+        ObjectType.SHORT     | BYTE                 | INT
+        ObjectType.SHORT     | ObjectType.BYTE      | INT
+        SHORT                | SHORT                | INT
+        SHORT                | ObjectType.SHORT     | INT
+        ObjectType.SHORT     | SHORT                | INT
+        ObjectType.SHORT     | ObjectType.SHORT     | INT
+        SHORT                | CHAR                 | INT
+        SHORT                | ObjectType.CHARACTER | INT
+        ObjectType.SHORT     | CHAR                 | INT
+        ObjectType.SHORT     | ObjectType.CHARACTER | INT
+        SHORT                | INT                  | INT
+        SHORT                | ObjectType.INTEGER   | INT
+        ObjectType.SHORT     | INT                  | INT
+        ObjectType.SHORT     | ObjectType.INTEGER   | INT
         SHORT                | LONG                 | LONG
         SHORT                | ObjectType.LONG      | LONG
         ObjectType.SHORT     | LONG                 | LONG
@@ -776,22 +776,22 @@ class OperationUtilsTest extends Specification {
         ObjectType.SHORT     | DOUBLE               | DOUBLE
         ObjectType.SHORT     | ObjectType.DOUBLE    | DOUBLE
         // Char
-        CHAR                 | BYTE                 | NUMBER
-        CHAR                 | ObjectType.BYTE      | NUMBER
-        ObjectType.CHARACTER | BYTE                 | NUMBER
-        ObjectType.CHARACTER | ObjectType.BYTE      | NUMBER
-        CHAR                 | SHORT                | NUMBER
-        CHAR                 | ObjectType.SHORT     | NUMBER
-        ObjectType.CHARACTER | SHORT                | NUMBER
-        ObjectType.CHARACTER | ObjectType.SHORT     | NUMBER
-        CHAR                 | CHAR                 | NUMBER
-        CHAR                 | ObjectType.CHARACTER | NUMBER
-        ObjectType.CHARACTER | CHAR                 | NUMBER
-        ObjectType.CHARACTER | ObjectType.CHARACTER | NUMBER
-        CHAR                 | NUMBER               | NUMBER
-        CHAR                 | ObjectType.INTEGER   | NUMBER
-        ObjectType.CHARACTER | NUMBER               | NUMBER
-        ObjectType.CHARACTER | ObjectType.INTEGER   | NUMBER
+        CHAR                 | BYTE                 | INT
+        CHAR                 | ObjectType.BYTE      | INT
+        ObjectType.CHARACTER | BYTE                 | INT
+        ObjectType.CHARACTER | ObjectType.BYTE      | INT
+        CHAR                 | SHORT                | INT
+        CHAR                 | ObjectType.SHORT     | INT
+        ObjectType.CHARACTER | SHORT                | INT
+        ObjectType.CHARACTER | ObjectType.SHORT     | INT
+        CHAR                 | CHAR                 | INT
+        CHAR                 | ObjectType.CHARACTER | INT
+        ObjectType.CHARACTER | CHAR                 | INT
+        ObjectType.CHARACTER | ObjectType.CHARACTER | INT
+        CHAR                 | INT                  | INT
+        CHAR                 | ObjectType.INTEGER   | INT
+        ObjectType.CHARACTER | INT                  | INT
+        ObjectType.CHARACTER | ObjectType.INTEGER   | INT
         CHAR                 | LONG                 | LONG
         CHAR                 | ObjectType.LONG      | LONG
         ObjectType.CHARACTER | LONG                 | LONG
@@ -805,32 +805,32 @@ class OperationUtilsTest extends Specification {
         ObjectType.CHARACTER | DOUBLE               | DOUBLE
         ObjectType.CHARACTER | ObjectType.DOUBLE    | DOUBLE
         // Number
-        NUMBER               | BYTE                 | NUMBER
-        NUMBER               | ObjectType.BYTE      | NUMBER
-        ObjectType.INTEGER   | BYTE                 | NUMBER
-        ObjectType.INTEGER   | ObjectType.BYTE      | NUMBER
-        NUMBER               | SHORT                | NUMBER
-        NUMBER               | ObjectType.SHORT     | NUMBER
-        ObjectType.INTEGER   | SHORT                | NUMBER
-        ObjectType.INTEGER   | ObjectType.SHORT     | NUMBER
-        NUMBER               | CHAR                 | NUMBER
-        NUMBER               | ObjectType.CHARACTER | NUMBER
-        ObjectType.INTEGER   | CHAR                 | NUMBER
-        ObjectType.INTEGER   | ObjectType.CHARACTER | NUMBER
-        NUMBER               | NUMBER               | NUMBER
-        NUMBER               | ObjectType.INTEGER   | NUMBER
-        ObjectType.INTEGER   | NUMBER               | NUMBER
-        ObjectType.INTEGER   | ObjectType.INTEGER   | NUMBER
-        NUMBER               | LONG                 | LONG
-        NUMBER               | ObjectType.LONG      | LONG
+        INT                  | BYTE                 | INT
+        INT                  | ObjectType.BYTE      | INT
+        ObjectType.INTEGER   | BYTE                 | INT
+        ObjectType.INTEGER   | ObjectType.BYTE      | INT
+        INT                  | SHORT                | INT
+        INT                  | ObjectType.SHORT     | INT
+        ObjectType.INTEGER   | SHORT                | INT
+        ObjectType.INTEGER   | ObjectType.SHORT     | INT
+        INT                  | CHAR                 | INT
+        INT                  | ObjectType.CHARACTER | INT
+        ObjectType.INTEGER   | CHAR                 | INT
+        ObjectType.INTEGER   | ObjectType.CHARACTER | INT
+        INT                  | INT                  | INT
+        INT                  | ObjectType.INTEGER   | INT
+        ObjectType.INTEGER   | INT                  | INT
+        ObjectType.INTEGER   | ObjectType.INTEGER   | INT
+        INT                  | LONG                 | LONG
+        INT                  | ObjectType.LONG      | LONG
         ObjectType.INTEGER   | LONG                 | LONG
         ObjectType.INTEGER   | ObjectType.LONG      | LONG
-        NUMBER               | FLOAT                | FLOAT
-        NUMBER               | ObjectType.FLOAT     | FLOAT
+        INT                  | FLOAT                | FLOAT
+        INT                  | ObjectType.FLOAT     | FLOAT
         ObjectType.INTEGER   | FLOAT                | FLOAT
         ObjectType.INTEGER   | ObjectType.FLOAT     | FLOAT
-        NUMBER               | DOUBLE               | DOUBLE
-        NUMBER               | ObjectType.DOUBLE    | DOUBLE
+        INT                  | DOUBLE               | DOUBLE
+        INT                  | ObjectType.DOUBLE    | DOUBLE
         ObjectType.INTEGER   | DOUBLE               | DOUBLE
         ObjectType.INTEGER   | ObjectType.DOUBLE    | DOUBLE
         // Long
@@ -846,9 +846,9 @@ class OperationUtilsTest extends Specification {
         LONG                 | ObjectType.CHARACTER | LONG
         ObjectType.LONG      | CHAR                 | LONG
         ObjectType.LONG      | ObjectType.CHARACTER | LONG
-        LONG                 | NUMBER               | LONG
+        LONG                 | INT                  | LONG
         LONG                 | ObjectType.INTEGER   | LONG
-        ObjectType.LONG      | NUMBER               | LONG
+        ObjectType.LONG      | INT                  | LONG
         ObjectType.LONG      | ObjectType.INTEGER   | LONG
         LONG                 | LONG                 | LONG
         LONG                 | ObjectType.LONG      | LONG
@@ -875,9 +875,9 @@ class OperationUtilsTest extends Specification {
         FLOAT                | ObjectType.CHARACTER | FLOAT
         ObjectType.FLOAT     | CHAR                 | FLOAT
         ObjectType.FLOAT     | ObjectType.CHARACTER | FLOAT
-        FLOAT                | NUMBER               | FLOAT
+        FLOAT                | INT                  | FLOAT
         FLOAT                | ObjectType.INTEGER   | FLOAT
-        ObjectType.FLOAT     | NUMBER               | FLOAT
+        ObjectType.FLOAT     | INT                  | FLOAT
         ObjectType.FLOAT     | ObjectType.INTEGER   | FLOAT
         FLOAT                | LONG                 | FLOAT
         FLOAT                | ObjectType.LONG      | FLOAT
@@ -904,9 +904,9 @@ class OperationUtilsTest extends Specification {
         DOUBLE               | ObjectType.CHARACTER | DOUBLE
         ObjectType.DOUBLE    | CHAR                 | DOUBLE
         ObjectType.DOUBLE    | ObjectType.CHARACTER | DOUBLE
-        DOUBLE               | NUMBER               | DOUBLE
+        DOUBLE               | INT                  | DOUBLE
         DOUBLE               | ObjectType.INTEGER   | DOUBLE
-        ObjectType.DOUBLE    | NUMBER               | DOUBLE
+        ObjectType.DOUBLE    | INT                  | DOUBLE
         ObjectType.DOUBLE    | ObjectType.INTEGER   | DOUBLE
         DOUBLE               | LONG                 | DOUBLE
         DOUBLE               | ObjectType.LONG      | DOUBLE

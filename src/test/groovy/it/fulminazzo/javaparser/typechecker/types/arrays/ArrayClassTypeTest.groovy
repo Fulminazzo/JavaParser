@@ -11,7 +11,7 @@ import spock.lang.Specification
 class ArrayClassTypeTest extends Specification {
     static final VALUE_TYPES = [
             PrimitiveType.BYTE, PrimitiveType.SHORT, PrimitiveType.CHAR,
-            PrimitiveType.NUMBER, PrimitiveType.LONG, PrimitiveType.FLOAT,
+            PrimitiveType.INT, PrimitiveType.LONG, PrimitiveType.FLOAT,
             PrimitiveType.DOUBLE, PrimitiveType.BOOLEAN
     ]
 
@@ -71,7 +71,7 @@ class ArrayClassTypeTest extends Specification {
 
     def 'test conversion of types'() {
         given:
-        def arrayType = new ArrayType(new ArrayType(new ArrayType(PrimitiveType.NUMBER)))
+        def arrayType = new ArrayType(new ArrayType(new ArrayType(PrimitiveType.INT)))
 
         when:
         def arrayClassType = arrayType.toClass()
@@ -97,7 +97,7 @@ class ArrayClassTypeTest extends Specification {
         given:
         // int[][][]
         def classType = new ArrayClassType(new ArrayClassType(new ArrayClassType(PrimitiveClassType.INT)))
-        def type = new ArrayType(new ArrayType(new ArrayType(PrimitiveType.NUMBER)))
+        def type = new ArrayType(new ArrayType(new ArrayType(PrimitiveType.INT)))
 
         expect:
         type.toClass() == classType
@@ -107,7 +107,7 @@ class ArrayClassTypeTest extends Specification {
         given:
         // int[][][]
         def classType = new ArrayClassType(new ArrayClassType(new ArrayClassType(PrimitiveClassType.INT)))
-        def type = new ArrayType(new ArrayType(new ArrayType(PrimitiveType.NUMBER)))
+        def type = new ArrayType(new ArrayType(new ArrayType(PrimitiveType.INT)))
 
         expect:
         classType.compatibleWith(type)

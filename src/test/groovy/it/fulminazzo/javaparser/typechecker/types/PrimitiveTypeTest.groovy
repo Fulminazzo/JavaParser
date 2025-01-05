@@ -20,7 +20,7 @@ class PrimitiveTypeTest extends Specification {
         BYTE    | ObjectType.BYTE
         SHORT   | ObjectType.SHORT
         CHAR    | ObjectType.CHARACTER
-        NUMBER  | ObjectType.INTEGER
+        INT | ObjectType.INTEGER
         LONG    | ObjectType.LONG
         FLOAT   | ObjectType.FLOAT
         DOUBLE  | ObjectType.DOUBLE
@@ -39,7 +39,7 @@ class PrimitiveTypeTest extends Specification {
         BYTE    | PrimitiveClassType.BYTE
         SHORT   | PrimitiveClassType.SHORT
         CHAR    | PrimitiveClassType.CHAR
-        NUMBER  | PrimitiveClassType.INT
+        INT | PrimitiveClassType.INT
         LONG    | PrimitiveClassType.LONG
         FLOAT   | PrimitiveClassType.FLOAT
         DOUBLE  | PrimitiveClassType.DOUBLE

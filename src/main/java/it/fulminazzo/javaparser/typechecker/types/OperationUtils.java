@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class OperationUtils {
     private static final Type[] NON_DECIMAL_TYPES = new Type[]{
-            PrimitiveType.NUMBER, PrimitiveType.BYTE, PrimitiveType.SHORT,
+            PrimitiveType.INT, PrimitiveType.BYTE, PrimitiveType.SHORT,
             PrimitiveType.CHAR, PrimitiveType.LONG,
             ObjectType.INTEGER, ObjectType.BYTE, ObjectType.SHORT,
             ObjectType.CHARACTER, ObjectType.LONG
@@ -145,7 +145,7 @@ public final class OperationUtils {
         if (isDouble(left) || isDouble(right)) return PrimitiveType.DOUBLE;
         else if (isFloat(left) || isFloat(right)) return PrimitiveType.FLOAT;
         else if (isLong(left) || isLong(right)) return PrimitiveType.LONG;
-        else return PrimitiveType.NUMBER;
+        else return PrimitiveType.INT;
     }
 
     /**
@@ -178,7 +178,7 @@ public final class OperationUtils {
         if (!operand.is(getDecimalTypes()))
             throw TypeCheckerException.unsupportedOperation(operator, operand);
         // Using it to return NUMBER in case of byte, short or char
-        return executeBinaryOperationDecimal(operator, PrimitiveType.NUMBER, operand);
+        return executeBinaryOperationDecimal(operator, PrimitiveType.INT, operand);
     }
 
     /**

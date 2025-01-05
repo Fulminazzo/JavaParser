@@ -18,7 +18,7 @@ class TypeTest extends Specification {
 
     def 'test check not valid'() {
         when:
-        this.type.checkNot(PrimitiveType.NUMBER)
+        this.type.checkNot(PrimitiveType.INT)
 
         then:
         noExceptionThrown()

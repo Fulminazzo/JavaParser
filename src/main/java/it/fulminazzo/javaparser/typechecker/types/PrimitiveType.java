@@ -14,7 +14,7 @@ public enum PrimitiveType implements Type {
     /**
      * Type of {@link it.fulminazzo.javaparser.tokenizer.TokenType#NUMBER_VALUE}.
      */
-    NUMBER,
+    INT,
     /**
      * Type of {@link it.fulminazzo.javaparser.tokenizer.TokenType#LONG_VALUE}.
      */
@@ -49,7 +49,7 @@ public enum PrimitiveType implements Type {
                 return ObjectType.SHORT;
             case CHAR:
                 return ObjectType.CHARACTER;
-            case NUMBER:
+            case INT:
                 return ObjectType.INTEGER;
             case LONG:
                 return ObjectType.LONG;
@@ -73,7 +73,7 @@ public enum PrimitiveType implements Type {
                 return PrimitiveClassType.BYTE;
             case SHORT:
                 return PrimitiveClassType.SHORT;
-            case NUMBER:
+            case INT:
                 return PrimitiveClassType.INT;
             case FLOAT:
                 return PrimitiveClassType.FLOAT;

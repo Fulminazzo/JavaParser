@@ -91,7 +91,7 @@ class TypeCheckerTest extends Specification {
 
         where:
         type                              | program
-        Optional.of(PrimitiveType.NUMBER) | new JavaProgram(new LinkedList<>([RETURN_NUMBER]))
+        Optional.of(PrimitiveType.INT) | new JavaProgram(new LinkedList<>([RETURN_NUMBER]))
         Optional.empty()                  | new JavaProgram(new LinkedList<>([new Statement()]))
     }
 
@@ -113,7 +113,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.NUMBER
+        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // Everything no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
@@ -133,7 +133,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_FLOAT)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.NUMBER
+        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // Everything with different types and no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
@@ -152,7 +152,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.NUMBER
+        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // Just one assignment no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral())
@@ -170,7 +170,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_FLOAT)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.NUMBER
+        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // Just one assignment with different types and no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral())
@@ -187,7 +187,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.NUMBER
+        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // No assignments no finally
         new AssignmentBlock([
         ])                                                                                                       | CODE_BLOCK_BOOL | [
@@ -203,7 +203,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_FLOAT)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.NUMBER
+        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // No assignments with different types and no finally
         new AssignmentBlock([
         ])                                                                                                       | CODE_BLOCK_BOOL | [
@@ -219,7 +219,7 @@ class TypeCheckerTest extends Specification {
         ])                                                                                                       | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.NUMBER
+        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // Just one catch no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
@@ -235,7 +235,7 @@ class TypeCheckerTest extends Specification {
         ])                                                                                                       | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_DOUBLE)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.NUMBER
+        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // Just one catch with different types and no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
@@ -249,7 +249,7 @@ class TypeCheckerTest extends Specification {
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
                 new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
         ])                                                                                                       | CODE_BLOCK_BOOL | [
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.NUMBER
+        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // No catches with different types and no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
@@ -313,14 +313,14 @@ class TypeCheckerTest extends Specification {
         [Literal.of('IllegalArgumentException'), Literal.of('IllegalStateException'), Literal.of('IllegalAccessError')] |
                 Literal.of('e')                                                                                                    | CODE_BLOCK_NUMBER |
                 new TupleType<>(new LinkedHashSet<>([ClassType.of(IllegalArgumentException), ClassType.of(IllegalStateException),
-                                                     ClassType.of(IllegalAccessError)]), PrimitiveType.NUMBER)
+                                                     ClassType.of(IllegalAccessError)]), PrimitiveType.INT)
         [Literal.of('IllegalArgumentException'), Literal.of('IllegalStateException')]                                   |
                 Literal.of('e')                                                                                                    | CODE_BLOCK_NUMBER |
                 new TupleType<>(new LinkedHashSet<>([ClassType.of(IllegalArgumentException), ClassType.of(IllegalStateException)]),
-                        PrimitiveType.NUMBER)
+                        PrimitiveType.INT)
         [Literal.of('IllegalArgumentException')]                                                                        |
                 Literal.of('e')                                                                                                    | CODE_BLOCK_NUMBER |
-                new TupleType<>(new LinkedHashSet<>([ClassType.of(IllegalArgumentException)]), PrimitiveType.NUMBER)
+                new TupleType<>(new LinkedHashSet<>([ClassType.of(IllegalArgumentException)]), PrimitiveType.INT)
     }
 
     def 'test visit invalid catch statement: (#exceptions #variable) should throw #expected'() {
@@ -362,15 +362,15 @@ class TypeCheckerTest extends Specification {
         where:
         expression | cases                                                                                                | defaultBlock | expected
         NUMBER_LIT | [new CaseStatement(NUMBER_LIT, CODE_BLOCK_NUMBER), new CaseStatement(NUMBER_LIT, CODE_BLOCK_NUMBER)] |
-                CODE_BLOCK_NUMBER                                                                                                        | PrimitiveType.NUMBER
+                CODE_BLOCK_NUMBER                                                                                                        | PrimitiveType.INT
         NUMBER_LIT | [new CaseStatement(NUMBER_LIT, CODE_BLOCK_NUMBER), new CaseStatement(NUMBER_LIT, CODE_BLOCK_DOUBLE)] |
                 CODE_BLOCK_BOOL                                                                                                          | Types.NO_TYPE
         NUMBER_LIT | [new CaseStatement(NUMBER_LIT, CODE_BLOCK_NUMBER)]                                                   |
-                CODE_BLOCK_NUMBER                                                                                                        | PrimitiveType.NUMBER
+                CODE_BLOCK_NUMBER                                                                                                        | PrimitiveType.INT
         NUMBER_LIT | [new CaseStatement(NUMBER_LIT, CODE_BLOCK_NUMBER)]                                                   |
                 CODE_BLOCK_BOOL                                                                                                          | Types.NO_TYPE
         NUMBER_LIT | []                                                                                                   |
-                CODE_BLOCK_NUMBER                                                                                                        | PrimitiveType.NUMBER
+                CODE_BLOCK_NUMBER                                                                                                        | PrimitiveType.INT
         NUMBER_LIT | [new CaseStatement(NUMBER_LIT, CODE_BLOCK_NUMBER)]                                                   |
                 CODE_BLOCK_EMPTY                                                                                                         | Types.NO_TYPE
         NUMBER_LIT | []                                                                                                   |
@@ -393,7 +393,7 @@ class TypeCheckerTest extends Specification {
 
     def 'test visit enhanced for statement of (#expression) #codeBlock should return #expected'() {
         given:
-        this.environment.declare(new ArrayClassType(PrimitiveClassType.INT), 'arr', new ArrayType(PrimitiveType.NUMBER))
+        this.environment.declare(new ArrayClassType(PrimitiveClassType.INT), 'arr', new ArrayType(PrimitiveType.INT))
         this.environment.declare(ObjectClassType.of(Iterable), 'iterable', ObjectType.of(Iterable))
         this.environment.declare(ObjectClassType.of(List), 'list', ObjectType.of(List))
         this.environment.declare(ObjectClassType.of(Collection), 'collection', ObjectType.of(Collection))
@@ -435,13 +435,13 @@ class TypeCheckerTest extends Specification {
 
         then:
         def e = thrown(TypeCheckerException)
-        e.message == TypeCheckerException.invalidType(ObjectClassType.of(Iterable), PrimitiveType.NUMBER).message
+        e.message == TypeCheckerException.invalidType(ObjectClassType.of(Iterable), PrimitiveType.INT).message
     }
 
     def 'test visit enhanced for statement of array with invalid type'() {
         given:
         def classType = new ArrayClassType(PrimitiveClassType.INT)
-        this.environment.declare(classType, 'arr', new ArrayType(PrimitiveType.NUMBER))
+        this.environment.declare(classType, 'arr', new ArrayType(PrimitiveType.INT))
 
         and:
         def varType = Literal.of('boolean')
@@ -533,9 +533,9 @@ class TypeCheckerTest extends Specification {
         PrimitiveType.BOOLEAN | new IfStatement(BOOL_VAR, CODE_BLOCK_BOOL, new Statement())
         Types.NO_TYPE         | new IfStatement(BOOL_LIT, CODE_BLOCK_EMPTY, new Statement())
         Types.NO_TYPE         | new IfStatement(BOOL_VAR, CODE_BLOCK_EMPTY, new Statement())
-        PrimitiveType.NUMBER  | new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER,
+        PrimitiveType.INT | new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER,
                 new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER, new Statement()))
-        PrimitiveType.NUMBER  | new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER,
+        PrimitiveType.INT | new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER,
                 new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER, new Statement()))
         Types.NO_TYPE         | new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER,
                 new IfStatement(BOOL_LIT, CODE_BLOCK_FLOAT, new Statement()))
@@ -640,8 +640,8 @@ class TypeCheckerTest extends Specification {
         'char'      | 'ci'  | NUMBER_LIT | PrimitiveType.CHAR
         'Character' | 'cW'  | CHAR_LIT   | ObjectType.CHARACTER
         'Character' | 'ciW' | NUMBER_LIT | ObjectType.CHARACTER
-        'int'       | 'ic'  | CHAR_LIT   | PrimitiveType.NUMBER
-        'int'       | 'i'   | NUMBER_LIT | PrimitiveType.NUMBER
+        'int'       | 'ic'  | CHAR_LIT   | PrimitiveType.INT
+        'int'       | 'i'   | NUMBER_LIT | PrimitiveType.INT
         'Integer'   | 'iW'  | NUMBER_LIT | ObjectType.INTEGER
         'long'      | 'lc'  | CHAR_LIT   | PrimitiveType.LONG
         'long'      | 'li'  | NUMBER_LIT | PrimitiveType.LONG
@@ -684,7 +684,7 @@ class TypeCheckerTest extends Specification {
         'Short'     | 'sW'  | Types.NULL_TYPE
         'char'      | 'c'   | PrimitiveType.CHAR
         'Character' | 'cW'  | Types.NULL_TYPE
-        'int'       | 'i'   | PrimitiveType.NUMBER
+        'int'       | 'i'   | PrimitiveType.INT
         'Integer'   | 'iW'  | Types.NULL_TYPE
         'long'      | 'l'   | PrimitiveType.LONG
         'Long'      | 'lW'  | Types.NULL_TYPE
@@ -793,7 +793,7 @@ class TypeCheckerTest extends Specification {
         this.environment.declare(
                 PrimitiveClassType.INT,
                 'method_call_val_prim',
-                PrimitiveType.NUMBER
+                PrimitiveType.INT
         )
 
         and:
@@ -810,8 +810,8 @@ class TypeCheckerTest extends Specification {
         executor               | method               | parameters             | expected
         ''                     | 'publicMethod'       | []                     | PrimitiveType.DOUBLE
         ''                     | 'publicMethod'       | [DOUBLE_LIT, BOOL_LIT] | PrimitiveType.DOUBLE
-        ''                     | 'publicStaticMethod' | []                     | PrimitiveType.NUMBER
-        ''                     | 'publicStaticMethod' | [NUMBER_LIT, BOOL_LIT] | PrimitiveType.NUMBER
+        ''                     | 'publicStaticMethod' | []                     | PrimitiveType.INT
+        ''                     | 'publicStaticMethod' | [NUMBER_LIT, BOOL_LIT] | PrimitiveType.INT
         'method_call_val'      | 'toString'           | []                     | ObjectType.STRING
         'method_call_val_prim' | 'toString'           | []                     | ObjectType.STRING
     }
@@ -930,8 +930,8 @@ class TypeCheckerTest extends Specification {
         'char'      | 'ci'  | NUMBER_LIT | PrimitiveType.CHAR
         'Character' | 'cW'  | CHAR_LIT   | ObjectType.CHARACTER
         'Character' | 'ciW' | NUMBER_LIT | ObjectType.CHARACTER
-        'int'       | 'ic'  | CHAR_LIT   | PrimitiveType.NUMBER
-        'int'       | 'i'   | NUMBER_LIT | PrimitiveType.NUMBER
+        'int'       | 'ic'  | CHAR_LIT   | PrimitiveType.INT
+        'int'       | 'i'   | NUMBER_LIT | PrimitiveType.INT
         'Integer'   | 'iW'  | NUMBER_LIT | ObjectType.INTEGER
         'long'      | 'lc'  | CHAR_LIT   | PrimitiveType.LONG
         'long'      | 'li'  | NUMBER_LIT | PrimitiveType.LONG
@@ -1078,7 +1078,7 @@ class TypeCheckerTest extends Specification {
         def type = this.typeChecker.visitJavaProgram(statements)
 
         then:
-        type == PrimitiveType.NUMBER
+        type == PrimitiveType.INT
     }
 
     def 'test visit code block'() {
@@ -1096,7 +1096,7 @@ class TypeCheckerTest extends Specification {
         def type = this.typeChecker.visitCodeBlock(statements)
 
         then:
-        type == PrimitiveType.NUMBER
+        type == PrimitiveType.INT
         this.environment.enteredScope(ScopeType.CODE_BLOCK)
         this.environment.isMainScope()
     }
@@ -1118,7 +1118,7 @@ class TypeCheckerTest extends Specification {
 
         where:
         literal    | expected
-        NUMBER_LIT | PrimitiveType.NUMBER
+        NUMBER_LIT | PrimitiveType.INT
         CHAR_LIT   | PrimitiveType.CHAR
         LONG_LIT   | PrimitiveType.LONG
         FLOAT_LIT  | PrimitiveType.FLOAT
@@ -1134,7 +1134,7 @@ class TypeCheckerTest extends Specification {
 
         where:
         literal    | expected
-        NUMBER_LIT | PrimitiveType.NUMBER
+        NUMBER_LIT | PrimitiveType.INT
         CHAR_LIT   | PrimitiveType.CHAR
         LONG_LIT   | PrimitiveType.LONG
         FLOAT_LIT  | PrimitiveType.FLOAT
@@ -1243,8 +1243,8 @@ class TypeCheckerTest extends Specification {
         where:
         first      | second     | expected
         BOOL_LIT   | BOOL_LIT   | PrimitiveType.BOOLEAN
-        CHAR_LIT   | CHAR_LIT   | PrimitiveType.NUMBER
-        NUMBER_LIT | NUMBER_LIT | PrimitiveType.NUMBER
+        CHAR_LIT   | CHAR_LIT   | PrimitiveType.INT
+        NUMBER_LIT | NUMBER_LIT | PrimitiveType.INT
         LONG_LIT   | LONG_LIT   | PrimitiveType.LONG
     }
 
@@ -1258,8 +1258,8 @@ class TypeCheckerTest extends Specification {
         where:
         first      | second     | expected
         BOOL_LIT   | BOOL_LIT   | PrimitiveType.BOOLEAN
-        CHAR_LIT   | CHAR_LIT   | PrimitiveType.NUMBER
-        NUMBER_LIT | NUMBER_LIT | PrimitiveType.NUMBER
+        CHAR_LIT   | CHAR_LIT   | PrimitiveType.INT
+        NUMBER_LIT | NUMBER_LIT | PrimitiveType.INT
         LONG_LIT   | LONG_LIT   | PrimitiveType.LONG
     }
 
@@ -1273,8 +1273,8 @@ class TypeCheckerTest extends Specification {
         where:
         first      | second     | expected
         BOOL_LIT   | BOOL_LIT   | PrimitiveType.BOOLEAN
-        CHAR_LIT   | CHAR_LIT   | PrimitiveType.NUMBER
-        NUMBER_LIT | NUMBER_LIT | PrimitiveType.NUMBER
+        CHAR_LIT   | CHAR_LIT   | PrimitiveType.INT
+        NUMBER_LIT | NUMBER_LIT | PrimitiveType.INT
         LONG_LIT   | LONG_LIT   | PrimitiveType.LONG
     }
 
@@ -1287,8 +1287,8 @@ class TypeCheckerTest extends Specification {
 
         where:
         first      | second     | expected
-        CHAR_LIT   | CHAR_LIT   | PrimitiveType.NUMBER
-        NUMBER_LIT | NUMBER_LIT | PrimitiveType.NUMBER
+        CHAR_LIT   | CHAR_LIT   | PrimitiveType.INT
+        NUMBER_LIT | NUMBER_LIT | PrimitiveType.INT
         LONG_LIT   | LONG_LIT   | PrimitiveType.LONG
     }
 
@@ -1301,8 +1301,8 @@ class TypeCheckerTest extends Specification {
 
         where:
         first      | second     | expected
-        CHAR_LIT   | CHAR_LIT   | PrimitiveType.NUMBER
-        NUMBER_LIT | NUMBER_LIT | PrimitiveType.NUMBER
+        CHAR_LIT   | CHAR_LIT   | PrimitiveType.INT
+        NUMBER_LIT | NUMBER_LIT | PrimitiveType.INT
         LONG_LIT   | LONG_LIT   | PrimitiveType.LONG
     }
 
@@ -1315,8 +1315,8 @@ class TypeCheckerTest extends Specification {
 
         where:
         first      | second     | expected
-        CHAR_LIT   | CHAR_LIT   | PrimitiveType.NUMBER
-        NUMBER_LIT | NUMBER_LIT | PrimitiveType.NUMBER
+        CHAR_LIT   | CHAR_LIT   | PrimitiveType.INT
+        NUMBER_LIT | NUMBER_LIT | PrimitiveType.INT
         LONG_LIT   | LONG_LIT   | PrimitiveType.LONG
     }
 
@@ -1329,8 +1329,8 @@ class TypeCheckerTest extends Specification {
 
         where:
         first      | second     | expected
-        CHAR_LIT   | CHAR_LIT   | PrimitiveType.NUMBER
-        NUMBER_LIT | NUMBER_LIT | PrimitiveType.NUMBER
+        CHAR_LIT   | CHAR_LIT   | PrimitiveType.INT
+        NUMBER_LIT | NUMBER_LIT | PrimitiveType.INT
         LONG_LIT   | LONG_LIT   | PrimitiveType.LONG
         FLOAT_LIT  | FLOAT_LIT  | PrimitiveType.FLOAT
         DOUBLE_LIT | DOUBLE_LIT | PrimitiveType.DOUBLE
@@ -1346,8 +1346,8 @@ class TypeCheckerTest extends Specification {
 
         where:
         first      | second     | expected
-        CHAR_LIT   | CHAR_LIT   | PrimitiveType.NUMBER
-        NUMBER_LIT | NUMBER_LIT | PrimitiveType.NUMBER
+        CHAR_LIT   | CHAR_LIT   | PrimitiveType.INT
+        NUMBER_LIT | NUMBER_LIT | PrimitiveType.INT
         LONG_LIT   | LONG_LIT   | PrimitiveType.LONG
         FLOAT_LIT  | FLOAT_LIT  | PrimitiveType.FLOAT
         DOUBLE_LIT | DOUBLE_LIT | PrimitiveType.DOUBLE
@@ -1362,8 +1362,8 @@ class TypeCheckerTest extends Specification {
 
         where:
         first      | second     | expected
-        CHAR_LIT   | CHAR_LIT   | PrimitiveType.NUMBER
-        NUMBER_LIT | NUMBER_LIT | PrimitiveType.NUMBER
+        CHAR_LIT   | CHAR_LIT   | PrimitiveType.INT
+        NUMBER_LIT | NUMBER_LIT | PrimitiveType.INT
         LONG_LIT   | LONG_LIT   | PrimitiveType.LONG
         FLOAT_LIT  | FLOAT_LIT  | PrimitiveType.FLOAT
         DOUBLE_LIT | DOUBLE_LIT | PrimitiveType.DOUBLE
@@ -1378,8 +1378,8 @@ class TypeCheckerTest extends Specification {
 
         where:
         first      | second     | expected
-        CHAR_LIT   | CHAR_LIT   | PrimitiveType.NUMBER
-        NUMBER_LIT | NUMBER_LIT | PrimitiveType.NUMBER
+        CHAR_LIT   | CHAR_LIT   | PrimitiveType.INT
+        NUMBER_LIT | NUMBER_LIT | PrimitiveType.INT
         LONG_LIT   | LONG_LIT   | PrimitiveType.LONG
         FLOAT_LIT  | FLOAT_LIT  | PrimitiveType.FLOAT
         DOUBLE_LIT | DOUBLE_LIT | PrimitiveType.DOUBLE
@@ -1394,8 +1394,8 @@ class TypeCheckerTest extends Specification {
 
         where:
         first      | second     | expected
-        CHAR_LIT   | CHAR_LIT   | PrimitiveType.NUMBER
-        NUMBER_LIT | NUMBER_LIT | PrimitiveType.NUMBER
+        CHAR_LIT   | CHAR_LIT   | PrimitiveType.INT
+        NUMBER_LIT | NUMBER_LIT | PrimitiveType.INT
         LONG_LIT   | LONG_LIT   | PrimitiveType.LONG
         FLOAT_LIT  | FLOAT_LIT  | PrimitiveType.FLOAT
         DOUBLE_LIT | DOUBLE_LIT | PrimitiveType.DOUBLE
@@ -1410,8 +1410,8 @@ class TypeCheckerTest extends Specification {
 
         where:
         literal    | expected
-        NUMBER_LIT | PrimitiveType.NUMBER
-        CHAR_LIT   | PrimitiveType.NUMBER
+        NUMBER_LIT | PrimitiveType.INT
+        CHAR_LIT   | PrimitiveType.INT
         LONG_LIT   | PrimitiveType.LONG
         FLOAT_LIT  | PrimitiveType.FLOAT
         DOUBLE_LIT | PrimitiveType.DOUBLE
@@ -1527,7 +1527,7 @@ class TypeCheckerTest extends Specification {
         CHAR_LIT                                          | Literal.of('short')                     | PrimitiveType.SHORT
         CHAR_LIT                                          | Literal.of('char')                      | PrimitiveType.CHAR
         CHAR_LIT                                          | Literal.of('Character')                 | ObjectType.CHARACTER
-        CHAR_LIT                                          | Literal.of('int')                       | PrimitiveType.NUMBER
+        CHAR_LIT                                          | Literal.of('int')                       | PrimitiveType.INT
         CHAR_LIT                                          | Literal.of('long')                      | PrimitiveType.LONG
         CHAR_LIT                                          | Literal.of('float')                     | PrimitiveType.FLOAT
         CHAR_LIT                                          | Literal.of('double')                    | PrimitiveType.DOUBLE
@@ -1536,7 +1536,7 @@ class TypeCheckerTest extends Specification {
         NUMBER_LIT                                        | Literal.of('byte')                      | PrimitiveType.BYTE
         NUMBER_LIT                                        | Literal.of('short')                     | PrimitiveType.SHORT
         NUMBER_LIT                                        | Literal.of('char')                      | PrimitiveType.CHAR
-        NUMBER_LIT                                        | Literal.of('int')                       | PrimitiveType.NUMBER
+        NUMBER_LIT                                        | Literal.of('int')                       | PrimitiveType.INT
         NUMBER_LIT                                        | Literal.of('Integer')                   | ObjectType.INTEGER
         NUMBER_LIT                                        | Literal.of('long')                      | PrimitiveType.LONG
         NUMBER_LIT                                        | Literal.of('float')                     | PrimitiveType.FLOAT
@@ -1546,7 +1546,7 @@ class TypeCheckerTest extends Specification {
         LONG_LIT                                          | Literal.of('byte')                      | PrimitiveType.BYTE
         LONG_LIT                                          | Literal.of('short')                     | PrimitiveType.SHORT
         LONG_LIT                                          | Literal.of('char')                      | PrimitiveType.CHAR
-        LONG_LIT                                          | Literal.of('int')                       | PrimitiveType.NUMBER
+        LONG_LIT                                          | Literal.of('int')                       | PrimitiveType.INT
         LONG_LIT                                          | Literal.of('long')                      | PrimitiveType.LONG
         LONG_LIT                                          | Literal.of('Long')                      | ObjectType.LONG
         LONG_LIT                                          | Literal.of('float')                     | PrimitiveType.FLOAT
@@ -1556,7 +1556,7 @@ class TypeCheckerTest extends Specification {
         FLOAT_LIT                                         | Literal.of('byte')                      | PrimitiveType.BYTE
         FLOAT_LIT                                         | Literal.of('short')                     | PrimitiveType.SHORT
         FLOAT_LIT                                         | Literal.of('char')                      | PrimitiveType.CHAR
-        FLOAT_LIT                                         | Literal.of('int')                       | PrimitiveType.NUMBER
+        FLOAT_LIT                                         | Literal.of('int')                       | PrimitiveType.INT
         FLOAT_LIT                                         | Literal.of('long')                      | PrimitiveType.LONG
         FLOAT_LIT                                         | Literal.of('float')                     | PrimitiveType.FLOAT
         FLOAT_LIT                                         | Literal.of('Float')                     | ObjectType.FLOAT
@@ -1566,7 +1566,7 @@ class TypeCheckerTest extends Specification {
         DOUBLE_LIT                                        | Literal.of('byte')                      | PrimitiveType.BYTE
         DOUBLE_LIT                                        | Literal.of('short')                     | PrimitiveType.SHORT
         DOUBLE_LIT                                        | Literal.of('char')                      | PrimitiveType.CHAR
-        DOUBLE_LIT                                        | Literal.of('int')                       | PrimitiveType.NUMBER
+        DOUBLE_LIT                                        | Literal.of('int')                       | PrimitiveType.INT
         DOUBLE_LIT                                        | Literal.of('long')                      | PrimitiveType.LONG
         DOUBLE_LIT                                        | Literal.of('float')                     | PrimitiveType.FLOAT
         DOUBLE_LIT                                        | Literal.of('double')                    | PrimitiveType.DOUBLE
@@ -1588,7 +1588,7 @@ class TypeCheckerTest extends Specification {
 
     def 'test invalid visit cast #target to #cast'() {
         given:
-        this.environment.declare(PrimitiveClassType.INT, 'cast', PrimitiveType.NUMBER)
+        this.environment.declare(PrimitiveClassType.INT, 'cast', PrimitiveType.INT)
 
         and:
         def expectedMessage = TypeCheckerException.invalidCast(cast.equals(Literal.of('String')) ?
@@ -1604,12 +1604,12 @@ class TypeCheckerTest extends Specification {
         where:
         target             | cast                 | expected
         CHAR_LIT           | Literal.of('String') | PrimitiveType.CHAR
-        NUMBER_LIT         | Literal.of('String') | PrimitiveType.NUMBER
+        NUMBER_LIT         | Literal.of('String') | PrimitiveType.INT
         LONG_LIT           | Literal.of('String') | PrimitiveType.LONG
         FLOAT_LIT          | Literal.of('String') | PrimitiveType.FLOAT
         DOUBLE_LIT         | Literal.of('String') | PrimitiveType.DOUBLE
         STRING_LIT         | Literal.of('int')    | ObjectType.STRING
-        Literal.of('cast') | Literal.of('String') | PrimitiveType.NUMBER
+        Literal.of('cast') | Literal.of('String') | PrimitiveType.INT
     }
 
     def 'test visitScoped with exception #exception should throw #expected'() {

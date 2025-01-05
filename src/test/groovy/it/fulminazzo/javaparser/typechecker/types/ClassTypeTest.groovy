@@ -95,7 +95,7 @@ class ClassTypeTest extends Specification {
         where:
         expected                 | parameters
         ObjectType.of(TestClass) | new ParameterTypes([])
-        ObjectType.of(TestClass) | new ParameterTypes([PrimitiveType.NUMBER, ObjectType.BOOLEAN])
+        ObjectType.of(TestClass) | new ParameterTypes([PrimitiveType.INT, ObjectType.BOOLEAN])
     }
 
     def 'test newObject (#parameters) should throw types mismatch'() {
@@ -110,7 +110,7 @@ class ClassTypeTest extends Specification {
         where:
         types                     | parameters
         new Class[]{int, Boolean} | new ParameterTypes([PrimitiveType.DOUBLE, ObjectType.BOOLEAN])
-        new Class[]{int, Boolean} | new ParameterTypes([PrimitiveType.NUMBER, ObjectType.STRING])
+        new Class[]{int, Boolean} | new ParameterTypes([PrimitiveType.INT, ObjectType.STRING])
         new Class[]{int, Boolean} | new ParameterTypes([PrimitiveType.DOUBLE, ObjectType.STRING])
     }
 
@@ -130,7 +130,7 @@ class ClassTypeTest extends Specification {
 
     def 'test constructor not found'() {
         given:
-        def mockParameters = new ParameterTypes([PrimitiveType.NUMBER, PrimitiveType.DOUBLE, PrimitiveType.SHORT])
+        def mockParameters = new ParameterTypes([PrimitiveType.INT, PrimitiveType.DOUBLE, PrimitiveType.SHORT])
         when:
         this.classType.newObject(mockParameters)
 

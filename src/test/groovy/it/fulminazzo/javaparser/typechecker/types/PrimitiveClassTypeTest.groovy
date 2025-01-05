@@ -22,7 +22,7 @@ class PrimitiveClassTypeTest extends Specification {
         PrimitiveClassType.BYTE    | ObjectType.BYTE
         PrimitiveClassType.BYTE    | SHORT
         PrimitiveClassType.BYTE    | CHAR
-        PrimitiveClassType.BYTE    | NUMBER
+        PrimitiveClassType.BYTE    | INT
         PrimitiveClassType.BYTE    | LONG
         PrimitiveClassType.BYTE    | FLOAT
         PrimitiveClassType.BYTE    | DOUBLE
@@ -32,7 +32,7 @@ class PrimitiveClassTypeTest extends Specification {
         PrimitiveClassType.SHORT   | SHORT
         PrimitiveClassType.SHORT   | ObjectType.SHORT
         PrimitiveClassType.SHORT   | CHAR
-        PrimitiveClassType.SHORT   | NUMBER
+        PrimitiveClassType.SHORT   | INT
         PrimitiveClassType.SHORT   | LONG
         PrimitiveClassType.SHORT   | FLOAT
         PrimitiveClassType.SHORT   | DOUBLE
@@ -41,7 +41,7 @@ class PrimitiveClassTypeTest extends Specification {
         PrimitiveClassType.CHAR    | SHORT
         PrimitiveClassType.CHAR    | CHAR
         PrimitiveClassType.CHAR    | ObjectType.CHARACTER
-        PrimitiveClassType.CHAR    | NUMBER
+        PrimitiveClassType.CHAR    | INT
         PrimitiveClassType.CHAR    | LONG
         PrimitiveClassType.CHAR    | FLOAT
         PrimitiveClassType.CHAR    | DOUBLE
@@ -52,7 +52,7 @@ class PrimitiveClassTypeTest extends Specification {
         PrimitiveClassType.INT     | ObjectType.SHORT
         PrimitiveClassType.INT     | CHAR
         PrimitiveClassType.INT     | ObjectType.CHARACTER
-        PrimitiveClassType.INT     | NUMBER
+        PrimitiveClassType.INT     | INT
         PrimitiveClassType.INT     | ObjectType.INTEGER
         PrimitiveClassType.INT     | LONG
         PrimitiveClassType.INT     | FLOAT
@@ -64,7 +64,7 @@ class PrimitiveClassTypeTest extends Specification {
         PrimitiveClassType.LONG    | ObjectType.SHORT
         PrimitiveClassType.LONG    | CHAR
         PrimitiveClassType.LONG    | ObjectType.CHARACTER
-        PrimitiveClassType.LONG    | NUMBER
+        PrimitiveClassType.LONG    | INT
         PrimitiveClassType.LONG    | ObjectType.INTEGER
         PrimitiveClassType.LONG    | LONG
         PrimitiveClassType.LONG    | ObjectType.LONG
@@ -77,7 +77,7 @@ class PrimitiveClassTypeTest extends Specification {
         PrimitiveClassType.FLOAT   | ObjectType.SHORT
         PrimitiveClassType.FLOAT   | CHAR
         PrimitiveClassType.FLOAT   | ObjectType.CHARACTER
-        PrimitiveClassType.FLOAT   | NUMBER
+        PrimitiveClassType.FLOAT   | INT
         PrimitiveClassType.FLOAT   | ObjectType.INTEGER
         PrimitiveClassType.FLOAT   | LONG
         PrimitiveClassType.FLOAT   | ObjectType.LONG
@@ -91,7 +91,7 @@ class PrimitiveClassTypeTest extends Specification {
         PrimitiveClassType.DOUBLE  | ObjectType.SHORT
         PrimitiveClassType.DOUBLE  | CHAR
         PrimitiveClassType.DOUBLE  | ObjectType.CHARACTER
-        PrimitiveClassType.DOUBLE  | NUMBER
+        PrimitiveClassType.DOUBLE  | INT
         PrimitiveClassType.DOUBLE  | ObjectType.INTEGER
         PrimitiveClassType.DOUBLE  | LONG
         PrimitiveClassType.DOUBLE  | ObjectType.LONG
@@ -179,7 +179,7 @@ class PrimitiveClassTypeTest extends Specification {
         PrimitiveClassType.BOOLEAN | ObjectType.SHORT
         PrimitiveClassType.BOOLEAN | CHAR
         PrimitiveClassType.BOOLEAN | ObjectType.CHARACTER
-        PrimitiveClassType.BOOLEAN | NUMBER
+        PrimitiveClassType.BOOLEAN | INT
         PrimitiveClassType.BOOLEAN | ObjectType.INTEGER
         PrimitiveClassType.BOOLEAN | LONG
         PrimitiveClassType.BOOLEAN | ObjectType.LONG
@@ -203,7 +203,7 @@ class PrimitiveClassTypeTest extends Specification {
         PrimitiveClassType.BYTE    | BYTE
         PrimitiveClassType.CHAR    | CHAR
         PrimitiveClassType.SHORT   | SHORT
-        PrimitiveClassType.INT     | NUMBER
+        PrimitiveClassType.INT     | INT
         PrimitiveClassType.LONG    | LONG
         PrimitiveClassType.FLOAT   | FLOAT
         PrimitiveClassType.DOUBLE  | DOUBLE
@@ -243,17 +243,17 @@ class PrimitiveClassTypeTest extends Specification {
         // byte
         PrimitiveClassType.BYTE    | BYTE
         PrimitiveClassType.BYTE    | ObjectType.BYTE
-        PrimitiveClassType.BYTE    | NUMBER
+        PrimitiveClassType.BYTE    | INT
         // short
         PrimitiveClassType.SHORT   | BYTE
         PrimitiveClassType.SHORT   | ObjectType.BYTE
         PrimitiveClassType.SHORT   | SHORT
         PrimitiveClassType.SHORT   | ObjectType.SHORT
-        PrimitiveClassType.SHORT   | NUMBER
+        PrimitiveClassType.SHORT   | INT
         // char
         PrimitiveClassType.CHAR    | CHAR
         PrimitiveClassType.CHAR    | ObjectType.CHARACTER
-        PrimitiveClassType.CHAR    | NUMBER
+        PrimitiveClassType.CHAR    | INT
         // int
         PrimitiveClassType.INT     | BYTE
         PrimitiveClassType.INT     | ObjectType.BYTE
@@ -261,7 +261,7 @@ class PrimitiveClassTypeTest extends Specification {
         PrimitiveClassType.INT     | ObjectType.SHORT
         PrimitiveClassType.INT     | CHAR
         PrimitiveClassType.INT     | ObjectType.CHARACTER
-        PrimitiveClassType.INT     | NUMBER
+        PrimitiveClassType.INT     | INT
         PrimitiveClassType.INT     | ObjectType.INTEGER
         // long
         PrimitiveClassType.LONG    | BYTE
@@ -270,7 +270,7 @@ class PrimitiveClassTypeTest extends Specification {
         PrimitiveClassType.LONG    | ObjectType.SHORT
         PrimitiveClassType.LONG    | CHAR
         PrimitiveClassType.LONG    | ObjectType.CHARACTER
-        PrimitiveClassType.LONG    | NUMBER
+        PrimitiveClassType.LONG    | INT
         PrimitiveClassType.LONG    | ObjectType.INTEGER
         PrimitiveClassType.LONG    | LONG
         PrimitiveClassType.LONG    | ObjectType.LONG
@@ -281,7 +281,7 @@ class PrimitiveClassTypeTest extends Specification {
         PrimitiveClassType.FLOAT   | ObjectType.SHORT
         PrimitiveClassType.FLOAT   | CHAR
         PrimitiveClassType.FLOAT   | ObjectType.CHARACTER
-        PrimitiveClassType.FLOAT   | NUMBER
+        PrimitiveClassType.FLOAT   | INT
         PrimitiveClassType.FLOAT   | ObjectType.INTEGER
         PrimitiveClassType.FLOAT   | LONG
         PrimitiveClassType.FLOAT   | ObjectType.LONG
@@ -294,7 +294,7 @@ class PrimitiveClassTypeTest extends Specification {
         PrimitiveClassType.DOUBLE  | ObjectType.SHORT
         PrimitiveClassType.DOUBLE  | CHAR
         PrimitiveClassType.DOUBLE  | ObjectType.CHARACTER
-        PrimitiveClassType.DOUBLE  | NUMBER
+        PrimitiveClassType.DOUBLE  | INT
         PrimitiveClassType.DOUBLE  | ObjectType.INTEGER
         PrimitiveClassType.DOUBLE  | LONG
         PrimitiveClassType.DOUBLE  | ObjectType.LONG
@@ -384,7 +384,7 @@ class PrimitiveClassTypeTest extends Specification {
         PrimitiveClassType.BOOLEAN | ObjectType.SHORT
         PrimitiveClassType.BOOLEAN | CHAR
         PrimitiveClassType.BOOLEAN | ObjectType.CHARACTER
-        PrimitiveClassType.BOOLEAN | NUMBER
+        PrimitiveClassType.BOOLEAN | INT
         PrimitiveClassType.BOOLEAN | ObjectType.INTEGER
         PrimitiveClassType.BOOLEAN | LONG
         PrimitiveClassType.BOOLEAN | ObjectType.LONG
