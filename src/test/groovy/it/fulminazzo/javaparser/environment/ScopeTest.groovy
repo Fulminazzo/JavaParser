@@ -80,7 +80,7 @@ class ScopeTest extends Specification {
         def data = new Scope.ObjectData(new WrapperInfo<>(String), NamedEntity.of('var'))
 
         expect:
-        data.toString() == "${Scope.ObjectData.simpleName}(${new WrapperInfo<>(String).toString()}, ${NamedEntity.of('var')})"
+        data.toString() == "${Scope.ObjectData.simpleName}(${new WrapperInfo<>(String).toString()}, var)"
     }
 
 }

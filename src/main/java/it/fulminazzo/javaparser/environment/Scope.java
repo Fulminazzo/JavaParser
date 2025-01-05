@@ -62,13 +62,13 @@ class Scope<T> implements Scoped<T> {
      * @return an optional containing the data (if found)
      */
     public @NotNull Optional<ObjectData> getKey(@NotNull NamedEntity name) {
-        return this.internalMap.keySet().stream().filter(d -> d.getName().equals(name)).findFirst();
+        return this.internalMap.keySet().stream().filter(d -> d.getName().equals(name.getName())).findFirst();
     }
 
     /**
      * Represents the information of an object.
      */
-    static class ObjectData extends BiObjectWrapper<Info, NamedEntity> {
+    static class ObjectData extends BiObjectWrapper<Info, String> {
 
         /**
          * Instantiates a new Object data.
@@ -77,14 +77,14 @@ class Scope<T> implements Scoped<T> {
          * @param name the name
          */
         public ObjectData(final @NotNull Info info, final @NotNull NamedEntity name) {
-            super(info, name);
+            super(info, name.getName());
         }
 
         public @NotNull Info getInfo() {
             return this.first;
         }
 
-        public @NotNull NamedEntity getName() {
+        public @NotNull String getName() {
             return this.second;
         }
 
