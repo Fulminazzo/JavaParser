@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  */
 @Getter
 public final class TryScopeType implements ScopeType {
-    private final Set<Class<Throwable>> caughtExceptions;
+    private final @NotNull Set<Class<Throwable>> caughtExceptions;
 
     /**
      * Instantiates a new Try scope type.
@@ -35,7 +35,7 @@ public final class TryScopeType implements ScopeType {
     }
 
     @Override
-    public String name() {
+    public @NotNull String name() {
         return String.format("TRY(%s)", this.caughtExceptions.stream()
                 .map(Class::getCanonicalName)
                 .collect(Collectors.joining(", ")));
@@ -52,7 +52,7 @@ public final class TryScopeType implements ScopeType {
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return name();
     }
 
