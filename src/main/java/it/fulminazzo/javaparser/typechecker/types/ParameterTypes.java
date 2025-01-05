@@ -1,18 +1,16 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
-import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
+import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * Represents the list of parameters {@link Type}s required during the invocation of a method or constructor.
  */
-public final class ParameterTypes implements Type {
+public final class ParameterTypes extends ParameterVisitorObjects<ClassType, Type, ParameterTypes> implements Type {
 
     /**
      * Instantiates a new Parameter types.
