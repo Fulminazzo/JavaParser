@@ -49,6 +49,16 @@ public interface VisitorObject<
     }
 
     /**
+     * Checks whether the current object extends the given {@link ClassVisitorObject}.
+     *
+     * @param classVisitorObject the class object
+     * @return true if it is
+     */
+    default boolean isAssignableFrom(final @NotNull ClassVisitorObject<C, O, P> classVisitorObject) {
+        return classVisitorObject.compatibleWith(this);
+    }
+
+    /**
      * Gets the given field from the associated {@link ClassVisitorObject} and returns it.
      *
      * @param fieldName the field name
