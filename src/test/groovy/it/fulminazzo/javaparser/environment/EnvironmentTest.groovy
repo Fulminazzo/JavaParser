@@ -105,11 +105,11 @@ class EnvironmentTest extends Specification {
         def varName = 'var'
 
         when:
-        this.environment.declare(new WrapperInfo<>(Integer), varName, 1)
-        def declared = this.environment.isDeclared(varName)
-        def first = this.environment.lookup(varName)
-        this.environment.update(varName, 2)
-        def second = this.environment.lookup(varName)
+        this.environment.declare(new WrapperInfo<>(Integer), NamedEntity.of(varName), 1)
+        def declared = this.environment.isDeclared(NamedEntity.of(varName))
+        def first = this.environment.lookup(NamedEntity.of(varName))
+        this.environment.update(NamedEntity.of(varName), 2)
+        def second = this.environment.lookup(NamedEntity.of(varName))
 
         then:
         declared
@@ -123,8 +123,8 @@ class EnvironmentTest extends Specification {
         def varName = 'var'
 
         when:
-        this.environment.declare(expected, varName, 1)
-        def actual = this.environment.lookupInfo(varName)
+        this.environment.declare(expected, NamedEntity.of(varName), 1)
+        def actual = this.environment.lookupInfo(NamedEntity.of(varName))
 
         then:
         actual == expected
@@ -135,11 +135,11 @@ class EnvironmentTest extends Specification {
         def varName = 'var'
 
         when:
-        this.environment.lookupInfo(varName)
+        this.environment.lookupInfo(NamedEntity.of(varName))
 
         then:
         def e = thrown(ScopeException)
-        e.message == ScopeException.noSuchVariable(varName).message
+        e.message == ScopeException.noSuchVariable(NamedEntity.of(varName)).message
     }
 
     def 'test declare twice'() {
@@ -147,12 +147,12 @@ class EnvironmentTest extends Specification {
         def varName = 'var'
 
         when:
-        this.environment.declare(new WrapperInfo<>(Integer), varName, 1)
-        this.environment.declare(new WrapperInfo<>(Integer), varName, 2)
+        this.environment.declare(new WrapperInfo<>(Integer), NamedEntity.of(varName), 1)
+        this.environment.declare(new WrapperInfo<>(Integer), NamedEntity.of(varName), 2)
 
         then:
         def e = thrown(ScopeException)
-        e.message == ScopeException.alreadyDeclaredVariable(varName).message
+        e.message == ScopeException.alreadyDeclaredVariable(NamedEntity.of(varName)).message
     }
 
     def 'test lookup without declare'() {
@@ -160,11 +160,11 @@ class EnvironmentTest extends Specification {
         def varName = 'var'
 
         when:
-        this.environment.lookup(varName)
+        this.environment.lookup(NamedEntity.of(varName))
 
         then:
         def e = thrown(ScopeException)
-        e.message == ScopeException.noSuchVariable(varName).message
+        e.message == ScopeException.noSuchVariable(NamedEntity.of(varName)).message
     }
 
     def 'test update without declare'() {
@@ -172,11 +172,11 @@ class EnvironmentTest extends Specification {
         def varName = 'var'
 
         when:
-        this.environment.update(varName, 1)
+        this.environment.update(NamedEntity.of(varName), 1)
 
         then:
         def e = thrown(ScopeException)
-        e.message == ScopeException.noSuchVariable(varName).message
+        e.message == ScopeException.noSuchVariable(NamedEntity.of(varName)).message
     }
 
 }

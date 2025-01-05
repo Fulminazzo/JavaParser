@@ -19,7 +19,7 @@ interface Scoped<T> {
      * @param name the name
      * @return the optional containing the value
      */
-    @NotNull Optional<T> search(@NotNull final String name);
+    @NotNull Optional<T> search(@NotNull final NamedEntity name);
 
     /**
      * Checks if a variable with the given name is declared.
@@ -27,7 +27,7 @@ interface Scoped<T> {
      * @param name the name
      * @return true if it is
      */
-    default boolean isDeclared(final @NotNull String name) {
+    default boolean isDeclared(final @NotNull NamedEntity name) {
         return search(name).isPresent();
     }
 
@@ -38,7 +38,7 @@ interface Scoped<T> {
      * @return the info of the variable
      * @throws ScopeException thrown if the variable is not declared
      */
-    @NotNull Info lookupInfo(@NotNull String name) throws ScopeException;
+    @NotNull Info lookupInfo(@NotNull NamedEntity name) throws ScopeException;
 
     /**
      * Finds the variable with the given name and returns its value.
@@ -47,7 +47,7 @@ interface Scoped<T> {
      * @return the value of the variable
      * @throws ScopeException thrown if the variable is not declared
      */
-    default @NotNull T lookup(final @NotNull String name) throws ScopeException {
+    default @NotNull T lookup(final @NotNull NamedEntity name) throws ScopeException {
         return search(name).orElseThrow(() -> ScopeException.noSuchVariable(name));
     }
 
@@ -59,7 +59,7 @@ interface Scoped<T> {
      * @param value the value
      * @throws ScopeException thrown if the variable is already declared
      */
-    void declare(@NotNull Info info, @NotNull String name, @NotNull T value) throws ScopeException;
+    void declare(@NotNull Info info, @NotNull NamedEntity name, @NotNull T value) throws ScopeException;
 
     /**
      * Updates the value of a variable.
@@ -68,7 +68,7 @@ interface Scoped<T> {
      * @param value the new value
      * @throws ScopeException thrown if the variable is not declared
      */
-    void update(@NotNull String name, @NotNull T value) throws ScopeException;
+    void update(@NotNull NamedEntity name, @NotNull T value) throws ScopeException;
 
     /**
      * Returns the scope type of the current scope.
