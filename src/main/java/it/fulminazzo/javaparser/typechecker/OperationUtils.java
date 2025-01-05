@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.typechecker;
 
+import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.typechecker.types.PrimitiveType;
 import it.fulminazzo.javaparser.typechecker.types.Type;
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
@@ -110,14 +111,17 @@ public final class OperationUtils {
      * Computes the returned {@link Type} for a binary operation that supports <b>decimal</b> types.
      * Throws {@link TypeCheckerException} in case of an invalid type received as operand.
      *
-     * @param left  the left operand
-     * @param right the right operand
+     * @param operator the operator of the operation
+     * @param left     the left operand
+     * @param right    the right operand
      * @return the computed type
      */
-    public static @NotNull Type executeBinaryOperationDecimal(final @NotNull Type left,
+    public static @NotNull Type executeBinaryOperationDecimal(final @NotNull TokenType operator,
+                                                              final @NotNull Type left,
                                                               final @NotNull Type right) {
-        if (isDouble(left.check(getDecimalTypes())) || isDouble(right.check(getDecimalTypes())))
-            return PrimitiveType.DOUBLE;
+        if (!left.is(getDecimalTypes()) || !right.is(getDecimalTypes()))
+            throw TypeCheckerException.unsupportedOperation(operator, left, right);
+        else if (isDouble(left) || isDouble(right)) return PrimitiveType.DOUBLE;
         else if (isFloat(left) || isFloat(right)) return PrimitiveType.FLOAT;
         else if (isLong(left) || isLong(right)) return PrimitiveType.LONG;
         else return PrimitiveType.NUMBER;
