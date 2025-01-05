@@ -83,7 +83,7 @@ public interface Visitor<
      * @param statements the statements
      * @return the code block
      */
-    default @NotNull O visitCodeBlock(@NotNull LinkedList<Statement> statements) {
+    default @NotNull O visitCodeBlock(final @NotNull LinkedList<Statement> statements) {
         return visitScoped(ScopeType.CODE_BLOCK, () -> {
             O empty = visitEmptyLiteral();
             for (Statement statement : statements) {
@@ -161,7 +161,7 @@ public interface Visitor<
      * @param assignments the assignments
      * @return the {@link ParameterVisitorObjects}
      */
-    default @NotNull O visitAssignmentBlock(@NotNull List<Assignment> assignments) {
+    default @NotNull O visitAssignmentBlock(final @NotNull List<Assignment> assignments) {
         return (O) visitMethodInvocation(assignments.stream()
                 .map(v -> (Node) v)
                 .collect(Collectors.toList()));
@@ -263,7 +263,7 @@ public interface Visitor<
      * @param value the value
      * @return the assignment
      */
-    default @NotNull O visitAssignment(@NotNull Node type, @NotNull Literal name, @NotNull Node value) {
+    default @NotNull O visitAssignment(final @NotNull Node type, final @NotNull Literal name, final @NotNull Node value) {
         C variableType = type.accept(this).checkClass();
         O tempVariableName = name.accept(this);
         if (!tempVariableName.is(LiteralObject.class))
@@ -290,7 +290,7 @@ public interface Visitor<
      * @param value the value
      * @return the re assign
      */
-    default @NotNull O visitReAssign(@NotNull Node name, @NotNull Node value) {
+    default @NotNull O visitReAssign(final @NotNull Node name, final @NotNull Node value) {
         try {
             // Direct access is unfortunately required, as visitLiteralImpl
             // will return the value of the variable itself.
@@ -306,6 +306,16 @@ public interface Visitor<
     }
 
     /**
+     * Conversion method for {@link #visitAssignment(Node, Literal, Node)} and
+     * {@link #visitReAssign(Node, Node)}.
+     *
+     * @param variableType the type of the variable
+     * @param variable     the variable
+     * @return the variable converted
+     */
+    @NotNull O convertVariable(final @NotNull C variableType, final @NotNull O variable);
+
+    /**
      * Converts new object and its fields to this visitor type.
      * Throws {@link #exceptionWrapper(Exception)} in case of error.
      *
@@ -313,7 +323,7 @@ public interface Visitor<
      * @param right the right
      * @return the new object
      */
-    default @NotNull O visitNewObject(@NotNull Node left, @NotNull Node right) {
+    default @NotNull O visitNewObject(final @NotNull Node left, final @NotNull Node right) {
         try {
             O type = left.accept(this);
             O parameters = right.accept(this);
@@ -410,8 +420,8 @@ public interface Visitor<
      * @param invocation the invocation
      * @return the method call
      */
-    default @NotNull O visitMethodCall(@NotNull Node executor, @NotNull String methodName,
-                                       @NotNull MethodInvocation invocation) {
+    default @NotNull O visitMethodCall(final @NotNull Node executor, final @NotNull String methodName,
+                                       final @NotNull MethodInvocation invocation) {
         try {
             O actualExecutor = executor.accept(this);
             if (actualExecutor.equals(visitEmptyLiteral())) actualExecutor = visitThisLiteral();
@@ -429,7 +439,7 @@ public interface Visitor<
      * @param fieldName the field name
      * @return the field
      */
-    default @NotNull O visitField(@NotNull Node executor, @NotNull Node fieldName) {
+    default @NotNull O visitField(final @NotNull Node executor, final @NotNull Node fieldName) {
         try {
             O actualExecutor = executor.accept(this);
             O actualFieldName = fieldName.accept(this);
@@ -701,7 +711,7 @@ public interface Visitor<
      * @param right the right
      * @return the cast
      */
-    default @NotNull O visitCast(@NotNull Node left, @NotNull Node right) {
+    default @NotNull O visitCast(final @NotNull Node left, final @NotNull Node right) {
         O cast = left.accept(this);
         return cast.checkClass().cast(right.accept(this));
     }
@@ -806,7 +816,7 @@ public interface Visitor<
      * @param value the value
      * @return the literal
      */
-    default @NotNull O visitLiteralImpl(@NotNull String value) {
+    default @NotNull O visitLiteralImpl(final @NotNull String value) {
         final String fieldsSeparator = ".";
 
         @NotNull Tuple<C, O> tuple = getObjectFromLiteral(value);
@@ -834,15 +844,6 @@ public interface Visitor<
         } else return (O) newLiteralObject(value);
     }
 
-    @NotNull LiteralObject<C, O, P> newLiteralObject(@NotNull String value);
-
-    /**
-     * Converts empty literal and its fields to this visitor type.
-     *
-     * @return the empty literal
-     */
-    @NotNull O visitEmptyLiteral();
-
     /**
      * Tries to convert the given literal to a {@link VisitorObject}.
      * It does so by first converting it to {@link ClassVisitorObject}.
@@ -857,7 +858,7 @@ public interface Visitor<
      * while the value its actual value.
      * Otherwise, the tuple will be empty.
      */
-    default @NotNull Tuple<C, O> getObjectFromLiteral(@NotNull String literal) {
+    default @NotNull Tuple<C, O> getObjectFromLiteral(final @NotNull String literal) {
         Tuple<C, O> tuple = new Tuple<>();
         try {
             NamedEntity string = NamedEntity.of(literal);
@@ -870,14 +871,20 @@ public interface Visitor<
     }
 
     /**
-     * Conversion method for {@link #visitAssignment(Node, Literal, Node)} and
-     * {@link #visitReAssign(Node, Node)}.
+     * Gets a new {@link LiteralObject} from the given string compatible with
+     * the parameters of this visitor.
      *
-     * @param variableType the type of the variable
-     * @param variable     the variable
-     * @return the variable converted
+     * @param value the value
+     * @return the literal object
      */
-    @NotNull O convertVariable(final @NotNull C variableType, final @NotNull O variable);
+    @NotNull LiteralObject<C, O, P> newLiteralObject(@NotNull String value);
+
+    /**
+     * Converts empty literal and its fields to this visitor type.
+     *
+     * @return the empty literal
+     */
+    @NotNull O visitEmptyLiteral();
 
     /**
      * Enters the specified {@link ScopeType}, executes the given function and
