@@ -529,18 +529,18 @@ class TypeCheckerTest extends Specification {
 
         where:
         expected              | code
-        PrimitiveType.BOOLEAN | new IfStatement(BOOL_LIT, CODE_BLOCK_BOOL, new Statement())
-        PrimitiveType.BOOLEAN | new IfStatement(BOOL_VAR, CODE_BLOCK_BOOL, new Statement())
-        Types.NO_TYPE         | new IfStatement(BOOL_LIT, CODE_BLOCK_EMPTY, new Statement())
-        Types.NO_TYPE         | new IfStatement(BOOL_VAR, CODE_BLOCK_EMPTY, new Statement())
+        PrimitiveType.BOOLEAN | new IfStatement(BOOL_LIT, CODE_BLOCK_BOOL, new EmptyLiteral())
+        PrimitiveType.BOOLEAN | new IfStatement(BOOL_VAR, CODE_BLOCK_BOOL, new EmptyLiteral())
+        Types.NO_TYPE         | new IfStatement(BOOL_LIT, CODE_BLOCK_EMPTY, new EmptyLiteral())
+        Types.NO_TYPE         | new IfStatement(BOOL_VAR, CODE_BLOCK_EMPTY, new EmptyLiteral())
         PrimitiveType.INT | new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER,
-                new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER, new Statement()))
+                new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER, new EmptyLiteral()))
         PrimitiveType.INT | new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER,
-                new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER, new Statement()))
+                new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER, new EmptyLiteral()))
         Types.NO_TYPE         | new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER,
-                new IfStatement(BOOL_LIT, CODE_BLOCK_FLOAT, new Statement()))
+                new IfStatement(BOOL_LIT, CODE_BLOCK_FLOAT, new EmptyLiteral()))
         Types.NO_TYPE         | new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER,
-                new IfStatement(BOOL_VAR, CODE_BLOCK_FLOAT, new Statement()))
+                new IfStatement(BOOL_VAR, CODE_BLOCK_FLOAT, new EmptyLiteral()))
         PrimitiveType.DOUBLE  | new IfStatement(BOOL_LIT, CODE_BLOCK_DOUBLE,
                 new IfStatement(BOOL_LIT, CODE_BLOCK_DOUBLE,
                         CODE_BLOCK_DOUBLE))
@@ -1069,7 +1069,7 @@ class TypeCheckerTest extends Specification {
                 new IfStatement(
                         BOOL_LIT,
                         CODE_BLOCK_CHAR,
-                        new Statement()
+                        new EmptyLiteral()
                 ),
                 RETURN_NUMBER
         ])
@@ -1087,7 +1087,7 @@ class TypeCheckerTest extends Specification {
                 new IfStatement(
                         BOOL_LIT,
                         CODE_BLOCK_CHAR,
-                        new Statement()
+                        new EmptyLiteral()
                 ),
                 RETURN_NUMBER
         ])
