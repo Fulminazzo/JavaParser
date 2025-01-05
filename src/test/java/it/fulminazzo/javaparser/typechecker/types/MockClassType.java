@@ -16,7 +16,7 @@ public class MockClassType implements ClassType {
 
     @Override
     public boolean compatibleWith(@NotNull Type object) {
-        return object instanceof MockClassType;
+        return object instanceof MockType;
     }
 
     @Override
