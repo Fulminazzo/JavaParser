@@ -1,18 +1,15 @@
 package it.fulminazzo.javaparser.executor.values;
 
-import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
-import it.fulminazzo.javaparser.environment.Info;
 import it.fulminazzo.javaparser.executor.values.arrays.ArrayClassValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
+import it.fulminazzo.javaparser.visitors.visitorobjects.ClassVisitorObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-
-import static sun.nio.cs.Surrogate.is;
 
 /**
  * Represents the class of a {@link Value}.
@@ -20,7 +17,7 @@ import static sun.nio.cs.Surrogate.is;
  * @param <V> the type of the value
  */
 @SuppressWarnings("unchecked")
-public interface ClassValue<V> extends Value<Class<V>>, Info {
+public interface ClassValue<V> extends Value<Class<V>>, ClassVisitorObject<ClassValue<?>, Value<?>, ParameterValues> {
 
     /**
      * Converts the given value to the current class.
