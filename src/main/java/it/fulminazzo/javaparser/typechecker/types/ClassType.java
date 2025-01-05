@@ -42,41 +42,12 @@ public interface ClassType extends Type, Info {
             throw TypeCheckerException.invalidType(classType, this);
     }
 
-    /**
-     * Searches for a constructor matching the given {@link ParameterTypes}.
-     * Then, returns {@link #toType()}.
-     *
-     * @return the type
-     * @throws TypeException thrown in case the constructor could not be found, could not be accessed
-     *                       (only <code>public</code> modifier allowed) or the given types did not match the expected ones
-     */
-    default @NotNull Type newObject(final @NotNull ParameterTypes parameterTypes) throws TypeException {
-        final String methodName = "<init>";
-        final ClassType classType = this;
-        try {
-            Class<?> javaClass = classType.toJavaClass();
-            @NotNull List<Constructor<?>> constructors = Arrays.stream(javaClass.getDeclaredConstructors())
-                    .filter(c -> TypeUtils.verifyExecutable(parameterTypes, c))
-                    .collect(Collectors.toList());
-            if (constructors.isEmpty()) throw new IllegalArgumentException();
-
-            Refl<?> refl = new Refl<>(ReflectionUtils.class);
-            Class<?> @NotNull [] parametersTypes = parameterTypes.toJavaClassArray();
-            for (Constructor<?> method : constructors) {
-                // For each one, validate its parameters
-                if (Boolean.TRUE.equals(refl.invokeMethod("validateParameters",
-                        new Class[]{Class[].class, Executable.class},
-                        parametersTypes, method))) {
-                    if (!Modifier.isPublic(method.getModifiers()))
-                        throw TypeException.cannotAccessMethod(classType, method);
-                    else return toType();
-                }
-            }
-
-            throw TypeException.typesMismatch(classType, constructors.get(0), parameterTypes);
-        } catch (IllegalArgumentException e) {
-            throw TypeException.methodNotFound(classType, methodName, parameterTypes);
-        }
+    @Override
+    default @NotNull Type newObject(final @NotNull Constructor<?> constructor,
+                                    final @NotNull ParameterTypes parameterTypes) throws TypeException {
+        if (!Modifier.isPublic(constructor.getModifiers()))
+            throw TypeException.cannotAccessMethod(this, constructor);
+        else return toType();
     }
 
     /**
