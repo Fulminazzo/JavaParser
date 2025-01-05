@@ -61,8 +61,36 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
     }
 
     @Override
-    public @NotNull Value<?> visitTryStatement(@NotNull CodeBlock block, @NotNull List<CatchStatement> catchBlocks, @NotNull CodeBlock finallyBlock, @NotNull Node expression) {
-        return null;
+    public @NotNull Value<?> visitTryStatement(@NotNull CodeBlock block, @NotNull List<CatchStatement> catchBlocks,
+                                               @NotNull CodeBlock finallyBlock, @NotNull Node assignments) {
+        return visitScoped(ScopeType.TRY, () -> {
+            assignments.accept(this);
+
+            Map<ExceptionTuple, CodeBlock> exceptionsMap = new HashMap<>();
+            for (CatchStatement catchStatement : catchBlocks) {
+                TupleValue<List<ExceptionTuple>, CodeBlock> catchExceptions = (TupleValue<List<ExceptionTuple>, CodeBlock>)
+                        catchStatement.accept(this);
+                for (ExceptionTuple tuple : catchExceptions.getKey())
+                    exceptionsMap.put(tuple, catchExceptions.getValue());
+            }
+
+            Value<?> returnedValue;
+            try {
+                returnedValue = block.accept(this);
+            } catch (ExceptionWrapper e) {
+                Value<? extends Throwable> exception = e.getActualException();
+                Tuple<ExceptionTuple, CodeBlock> keyAndValue = getKeyAndValue(exceptionsMap, exception.toClass());
+                returnedValue = visitScoped(ScopeType.CATCH, () -> {
+                    ExceptionTuple key = keyAndValue.getKey();
+                    this.environment.declare(key.getExceptionType(), key.getExceptionName(), exception);
+                    return keyAndValue.getValue().accept(this);
+                });
+            } finally {
+                Value<?> finalValue = finallyBlock.accept(this);
+                if (!finalValue.is(Values.NO_VALUE)) returnedValue = finalValue;
+            }
+            return returnedValue;
+        });
     }
 
     /**
