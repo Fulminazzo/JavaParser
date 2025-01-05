@@ -76,7 +76,7 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
 
     @Override
     public @NotNull Value<?> visitCaseStatement(@NotNull CodeBlock block, @NotNull Node expression) {
-        return null;
+        return new TupleValue<>(expression, block);
     }
 
     @Override
