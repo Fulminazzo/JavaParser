@@ -5,7 +5,6 @@ import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.executor.values.arrays.ArrayValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
-import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -321,220 +320,161 @@ public interface Value<V> {
     }
 
     /*
-        BINARY COMPARISONS
+        OPERATIONS
      */
-
-    /**
-     * Executes and comparison.
-     *
-     * @param other the other value
-     * @return the boolean value
-     */
-    default @NotNull BooleanValue and(final @NotNull Value<?> other) {
-        return toPrimitive().and(other);
+    @Override
+    default @NotNull Value<?> and(final @NotNull Value<?> other) {
+        return OperationUtils.executeBooleanComparison(this, other,
+                (a, b) -> a && b
+        );
     }
 
-    /**
-     * Executes or comparison.
-     *
-     * @param other the other value
-     * @return the boolean value
-     */
-    default @NotNull BooleanValue or(final @NotNull Value<?> other) {
-        return toPrimitive().or(other);
+    @Override
+    default @NotNull Value<?> or(final @NotNull Value<?> other) {
+        return OperationUtils.executeBooleanComparison(this, other,
+                (a, b) -> a || b
+        );
     }
 
-    /**
-     * Executes equal comparison.
-     *
-     * @param other the other value
-     * @return the boolean value
-     */
-    default @NotNull BooleanValue equal(final @NotNull Value<?> other) {
-        return BooleanValue.of(Objects.equals(getValue(), other.getValue()));
+    @Override
+    default @NotNull Value<?> equal(final @NotNull Value<?> other) {
+        return OperationUtils.executeObjectComparison(this, other, (a, b) -> {
+            if (a instanceof Number && b instanceof Number)
+                return (Boolean) OperationUtils.executeBinaryComparison(this, other,
+                        (f, s) -> f.compareTo(s) == 0)
+                        .getValue();
+            else return Objects.equals(a, b);
+        });
     }
 
-    /**
-     * Executes not equal comparison.
-     *
-     * @param other the other value
-     * @return the boolean value
-     */
-    default @NotNull BooleanValue notEqual(final @NotNull Value<?> other) {
+    @Override
+    default @NotNull Value<?> notEqual(final @NotNull Value<?> other) {
         return equal(other).not();
     }
 
-    /**
-     * Executes less than comparison.
-     *
-     * @param other the other value
-     * @return the boolean value
-     */
-    default @NotNull BooleanValue lessThan(final @NotNull Value<?> other) {
-        return toPrimitive().lessThan(other);
+    @Override
+    default @NotNull Value<?> lessThan(final @NotNull Value<?> other) {
+        return OperationUtils.executeBinaryComparison(this, other,
+                (a, b) -> a.compareTo(b) < 0
+        );
     }
 
-    /**
-     * Executes less than equal comparison.
-     *
-     * @param other the other value
-     * @return the boolean value
-     */
-    default @NotNull BooleanValue lessThanEqual(final @NotNull Value<?> other) {
-        return toPrimitive().lessThanEqual(other);
+    @Override
+    default @NotNull Value<?> lessThanEqual(final @NotNull Value<?> other) {
+        return OperationUtils.executeBinaryComparison(this, other,
+                (a, b) -> a.compareTo(b) <= 0
+        );
     }
 
-    /**
-     * Executes greater than comparison.
-     *
-     * @param other the other value
-     * @return the boolean value
-     */
-    default @NotNull BooleanValue greaterThan(final @NotNull Value<?> other) {
-        return toPrimitive().greaterThan(other);
+    @Override
+    default @NotNull Value<?> greaterThan(final @NotNull Value<?> other) {
+        return OperationUtils.executeBinaryComparison(this, other,
+                (a, b) -> a.compareTo(b) > 0
+        );
     }
 
-    /**
-     * Executes greater than equal comparison.
-     *
-     * @param other the other value
-     * @return the boolean value
-     */
-    default @NotNull BooleanValue greaterThanEqual(final @NotNull Value<?> other) {
-        return toPrimitive().greaterThanEqual(other);
+    @Override
+    default @NotNull Value<?> greaterThanEqual(final @NotNull Value<?> other) {
+        return OperationUtils.executeBinaryComparison(this, other,
+                (a, b) -> a.compareTo(b) >= 0
+        );
     }
 
-    /*
-        BINARY OPERATIONS
-     */
-
-    /**
-     * Executes bit and operation.
-     *
-     * @param other the other value
-     * @return the value
-     */
+    @Override
     default @NotNull Value<?> bitAnd(final @NotNull Value<?> other) {
-        return toPrimitive().bitAnd(other);
+        return OperationUtils.executeBinaryBitOperation(this, other,
+                (a, b) -> a & b,
+                (a, b) -> a & b, (a, b) -> a & b
+        );
     }
 
-    /**
-     * Executes bit or operation.
-     *
-     * @param other the other value
-     * @return the value
-     */
+    @Override
     default @NotNull Value<?> bitOr(final @NotNull Value<?> other) {
-        return toPrimitive().bitOr(other);
+        return OperationUtils.executeBinaryBitOperation(this, other,
+                (a, b) -> a | b,
+                (a, b) -> a | b, (a, b) -> a | b
+        );
     }
 
-    /**
-     * Executes bit xor operation.
-     *
-     * @param other the other value
-     * @return the value
-     */
+    @Override
     default @NotNull Value<?> bitXor(final @NotNull Value<?> other) {
-        return toPrimitive().bitXor(other);
+        return OperationUtils.executeBinaryBitOperation(this, other,
+                (a, b) -> a ^ b,
+                (a, b) -> a ^ b, (a, b) -> a ^ b
+        );
     }
 
-    /**
-     * Executes lshift operation.
-     *
-     * @param other the other value
-     * @return the value
-     */
+    @Override
     default @NotNull Value<?> lshift(final @NotNull Value<?> other) {
-        return toPrimitive().lshift(other);
+        return OperationUtils.executeBinaryOperation(this, other,
+                (a, b) -> a << b, (a, b) -> a << b
+        );
     }
 
-    /**
-     * Executes rshift operation.
-     *
-     * @param other the other value
-     * @return the value
-     */
+    @Override
     default @NotNull Value<?> rshift(final @NotNull Value<?> other) {
-        return toPrimitive().rshift(other);
+        return OperationUtils.executeBinaryOperation(this, other,
+                (a, b) -> a >> b, (a, b) -> a >> b
+        );
     }
 
-    /**
-     * Executes urshift operation.
-     *
-     * @param other the other value
-     * @return the value
-     */
+    @Override
     default @NotNull Value<?> urshift(final @NotNull Value<?> other) {
-        return toPrimitive().urshift(other);
+        return OperationUtils.executeBinaryOperation(this, other,
+                (a, b) -> a >>> b, (a, b) -> a >>> b
+        );
     }
 
 
-    /**
-     * Executes add operation.
-     *
-     * @param other the other value
-     * @return the value
-     */
+    @Override
     default @NotNull Value<?> add(final @NotNull Value<?> other) {
-        return toPrimitive().add(other);
+        //TODO: String concatenation
+        return OperationUtils.executeBinaryOperationDecimal(this, other,
+                Double::sum, Float::sum,
+                Long::sum, Integer::sum
+        );
     }
 
-    /**
-     * Executes subtract operation.
-     *
-     * @param other the other value
-     * @return the value
-     */
+    @Override
     default @NotNull Value<?> subtract(final @NotNull Value<?> other) {
-        return toPrimitive().subtract(other);
+        return OperationUtils.executeBinaryOperationDecimal(this, other,
+                (a, b) -> a - b, (a, b) -> a - b,
+                (a, b) -> a - b, (a, b) -> a - b
+        );
     }
 
-    /**
-     * Executes multiply operation.
-     *
-     * @param other the other value
-     * @return the value
-     */
+    @Override
     default @NotNull Value<?> multiply(final @NotNull Value<?> other) {
-        return toPrimitive().multiply(other);
+        return OperationUtils.executeBinaryOperationDecimal(this, other,
+                (a, b) -> a % b, (a, b) -> a % b,
+                (a, b) -> a % b, (a, b) -> a % b
+        );
     }
 
-    /**
-     * Executes divide operation.
-     *
-     * @param other the other value
-     * @return the value
-     */
+    @Override
     default @NotNull Value<?> divide(final @NotNull Value<?> other) {
-        return toPrimitive().divide(other);
+        return OperationUtils.executeBinaryOperationDecimal(this, other,
+                (a, b) -> a / b, (a, b) -> a / b,
+                (a, b) -> a / b, (a, b) -> a / b
+        );
     }
 
-    /**
-     * Executes modulo operation.
-     *
-     * @param other the other value
-     * @return the value
-     */
+    @Override
     default @NotNull Value<?> modulo(final @NotNull Value<?> other) {
-        return toPrimitive().modulo(other);
+        return OperationUtils.executeBinaryOperationDecimal(this, other,
+                (a, b) -> a % b, (a, b) -> a % b,
+                (a, b) -> a % b, (a, b) -> a % b
+        );
     }
 
-    /**
-     * Executes minus operation.
-     *
-     * @return the boolean value
-     */
+    @Override
     default @NotNull Value<?> minus() {
-        return toPrimitive().minus();
+        return OperationUtils.executeUnaryOperationDecimal(this, d -> -d, f -> -f, l -> -l, i -> -i);
     }
 
-    /**
-     * Executes not operation.
-     *
-     * @return the boolean value
-     */
-    default @NotNull BooleanValue not() {
-        return toPrimitive().not();
+    @Override
+    default @NotNull Value<?> not() {
+        return OperationUtils.executeUnaryOperationBoolean(this, b -> !b);
     }
 
 }
