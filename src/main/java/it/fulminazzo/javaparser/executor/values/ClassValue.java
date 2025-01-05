@@ -26,52 +26,52 @@ public interface ClassValue<V> extends Value<Class<V>>, ClassVisitorObject<Class
      * @return the value cast to this class
      */
     @Override
-    default @NotNull Value<?> cast(final @NotNull Value<?> value) {
+    default @NotNull Value<V> cast(final @NotNull Value<?> value) {
         Object object = value.getValue();
-        if (object == null) return Values.NULL_VALUE;
+        if (object == null) return (Value<V>) Values.NULL_VALUE;
         else if (is(PrimitiveClassValue.class))
             if (is(PrimitiveClassValue.BOOLEAN))
-                return PrimitiveValue.of(object.equals(true));
+                return (Value<V>) PrimitiveValue.of(object.equals(true));
             else {
                 Number numberValue = object instanceof Number ? (Number) object : (int) (char) object;
                 if (is(PrimitiveClassValue.BYTE))
-                    return PrimitiveValue.of(numberValue.byteValue());
+                    return (Value<V>) PrimitiveValue.of(numberValue.byteValue());
                 else if (is(PrimitiveClassValue.SHORT))
-                    return PrimitiveValue.of(numberValue.shortValue());
+                    return (Value<V>) PrimitiveValue.of(numberValue.shortValue());
                 else if (is(PrimitiveClassValue.CHAR))
-                    return PrimitiveValue.of((char) numberValue.intValue());
+                    return (Value<V>) PrimitiveValue.of((char) numberValue.intValue());
                 else if (is(PrimitiveClassValue.INT))
-                    return PrimitiveValue.of(numberValue.intValue());
+                    return (Value<V>) PrimitiveValue.of(numberValue.intValue());
                 else if (is(PrimitiveClassValue.LONG))
-                    return PrimitiveValue.of(numberValue.longValue());
+                    return (Value<V>) PrimitiveValue.of(numberValue.longValue());
                 else if (is(PrimitiveClassValue.FLOAT))
-                    return PrimitiveValue.of(numberValue.floatValue());
+                    return (Value<V>) PrimitiveValue.of(numberValue.floatValue());
                 else if (is(PrimitiveClassValue.DOUBLE))
-                    return PrimitiveValue.of(numberValue.doubleValue());
+                    return (Value<V>) PrimitiveValue.of(numberValue.doubleValue());
             }
         else if (is(ObjectClassValue.class))
             if (is(ObjectClassValue.OBJECT))
-                return ObjectValue.of(object);
+                return (Value<V>) ObjectValue.of(object);
             else if (is(ObjectClassValue.STRING))
-                return ObjectValue.of((String) object);
+                return (Value<V>) ObjectValue.of((String) object);
             else if (is(ObjectClassValue.BOOLEAN))
-                return ObjectValue.of(object.equals(true));
+                return (Value<V>) ObjectValue.of(object.equals(true));
             else {
                 Number numberValue = object instanceof Number ? (Number) object : (int) (char) object;
                 if (is(ObjectClassValue.BYTE))
-                    return ObjectValue.of(numberValue.byteValue());
+                    return (Value<V>) ObjectValue.of(numberValue.byteValue());
                 else if (is(ObjectClassValue.SHORT))
-                    return ObjectValue.of(numberValue.shortValue());
+                    return (Value<V>) ObjectValue.of(numberValue.shortValue());
                 else if (is(ObjectClassValue.CHARACTER))
-                    return ObjectValue.of((char) numberValue.intValue());
+                    return (Value<V>) ObjectValue.of((char) numberValue.intValue());
                 else if (is(ObjectClassValue.INTEGER))
-                    return ObjectValue.of(numberValue.intValue());
+                    return (Value<V>) ObjectValue.of(numberValue.intValue());
                 else if (is(ObjectClassValue.LONG))
-                    return ObjectValue.of(numberValue.longValue());
+                    return (Value<V>) ObjectValue.of(numberValue.longValue());
                 else if (is(ObjectClassValue.FLOAT))
-                    return ObjectValue.of(numberValue.floatValue());
+                    return (Value<V>) ObjectValue.of(numberValue.floatValue());
                 else if (is(ObjectClassValue.DOUBLE))
-                    return ObjectValue.of(numberValue.doubleValue());
+                    return (Value<V>) ObjectValue.of(numberValue.doubleValue());
             }
         return Value.of(getValue().cast(object));
     }
