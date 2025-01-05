@@ -109,7 +109,7 @@ public final class CharValue extends PrimitiveValue<Character> {
      *
      * @return the integer value
      */
-    public @NotNull IntValue asInteger() {
+    public @NotNull Value<?> asInteger() {
         return new IntValue((int) this.object);
     }
 
