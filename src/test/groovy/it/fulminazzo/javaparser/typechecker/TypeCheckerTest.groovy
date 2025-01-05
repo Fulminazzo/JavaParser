@@ -91,9 +91,9 @@ class TypeCheckerTest extends Specification {
         actual == type
 
         where:
-        type                              | program
+        type                           | program
         Optional.of(PrimitiveType.INT) | new JavaProgram(new LinkedList<>([RETURN_NUMBER]))
-        Optional.empty()                  | new JavaProgram(new LinkedList<>([new Statement()]))
+        Optional.empty()               | new JavaProgram(new LinkedList<>([new Statement()]))
     }
 
     def 'test visit try statement: (#expression) #block #catchBlocks #finallyBlock should return #expected'() {
@@ -104,7 +104,7 @@ class TypeCheckerTest extends Specification {
         type == expected
 
         where:
-        expression                                                                                               | block           | catchBlocks                                                                           | finallyBlock      | expected
+        expression                                                                                               | block           | catchBlocks | finallyBlock      | expected
         // Everything
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
@@ -114,7 +114,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.INT
+        ]                                                                                                                                        | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // Everything no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
@@ -124,7 +124,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_EMPTY  | PrimitiveType.BOOLEAN
+        ]                                                                                                                                        | CODE_BLOCK_EMPTY  | PrimitiveType.BOOLEAN
         // Everything with different types
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
@@ -134,7 +134,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_FLOAT)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.INT
+        ]                                                                                                                                        | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // Everything with different types and no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
@@ -144,7 +144,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_FLOAT)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_EMPTY  | Types.NO_TYPE
+        ]                                                                                                                                        | CODE_BLOCK_EMPTY  | Types.NO_TYPE
         // Just one assignment
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral())
@@ -153,7 +153,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.INT
+        ]                                                                                                                                        | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // Just one assignment no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral())
@@ -162,7 +162,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_EMPTY  | PrimitiveType.BOOLEAN
+        ]                                                                                                                                        | CODE_BLOCK_EMPTY  | PrimitiveType.BOOLEAN
         // Just one assignment with different types
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral())
@@ -171,7 +171,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_FLOAT)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.INT
+        ]                                                                                                                                        | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // Just one assignment with different types and no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral())
@@ -180,7 +180,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_FLOAT)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_EMPTY  | Types.NO_TYPE
+        ]                                                                                                                                        | CODE_BLOCK_EMPTY  | Types.NO_TYPE
         // No assignments
         new AssignmentBlock([
         ])                                                                                                       | CODE_BLOCK_BOOL | [
@@ -188,7 +188,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.INT
+        ]                                                                                                                                        | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // No assignments no finally
         new AssignmentBlock([
         ])                                                                                                       | CODE_BLOCK_BOOL | [
@@ -196,7 +196,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_EMPTY  | PrimitiveType.BOOLEAN
+        ]                                                                                                                                        | CODE_BLOCK_EMPTY  | PrimitiveType.BOOLEAN
         // No assignments with different types
         new AssignmentBlock([
         ])                                                                                                       | CODE_BLOCK_BOOL | [
@@ -204,7 +204,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_FLOAT)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.INT
+        ]                                                                                                                                        | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // No assignments with different types and no finally
         new AssignmentBlock([
         ])                                                                                                       | CODE_BLOCK_BOOL | [
@@ -212,7 +212,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_FLOAT)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_EMPTY  | Types.NO_TYPE
+        ]                                                                                                                                        | CODE_BLOCK_EMPTY  | Types.NO_TYPE
         // Just one catch
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
@@ -220,7 +220,7 @@ class TypeCheckerTest extends Specification {
         ])                                                                                                       | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.INT
+        ]                                                                                                                                        | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // Just one catch no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
@@ -228,7 +228,7 @@ class TypeCheckerTest extends Specification {
         ])                                                                                                       | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_EMPTY  | PrimitiveType.BOOLEAN
+        ]                                                                                                                                        | CODE_BLOCK_EMPTY  | PrimitiveType.BOOLEAN
         // Just one catch with different types
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
@@ -236,7 +236,7 @@ class TypeCheckerTest extends Specification {
         ])                                                                                                       | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_DOUBLE)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.INT
+        ]                                                                                                                                        | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // Just one catch with different types and no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
@@ -244,19 +244,19 @@ class TypeCheckerTest extends Specification {
         ])                                                                                                       | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_DOUBLE)
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_EMPTY  | Types.NO_TYPE
+        ]                                                                                                                                        | CODE_BLOCK_EMPTY  | Types.NO_TYPE
         // No catches
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
                 new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
         ])                                                                                                       | CODE_BLOCK_BOOL | [
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_NUMBER | PrimitiveType.INT
+        ]                                                                                                                                        | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // No catches with different types and no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
                 new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
         ])                                                                                                       | CODE_BLOCK_BOOL | [
-        ]                                                                                                                                                                                                                  | CODE_BLOCK_EMPTY  | PrimitiveType.BOOLEAN
+        ]                                                                                                                                        | CODE_BLOCK_EMPTY  | PrimitiveType.BOOLEAN
     }
 
     def 'test visit try statement with no auto-closable'() {
@@ -529,29 +529,29 @@ class TypeCheckerTest extends Specification {
         type == expected
 
         where:
-        expected              | code
-        Types.NO_TYPE | new IfStatement(BOOL_LIT, CODE_BLOCK_BOOL, new EmptyLiteral())
-        Types.NO_TYPE | new IfStatement(BOOL_VAR, CODE_BLOCK_BOOL, new EmptyLiteral())
-        Types.NO_TYPE         | new IfStatement(BOOL_LIT, CODE_BLOCK_EMPTY, new EmptyLiteral())
-        Types.NO_TYPE         | new IfStatement(BOOL_VAR, CODE_BLOCK_EMPTY, new EmptyLiteral())
-        Types.NO_TYPE | new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER,
+        expected             | code
+        Types.NO_TYPE        | new IfStatement(BOOL_LIT, CODE_BLOCK_BOOL, new EmptyLiteral())
+        Types.NO_TYPE        | new IfStatement(BOOL_VAR, CODE_BLOCK_BOOL, new EmptyLiteral())
+        Types.NO_TYPE        | new IfStatement(BOOL_LIT, CODE_BLOCK_EMPTY, new EmptyLiteral())
+        Types.NO_TYPE        | new IfStatement(BOOL_VAR, CODE_BLOCK_EMPTY, new EmptyLiteral())
+        Types.NO_TYPE        | new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER,
                 new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER, new EmptyLiteral()))
-        Types.NO_TYPE | new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER,
+        Types.NO_TYPE        | new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER,
                 new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER, new EmptyLiteral()))
-        Types.NO_TYPE         | new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER,
+        Types.NO_TYPE        | new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER,
                 new IfStatement(BOOL_LIT, CODE_BLOCK_FLOAT, new EmptyLiteral()))
-        Types.NO_TYPE         | new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER,
+        Types.NO_TYPE        | new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER,
                 new IfStatement(BOOL_VAR, CODE_BLOCK_FLOAT, new EmptyLiteral()))
-        PrimitiveType.DOUBLE  | new IfStatement(BOOL_LIT, CODE_BLOCK_DOUBLE,
+        PrimitiveType.DOUBLE | new IfStatement(BOOL_LIT, CODE_BLOCK_DOUBLE,
                 new IfStatement(BOOL_LIT, CODE_BLOCK_DOUBLE,
                         CODE_BLOCK_DOUBLE))
-        PrimitiveType.DOUBLE  | new IfStatement(BOOL_VAR, CODE_BLOCK_DOUBLE,
+        PrimitiveType.DOUBLE | new IfStatement(BOOL_VAR, CODE_BLOCK_DOUBLE,
                 new IfStatement(BOOL_VAR, CODE_BLOCK_DOUBLE,
                         CODE_BLOCK_DOUBLE))
-        Types.NO_TYPE         | new IfStatement(BOOL_LIT, CODE_BLOCK_DOUBLE,
+        Types.NO_TYPE        | new IfStatement(BOOL_LIT, CODE_BLOCK_DOUBLE,
                 new IfStatement(BOOL_LIT, CODE_BLOCK_FLOAT,
                         CODE_BLOCK_LONG))
-        Types.NO_TYPE         | new IfStatement(BOOL_VAR, CODE_BLOCK_DOUBLE,
+        Types.NO_TYPE        | new IfStatement(BOOL_VAR, CODE_BLOCK_DOUBLE,
                 new IfStatement(BOOL_VAR, CODE_BLOCK_FLOAT,
                         CODE_BLOCK_LONG))
     }
@@ -1520,69 +1520,69 @@ class TypeCheckerTest extends Specification {
         type == expected
 
         where:
-        target                                            | cast                                    | expected
+        target                                           | cast                                    | expected
         // char
-        CHAR_LIT                                          | Literal.of('byte')                      | PrimitiveType.BYTE
-        CHAR_LIT                                          | Literal.of('short')                     | PrimitiveType.SHORT
-        CHAR_LIT                                          | Literal.of('char')                      | PrimitiveType.CHAR
-        CHAR_LIT                                          | Literal.of('Character')                 | ObjectType.CHARACTER
-        CHAR_LIT                                          | Literal.of('int')                       | PrimitiveType.INT
-        CHAR_LIT                                          | Literal.of('long')                      | PrimitiveType.LONG
-        CHAR_LIT                                          | Literal.of('float')                     | PrimitiveType.FLOAT
-        CHAR_LIT                                          | Literal.of('double')                    | PrimitiveType.DOUBLE
-        CHAR_LIT                                          | Literal.of('Object')                    | ObjectType.OBJECT
+        CHAR_LIT                                         | Literal.of('byte')                      | PrimitiveType.BYTE
+        CHAR_LIT                                         | Literal.of('short')                     | PrimitiveType.SHORT
+        CHAR_LIT                                         | Literal.of('char')                      | PrimitiveType.CHAR
+        CHAR_LIT                                         | Literal.of('Character')                 | ObjectType.CHARACTER
+        CHAR_LIT                                         | Literal.of('int')                       | PrimitiveType.INT
+        CHAR_LIT                                         | Literal.of('long')                      | PrimitiveType.LONG
+        CHAR_LIT                                         | Literal.of('float')                     | PrimitiveType.FLOAT
+        CHAR_LIT                                         | Literal.of('double')                    | PrimitiveType.DOUBLE
+        CHAR_LIT                                         | Literal.of('Object')                    | ObjectType.OBJECT
         // number
-        NUMBER_LIT                                        | Literal.of('byte')                      | PrimitiveType.BYTE
-        NUMBER_LIT                                        | Literal.of('short')                     | PrimitiveType.SHORT
-        NUMBER_LIT                                        | Literal.of('char')                      | PrimitiveType.CHAR
-        NUMBER_LIT                                        | Literal.of('int')                       | PrimitiveType.INT
-        NUMBER_LIT                                        | Literal.of('Integer')                   | ObjectType.INTEGER
-        NUMBER_LIT                                        | Literal.of('long')                      | PrimitiveType.LONG
-        NUMBER_LIT                                        | Literal.of('float')                     | PrimitiveType.FLOAT
-        NUMBER_LIT                                        | Literal.of('double')                    | PrimitiveType.DOUBLE
-        NUMBER_LIT                                        | Literal.of('Object')                    | ObjectType.OBJECT
+        NUMBER_LIT                                       | Literal.of('byte')                      | PrimitiveType.BYTE
+        NUMBER_LIT                                       | Literal.of('short')                     | PrimitiveType.SHORT
+        NUMBER_LIT                                       | Literal.of('char')                      | PrimitiveType.CHAR
+        NUMBER_LIT                                       | Literal.of('int')                       | PrimitiveType.INT
+        NUMBER_LIT                                       | Literal.of('Integer')                   | ObjectType.INTEGER
+        NUMBER_LIT                                       | Literal.of('long')                      | PrimitiveType.LONG
+        NUMBER_LIT                                       | Literal.of('float')                     | PrimitiveType.FLOAT
+        NUMBER_LIT                                       | Literal.of('double')                    | PrimitiveType.DOUBLE
+        NUMBER_LIT                                       | Literal.of('Object')                    | ObjectType.OBJECT
         // long
-        LONG_LIT                                          | Literal.of('byte')                      | PrimitiveType.BYTE
-        LONG_LIT                                          | Literal.of('short')                     | PrimitiveType.SHORT
-        LONG_LIT                                          | Literal.of('char')                      | PrimitiveType.CHAR
-        LONG_LIT                                          | Literal.of('int')                       | PrimitiveType.INT
-        LONG_LIT                                          | Literal.of('long')                      | PrimitiveType.LONG
-        LONG_LIT                                          | Literal.of('Long')                      | ObjectType.LONG
-        LONG_LIT                                          | Literal.of('float')                     | PrimitiveType.FLOAT
-        LONG_LIT                                          | Literal.of('double')                    | PrimitiveType.DOUBLE
-        LONG_LIT                                          | Literal.of('Object')                    | ObjectType.OBJECT
+        LONG_LIT                                         | Literal.of('byte')                      | PrimitiveType.BYTE
+        LONG_LIT                                         | Literal.of('short')                     | PrimitiveType.SHORT
+        LONG_LIT                                         | Literal.of('char')                      | PrimitiveType.CHAR
+        LONG_LIT                                         | Literal.of('int')                       | PrimitiveType.INT
+        LONG_LIT                                         | Literal.of('long')                      | PrimitiveType.LONG
+        LONG_LIT                                         | Literal.of('Long')                      | ObjectType.LONG
+        LONG_LIT                                         | Literal.of('float')                     | PrimitiveType.FLOAT
+        LONG_LIT                                         | Literal.of('double')                    | PrimitiveType.DOUBLE
+        LONG_LIT                                         | Literal.of('Object')                    | ObjectType.OBJECT
         // float
-        FLOAT_LIT                                         | Literal.of('byte')                      | PrimitiveType.BYTE
-        FLOAT_LIT                                         | Literal.of('short')                     | PrimitiveType.SHORT
-        FLOAT_LIT                                         | Literal.of('char')                      | PrimitiveType.CHAR
-        FLOAT_LIT                                         | Literal.of('int')                       | PrimitiveType.INT
-        FLOAT_LIT                                         | Literal.of('long')                      | PrimitiveType.LONG
-        FLOAT_LIT                                         | Literal.of('float')                     | PrimitiveType.FLOAT
-        FLOAT_LIT                                         | Literal.of('Float')                     | ObjectType.FLOAT
-        FLOAT_LIT                                         | Literal.of('double')                    | PrimitiveType.DOUBLE
-        FLOAT_LIT                                         | Literal.of('Object')                    | ObjectType.OBJECT
+        FLOAT_LIT                                        | Literal.of('byte')                      | PrimitiveType.BYTE
+        FLOAT_LIT                                        | Literal.of('short')                     | PrimitiveType.SHORT
+        FLOAT_LIT                                        | Literal.of('char')                      | PrimitiveType.CHAR
+        FLOAT_LIT                                        | Literal.of('int')                       | PrimitiveType.INT
+        FLOAT_LIT                                        | Literal.of('long')                      | PrimitiveType.LONG
+        FLOAT_LIT                                        | Literal.of('float')                     | PrimitiveType.FLOAT
+        FLOAT_LIT                                        | Literal.of('Float')                     | ObjectType.FLOAT
+        FLOAT_LIT                                        | Literal.of('double')                    | PrimitiveType.DOUBLE
+        FLOAT_LIT                                        | Literal.of('Object')                    | ObjectType.OBJECT
         // double
-        DOUBLE_LIT                                        | Literal.of('byte')                      | PrimitiveType.BYTE
-        DOUBLE_LIT                                        | Literal.of('short')                     | PrimitiveType.SHORT
-        DOUBLE_LIT                                        | Literal.of('char')                      | PrimitiveType.CHAR
-        DOUBLE_LIT                                        | Literal.of('int')                       | PrimitiveType.INT
-        DOUBLE_LIT                                        | Literal.of('long')                      | PrimitiveType.LONG
-        DOUBLE_LIT                                        | Literal.of('float')                     | PrimitiveType.FLOAT
-        DOUBLE_LIT                                        | Literal.of('double')                    | PrimitiveType.DOUBLE
-        DOUBLE_LIT                                        | Literal.of('Double')                    | ObjectType.DOUBLE
-        DOUBLE_LIT                                        | Literal.of('Object')                    | ObjectType.OBJECT
+        DOUBLE_LIT                                       | Literal.of('byte')                      | PrimitiveType.BYTE
+        DOUBLE_LIT                                       | Literal.of('short')                     | PrimitiveType.SHORT
+        DOUBLE_LIT                                       | Literal.of('char')                      | PrimitiveType.CHAR
+        DOUBLE_LIT                                       | Literal.of('int')                       | PrimitiveType.INT
+        DOUBLE_LIT                                       | Literal.of('long')                      | PrimitiveType.LONG
+        DOUBLE_LIT                                       | Literal.of('float')                     | PrimitiveType.FLOAT
+        DOUBLE_LIT                                       | Literal.of('double')                    | PrimitiveType.DOUBLE
+        DOUBLE_LIT                                       | Literal.of('Double')                    | ObjectType.DOUBLE
+        DOUBLE_LIT                                       | Literal.of('Object')                    | ObjectType.OBJECT
         // boolean
-        BOOL_LIT                                          | Literal.of('boolean')                   | PrimitiveType.BOOLEAN
-        BOOL_LIT                                          | Literal.of('Boolean')                   | ObjectType.BOOLEAN
-        BOOL_LIT                                          | Literal.of('Object')                    | ObjectType.OBJECT
+        BOOL_LIT                                         | Literal.of('boolean')                   | PrimitiveType.BOOLEAN
+        BOOL_LIT                                         | Literal.of('Boolean')                   | ObjectType.BOOLEAN
+        BOOL_LIT                                         | Literal.of('Object')                    | ObjectType.OBJECT
         // string
-        STRING_LIT                                        | Literal.of('String')                    | ObjectType.STRING
-        STRING_LIT                                        | Literal.of('Object')                    | ObjectType.OBJECT
+        STRING_LIT                                       | Literal.of('String')                    | ObjectType.STRING
+        STRING_LIT                                       | Literal.of('Object')                    | ObjectType.OBJECT
         // custom class
         new NewObject(Literal.of(TypeCheckerTest.canonicalName),
-                new MethodInvocation([]))                 | Literal.of(Specification.canonicalName) | ObjectType.of(Specification)
+                new MethodInvocation([]))                | Literal.of(Specification.canonicalName) | ObjectType.of(Specification)
         new NewObject(Literal.of(TypeCheckerTest.canonicalName),
-                new MethodInvocation([]))                 | Literal.of('Object')                    | ObjectType.OBJECT
+                new MethodInvocation([]))                | Literal.of('Object')                    | ObjectType.OBJECT
     }
 
     def 'test invalid visit cast #target to #cast'() {

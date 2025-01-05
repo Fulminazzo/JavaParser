@@ -124,7 +124,7 @@ class ClassTypeTest extends Specification {
         e.message == TypeException.cannotAccessMethod(this.classType, TestClass.getDeclaredConstructor(clazz)).message
 
         where:
-        type                       | clazz
+        type                  | clazz
         PrimitiveType.FLOAT   | float
         PrimitiveType.BOOLEAN | boolean
     }

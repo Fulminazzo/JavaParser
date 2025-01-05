@@ -23,7 +23,7 @@ class OperationUtilsTest extends Specification {
         BYTE              | BYTE
         BYTE              | SHORT
         BYTE              | CHAR
-        BYTE   | INT
+        BYTE              | INT
         BYTE              | LONG
         BYTE              | FLOAT
         BYTE              | DOUBLE
@@ -31,7 +31,7 @@ class OperationUtilsTest extends Specification {
         SHORT             | BYTE
         SHORT             | SHORT
         SHORT             | CHAR
-        SHORT  | INT
+        SHORT             | INT
         SHORT             | LONG
         SHORT             | FLOAT
         SHORT             | DOUBLE
@@ -39,23 +39,23 @@ class OperationUtilsTest extends Specification {
         CHAR              | BYTE
         CHAR              | SHORT
         CHAR              | CHAR
-        CHAR   | INT
+        CHAR              | INT
         CHAR              | LONG
         CHAR              | FLOAT
         CHAR              | DOUBLE
         // Number
-        INT    | BYTE
-        INT    | SHORT
-        INT    | CHAR
-        INT    | INT
-        INT    | LONG
-        INT    | FLOAT
-        INT    | DOUBLE
+        INT               | BYTE
+        INT               | SHORT
+        INT               | CHAR
+        INT               | INT
+        INT               | LONG
+        INT               | FLOAT
+        INT               | DOUBLE
         // Long
         LONG              | BYTE
         LONG              | SHORT
         LONG              | CHAR
-        LONG   | INT
+        LONG              | INT
         LONG              | LONG
         LONG              | FLOAT
         LONG              | DOUBLE
@@ -63,7 +63,7 @@ class OperationUtilsTest extends Specification {
         FLOAT             | BYTE
         FLOAT             | SHORT
         FLOAT             | CHAR
-        FLOAT  | INT
+        FLOAT             | INT
         FLOAT             | LONG
         FLOAT             | FLOAT
         FLOAT             | DOUBLE
@@ -71,7 +71,7 @@ class OperationUtilsTest extends Specification {
         DOUBLE            | BYTE
         DOUBLE            | SHORT
         DOUBLE            | CHAR
-        DOUBLE | INT
+        DOUBLE            | INT
         DOUBLE            | LONG
         DOUBLE            | FLOAT
         DOUBLE            | DOUBLE
@@ -467,9 +467,9 @@ class OperationUtilsTest extends Specification {
         FLOAT                | ObjectType.CHARACTER
         ObjectType.FLOAT     | CHAR
         ObjectType.FLOAT     | ObjectType.CHARACTER
-        FLOAT              | INT
+        FLOAT                | INT
         FLOAT                | ObjectType.INTEGER
-        ObjectType.FLOAT   | INT
+        ObjectType.FLOAT     | INT
         ObjectType.FLOAT     | ObjectType.INTEGER
         FLOAT                | LONG
         FLOAT                | ObjectType.LONG
@@ -500,9 +500,9 @@ class OperationUtilsTest extends Specification {
         DOUBLE               | ObjectType.CHARACTER
         ObjectType.DOUBLE    | CHAR
         ObjectType.DOUBLE    | ObjectType.CHARACTER
-        DOUBLE             | INT
+        DOUBLE               | INT
         DOUBLE               | ObjectType.INTEGER
-        ObjectType.DOUBLE  | INT
+        ObjectType.DOUBLE    | INT
         ObjectType.DOUBLE    | ObjectType.INTEGER
         DOUBLE               | LONG
         DOUBLE               | ObjectType.LONG
@@ -533,9 +533,9 @@ class OperationUtilsTest extends Specification {
         BOOLEAN              | ObjectType.CHARACTER
         ObjectType.BOOLEAN   | CHAR
         ObjectType.BOOLEAN   | ObjectType.CHARACTER
-        BOOLEAN            | INT
+        BOOLEAN              | INT
         BOOLEAN              | ObjectType.INTEGER
-        ObjectType.BOOLEAN | INT
+        ObjectType.BOOLEAN   | INT
         ObjectType.BOOLEAN   | ObjectType.INTEGER
         BOOLEAN              | LONG
         BOOLEAN              | ObjectType.LONG
@@ -561,8 +561,8 @@ class OperationUtilsTest extends Specification {
         CHAR                 | ObjectType.BOOLEAN
         ObjectType.CHARACTER | BOOLEAN
         ObjectType.CHARACTER | ObjectType.BOOLEAN
-        INT                | BOOLEAN
-        INT                | ObjectType.BOOLEAN
+        INT                  | BOOLEAN
+        INT                  | ObjectType.BOOLEAN
         ObjectType.INTEGER   | BOOLEAN
         ObjectType.INTEGER   | ObjectType.BOOLEAN
         LONG                 | BOOLEAN
