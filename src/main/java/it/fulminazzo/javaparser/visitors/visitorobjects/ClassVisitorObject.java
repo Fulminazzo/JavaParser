@@ -40,7 +40,9 @@ public interface ClassVisitorObject<
      * @param classObject the class object
      * @return true if it is
      */
-    boolean isExtending(final @NotNull C classObject);
+    default boolean isExtending(final @NotNull C classObject) {
+        return classObject.toJavaClass().isAssignableFrom(toJavaClass());
+    }
 
     /**
      * Verifies that the current class is compatible with the provided object.
