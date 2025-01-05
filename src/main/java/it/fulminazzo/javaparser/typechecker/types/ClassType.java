@@ -43,19 +43,6 @@ public interface ClassType extends Type, Info {
     }
 
     /**
-     * Verifies that the current class type is compatible with the provided type.
-     *
-     * @param type the other type
-     * @return true if it is
-     */
-    boolean compatibleWith(final @NotNull Type type);
-
-    @Override
-    default boolean compatibleWith(@NotNull Object object) {
-        return object instanceof Type && compatibleWith((Type) object);
-    }
-
-    /**
      * Searches for a constructor matching the given {@link ParameterTypes}.
      * Then, returns {@link #toType()}.
      *
