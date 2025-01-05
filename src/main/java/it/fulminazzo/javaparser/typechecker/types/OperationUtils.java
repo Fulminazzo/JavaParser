@@ -150,7 +150,7 @@ public final class OperationUtils {
 
     /**
      * Checks whether the given operand is of types {@link PrimitiveType#BOOLEAN}, then {@link PrimitiveType#BOOLEAN}.
-     * If not, throws a {@link TypeCheckerException#unsupportedOperation(TokenType, Object)}.
+     * If not, throws a {@link TypeCheckerException#unsupportedOperation(TokenType, Type)}.
      * Otherwise, returns the operand itself.
      *
      * @param operator the operator of the operation
@@ -166,7 +166,7 @@ public final class OperationUtils {
 
     /**
      * Checks whether the given operand is of types {@link #getDecimalTypes()}.
-     * If not, throws a {@link TypeCheckerException#unsupportedOperation(TokenType, Object)}.
+     * If not, throws a {@link TypeCheckerException#unsupportedOperation(TokenType, Type)}.
      * Otherwise, returns the operand itself.
      *
      * @param operator the operator of the operation
@@ -183,7 +183,7 @@ public final class OperationUtils {
 
     /**
      * Checks whether the given types are of type {@link PrimitiveType#BOOLEAN} or {@link ObjectType#BOOLEAN}.
-     * If not, throws a {@link TypeCheckerException#unsupportedOperation(TokenType, Object, Object)}.
+     * If not, throws a {@link TypeCheckerException#unsupportedOperation(TokenType, Type, Type)}.
      *
      * @param operator the operator
      * @param left     the left operand
@@ -196,7 +196,7 @@ public final class OperationUtils {
 
     /**
      * Checks whether the given types are of type {@link #getNumericTypes()}.
-     * If not, throws a {@link TypeCheckerException#unsupportedOperation(TokenType, Object, Object)}.
+     * If not, throws a {@link TypeCheckerException#unsupportedOperation(TokenType, Type, Type)}.
      *
      * @param operator the operator
      * @param left     the left operand
@@ -209,7 +209,7 @@ public final class OperationUtils {
 
     /**
      * Checks whether the given types are of type {@link #getDecimalTypes()}.
-     * If not, throws a {@link TypeCheckerException#unsupportedOperation(TokenType, Object, Object)}.
+     * If not, throws a {@link TypeCheckerException#unsupportedOperation(TokenType, Type, Type)}.
      *
      * @param operator the operator
      * @param left     the left operand
