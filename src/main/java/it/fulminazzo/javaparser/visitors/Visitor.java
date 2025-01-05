@@ -260,7 +260,7 @@ public interface Visitor<
 
     /**
      * Converts new object and its fields to this visitor type.
-     * Throws {@link VisitorException} in case of error.
+     * Throws {@link #exceptionWrapper(Exception)} in case of error.
      *
      * @param left  the left
      * @param right the right
@@ -273,7 +273,7 @@ public interface Visitor<
             P actualParameters = (P) parameters.check(ParameterVisitorObjects.class);
             return type.checkClass().newObject(actualParameters);
         } catch (VisitorObjectException e) {
-            throw VisitorException.of(e);
+            throw exceptionWrapper(e);
         }
     }
 
@@ -329,7 +329,7 @@ public interface Visitor<
 
     /**
      * Converts method call and its fields to this visitor type.
-     * Throws {@link VisitorException} in case of error.
+     * Throws {@link #exceptionWrapper(Exception)} in case of error.
      *
      * @param executor   the executor
      * @param methodName the method name
@@ -343,13 +343,13 @@ public interface Visitor<
             if (actualExecutor.equals(visitEmptyLiteral())) actualExecutor = visitThisLiteral();
             return actualExecutor.invokeMethod(methodName, (P) invocation.accept(this));
         } catch (VisitorObjectException e) {
-            throw VisitorException.of(e);
+            throw exceptionWrapper(e);
         }
     }
 
     /**
      * Converts field and its fields to this visitor type.
-     * Throws {@link VisitorException} in case of error.
+     * Throws {@link #exceptionWrapper(Exception)} in case of error.
      *
      * @param executor  the executor
      * @param fieldName the field name
@@ -361,7 +361,7 @@ public interface Visitor<
         try {
             return actualExecutor.getField(actualFieldName.check(LiteralObject.class).getName()).getValue();
         } catch (VisitorObjectException e) {
-            throw VisitorException.of(e);
+            throw exceptionWrapper(e);
         }
     }
 
@@ -747,7 +747,7 @@ public interface Visitor<
      * If an exception is thrown:
      * <ul>
      *     <li>if its {@link RuntimeException}, it is thrown as is;</li>
-     *     <li>otherwise, it is wrapped using {@link VisitorException#of(Throwable)}.</li>
+     *     <li>otherwise, it is wrapped using {@link #exceptionWrapper(Exception)}.</li>
      * </ul>
      *
      * @param scope    the scope
@@ -763,7 +763,7 @@ public interface Visitor<
             return object;
         } catch (Exception e) {
             if (e instanceof RuntimeException) throw (RuntimeException) e;
-            else throw VisitorException.of(e);
+            else throw exceptionWrapper(e);
         }
     }
 
