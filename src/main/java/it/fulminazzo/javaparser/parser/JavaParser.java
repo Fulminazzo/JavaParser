@@ -696,7 +696,7 @@ public class JavaParser extends Parser {
      * @param className the class name
      * @return the class
      */
-    protected Class<? extends BinaryOperation> findBinaryOperationClass(@NotNull String className) {
+    protected @NotNull Class<? extends BinaryOperation> findBinaryOperationClass(@NotNull String className) {
         if (className.equals(URSHIFT.name())) return URShift.class;
         else if (className.equals(RSHIFT.name())) return RShift.class;
         else if (className.equals(LSHIFT.name())) return LShift.class;
