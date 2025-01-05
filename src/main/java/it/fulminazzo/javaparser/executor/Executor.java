@@ -46,7 +46,8 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
 
     @Override
     public @NotNull Value<?> visitThrow(@NotNull Node expression) {
-        return null;
+        Value<? extends Throwable> value = (Value<? extends Throwable>) expression.accept(this);
+        throw new ExceptionWrapper(value);
     }
 
     @Override
