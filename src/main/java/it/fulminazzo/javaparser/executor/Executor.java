@@ -149,6 +149,9 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
 
     @Override
     public @NotNull Value<?> convertVariable(@NotNull ClassValue<?> variableType, @NotNull Value<?> variable) {
+        // Test for uninitialized
+        if (variable.is(visitEmptyLiteral()))
+            variable = variableType.isPrimitive() ? variableType.toObject() : visitNullLiteral();
         if (!variable.isPrimitive()) return variable;
         else if (variableType.is(PrimitiveClassValue.class)) return variableType.cast(variable);
         else if (!variableType.is(ObjectClassValue.OBJECT)) // Can only be ClassObjectValue at this point
