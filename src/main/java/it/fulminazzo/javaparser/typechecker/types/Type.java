@@ -119,7 +119,7 @@ public interface Type extends VisitorObject<ClassType, Type, ParameterTypes> {
             throw TypeException.cannotAccessMethod(classType, method);
         else if (isClassType() && !Modifier.isStatic(method.getModifiers()))
             throw TypeException.cannotAccessStaticMethod(classType, method.getName(), parameterTypes);
-        return ClassType.of(method.getReturnType());
+        return ClassType.of(method.getReturnType()).toType();
     }
 
     @Override
