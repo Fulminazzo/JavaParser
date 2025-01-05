@@ -1,10 +1,12 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
+import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -137,6 +139,48 @@ public interface Type {
      */
     static @NotNull String print(final @NotNull String output) {
         return String.format("Type(%s)", output);
+    }
+
+    /*
+        EXCEPTIONS
+     */
+
+    @Override
+    default @NotNull TypeException fieldNotFound(final @NotNull ClassType classVisitorObject,
+                                                 final @NotNull String field) {
+        return TypeException.fieldNotFound(classVisitorObject, field);
+    }
+
+    @Override
+    default @NotNull TypeException methodNotFound(final @NotNull ClassType classObject,
+                                                  final @NotNull String method,
+                                                  final @NotNull Type parameters) {
+        return TypeException.methodNotFound(classObject, method, parameters);
+    }
+
+    @Override
+    default @NotNull TypeException typesMismatch(final @NotNull ClassType classObject,
+                                                 final @NotNull Executable method,
+                                                 final @NotNull Type parameters) {
+        return TypeException.typesMismatch(classObject, method, parameters);
+    }
+
+    @Override
+    default @NotNull RuntimeException noClassType(final @NotNull Class<?> type) {
+        return TypeCheckerException.noClassType(type);
+    }
+
+    @Override
+    default @NotNull RuntimeException unsupportedOperation(final @NotNull TokenType operator,
+                                                           final @NotNull Type left,
+                                                           final @NotNull Type right) {
+        return TypeCheckerException.unsupportedOperation(operator, left, right);
+    }
+
+    @Override
+    default @NotNull RuntimeException unsupportedOperation(final @NotNull TokenType operator,
+                                                           final @NotNull Type operand) {
+        return TypeCheckerException.unsupportedOperation(operator, operand);
     }
 
 }
