@@ -20,37 +20,6 @@ public final class BooleanValue extends PrimitiveValue<Boolean> {
     }
 
     @Override
-    public @NotNull BooleanValue and(@NotNull Value<?> other) {
-        return of(this.object && other.to(BooleanValue.class).object);
-    }
-
-    @Override
-    public @NotNull BooleanValue or(@NotNull Value<?> other) {
-        return of(this.object || other.to(BooleanValue.class).object);
-    }
-
-
-    @Override
-    public @NotNull Value<?> bitAnd(@NotNull Value<?> other) {
-        return of(this.object & other.to(BooleanValue.class).object);
-    }
-
-    @Override
-    public @NotNull Value<?> bitOr(@NotNull Value<?> other) {
-        return of(this.object | other.to(BooleanValue.class).object);
-    }
-
-    @Override
-    public @NotNull Value<?> bitXor(@NotNull Value<?> other) {
-        return of(this.object ^ other.to(BooleanValue.class).object);
-    }
-
-    @Override
-    public @NotNull BooleanValue not() {
-        return of(!this.object);
-    }
-
-    @Override
     public String toString() {
         return this.object ? "TRUE" : "FALSE";
     }
