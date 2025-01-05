@@ -192,6 +192,17 @@ public interface VisitorObject<
 
     /**
      * Generates a {@link VisitorObjectException} with message:
+     * <i>Could not find field '%field%' in type %classVisitorObject%</i>
+     *
+     * @param classVisitorObject the associated class visitor object
+     * @param field              the field
+     * @return the visitor object exception
+     */
+    @NotNull VisitorObjectException fieldNotFound(final @NotNull C classVisitorObject,
+                                                  final @NotNull String field);
+
+    /**
+     * Generates a {@link VisitorObjectException} with message:
      * <i>Could not find method %method_format% in type %type%</i>
      *
      * @param classObject the class object
