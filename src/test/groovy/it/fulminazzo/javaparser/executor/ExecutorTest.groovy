@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.executor
 
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.environment.MockEnvironment
+import it.fulminazzo.javaparser.environment.NamedEntity
 import it.fulminazzo.javaparser.environment.ScopeException
 import it.fulminazzo.javaparser.environment.scopetypes.ScopeType
 import it.fulminazzo.javaparser.executor.values.*
@@ -503,7 +504,7 @@ class ExecutorTest extends Specification {
 
         then:
         def e = thrown(ExecutorException)
-        e.message == ScopeException.noSuchVariable(varName).message
+        e.message == ScopeException.noSuchVariable(NamedEntity.of(varName)).message
     }
 
     def 'test visit dynamic array'() {
