@@ -3,7 +3,7 @@ package it.fulminazzo.javaparser.visitors;
 import it.fulminazzo.javaparser.environment.Environment;
 import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
-import it.fulminazzo.javaparser.parser.node.literals.Literal;
+import it.fulminazzo.javaparser.visitors.visitorobjects.ClassVisitorObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
 import org.jetbrains.annotations.NotNull;
@@ -72,16 +72,6 @@ public class MockVisitor implements Visitor {
     }
 
     @Override
-    public @NotNull VisitorObject visitAssignment(@NotNull Node type, @NotNull Literal name, @NotNull Node value) {
-        return null;
-    }
-
-    @Override
-    public @NotNull VisitorObject visitReAssign(@NotNull Node left, @NotNull Node right) {
-        return null;
-    }
-
-    @Override
     public @NotNull VisitorObject visitStaticArray(int size, @NotNull Node type) {
         return null;
     }
@@ -143,6 +133,11 @@ public class MockVisitor implements Visitor {
 
     @Override
     public @NotNull VisitorObject visitEmptyLiteral() {
+        return null;
+    }
+
+    @Override
+    public @NotNull VisitorObject convertVariable(@NotNull ClassVisitorObject variableType, @NotNull VisitorObject variable) {
         return null;
     }
 
