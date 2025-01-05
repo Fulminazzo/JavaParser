@@ -604,14 +604,14 @@ class TypeCheckerTest extends Specification {
                 new Assignment(Literal.of('Byte'), Literal.of('bW'), NUMBER_LIT),
                 new Assignment(Literal.of('HashMap'), Literal.of('map'),
                         new NewObject(Literal.of('HashMap'), new MethodInvocation([])))
-        ]                                                                               | new ParameterTypes([PrimitiveClassType.BYTE, ObjectClassType.BYTE, ObjectClassType.of('HashMap')])
+        ]                                                                               | new ParameterTypes([PrimitiveType.BYTE, ObjectType.BYTE, ObjectType.of('HashMap')])
         [
                 new Assignment(Literal.of('byte'), Literal.of('b'), NUMBER_LIT),
                 new Assignment(Literal.of('Byte'), Literal.of('bW'), NUMBER_LIT)
-        ]                                                                               | new ParameterTypes([PrimitiveClassType.BYTE, ObjectClassType.BYTE])
+        ]                                                                               | new ParameterTypes([PrimitiveType.BYTE, ObjectType.BYTE])
         [
                 new Assignment(Literal.of('byte'), Literal.of('b'), NUMBER_LIT)
-        ]                                                                               | new ParameterTypes([PrimitiveClassType.BYTE])
+        ]                                                                               | new ParameterTypes([PrimitiveType.BYTE])
     }
 
     def 'test visit assignment: #type #name = #val should return type #expected'() {
@@ -772,7 +772,7 @@ class TypeCheckerTest extends Specification {
         and:
         def exceptionMessage = TypeException.methodNotFound(
                 ObjectClassType.INTEGER, '<init>',
-                new ParameterTypes([PrimitiveClassType.BOOLEAN, PrimitiveClassType.DOUBLE])
+                new ParameterTypes([PrimitiveType.BOOLEAN, PrimitiveType.DOUBLE])
         ).message
 
         when:

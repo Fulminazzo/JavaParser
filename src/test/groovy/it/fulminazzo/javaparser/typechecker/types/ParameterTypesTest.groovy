@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.typechecker.types
 
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType
+import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
 
 class ParameterTypesTest extends Specification {
@@ -19,12 +20,12 @@ class ParameterTypesTest extends Specification {
 
         where:
         parameter << [
-                PrimitiveClassType.values(),
-                ObjectClassType.values(),
-                ObjectClassType.of(getClass())
+                PrimitiveType.values(),
+                ObjectType.values(),
+                ObjectType.of(getClass())
         ].flatten()
         expected << [
-                [byte, short, char, int, long, float, double, boolean],
+                [char, int, long, float, double, boolean, byte, short],
                 [Byte, Short, Character, Integer, Long, Float, Double, Boolean, String, Object],
                 getClass()
         ].flatten()

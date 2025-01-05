@@ -210,9 +210,9 @@ class TypeTest extends Specification {
         where:
         method               | expected                  | parameters
         'publicStaticMethod' | PrimitiveClassType.INT    | NO_PARAMETERS
-        'publicStaticMethod' | PrimitiveClassType.INT    | new ParameterTypes([PrimitiveClassType.INT, ObjectClassType.BOOLEAN])
+        'publicStaticMethod' | PrimitiveClassType.INT    | new ParameterTypes([PrimitiveType.INT, ObjectType.BOOLEAN])
         'publicMethod'       | PrimitiveClassType.DOUBLE | NO_PARAMETERS
-        'publicMethod'       | PrimitiveClassType.DOUBLE | new ParameterTypes([PrimitiveClassType.DOUBLE, ObjectClassType.BOOLEAN])
+        'publicMethod'       | PrimitiveClassType.DOUBLE | new ParameterTypes([PrimitiveType.DOUBLE, ObjectType.BOOLEAN])
     }
 
     def 'test invokeMethod #method(#parameters) should throw types mismatch'() {
@@ -226,12 +226,12 @@ class TypeTest extends Specification {
 
         where:
         method               | methodTypes                  | parameters
-        'publicStaticMethod' | new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveClassType.DOUBLE, ObjectClassType.BOOLEAN])
-        'publicStaticMethod' | new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveClassType.INT, ObjectClassType.STRING])
-        'publicStaticMethod' | new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveClassType.DOUBLE, ObjectClassType.STRING])
-        'publicMethod'       | new Class[]{double, Boolean} | new ParameterTypes([PrimitiveClassType.INT, ObjectClassType.BOOLEAN])
-        'publicMethod'       | new Class[]{double, Boolean} | new ParameterTypes([PrimitiveClassType.DOUBLE, ObjectClassType.STRING])
-        'publicMethod'       | new Class[]{double, Boolean} | new ParameterTypes([PrimitiveClassType.INT, ObjectClassType.STRING])
+        'publicStaticMethod' | new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveType.DOUBLE, ObjectType.BOOLEAN])
+        'publicStaticMethod' | new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveType.INT, ObjectType.STRING])
+        'publicStaticMethod' | new Class[]{int, Boolean}    | new ParameterTypes([PrimitiveType.DOUBLE, ObjectType.STRING])
+        'publicMethod'       | new Class[]{double, Boolean} | new ParameterTypes([PrimitiveType.INT, ObjectType.BOOLEAN])
+        'publicMethod'       | new Class[]{double, Boolean} | new ParameterTypes([PrimitiveType.DOUBLE, ObjectType.STRING])
+        'publicMethod'       | new Class[]{double, Boolean} | new ParameterTypes([PrimitiveType.INT, ObjectType.STRING])
     }
 
     def 'test cannot access method #method from invokeMethod'() {
@@ -268,7 +268,7 @@ class TypeTest extends Specification {
         where:
         method               | expected               | parameters
         'publicStaticMethod' | PrimitiveClassType.INT | NO_PARAMETERS
-        'publicStaticMethod' | PrimitiveClassType.INT | new ParameterTypes([PrimitiveClassType.INT, ObjectClassType.BOOLEAN])
+        'publicStaticMethod' | PrimitiveClassType.INT | new ParameterTypes([PrimitiveType.INT, ObjectType.BOOLEAN])
     }
 
     def 'test class cannot access non-static method #method(#parameters)'() {
@@ -282,7 +282,7 @@ class TypeTest extends Specification {
         where:
         method         | expected                  | parameters
         'publicMethod' | PrimitiveClassType.DOUBLE | NO_PARAMETERS
-        'publicMethod' | PrimitiveClassType.DOUBLE | new ParameterTypes([PrimitiveClassType.DOUBLE, ObjectClassType.BOOLEAN])
+        'publicMethod' | PrimitiveClassType.DOUBLE | new ParameterTypes([PrimitiveType.DOUBLE, ObjectType.BOOLEAN])
     }
 
     def 'test class cannot access method #method from invokeMethod'() {
