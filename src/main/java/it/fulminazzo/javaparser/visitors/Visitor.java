@@ -816,6 +816,32 @@ public interface Visitor<
     @NotNull O visitEmptyLiteral();
 
     /**
+     * Tries to convert the given literal to a {@link VisitorObject}.
+     * It does so by first converting it to {@link ClassVisitorObject}.
+     * If it fails, it tries with a variable declared in {@link #getEnvironment()}.
+     * <br>
+     * Overriding classes should <b>override</b> this method to implement the
+     * {@link ClassVisitorObject} search logic.
+     *
+     * @param literal the literal
+     * @return if a {@link ClassVisitorObject} is found, the tuple key and value will both be equal to the value itself.
+     * If a variable is found, the tuple key will have the value in which the variable was declared,
+     * while the value its actual value.
+     * Otherwise, the tuple will be empty.
+     */
+    default @NotNull Tuple<C, O> getObjectFromLiteral(@NotNull String literal) {
+        Tuple<C, O> tuple = new Tuple<>();
+        try {
+            NamedEntity string = NamedEntity.of(literal);
+            O variable = getEnvironment().lookup(string);
+            C variableType = (C) getEnvironment().lookupInfo(string);
+            tuple.set(variableType, variable);
+        } catch (ScopeException ignored) {
+        }
+        return tuple;
+    }
+
+    /**
      * Conversion method for {@link #visitAssignment(Node, Literal, Node)} and
      * {@link #visitReAssign(Node, Node)}.
      *
