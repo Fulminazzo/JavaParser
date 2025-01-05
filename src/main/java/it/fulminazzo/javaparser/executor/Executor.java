@@ -92,6 +92,15 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
         });
     }
 
+    /**
+     * Converts the case statement to a {@link TupleValue} containing
+     * the expression as key and block as value.
+     * This will be later used by {@link #visitSwitchStatement(List, CodeBlock, Node)}.
+     *
+     * @param block      the block
+     * @param expression the expression
+     * @return the case statement
+     */
     @Override
     public @NotNull Value<?> visitCaseStatement(@NotNull CodeBlock block, @NotNull Node expression) {
         return new TupleValue<>(expression, block);
@@ -281,9 +290,7 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
      * Support method for many break and continue supported statements.
      *
      * @param code the code
-     * @return null in case nothing was returned,
-     * {@link Values#NO_VALUE} in case a {@link #visitBreak(Node)} occurred,
-     * otherwise the actual returned type of the codeblock
+     * @return null in case nothing was returned, {@link Values#NO_VALUE} in case a {@link #visitBreak(Node)} occurred, otherwise the actual returned type of the codeblock
      */
     @NotNull Optional<Value<?>> visitLoopCodeBlock(final @NotNull CodeBlock code) {
         try {
