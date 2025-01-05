@@ -149,10 +149,10 @@ public class TypeCheckerException extends RuntimeException {
      * @return the visitor exception
      */
     public static @NotNull TypeCheckerException unsupportedOperation(final @NotNull TokenType operator,
-                                                                     final @NotNull Object left,
-                                                                     final @NotNull Object right) {
+                                                                     final @NotNull Type left,
+                                                                     final @NotNull Type right) {
         return new TypeCheckerException("Operator '%s' cannot be applied to '%s', '%s'",
-                operator.regex().replace("\\", ""), left, right);
+                operator.regex().replace("\\", ""), left.toClass(), right.toClass());
     }
 
     /**
@@ -164,9 +164,9 @@ public class TypeCheckerException extends RuntimeException {
      * @return the visitor exception
      */
     public static @NotNull TypeCheckerException unsupportedOperation(final @NotNull TokenType operator,
-                                                                     final @NotNull Object operand) {
+                                                                     final @NotNull Type operand) {
         return new TypeCheckerException("Operator '%s' cannot be applied to '%s'",
-                operator.regex().replace("\\", ""), operand);
+                operator.regex().replace("\\", ""), operand.toClass());
     }
 
     /**
