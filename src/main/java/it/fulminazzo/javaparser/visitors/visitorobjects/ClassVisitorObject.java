@@ -57,4 +57,11 @@ public interface ClassVisitorObject<
         return object instanceof VisitorObject<?,?,?> && compatibleWith((O) object);
     }
 
+    /**
+     * Converts the current class object to the appropriate {@link VisitorObject}.
+     *
+     * @return the object
+     */
+    @NotNull O toObject();
+
 }
