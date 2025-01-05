@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
+import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
@@ -101,27 +102,14 @@ public interface Type {
         else return this;
     }
 
-    /**
-     * Searches the given field in the class of {@link #toClassType()} (if not already {@link ClassType}).
-     * Then, returns the declared type of the field in form of {@link ClassType}.
-     *
-     * @param fieldName the field name
-     * @return the type of the field
-     * @throws TypeException thrown in case the field could not be found or could not be accessed
-     *                       (only <code>public</code> modifier allowed and <code>static</code> fields from static context)
-     */
-    default @NotNull ClassType getField(final @NotNull String fieldName) throws TypeException {
+    @Override
+    default @NotNull Tuple<ClassType, Type> getField(final @NotNull Field field) throws TypeException {
         ClassType classType = isClassType() ? (ClassType) this : toClassType();
-        try {
-            Class<?> javaClass = classType.toJavaClass();
-            Field field = ReflectionUtils.getField(javaClass, fieldName);
-            if (!Modifier.isPublic(field.getModifiers())) throw TypeException.cannotAccessField(classType, field);
-            else if (isClassType() && !Modifier.isStatic(field.getModifiers()))
-                throw TypeException.cannotAccessStaticField(classType, fieldName);
-            return ClassType.of(field.getType());
-        } catch (IllegalArgumentException e) {
-            throw TypeException.fieldNotFound(classType, fieldName);
-        }
+        if (!Modifier.isPublic(field.getModifiers())) throw TypeException.cannotAccessField(classType, field);
+        else if (isClassType() && !Modifier.isStatic(field.getModifiers()))
+            throw TypeException.cannotAccessStaticField(classType, field.getName());
+        ClassType fieldClassType = ClassType.of(field.getType());
+        return new Tuple<>(fieldClassType, fieldClassType.toType());
     }
 
     /**
