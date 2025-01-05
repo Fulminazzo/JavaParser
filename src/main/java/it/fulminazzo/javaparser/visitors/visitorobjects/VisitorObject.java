@@ -1,11 +1,16 @@
 package it.fulminazzo.javaparser.visitors.visitorobjects;
 
+import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
+import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.visitors.Visitor;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Executable;
+import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * The object that will be returned by a {@link Visitor} instance.
@@ -15,6 +20,7 @@ import java.util.Arrays;
  * @param <O> the type of the {@link VisitorObject}
  * @param <P> the type of the {@link ParameterVisitorObjects}
  */
+@SuppressWarnings("unchecked")
 public interface VisitorObject<
         C extends ClassVisitorObject<C, O, P>,
         O extends VisitorObject<C, O, P>,
@@ -93,7 +99,37 @@ public interface VisitorObject<
      * @return the returned object from the method
      * @throws VisitorObjectException the exception thrown in case of errors
      */
-    @NotNull O invokeMethod(final @NotNull String methodName, final @NotNull P parameters) throws VisitorObjectException;
+    default @NotNull O invokeMethod(final @NotNull String methodName,
+                                    final @NotNull P parameters) throws VisitorObjectException {
+        if (isPrimitive()) return toWrapper().invokeMethod(methodName, parameters);
+        C classVisitorObject = is(ClassVisitorObject.class) ? (C) this : toClass();
+        try {
+            Class<?> javaClass = classVisitorObject.toJavaClass();
+            // Lookup methods from name and parameters count
+            @NotNull List<Method> methods = ReflectionUtils.getMethods(javaClass, m ->
+                    m.getName().equals(methodName) && VisitorObjectUtils.verifyExecutable(parameters, m));
+            if (methods.isEmpty()) throw new IllegalArgumentException();
+
+            Refl<?> refl = new Refl<>(ReflectionUtils.class);
+            Class<?> @NotNull [] parametersTypes = parameters.stream()
+                    //TODO: null
+                    .map(o -> o.toClass())
+                    .map(c -> c.toJavaClass())
+                    .toArray(Class[]::new);
+
+            for (Method method : methods) {
+                // For each one, validate its parameters
+                if (Boolean.TRUE.equals(refl.invokeMethod("validateParameters",
+                        new Class[]{Class[].class, Executable.class},
+                        parametersTypes, method)))
+                    return invokeMethod(method, parameters);
+            }
+
+            throw typesMismatch(classVisitorObject, methods.get(0), parameters);
+        } catch (IllegalArgumentException e) {
+            throw methodNotFound(classVisitorObject, methodName, parameters);
+        }
+    }
 
     /**
      * Converts the current object to its primitive associated object.
