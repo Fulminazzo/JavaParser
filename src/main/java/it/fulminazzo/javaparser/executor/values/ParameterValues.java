@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 /**
  * Represents the list of {@link Value}s required during the invocation of a method or constructor.
  */
-public final class ParameterValues extends ObjectWrapper<List<Value<?>>> implements Value<List<Value<?>>>, Iterable<Value<?>> {
+public final class ParameterValues implements Value<List<Value<?>>> {
 
     /**
      * Instantiates a new Parameter values.
@@ -22,15 +22,6 @@ public final class ParameterValues extends ObjectWrapper<List<Value<?>>> impleme
         super(parameters);
     }
 
-    /**
-     * Returns the number of parameters.
-     *
-     * @return the number of parameters
-     */
-    public int size() {
-        return this.object.size();
-    }
-
     @Override
     public @NotNull ClassValue<List<Value<?>>> toClass() {
         throw ExecutorException.noClassValue(getClass());
@@ -39,20 +30,6 @@ public final class ParameterValues extends ObjectWrapper<List<Value<?>>> impleme
     @Override
     public List<Value<?>> getValue() {
         return this.object;
-    }
-
-    /**
-     * Gets a stream of the internal values.
-     *
-     * @return the stream
-     */
-    public @NotNull Stream<Value<?>> stream() {
-        return this.object.stream();
-    }
-
-    @Override
-    public @NotNull Iterator<Value<?>> iterator() {
-        return stream().iterator();
     }
 
 }
