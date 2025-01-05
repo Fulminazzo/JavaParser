@@ -59,6 +59,22 @@ public interface VisitorObject<
     }
 
     /**
+     * Checks that the current object is an instance of the specified one.
+     *
+     * @param <T>   the type of the class
+     * @param clazz the class
+     * @return this object cast to the given class
+     */
+    <T extends VisitorObject<C, O, P>> @NotNull T check(final @NotNull Class<T> clazz);
+
+    /**
+     * Checks that the current object is {@link ClassVisitorObject}.
+     *
+     * @return the current object cast to the expected one
+     */
+    @NotNull C checkClass();
+
+    /**
      * Gets the given field from the associated {@link ClassVisitorObject} and returns it.
      *
      * @param fieldName the field name
@@ -77,22 +93,6 @@ public interface VisitorObject<
      * @throws VisitorObjectException the exception thrown in case of errors
      */
     @NotNull O invokeMethod(final @NotNull String methodName, final @NotNull P parameters) throws VisitorObjectException;
-
-    /**
-     * Checks that the current object is an instance of the specified one.
-     *
-     * @param <T>   the type of the class
-     * @param clazz the class
-     * @return this object cast to the given class
-     */
-    <T extends VisitorObject<C, O, P>> @NotNull T check(final @NotNull Class<T> clazz);
-
-    /**
-     * Checks that the current object is {@link ClassVisitorObject}.
-     *
-     * @return the current object cast to the expected one
-     */
-    @NotNull C checkClass();
 
     /**
      * Converts the current object to its primitive associated object.
