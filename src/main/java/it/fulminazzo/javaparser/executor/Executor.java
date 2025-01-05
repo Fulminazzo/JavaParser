@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor;
 
+import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.environment.Environment;
 import it.fulminazzo.javaparser.environment.NamedEntity;
 import it.fulminazzo.javaparser.environment.ScopeException;
@@ -229,6 +230,23 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
     @Override
     public @NotNull Value<?> visitStringValueLiteral(@NotNull String rawValue) {
         return ObjectValue.of(rawValue);
+    }
+
+    @Override
+    public @NotNull Tuple<ClassValue<?>, Value<?>> getObjectFromLiteral(@NotNull String literal) {
+        try {
+            Tuple<ClassValue<?>, Value<?>> tuple = new Tuple<>();
+            if (literal.endsWith(".class")) {
+                ClassValue<?> type = ClassValue.of(literal.substring(0, literal.length() - 6));
+                tuple.set(type.toClass(), type.toClass());
+            } else {
+                ClassValue<?> type = ClassValue.of(literal);
+                tuple.set(type, type);
+            }
+            return tuple;
+        } catch (ValueException e) {
+            return Visitor.super.getObjectFromLiteral(literal);
+        }
     }
 
     @Override
