@@ -268,6 +268,9 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
 
     @Override
     public @NotNull Type convertVariable(@NotNull ClassType variableType, @NotNull Type variable) {
+        // Test for uninitialized
+        if (variable.is(visitEmptyLiteral()))
+            variable = variableType.isPrimitive() ? variableType.toObject() : visitNullLiteral();
         variable = convertByteAndShort(variableType, variable).checkAssignableFrom(variableType);
         if (!variable.isPrimitive()) return variable;
         else if (variableType.is(PrimitiveClassType.class)) return variableType.toType();
