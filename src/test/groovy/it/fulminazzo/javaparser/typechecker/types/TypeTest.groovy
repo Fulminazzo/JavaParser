@@ -208,11 +208,11 @@ class TypeTest extends Specification {
         actual == expected
 
         where:
-        method               | expected                  | parameters
-        'publicStaticMethod' | PrimitiveClassType.INT    | NO_PARAMETERS
-        'publicStaticMethod' | PrimitiveClassType.INT    | new ParameterTypes([PrimitiveType.INT, ObjectType.BOOLEAN])
-        'publicMethod'       | PrimitiveClassType.DOUBLE | NO_PARAMETERS
-        'publicMethod'       | PrimitiveClassType.DOUBLE | new ParameterTypes([PrimitiveType.DOUBLE, ObjectType.BOOLEAN])
+        method               | expected             | parameters
+        'publicStaticMethod' | PrimitiveType.INT    | NO_PARAMETERS
+        'publicStaticMethod' | PrimitiveType.INT    | new ParameterTypes([PrimitiveType.INT, ObjectType.BOOLEAN])
+        'publicMethod'       | PrimitiveType.DOUBLE | NO_PARAMETERS
+        'publicMethod'       | PrimitiveType.DOUBLE | new ParameterTypes([PrimitiveType.DOUBLE, ObjectType.BOOLEAN])
     }
 
     def 'test invokeMethod #method(#parameters) should throw types mismatch'() {
@@ -266,9 +266,9 @@ class TypeTest extends Specification {
         actual == expected
 
         where:
-        method               | expected               | parameters
-        'publicStaticMethod' | PrimitiveClassType.INT | NO_PARAMETERS
-        'publicStaticMethod' | PrimitiveClassType.INT | new ParameterTypes([PrimitiveType.INT, ObjectType.BOOLEAN])
+        method               | expected          | parameters
+        'publicStaticMethod' | PrimitiveType.INT | NO_PARAMETERS
+        'publicStaticMethod' | PrimitiveType.INT | new ParameterTypes([PrimitiveType.INT, ObjectType.BOOLEAN])
     }
 
     def 'test class cannot access non-static method #method(#parameters)'() {
@@ -280,9 +280,9 @@ class TypeTest extends Specification {
         e.message == TypeException.cannotAccessStaticMethod(this.classType, method, NO_PARAMETERS).message
 
         where:
-        method         | expected                  | parameters
-        'publicMethod' | PrimitiveClassType.DOUBLE | NO_PARAMETERS
-        'publicMethod' | PrimitiveClassType.DOUBLE | new ParameterTypes([PrimitiveType.DOUBLE, ObjectType.BOOLEAN])
+        method         | expected             | parameters
+        'publicMethod' | PrimitiveType.DOUBLE | NO_PARAMETERS
+        'publicMethod' | PrimitiveType.DOUBLE | new ParameterTypes([PrimitiveType.DOUBLE, ObjectType.BOOLEAN])
     }
 
     def 'test class cannot access method #method from invokeMethod'() {
