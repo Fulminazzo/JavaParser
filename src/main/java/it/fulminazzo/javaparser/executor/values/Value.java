@@ -191,14 +191,14 @@ public interface Value<V> {
         throw new IllegalStateException("Cannot find method " + methodName + " in " + javaClass);
     }
 
-    /**
-     * Converts the current value to an instance of {@link PrimitiveValue}.
-     * Throws {@link ValueRuntimeException} in case of no associated primitive type.
-     *
-     * @return the primitive value
-     */
-    default @NotNull PrimitiveValue<V> toPrimitive() {
-        throw ValueRuntimeException.invalidPrimitiveValue(getValue());
+    @Override
+    default @NotNull Value<V> toPrimitive() {
+        throw ValueRuntimeException.noPrimitive(getValue());
+    }
+
+    @Override
+    default @NotNull Value<V> toPrimitive() {
+        throw ValueRuntimeException.noWrapper(getValue());
     }
 
     /**
