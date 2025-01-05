@@ -4,7 +4,8 @@ import it.fulminazzo.javaparser.parser.node.NodeImpl;
 import lombok.NoArgsConstructor;
 
 /**
- * Represents an empty literal.
+ * Represents the absence of an expression.
+ * Used in many cases (methods invocations, uninitialized assignments, endless for loops and more).
  */
 @NoArgsConstructor
 public class EmptyLiteral extends NodeImpl {
