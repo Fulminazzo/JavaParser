@@ -39,7 +39,7 @@ public class TypeCheckerException extends RuntimeException {
      * @return the type checker exception
      */
     public static @NotNull TypeCheckerException invalidType(final @NotNull Class<?> expected,
-                                                            final @NotNull Type actual) {
+                                                            final @NotNull Object actual) {
         return new TypeCheckerException("Invalid type received: expected %s but got %s instead",
                 expected.getSimpleName(), actual.getClass().getSimpleName());
     }
@@ -52,8 +52,8 @@ public class TypeCheckerException extends RuntimeException {
      * @param actual   the actual type
      * @return the type checker exception
      */
-    public static @NotNull TypeCheckerException invalidType(final @NotNull Type expected,
-                                                            final @NotNull Type actual) {
+    public static @NotNull TypeCheckerException invalidType(final @NotNull Object expected,
+                                                            final @NotNull Object actual) {
         return new TypeCheckerException("Invalid type received: expected %s but got %s instead",
                 expected, actual);
     }
