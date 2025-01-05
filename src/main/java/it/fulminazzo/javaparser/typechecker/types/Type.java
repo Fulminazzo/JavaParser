@@ -123,12 +123,7 @@ public interface Type {
         return ClassType.of(method.getReturnType());
     }
 
-    /**
-     * Converts the current object to its wrapper {@link ObjectType}.
-     * This only works for {@link PrimitiveType}s.
-     *
-     * @return the wrapper type
-     */
+    @Override
     default @NotNull ObjectType toWrapper() {
         throw TypeCheckerException.noWrapper(this);
     }
