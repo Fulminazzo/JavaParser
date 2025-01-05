@@ -77,21 +77,23 @@ class ExecutorTest extends Specification {
         value == expected
 
         where:
-        expression | block | catchBlocks | finallyBlock | expected
-        new EmptyLiteral() | CODE_BLOCK_1 | [] | new CodeBlock() | PrimitiveValue.of(1)
-        new EmptyLiteral() | CODE_BLOCK_1 | [] | CODE_BLOCK_3 | PrimitiveValue.of(3)
-        new EmptyLiteral() | CODE_BLOCK_1 | [
+        expression         | block                                | catchBlocks                  | finallyBlock    | expected
+        new EmptyLiteral() | CODE_BLOCK_1                         | []                           | new CodeBlock() | PrimitiveValue.of(1)
+        new EmptyLiteral() | CODE_BLOCK_1                         | []                           | CODE_BLOCK_3    | PrimitiveValue.of(3)
+        new EmptyLiteral() | CODE_BLOCK_1                         | [
                 new CatchStatement([IAEx], Literal.of('e'), CODE_BLOCK_2)
-        ] | new CodeBlock() | PrimitiveValue.of(1)
-        new EmptyLiteral() | CODE_BLOCK_1 | [
+        ]                                                                                        | new CodeBlock() | PrimitiveValue.of(1)
+        new EmptyLiteral() | CODE_BLOCK_1                         | [
                 new CatchStatement([IAEx], Literal.of('e'), CODE_BLOCK_2)
-        ] | CODE_BLOCK_3 | PrimitiveValue.of(3)
-        new EmptyLiteral() | new CodeBlock(new Throw(new NewObject(IAEx, new MethodInvocation([])))) | [
+        ]                                                                                        | CODE_BLOCK_3    | PrimitiveValue.of(3)
+        new EmptyLiteral() | new CodeBlock(new Throw(new NewObject(IAEx,
+                new MethodInvocation([]))))                       | [
                 new CatchStatement([IAEx], Literal.of('e'), CODE_BLOCK_2)
-        ] | new CodeBlock() | PrimitiveValue.of(2)
-        new EmptyLiteral() | new CodeBlock(new Throw(new NewObject(IAEx, new MethodInvocation([])))) | [
+        ]                                                                                        | new CodeBlock() | PrimitiveValue.of(2)
+        new EmptyLiteral() | new CodeBlock(new Throw(new NewObject(IAEx,
+                new MethodInvocation([]))))                       | [
                 new CatchStatement([IAEx], Literal.of('e'), CODE_BLOCK_2)
-        ] | CODE_BLOCK_3 | PrimitiveValue.of(3)
+        ]                                                                                        | CODE_BLOCK_3    | PrimitiveValue.of(3)
     }
 
     def 'test visit switch statement of #expression (#cases, #defaultBlock) should return #expected'() {
@@ -102,27 +104,27 @@ class ExecutorTest extends Specification {
         value == expected
 
         where:
-        expression | cases | defaultBlock | expected
+        expression                  | cases                                                 | defaultBlock | expected
         new NumberValueLiteral('1') | [
                 new CaseStatement(new NumberValueLiteral('1'), CODE_BLOCK_1),
                 new CaseStatement(new NumberValueLiteral('2'), CODE_BLOCK_2),
-        ] | CODE_BLOCK_3 | PrimitiveValue.of(1)
+        ]                                                                                   | CODE_BLOCK_3 | PrimitiveValue.of(1)
         new NumberValueLiteral('2') | [
                 new CaseStatement(new NumberValueLiteral('1'), CODE_BLOCK_1),
                 new CaseStatement(new NumberValueLiteral('2'), CODE_BLOCK_2),
-        ] | CODE_BLOCK_3 | PrimitiveValue.of(2)
+        ]                                                                                   | CODE_BLOCK_3 | PrimitiveValue.of(2)
         new NumberValueLiteral('3') | [
                 new CaseStatement(new NumberValueLiteral('1'), CODE_BLOCK_1),
                 new CaseStatement(new NumberValueLiteral('2'), CODE_BLOCK_2),
-        ] | CODE_BLOCK_3 | PrimitiveValue.of(3)
+        ]                                                                                   | CODE_BLOCK_3 | PrimitiveValue.of(3)
         new NumberValueLiteral('1') | [
                 new CaseStatement(new NumberValueLiteral('1'), CODE_BLOCK_EMPTY),
                 new CaseStatement(new NumberValueLiteral('2'), CODE_BLOCK_2),
-        ] | CODE_BLOCK_3 | PrimitiveValue.of(2)
+        ]                                                                                   | CODE_BLOCK_3 | PrimitiveValue.of(2)
         new NumberValueLiteral('1') | [
                 new CaseStatement(new NumberValueLiteral('1'), new CodeBlock(new Break())),
                 new CaseStatement(new NumberValueLiteral('2'), CODE_BLOCK_2),
-        ] | CODE_BLOCK_3 | Values.NO_VALUE
+        ]                                                                                   | CODE_BLOCK_3 | Values.NO_VALUE
     }
 
     def 'test visit enhanced for statement of #object should return #expected'() {
