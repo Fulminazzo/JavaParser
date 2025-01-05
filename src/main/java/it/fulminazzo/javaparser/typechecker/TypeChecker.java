@@ -273,7 +273,7 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
             variable = variableType.isPrimitive() ? variableType.toObject() : visitNullLiteral();
         variable = convertByteAndShort(variableType, variable).checkAssignableFrom(variableType);
         if (!variable.isPrimitive()) return variable;
-        else if (variableType.is(PrimitiveClassType.class)) return variableType.toType();
+        else if (variableType.isPrimitive()) return variableType.toType();
         else if (!variableType.is(ObjectClassType.OBJECT)) // Can only be ClassObjectType at this point
             return variableType.toType();
         return variable;
