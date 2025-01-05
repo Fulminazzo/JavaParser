@@ -1,6 +1,5 @@
 package it.fulminazzo.javaparser.executor;
 
-import it.fulminazzo.javaparser.executor.values.Value;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -43,25 +42,12 @@ public class ExecutorException extends RuntimeException {
      * Generates a {@link ExecutorException} with message:
      * <i>%clazz% does not have a {@link ClassValue}</i>
      *
-     * @param <V>   the type parameter
      * @param value the value
      * @return the executor exception
      */
-    public static <V extends Value<?>> @NotNull ExecutorException noClassValue(final @NotNull Class<V> value) {
+    public static @NotNull ExecutorException noClassValue(final @NotNull Class<?> value) {
         return new ExecutorException("%s does not have a %s",
                 value.getSimpleName(), ClassValue.class.getSimpleName());
-    }
-
-    /**
-     * Generates a {@link ExecutorException} with message:
-     * <i>%clazz% does not have a {@link ClassValue}</i>
-     *
-     * @param type the type
-     * @return the executor exception
-     */
-    public static @NotNull ExecutorException noClassType(final @NotNull Class<?> type) {
-        return new ExecutorException("%s does not have a %s",
-                type.getSimpleName(), ClassValue.class.getSimpleName());
     }
 
     /**

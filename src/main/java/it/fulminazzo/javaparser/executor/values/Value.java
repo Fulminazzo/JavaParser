@@ -300,7 +300,7 @@ public interface Value<V> extends VisitorObject<ClassValue<?>, Value<?>, Paramet
 
     @Override
     default @NotNull RuntimeException noClassType(final @NotNull Class<?> type) {
-        return ExecutorException.noClassType(type);
+        return ExecutorException.noClassValue(type);
     }
 
     @Override
