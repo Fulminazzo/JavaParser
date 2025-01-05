@@ -184,7 +184,7 @@ public class TypeException extends VisitorObjectException {
      */
     static @NotNull String formatParameterTypes(final @NotNull ParameterTypes parameterTypes) {
         return "(" + parameterTypes.stream()
-                .map(ClassType::toString)
+                .map(Type::toString)
                 .collect(Collectors.joining(", ")) + ")";
     }
 
