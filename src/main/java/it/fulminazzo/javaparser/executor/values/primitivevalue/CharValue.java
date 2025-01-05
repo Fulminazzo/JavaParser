@@ -18,28 +18,28 @@ final class CharValue extends PrimitiveValue<Character> {
     }
 
     @Override
-    public @NotNull BooleanValue equal(@NotNull Value<?> other) {
+    public @NotNull Value<?> equal(@NotNull Value<?> other) {
         if (other.is(NumberValue.class)) return asInteger().equal(other);
         else return super.equal(other);
     }
 
     @Override
-    public @NotNull BooleanValue lessThan(@NotNull Value<?> other) {
+    public @NotNull Value<?> lessThan(@NotNull Value<?> other) {
         return asInteger().lessThan(other);
     }
 
     @Override
-    public @NotNull BooleanValue lessThanEqual(@NotNull Value<?> other) {
+    public @NotNull Value<?> lessThanEqual(@NotNull Value<?> other) {
         return asInteger().lessThanEqual(other);
     }
 
     @Override
-    public @NotNull BooleanValue greaterThan(@NotNull Value<?> other) {
+    public @NotNull Value<?> greaterThan(@NotNull Value<?> other) {
         return asInteger().greaterThan(other);
     }
 
     @Override
-    public @NotNull BooleanValue greaterThanEqual(@NotNull Value<?> other) {
+    public @NotNull Value<?> greaterThanEqual(@NotNull Value<?> other) {
         return asInteger().greaterThanEqual(other);
     }
 
@@ -101,7 +101,7 @@ final class CharValue extends PrimitiveValue<Character> {
 
     @Override
     public @NotNull Value<?> minus() {
-        return multiply(new IntValue(-1));
+        return asInteger().minus();
     }
 
     /**
