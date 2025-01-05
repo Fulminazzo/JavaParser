@@ -72,22 +72,24 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
     @Override
     public @NotNull Value<?> visitSwitchStatement(@NotNull List<CaseStatement> cases, @NotNull CodeBlock defaultBlock,
                                                   @NotNull Node expression) {
-        Value<?> compared = expression.accept(this);
-        boolean switched = false;
-        for (CaseStatement caseStatement : cases) {
-            TupleValue<Node, CodeBlock> cs = (TupleValue<Node, CodeBlock>) caseStatement.accept(this);
-            Value<?> comparison = cs.getKey().accept(this);
-            if (compared.equal(comparison).equals(BooleanValue.TRUE) || switched)
-                try {
-                    switched = true;
-                    Value<?> returned = visitScoped(ScopeType.CASE, () -> cs.getValue().accept(this));
-                    if (!returned.is(Values.NO_VALUE)) return returned;
-                } catch (BreakException ignored) {
-                    return Values.NO_VALUE;
-                }
-        }
+        return visitScoped(ScopeType.SWITCH, () -> {
+            Value<?> compared = expression.accept(this);
+            boolean switched = false;
+            for (CaseStatement caseStatement : cases) {
+                TupleValue<Node, CodeBlock> cs = (TupleValue<Node, CodeBlock>) caseStatement.accept(this);
+                Value<?> comparison = cs.getKey().accept(this);
+                if (compared.equal(comparison).equals(BooleanValue.TRUE) || switched)
+                    try {
+                        switched = true;
+                        Value<?> returned = visitScoped(ScopeType.CASE, () -> cs.getValue().accept(this));
+                        if (!returned.is(Values.NO_VALUE)) return returned;
+                    } catch (BreakException ignored) {
+                        return Values.NO_VALUE;
+                    }
+            }
 
-        return defaultBlock.accept(this);
+            return defaultBlock.accept(this);
+        });
     }
 
     @Override
