@@ -8,6 +8,7 @@ import it.fulminazzo.javaparser.visitors.Visitor;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Executable;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
@@ -95,7 +96,17 @@ public interface VisitorObject<
      * @return the field
      * @throws VisitorObjectException the exception thrown in case of errors
      */
-    @NotNull Tuple<C, O> getField(final @NotNull String fieldName) throws VisitorObjectException;
+    default @NotNull Tuple<C, O> getField(final @NotNull String fieldName) throws VisitorObjectException {
+        if (isPrimitive()) return toWrapper().getField(fieldName);
+        C classVisitorObject = is(ClassVisitorObject.class) ? (C) this : toClass();
+        try {
+            Class<?> javaClass = classVisitorObject.toJavaClass();
+            Field field = ReflectionUtils.getField(javaClass, fieldName);
+            return getField(field);
+        } catch (IllegalArgumentException e) {
+            throw fieldNotFound(classVisitorObject, fieldName);
+        }
+    }
 
     /**
      * Searches and invokes the given method from the associated {@link ClassVisitorObject} and
