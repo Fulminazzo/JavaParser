@@ -904,12 +904,12 @@ public interface Visitor<
                                    final @NotNull Callable<O> function) {
         try {
             getEnvironment().enterScope(scope);
-            O object = function.call();
-            getEnvironment().exitScope();
-            return object;
+            return function.call();
         } catch (Exception e) {
             if (e instanceof RuntimeException) throw (RuntimeException) e;
             else throw exceptionWrapper(e);
+        } finally {
+            getEnvironment().exitScope();
         }
     }
 
