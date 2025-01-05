@@ -184,4 +184,114 @@ public interface Type extends VisitorObject<ClassType, Type, ParameterTypes> {
         return TypeCheckerException.unsupportedOperation(operator, operand);
     }
 
+    /*
+        OPERATIONS
+     */
+
+    @Override
+    default @NotNull Type and(final @NotNull Type other) {
+        return OperationUtils.executeBooleanComparison(TokenType.AND, this, other);
+    }
+
+    @Override
+    default @NotNull Type or(final @NotNull Type other) {
+        return OperationUtils.executeBooleanComparison(TokenType.OR, this, other);
+    }
+
+    @Override
+    default @NotNull Type equal(final @NotNull Type other) {
+        return OperationUtils.executeObjectComparison(TokenType.EQUAL, this, other);
+    }
+
+    @Override
+    default @NotNull Type notEqual(final @NotNull Type other) {
+        return OperationUtils.executeObjectComparison(TokenType.NOT_EQUAL, this, other);
+    }
+
+    @Override
+    default @NotNull Type lessThan(final @NotNull Type other) {
+        return OperationUtils.executeBinaryComparison(TokenType.LESS_THAN, this, other);
+    }
+
+    @Override
+    default @NotNull Type lessThanEqual(final @NotNull Type other) {
+        return OperationUtils.executeBinaryComparison(TokenType.LESS_THAN_EQUAL, this, other);
+    }
+
+    @Override
+    default @NotNull Type greaterThan(final @NotNull Type other) {
+        return OperationUtils.executeBinaryComparison(TokenType.GREATER_THAN, this, other);
+    }
+
+    @Override
+    default @NotNull Type greaterThanEqual(final @NotNull Type other) {
+        return OperationUtils.executeBinaryComparison(TokenType.GREATER_THAN_EQUAL, this, other);
+    }
+
+    @Override
+    default @NotNull Type bitAnd(final @NotNull Type other) {
+        return OperationUtils.executeBinaryBitOperation(TokenType.BIT_AND, this, other);
+    }
+
+    @Override
+    default @NotNull Type bitOr(final @NotNull Type other) {
+        return OperationUtils.executeBinaryBitOperation(TokenType.BIT_OR, this, other);
+    }
+
+    @Override
+    default @NotNull Type bitXor(final @NotNull Type other) {
+        return OperationUtils.executeBinaryBitOperation(TokenType.BIT_XOR, this, other);
+    }
+
+    @Override
+    default @NotNull Type lshift(final @NotNull Type other) {
+        return OperationUtils.executeBinaryOperation(TokenType.LSHIFT, this, other);
+    }
+
+    @Override
+    default @NotNull Type rshift(final @NotNull Type other) {
+        return OperationUtils.executeBinaryOperation(TokenType.RSHIFT, this, other);
+    }
+
+    @Override
+    default @NotNull Type urshift(final @NotNull Type other) {
+        return OperationUtils.executeBinaryOperation(TokenType.URSHIFT, this, other);
+    }
+
+
+    @Override
+    default @NotNull Type add(final @NotNull Type other) {
+        return OperationUtils.executeBinaryOperationDecimal(TokenType.ADD, this, other);
+    }
+
+    @Override
+    default @NotNull Type subtract(final @NotNull Type other) {
+        return OperationUtils.executeBinaryOperationDecimal(TokenType.SUBTRACT, this, other);
+    }
+
+    @Override
+    default @NotNull Type multiply(final @NotNull Type other) {
+        return OperationUtils.executeBinaryOperationDecimal(TokenType.MULTIPLY, this, other);
+    }
+
+    @Override
+    default @NotNull Type divide(final @NotNull Type other) {
+        return OperationUtils.executeBinaryOperationDecimal(TokenType.DIVIDE, this, other);
+    }
+
+    @Override
+    default @NotNull Type modulo(final @NotNull Type other) {
+        return OperationUtils.executeBinaryOperationDecimal(TokenType.MODULO, this, other);
+    }
+
+    @Override
+    default @NotNull Type minus() {
+        return OperationUtils.executeUnaryOperationDecimal(TokenType.SUBTRACT, this);
+    }
+
+    @Override
+    default @NotNull Type not() {
+        return OperationUtils.executeUnaryOperationBoolean(TokenType.NOT, this);
+    }
+
 }
