@@ -863,8 +863,8 @@ class TypeCheckerTest extends Specification {
 
         where:
         field               | expected
-        'publicStaticField' | PrimitiveClassType.INT
-        'publicField'       | PrimitiveClassType.DOUBLE
+        'publicStaticField' | PrimitiveType.INT
+        'publicField'       | PrimitiveType.DOUBLE
     }
 
     def 'test invalid visit field of #field should throw exception'() {
