@@ -20,7 +20,7 @@ public final class BooleanValue extends PrimitiveValue<Boolean> {
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return this.object ? "TRUE" : "FALSE";
     }
 

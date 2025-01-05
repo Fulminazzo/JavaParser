@@ -33,7 +33,7 @@ class CustomObjectClassValue<V> extends ObjectWrapper<Class<V>> implements Class
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return ClassValue.print(ObjectValue.getClassName(this.object));
     }
 

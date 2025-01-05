@@ -53,14 +53,14 @@ public class ArrayValue<V> extends ObjectWrapper<List<Value<V>>> implements Valu
     }
 
     @Override
-    public V[] getValue() {
+    public V @NotNull [] getValue() {
         Class<V> componentsType = this.componentsType.getWrapperValue();
         return this.object.stream().map(Value::getValue).toArray(a -> (V[])
                 Array.newInstance(componentsType, this.object.size()));
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return String.format("%s(%s, %s)", getClass().getSimpleName(), this.componentsType, this.object);
     }
 

@@ -31,8 +31,8 @@ import java.util.*;
 @SuppressWarnings("unchecked")
 @Getter
 public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValues> {
-    private final Object executingObject;
-    private final Environment<Value<?>> environment;
+    private final @NotNull Object executingObject;
+    private final @NotNull Environment<Value<?>> environment;
 
     /**
      * Instantiates a new Executor.

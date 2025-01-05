@@ -32,7 +32,7 @@ public final class PrimitiveClassValue<V> extends EnumObject implements ClassVal
     public static final ClassValue<Boolean> BOOLEAN = new PrimitiveClassValue<>(boolean.class,
             Boolean.class);
 
-    private final Class<V> value;
+    private final @NotNull Class<V> value;
     private final Class<?> @NotNull [] compatibleValues;
 
     /**
@@ -77,7 +77,7 @@ public final class PrimitiveClassValue<V> extends EnumObject implements ClassVal
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return ClassValue.print(name().toLowerCase());
     }
 

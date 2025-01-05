@@ -4,6 +4,7 @@ import it.fulminazzo.javaparser.executor.ExecutorException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A collection of static immutable {@link Value}s.
@@ -34,7 +35,7 @@ public final class Values {
         }
 
         @Override
-        public Object getValue() {
+        public @Nullable Object getValue() {
             return null;
         }
 
@@ -49,7 +50,7 @@ public final class Values {
         }
 
         @Override
-        public String toString() {
+        public @NotNull String toString() {
             return this.valueName;
         }
 

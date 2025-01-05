@@ -64,7 +64,7 @@ public class ArrayClassValue<V> extends ObjectWrapper<ClassValue<V>> implements 
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return getComponentsType().toString().replace(".class", "[].class");
     }
 

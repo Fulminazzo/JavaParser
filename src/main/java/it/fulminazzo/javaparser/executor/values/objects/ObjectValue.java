@@ -139,7 +139,7 @@ public class ObjectValue<V> extends ObjectWrapper<V> implements Value<V> {
      * @param object the object
      * @return the object value
      */
-    public static <V> ObjectValue<V> of(final @NotNull V object) {
+    public static <V> @NotNull ObjectValue<V> of(final @NotNull V object) {
         if (object instanceof String) return (ObjectValue<V>) new StringObjectValue((String) object);
         else return new ObjectValue<>(object);
     }

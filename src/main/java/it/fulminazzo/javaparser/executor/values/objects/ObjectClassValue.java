@@ -78,7 +78,7 @@ public final class ObjectClassValue<V> extends EnumObject implements ClassValue<
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return ClassValue.print(StringUtils.capitalize(name()));
     }
 

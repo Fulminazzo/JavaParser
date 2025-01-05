@@ -1,5 +1,8 @@
 package it.fulminazzo.javaparser.wrappers;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Objects;
 
 /**
@@ -30,14 +33,14 @@ public class BiObjectWrapper<F, S> {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
         return o != null && getClass().equals(o.getClass()) &&
                 Objects.equals(this.first, ((BiObjectWrapper<?, ?>) o).first) &&
                 Objects.equals(this.second, ((BiObjectWrapper<?, ?>) o).second);
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return String.format("%s(%s, %s)", getClass().getSimpleName(), this.first, this.second);
     }
 
