@@ -4,7 +4,6 @@ import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
-import org.jetbrains.annotations.NotNull
 import spock.lang.Specification
 
 class ClassValueTest extends Specification {
@@ -92,21 +91,6 @@ class ClassValueTest extends Specification {
                 new Refl<>("${ObjectClassValue.package.name}.CustomObjectClassValue",
                         Map).getObject()
         ].flatten()
-    }
-
-    static class MockClassValue implements ClassValue<Object> {
-
-        @Override
-        boolean compatibleWith(@NotNull Value<?> value) {
-            return false
-        }
-
-        @NotNull
-        @Override
-        Class<Object> getValue() {
-            return null
-        }
-
     }
 
 }
