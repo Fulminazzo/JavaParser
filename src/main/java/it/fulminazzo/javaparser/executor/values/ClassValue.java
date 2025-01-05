@@ -9,6 +9,11 @@ import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+import static sun.nio.cs.Surrogate.is;
+
 /**
  * Represents the class of a {@link Value}.
  *
@@ -89,20 +94,16 @@ public interface ClassValue<V> extends Value<Class<V>>, Info {
     }
 
     @Override
-    default boolean compatibleWith(@NotNull Object object) {
-        return object instanceof Value && compatibleWith((Value<?>) object);
-    }
-
-    /**
-     * Creates a new object from the current value with {@link ParameterValues} as parameters.
-     *
-     * @param parameterValues the parameter values
-     * @return the returned value
-     */
-    default @NotNull Value<V> newObject(final @NotNull ParameterValues parameterValues) {
+    default @NotNull Value<?> newObject(final @NotNull Constructor<?> constructor,
+                                        final @NotNull ParameterValues parameterValues) {
         Object[] parameters = parameterValues.stream().map(Value::getValue).toArray(Object[]::new);
-        Refl<V> object = new Refl<>(getValue(), parameters);
-        return Value.of(object.getObject());
+        Object object = null;
+        try {
+            object = constructor.newInstance(parameters);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException ignored) {
+            // if everything done correctly, should be impossible
+        }
+        return Value.of(object);
     }
 
     @Override
