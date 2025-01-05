@@ -10,7 +10,6 @@ import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.parser.node.statements.CaseStatement;
 import it.fulminazzo.javaparser.parser.node.statements.CatchStatement;
-import it.fulminazzo.javaparser.parser.node.statements.Statement;
 import it.fulminazzo.javaparser.typechecker.types.*;
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayClassType;
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayType;
@@ -263,8 +262,8 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
         expression.accept(this).check(BOOLEAN, ObjectType.BOOLEAN);
         Type first = then.accept(this);
         Type second = elseBranch.accept(this);
-        if (first.is(second) || elseBranch.equals(new Statement())) return first;
-        else return Types.NO_TYPE;
+        // it is impossible to know if, when the elseBranch is declared empty, the then block was invoked
+        return first.is(second) ? first : Types.NO_TYPE;
     }
 
     @Override
