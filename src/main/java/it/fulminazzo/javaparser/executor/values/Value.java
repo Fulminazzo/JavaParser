@@ -104,7 +104,7 @@ public interface Value<V> extends VisitorObject<ClassValue<?>, Value<?>, Paramet
     }
 
     @Override
-    default <T extends VisitorObject<ClassValue<?>, Value<?>, ParameterValues> @NotNull T check(final @NotNull Class<T> classValue) {
+    default <T extends VisitorObject<ClassValue<?>, Value<?>, ParameterValues>> @NotNull T check(final @NotNull Class<T> classValue) {
         if (is(classValue)) return classValue.cast(this);
         else throw ExecutorException.invalidValue(classValue, this);
     }
