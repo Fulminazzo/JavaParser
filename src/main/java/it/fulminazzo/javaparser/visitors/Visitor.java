@@ -270,10 +270,6 @@ public interface Visitor<
             throw exceptionWrapper(ScopeException.alreadyDeclaredVariable(NamedEntity.of(name.getLiteral())));
         LiteralObject<C, O, P> variableName = tempVariableName.check(LiteralObject.class);
         O variable = value.accept(this);
-        // Test for uninitialized
-        if (variable.is(visitEmptyLiteral()))
-            if (variableType.isPrimitive()) variable = variableType.toObject();
-            else variable = visitNullLiteral();
         try {
             variable = convertVariable(variableType, variable);
             getEnvironment().declare(variableType, variableName, variable);
@@ -310,6 +306,8 @@ public interface Visitor<
     /**
      * Conversion method for {@link #visitAssignment(Node, Literal, Node)} and
      * {@link #visitReAssign(Node, Node)}.
+     * Overriding classes should check if the variable is {@link #visitEmptyLiteral()}
+     * and handle cases accordingly.
      *
      * @param variableType the type of the variable
      * @param variable     the variable
