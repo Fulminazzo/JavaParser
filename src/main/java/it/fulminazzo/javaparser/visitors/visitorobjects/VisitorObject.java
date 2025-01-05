@@ -35,6 +35,13 @@ public interface VisitorObject<
     boolean isPrimitive();
 
     /**
+     * Checks whether the current object is null.
+     *
+     * @return true if it is
+     */
+    boolean isNull();
+
+    /**
      * Checks whether the current object is of the one specified.
      *
      * @param <V>    the type of the class
