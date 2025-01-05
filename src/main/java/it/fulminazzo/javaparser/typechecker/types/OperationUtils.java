@@ -66,6 +66,21 @@ public final class OperationUtils {
     }
 
     /**
+     * Simulates a direct comparison between two boolean operands.
+     *
+     * @param operator the operator of the comparison
+     * @param left     the left operand
+     * @param right    the right operand
+     * @return {@link PrimitiveType#BOOLEAN}
+     */
+    public static @NotNull Type executeBooleanComparison(final @NotNull TokenType operator,
+                                                        final @NotNull Type left,
+                                                        final @NotNull Type right) {
+        checkBooleanType(operator, left, right);
+        return PrimitiveType.BOOLEAN;
+    }
+
+    /**
      * Checks whether the given operands are eligible for comparison (i.e. are in {@link #getDecimalTypes()}).
      * Throws {@link TypeCheckerException} in case of an invalid type received as operand.
      *
