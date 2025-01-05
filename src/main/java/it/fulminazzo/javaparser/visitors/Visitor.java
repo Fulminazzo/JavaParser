@@ -1,6 +1,8 @@
 package it.fulminazzo.javaparser.visitors;
 
 import it.fulminazzo.javaparser.environment.Environment;
+import it.fulminazzo.javaparser.environment.NamedEntity;
+import it.fulminazzo.javaparser.environment.ScopeException;
 import it.fulminazzo.javaparser.environment.scopetypes.ScopeType;
 import it.fulminazzo.javaparser.parser.node.Assignment;
 import it.fulminazzo.javaparser.parser.node.MethodInvocation;
@@ -241,13 +243,34 @@ public interface Visitor<
 
     /**
      * Converts assignment and its fields to this visitor type.
+     * Checks if the object resulting from the name is a {@link LiteralObject}.
+     * If it is not, throws a {@link ScopeException#alreadyDeclaredVariable(NamedEntity)}.
+     * Otherwise, if it is not initialized, converts the variable to its non-initialized form
+     * (either with {@link #visitNullLiteral()} or {@link ClassVisitorObject#toObject}.
+     * Finally, declares the variable in the {@link #getEnvironment()}.
      *
      * @param type  the type
      * @param name  the name
      * @param value the value
      * @return the assignment
      */
-    @NotNull O visitAssignment(@NotNull Node type, @NotNull Literal name, @NotNull Node value);
+    default @NotNull O visitAssignment(@NotNull Node type, @NotNull Literal name, @NotNull Node value) {
+        C variableType = type.accept(this).checkClass();
+        O tempVariableName = name.accept(this);
+        if (!tempVariableName.is(LiteralObject.class))
+            throw exceptionWrapper(ScopeException.alreadyDeclaredVariable(name));
+        LiteralObject<C, O, P> variableName = tempVariableName.check(LiteralObject.class);
+        O variable = value.accept(this);
+        // Test for uninitialized
+        if (variable.is(visitEmptyLiteral()))
+            if (variableType.isPrimitive()) variable = variableType.toObject();
+            else variable = visitNullLiteral();
+        try {
+            getEnvironment().declare(variableType, variableName, convertVariable(variableType, variable));
+        } catch (ScopeException ignored) {
+        }
+        return visitEmptyLiteral();
+    }
 
     /**
      * Converts re assign and its fields to this visitor type.
