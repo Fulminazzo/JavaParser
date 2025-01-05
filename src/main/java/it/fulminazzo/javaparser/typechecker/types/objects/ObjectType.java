@@ -2,10 +2,7 @@ package it.fulminazzo.javaparser.typechecker.types.objects;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
-import it.fulminazzo.javaparser.typechecker.types.ClassType;
-import it.fulminazzo.javaparser.typechecker.types.PrimitiveClassType;
-import it.fulminazzo.javaparser.typechecker.types.Type;
-import it.fulminazzo.javaparser.typechecker.types.TypeException;
+import it.fulminazzo.javaparser.typechecker.types.*;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
@@ -43,6 +40,19 @@ public final class ObjectType extends ObjectWrapper<Class<?>> implements Type {
 
     Class<?> getInnerClass() {
         return this.object;
+    }
+
+    @Override
+    public @NotNull PrimitiveType toPrimitive() {
+        if (equals(BYTE)) return PrimitiveType.BYTE;
+        else if (equals(SHORT)) return PrimitiveType.SHORT;
+        else if (equals(CHARACTER)) return PrimitiveType.CHAR;
+        else if (equals(INTEGER)) return PrimitiveType.NUMBER;
+        else if (equals(LONG)) return PrimitiveType.LONG;
+        else if (equals(FLOAT)) return PrimitiveType.FLOAT;
+        else if (equals(DOUBLE)) return PrimitiveType.DOUBLE;
+        else if (equals(BOOLEAN)) return PrimitiveType.BOOLEAN;
+        else return Type.super.toPrimitive();
     }
 
     @Override
