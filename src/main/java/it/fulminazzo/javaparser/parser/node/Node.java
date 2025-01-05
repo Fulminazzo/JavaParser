@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.parser.node;
 
 import it.fulminazzo.javaparser.visitors.Visitor;
+import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
@@ -18,7 +19,7 @@ public interface Node extends Serializable {
      * @return the node converted
      * @param <T> the type returned by the visitor
      */
-    <T> T accept(final @NotNull Visitor<T> visitor);
+    <T extends VisitorObject<?, T, ?>> T accept(final @NotNull Visitor<?, T, ?> visitor);
 
     /**
      * Checks whether the current node is of the specified type.
