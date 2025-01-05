@@ -28,6 +28,7 @@ class CustomObjectClassType extends TypeWrapper implements ClassType {
 
     @Override
     public @NotNull Type cast(@NotNull Type type) {
+        if (type.equals(Types.NULL_TYPE)) return toType();
         if (type.is(ObjectType.class)) {
             Class<?> typeClass = ((ObjectType) type).getInnerClass();
             Class<?> currentClass = toJavaClass();
