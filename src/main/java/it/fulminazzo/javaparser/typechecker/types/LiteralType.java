@@ -25,7 +25,7 @@ public class LiteralType extends ObjectWrapper<String> implements Type {
      *
      * @return the literal
      */
-    public @NotNull String getLiteral() {
+    public @NotNull String getName() {
         return this.object;
     }
 

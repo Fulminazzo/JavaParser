@@ -10,9 +10,9 @@ class LiteralTypeTest extends Specification {
         this.literal = new LiteralType('world')
     }
 
-    def 'test getLiteral'() {
+    def 'test getName'() {
         when:
-        def literal = this.literal.getLiteral()
+        def literal = this.literal.getName()
 
         then:
         literal == 'world'
