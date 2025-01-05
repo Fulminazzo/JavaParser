@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 public class MockEnvironment<T> extends Environment<T> {
     private final List<ScopeType> enteredScopes;
@@ -22,6 +23,30 @@ public class MockEnvironment<T> extends Environment<T> {
 
     public boolean enteredScope(final @NotNull ScopeType scopeType) {
         return this.enteredScopes.contains(scopeType);
+    }
+
+    public @NotNull Optional<T> search(@NotNull String name) {
+        return super.search(NamedEntity.of(name));
+    }
+
+    public @NotNull Info lookupInfo(@NotNull String name) throws ScopeException {
+        return super.lookupInfo(NamedEntity.of(name));
+    }
+
+    public void declare(@NotNull Info info, @NotNull String name, @NotNull T value) throws ScopeException {
+        super.declare(info, NamedEntity.of(name), value);
+    }
+
+    public void update(@NotNull String name, @NotNull T value) throws ScopeException {
+        super.update(NamedEntity.of(name), value);
+    }
+
+    public @NotNull T lookup(@NotNull String name) throws ScopeException {
+        return super.lookup(NamedEntity.of(name));
+    }
+
+    public boolean isDeclared(@NotNull String name) {
+        return super.isDeclared(NamedEntity.of(name));
     }
 
 }
