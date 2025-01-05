@@ -1,17 +1,15 @@
 package it.fulminazzo.javaparser.executor.values;
 
 import it.fulminazzo.javaparser.executor.ExecutorException;
-import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
+import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * Represents the list of {@link Value}s required during the invocation of a method or constructor.
  */
-public final class ParameterValues implements Value<List<Value<?>>> {
+public final class ParameterValues extends ParameterVisitorObjects<ClassValue<?>, Value<?>, ParameterValues> implements Value<List<Value<?>>> {
 
     /**
      * Instantiates a new Parameter values.
