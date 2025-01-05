@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
 import org.jetbrains.annotations.NotNull;
+import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObjectException;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 /**
  * An exception thrown by {@link Type} objects.
  */
-public class TypeException extends Exception {
+public class TypeException extends VisitorObjectException {
 
     /**
      * Instantiates a new Type exception.
@@ -21,7 +22,7 @@ public class TypeException extends Exception {
      * @param args    the arguments to add in the message format
      */
     private TypeException(final @NotNull String message, final Object @NotNull ... args) {
-        super(String.format(message, args));
+        super(message, args);
     }
 
     /**
