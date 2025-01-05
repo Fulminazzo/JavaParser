@@ -446,8 +446,8 @@ public interface Value<V> {
     @Override
     default @NotNull Value<?> multiply(final @NotNull Value<?> other) {
         return OperationUtils.executeBinaryOperationDecimal(this, other,
-                (a, b) -> a % b, (a, b) -> a % b,
-                (a, b) -> a % b, (a, b) -> a % b
+                (a, b) -> a * b, (a, b) -> a * b,
+                (a, b) -> a * b, (a, b) -> a * b
         );
     }
 
