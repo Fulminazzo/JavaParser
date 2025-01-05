@@ -89,6 +89,11 @@ public interface Value<V> {
         return false;
     }
 
+    @Override
+    default boolean isNull() {
+        return is(Values.NULL_VALUE);
+    }
+
     /**
      * Checks if the current value is primitive.
      *
