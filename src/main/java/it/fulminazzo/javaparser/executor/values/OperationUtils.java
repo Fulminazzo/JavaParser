@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor.values;
 
+import it.fulminazzo.javaparser.executor.values.primitivevalue.CharValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -169,6 +170,19 @@ public final class OperationUtils {
         else if (value instanceof Long) obj = longOperation.apply(value.longValue());
         else obj = integerOperation.apply(value.intValue());
         return PrimitiveValue.of(obj);
+    }
+
+    /**
+     * Checks if the given value is a {@link CharValue}.
+     * If it is, it converts it using {@link CharValue#asInteger()}.
+     * Otherwise, it is returned as it is.
+     *
+     * @param value the value
+     * @return the new value
+     */
+    static @NotNull Value<?> convertValue(final @NotNull Value<?> value) {
+        if (value.is(CharValue.class)) return ((CharValue) value).asInteger();
+        else return value;
     }
 
 }
