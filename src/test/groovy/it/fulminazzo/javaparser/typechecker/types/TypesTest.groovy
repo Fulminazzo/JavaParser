@@ -1,12 +1,12 @@
 package it.fulminazzo.javaparser.typechecker.types
 
-import it.fulminazzo.javaparser.typechecker.TypeCheckerException
+
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
 
 class TypesTest extends Specification {
-    private Type type
+    private Types.SingletonType type
 
     void setup() {
         this.type = new Types.SingletonType('TEST_TYPE')
@@ -35,12 +35,8 @@ class TypesTest extends Specification {
     }
 
     def 'test SingletonType toClass'() {
-        when:
-        this.type.toClass()
-
-        then:
-        def e = thrown(TypeCheckerException)
-        e.message == TypeCheckerException.noClassType(Types.SingletonType).message
+        expect:
+        this.type.toType() == this.type.toClass()
     }
 
     def 'test SingletonType hashCode'() {
