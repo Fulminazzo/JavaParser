@@ -1,8 +1,8 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
-import it.fulminazzo.javaparser.environment.Info;
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType;
+import it.fulminazzo.javaparser.visitors.visitorobjects.ClassVisitorObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Constructor;
@@ -11,7 +11,7 @@ import java.lang.reflect.Modifier;
 /**
  * Represents the class of a {@link Type}.
  */
-public interface ClassType extends Type, Info {
+public interface ClassType extends Type, ClassVisitorObject<ClassType, Type, ParameterTypes> {
 
     @Override
     default boolean isExtending(@NotNull ClassType classType) {
@@ -79,7 +79,7 @@ public interface ClassType extends Type, Info {
     @NotNull Type toType();
 
     @Override
-    default Type toObject() {
+    default @NotNull Type toObject() {
         return toType();
     }
 
