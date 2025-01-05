@@ -52,4 +52,14 @@ public class ExecutorException extends RuntimeException {
                 value.getSimpleName(), ClassValue.class.getSimpleName());
     }
 
+    /**
+     * Generates a {@link ExecutorException} with message:
+     * <i>Not implemented</i>
+     *
+     * @return the executor exception
+     */
+    public static @NotNull ExecutorException notImplemented() {
+        return new ExecutorException("Not implemented");
+    }
+
 }
