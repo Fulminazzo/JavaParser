@@ -98,13 +98,17 @@ public final class OperationUtils {
      * Computes the returned {@link Type} for a binary operation that supports <b>NON-decimal</b> types.
      * Throws {@link TypeCheckerException} in case of an invalid type received as operand.
      *
+     * @param operator the operator of the operation
      * @param left  the left operand
      * @param right the right operand
      * @return the computed type
      */
-    public static @NotNull Type executeBinaryOperation(final @NotNull Type left,
+    public static @NotNull Type executeBinaryOperation(final @NotNull TokenType operator,
+                                                       final @NotNull Type left,
                                                        final @NotNull Type right) {
-        return executeBinaryOperationDecimal(left.check(getNumericTypes()), right.check(getNumericTypes()));
+        if (!left.is(getNumericTypes()) || !right.is(getNumericTypes()))
+            throw TypeCheckerException.unsupportedOperation(operator, left, right);
+        else return executeBinaryOperationDecimal(operator, left, right);
     }
 
     /**
