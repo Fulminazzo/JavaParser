@@ -147,6 +147,11 @@ public class MockVisitor implements Visitor {
     }
 
     @Override
+    public @NotNull RuntimeException exceptionWrapper(@NotNull Exception exception) {
+        return null;
+    }
+
+    @Override
     public @NotNull ParameterVisitorObjects visitMethodInvocation(@NotNull List parameters) {
         return null;
     }
