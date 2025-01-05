@@ -127,7 +127,7 @@ public interface VisitorObject<
      * @param type the type
      * @return the type runtime exception
      */
-    RuntimeException noClassType(final @NotNull Class<?> type);
+    @NotNull RuntimeException noClassType(final @NotNull Class<?> type);
 
     /**
      * Generates a {@link RuntimeException} with message:
@@ -138,9 +138,9 @@ public interface VisitorObject<
      * @param right    the right operand
      * @return the runtime exception
      */
-    RuntimeException unsupportedOperation(final @NotNull TokenType operator,
-                                          final @NotNull VisitorObject<C, O, P> left,
-                                          final @NotNull VisitorObject<C, O, P> right);
+    @NotNull RuntimeException unsupportedOperation(final @NotNull TokenType operator,
+                                                   final @NotNull VisitorObject<C, O, P> left,
+                                                   final @NotNull VisitorObject<C, O, P> right);
 
     /**
      * Generates a {@link RuntimeException} with message:
@@ -150,8 +150,8 @@ public interface VisitorObject<
      * @param operand  the operand
      * @return the runtime exception
      */
-    RuntimeException unsupportedOperation(final @NotNull TokenType operator,
-                                          final @NotNull VisitorObject<C, O, P> operand);
+    @NotNull RuntimeException unsupportedOperation(final @NotNull TokenType operator,
+                                                   final @NotNull VisitorObject<C, O, P> operand);
     
     /*
         BINARY COMPARISONS

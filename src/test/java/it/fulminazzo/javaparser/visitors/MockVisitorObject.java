@@ -53,17 +53,17 @@ public class MockVisitorObject implements VisitorObject {
     }
 
     @Override
-    public RuntimeException unsupportedOperation(@NotNull TokenType operator, @NotNull VisitorObject left, @NotNull VisitorObject right) {
+    public @NotNull RuntimeException unsupportedOperation(@NotNull TokenType operator, @NotNull VisitorObject left, @NotNull VisitorObject right) {
         return null;
     }
 
     @Override
-    public RuntimeException unsupportedOperation(@NotNull TokenType operator, @NotNull VisitorObject operand) {
+    public @NotNull RuntimeException unsupportedOperation(@NotNull TokenType operator, @NotNull VisitorObject operand) {
         return null;
     }
 
     @Override
-    public RuntimeException noClassType(@NotNull Class type) {
+    public @NotNull RuntimeException noClassType(@NotNull Class type) {
         return null;
     }
 
