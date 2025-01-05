@@ -269,7 +269,7 @@ public interface Visitor<
             getEnvironment().declare(variableType, variableName, convertVariable(variableType, variable));
         } catch (ScopeException ignored) {
         }
-        return visitEmptyLiteral();
+        return variableType.cast(variable);
     }
 
     /**
