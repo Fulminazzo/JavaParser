@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.visitors;
 
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
+import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.visitors.visitorobjects.ClassVisitorObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
@@ -48,6 +49,21 @@ public class MockVisitorObject implements VisitorObject {
 
     @Override
     public @NotNull ClassVisitorObject toClass() {
+        return null;
+    }
+
+    @Override
+    public RuntimeException unsupportedOperation(@NotNull TokenType operator, @NotNull VisitorObject left, @NotNull VisitorObject right) {
+        return null;
+    }
+
+    @Override
+    public RuntimeException unsupportedOperation(@NotNull TokenType operator, @NotNull VisitorObject operand) {
+        return null;
+    }
+
+    @Override
+    public RuntimeException noClassType(@NotNull Class type) {
         return null;
     }
 
