@@ -277,15 +277,15 @@ public interface Visitor<
      * Obtains the type of the variable from {@link #getEnvironment()}.
      * Then, it assigns the new value and returns it.
      *
-     * @param type  the type
+     * @param name  the name
      * @param value the value
      * @return the re assign
      */
-    default @NotNull O visitReAssign(@NotNull Node type, @NotNull Node value) {
+    default @NotNull O visitReAssign(@NotNull Node name, @NotNull Node value) {
         try {
             // Direct access is unfortunately required, as visitLiteralImpl
             // will return the value of the variable itself.
-            NamedEntity variableName = NamedEntity.of(((Literal) type).getLiteral());
+            NamedEntity variableName = NamedEntity.of(((Literal) name).getLiteral());
             C variableType = (C) getEnvironment().lookupInfo(variableName);
             O variable = value.accept(this);
             getEnvironment().update(variableName, convertVariable(variableType, variable));
