@@ -45,11 +45,10 @@ public interface VisitorObject<
     /**
      * Checks whether the current object is of the one specified.
      *
-     * @param <V>    the type of the class
      * @param object the class of the object
      * @return true if it is
      */
-    default <V extends VisitorObject<C, O, P>> boolean is(final @NotNull Class<V> object) {
+    default boolean is(final @NotNull Class<?> object) {
         return object.isAssignableFrom(getClass());
     }
 
