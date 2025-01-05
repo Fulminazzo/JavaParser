@@ -30,7 +30,7 @@ class StringObjectValue extends ObjectValue<String> {
     }
 
     @Override
-    public @NotNull ClassValue<String> toClassValue() {
+    public @NotNull ClassValue<String> toClass() {
         return ObjectClassValue.STRING;
     }
 

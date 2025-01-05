@@ -18,9 +18,9 @@ class LiteralValueTest extends Specification {
         literal == 'world'
     }
 
-    def 'test toClassValue'() {
+    def 'test toClass'() {
         when:
-        this.literal.toClassValue()
+        this.literal.toClass()
 
         then:
         def e = thrown(ExecutorException)

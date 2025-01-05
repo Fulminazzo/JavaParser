@@ -63,9 +63,9 @@ class ClassValueTest extends Specification {
         ObjectValue.of(new TestClass(1, true)) | new ParameterValues([PrimitiveValue.of(1), ObjectValue.of(true)])
     }
 
-    def 'test method #toClassValue should always return a wrapper for java.lang.Class'() {
+    def 'test method #toClass should always return a wrapper for java.lang.Class'() {
         given:
-        def classValue = new MockClassValue().toClassValue()
+        def classValue = new MockClassValue().toClass()
 
         expect:
         classValue == ObjectClassValue.of(Class)

@@ -5,12 +5,12 @@ import spock.lang.Specification
 
 class ParameterValuesTest extends Specification {
 
-    def 'test toClassValue should throw exception'() {
+    def 'test toClass should throw exception'() {
         given:
         def types = new ParameterValues([])
 
         when:
-        types.toClassValue()
+        types.toClass()
 
         then:
         def e = thrown(ExecutorException)

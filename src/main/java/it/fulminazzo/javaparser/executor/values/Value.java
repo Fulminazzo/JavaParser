@@ -154,7 +154,7 @@ public interface Value<V> {
 
         Refl<?> refl = new Refl<>(ReflectionUtils.class);
         Class<?> @NotNull [] parametersTypes = parameterValues.getValue().stream()
-                .map(Value::toClassValue)
+                .map(Value::toClass)
                 .map(ClassValue::getValue)
                 .toArray(Class[]::new);
 
@@ -212,13 +212,6 @@ public interface Value<V> {
     default <T extends Value<?>> @NotNull T to(final @NotNull Class<T> value) {
         return value.cast(this);
     }
-
-    /**
-     * Gets the class value associated with the current value.
-     *
-     * @return the class value
-     */
-    @NotNull ClassValue<V> toClassValue();
 
     /**
      * Gets value.

@@ -48,7 +48,7 @@ public class ArrayValue<V> extends ObjectWrapper<List<Value<V>>> implements Valu
     }
 
     @Override
-    public @NotNull ClassValue<V[]> toClassValue() {
+    public @NotNull ClassValue<V[]> toClass() {
         return new ArrayClassValue<>(this.componentsType);
     }
 

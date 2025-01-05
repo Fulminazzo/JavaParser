@@ -24,7 +24,6 @@ import it.fulminazzo.javaparser.parser.node.statements.Statement;
 import it.fulminazzo.javaparser.visitors.Visitor;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.function.BiFunction;
@@ -582,7 +581,7 @@ public class Executor implements Visitor<Value<?>> {
         try {
             if (literal.endsWith(".class")) {
                 ClassValue<V> value = ClassValue.of(literal.substring(0, literal.length() - 6));
-                tuple.set((ClassValue<V>) value.toClassValue(), (Value<V>) value.toClassValue());
+                tuple.set((ClassValue<V>) value.toClass(), (Value<V>) value.toClass());
             } else {
                 ClassValue<V> value = ClassValue.of(literal);
                 tuple.set(value, (Value<V>) value);

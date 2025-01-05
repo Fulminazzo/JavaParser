@@ -38,12 +38,12 @@ class ArrayValueTest extends Specification {
         Arrays.equals(actual, expected)
     }
 
-    def 'test toClassValue of array should return compatible array class'() {
+    def 'test toClass of array should return compatible array class'() {
         given:
         def value = new ArrayValue(ObjectClassValue.STRING, 3)
 
         when:
-        def classValue = value.toClassValue()
+        def classValue = value.toClass()
 
         then:
         classValue.compatibleWith(value)

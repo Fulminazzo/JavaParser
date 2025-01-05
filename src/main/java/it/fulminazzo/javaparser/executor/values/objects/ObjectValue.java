@@ -86,7 +86,7 @@ public class ObjectValue<V> extends ObjectWrapper<V> implements Value<V> {
     }
 
     @Override
-    public @NotNull ClassValue<V> toClassValue() {
+    public @NotNull ClassValue<V> toClass() {
         return (ClassValue<V>) ClassValue.of(getValue().getClass());
     }
 

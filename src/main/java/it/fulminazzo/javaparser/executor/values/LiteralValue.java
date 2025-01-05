@@ -21,7 +21,7 @@ public class LiteralValue extends ObjectWrapper<String> implements Value<String>
     }
 
     @Override
-    public @NotNull ClassValue<String> toClassValue() {
+    public @NotNull ClassValue<String> toClass() {
         throw ExecutorException.noClassValue(getClass());
     }
 

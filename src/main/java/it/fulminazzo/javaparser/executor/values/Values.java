@@ -29,7 +29,7 @@ public final class Values {
         }
 
         @Override
-        public @NotNull ClassValue<Object> toClassValue() {
+        public @NotNull ClassValue<Object> toClass() {
             throw ExecutorException.noClassValue(getClass());
         }
 

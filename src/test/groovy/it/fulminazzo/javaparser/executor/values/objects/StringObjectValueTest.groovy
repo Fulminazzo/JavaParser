@@ -9,7 +9,7 @@ class StringObjectValueTest extends Specification {
         def string = new StringObjectValue('Hello, world!')
 
         when:
-        def classValue = string.toClassValue()
+        def classValue = string.toClass()
 
         then:
         classValue == ObjectClassValue.STRING

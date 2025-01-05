@@ -32,7 +32,7 @@ public final class ParameterValues extends ObjectWrapper<List<Value<?>>> impleme
     }
 
     @Override
-    public @NotNull ClassValue<List<Value<?>>> toClassValue() {
+    public @NotNull ClassValue<List<Value<?>>> toClass() {
         throw ExecutorException.noClassValue(getClass());
     }
 

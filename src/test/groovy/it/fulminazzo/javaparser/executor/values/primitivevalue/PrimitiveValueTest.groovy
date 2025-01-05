@@ -8,9 +8,9 @@ import spock.lang.Specification
 
 class PrimitiveValueTest extends Specification {
 
-    def 'test toClassValue of #value should return #expected'() {
+    def 'test toClass of #value should return #expected'() {
         when:
-        def classValue = value.toClassValue()
+        def classValue = value.toClass()
 
         then:
         classValue == expected
