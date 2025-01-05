@@ -132,6 +132,17 @@ public interface VisitorObject<
     }
 
     /**
+     * Invokes the given method from the associated {@link ClassVisitorObject} and
+     * returns the value returned from it.
+     *
+     * @param method     the method
+     * @param parameters the parameters
+     * @return the returned object from the method
+     * @throws VisitorObjectException the exception thrown in case of errors
+     */
+    @NotNull O invokeMethod(final @NotNull Method method, final @NotNull P parameters) throws VisitorObjectException;
+
+    /**
      * Converts the current object to its primitive associated object.
      *
      * @return the primitive object
