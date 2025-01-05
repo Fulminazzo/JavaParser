@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser.typechecker.types
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
+import it.fulminazzo.javaparser.visitors.visitorobjects.ClassVisitorObject
 import org.jetbrains.annotations.NotNull
 import spock.lang.Specification
 
@@ -52,7 +53,7 @@ class ClassTypeTest extends Specification {
         def classType = new MockClassType()
 
         when:
-        Method method = ClassType.getDeclaredMethod('compatibleWith', Object.class)
+        Method method = ClassVisitorObject.getDeclaredMethod('compatibleWith', Object.class)
 
         then:
         type.isAssignableFrom(classType)
@@ -64,7 +65,7 @@ class ClassTypeTest extends Specification {
         def classType = new MockClassType()
 
         when:
-        Method method = ClassType.getDeclaredMethod('compatibleWith', Object.class)
+        Method method = ClassVisitorObject.getDeclaredMethod('compatibleWith', Object.class)
 
         then:
         !method.invoke(classType, object)
