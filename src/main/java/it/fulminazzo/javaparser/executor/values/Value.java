@@ -3,9 +3,11 @@ package it.fulminazzo.javaparser.executor.values;
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
+import it.fulminazzo.javaparser.executor.ExecutorException;
 import it.fulminazzo.javaparser.executor.values.arrays.ArrayValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
+import it.fulminazzo.javaparser.tokenizer.TokenType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -317,6 +319,48 @@ public interface Value<V> {
         if (value == null) return (Value<T>) Values.NULL_VALUE;
         else if (value.getClass().isArray()) return (Value<T>) ArrayValue.of(value);
         else return ObjectValue.of(value);
+    }
+
+    /*
+        EXCEPTIONS
+     */
+
+    @Override
+    default @NotNull ValueException fieldNotFound(final @NotNull ClassValue<?> classVisitorObject,
+                                                  final @NotNull String field) {
+        return ValueException.fieldNotFound(classVisitorObject, field);
+    }
+
+    @Override
+    default @NotNull ValueException methodNotFound(final @NotNull ClassValue<?> classObject,
+                                                   final @NotNull String method,
+                                                   final @NotNull ParameterValues parameters) {
+        return ValueException.methodNotFound(classObject, method, parameters);
+    }
+
+    @Override
+    default @NotNull ValueException typesMismatch(final @NotNull ClassValue<?> classObject,
+                                                  final @NotNull Executable method,
+                                                  final @NotNull ParameterValues parameters) {
+        return ValueException.typesMismatch(classObject, method, parameters);
+    }
+
+    @Override
+    default @NotNull RuntimeException noClassType(final @NotNull Class<?> type) {
+        return ExecutorException.noClassType(type);
+    }
+
+    @Override
+    default @NotNull RuntimeException unsupportedOperation(final @NotNull TokenType operator,
+                                                           final @NotNull VisitorObject<ClassValue<?>, Value<?>, ParameterValues> left,
+                                                           final @NotNull VisitorObject<ClassValue<?>, Value<?>, ParameterValues> right) {
+        return ExecutorException.unsupportedOperation(operator, (Value<?>) left, (Value<?>) right);
+    }
+
+    @Override
+    default @NotNull RuntimeException unsupportedOperation(final @NotNull TokenType operator,
+                                                           final @NotNull VisitorObject<ClassValue<?>, Value<?>, ParameterValues> operand) {
+        return ExecutorException.unsupportedOperation(operator, (Value<?>) operand);
     }
 
     /*
