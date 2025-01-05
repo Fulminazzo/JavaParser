@@ -161,7 +161,7 @@ public final class OperationUtils {
                                                              final @NotNull Type operand) {
         if (!isBoolean(operand))
             throw TypeCheckerException.unsupportedOperation(operator, operand);
-        return operand;
+        return PrimitiveType.BOOLEAN;
     }
 
     /**
@@ -177,7 +177,8 @@ public final class OperationUtils {
                                                              final @NotNull Type operand) {
         if (!operand.is(getDecimalTypes()))
             throw TypeCheckerException.unsupportedOperation(operator, operand);
-        return operand;
+        // Using it to return NUMBER in case of byte, short or char
+        return executeBinaryOperationDecimal(operator, PrimitiveType.NUMBER, operand);
     }
 
     /**
