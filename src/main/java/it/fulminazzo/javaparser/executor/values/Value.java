@@ -99,11 +99,11 @@ public interface Value<V> {
     }
 
     @Override
-    default @NotNull Tuple<ClassValue<V>, Value<V>> getField(final @NotNull Field field) {
+    default @NotNull Tuple<ClassValue<?>, Value<?>> getField(final @NotNull Field field) {
         Refl<?> refl = new Refl<>(getValue());
         Object object = refl.getFieldObject(field);
-        ClassValue<V> classValue = ClassValue.of((Class<V>) field.getType());
-        Value<V> value = (Value<V>) of(object);
+        ClassValue<?> classValue = ClassValue.of(field.getType());
+        Value<?> value = of(object);
         if (classValue.isPrimitive()) value = value.toPrimitive();
         return new Tuple<>(classValue, value);
     }
