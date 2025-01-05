@@ -1,10 +1,12 @@
 package it.fulminazzo.javaparser.executor
 
+import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple
+import it.fulminazzo.javaparser.environment.MockEnvironment
 import it.fulminazzo.javaparser.executor.values.ClassValue
 import it.fulminazzo.javaparser.executor.values.LiteralValue
 import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue
-import it.fulminazzo.javaparser.executor.values.Value
+import it.fulminazzo.javaparser.executor.values.TestClass
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
@@ -12,14 +14,17 @@ import spock.lang.Specification
 
 class ExecutorLiteralTest extends Specification {
     private Executor executor
+    private MockEnvironment environment
 
     void setup() {
-        this.executor = new Executor(getClass())
+        this.executor = new Executor(new TestClass())
+        this.environment = new MockEnvironment<>()
+        new Refl<>(this.executor).setFieldObject('environment', this.environment)
     }
 
     def 'test visit literal from code #code should return #expected'() {
         given:
-        this.executor.environment.declare(PrimitiveClassValue.INT, 'var', PrimitiveValue.of(1))
+        this.environment.declare(PrimitiveClassValue.INT, 'var', PrimitiveValue.of(1))
 
         when:
         def read = this.executor.visitLiteralImpl(code)
@@ -45,7 +50,7 @@ class ExecutorLiteralTest extends Specification {
 
     def 'test getObjectFromLiteral #literal'() {
         given:
-        this.executor.environment.declare(PrimitiveClassValue.INT, 'i', PrimitiveValue.of(1))
+        this.environment.declare(PrimitiveClassValue.INT, 'i', PrimitiveValue.of(1))
 
         when:
         def tuple = this.executor.getObjectFromLiteral(literal)
