@@ -68,14 +68,16 @@ public final class OperationUtils {
      * Checks whether the given operands are eligible for comparison (i.e. are in {@link #getDecimalTypes()}).
      * Throws {@link TypeCheckerException} in case of an invalid type received as operand.
      *
+     * @param operator the operator of the comparison
      * @param left  the left operand
      * @param right the right operand
      * @return {@link PrimitiveType#BOOLEAN}
      */
-    public static @NotNull Type executeBinaryComparison(final @NotNull Type left,
+    public static @NotNull Type executeBinaryComparison(final @NotNull TokenType operator,
+                                                        final @NotNull Type left,
                                                         final @NotNull Type right) {
-        left.check(getDecimalTypes());
-        right.check(getDecimalTypes());
+        if (!left.is(getDecimalTypes()) || !right.is(getDecimalTypes()))
+            throw TypeCheckerException.unsupportedOperation(operator, left, right);
         return PrimitiveType.BOOLEAN;
     }
 
