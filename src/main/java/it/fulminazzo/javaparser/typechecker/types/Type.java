@@ -130,13 +130,6 @@ public interface Type {
     }
 
     /**
-     * Gets the class type associated with the current type.
-     *
-     * @return the class type
-     */
-    @NotNull ClassType toClass();
-
-    /**
      * Prints the given string to the format of a type.
      *
      * @param output the output
