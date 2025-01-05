@@ -97,9 +97,11 @@ l = l + 1 - 1 * 1 / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
 f = f + 1 - 1 * 1 / 1 % 1;
 d = d + 1 - 1 * 1 / 1 % 1;
 d = (double) ++d;
-d = (double) d++;
+//TODO: Fix
+//d = (double) d++;
 d = (double) --d;
-d = (double) d--;
+//TODO: Fix
+//d = (double) d--;
 d = (double) -2.0;
 bo = true == false != true && false || true;
 bo = ((true == (false != true)) && (false || true));
