@@ -8,6 +8,52 @@ import spock.lang.Specification
 
 class ObjectValueTest extends Specification {
 
+    def 'test string concatenation #first . #second should return #expected'() {
+        when:
+        def value = first.add(second)
+
+        then:
+        value.getValue() == expected
+
+        where:
+        first                            | second                            | expected
+        ObjectValue.of('Hello, ')        | ObjectValue.of('world!')          | 'Hello, world!'
+        ObjectValue.of('Object: ')       | PrimitiveValue.of(1 as byte)      | 'Object: 1'
+        PrimitiveValue.of(1 as byte)     | ObjectValue.of(' is the object!') | '1 is the object!'
+        ObjectValue.of('Object: ')       | ObjectValue.of(1 as Byte)         | 'Object: 1'
+        ObjectValue.of(1 as Byte)        | ObjectValue.of(' is the object!') | '1 is the object!'
+        ObjectValue.of('Object: ')       | PrimitiveValue.of(2 as short)     | 'Object: 2'
+        PrimitiveValue.of(2 as short)    | ObjectValue.of(' is the object!') | '2 is the object!'
+        ObjectValue.of('Object: ')       | ObjectValue.of(2 as Short)        | 'Object: 2'
+        ObjectValue.of(2 as Short)       | ObjectValue.of(' is the object!') | '2 is the object!'
+        ObjectValue.of('Object: ')       | PrimitiveValue.of('a' as char)    | 'Object: a'
+        PrimitiveValue.of('a' as char)   | ObjectValue.of(' is the object!') | 'a is the object!'
+        ObjectValue.of('Object: ')       | ObjectValue.of('a' as Character)  | 'Object: a'
+        ObjectValue.of('a' as Character) | ObjectValue.of(' is the object!') | 'a is the object!'
+        ObjectValue.of('Object: ')       | PrimitiveValue.of(4)              | 'Object: 4'
+        PrimitiveValue.of(4)             | ObjectValue.of(' is the object!') | '4 is the object!'
+        ObjectValue.of('Object: ')       | ObjectValue.of(4 as Integer)      | 'Object: 4'
+        ObjectValue.of(4 as Integer)     | ObjectValue.of(' is the object!') | '4 is the object!'
+        ObjectValue.of('Object: ')       | PrimitiveValue.of(5L)             | 'Object: 5'
+        PrimitiveValue.of(5L)            | ObjectValue.of(' is the object!') | '5 is the object!'
+        ObjectValue.of('Object: ')       | ObjectValue.of(5L as Long)        | 'Object: 5'
+        ObjectValue.of(5L as Long)       | ObjectValue.of(' is the object!') | '5 is the object!'
+        ObjectValue.of('Object: ')       | PrimitiveValue.of(6.0f)           | 'Object: 6.0'
+        PrimitiveValue.of(6.0f)          | ObjectValue.of(' is the object!') | '6.0 is the object!'
+        ObjectValue.of('Object: ')       | ObjectValue.of(6.0f as Float)     | 'Object: 6.0'
+        ObjectValue.of(6.0f as Float)    | ObjectValue.of(' is the object!') | '6.0 is the object!'
+        ObjectValue.of('Object: ')       | PrimitiveValue.of(7.0d)           | 'Object: 7.0'
+        PrimitiveValue.of(7.0d)          | ObjectValue.of(' is the object!') | '7.0 is the object!'
+        ObjectValue.of('Object: ')       | ObjectValue.of(7.0d as Double)    | 'Object: 7.0'
+        ObjectValue.of(7.0d as Double)   | ObjectValue.of(' is the object!') | '7.0 is the object!'
+        ObjectValue.of('Object: ')       | BooleanValue.TRUE                 | 'Object: true'
+        ObjectValue.of('Object: ')       | ObjectValue.of(Boolean.TRUE)      | 'Object: true'
+        ObjectValue.of(Boolean.TRUE)     | ObjectValue.of(' is the object!') | 'true is the object!'
+        ObjectValue.of('Object: ')       | BooleanValue.FALSE                | 'Object: false'
+        ObjectValue.of('Object: ')       | ObjectValue.of(Boolean.FALSE)     | 'Object: false'
+        ObjectValue.of(Boolean.FALSE)    | ObjectValue.of(' is the object!') | 'false is the object!'
+    }
+
     def 'test toPrimitive should return #expected'() {
         given:
         def primitive = wrapper.toPrimitive()
