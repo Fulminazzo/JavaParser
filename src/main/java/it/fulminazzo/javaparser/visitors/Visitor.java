@@ -24,7 +24,9 @@ import java.util.concurrent.Callable;
  * each {@link Node} accordingly.
  * It provides methods for each type of node.
  *
+ * @param <C> the type parameter
  * @param <O> the returned object
+ * @param <P> the type parameter
  */
 @SuppressWarnings("unchecked")
 public interface Visitor<
@@ -764,5 +766,15 @@ public interface Visitor<
             else throw VisitorException.of(e);
         }
     }
+
+    /**
+     * Wraps the given exception to a user-defined {@link RuntimeException}
+     * for it to be thrown later.
+     *
+     * @param <E>       the type of the runtime exception
+     * @param exception the exception
+     * @return the runtime exception
+     */
+    <E extends RuntimeException> @NotNull E exceptionWrapper(final @NotNull Exception exception);
 
 }
