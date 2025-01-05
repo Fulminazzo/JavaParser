@@ -36,7 +36,7 @@ public interface VisitorObject<
      * @param object the class of the object
      * @return true if it is
      */
-    default <V extends O> boolean is(final @NotNull Class<V> object) {
+    default <V extends VisitorObject<C, O, P>> boolean is(final @NotNull Class<V> object) {
         return object.isAssignableFrom(getClass());
     }
 
