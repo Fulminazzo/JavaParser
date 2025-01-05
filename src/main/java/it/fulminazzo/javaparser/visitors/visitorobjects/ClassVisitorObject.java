@@ -35,6 +35,28 @@ public interface ClassVisitorObject<
     @NotNull O cast(final @NotNull O object);
 
     /**
+     * Checks if the current class is extending the provided class.
+     *
+     * @param classObject the class object
+     * @return true if it is
+     */
+    boolean isExtending(final @NotNull C classObject);
+
+    /**
+     * Verifies that the current class is compatible with the provided object.
+     *
+     * @param object the object
+     * @return true if it is
+     */
+    boolean compatibleWith(final @NotNull O object);
+
+    @SuppressWarnings("unchecked")
+    @Override
+    default boolean compatibleWith(final @NotNull Object object) {
+        return object instanceof VisitorObject<?,?,?> && compatibleWith((O) object);
+    }
+
+    /**
      * Creates a new object from the current class with the parameters
      * as constructor parameters.
      *
@@ -80,28 +102,6 @@ public interface ClassVisitorObject<
      */
     @NotNull O newObject(final @NotNull Constructor<?> constructor,
                          final @NotNull P parameters) throws VisitorObjectException;
-
-    /**
-     * Checks if the current class is extending the provided class.
-     *
-     * @param classObject the class object
-     * @return true if it is
-     */
-    boolean isExtending(final @NotNull C classObject);
-
-    /**
-     * Verifies that the current class is compatible with the provided object.
-     *
-     * @param object the object
-     * @return true if it is
-     */
-    boolean compatibleWith(final @NotNull O object);
-
-    @SuppressWarnings("unchecked")
-    @Override
-    default boolean compatibleWith(final @NotNull Object object) {
-        return object instanceof VisitorObject<?,?,?> && compatibleWith((O) object);
-    }
 
     /**
      * Converts the current class visitor object to its associated class.
