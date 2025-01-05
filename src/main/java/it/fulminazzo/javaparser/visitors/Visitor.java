@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 
 /**
  * A <b>Visitor</b> is a special object capable of reading and parsing
@@ -151,12 +152,17 @@ public interface Visitor<
                                  @NotNull CodeBlock finallyBlock, @NotNull Node expression);
 
     /**
-     * Converts assignment block and its fields to this visitor type.
+     * Visits all the {@link Assignment}s and returns a {@link ParameterVisitorObjects} with all
+     * the {@link VisitorObject}s of the assignments in it.
      *
      * @param assignments the assignments
-     * @return the assignment block
+     * @return the {@link ParameterVisitorObjects}
      */
-    @NotNull O visitAssignmentBlock(@NotNull List<Assignment> assignments);
+    default @NotNull O visitAssignmentBlock(@NotNull List<Assignment> assignments) {
+        return (O) visitMethodInvocation(assignments.stream()
+                .map(v -> (Node) v)
+                .collect(Collectors.toList()));
+    }
 
     /**
      * Converts catch statement and its fields to this visitor type.
