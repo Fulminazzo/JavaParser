@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
+import it.fulminazzo.javaparser.visitors.visitorobjects.LiteralObject;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,7 +10,7 @@ import java.util.Objects;
 /**
  * Represents the default conversion for {@link it.fulminazzo.javaparser.tokenizer.TokenType#LITERAL}.
  */
-public class LiteralType extends ObjectWrapper<String> implements Type {
+public class LiteralType extends ObjectWrapper<String> implements Type, LiteralObject<ClassType, Type, ParameterTypes> {
 
     /**
      * Instantiates a new Literal type.
