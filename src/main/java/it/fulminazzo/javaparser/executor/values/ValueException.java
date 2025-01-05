@@ -29,4 +29,14 @@ public class ValueException extends VisitorObjectException {
         return new ValueException("Could not find class '%s'", clazz);
     }
 
+    /**
+     * Generates a {@link ValueException} with message:
+     * <i>Not implemented</i>
+     *
+     * @return the value exception
+     */
+    public static @NotNull ValueException notImplemented() {
+        return new ValueException("Not implemented");
+    }
+
 }
