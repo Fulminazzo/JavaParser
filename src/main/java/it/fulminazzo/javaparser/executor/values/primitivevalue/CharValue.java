@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a {@link Character} {@link PrimitiveValue}.
  */
-final class CharValue extends PrimitiveValue<Character> {
+public final class CharValue extends PrimitiveValue<Character> {
 
     /**
      * Instantiates a new Character value.
