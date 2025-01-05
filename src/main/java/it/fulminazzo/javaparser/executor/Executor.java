@@ -64,9 +64,26 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
         return null;
     }
 
+    /**
+     * Parses all the exceptions in a list of {@link ExceptionTuple}s
+     * with the expression as associated name.
+     * Then, returns a {@link TupleValue} containing the block as value.
+     *
+     * @param exceptions the exceptions
+     * @param block      the block
+     * @param expression the expression
+     * @return the catch statement
+     */
     @Override
-    public @NotNull Value<?> visitCatchStatement(@NotNull List<Literal> exceptions, @NotNull CodeBlock block, @NotNull Node expression) {
-        return null;
+    public @NotNull Value<?> visitCatchStatement(@NotNull List<Literal> exceptions, @NotNull CodeBlock block,
+                                                 @NotNull Node expression) {
+        List<ExceptionTuple> exceptionTuples = new ArrayList<>();
+        for (Literal literal : exceptions)
+            exceptionTuples.add(new ExceptionTuple(
+                    literal.accept(this).checkClass(),
+                    expression.accept(this).check(LiteralValue.class)
+            ));
+        return new TupleValue<>(exceptionTuples, block);
     }
 
     @Override
