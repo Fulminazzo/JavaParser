@@ -374,8 +374,8 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
 
     @Override
     public @NotNull Tuple<ClassType, Type> getObjectFromLiteral(@NotNull String literal) {
-        Tuple<ClassType, Type> tuple = new Tuple<>();
         try {
+            Tuple<ClassType, Type> tuple = new Tuple<>();
             if (literal.endsWith(".class")) {
                 ClassType type = ClassType.of(literal.substring(0, literal.length() - 6));
                 tuple.set(type.toClass(), type.toClass());
