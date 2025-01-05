@@ -261,7 +261,8 @@ public interface Type extends VisitorObject<ClassType, Type, ParameterTypes> {
 
     @Override
     default @NotNull Type add(final @NotNull Type other) {
-        return OperationUtils.executeBinaryOperationDecimal(TokenType.ADD, this, other);
+        if (is(ObjectType.STRING) || other.is(ObjectType.STRING)) return ObjectType.STRING;
+        else return OperationUtils.executeBinaryOperationDecimal(TokenType.ADD, this, other);
     }
 
     @Override
