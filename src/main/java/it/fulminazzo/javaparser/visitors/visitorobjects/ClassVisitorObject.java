@@ -53,7 +53,7 @@ public interface ClassVisitorObject<
     @SuppressWarnings("unchecked")
     @Override
     default boolean compatibleWith(final @NotNull Object object) {
-        return object instanceof VisitorObject<?,?,?> && compatibleWith((O) object);
+        return object instanceof VisitorObject<?, ?, ?> && compatibleWith((O) object);
     }
 
     /**
