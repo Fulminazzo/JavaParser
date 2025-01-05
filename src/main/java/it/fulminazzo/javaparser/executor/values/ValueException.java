@@ -1,11 +1,12 @@
 package it.fulminazzo.javaparser.executor.values;
 
+import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObjectException;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * An exception thrown by {@link Value} objects.
  */
-public class ValueException extends Exception {
+public class ValueException extends VisitorObjectException {
 
     /**
      * Instantiates a new Value exception.
