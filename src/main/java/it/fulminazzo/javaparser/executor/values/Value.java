@@ -98,27 +98,6 @@ public interface Value<V> {
         return this instanceof PrimitiveValue;
     }
 
-    /**
-     * Checks whether the current value is of the one specified.
-     *
-     * @param <T>   the type of the value
-     * @param value the class of the value
-     * @return true if it is
-     */
-    default <T extends Value<?>> boolean is(final @NotNull Class<T> value) {
-        return value.isAssignableFrom(getClass());
-    }
-
-    /**
-     * Checks whether the current value is of the one specified.
-     *
-     * @param value the other value
-     * @return true if it is
-     */
-    default boolean is(final @NotNull Value<?> value) {
-        return equals(value);
-    }
-
     @Override
     default @NotNull Tuple<ClassValue<V>, Value<V>> getField(final @NotNull Field field) {
         Refl<?> refl = new Refl<>(getValue());
