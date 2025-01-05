@@ -1001,9 +1001,9 @@ class TypeCheckerTest extends Specification {
         Literal.of('double')    | DOUBLE_LIT | STRING_LIT
     }
 
-    def 'test convertValue of #classType and #type should return #classType'() {
+    def 'test convertVariable of #classType and #type should return #classType'() {
         when:
-        def converted = TypeChecker.convertValue(classType, type)
+        def converted = this.typeChecker.convertVariable(classType, type)
 
         then:
         converted == classType.toType()
