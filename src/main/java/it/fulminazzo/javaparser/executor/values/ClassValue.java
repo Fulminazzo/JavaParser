@@ -82,11 +82,6 @@ public interface ClassValue<V> extends Value<Class<V>>, ClassVisitorObject<Class
     }
 
     @Override
-    default boolean isExtending(final @NotNull ClassValue<?> classValue) {
-        return classValue.toJavaClass().isAssignableFrom(toJavaClass());
-    }
-
-    @Override
     default @NotNull Value<?> newObject(final @NotNull Constructor<?> constructor,
                                         final @NotNull ParameterValues parameterValues) {
         Object[] parameters = parameterValues.stream().map(Value::getValue).toArray(Object[]::new);
