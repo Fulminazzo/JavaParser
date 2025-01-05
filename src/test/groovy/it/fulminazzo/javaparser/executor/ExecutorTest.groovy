@@ -43,6 +43,8 @@ class ExecutorTest extends Specification {
     private static final CODE_BLOCK_2 = new CodeBlock(new Return(new NumberValueLiteral('2')))
     private static final CODE_BLOCK_3 = new CodeBlock(new Return(new NumberValueLiteral('3')))
 
+    private static final IAEx = Literal.of('IllegalArgumentException')
+
     private Executor executor
     private MockEnvironment environment
 
@@ -65,6 +67,31 @@ class ExecutorTest extends Specification {
 
         then:
         noExceptionThrown()
+    }
+
+    def 'test visit try statement: (#expression) #block #catchBlocks #finallyBlock should return #expected'() {
+        when:
+        def value = this.executor.visitTryStatement(block, catchBlocks, finallyBlock, expression)
+
+        then:
+        value == expected
+
+        where:
+        expression | block | catchBlocks | finallyBlock | expected
+        new EmptyLiteral() | CODE_BLOCK_1 | [] | new CodeBlock() | PrimitiveValue.of(1)
+        new EmptyLiteral() | CODE_BLOCK_1 | [] | CODE_BLOCK_3 | PrimitiveValue.of(3)
+        new EmptyLiteral() | CODE_BLOCK_1 | [
+                new CatchStatement([IAEx], Literal.of('e'), CODE_BLOCK_2)
+        ] | new CodeBlock() | PrimitiveValue.of(1)
+        new EmptyLiteral() | CODE_BLOCK_1 | [
+                new CatchStatement([IAEx], Literal.of('e'), CODE_BLOCK_2)
+        ] | CODE_BLOCK_3 | PrimitiveValue.of(3)
+        new EmptyLiteral() | new CodeBlock(new Throw(new NewObject(IAEx, new MethodInvocation([])))) | [
+                new CatchStatement([IAEx], Literal.of('e'), CODE_BLOCK_2)
+        ] | new CodeBlock() | PrimitiveValue.of(2)
+        new EmptyLiteral() | new CodeBlock(new Throw(new NewObject(IAEx, new MethodInvocation([])))) | [
+                new CatchStatement([IAEx], Literal.of('e'), CODE_BLOCK_2)
+        ] | CODE_BLOCK_3 | PrimitiveValue.of(3)
     }
 
     def 'test visit switch statement of #expression (#cases, #defaultBlock) should return #expected'() {
