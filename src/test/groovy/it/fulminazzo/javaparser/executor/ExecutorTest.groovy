@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.executor
 
 import it.fulminazzo.fulmicollection.objects.Refl
+import it.fulminazzo.javaparser.environment.MockEnvironment
 import it.fulminazzo.javaparser.environment.ScopeException
 import it.fulminazzo.javaparser.environment.scopetypes.ScopeType
 import it.fulminazzo.javaparser.executor.values.*
@@ -42,9 +43,12 @@ class ExecutorTest extends Specification {
     private static final CODE_BLOCK_3 = new CodeBlock(new Return(new NumberValueLiteral('3')))
 
     private Executor executor
+    private MockEnvironment environment
 
     void setup() {
         this.executor = new Executor(new TestClass())
+        this.environment = new MockEnvironment<>()
+        new Refl<>(this.executor).setFieldObject('environment', this.environment)
     }
 
     def 'parse test_program file'() {
