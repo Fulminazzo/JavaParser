@@ -258,7 +258,7 @@ public interface Visitor<
         C variableType = type.accept(this).checkClass();
         O tempVariableName = name.accept(this);
         if (!tempVariableName.is(LiteralObject.class))
-            throw exceptionWrapper(ScopeException.alreadyDeclaredVariable(name));
+            throw exceptionWrapper(ScopeException.alreadyDeclaredVariable(NamedEntity.of(name.getLiteral())));
         LiteralObject<C, O, P> variableName = tempVariableName.check(LiteralObject.class);
         O variable = value.accept(this);
         // Test for uninitialized
