@@ -10,6 +10,7 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Executable;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 @Getter
@@ -32,6 +33,11 @@ public class MockVisitorObject implements VisitorObject {
 
     @Override
     public @NotNull Tuple getField(@NotNull String fieldName) throws VisitorObjectException {
+        return null;
+    }
+
+    @Override
+    public @NotNull Tuple getField(@NotNull Field field) throws VisitorObjectException {
         return null;
     }
 
@@ -62,6 +68,11 @@ public class MockVisitorObject implements VisitorObject {
 
     @Override
     public @NotNull ClassVisitorObject toClass() {
+        return null;
+    }
+
+    @Override
+    public @NotNull VisitorObjectException fieldNotFound(@NotNull ClassVisitorObject classVisitorObject, @NotNull String field) {
         return null;
     }
 
