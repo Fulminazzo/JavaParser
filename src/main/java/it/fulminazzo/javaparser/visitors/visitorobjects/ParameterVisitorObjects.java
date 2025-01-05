@@ -40,6 +40,18 @@ public abstract class ParameterVisitorObjects<
         return this.object.size();
     }
 
+    /**
+     * Converts this class to an array of Java {@link Class}es.
+     *
+     * @return the classes
+     */
+    public Class<?> @NotNull [] toJavaClassArray() {
+        return this.object.stream()
+                .map(o -> o.isNull() ? null : o.toClass())
+                .map(c -> c == null ? null : c.toJavaClass())
+                .toArray(Class[]::new);
+    }
+
     @Override
     public @NotNull C toClass() {
         throw noClassType(getClass());
