@@ -54,6 +54,18 @@ public class ExecutorException extends RuntimeException {
 
     /**
      * Generates a {@link ExecutorException} with message:
+     * <i>%clazz% does not have a {@link ClassValue}</i>
+     *
+     * @param type the type
+     * @return the executor exception
+     */
+    public static @NotNull ExecutorException noClassType(final @NotNull Class<?> type) {
+        return new ExecutorException("%s does not have a %s",
+                type.getSimpleName(), ClassValue.class.getSimpleName());
+    }
+
+    /**
+     * Generates a {@link ExecutorException} with message:
      * <i>Not implemented</i>
      *
      * @return the executor exception
