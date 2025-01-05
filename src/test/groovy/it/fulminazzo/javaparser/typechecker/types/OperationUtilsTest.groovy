@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.typechecker.types
 
+import it.fulminazzo.javaparser.tokenizer.TokenType
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
@@ -10,7 +11,7 @@ class OperationUtilsTest extends Specification {
 
     def 'test execute object comparison: #a * #b'() {
         expect:
-        OperationUtils.executeObjectComparison(a, b)
+        OperationUtils.executeObjectComparison(TokenType.EQUAL, a, b)
 
         where:
         a                 | b
@@ -82,7 +83,7 @@ class OperationUtilsTest extends Specification {
 
     def 'test invalid execute object comparison: #a * #b'() {
         when:
-        OperationUtils.executeObjectComparison(a, b)
+        OperationUtils.executeObjectComparison(TokenType.EQUAL, a, b)
 
         then:
         thrown(TypeCheckerException)
@@ -132,7 +133,7 @@ class OperationUtilsTest extends Specification {
 
     def 'test execute binary comparison: #a * #b'() {
         expect:
-        OperationUtils.executeBinaryComparison(a, b)
+        OperationUtils.executeBinaryComparison(TokenType.LESS_THAN, a, b)
 
         where:
         a                    | b
@@ -343,7 +344,7 @@ class OperationUtilsTest extends Specification {
 
     def 'test invalid execute binary comparison: #a * #b'() {
         when:
-        OperationUtils.executeBinaryComparison(a, b)
+        OperationUtils.executeBinaryComparison(TokenType.LESS_THAN, a, b)
 
         then:
         thrown(TypeCheckerException)
@@ -370,7 +371,7 @@ class OperationUtilsTest extends Specification {
 
     def 'test execute binary bit operation: #a * #b -> #c'() {
         expect:
-        OperationUtils.executeBinaryBitOperation(a, b) == c
+        OperationUtils.executeBinaryBitOperation(TokenType.BIT_AND, a, b) == c
 
         where:
         a                    | b                    | c
@@ -446,7 +447,7 @@ class OperationUtilsTest extends Specification {
 
     def 'test invalid execute binary bit operation: #a * #b'() {
         when:
-        OperationUtils.executeBinaryBitOperation(a, b)
+        OperationUtils.executeBinaryBitOperation(TokenType.BIT_AND, a, b)
 
         then:
         thrown(TypeCheckerException)
@@ -572,7 +573,7 @@ class OperationUtilsTest extends Specification {
 
     def 'test execute binary operation (non-decimal): #a * #b -> #c'() {
         expect:
-        OperationUtils.executeBinaryOperation(a, b) == c
+        OperationUtils.executeBinaryOperation(TokenType.LSHIFT, a, b) == c
 
         where:
         a                    | b                    | c
@@ -643,7 +644,7 @@ class OperationUtilsTest extends Specification {
 
     def 'test invalid execute binary operation (non-decimal): #a * #b'() {
         when:
-        OperationUtils.executeBinaryOperation(a, b)
+        OperationUtils.executeBinaryOperation(TokenType.LSHIFT, a, b)
 
         then:
         thrown(TypeCheckerException)
@@ -712,7 +713,7 @@ class OperationUtilsTest extends Specification {
 
     def 'test execute binary operation decimal: #a * #b -> #c'() {
         expect:
-        OperationUtils.executeBinaryOperationDecimal(a, b) == c
+        OperationUtils.executeBinaryOperationDecimal(TokenType.ADD, a, b) == c
 
         where:
         a                    | b                    | c
@@ -923,7 +924,7 @@ class OperationUtilsTest extends Specification {
 
     def 'test invalid execute binary operation decimal: #a * #b'() {
         when:
-        OperationUtils.executeBinaryOperationDecimal(a, b)
+        OperationUtils.executeBinaryOperationDecimal(TokenType.ADD, a, b)
 
         then:
         thrown(TypeCheckerException)
