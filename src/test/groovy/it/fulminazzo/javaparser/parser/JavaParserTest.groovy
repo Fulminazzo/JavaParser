@@ -467,7 +467,7 @@ class JavaParserTest extends Specification {
         'if (true) continue;'                                       | new IfStatement(
                 new BooleanValueLiteral('true'),
                 new CodeBlock(new Continue()),
-                new Statement(new EmptyLiteral())
+                new EmptyLiteral()
         )
         'if (true) continue; else if (false) break;'                | new IfStatement(
                 new BooleanValueLiteral('true'),
@@ -475,7 +475,7 @@ class JavaParserTest extends Specification {
                 new IfStatement(
                         new BooleanValueLiteral('false'),
                         new CodeBlock(new Break()),
-                        new Statement(new EmptyLiteral())
+                        new EmptyLiteral()
                 )
         )
         'if (true) continue; else if (false) break; else return 1;' | new IfStatement(
