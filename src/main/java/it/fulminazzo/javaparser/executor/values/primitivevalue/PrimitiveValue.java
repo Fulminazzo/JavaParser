@@ -5,6 +5,7 @@ import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue;
 import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.executor.ExecutorException;
+import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
@@ -57,6 +58,11 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
     @Override
     public @NotNull PrimitiveValue<V> toPrimitive() {
         return this;
+    }
+
+    @Override
+    public @NotNull Value<?> toWrapper() {
+        return ObjectValue.of(getValue());
     }
 
     @Override
