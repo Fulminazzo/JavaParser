@@ -399,16 +399,17 @@ public interface Visitor<
         NamedEntity variableName = NamedEntity.of(literal.getLiteral());
         O object = operand.accept(this);
         try {
+            C variableType = (C) getEnvironment().lookupInfo(variableName);
             if (before) {
                 object = actualOperation.apply(object, incrementValue);
                 getEnvironment().update(variableName, object);
             } else {
                 getEnvironment().update(variableName, actualOperation.apply(object, incrementValue));
-                return object;
             }
-        } catch (ScopeException ignored) {
+            return variableType.cast(object);
+        } catch (ScopeException e) {
+            throw exceptionWrapper(e);
         }
-        return object;
     }
 
     /**
