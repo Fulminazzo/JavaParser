@@ -1109,36 +1109,34 @@ class TypeCheckerTest extends Specification {
         type == new ArrayClassType(ObjectClassType.INTEGER)
     }
 
-    def 'test decrement for #literal should return #expected'() {
+    def 'test decrement should return #expected'() {
         given:
-        def type = this.typeChecker.visitDecrement(true, literal)
+        def variableName = 'i'
+        this.environment.declare(expected.toClass(), variableName, expected)
+
+        and:
+        def type = this.typeChecker.visitDecrement(true, Literal.of(variableName))
 
         expect:
         type == expected
 
         where:
-        literal    | expected
-        NUMBER_LIT | PrimitiveType.INT
-        CHAR_LIT   | PrimitiveType.CHAR
-        LONG_LIT   | PrimitiveType.LONG
-        FLOAT_LIT  | PrimitiveType.FLOAT
-        DOUBLE_LIT | PrimitiveType.DOUBLE
+        expected << [PrimitiveType.CHAR, PrimitiveType.INT, PrimitiveType.LONG, PrimitiveType.FLOAT, PrimitiveType.DOUBLE]
     }
 
-    def 'test increment for #literal should return #expected'() {
+    def 'test increment should return #expected'() {
         given:
-        def type = this.typeChecker.visitIncrement(false, literal)
+        def variableName = 'i'
+        this.environment.declare(expected.toClass(), variableName, expected)
+
+        and:
+        def type = this.typeChecker.visitIncrement(false, Literal.of(variableName))
 
         expect:
         type == expected
 
         where:
-        literal    | expected
-        NUMBER_LIT | PrimitiveType.INT
-        CHAR_LIT   | PrimitiveType.CHAR
-        LONG_LIT   | PrimitiveType.LONG
-        FLOAT_LIT  | PrimitiveType.FLOAT
-        DOUBLE_LIT | PrimitiveType.DOUBLE
+        expected << [PrimitiveType.CHAR, PrimitiveType.INT, PrimitiveType.LONG, PrimitiveType.FLOAT, PrimitiveType.DOUBLE]
     }
 
     def 'test equal'() {
