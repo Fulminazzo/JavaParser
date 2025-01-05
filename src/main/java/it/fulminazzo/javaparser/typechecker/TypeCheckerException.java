@@ -119,6 +119,17 @@ public class TypeCheckerException extends RuntimeException {
 
     /**
      * Generates a {@link TypeCheckerException} with message:
+     * <i>Type %type% does not have any associated primitive type</i>
+     *
+     * @param type the type
+     * @return the type checker exception
+     */
+    public static @NotNull TypeCheckerException noPrimitive(final @NotNull Type type) {
+        return new TypeCheckerException("Type %s does not have any associated primitive type", type);
+    }
+
+    /**
+     * Generates a {@link TypeCheckerException} with message:
      * <i>Type %type% does not have any associated wrapper type</i>
      *
      * @param type the type
