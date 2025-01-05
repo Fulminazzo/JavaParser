@@ -2,7 +2,6 @@ package it.fulminazzo.javaparser.executor.values;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
-import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.executor.ExecutorException;
 import it.fulminazzo.javaparser.executor.values.arrays.ArrayValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
@@ -113,59 +112,31 @@ public interface Value<V> {
         return new Tuple<>(classValue, value);
     }
 
-    /**
-     * Executes the method associated with the given name with {@link ParameterValues} as parameters.
-     *
-     * @param <T>             the type of the returned value
-     * @param methodName      the method name
-     * @param parameterValues the parameter values
-     * @return the returned value
-     */
-    default <T> @NotNull Value<T> invokeMethod(final @NotNull String methodName,
-                                               final @NotNull ParameterValues parameterValues) {
-        V value = getValue();
-        Class<?> javaClass = is(ClassValue.class) ? (Class<?>) value : value.getClass();
-        // Lookup methods from name and parameters count
-        @NotNull List<Method> methods = ReflectionUtils.getMethods(javaClass, m ->
-                m.getName().equals(methodName) && ValueUtils.verifyExecutable(parameterValues, m));
-
-        Refl<?> refl = new Refl<>(ReflectionUtils.class);
-        Class<?> @NotNull [] parametersTypes = parameterValues.getValue().stream()
-                .map(Value::toClass)
-                .map(ClassValue::getValue)
-                .toArray(Class[]::new);
-
-        for (Method method : methods) {
-            // For each one, validate its parameters
-            if (Boolean.TRUE.equals(refl.invokeMethod("validateParameters",
-                    new Class[]{Class[].class, Executable.class},
-                    parametersTypes, method))) {
-                //TODO: reworkd
-                Refl<V> executor = new Refl<>(getValue());
-                List<Object> parametersList = new ArrayList<>();
-                parametersTypes = method.getParameterTypes();
-                List<Value<?>> parametersValues = parameterValues.getValue();
-                for (int i = 0; i < parametersTypes.length; i++) {
-                    if (i == parametersTypes.length - 1) {
-                        if (parametersValues.size() == i + 1)
-                            parametersList.add(parametersValues.get(i).getValue());
-                        else parametersList.add(parametersValues
-                                .subList(i, parametersValues.size())
-                                .stream()
-                                .map(Value::getValue)
-                                .toArray());
-                    } else parametersList.add(parametersValues.get(i).getValue());
-                }
-                Class<?> returnType = method.getReturnType();
-                Object returned = executor.invokeMethod(returnType, methodName, parametersList.toArray());
-                final Value<?> returnedValue;
-                if (Void.TYPE.equals(returnType)) returnedValue = Values.NO_VALUE;
-                else if (returnType.isPrimitive()) returnedValue = PrimitiveValue.of(returned);
-                else returnedValue = of(returned);
-                return (Value<T>) returnedValue;
-            }
+    @Override
+    default @NotNull Value<?> invokeMethod(final @NotNull Method method,
+                                           final @NotNull ParameterValues parameters) throws ValueException {
+        Refl<V> executor = new Refl<>(getValue());
+        List<Object> parametersList = new ArrayList<>();
+        Class<?>[] parametersTypes = method.getParameterTypes();
+        List<Value<?>> parametersValues = parameters.getValue();
+        for (int i = 0; i < parametersTypes.length; i++) {
+            if (i == parametersTypes.length - 1) {
+                if (parametersValues.size() == i + 1)
+                    parametersList.add(parametersValues.get(i).getValue());
+                else parametersList.add(parametersValues
+                        .subList(i, parametersValues.size())
+                        .stream()
+                        .map(Value::getValue)
+                        .toArray());
+            } else parametersList.add(parametersValues.get(i).getValue());
         }
-        throw new IllegalStateException("Cannot find method " + methodName + " in " + javaClass);
+        Class<?> returnType = method.getReturnType();
+        Object returned = executor.invokeMethod(returnType, method.getName(), parametersList.toArray());
+        final Value<?> returnedValue;
+        if (Void.TYPE.equals(returnType)) returnedValue = Values.NO_VALUE;
+        else if (returnType.isPrimitive()) returnedValue = PrimitiveValue.of(returned);
+        else returnedValue = of(returned);
+        return returnedValue;
     }
 
     @Override
