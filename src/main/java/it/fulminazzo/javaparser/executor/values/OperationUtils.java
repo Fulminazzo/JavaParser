@@ -145,7 +145,7 @@ public final class OperationUtils {
      */
     public static @NotNull Value<?> executeUnaryOperationBoolean(final @NotNull Value<?> operand,
                                                                  final @NotNull Function<Boolean, Boolean> booleanOperation) {
-        return Value.of(booleanOperation.apply(Boolean.valueOf(operand.getValue().toString())));
+        return PrimitiveValue.of(booleanOperation.apply(Boolean.valueOf(operand.getValue().toString())));
     }
 
     /**
