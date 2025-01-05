@@ -95,7 +95,7 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
             final ClassType autoClosable = ClassType.of(AutoCloseable.class);
 
             ParameterTypes assignments = expression.accept(this).check(ParameterTypes.class);
-            for (Type assignment : assignments) ((ClassType) assignment).checkExtends(autoClosable);
+            for (Type assignment : assignments) assignment.toClass().checkExtends(autoClosable);
 
             Type returnType = null;
             LinkedHashSet<ClassType> caughtExceptions = new LinkedHashSet<>();
