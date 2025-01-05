@@ -30,6 +30,20 @@ public class ExecutorException extends RuntimeException {
 
     /**
      * Generates a {@link ExecutorException} with message:
+     * <i>Invalid value received: expected %expected% but got %actual% instead</i>
+     *
+     * @param expected the expected value
+     * @param actual   the actual value
+     * @return the value checker exception
+     */
+    public static @NotNull ExecutorException invalidValue(final @NotNull Class<?> expected,
+                                                          final @NotNull Object actual) {
+        return new ExecutorException("Invalid value received: expected %s but got %s instead",
+                expected.getSimpleName(), actual.getClass().getSimpleName());
+    }
+
+    /**
+     * Generates a {@link ExecutorException} with message:
      * <i>Cannot resolve symbol '%symbol%'</i>
      *
      * @param symbol the symbol
