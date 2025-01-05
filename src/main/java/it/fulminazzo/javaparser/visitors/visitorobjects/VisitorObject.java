@@ -118,11 +118,7 @@ public interface VisitorObject<
             if (methods.isEmpty()) throw new IllegalArgumentException();
 
             Refl<?> refl = new Refl<>(ReflectionUtils.class);
-            Class<?> @NotNull [] parametersTypes = parameters.stream()
-                    //TODO: null
-                    .map(o -> o.toClass())
-                    .map(c -> c.toJavaClass())
-                    .toArray(Class[]::new);
+            Class<?> @NotNull [] parametersTypes = parameters.toJavaClassArray();
 
             for (Method method : methods) {
                 // For each one, validate its parameters
