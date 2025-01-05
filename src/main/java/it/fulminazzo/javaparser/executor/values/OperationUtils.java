@@ -29,7 +29,7 @@ public final class OperationUtils {
     public static @NotNull Value<?> executeObjectComparison(final @NotNull Value<?> left,
                                                             final @NotNull Value<?> right,
                                                             final @NotNull BiFunction<Object, Object, Boolean> operation) {
-        return PrimitiveValue.of(operation.apply(left.getValue(), right.getValue()));
+        return PrimitiveValue.of(operation.apply(convertValue(left).getValue(), convertValue(right).getValue()));
     }
 
     /**
@@ -59,8 +59,8 @@ public final class OperationUtils {
     public static @NotNull Value<?> executeBinaryComparison(final @NotNull Value<?> left,
                                                             final @NotNull Value<?> right,
                                                             final @NotNull BiFunction<BigDecimal, BigDecimal, Boolean> numberOperation) {
-        BigDecimal first = new BigDecimal(left.getValue().toString());
-        BigDecimal second = new BigDecimal(right.getValue().toString());
+        BigDecimal first = new BigDecimal(convertValue(left).getValue().toString());
+        BigDecimal second = new BigDecimal(convertValue(right).getValue().toString());
         return PrimitiveValue.of(numberOperation.apply(first, second));
     }
 
@@ -125,8 +125,8 @@ public final class OperationUtils {
                                                                   final @NotNull BiFunction<Float, Float, Float> floatOperation,
                                                                   final @NotNull BiFunction<Long, Long, Long> longOperation,
                                                                   final @NotNull BiFunction<Integer, Integer, Integer> integerOperation) {
-        Number first = (Number) left.getValue();
-        Number second = (Number) right.getValue();
+        Number first = (Number) convertValue(left).getValue();
+        Number second = (Number) convertValue(right).getValue();
         final Object obj;
         if (first instanceof Double || second instanceof Double)
             obj = doubleOperation.apply(first.doubleValue(), second.doubleValue());
@@ -163,7 +163,7 @@ public final class OperationUtils {
                                                                  final @NotNull Function<Float, Float> floatOperation,
                                                                  final @NotNull Function<Long, Long> longOperation,
                                                                  final @NotNull Function<Integer, Integer> integerOperation) {
-        Number value = (Number) operand.getValue();
+        Number value = (Number) convertValue(operand).getValue();
         final Object obj;
         if (value instanceof Double) obj = doubleOperation.apply(value.doubleValue());
         else if (value instanceof Float) obj = floatOperation.apply(value.floatValue());
