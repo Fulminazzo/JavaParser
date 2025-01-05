@@ -84,7 +84,7 @@ public final class OperationUtils {
         Object first = left.getValue();
         final Object obj;
         if (first instanceof Boolean) obj = booleanOperation.apply((Boolean) first, (Boolean) right.getValue());
-        else obj = executeBinaryOperation(left, right, longOperation, integerOperation);
+        else obj = executeBinaryOperation(left, right, longOperation, integerOperation).getValue();
         return PrimitiveValue.of(obj);
     }
 
