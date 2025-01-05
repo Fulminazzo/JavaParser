@@ -402,9 +402,9 @@ public interface Visitor<
      * @return the field
      */
     default @NotNull O visitField(@NotNull Node executor, @NotNull Node fieldName) {
-        O actualExecutor = executor.accept(this);
-        O actualFieldName = fieldName.accept(this);
         try {
+            O actualExecutor = executor.accept(this);
+            O actualFieldName = fieldName.accept(this);
             return actualExecutor.getField(actualFieldName.check(LiteralObject.class).getName()).getValue();
         } catch (VisitorObjectException e) {
             throw exceptionWrapper(e);
