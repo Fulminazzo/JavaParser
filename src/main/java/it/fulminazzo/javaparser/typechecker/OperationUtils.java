@@ -84,14 +84,16 @@ public final class OperationUtils {
      * If both {@link Type}s are {@link PrimitiveType#BOOLEAN}, then {@link PrimitiveType#BOOLEAN} is returned.
      * Throws {@link TypeCheckerException} in case of an invalid type received as operand.
      *
+     * @param operator the operator of the operation
      * @param left  the left operand
      * @param right the right operand
      * @return the computed type
      */
-    public static @NotNull Type executeBinaryBitOperation(final @NotNull Type left,
+    public static @NotNull Type executeBinaryBitOperation(final @NotNull TokenType operator,
+                                                          final @NotNull Type left,
                                                           final @NotNull Type right) {
         if (isBoolean(left) && isBoolean(right)) return PrimitiveType.BOOLEAN;
-        else return executeBinaryOperationDecimal(left.check(getNumericTypes()), right.check(getNumericTypes()));
+        else return executeBinaryOperation(operator, left, right);
     }
 
     /**
