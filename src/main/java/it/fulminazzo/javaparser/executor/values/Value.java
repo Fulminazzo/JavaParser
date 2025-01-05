@@ -152,12 +152,12 @@ public interface Value<V> {
     }
 
     @Override
-    default @NotNull Value<V> toPrimitive() {
+    default @NotNull Value<?> toPrimitive() {
         throw ValueRuntimeException.noPrimitive(getValue());
     }
 
     @Override
-    default @NotNull Value<V> toPrimitive() {
+    default @NotNull Value<?> toWrapper() {
         throw ValueRuntimeException.noWrapper(getValue());
     }
 
