@@ -93,7 +93,7 @@ public interface VisitorObject<
      * Gets the given field from the associated {@link ClassVisitorObject} and returns it.
      *
      * @param fieldName the field name
-     * @return the field
+     * @return a tuple containing the {@link ClassVisitorObject} and {@link VisitorObject} of the field
      * @throws VisitorObjectException the exception thrown in case of errors
      */
     default @NotNull Tuple<C, O> getField(final @NotNull String fieldName) throws VisitorObjectException {
@@ -107,6 +107,15 @@ public interface VisitorObject<
             throw fieldNotFound(classVisitorObject, fieldName);
         }
     }
+
+    /**
+     * Gets the given field from the associated {@link ClassVisitorObject} and returns it.
+     *
+     * @param field the field
+     * @return a tuple containing the {@link ClassVisitorObject} and {@link VisitorObject} of the field
+     * @throws VisitorObjectException the exception thrown in case of errors
+     */
+    @NotNull Tuple<C, O> getField(final @NotNull Field field) throws VisitorObjectException;
 
     /**
      * Searches and invokes the given method from the associated {@link ClassVisitorObject} and
