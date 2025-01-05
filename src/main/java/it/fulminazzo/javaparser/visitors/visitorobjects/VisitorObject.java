@@ -122,6 +122,16 @@ public interface VisitorObject<
 
     /**
      * Generates a {@link RuntimeException} with message:
+     * <i>%clazz% does not have a class</i>
+     *
+     * @param <E>  the type of the exception
+     * @param type the type
+     * @return the type runtime exception
+     */
+    <E extends RuntimeException> E noClassType(final @NotNull Class<?> type);
+
+    /**
+     * Generates a {@link RuntimeException} with message:
      * <i>Operator '%operator%' cannot be applied to '%left%', '%right%'</i>
      *
      * @param <E>      the type of the exception
