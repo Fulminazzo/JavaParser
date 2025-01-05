@@ -296,6 +296,25 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
     }
 
     /**
+     * Searches the key in the given {@link Map}.
+     * If found, returns a {@link Tuple} with the key and value found.
+     * Otherwise, throws {@link IllegalArgumentException}.
+     *
+     * @param <K> the type of the key
+     * @param <V> the type of the value
+     * @param map the map
+     * @param key the key
+     * @return the tuple
+     */
+    <K, V> @NotNull Tuple<K, V> getKeyAndValue(final @NotNull Map<K, V> map,
+                                               final @NotNull Object key) {
+        for (Map.Entry<K, V> entry : map.entrySet())
+            if (entry.getKey().equals(key))
+                return new Tuple<>(entry.getKey(), entry.getValue());
+        throw new IllegalArgumentException("Could not find key " + key);
+    }
+
+    /**
      * Support method for many break and continue supported statements.
      *
      * @param code the code
