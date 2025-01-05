@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.typechecker;
 
+import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.typechecker.types.ClassType;
 import it.fulminazzo.javaparser.typechecker.types.Type;
 import org.jetbrains.annotations.NotNull;
@@ -137,6 +138,36 @@ public class TypeCheckerException extends RuntimeException {
      */
     public static @NotNull TypeCheckerException noWrapper(final @NotNull Type type) {
         return new TypeCheckerException("Type %s does not have any associated wrapper type", type);
+    }
+
+    /**
+     * Generates a {@link TypeCheckerException} with message:
+     * <i>Operator '%operator%' cannot be applied to '%left%', '%right%'</i>
+     *
+     * @param operator the operator
+     * @param left     the left operand
+     * @param right    the right operand
+     * @return the visitor exception
+     */
+    public static @NotNull TypeCheckerException unsupportedOperation(final @NotNull TokenType operator,
+                                                                     final @NotNull Object left,
+                                                                     final @NotNull Object right) {
+        return new TypeCheckerException("Operator '%s' cannot be applied to '%s', '%s'",
+                operator.regex().replace("\\", ""), left, right);
+    }
+
+    /**
+     * Generates a {@link TypeCheckerException} with message:
+     * <i>Operator '%operator%' cannot be applied to '%operand%'</i>
+     *
+     * @param operator the operator
+     * @param operand  the operand
+     * @return the visitor exception
+     */
+    public static @NotNull TypeCheckerException unsupportedOperation(final @NotNull TokenType operator,
+                                                                     final @NotNull Object operand) {
+        return new TypeCheckerException("Operator '%s' cannot be applied to '%s'",
+                operator.regex().replace("\\", ""), operand);
     }
 
     /**
