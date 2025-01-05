@@ -285,6 +285,7 @@ public interface Visitor<
         try {
             // Direct access is unfortunately required, as visitLiteralImpl
             // will return the value of the variable itself.
+            if (!(name instanceof Literal)) throw invalidType(Literal.class, name);
             NamedEntity variableName = NamedEntity.of(((Literal) name).getLiteral());
             C variableType = (C) getEnvironment().lookupInfo(variableName);
             O variable = value.accept(this);
@@ -814,6 +815,10 @@ public interface Visitor<
         }
     }
 
+    /*
+        EXCEPTIONS
+     */
+
     /**
      * Wraps the given exception to a user-defined {@link RuntimeException}
      * for it to be thrown later.
@@ -822,5 +827,16 @@ public interface Visitor<
      * @return the runtime exception
      */
     @NotNull RuntimeException exceptionWrapper(final @NotNull Exception exception);
+
+    /**
+     * Generates a {@link RuntimeException} with message:
+     * <i>Invalid type received: expected %expected% but got %actual% instead</i>
+     *
+     * @param expected the expected type
+     * @param actual   the actual type
+     * @return the type checker exception
+     */
+    @NotNull RuntimeException invalidType(final @NotNull Class<?> expected,
+                                          final @NotNull Object actual);
 
 }
