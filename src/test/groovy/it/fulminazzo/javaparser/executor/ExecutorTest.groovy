@@ -68,20 +68,20 @@ class ExecutorTest extends Specification {
 
     def 'test visit enhanced for statement of #object should return #expected'() {
         given:
-        this.executor.environment.declare(PrimitiveClassValue.INT, 'counter', PrimitiveValue.of(0))
+        this.environment.declare(PrimitiveClassValue.INT, 'counter', PrimitiveValue.of(0))
 
         and:
-        this.executor.environment.declare(ArrayClassValue.of(PrimitiveClassValue.INT), 'arr',
+        this.environment.declare(ArrayClassValue.of(PrimitiveClassValue.INT), 'arr',
                 ArrayValue.of(PrimitiveClassValue.INT, (1..9).collect { Value.of(it) })
         )
-        this.executor.environment.declare(ClassValue.of(List.class), 'list',
+        this.environment.declare(ClassValue.of(List.class), 'list',
                 Value.of(1..4))
 
         when:
         def value = this.executor.visitEnhancedForStatement(
                 Literal.of('int'), Literal.of('i'),
                 code, object)
-        def counter = this.executor.environment.lookup('counter')
+        def counter = this.environment.lookup('counter')
 
         then:
         value == expected
@@ -113,8 +113,8 @@ class ExecutorTest extends Specification {
 
     def 'test visit for statement'() {
         given:
-        this.executor.environment.declare(PrimitiveClassValue.INT, 'i', PrimitiveValue.of(0))
-        this.executor.environment.declare(PrimitiveClassValue.INT, 'j', PrimitiveValue.of(1))
+        this.environment.declare(PrimitiveClassValue.INT, 'i', PrimitiveValue.of(0))
+        this.environment.declare(PrimitiveClassValue.INT, 'j', PrimitiveValue.of(1))
 
         when:
         def value = this.executor.visitForStatement(
@@ -123,7 +123,7 @@ class ExecutorTest extends Specification {
                 new CodeBlock(block),
                 new LessThan(Literal.of('i'), new NumberValueLiteral('10'))
         )
-        def counter = this.executor.environment.lookup('i')
+        def counter = this.environment.lookup('i')
 
         then:
         value == expected
@@ -149,11 +149,11 @@ class ExecutorTest extends Specification {
 
     def 'test visit do statement of (#expression) #codeBlock should return #expected'() {
         given:
-        this.executor.environment.declare(PrimitiveClassValue.INT, 'i', PrimitiveValue.of(0))
+        this.environment.declare(PrimitiveClassValue.INT, 'i', PrimitiveValue.of(0))
 
         when:
         def value = this.executor.visitDoStatement(codeBlock, expression)
-        def counter = this.executor.environment.lookup('i')
+        def counter = this.environment.lookup('i')
 
         then:
         value == expected
@@ -194,11 +194,11 @@ class ExecutorTest extends Specification {
 
     def 'test visit while statement of (#expression) #codeBlock should return #expected'() {
         given:
-        this.executor.environment.declare(PrimitiveClassValue.INT, 'i', PrimitiveValue.of(0))
+        this.environment.declare(PrimitiveClassValue.INT, 'i', PrimitiveValue.of(0))
 
         when:
         def value = this.executor.visitWhileStatement(codeBlock, expression)
-        def counter = this.executor.environment.lookup('i')
+        def counter = this.environment.lookup('i')
 
         then:
         value == expected
@@ -292,12 +292,12 @@ class ExecutorTest extends Specification {
 
     def 'test visit method call: #object #method #parameters should return #expected'() {
         given:
-        this.executor.environment.declare(
+        this.environment.declare(
                 ObjectClassValue.INTEGER,
                 'method_call_val',
                 ObjectValue.of(1)
         )
-        this.executor.environment.declare(
+        this.environment.declare(
                 PrimitiveClassValue.INT,
                 'method_call_val_prim',
                 PrimitiveValue.of(1)
@@ -327,7 +327,7 @@ class ExecutorTest extends Specification {
 
     def 'test visit field of #field should return #expected'() {
         given:
-        this.executor.environment.declare(
+        this.environment.declare(
                 ObjectClassValue.of(TestClass),
                 'field_var',
                 ObjectValue.of(new TestClass())
@@ -356,7 +356,7 @@ class ExecutorTest extends Specification {
 
         when:
         this.executor.visitAssignment(literalType, literalName, val)
-        def value = this.executor.environment.lookup(name)
+        def value = this.environment.lookup(name)
 
         then:
         value == expected
@@ -408,7 +408,7 @@ class ExecutorTest extends Specification {
 
         when:
         this.executor.visitAssignment(literalType, literalName, new EmptyLiteral())
-        def value = this.executor.environment.lookup(name)
+        def value = this.environment.lookup(name)
 
         then:
         value == expected
@@ -441,7 +441,7 @@ class ExecutorTest extends Specification {
         def literalName = Literal.of(name)
 
         and:
-        this.executor.environment.declare(
+        this.environment.declare(
                 Literal.of(valueClass).accept(this.executor).to(ClassValue),
                 name, val.accept(this.executor)
         )
@@ -537,11 +537,11 @@ class ExecutorTest extends Specification {
 
     def 'test visit #operation of #literal should return #value and update variable to #expected'() {
         given:
-        this.executor.environment.declare(PrimitiveClassValue.INT, 'i', PrimitiveValue.of(1))
+        this.environment.declare(PrimitiveClassValue.INT, 'i', PrimitiveValue.of(1))
 
         when:
         def actual = this.executor."visit${operation}"(literal.before, literal.operand)
-        def declared = this.executor.environment.lookup('i')
+        def declared = this.environment.lookup('i')
 
         then:
         actual == value
