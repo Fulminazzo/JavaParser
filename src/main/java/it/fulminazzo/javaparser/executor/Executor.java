@@ -46,7 +46,8 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
 
     @Override
     public @NotNull Value<?> visitThrow(@NotNull Node expression) {
-        return null;
+        Value<? extends Throwable> value = (Value<? extends Throwable>) expression.accept(this);
+        throw new ExceptionWrapper(value);
     }
 
     @Override
@@ -60,13 +61,58 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
     }
 
     @Override
-    public @NotNull Value<?> visitTryStatement(@NotNull CodeBlock block, @NotNull List<CatchStatement> catchBlocks, @NotNull CodeBlock finallyBlock, @NotNull Node expression) {
-        return null;
+    public @NotNull Value<?> visitTryStatement(@NotNull CodeBlock block, @NotNull List<CatchStatement> catchBlocks,
+                                               @NotNull CodeBlock finallyBlock, @NotNull Node assignments) {
+        return visitScoped(ScopeType.TRY, () -> {
+            assignments.accept(this);
+
+            Map<ExceptionTuple, CodeBlock> exceptionsMap = new HashMap<>();
+            for (CatchStatement catchStatement : catchBlocks) {
+                TupleValue<List<ExceptionTuple>, CodeBlock> catchExceptions = (TupleValue<List<ExceptionTuple>, CodeBlock>)
+                        catchStatement.accept(this);
+                for (ExceptionTuple tuple : catchExceptions.getKey())
+                    exceptionsMap.put(tuple, catchExceptions.getValue());
+            }
+
+            Value<?> returnedValue;
+            try {
+                returnedValue = block.accept(this);
+            } catch (ExceptionWrapper e) {
+                Value<? extends Throwable> exception = e.getActualException();
+                Tuple<ExceptionTuple, CodeBlock> keyAndValue = getKeyAndValue(exceptionsMap, exception.toClass());
+                returnedValue = visitScoped(ScopeType.CATCH, () -> {
+                    ExceptionTuple key = keyAndValue.getKey();
+                    this.environment.declare(key.getExceptionType(), key.getExceptionName(), exception);
+                    return keyAndValue.getValue().accept(this);
+                });
+            } finally {
+                Value<?> finalValue = finallyBlock.accept(this);
+                if (!finalValue.is(Values.NO_VALUE)) returnedValue = finalValue;
+            }
+            return returnedValue;
+        });
     }
 
+    /**
+     * Parses all the exceptions in a list of {@link ExceptionTuple}s
+     * with the expression as associated name.
+     * Then, returns a {@link TupleValue} containing the block as value.
+     *
+     * @param exceptions the exceptions
+     * @param block      the block
+     * @param expression the expression
+     * @return the catch statement
+     */
     @Override
-    public @NotNull Value<?> visitCatchStatement(@NotNull List<Literal> exceptions, @NotNull CodeBlock block, @NotNull Node expression) {
-        return null;
+    public @NotNull Value<?> visitCatchStatement(@NotNull List<Literal> exceptions, @NotNull CodeBlock block,
+                                                 @NotNull Node expression) {
+        List<ExceptionTuple> exceptionTuples = new ArrayList<>();
+        for (Literal literal : exceptions)
+            exceptionTuples.add(new ExceptionTuple(
+                    literal.accept(this).checkClass(),
+                    expression.accept(this).check(LiteralValue.class)
+            ));
+        return new TupleValue<>(exceptionTuples, block);
     }
 
     @Override
@@ -284,6 +330,25 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
     @Override
     public @NotNull Value<?> visitEmptyLiteral() {
         return Values.NO_VALUE;
+    }
+
+    /**
+     * Searches the key in the given {@link Map}.
+     * If found, returns a {@link Tuple} with the key and value found.
+     * Otherwise, throws {@link IllegalArgumentException}.
+     *
+     * @param <K> the type of the key
+     * @param <V> the type of the value
+     * @param map the map
+     * @param key the key
+     * @return the tuple
+     */
+    <K, V> @NotNull Tuple<K, V> getKeyAndValue(final @NotNull Map<K, V> map,
+                                               final @NotNull Object key) {
+        for (Map.Entry<K, V> entry : map.entrySet())
+            if (entry.getKey().equals(key))
+                return new Tuple<>(entry.getKey(), entry.getValue());
+        throw new IllegalArgumentException("Could not find key " + key);
     }
 
     /**
