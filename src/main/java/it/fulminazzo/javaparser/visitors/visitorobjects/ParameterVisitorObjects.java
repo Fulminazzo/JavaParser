@@ -1,6 +1,5 @@
 package it.fulminazzo.javaparser.visitors.visitorobjects;
 
-import it.fulminazzo.javaparser.visitors.VisitorException;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
@@ -43,7 +42,7 @@ public abstract class ParameterVisitorObjects<
 
     @Override
     public @NotNull C toClass() {
-        throw VisitorException.noClassType(getClass());
+        throw noClassType(getClass());
     }
 
     /**
