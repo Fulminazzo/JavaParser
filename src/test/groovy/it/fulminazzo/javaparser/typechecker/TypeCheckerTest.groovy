@@ -530,13 +530,13 @@ class TypeCheckerTest extends Specification {
 
         where:
         expected              | code
-        PrimitiveType.BOOLEAN | new IfStatement(BOOL_LIT, CODE_BLOCK_BOOL, new EmptyLiteral())
-        PrimitiveType.BOOLEAN | new IfStatement(BOOL_VAR, CODE_BLOCK_BOOL, new EmptyLiteral())
+        Types.NO_TYPE | new IfStatement(BOOL_LIT, CODE_BLOCK_BOOL, new EmptyLiteral())
+        Types.NO_TYPE | new IfStatement(BOOL_VAR, CODE_BLOCK_BOOL, new EmptyLiteral())
         Types.NO_TYPE         | new IfStatement(BOOL_LIT, CODE_BLOCK_EMPTY, new EmptyLiteral())
         Types.NO_TYPE         | new IfStatement(BOOL_VAR, CODE_BLOCK_EMPTY, new EmptyLiteral())
-        PrimitiveType.INT | new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER,
+        Types.NO_TYPE | new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER,
                 new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER, new EmptyLiteral()))
-        PrimitiveType.INT | new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER,
+        Types.NO_TYPE | new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER,
                 new IfStatement(BOOL_VAR, CODE_BLOCK_NUMBER, new EmptyLiteral()))
         Types.NO_TYPE         | new IfStatement(BOOL_LIT, CODE_BLOCK_NUMBER,
                 new IfStatement(BOOL_LIT, CODE_BLOCK_FLOAT, new EmptyLiteral()))
