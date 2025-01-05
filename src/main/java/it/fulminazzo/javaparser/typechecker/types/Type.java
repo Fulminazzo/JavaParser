@@ -124,6 +124,11 @@ public interface Type {
     }
 
     @Override
+    default @NotNull PrimitiveType toPrimitive() {
+        throw TypeCheckerException.noPrimitive(this);
+    }
+
+    @Override
     default @NotNull ObjectType toWrapper() {
         throw TypeCheckerException.noWrapper(this);
     }
