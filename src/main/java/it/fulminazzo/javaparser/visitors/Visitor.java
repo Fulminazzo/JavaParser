@@ -765,6 +765,16 @@ public interface Visitor<
     @NotNull O visitEmptyLiteral();
 
     /**
+     * Conversion method for {@link #visitAssignment(Node, Literal, Node)} and
+     * {@link #visitReAssign(Node, Node)}.
+     *
+     * @param variableType the type of the variable
+     * @param variable     the variable
+     * @return the variable converted
+     */
+    @NotNull O convertVariable(final @NotNull C variableType, final @NotNull O variable);
+
+    /**
      * Enters the specified {@link ScopeType}, executes the given function and
      * exits the scope.
      * If an exception is thrown:
