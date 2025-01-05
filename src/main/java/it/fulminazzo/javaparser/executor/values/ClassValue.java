@@ -111,6 +111,11 @@ public interface ClassValue<V> extends Value<Class<V>>, Info {
         return (ClassValue<Class<V>>) (Object) of(Class.class);
     }
 
+    @Override
+    default @NotNull Class<?> toJavaClass() {
+        return getValue();
+    }
+
     /**
      * Converts the {@link #getValue()} to its respective wrapper type.
      *
