@@ -36,7 +36,7 @@ final class ExceptionTuple {
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof ExceptionTuple && this.exceptionType.equals(((ExceptionTuple) o).exceptionType);
+        return this.exceptionType.equals(o);
     }
 
 }
