@@ -51,15 +51,18 @@ public final class OperationUtils {
      * If only one of them is {@link PrimitiveType}, or they are not compatible,
      * a {@link TypeCheckerException} is thrown.
      *
+     * @param operator the operator of the comparison
      * @param left  the left operand
      * @param right the right operand
      * @return {@link PrimitiveType#BOOLEAN}
      */
-    public static @NotNull Type executeObjectComparison(final @NotNull Type left,
+    public static @NotNull Type executeObjectComparison(final @NotNull TokenType operator,
+                                                        final @NotNull Type left,
                                                         final @NotNull Type right) {
         if (left.isPrimitive() || right.isPrimitive()) {
-            if (isBoolean(left)) right.check(PrimitiveType.BOOLEAN, ObjectType.BOOLEAN);
-            else return executeBinaryComparison(left, right);
+            if (isBoolean(left)) if (!isBoolean(right))
+                throw TypeCheckerException.unsupportedOperation(operator, left, right);
+            else return executeBinaryComparison(operator, left, right);
         }
         return PrimitiveType.BOOLEAN;
     }
