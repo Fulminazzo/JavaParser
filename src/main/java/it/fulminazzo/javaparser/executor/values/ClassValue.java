@@ -84,15 +84,6 @@ public interface ClassValue<V> extends Value<Class<V>>, Info {
         return is(PrimitiveClassValue.class);
     }
 
-    /**
-     * Converts the current class value to an initialized {@link Value}.
-     *
-     * @return the value
-     */
-    default @NotNull Value<V> toValue() {
-        return (Value<V>) Values.NULL_VALUE;
-    }
-
     @Override
     default @NotNull Value<?> newObject(final @NotNull Constructor<?> constructor,
                                         final @NotNull ParameterValues parameterValues) {
@@ -114,6 +105,20 @@ public interface ClassValue<V> extends Value<Class<V>>, Info {
     @Override
     default @NotNull Class<?> toJavaClass() {
         return getValue();
+    }
+
+    /**
+     * Converts the current class value to an initialized {@link Value}.
+     *
+     * @return the value
+     */
+    default @NotNull Value<V> toValue() {
+        return (Value<V>) Values.NULL_VALUE;
+    }
+
+    @Override
+    default @NotNull Value<?> toObject() {
+        return toValue();
     }
 
     /**
