@@ -10,7 +10,6 @@ import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -43,7 +42,7 @@ public interface Type {
      *
      * @return the current type cast to the expected one
      */
-    default @NotNull ClassType checkClassType() {
+    default @NotNull ClassType checkClass() {
         return check(ClassType.class);
     }
 

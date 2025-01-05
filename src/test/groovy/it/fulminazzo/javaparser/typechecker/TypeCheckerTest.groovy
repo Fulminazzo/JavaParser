@@ -707,7 +707,7 @@ class TypeCheckerTest extends Specification {
 
         and:
         this.environment.declare(
-                type.accept(this.typeChecker).checkClassType(),
+                type.accept(this.typeChecker).checkClass(),
                 varName,
                 value.accept(this.typeChecker)
         )
@@ -723,7 +723,7 @@ class TypeCheckerTest extends Specification {
     def 'test visit assignment invalid: #type invalid = #val'() {
         given:
         def errorMessage = TypeCheckerException.invalidType(
-                type.accept(this.typeChecker).checkClassType(),
+                type.accept(this.typeChecker).checkClass(),
                 val.accept(this.typeChecker)
         ).message
 
@@ -906,7 +906,7 @@ class TypeCheckerTest extends Specification {
 
         and:
         this.environment.declare(
-                Literal.of(type).accept(this.typeChecker).checkClassType(),
+                Literal.of(type).accept(this.typeChecker).checkClass(),
                 name, val.accept(this.typeChecker)
         )
 
@@ -970,7 +970,7 @@ class TypeCheckerTest extends Specification {
 
     def 'test re-visit assignment invalid: #type invalid = #val'() {
         given:
-        def actualType = type.accept(this.typeChecker).checkClassType()
+        def actualType = type.accept(this.typeChecker).checkClass()
         def varName = 'invalid_re_assign'
         def errorMessage = TypeCheckerException.invalidType(
                 actualType, newVal.accept(this.typeChecker)

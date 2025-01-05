@@ -78,14 +78,14 @@ public final class TypeChecker implements Visitor<Type> {
         List<ClassType> types = new LinkedList<>();
         for (Assignment assignment : assignments) {
             assignment.accept(this);
-            types.add(assignment.getType().accept(this).checkClassType());
+            types.add(assignment.getType().accept(this).checkClass());
         }
         return new ParameterTypes(types);
     }
 
     @Override
     public @NotNull Type visitAssignment(@NotNull Node type, @NotNull Literal name, @NotNull Node value) {
-        ClassType variableType = type.accept(this).checkClassType();
+        ClassType variableType = type.accept(this).checkClass();
         Type tempVariableName = name.accept(this);
         if (!tempVariableName.is(LiteralType.class))
             throw TypeCheckerException.of(ScopeException.alreadyDeclaredVariable(name.getLiteral()));
@@ -180,7 +180,7 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitStaticArray(int size, @NotNull Node type) {
-        ClassType componentType = type.accept(this).checkClassType();
+        ClassType componentType = type.accept(this).checkClass();
         if (size < 0) throw TypeCheckerException.invalidArraySize(size);
         else return new ArrayType(componentType.toType());
     }
@@ -204,7 +204,7 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitArrayLiteral(@NotNull Node type) {
-        return new ArrayClassType(type.accept(this).checkClassType());
+        return new ArrayClassType(type.accept(this).checkClass());
     }
 
     @Override
@@ -270,7 +270,7 @@ public final class TypeChecker implements Visitor<Type> {
 
     @Override
     public @NotNull Type visitCast(@NotNull Node left, @NotNull Node right) {
-        ClassType cast = left.accept(this).checkClassType();
+        ClassType cast = left.accept(this).checkClass();
         Type type = right.accept(this);
         return cast.cast(type);
     }
@@ -323,7 +323,7 @@ public final class TypeChecker implements Visitor<Type> {
     @Override
     public @NotNull Type visitNewObject(@NotNull Node left, @NotNull Node right) {
         try {
-            return left.accept(this).checkClassType().newObject(right.accept(this).check(ParameterTypes.class));
+            return left.accept(this).checkClass().newObject(right.accept(this).check(ParameterTypes.class));
         } catch (TypeException e) {
             throw TypeCheckerException.of(e);
         }
@@ -469,7 +469,7 @@ public final class TypeChecker implements Visitor<Type> {
 
             final List<ClassType> exceptionTypes = new LinkedList<>();
             for (Literal exception : exceptions) {
-                ClassType exceptionClass = exception.accept(this).checkClassType();
+                ClassType exceptionClass = exception.accept(this).checkClass();
                 Type exceptionType = exceptionClass.toType().checkAssignableFrom(throwable);
 
                 if (exceptionTypes.contains(exceptionClass))
@@ -544,7 +544,7 @@ public final class TypeChecker implements Visitor<Type> {
     public @NotNull Type visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable,
                                                    @NotNull CodeBlock code, @NotNull Node expression) {
         return visitScoped(ScopeType.FOR, () -> {
-            ClassType variableType = type.accept(this).checkClassType();
+            ClassType variableType = type.accept(this).checkClass();
             LiteralType variableName = variable.accept(this).check(LiteralType.class);
             this.environment.declare(variableType, variableName.getLiteral(), variableType.toType());
 
