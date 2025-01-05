@@ -1,9 +1,10 @@
 package it.fulminazzo.javaparser.executor.values.primitivevalue;
 
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
-import it.fulminazzo.javaparser.executor.values.*;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
-import it.fulminazzo.javaparser.tokenizer.TokenType;
+import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue;
+import it.fulminazzo.javaparser.executor.values.Value;
+import it.fulminazzo.javaparser.executor.values.ValueRuntimeException;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
@@ -93,105 +94,6 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
         else if (value instanceof Integer) primitiveValue = new IntValue(Integer.parseInt(value.toString()));
         else throw ValueRuntimeException.invalidPrimitiveValue(value);
         return (PrimitiveValue<V>) primitiveValue;
-    }
-
-    /*
-        To prevent StackOverflowErrors, all operations are overridden.
-     */
-
-    @Override
-    public @NotNull BooleanValue and(@NotNull Value<?> other) {
-        throw ValueRuntimeException.unsupportedOperation(TokenType.AND, this, other);
-    }
-
-    @Override
-    public @NotNull BooleanValue or(@NotNull Value<?> other) {
-        throw ValueRuntimeException.unsupportedOperation(TokenType.OR, this, other);
-    }
-
-    @Override
-    public @NotNull BooleanValue lessThan(@NotNull Value<?> other) {
-        throw ValueRuntimeException.unsupportedOperation(TokenType.LESS_THAN, this, other);
-    }
-
-    @Override
-    public @NotNull BooleanValue lessThanEqual(@NotNull Value<?> other) {
-        throw ValueRuntimeException.unsupportedOperation(TokenType.LESS_THAN_EQUAL, this, other);
-    }
-
-    @Override
-    public @NotNull BooleanValue greaterThan(@NotNull Value<?> other) {
-        throw ValueRuntimeException.unsupportedOperation(TokenType.GREATER_THAN, this, other);
-    }
-
-    @Override
-    public @NotNull BooleanValue greaterThanEqual(@NotNull Value<?> other) {
-        throw ValueRuntimeException.unsupportedOperation(TokenType.GREATER_THAN_EQUAL, this, other);
-    }
-
-    @Override
-    public @NotNull Value<?> bitAnd(@NotNull Value<?> other) {
-        throw ValueRuntimeException.unsupportedOperation(TokenType.BIT_AND, this, other);
-    }
-
-    @Override
-    public @NotNull Value<?> bitOr(@NotNull Value<?> other) {
-        throw ValueRuntimeException.unsupportedOperation(TokenType.BIT_OR, this, other);
-    }
-
-    @Override
-    public @NotNull Value<?> bitXor(@NotNull Value<?> other) {
-        throw ValueRuntimeException.unsupportedOperation(TokenType.BIT_XOR, this, other);
-    }
-
-    @Override
-    public @NotNull Value<?> lshift(@NotNull Value<?> other) {
-        throw ValueRuntimeException.unsupportedOperation(TokenType.LSHIFT, this, other);
-    }
-
-    @Override
-    public @NotNull Value<?> rshift(@NotNull Value<?> other) {
-        throw ValueRuntimeException.unsupportedOperation(TokenType.RSHIFT, this, other);
-    }
-
-    @Override
-    public @NotNull Value<?> urshift(@NotNull Value<?> other) {
-        throw ValueRuntimeException.unsupportedOperation(TokenType.URSHIFT, this, other);
-    }
-
-    @Override
-    public @NotNull Value<?> add(@NotNull Value<?> other) {
-        throw ValueRuntimeException.unsupportedOperation(TokenType.ADD, this, other);
-    }
-
-    @Override
-    public @NotNull Value<?> subtract(@NotNull Value<?> other) {
-        throw ValueRuntimeException.unsupportedOperation(TokenType.SUBTRACT, this, other);
-    }
-
-    @Override
-    public @NotNull Value<?> multiply(@NotNull Value<?> other) {
-        throw ValueRuntimeException.unsupportedOperation(TokenType.MULTIPLY, this, other);
-    }
-
-    @Override
-    public @NotNull Value<?> divide(@NotNull Value<?> other) {
-        throw ValueRuntimeException.unsupportedOperation(TokenType.DIVIDE, this, other);
-    }
-
-    @Override
-    public @NotNull Value<?> modulo(@NotNull Value<?> other) {
-        throw ValueRuntimeException.unsupportedOperation(TokenType.MODULO, this, other);
-    }
-
-    @Override
-    public @NotNull Value<?> minus() {
-        throw ValueRuntimeException.unsupportedOperation(TokenType.SUBTRACT, this);
-    }
-
-    @Override
-    public @NotNull BooleanValue not() {
-        throw ValueRuntimeException.unsupportedOperation(TokenType.NOT, this);
     }
 
 }
