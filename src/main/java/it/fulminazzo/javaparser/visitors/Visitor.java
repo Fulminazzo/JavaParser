@@ -803,10 +803,10 @@ public interface Visitor<
                     }
             }
             throw cannotResolveSymbol(value);
-        } else return newLiteralObject(value);
+        } else return (O) newLiteralObject(value);
     }
 
-    <L extends LiteralObject<C, O, P>> @NotNull L newLiteralObject(@NotNull String value);
+    @NotNull LiteralObject<C, O, P> newLiteralObject(@NotNull String value);
 
     /**
      * Converts empty literal and its fields to this visitor type.
