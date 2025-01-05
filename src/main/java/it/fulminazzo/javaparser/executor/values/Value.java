@@ -153,12 +153,12 @@ public interface Value<V> extends VisitorObject<ClassValue<?>, Value<?>, Paramet
 
     @Override
     default @NotNull Value<?> toPrimitive() {
-        throw ExecutorException.noPrimitive(getValue());
+        throw ExecutorException.noPrimitive(this);
     }
 
     @Override
     default @NotNull Value<?> toWrapper() {
-        throw ExecutorException.noWrapper(getValue());
+        throw ExecutorException.noWrapper(this);
     }
 
     /**

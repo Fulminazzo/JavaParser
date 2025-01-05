@@ -78,7 +78,7 @@ public class ObjectValue<V> extends ObjectWrapper<V> implements Value<V> {
     }
 
     @Override
-    public @NotNull PrimitiveValue<V> toPrimitive() {
+    public @NotNull Value<?> toPrimitive() {
         V value = getValue();
         Class<?> primitiveClass = ReflectionUtils.getPrimitiveClass(value.getClass());
         if (!primitiveClass.equals(value.getClass())) return PrimitiveValue.of(value);
