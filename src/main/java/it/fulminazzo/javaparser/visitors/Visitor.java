@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.visitors;
 
+import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.environment.Environment;
 import it.fulminazzo.javaparser.environment.NamedEntity;
 import it.fulminazzo.javaparser.environment.ScopeException;
@@ -16,6 +17,7 @@ import it.fulminazzo.javaparser.parser.node.statements.Statement;
 import it.fulminazzo.javaparser.visitors.visitorobjects.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -776,7 +778,33 @@ public interface Visitor<
      * @param value the value
      * @return the literal
      */
-    @NotNull O visitLiteralImpl(@NotNull String value);
+    default @NotNull O visitLiteralImpl(@NotNull String value) {
+        final String fieldsSeparator = ".";
+
+        @NotNull Tuple<C, O> tuple = getObjectFromLiteral(value);
+        // Class was parsed
+        if (tuple.isPresent()) return tuple.getValue();
+        else if (value.contains(fieldsSeparator)) {
+            LinkedList<String> first = new LinkedList<>(Arrays.asList(value.split("\\" + fieldsSeparator)));
+            LinkedList<String> last = new LinkedList<>();
+
+            while (!first.isEmpty()) {
+                last.addFirst(first.removeLast());
+
+                tuple = getObjectFromLiteral(String.join(fieldsSeparator, first));
+                if (tuple.isPresent())
+                    try {
+                        Tuple<C, O> field = tuple.copy();
+                        do field = field.getValue().getField(last.removeFirst());
+                        while (!last.isEmpty());
+                        return field.getValue();
+                    } catch (VisitorObjectException e) {
+                        throw exceptionWrapper(e);
+                    }
+            }
+            throw cannotResolveSymbol(value);
+        } else return newLiteralObject(value);
+    }
 
     /**
      * Converts empty literal and its fields to this visitor type.
