@@ -23,52 +23,53 @@ public interface ClassValue<V> extends Value<Class<V>>, Info {
      * @param value the value
      * @return the value cast to this class
      */
-    default @NotNull Value<V> cast(final @NotNull Value<?> value) {
+    @Override
+    default @NotNull Value<?> cast(final @NotNull Value<?> value) {
         Object object = value.getValue();
-        if (object == null) return (Value<V>) Values.NULL_VALUE;
+        if (object == null) return Values.NULL_VALUE;
         else if (is(PrimitiveClassValue.class))
             if (is(PrimitiveClassValue.BOOLEAN))
-                return (Value<V>) PrimitiveValue.of(object.equals(true));
+                return PrimitiveValue.of(object.equals(true));
             else {
                 Number numberValue = object instanceof Number ? (Number) object : (int) (char) object;
                 if (is(PrimitiveClassValue.BYTE))
-                    return (Value<V>) PrimitiveValue.of(numberValue.byteValue());
+                    return PrimitiveValue.of(numberValue.byteValue());
                 else if (is(PrimitiveClassValue.SHORT))
-                    return (Value<V>) PrimitiveValue.of(numberValue.shortValue());
+                    return PrimitiveValue.of(numberValue.shortValue());
                 else if (is(PrimitiveClassValue.CHAR))
-                    return (Value<V>) PrimitiveValue.of((char) numberValue.intValue());
+                    return PrimitiveValue.of((char) numberValue.intValue());
                 else if (is(PrimitiveClassValue.INT))
-                    return (Value<V>) PrimitiveValue.of(numberValue.intValue());
+                    return PrimitiveValue.of(numberValue.intValue());
                 else if (is(PrimitiveClassValue.LONG))
-                    return (Value<V>) PrimitiveValue.of(numberValue.longValue());
+                    return PrimitiveValue.of(numberValue.longValue());
                 else if (is(PrimitiveClassValue.FLOAT))
-                    return (Value<V>) PrimitiveValue.of(numberValue.floatValue());
+                    return PrimitiveValue.of(numberValue.floatValue());
                 else if (is(PrimitiveClassValue.DOUBLE))
-                    return (Value<V>) PrimitiveValue.of(numberValue.doubleValue());
+                    return PrimitiveValue.of(numberValue.doubleValue());
             }
         else if (is(ObjectClassValue.class))
             if (is(ObjectClassValue.OBJECT))
-                return (Value<V>) ObjectValue.of(object);
+                return ObjectValue.of(object);
             else if (is(ObjectClassValue.STRING))
-                return (Value<V>) ObjectValue.of((String) object);
+                return ObjectValue.of((String) object);
             else if (is(ObjectClassValue.BOOLEAN))
-                return (Value<V>) ObjectValue.of(object.equals(true));
+                return ObjectValue.of(object.equals(true));
             else {
                 Number numberValue = object instanceof Number ? (Number) object : (int) (char) object;
                 if (is(ObjectClassValue.BYTE))
-                    return (Value<V>) ObjectValue.of(numberValue.byteValue());
+                    return ObjectValue.of(numberValue.byteValue());
                 else if (is(ObjectClassValue.SHORT))
-                    return (Value<V>) ObjectValue.of(numberValue.shortValue());
+                    return ObjectValue.of(numberValue.shortValue());
                 else if (is(ObjectClassValue.CHARACTER))
-                    return (Value<V>) ObjectValue.of((char) numberValue.intValue());
+                    return ObjectValue.of((char) numberValue.intValue());
                 else if (is(ObjectClassValue.INTEGER))
-                    return (Value<V>) ObjectValue.of(numberValue.intValue());
+                    return ObjectValue.of(numberValue.intValue());
                 else if (is(ObjectClassValue.LONG))
-                    return (Value<V>) ObjectValue.of(numberValue.longValue());
+                    return ObjectValue.of(numberValue.longValue());
                 else if (is(ObjectClassValue.FLOAT))
-                    return (Value<V>) ObjectValue.of(numberValue.floatValue());
+                    return ObjectValue.of(numberValue.floatValue());
                 else if (is(ObjectClassValue.DOUBLE))
-                    return (Value<V>) ObjectValue.of(numberValue.doubleValue());
+                    return ObjectValue.of(numberValue.doubleValue());
             }
         return Value.of(getValue().cast(object));
     }
@@ -86,14 +87,6 @@ public interface ClassValue<V> extends Value<Class<V>>, Info {
     default @NotNull Value<V> toValue() {
         return (Value<V>) Values.NULL_VALUE;
     }
-
-    /**
-     * Verifies that the current class value is compatible with the provided value.
-     *
-     * @param value the other value
-     * @return true if it is
-     */
-    boolean compatibleWith(final @NotNull Value<?> value);
 
     @Override
     default boolean compatibleWith(@NotNull Object object) {
