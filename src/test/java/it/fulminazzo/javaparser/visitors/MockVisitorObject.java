@@ -9,6 +9,9 @@ import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObjectException;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Executable;
+import java.lang.reflect.Method;
+
 @Getter
 public class MockVisitorObject implements VisitorObject {
     private final String string;
@@ -33,6 +36,11 @@ public class MockVisitorObject implements VisitorObject {
     }
 
     @Override
+    public @NotNull VisitorObject invokeMethod(@NotNull Method method, @NotNull ParameterVisitorObjects parameters) throws VisitorObjectException {
+        return null;
+    }
+
+    @Override
     public @NotNull ClassVisitorObject checkClass() {
         return null;
     }
@@ -49,6 +57,16 @@ public class MockVisitorObject implements VisitorObject {
 
     @Override
     public @NotNull ClassVisitorObject toClass() {
+        return null;
+    }
+
+    @Override
+    public @NotNull RuntimeException methodNotFound(@NotNull ClassVisitorObject classObject, @NotNull String method, @NotNull ParameterVisitorObjects parameters) {
+        return null;
+    }
+
+    @Override
+    public @NotNull RuntimeException typesMismatch(@NotNull ClassVisitorObject classObject, @NotNull Executable method, @NotNull ParameterVisitorObjects parameters) {
         return null;
     }
 
