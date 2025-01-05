@@ -13,13 +13,6 @@ import java.lang.reflect.Modifier;
  */
 public interface ClassType extends Type, Info {
 
-    /**
-     * Gets the actual class represented by this type.
-     *
-     * @return the class
-     */
-    @NotNull Class<?> toJavaClass();
-
     @Override
     default boolean isExtending(@NotNull ClassType classType) {
         return classType.toJavaClass().isAssignableFrom(toJavaClass());
