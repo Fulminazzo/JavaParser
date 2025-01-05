@@ -1,7 +1,9 @@
 package it.fulminazzo.javaparser.visitors.visitorobjects;
 
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
+import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.visitors.Visitor;
+import it.fulminazzo.javaparser.visitors.VisitorException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -125,7 +127,9 @@ public interface VisitorObject<
      * @param other the other object
      * @return a boolean object
      */
-    @NotNull O and(final @NotNull O other);
+    default @NotNull O and(final @NotNull O other) {
+        throw VisitorException.unsupportedOperation(TokenType.AND, this, other);
+    }
 
     /**
      * Executes or comparison.
@@ -133,7 +137,9 @@ public interface VisitorObject<
      * @param other the other object
      * @return a boolean object
      */
-    @NotNull O or(final @NotNull O other);
+    default @NotNull O or(final @NotNull O other) {
+        throw VisitorException.unsupportedOperation(TokenType.OR, this, other);
+    }
 
     /**
      * Executes equal comparison.
@@ -141,7 +147,9 @@ public interface VisitorObject<
      * @param other the other object
      * @return a boolean object
      */
-    @NotNull O equal(final @NotNull O other);
+    default @NotNull O equal(final @NotNull O other) {
+        throw VisitorException.unsupportedOperation(TokenType.EQUAL, this, other);
+    }
 
     /**
      * Executes not equal comparison.
@@ -149,7 +157,9 @@ public interface VisitorObject<
      * @param other the other object
      * @return a boolean object
      */
-    @NotNull O notEqual(final @NotNull O other);
+    default @NotNull O notEqual(final @NotNull O other) {
+        throw VisitorException.unsupportedOperation(TokenType.NOT_EQUAL, this, other);
+    }
 
     /**
      * Executes less than comparison.
@@ -157,7 +167,9 @@ public interface VisitorObject<
      * @param other the other object
      * @return a boolean object
      */
-    @NotNull O lessThan(final @NotNull O other);
+    default @NotNull O lessThan(final @NotNull O other) {
+        throw VisitorException.unsupportedOperation(TokenType.LESS_THAN, this, other);
+    }
 
     /**
      * Executes less than equal comparison.
@@ -165,7 +177,9 @@ public interface VisitorObject<
      * @param other the other object
      * @return a boolean object
      */
-    @NotNull O lessThanEqual(final @NotNull O other);
+    default @NotNull O lessThanEqual(final @NotNull O other) {
+        throw VisitorException.unsupportedOperation(TokenType.LESS_THAN_EQUAL, this, other);
+    }
 
     /**
      * Executes greater than comparison.
@@ -173,7 +187,9 @@ public interface VisitorObject<
      * @param other the other object
      * @return a boolean object
      */
-    @NotNull O greaterThan(final @NotNull O other);
+    default @NotNull O greaterThan(final @NotNull O other) {
+        throw VisitorException.unsupportedOperation(TokenType.GREATER_THAN, this, other);
+    }
 
     /**
      * Executes greater than equal comparison.
@@ -181,7 +197,9 @@ public interface VisitorObject<
      * @param other the other object
      * @return a boolean object
      */
-    @NotNull O greaterThanEqual(final @NotNull O other);
+    default @NotNull O greaterThanEqual(final @NotNull O other) {
+        throw VisitorException.unsupportedOperation(TokenType.GREATER_THAN_EQUAL, this, other);
+    }
 
     /*
         BINARY OPERATIONS
@@ -193,7 +211,9 @@ public interface VisitorObject<
      * @param other the other object
      * @return the resulting object
      */
-    @NotNull O bitAnd(final @NotNull O other);
+    default @NotNull O bitAnd(final @NotNull O other) {
+        throw VisitorException.unsupportedOperation(TokenType.BIT_AND, this, other);
+    }
 
     /**
      * Executes bit or operation.
@@ -201,7 +221,9 @@ public interface VisitorObject<
      * @param other the other object
      * @return the resulting object
      */
-    @NotNull O bitOr(final @NotNull O other);
+    default @NotNull O bitOr(final @NotNull O other) {
+        throw VisitorException.unsupportedOperation(TokenType.BIT_OR, this, other);
+    }
 
     /**
      * Executes bit xor operation.
@@ -209,7 +231,9 @@ public interface VisitorObject<
      * @param other the other object
      * @return the resulting object
      */
-    @NotNull O bitXor(final @NotNull O other);
+    default @NotNull O bitXor(final @NotNull O other) {
+        throw VisitorException.unsupportedOperation(TokenType.BIT_XOR, this, other);
+    }
 
     /**
      * Executes lshift operation.
@@ -217,7 +241,9 @@ public interface VisitorObject<
      * @param other the other object
      * @return the resulting object
      */
-    @NotNull O lshift(final @NotNull O other);
+    default @NotNull O lshift(final @NotNull O other) {
+        throw VisitorException.unsupportedOperation(TokenType.LSHIFT, this, other);
+    }
 
     /**
      * Executes rshift operation.
@@ -225,7 +251,9 @@ public interface VisitorObject<
      * @param other the other object
      * @return the resulting object
      */
-    @NotNull O rshift(final @NotNull O other);
+    default @NotNull O rshift(final @NotNull O other) {
+        throw VisitorException.unsupportedOperation(TokenType.RSHIFT, this, other);
+    }
 
     /**
      * Executes urshift operation.
@@ -233,7 +261,9 @@ public interface VisitorObject<
      * @param other the other object
      * @return the resulting object
      */
-    @NotNull O urshift(final @NotNull O other);
+    default @NotNull O urshift(final @NotNull O other) {
+        throw VisitorException.unsupportedOperation(TokenType.URSHIFT, this, other);
+    }
 
 
     /**
@@ -242,7 +272,9 @@ public interface VisitorObject<
      * @param other the other object
      * @return the resulting object
      */
-    @NotNull O add(final @NotNull O other);
+    default @NotNull O add(final @NotNull O other) {
+        throw VisitorException.unsupportedOperation(TokenType.ADD, this, other);
+    }
 
     /**
      * Executes subtract operation.
@@ -250,7 +282,9 @@ public interface VisitorObject<
      * @param other the other object
      * @return the resulting object
      */
-    @NotNull O subtract(final @NotNull O other);
+    default @NotNull O subtract(final @NotNull O other) {
+        throw VisitorException.unsupportedOperation(TokenType.SUBTRACT, this, other);
+    }
 
     /**
      * Executes multiply operation.
@@ -258,7 +292,9 @@ public interface VisitorObject<
      * @param other the other object
      * @return the resulting object
      */
-    @NotNull O multiply(final @NotNull O other);
+    default @NotNull O multiply(final @NotNull O other) {
+        throw VisitorException.unsupportedOperation(TokenType.MULTIPLY, this, other);
+    }
 
     /**
      * Executes divide operation.
@@ -266,7 +302,9 @@ public interface VisitorObject<
      * @param other the other object
      * @return the resulting object
      */
-    @NotNull O divide(final @NotNull O other);
+    default @NotNull O divide(final @NotNull O other) {
+        throw VisitorException.unsupportedOperation(TokenType.DIVIDE, this, other);
+    }
 
     /**
      * Executes modulo operation.
@@ -274,20 +312,26 @@ public interface VisitorObject<
      * @param other the other object
      * @return the resulting object
      */
-    @NotNull O modulo(final @NotNull O other);
+    default @NotNull O modulo(final @NotNull O other) {
+        throw VisitorException.unsupportedOperation(TokenType.MODULO, this, other);
+    }
 
     /**
      * Executes minus operation.
      *
      * @return a boolean object
      */
-    @NotNull O minus();
+    default @NotNull O minus() {
+        throw VisitorException.unsupportedOperation(TokenType.SUBTRACT, this);
+    }
 
     /**
      * Executes not operation.
      *
      * @return a boolean object
      */
-    @NotNull O not();
+    default @NotNull O not() {
+        throw VisitorException.unsupportedOperation(TokenType.NOT, this);
+    }
 
 }
