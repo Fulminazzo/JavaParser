@@ -275,7 +275,8 @@ public interface Visitor<
             if (variableType.isPrimitive()) variable = variableType.toObject();
             else variable = visitNullLiteral();
         try {
-            getEnvironment().declare(variableType, variableName, convertVariable(variableType, variable));
+            variable = convertVariable(variableType, variable);
+            getEnvironment().declare(variableType, variableName, variable);
         } catch (ScopeException ignored) {
         }
         return variableType.cast(variable);
@@ -298,7 +299,8 @@ public interface Visitor<
             NamedEntity variableName = NamedEntity.of(((Literal) name).getLiteral());
             C variableType = (C) getEnvironment().lookupInfo(variableName);
             O variable = value.accept(this);
-            getEnvironment().update(variableName, convertVariable(variableType, variable));
+            variable = convertVariable(variableType, variable);
+            getEnvironment().update(variableName, variable);
             return variableType.cast(variable);
         } catch (ScopeException e) {
             throw exceptionWrapper(e);
