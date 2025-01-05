@@ -124,37 +124,34 @@ public interface VisitorObject<
      * Generates a {@link RuntimeException} with message:
      * <i>%clazz% does not have a class</i>
      *
-     * @param <E>  the type of the exception
      * @param type the type
      * @return the type runtime exception
      */
-    <E extends RuntimeException> E noClassType(final @NotNull Class<?> type);
+    RuntimeException noClassType(final @NotNull Class<?> type);
 
     /**
      * Generates a {@link RuntimeException} with message:
      * <i>Operator '%operator%' cannot be applied to '%left%', '%right%'</i>
      *
-     * @param <E>      the type of the exception
      * @param operator the operator
      * @param left     the left operand
      * @param right    the right operand
      * @return the runtime exception
      */
-    <E extends RuntimeException> E unsupportedOperation(final @NotNull TokenType operator,
-                                                        final @NotNull VisitorObject<C, O, P> left,
-                                                        final @NotNull VisitorObject<C, O, P> right);
+    RuntimeException unsupportedOperation(final @NotNull TokenType operator,
+                                          final @NotNull VisitorObject<C, O, P> left,
+                                          final @NotNull VisitorObject<C, O, P> right);
 
     /**
      * Generates a {@link RuntimeException} with message:
      * <i>Operator '%operator%' cannot be applied to '%operand%'</i>
      *
-     * @param <E>      the type of the exception
      * @param operator the operator
      * @param operand  the operand
      * @return the runtime exception
      */
-    <E extends RuntimeException> E unsupportedOperation(final @NotNull TokenType operator,
-                                                        final @NotNull VisitorObject<C, O, P> operand);
+    RuntimeException unsupportedOperation(final @NotNull TokenType operator,
+                                          final @NotNull VisitorObject<C, O, P> operand);
     
     /*
         BINARY COMPARISONS

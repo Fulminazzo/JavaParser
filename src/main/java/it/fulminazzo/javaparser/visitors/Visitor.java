@@ -771,10 +771,9 @@ public interface Visitor<
      * Wraps the given exception to a user-defined {@link RuntimeException}
      * for it to be thrown later.
      *
-     * @param <E>       the type of the runtime exception
      * @param exception the exception
      * @return the runtime exception
      */
-    <E extends RuntimeException> @NotNull E exceptionWrapper(final @NotNull Exception exception);
+    @NotNull RuntimeException exceptionWrapper(final @NotNull Exception exception);
 
 }
