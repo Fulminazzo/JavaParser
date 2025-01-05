@@ -37,7 +37,7 @@ class ObjectValueTest extends Specification {
 
         then:
         def e = thrown(ExecutorException)
-        e.message == ExecutorException.invalidPrimitiveValue(this).message
+        e.message == ExecutorException.noPrimitive(value).message
     }
 
     def 'test invalid to'() {
