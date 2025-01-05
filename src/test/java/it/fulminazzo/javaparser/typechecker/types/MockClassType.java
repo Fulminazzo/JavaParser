@@ -2,7 +2,7 @@ package it.fulminazzo.javaparser.typechecker.types;
 
 import org.jetbrains.annotations.NotNull;
 
-public class MockClassType extends MockType implements ClassType {
+public class MockClassType implements ClassType {
 
     @Override
     public @NotNull Type toType() {
