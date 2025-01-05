@@ -14,6 +14,11 @@ import java.lang.reflect.Modifier;
 public interface ClassType extends Type, ClassVisitorObject<ClassType, Type, ParameterTypes> {
 
     @Override
+    default boolean isPrimitive() {
+        return this instanceof PrimitiveClassType;
+    }
+
+    @Override
     default boolean isExtending(@NotNull ClassType classType) {
         return classType.toJavaClass().isAssignableFrom(toJavaClass());
     }
