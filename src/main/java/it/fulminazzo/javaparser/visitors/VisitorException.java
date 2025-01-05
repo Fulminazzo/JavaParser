@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.visitors;
 
+import it.fulminazzo.javaparser.tokenizer.TokenType;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -36,6 +37,36 @@ public class VisitorException extends RuntimeException {
      */
     public static @NotNull VisitorException noClassType(final @NotNull Class<?> type) {
         return new VisitorException("%s does not have a class", type.getSimpleName());
+    }
+
+    /**
+     * Generates a {@link VisitorException} with message:
+     * <i>Operator '%operator%' cannot be applied to '%left%', '%right%'</i>
+     *
+     * @param operator the operator
+     * @param left     the left operand
+     * @param right    the right operand
+     * @return the visitor exception
+     */
+    public static @NotNull VisitorException unsupportedOperation(final @NotNull TokenType operator,
+                                                                 final @NotNull Object left,
+                                                                 final @NotNull Object right) {
+        return new VisitorException("Operator '%s' cannot be applied to '%s', '%s'",
+                operator.regex().replace("\\", ""), left, right);
+    }
+
+    /**
+     * Generates a {@link VisitorException} with message:
+     * <i>Operator '%operator%' cannot be applied to '%operand%'</i>
+     *
+     * @param operator the operator
+     * @param operand  the operand
+     * @return the visitor exception
+     */
+    public static @NotNull VisitorException unsupportedOperation(final @NotNull TokenType operator,
+                                                                 final @NotNull Object operand) {
+        return new VisitorException("Operator '%s' cannot be applied to '%s'",
+                operator.regex().replace("\\", ""), operand);
     }
 
 }
