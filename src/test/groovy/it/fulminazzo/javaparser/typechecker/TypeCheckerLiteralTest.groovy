@@ -1,24 +1,29 @@
 package it.fulminazzo.javaparser.typechecker
 
+import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple
+import it.fulminazzo.javaparser.environment.MockEnvironment
 import it.fulminazzo.javaparser.typechecker.types.*
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
 
 class TypeCheckerLiteralTest extends Specification {
-    private TypeChecker checker
+    private TypeChecker typeChecker
+    private MockEnvironment environment
 
     void setup() {
-        this.checker = new TypeChecker(getClass())
+        this.typeChecker = new TypeChecker(new TestClass())
+        this.environment = new MockEnvironment<>()
+        new Refl<>(this.typeChecker).setFieldObject('environment', this.environment)
     }
 
     def 'test visit literal from code #code should return #expected'() {
         given:
-        this.checker.environment.declare(ObjectClassType.INTEGER, 'var', PrimitiveType.INT)
+        this.environment.declare(ObjectClassType.INTEGER, 'var', PrimitiveType.INT)
 
         when:
-        def read = this.checker.visitLiteralImpl(code)
+        def read = this.typeChecker.visitLiteralImpl(code)
 
         then:
         read == expected
@@ -44,7 +49,7 @@ class TypeCheckerLiteralTest extends Specification {
         def typeException = TypeException.fieldNotFound(ClassType.of(System), 'non_existent')
 
         when:
-        this.checker.visitLiteralImpl('System.non_existent')
+        this.typeChecker.visitLiteralImpl('System.non_existent')
 
         then:
         def e = thrown(TypeCheckerException)
@@ -56,7 +61,7 @@ class TypeCheckerLiteralTest extends Specification {
         def literal = 'invalid.class'
 
         when:
-        this.checker.visitLiteralImpl(literal)
+        this.typeChecker.visitLiteralImpl(literal)
 
         then:
         def e = thrown(TypeCheckerException)
@@ -65,10 +70,10 @@ class TypeCheckerLiteralTest extends Specification {
 
     def 'test getTypeFromLiteral #literal'() {
         given:
-        this.checker.environment.declare(PrimitiveClassType.INT, 'i', PrimitiveType.INT)
+        this.environment.declare(PrimitiveClassType.INT, 'i', PrimitiveType.INT)
 
         when:
-        def tuple = this.checker.getTypeFromLiteral(literal)
+        def tuple = this.typeChecker.getTypeFromLiteral(literal)
 
         then:
         tuple == expected
