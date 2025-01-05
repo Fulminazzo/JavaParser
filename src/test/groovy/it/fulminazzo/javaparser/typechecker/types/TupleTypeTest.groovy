@@ -5,12 +5,12 @@ import spock.lang.Specification
 
 class TupleTypeTest extends Specification {
 
-    def 'test toClassType should throw exception'() {
+    def 'test toClass should throw exception'() {
         given:
         def type = new TupleType(PrimitiveClassType.INT, PrimitiveClassType.INT)
 
         when:
-        type.toClassType()
+        type.toClass()
 
         then:
         def e = thrown(TypeCheckerException)

@@ -30,12 +30,12 @@ class ParameterTypesTest extends Specification {
         ].flatten()
     }
 
-    def 'test toClassType should throw exception'() {
+    def 'test toClass should throw exception'() {
         given:
         def types = new ParameterTypes([])
 
         when:
-        types.toClassType()
+        types.toClass()
 
         then:
         def e = thrown(TypeCheckerException)

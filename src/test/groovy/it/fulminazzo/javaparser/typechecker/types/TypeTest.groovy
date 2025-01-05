@@ -128,7 +128,7 @@ class TypeTest extends Specification {
 
         then:
         def e = thrown(TypeException)
-        e.message == TypeException.cannotAccessField(this.type.toClassType(), TestClass.getDeclaredField(field)).message
+        e.message == TypeException.cannotAccessField(this.type.toClass(), TestClass.getDeclaredField(field)).message
 
         where:
         field << [
@@ -143,7 +143,7 @@ class TypeTest extends Specification {
 
         then:
         def e = thrown(TypeException)
-        e.message == TypeException.fieldNotFound(this.type.toClassType(), 'invalid').message
+        e.message == TypeException.fieldNotFound(this.type.toClass(), 'invalid').message
     }
 
     def 'test class valid getField #field'() {
@@ -219,7 +219,7 @@ class TypeTest extends Specification {
 
         then:
         def e = thrown(TypeException)
-        e.message == TypeException.typesMismatch(this.type.toClassType(),
+        e.message == TypeException.typesMismatch(this.type.toClass(),
                 TestClass.getDeclaredMethod(method, methodTypes), parameters).message
 
         where:
@@ -238,7 +238,7 @@ class TypeTest extends Specification {
 
         then:
         def e = thrown(TypeException)
-        e.message == TypeException.cannotAccessMethod(this.type.toClassType(), TestClass.getDeclaredMethod(method)).message
+        e.message == TypeException.cannotAccessMethod(this.type.toClass(), TestClass.getDeclaredMethod(method)).message
 
         where:
         method << [
@@ -253,7 +253,7 @@ class TypeTest extends Specification {
 
         then:
         def e = thrown(TypeException)
-        e.message == TypeException.methodNotFound(this.type.toClassType(), 'invalid', NO_PARAMETERS).message
+        e.message == TypeException.methodNotFound(this.type.toClass(), 'invalid', NO_PARAMETERS).message
     }
 
     def 'test class valid invokeMethod #method(#parameters)'() {

@@ -63,7 +63,7 @@ public enum PrimitiveType implements Type {
     }
 
     @Override
-    public @NotNull ClassType toClassType() {
+    public @NotNull ClassType toClass() {
         switch (this) {
             case CHAR:
                 return PrimitiveClassType.CHAR;

@@ -137,7 +137,7 @@ public interface ClassType extends Type, Info {
     @NotNull Type toType();
 
     @Override
-    default @NotNull ClassType toClassType() {
+    default @NotNull ClassType toClass() {
         return ClassType.of(Class.class);
     }
 

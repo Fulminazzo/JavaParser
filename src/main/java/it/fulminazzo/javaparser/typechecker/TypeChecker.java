@@ -167,7 +167,7 @@ public final class TypeChecker implements Visitor<Type> {
     public @NotNull Type visitMethodInvocation(@NotNull List<Node> parameters) {
         List<ClassType> parameterTypes = new LinkedList<>();
         for (Node parameter : parameters)
-            parameterTypes.add(parameter.accept(this).toClassType());
+            parameterTypes.add(parameter.accept(this).toClass());
         return new ParameterTypes(parameterTypes);
     }
 
@@ -552,7 +552,7 @@ public final class TypeChecker implements Visitor<Type> {
             if (expressionType.is(ArrayType.class)) {
                 Type componentType = expressionType.check(ArrayType.class).getComponentType();
                 if (!componentType.isAssignableFrom(variableType))
-                    throw TypeCheckerException.invalidType(componentType.toClassType(), variableType);
+                    throw TypeCheckerException.invalidType(componentType.toClass(), variableType);
             } else {
                 //TODO: Iterable generic should check for type
                 ClassType iterable = ObjectClassType.of(Iterable.class);
@@ -595,7 +595,7 @@ public final class TypeChecker implements Visitor<Type> {
         final ClassType runtimeException = ClassType.of(RuntimeException.class);
 
         Type exceptionType = expression.accept(this).checkAssignableFrom(throwable);
-        ClassType exception = exceptionType.toClassType();
+        ClassType exception = exceptionType.toClass();
         if (!exceptionType.isAssignableFrom(runtimeException)) {
             if (!this.environment.isInTryScope((Class<? extends Throwable>) exception.toJavaClass()))
                 throw TypeCheckerException.unhandledException(exception);
@@ -704,7 +704,7 @@ public final class TypeChecker implements Visitor<Type> {
         try {
             if (literal.endsWith(".class")) {
                 ClassType type = ClassType.of(literal.substring(0, literal.length() - 6));
-                tuple.set(type.toClassType(), type.toClassType());
+                tuple.set(type.toClass(), type.toClass());
             } else {
                 ClassType type = ClassType.of(literal);
                 tuple.set(type, type);

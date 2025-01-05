@@ -1,17 +1,13 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
-import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
-import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.List;
 
 /**
  * Represents a general type parsed by the {@link it.fulminazzo.javaparser.typechecker.TypeChecker}.
@@ -104,7 +100,7 @@ public interface Type {
 
     @Override
     default @NotNull Tuple<ClassType, Type> getField(final @NotNull Field field) throws TypeException {
-        ClassType classType = isClassType() ? (ClassType) this : toClassType();
+        ClassType classType = isClassType() ? (ClassType) this : toClass();
         if (!Modifier.isPublic(field.getModifiers())) throw TypeException.cannotAccessField(classType, field);
         else if (isClassType() && !Modifier.isStatic(field.getModifiers()))
             throw TypeException.cannotAccessStaticField(classType, field.getName());
@@ -115,7 +111,7 @@ public interface Type {
     @Override
     default @NotNull Type invokeMethod(final @NotNull Method method,
                                        final @NotNull ParameterTypes parameterTypes) throws TypeException {
-        ClassType classType = isClassType() ? (ClassType) this : toClassType();
+        ClassType classType = isClassType() ? (ClassType) this : toClass();
         if (!Modifier.isPublic(method.getModifiers()))
             throw TypeException.cannotAccessMethod(classType, method);
         else if (isClassType() && !Modifier.isStatic(method.getModifiers()))
@@ -138,7 +134,7 @@ public interface Type {
      *
      * @return the class type
      */
-    @NotNull ClassType toClassType();
+    @NotNull ClassType toClass();
 
     /**
      * Prints the given string to the format of a type.

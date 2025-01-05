@@ -29,7 +29,7 @@ public final class Types {
         }
 
         @Override
-        public @NotNull ClassType toClassType() {
+        public @NotNull ClassType toClass() {
             throw TypeCheckerException.noClassType(getClass());
         }
 

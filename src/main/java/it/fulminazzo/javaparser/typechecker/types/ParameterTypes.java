@@ -42,7 +42,7 @@ public final class ParameterTypes extends ObjectWrapper<List<ClassType>> impleme
     }
 
     @Override
-    public @NotNull ClassType toClassType() {
+    public @NotNull ClassType toClass() {
         throw TypeCheckerException.noClassType(getClass());
     }
 

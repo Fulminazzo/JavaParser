@@ -50,7 +50,7 @@ class CustomObjectClassTypeTest extends Specification {
         def type = ObjectType.of(Map)
 
         when:
-        def classType = type.toClassType()
+        def classType = type.toClass()
         def newType = classType.toType()
 
         then:

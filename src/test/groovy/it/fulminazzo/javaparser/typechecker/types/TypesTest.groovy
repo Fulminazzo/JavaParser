@@ -34,9 +34,9 @@ class TypesTest extends Specification {
         classType << PrimitiveClassType.values()
     }
 
-    def 'test SingletonType toClassType'() {
+    def 'test SingletonType toClass'() {
         when:
-        this.type.toClassType()
+        this.type.toClass()
 
         then:
         def e = thrown(TypeCheckerException)

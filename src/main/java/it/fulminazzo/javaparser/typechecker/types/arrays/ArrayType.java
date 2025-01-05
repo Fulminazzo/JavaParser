@@ -31,8 +31,8 @@ public class ArrayType extends TypeWrapper implements Type {
     }
 
     @Override
-    public @NotNull ClassType toClassType() {
-        return new ArrayClassType(getComponentType().toClassType());
+    public @NotNull ClassType toClass() {
+        return new ArrayClassType(getComponentType().toClass());
     }
 
 }

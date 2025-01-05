@@ -18,9 +18,9 @@ class LiteralTypeTest extends Specification {
         literal == 'world'
     }
 
-    def 'test toClassType'() {
+    def 'test toClass'() {
         when:
-        this.literal.toClassType()
+        this.literal.toClass()
 
         then:
         def e = thrown(TypeCheckerException)

@@ -74,7 +74,7 @@ class ArrayClassTypeTest extends Specification {
         def arrayType = new ArrayType(new ArrayType(new ArrayType(PrimitiveType.NUMBER)))
 
         when:
-        def arrayClassType = arrayType.toClassType()
+        def arrayClassType = arrayType.toClass()
         def newArrayType = arrayClassType.toType()
 
         then:
@@ -93,14 +93,14 @@ class ArrayClassTypeTest extends Specification {
         clazz == String[].class
     }
 
-    def 'test toClassType'() {
+    def 'test toClass'() {
         given:
         // int[][][]
         def classType = new ArrayClassType(new ArrayClassType(new ArrayClassType(PrimitiveClassType.INT)))
         def type = new ArrayType(new ArrayType(new ArrayType(PrimitiveType.NUMBER)))
 
         expect:
-        type.toClassType() == classType
+        type.toClass() == classType
     }
 
     def 'test compatibleWith'() {

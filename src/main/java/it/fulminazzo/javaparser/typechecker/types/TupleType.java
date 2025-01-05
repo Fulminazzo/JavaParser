@@ -24,7 +24,7 @@ public class TupleType<F, S> extends Tuple<F, S> implements Type {
     }
 
     @Override
-    public @NotNull ClassType toClassType() {
+    public @NotNull ClassType toClass() {
         throw TypeCheckerException.noClassType(getClass());
     }
 

@@ -27,9 +27,9 @@ class PrimitiveTypeTest extends Specification {
         BOOLEAN | ObjectType.BOOLEAN
     }
 
-    def 'test #type toClassType should return #expected'() {
+    def 'test #type toClass should return #expected'() {
         given:
-        def actual = type.toClassType()
+        def actual = type.toClass()
 
         expect:
         actual == expected

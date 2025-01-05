@@ -15,9 +15,9 @@ class ClassTypeTest extends Specification {
         this.classType = ClassType.of(TestClass)
     }
 
-    def 'test method #toClassType should always return a wrapper for java.lang.Class'() {
+    def 'test method #toClass should always return a wrapper for java.lang.Class'() {
         given:
-        def classType = new MockClassType().toClassType()
+        def classType = new MockClassType().toClass()
 
         expect:
         classType == ObjectClassType.of(Class)
@@ -74,7 +74,7 @@ class ClassTypeTest extends Specification {
                 new Type() {
                     @NotNull
                     @Override
-                    ClassType toClassType() {
+                    ClassType toClass() {
                         return null
                     }
                 },
@@ -143,7 +143,7 @@ class ClassTypeTest extends Specification {
 
         @NotNull
         @Override
-        ClassType toClassType() {
+        ClassType toClass() {
             return null
         }
 

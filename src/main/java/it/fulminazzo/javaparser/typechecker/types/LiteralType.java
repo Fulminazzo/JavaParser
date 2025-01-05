@@ -30,7 +30,7 @@ public class LiteralType extends ObjectWrapper<String> implements Type {
     }
 
     @Override
-    public @NotNull ClassType toClassType() {
+    public @NotNull ClassType toClass() {
         throw TypeCheckerException.noClassType(getClass());
     }
 
