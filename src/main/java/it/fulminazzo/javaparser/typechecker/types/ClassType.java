@@ -20,19 +20,16 @@ import java.util.stream.Collectors;
 public interface ClassType extends Type, Info {
 
     /**
-     * Checks if the given type can be cast to the current class.
-     *
-     * @param type the type
-     * @return the associated type of this class
-     */
-    @NotNull Type cast(final @NotNull Type type);
-
-    /**
      * Gets the actual class represented by this type.
      *
      * @return the class
      */
     @NotNull Class<?> toJavaClass();
+
+    @Override
+    default boolean isExtending(@NotNull ClassType classType) {
+        return classType.toJavaClass().isAssignableFrom(toJavaClass());
+    }
 
     /**
      * Checks whether the current class type extends the provided type.
@@ -41,7 +38,7 @@ public interface ClassType extends Type, Info {
      * @param classType the class type
      */
     default void checkExtends(final @NotNull ClassType classType) {
-        if (!classType.toJavaClass().isAssignableFrom(toJavaClass()))
+        if (!isExtending(classType))
             throw TypeCheckerException.invalidType(classType, this);
     }
 
