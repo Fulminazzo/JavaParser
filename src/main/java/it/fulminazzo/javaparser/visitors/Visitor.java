@@ -339,7 +339,7 @@ public interface Visitor<
         try {
             O actualExecutor = executor.accept(this);
             if (actualExecutor.equals(visitEmptyLiteral())) actualExecutor = visitThisLiteral();
-            return actualExecutor.invokeMethod(methodName, invocation.accept(this));
+            return actualExecutor.invokeMethod(methodName, (P) invocation.accept(this));
         } catch (VisitorObjectException e) {
             throw VisitorException.of(e);
         }
