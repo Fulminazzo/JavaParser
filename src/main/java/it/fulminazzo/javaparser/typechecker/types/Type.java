@@ -18,13 +18,14 @@ import java.util.List;
  */
 public interface Type {
 
-    /**
-     * Checks whether the current type is a basic value of Java (from {@link PrimitiveType}).
-     *
-     * @return true if it is
-     */
+    @Override
     default boolean isPrimitive() {
         return is(PrimitiveType.class);
+    }
+
+    @Override
+    default boolean isNull() {
+        return is(Types.NULL_TYPE);
     }
 
     /**
@@ -34,27 +35,6 @@ public interface Type {
      */
     default boolean isClassType() {
         return is(ClassType.class);
-    }
-
-    /**
-     * Checks whether the current type is of the one specified.
-     *
-     * @param <T>  the type
-     * @param type the class of the type
-     * @return true if it is
-     */
-    default <T extends Type> boolean is(final Class<T> type) {
-        return type.isAssignableFrom(getClass());
-    }
-
-    /**
-     * Checks whether the current type is equal to any of the ones given.
-     *
-     * @param types the types
-     * @return true if it is for at least one of them
-     */
-    default boolean is(final Type @NotNull ... types) {
-        return Arrays.asList(types).contains(this);
     }
 
     /**
@@ -78,19 +58,6 @@ public interface Type {
     default <T extends Type> @NotNull T check(final @NotNull Class<T> classType) {
         if (is(classType)) return classType.cast(this);
         else throw TypeCheckerException.invalidType(classType, this);
-    }
-
-    /**
-     * Checks that the current type is of the specified one.
-     * Throws {@link TypeCheckerException} in case it is not.
-     *
-     * @param <T>  the class of the type
-     * @param type the expected type
-     * @return the current type cast to the expected one
-     */
-    default <T extends Type> @NotNull T check(final @NotNull T type) {
-        if (is(type)) return type;
-        else throw TypeCheckerException.invalidType(type, this);
     }
 
     /**
@@ -133,16 +100,6 @@ public interface Type {
     default Type checkAssignableFrom(final @NotNull ClassType classType) {
         if (!isAssignableFrom(classType)) throw TypeCheckerException.invalidType(classType, this);
         else return this;
-    }
-
-    /**
-     * Checks whether the current type extends the given {@link ClassType}.
-     *
-     * @param classType the class type
-     * @return true if it is
-     */
-    default boolean isAssignableFrom(final @NotNull ClassType classType) {
-        return classType.compatibleWith(this);
     }
 
     /**
