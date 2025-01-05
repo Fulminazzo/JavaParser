@@ -3,17 +3,8 @@ package it.fulminazzo.javaparser.visitors
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.fulmicollection.utils.ClassUtils
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils
-import it.fulminazzo.javaparser.environment.Environment
-import it.fulminazzo.javaparser.parser.node.Assignment
-import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.MockNode
 import it.fulminazzo.javaparser.parser.node.Node
-import it.fulminazzo.javaparser.parser.node.container.CodeBlock
-import it.fulminazzo.javaparser.parser.node.literals.Literal
-import it.fulminazzo.javaparser.parser.node.statements.CaseStatement
-import it.fulminazzo.javaparser.parser.node.statements.CatchStatement
-import it.fulminazzo.javaparser.parser.node.statements.Statement
-import org.jetbrains.annotations.NotNull
 import spock.lang.Specification
 
 import java.lang.reflect.Modifier
@@ -26,7 +17,7 @@ class VisitorTest extends Specification {
         def visitor = new MockVisitor()
 
         when:
-        def converted = node.accept(visitor)
+        def converted = node.accept(visitor).getString()
 
         then:
         converted == "${node.name}${node.version}"
