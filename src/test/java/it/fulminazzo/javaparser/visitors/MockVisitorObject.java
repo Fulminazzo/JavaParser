@@ -26,6 +26,11 @@ public class MockVisitorObject implements VisitorObject {
     }
 
     @Override
+    public boolean isNull() {
+        return false;
+    }
+
+    @Override
     public @NotNull Tuple getField(@NotNull String fieldName) throws VisitorObjectException {
         return null;
     }
