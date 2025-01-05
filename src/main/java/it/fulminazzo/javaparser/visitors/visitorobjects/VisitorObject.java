@@ -116,6 +116,36 @@ public interface VisitorObject<
      * @return the class object
      */
     @NotNull C toClass();
+
+    /*
+        EXCEPTIONS
+     */
+
+    /**
+     * Generates a {@link RuntimeException} with message:
+     * <i>Operator '%operator%' cannot be applied to '%left%', '%right%'</i>
+     *
+     * @param <E>      the type of the exception
+     * @param operator the operator
+     * @param left     the left operand
+     * @param right    the right operand
+     * @return the runtime exception
+     */
+    <E extends RuntimeException> E unsupportedOperation(final @NotNull TokenType operator,
+                                                        final @NotNull VisitorObject<C, O, P> left,
+                                                        final @NotNull VisitorObject<C, O, P> right);
+
+    /**
+     * Generates a {@link RuntimeException} with message:
+     * <i>Operator '%operator%' cannot be applied to '%operand%'</i>
+     *
+     * @param <E>      the type of the exception
+     * @param operator the operator
+     * @param operand  the operand
+     * @return the runtime exception
+     */
+    <E extends RuntimeException> E unsupportedOperation(final @NotNull TokenType operator,
+                                                        final @NotNull VisitorObject<C, O, P> operand);
     
     /*
         BINARY COMPARISONS
