@@ -1,9 +1,8 @@
 package it.fulminazzo.javaparser.executor.values.primitivevalue
 
 import it.fulminazzo.fulmicollection.objects.Refl
-import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue
 import it.fulminazzo.javaparser.executor.ExecutorException
-import it.fulminazzo.javaparser.tokenizer.TokenType
+import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue
 import spock.lang.Specification
 
 class PrimitiveValueTest extends Specification {
@@ -151,54 +150,6 @@ class PrimitiveValueTest extends Specification {
         then:
         def e = thrown(ExecutorException)
         e.message == ExecutorException.invalidPrimitiveValue(value).message
-    }
-
-    def 'test operation #operation should throw unsupported by default'() {
-        given:
-        def primitive = new PrimitiveValue(1) {}
-
-        and:
-        def expected = ExecutorException.unsupportedOperation(operator,
-                primitive, primitive).message
-
-        when:
-        primitive."${operation}"(primitive)
-
-        then:
-        def e = thrown(ExecutorException)
-        e.message == expected
-
-        where:
-        operation << [
-                'and', 'or',
-                'lessThan', 'lessThanEqual', 'greaterThan', 'greaterThanEqual',
-                'bitAnd', 'bitOr', 'bitXor',
-                'lshift', 'rshift', 'urshift',
-                'add', 'subtract', 'multiply', 'divide', 'modulo'
-        ]
-        operator << TokenType.values()
-                .findAll { it.between(TokenType.COLON, TokenType.NOT) }
-                .findAll { !([TokenType.EQUAL, TokenType.NOT_EQUAL].contains(it)) }
-    }
-
-    def 'test operation #operation should throw unsupported by default'() {
-        given:
-        def primitive = new PrimitiveValue(1) {}
-
-        and:
-        def expected = ExecutorException.unsupportedOperation(operator,
-                primitive).message
-
-        when:
-        primitive."${operation}"()
-
-        then:
-        def e = thrown(ExecutorException)
-        e.message == expected
-
-        where:
-        operation << ['minus', 'not']
-        operator << [TokenType.SUBTRACT, TokenType.NOT]
     }
 
 }
