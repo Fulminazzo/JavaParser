@@ -119,19 +119,12 @@ public interface Value<V> {
         return equals(value);
     }
 
-    /**
-     * Gets the specified field from the current value.
-     *
-     * @param <T>       the type of the field
-     * @param fieldName the field name
-     * @return a tuple containing the class and the actual value of the field
-     */
-    default <T> @NotNull Tuple<ClassValue<T>, Value<T>> getField(final @NotNull String fieldName) {
+    @Override
+    default @NotNull Tuple<ClassValue<V>, Value<V>> getField(final @NotNull Field field) {
         Refl<?> refl = new Refl<>(getValue());
-        Field field = refl.getField(fieldName);
         Object object = refl.getFieldObject(field);
-        ClassValue<T> classValue = ClassValue.of((Class<T>) field.getType());
-        Value<T> value = (Value<T>) of(object);
+        ClassValue<V> classValue = ClassValue.of((Class<V>) field.getType());
+        Value<V> value = (Value<V>) of(object);
         if (classValue.isPrimitive()) value = value.toPrimitive();
         return new Tuple<>(classValue, value);
     }
