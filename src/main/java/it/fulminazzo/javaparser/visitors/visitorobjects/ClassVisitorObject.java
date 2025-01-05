@@ -1,7 +1,15 @@
 package it.fulminazzo.javaparser.visitors.visitorobjects;
 
+import it.fulminazzo.fulmicollection.objects.Refl;
+import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.environment.Info;
 import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Executable;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Represents the associated class of a {@link VisitorObject}.
@@ -10,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
  * @param <O> the type of the {@link VisitorObject}
  * @param <P> the type of the {@link ParameterVisitorObjects}
  */
+@SuppressWarnings("unchecked")
 public interface ClassVisitorObject<
         C extends ClassVisitorObject<C, O, P>,
         O extends VisitorObject<C, O, P>,
@@ -33,7 +42,33 @@ public interface ClassVisitorObject<
      * @return the object associated with this class
      * @throws VisitorObjectException the exception thrown in case of errors
      */
-    @NotNull O newObject(final @NotNull P parameters) throws VisitorObjectException;
+    default @NotNull O newObject(final @NotNull P parameters) throws VisitorObjectException {
+        final String methodName = "<init>";
+        final C classVisitorObject = (C) this;
+        try {
+            Class<?> javaClass = classVisitorObject.toJavaClass();
+            // Lookup constructors from parameters count
+            @NotNull List<Constructor<?>> constructors = Arrays.stream(javaClass.getDeclaredConstructors())
+                    .filter(c -> VisitorObjectUtils.verifyExecutable(parameters, c))
+                    .collect(Collectors.toList());
+            if (constructors.isEmpty()) throw new IllegalArgumentException();
+
+            Refl<?> refl = new Refl<>(ReflectionUtils.class);
+            Class<?> @NotNull [] parametersTypes = parameters.toJavaClassArray();
+
+            for (Constructor<?> constructor : constructors) {
+                // For each one, validate its parameters
+                if (Boolean.TRUE.equals(refl.invokeMethod("validateParameters",
+                        new Class[]{Class[].class, Executable.class},
+                        parametersTypes, constructor)))
+                    return newObject(constructor, parameters);
+            }
+
+            throw typesMismatch(classVisitorObject, constructors.get(0), parameters);
+        } catch (IllegalArgumentException e) {
+            throw methodNotFound(classVisitorObject, methodName, parameters);
+        }
+    }
 
     /**
      * Checks if the current class is extending the provided class.
