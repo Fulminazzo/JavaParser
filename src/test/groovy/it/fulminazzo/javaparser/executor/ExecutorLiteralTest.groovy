@@ -43,12 +43,12 @@ class ExecutorLiteralTest extends Specification {
         "${FirstInnerClass.SecondInnerClass.canonicalName}.version" | PrimitiveValue.of(2)
     }
 
-    def 'test getTypeFromLiteral #literal'() {
+    def 'test getObjectFromLiteral #literal'() {
         given:
         this.executor.environment.declare(PrimitiveClassValue.INT, 'i', PrimitiveValue.of(1))
 
         when:
-        def tuple = this.executor.getValueFromLiteral(literal)
+        def tuple = this.executor.getObjectFromLiteral(literal)
 
         then:
         tuple == expected
