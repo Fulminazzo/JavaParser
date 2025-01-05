@@ -1,9 +1,8 @@
 package it.fulminazzo.javaparser.executor.values.primitivevalue
 
 import it.fulminazzo.fulmicollection.objects.Refl
-import it.fulminazzo.javaparser.executor.ExecutorException
 import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue
-import it.fulminazzo.javaparser.executor.values.ValueRuntimeException
+import it.fulminazzo.javaparser.executor.ExecutorException
 import it.fulminazzo.javaparser.tokenizer.TokenType
 import spock.lang.Specification
 
@@ -150,7 +149,7 @@ class PrimitiveValueTest extends Specification {
         PrimitiveValue.of(value)
 
         then:
-        def e = thrown(ValueRuntimeException)
+        def e = thrown(ExecutorException)
         e.message == ExecutorException.invalidPrimitiveValue(value).message
     }
 
@@ -159,14 +158,14 @@ class PrimitiveValueTest extends Specification {
         def primitive = new PrimitiveValue(1) {}
 
         and:
-        def expected = ValueRuntimeException.unsupportedOperation(operator,
+        def expected = ExecutorException.unsupportedOperation(operator,
                 primitive, primitive).message
 
         when:
         primitive."${operation}"(primitive)
 
         then:
-        def e = thrown(ValueRuntimeException)
+        def e = thrown(ExecutorException)
         e.message == expected
 
         where:
@@ -187,14 +186,14 @@ class PrimitiveValueTest extends Specification {
         def primitive = new PrimitiveValue(1) {}
 
         and:
-        def expected = ValueRuntimeException.unsupportedOperation(operator,
+        def expected = ExecutorException.unsupportedOperation(operator,
                 primitive).message
 
         when:
         primitive."${operation}"()
 
         then:
-        def e = thrown(ValueRuntimeException)
+        def e = thrown(ExecutorException)
         e.message == expected
 
         where:
