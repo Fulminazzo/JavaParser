@@ -22,6 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 /**
@@ -356,7 +357,7 @@ public interface Visitor<
      * @param operand the operand
      * @return the increment
      */
-    default @NotNull O visitIncrement(boolean before, @NotNull Node operand) {
+    default @NotNull O visitIncrement(final boolean before, final @NotNull Node operand) {
         //TODO: should fix the casts
         throw new UnsupportedOperationException();
     }
@@ -368,9 +369,38 @@ public interface Visitor<
      * @param operand the operand
      * @return the decrement
      */
-    default @NotNull O visitDecrement(boolean before, @NotNull Node operand) {
+    default @NotNull O visitDecrement(final boolean before, final @NotNull Node operand) {
         //TODO: should fix the casts
         throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Support method for {@link #visitIncrement(boolean, Node)} and {@link #visitDecrement(boolean, Node)}.
+     *
+     * @param before          true if the returned object needs to be computed
+     * @param operand         the operand
+     * @param actualOperation the actual operation
+     * @return the object
+     */
+    default @NotNull O visitPrefixedOperation(final boolean before, final @NotNull Node operand,
+                                              final @NotNull BiFunction<O, O, O> actualOperation) {
+        final O incrementValue = visitNumberValueLiteral("1");
+        //TODO: This will not working in case of a cast or a field access
+        //TODO: more work is required
+        Literal literal = (Literal) operand;
+        NamedEntity variableName = NamedEntity.of(literal.getLiteral());
+        O object = operand.accept(this);
+        try {
+            if (before) {
+                object = actualOperation.apply(object, incrementValue);
+                getEnvironment().update(variableName, object);
+            } else {
+                getEnvironment().update(variableName, actualOperation.apply(object, incrementValue));
+                return object;
+            }
+        } catch (ScopeException ignored) {
+        }
+        return object;
     }
 
     /**
