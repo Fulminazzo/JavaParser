@@ -74,8 +74,8 @@ public final class OperationUtils {
      * @return {@link PrimitiveType#BOOLEAN}
      */
     public static @NotNull Type executeBooleanComparison(final @NotNull TokenType operator,
-                                                        final @NotNull Type left,
-                                                        final @NotNull Type right) {
+                                                         final @NotNull Type left,
+                                                         final @NotNull Type right) {
         checkBooleanType(operator, left, right);
         return PrimitiveType.BOOLEAN;
     }
@@ -146,6 +146,38 @@ public final class OperationUtils {
         else if (isFloat(left) || isFloat(right)) return PrimitiveType.FLOAT;
         else if (isLong(left) || isLong(right)) return PrimitiveType.LONG;
         else return PrimitiveType.NUMBER;
+    }
+
+    /**
+     * Checks whether the given operand is of types {@link PrimitiveType#BOOLEAN}, then {@link PrimitiveType#BOOLEAN}.
+     * If not, throws a {@link TypeCheckerException#unsupportedOperation(TokenType, Object)}.
+     * Otherwise, returns the operand itself.
+     *
+     * @param operator the operator of the operation
+     * @param operand  the operand
+     * @return the type
+     */
+    public static @NotNull Type executeUnaryOperationBoolean(final @NotNull TokenType operator,
+                                                             final @NotNull Type operand) {
+        if (!isBoolean(operand))
+            throw TypeCheckerException.unsupportedOperation(operator, operand);
+        return operand;
+    }
+
+    /**
+     * Checks whether the given operand is of types {@link #getDecimalTypes()}.
+     * If not, throws a {@link TypeCheckerException#unsupportedOperation(TokenType, Object)}.
+     * Otherwise, returns the operand itself.
+     *
+     * @param operator the operator of the operation
+     * @param operand  the operand
+     * @return the type
+     */
+    public static @NotNull Type executeUnaryOperationDecimal(final @NotNull TokenType operator,
+                                                             final @NotNull Type operand) {
+        if (!operand.is(getDecimalTypes()))
+            throw TypeCheckerException.unsupportedOperation(operator, operand);
+        return operand;
     }
 
     /**
