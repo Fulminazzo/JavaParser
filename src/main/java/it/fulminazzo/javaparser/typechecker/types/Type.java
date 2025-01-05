@@ -154,14 +154,14 @@ public interface Type {
     @Override
     default @NotNull TypeException methodNotFound(final @NotNull ClassType classObject,
                                                   final @NotNull String method,
-                                                  final @NotNull Type parameters) {
+                                                  final @NotNull ParameterTypes parameters) {
         return TypeException.methodNotFound(classObject, method, parameters);
     }
 
     @Override
     default @NotNull TypeException typesMismatch(final @NotNull ClassType classObject,
                                                  final @NotNull Executable method,
-                                                 final @NotNull Type parameters) {
+                                                 final @NotNull ParameterTypes parameters) {
         return TypeException.typesMismatch(classObject, method, parameters);
     }
 
