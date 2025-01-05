@@ -91,7 +91,7 @@ class ExecutorTest extends Specification {
         new NumberValueLiteral('1') | [
                 new CaseStatement(new NumberValueLiteral('1'), CODE_BLOCK_EMPTY),
                 new CaseStatement(new NumberValueLiteral('2'), CODE_BLOCK_2),
-        ] | CODE_BLOCK_3 | PrimitiveValue.of(1)
+        ] | CODE_BLOCK_3 | PrimitiveValue.of(2)
         new NumberValueLiteral('1') | [
                 new CaseStatement(new NumberValueLiteral('1'), new CodeBlock(new Break())),
                 new CaseStatement(new NumberValueLiteral('2'), CODE_BLOCK_2),
