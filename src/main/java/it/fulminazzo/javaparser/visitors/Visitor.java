@@ -875,4 +875,13 @@ public interface Visitor<
     @NotNull RuntimeException invalidType(final @NotNull Class<?> expected,
                                           final @NotNull Object actual);
 
+    /**
+     * Generates a {@link RuntimeException} with message:
+     * <i>Cannot resolve symbol '%symbol%'</i>
+     *
+     * @param symbol the symbol
+     * @return the runtime exception
+     */
+    @NotNull RuntimeException cannotResolveSymbol(final @NotNull String symbol);
+
 }
