@@ -153,12 +153,12 @@ public interface Value<V> extends VisitorObject<ClassValue<?>, Value<?>, Paramet
 
     @Override
     default @NotNull Value<?> toPrimitive() {
-        throw ValueRuntimeException.noPrimitive(getValue());
+        throw ExecutorException.noPrimitive(getValue());
     }
 
     @Override
     default @NotNull Value<?> toWrapper() {
-        throw ValueRuntimeException.noWrapper(getValue());
+        throw ExecutorException.noWrapper(getValue());
     }
 
     /**
@@ -281,21 +281,21 @@ public interface Value<V> extends VisitorObject<ClassValue<?>, Value<?>, Paramet
     @Override
     default @NotNull ValueException fieldNotFound(final @NotNull ClassValue<?> classVisitorObject,
                                                   final @NotNull String field) {
-        return ValueException.fieldNotFound(classVisitorObject, field);
+        return ValueException.notImplemented();
     }
 
     @Override
     default @NotNull ValueException methodNotFound(final @NotNull ClassValue<?> classObject,
                                                    final @NotNull String method,
                                                    final @NotNull ParameterValues parameters) {
-        return ValueException.methodNotFound(classObject, method, parameters);
+        return ValueException.notImplemented();
     }
 
     @Override
     default @NotNull ValueException typesMismatch(final @NotNull ClassValue<?> classObject,
                                                   final @NotNull Executable method,
                                                   final @NotNull ParameterValues parameters) {
-        return ValueException.typesMismatch(classObject, method, parameters);
+        return ValueException.notImplemented();
     }
 
     @Override
@@ -307,13 +307,13 @@ public interface Value<V> extends VisitorObject<ClassValue<?>, Value<?>, Paramet
     default @NotNull RuntimeException unsupportedOperation(final @NotNull TokenType operator,
                                                            final @NotNull VisitorObject<ClassValue<?>, Value<?>, ParameterValues> left,
                                                            final @NotNull VisitorObject<ClassValue<?>, Value<?>, ParameterValues> right) {
-        return ExecutorException.unsupportedOperation(operator, (Value<?>) left, (Value<?>) right);
+        return ExecutorException.notImplemented();
     }
 
     @Override
     default @NotNull RuntimeException unsupportedOperation(final @NotNull TokenType operator,
                                                            final @NotNull VisitorObject<ClassValue<?>, Value<?>, ParameterValues> operand) {
-        return ExecutorException.unsupportedOperation(operator, (Value<?>) operand);
+        return ExecutorException.notImplemented();
     }
 
     /*
