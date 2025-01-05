@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.typechecker
 
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.environment.MockEnvironment
+import it.fulminazzo.javaparser.environment.NamedEntity
 import it.fulminazzo.javaparser.environment.ScopeException
 import it.fulminazzo.javaparser.environment.scopetypes.ScopeType
 import it.fulminazzo.javaparser.parser.node.Assignment
@@ -347,7 +348,7 @@ class TypeCheckerTest extends Specification {
                 TypeCheckerException.exceptionsNotDisjoint(ClassType.of(IllegalArgumentException),
                         ClassType.of(RuntimeException))
         [Literal.of('Exception')]                                                | Literal.of('f') |
-                TypeCheckerException.of(ScopeException.alreadyDeclaredVariable('f'))
+                TypeCheckerException.of(ScopeException.alreadyDeclaredVariable(NamedEntity.of('f')))
     }
 
     def 'test visit switch statement of #expression (#cases, #defaultBlock) should return #expected'() {
@@ -717,7 +718,7 @@ class TypeCheckerTest extends Specification {
 
         then:
         def e = thrown(TypeCheckerException)
-        e.message == ScopeException.alreadyDeclaredVariable(varName).message
+        e.message == ScopeException.alreadyDeclaredVariable(NamedEntity.of(varName)).message
     }
 
     def 'test visit assignment invalid: #type invalid = #val'() {
@@ -965,7 +966,7 @@ class TypeCheckerTest extends Specification {
 
         then:
         def e = thrown(TypeCheckerException)
-        e.message == ScopeException.noSuchVariable(varName).message
+        e.message == ScopeException.noSuchVariable(NamedEntity.of(varName)).message
     }
 
     def 'test re-visit assignment invalid: #type invalid = #val'() {
