@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.parser.node;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.javaparser.visitors.Visitor;
+import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,7 +17,7 @@ public abstract class NodeImpl implements Node {
     private static final long serialVersionUID = 101010L;
 
     @Override
-    public <T> T accept(final @NotNull Visitor<T> visitor) {
+    public <T extends VisitorObject<?, T, ?>> T accept(final @NotNull Visitor<?, T, ?> visitor) {
         String methodName = "visit" + getClass().getSimpleName();
         Refl<?> node = new Refl<>(this);
         return new Refl<>(visitor).invokeMethod(methodName,
