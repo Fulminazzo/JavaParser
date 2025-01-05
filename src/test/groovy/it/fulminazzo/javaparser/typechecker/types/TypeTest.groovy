@@ -198,9 +198,9 @@ class TypeTest extends Specification {
      * GET METHOD
      */
 
-    def 'test valid getMethod #method(#parameters)'() {
+    def 'test valid invokeMethod #method(#parameters)'() {
         when:
-        def actual = this.type.getMethod(method, parameters)
+        def actual = this.type.invokeMethod(method, parameters)
 
         then:
         actual == expected
@@ -213,9 +213,9 @@ class TypeTest extends Specification {
         'publicMethod'       | PrimitiveClassType.DOUBLE | new ParameterTypes([PrimitiveClassType.DOUBLE, ObjectClassType.BOOLEAN])
     }
 
-    def 'test getMethod #method(#parameters) should throw types mismatch'() {
+    def 'test invokeMethod #method(#parameters) should throw types mismatch'() {
         when:
-        this.type.getMethod(method, parameters)
+        this.type.invokeMethod(method, parameters)
 
         then:
         def e = thrown(TypeException)
@@ -232,9 +232,9 @@ class TypeTest extends Specification {
         'publicMethod'       | new Class[]{double, Boolean} | new ParameterTypes([PrimitiveClassType.INT, ObjectClassType.STRING])
     }
 
-    def 'test cannot access method #method from getMethod'() {
+    def 'test cannot access method #method from invokeMethod'() {
         when:
-        this.type.getMethod(method, NO_PARAMETERS)
+        this.type.invokeMethod(method, NO_PARAMETERS)
 
         then:
         def e = thrown(TypeException)
@@ -249,16 +249,16 @@ class TypeTest extends Specification {
 
     def 'test method not found'() {
         when:
-        this.type.getMethod('invalid', NO_PARAMETERS)
+        this.type.invokeMethod('invalid', NO_PARAMETERS)
 
         then:
         def e = thrown(TypeException)
         e.message == TypeException.methodNotFound(this.type.toClassType(), 'invalid', NO_PARAMETERS).message
     }
 
-    def 'test class valid getMethod #method(#parameters)'() {
+    def 'test class valid invokeMethod #method(#parameters)'() {
         when:
-        def actual = this.classType.getMethod(method, parameters)
+        def actual = this.classType.invokeMethod(method, parameters)
 
         then:
         actual == expected
@@ -271,7 +271,7 @@ class TypeTest extends Specification {
 
     def 'test class cannot access non-static method #method(#parameters)'() {
         when:
-        this.classType.getMethod(method, NO_PARAMETERS)
+        this.classType.invokeMethod(method, NO_PARAMETERS)
 
         then:
         def e = thrown(TypeException)
@@ -283,9 +283,9 @@ class TypeTest extends Specification {
         'publicMethod' | PrimitiveClassType.DOUBLE | new ParameterTypes([PrimitiveClassType.DOUBLE, ObjectClassType.BOOLEAN])
     }
 
-    def 'test class cannot access method #method from getMethod'() {
+    def 'test class cannot access method #method from invokeMethod'() {
         when:
-        this.classType.getMethod(method, NO_PARAMETERS)
+        this.classType.invokeMethod(method, NO_PARAMETERS)
 
         then:
         def e = thrown(TypeException)
@@ -300,7 +300,7 @@ class TypeTest extends Specification {
 
     def 'test class method not found'() {
         when:
-        this.classType.getMethod('invalid', NO_PARAMETERS)
+        this.classType.invokeMethod('invalid', NO_PARAMETERS)
 
         then:
         def e = thrown(TypeException)

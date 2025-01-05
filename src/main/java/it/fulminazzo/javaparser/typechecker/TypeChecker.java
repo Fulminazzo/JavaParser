@@ -148,7 +148,7 @@ public final class TypeChecker implements Visitor<Type> {
         try {
             Type type = executor.accept(this);
             if (type.is(Types.NO_TYPE)) type = ObjectType.of(this.executingObject.getClass());
-            return type.getMethod(methodName, (ParameterTypes) invocation.accept(this)).toType();
+            return type.invokeMethod(methodName, (ParameterTypes) invocation.accept(this)).toType();
         } catch (TypeException e) {
             throw TypeCheckerException.of(e);
         }

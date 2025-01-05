@@ -122,9 +122,9 @@ public interface Type {
      *                       (only <code>public</code> modifier allowed and <code>static</code> methods from static context)
      *                       or the given types did not match the expected ones
      */
-    default @NotNull ClassType getMethod(final @NotNull String methodName,
-                                         final @NotNull ParameterTypes parameterTypes) throws TypeException {
-        if (isPrimitive()) return toWrapper().getMethod(methodName, parameterTypes);
+    default @NotNull ClassType invokeMethod(final @NotNull String methodName,
+                                            final @NotNull ParameterTypes parameterTypes) throws TypeException {
+        if (isPrimitive()) return toWrapper().invokeMethod(methodName, parameterTypes);
         ClassType classType = isClassType() ? (ClassType) this : toClassType();
         try {
             Class<?> javaClass = classType.toJavaClass();
