@@ -20,13 +20,13 @@ public enum PrimitiveType implements Type {
      */
     LONG,
     /**
-     * Type of {@link it.fulminazzo.javaparser.tokenizer.TokenType#DOUBLE_VALUE}.
-     */
-    DOUBLE,
-    /**
      * Type of {@link it.fulminazzo.javaparser.tokenizer.TokenType#FLOAT_VALUE}.
      */
     FLOAT,
+    /**
+     * Type of {@link it.fulminazzo.javaparser.tokenizer.TokenType#DOUBLE_VALUE}.
+     */
+    DOUBLE,
     /**
      * Type of {@link it.fulminazzo.javaparser.tokenizer.TokenType#BOOLEAN_VALUE}.
      */
