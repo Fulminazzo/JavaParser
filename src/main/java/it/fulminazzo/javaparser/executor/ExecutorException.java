@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor;
 
+import it.fulminazzo.javaparser.executor.values.Value;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -48,6 +49,28 @@ public class ExecutorException extends RuntimeException {
     public static @NotNull ExecutorException noClassValue(final @NotNull Class<?> value) {
         return new ExecutorException("%s does not have a %s",
                 value.getSimpleName(), ClassValue.class.getSimpleName());
+    }
+
+    /**
+     * Generates a {@link ExecutorException} with message:
+     * <i>Type %value% does not have any associated primitive value</i>
+     *
+     * @param value the value
+     * @return the value checker exception
+     */
+    public static @NotNull ExecutorException noPrimitive(final @NotNull Value<?> value) {
+        return new ExecutorException("Value %s does not have any associated primitive value", value);
+    }
+
+    /**
+     * Generates a {@link ExecutorException} with message:
+     * <i>Type %value% does not have any associated wrapper value</i>
+     *
+     * @param value the value
+     * @return the value checker exception
+     */
+    public static @NotNull ExecutorException noWrapper(final @NotNull Value<?> value) {
+        return new ExecutorException("Value %s does not have any associated wrapper value", value);
     }
 
     /**
