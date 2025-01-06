@@ -711,7 +711,9 @@ public interface Visitor<
      */
     default @NotNull O visitCast(final @NotNull Node left, final @NotNull Node right) {
         O cast = left.accept(this);
-        return cast.checkClass().cast(right.accept(this));
+        O value = right.accept(this);
+        if (value.is(VariableContainer.class)) value = (O) value.check(VariableContainer.class).getVariable();
+        return cast.checkClass().cast(value);
     }
 
     /**
