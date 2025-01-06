@@ -38,7 +38,7 @@ public final class TypeFieldContainer extends FieldContainer<ClassType, Type, Pa
         if (Modifier.isFinal(field.getModifiers()))
             try {
                 throw TypeException.cannotModifyFinalField(this.name);
-            } catch (TypeCheckerException e) {
+            } catch (TypeException e) {
                 throw TypeCheckerException.of(e);
             }
         return newValue;
