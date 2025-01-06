@@ -209,4 +209,19 @@ abstract class VariableContainer<
         return this.value.not();
     }
 
+    @Override
+    public int hashCode() {
+        return this.value.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this.value.equals(o);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s(%s)", getClass().getSimpleName(), this.value);
+    }
+
 }
