@@ -26,7 +26,37 @@ java -jar mojito-LATEST.jar file_to_read.java
 
 At the moment, the program does not support any command line argument.
 
-import
+### Import
+**Mojito** can be imported using one of the most common **three methods** ([Gradle](https://gradle.org/),
+[Maven](https://maven.apache.org/) or **JAR**) using `it.fulminazzo` as **group id** and `mojito` as **artifact**.
+
+The [Fulminazzo repository (https://repo.fulminazzo.it/releases)](https://repo.fulminazzo.it/releases)
+is **mandatory** for these dependencies to work.
+
+- **Gradle**:
+  ```groovy
+  repositories {
+      maven { url = 'https://repo.fulminazzo.it/releases' }
+  }
+
+  dependencies {
+      implementation 'it.fulminazzo:mojito:latest.release'
+  }
+  ```
+- **Maven**:
+  ```xml
+  <repository>
+      <id>fulminazzo</id>
+      <url>https://repo.fulminazzo.it/releases</url>
+  </repository>
+  ```
+  ```xml
+  <dependency>
+      <groupId>it.fulminazzo</groupId>
+      <artifact>mojito</artifact>
+      <version>LATEST</version>
+  </dependency>
+  ```
 
 ## Grammar
 The following is the grammar respected by the parser:
