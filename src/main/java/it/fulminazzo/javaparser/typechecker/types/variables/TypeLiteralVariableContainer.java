@@ -30,11 +30,11 @@ public final class TypeLiteralVariableContainer extends LiteralVariableContainer
      * @param environment the environment
      * @param type        the type
      * @param name        the name
-     * @param value       the value
+     * @param variable    the value
      */
     public TypeLiteralVariableContainer(@NotNull Environment<Type> environment, @NotNull ClassType type,
-                                        @NotNull String name, @NotNull Type value) {
-        super(environment, type, name, value);
+                                        @NotNull String name, @NotNull Type variable) {
+        super(environment, type, name, variable);
     }
 
     @Override
@@ -44,32 +44,32 @@ public final class TypeLiteralVariableContainer extends LiteralVariableContainer
 
     @Override
     public boolean isClassType() {
-        return this.value.isClassType();
+        return this.variable.isClassType();
     }
 
     @Override
     public @NotNull Type check(Type @NotNull ... expectedTypes) {
-        return this.value.check(expectedTypes);
+        return this.variable.check(expectedTypes);
     }
 
     @Override
     public @NotNull Type checkNot(Type @NotNull ... expectedTypes) {
-        return this.value.checkNot(expectedTypes);
+        return this.variable.checkNot(expectedTypes);
     }
 
     @Override
     public @NotNull Type checkAssignableFrom(@NotNull ClassType classType) {
-        return this.value.checkAssignableFrom(classType);
+        return this.variable.checkAssignableFrom(classType);
     }
 
     @Override
     public @NotNull TypeFieldContainer getField(@NotNull Field field) throws TypeException {
-        return this.value.getField(field);
+        return this.variable.getField(field);
     }
 
     @Override
     public @NotNull Type invokeMethod(@NotNull Method method, @NotNull ParameterTypes parameterTypes) throws TypeException {
-        return this.value.invokeMethod(method, parameterTypes);
+        return this.variable.invokeMethod(method, parameterTypes);
     }
 
 }

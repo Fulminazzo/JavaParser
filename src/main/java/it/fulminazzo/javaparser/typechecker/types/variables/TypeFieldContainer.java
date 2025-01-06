@@ -18,11 +18,11 @@ public final class TypeFieldContainer extends FieldContainer<ClassType, Type, Pa
     /**
      * Instantiates a new Field container.
      *
-     * @param type  the type
-     * @param value the value
+     * @param type     the type
+     * @param variable the value
      */
-    public TypeFieldContainer(@NotNull ClassType type, @NotNull Type value) {
-        super(type, value);
+    public TypeFieldContainer(@NotNull ClassType type, @NotNull Type variable) {
+        super(type, variable);
     }
 
     @Override
@@ -32,32 +32,32 @@ public final class TypeFieldContainer extends FieldContainer<ClassType, Type, Pa
 
     @Override
     public boolean isClassType() {
-        return this.value.isClassType();
+        return this.variable.isClassType();
     }
 
     @Override
     public @NotNull Type check(Type @NotNull ... expectedTypes) {
-        return this.value.check(expectedTypes);
+        return this.variable.check(expectedTypes);
     }
 
     @Override
     public @NotNull Type checkNot(Type @NotNull ... expectedTypes) {
-        return this.value.checkNot(expectedTypes);
+        return this.variable.checkNot(expectedTypes);
     }
 
     @Override
     public @NotNull Type checkAssignableFrom(@NotNull ClassType classType) {
-        return this.value.checkAssignableFrom(classType);
+        return this.variable.checkAssignableFrom(classType);
     }
 
     @Override
     public @NotNull TypeFieldContainer getField(@NotNull Field field) throws TypeException {
-        return this.value.getField(field);
+        return this.variable.getField(field);
     }
 
     @Override
     public @NotNull Type invokeMethod(@NotNull Method method, @NotNull ParameterTypes parameterTypes) throws TypeException {
-        return this.value.invokeMethod(method, parameterTypes);
+        return this.variable.invokeMethod(method, parameterTypes);
     }
 
 }

@@ -115,7 +115,7 @@ class TypeTest extends Specification {
 
         then:
         actual.getType() == expected
-        actual.getValue() == expected.toType()
+        actual.getVariable() == expected.toType()
 
         where:
         field               | expected
@@ -153,7 +153,7 @@ class TypeTest extends Specification {
 
         then:
         actual.getType() == expected
-        actual.getValue() == expected.toType()
+        actual.getVariable() == expected.toType()
 
         where:
         field               | expected
