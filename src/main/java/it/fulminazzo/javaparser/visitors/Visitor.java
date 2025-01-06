@@ -390,23 +390,16 @@ public interface Visitor<
     default @NotNull O visitPrefixedOperation(final boolean before, final @NotNull Node operand,
                                               final @NotNull BiFunction<O, O, O> actualOperation) {
         final O incrementValue = visitNumberValueLiteral("1");
-        //TODO: This will not working in case of a cast or a field access
-        //TODO: more work is required
-        Literal literal = (Literal) operand;
-        NamedEntity variableName = NamedEntity.of(literal.getLiteral());
-        O object = operand.accept(this);
-        try {
-            C variableType = (C) getEnvironment().lookupInfo(variableName);
-            if (before) {
-                object = actualOperation.apply(object, incrementValue);
-                getEnvironment().update(variableName, object);
-            } else {
-                getEnvironment().update(variableName, actualOperation.apply(object, incrementValue));
-            }
-            return variableType.cast(object);
-        } catch (ScopeException e) {
-            throw exceptionWrapper(e);
+        VariableContainer<C, O, P, ?> object = operand.accept(this).check(VariableContainer.class);
+        final O returned;
+        if (before) {
+            returned = actualOperation.apply(object.getVariable(), incrementValue);
+            object.set(returned);
+        } else {
+            returned = object.getVariable();
+            object.set(actualOperation.apply(returned, incrementValue));
         }
+        return object.getType().cast(returned);
     }
 
     /**
