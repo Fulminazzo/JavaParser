@@ -10,10 +10,8 @@ import it.fulminazzo.javaparser.parser.node.AssignmentBlock
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram
-import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
-import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
-import it.fulminazzo.javaparser.parser.node.literals.Literal
-import it.fulminazzo.javaparser.parser.node.literals.NullLiteral
+import it.fulminazzo.javaparser.parser.node.literals.*
+import it.fulminazzo.javaparser.parser.node.operators.binary.Field
 import it.fulminazzo.javaparser.parser.node.operators.binary.NewObject
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
 import it.fulminazzo.javaparser.parser.node.statements.*
@@ -953,6 +951,18 @@ class TypeCheckerTest extends Specification {
         'Boolean'   | 'boW' | BOOL_LIT   | ObjectType.BOOLEAN
         'String'    | 'st'  | STRING_LIT | ObjectType.STRING
         'Object'    | 'o'   | BOOL_LIT   | ObjectType.OBJECT
+    }
+
+    def 'test visit re-assignment of field'() {
+        given:
+        def field = new Field(new ThisLiteral(), Literal.of('publicField'))
+        def value = new NumberValueLiteral('3')
+
+        when:
+        def type = this.typeChecker.visitReAssign(field, value)
+
+        then:
+        type == PrimitiveType.DOUBLE
     }
 
     def 'test visit re-assignment not declared'() {
