@@ -11,7 +11,26 @@
     <img src="https://img.shields.io/badge/Yes%2C%20I%20love-writing%20tests-00aa00?style=for-the-badge&labelColor=1FE417" alt="" />
 </p>
 
-Introduction on what the project is
+**My Own Java Is Too Overtested** (**mojito** for short) is a combination of **parser**, **typechecker** and **executor**
+capable of **run** a **simplified version of Java**.
+
+To verify all the capabilities available, please check the [grammar](#grammar), but in summary:
+- **classes are NOT supported**. Only one file at a time might be read, and it will **not require** (nor it should be added)
+  a **class declaration**;
+- **functions are NOT supported**, however it is still possible to invoke methods and access fields from other classes;
+- **imports are NOT supported**, but one could use the canonical declaration to access non-default classes.
+  **Non-default classes** are, among the **primitive** and **wrapper** types, are all those classes whose **package**
+  starts with either `java.lang`, `java.util` or `java.io`. Therefore, it is **not required** to specify the full
+  package for classes like [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html),
+  [IOException](https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html) or
+  [Class](https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html).
+  For others, the full **canonical name** will be needed.
+- the `this` keyword will have a special meaning: it will refer to the **object currently executing the program**,
+  which might be user defined. **WARNING**: when invoking implicit methods or obtaining implicit fields (without declaring
+  a variable before them), `this` will be **inferred** automatically.
+  This means that, if a script uses, for example, `System.out.println(toString())`, the `toString` method will be
+  applied to the executing object;
+- constants (`final`) are **not** supported.
 
 ## Usage
 **Mojito** can be used in two ways:
