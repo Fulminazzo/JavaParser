@@ -6,7 +6,6 @@ import it.fulminazzo.javaparser.environment.ScopeException;
 import it.fulminazzo.javaparser.visitors.visitorobjects.ClassVisitorObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
-import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -20,10 +19,7 @@ public abstract class LiteralVariableContainer<
         C extends ClassVisitorObject<C, O, P>,
         O extends VisitorObject<C, O, P>,
         P extends ParameterVisitorObjects<C, O, P>
-        > extends VariableContainer<C, O, P> {
-    @Getter
-    protected final @NotNull String name;
-    protected final @NotNull Environment<O> environment;
+        > extends VariableContainer<C, O, P, Environment<O>> {
 
     /**
      * Instantiates a new literal variable container.
@@ -35,9 +31,7 @@ public abstract class LiteralVariableContainer<
      */
     public LiteralVariableContainer(final @NotNull Environment<O> environment, final @NotNull C type,
                                     final @NotNull String name, final @NotNull O value) {
-        super(type, value);
-        this.environment = environment;
-        this.name = name;
+        super(environment, type, name, value);
     }
 
     @SuppressWarnings("unchecked")
@@ -45,7 +39,7 @@ public abstract class LiteralVariableContainer<
     public @NotNull C getType() {
         if (this.type.isNull()) {
             try {
-                return (C) this.environment.lookupInfo(namedEntity());
+                return (C) this.container.lookupInfo(namedEntity());
             } catch (ScopeException e) {
                 throw exceptionWrapper(e);
             }
@@ -56,7 +50,7 @@ public abstract class LiteralVariableContainer<
     @Override
     public @NotNull O set(final @NotNull O newValue) {
         try {
-            this.environment.update(namedEntity(), newValue);
+            this.container.update(namedEntity(), newValue);
         } catch (ScopeException e) {
             throw exceptionWrapper(e);
         }
