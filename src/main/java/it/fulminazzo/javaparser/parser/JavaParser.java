@@ -823,7 +823,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ATOM := NULL | THIS | LITERAL | TYPE_VALUE
+     * ATOM := NULL | THIS | ARRAY_LITERAL | TYPE_VALUE
      *
      * @return the node
      */
@@ -834,7 +834,7 @@ public class JavaParser extends Parser {
             case THIS:
                 return parseThis();
             case LITERAL:
-                return parseLiteral();
+                return parseArrayLiteral(parseLiteral());
             default:
                 return parseTypeValue();
         }
