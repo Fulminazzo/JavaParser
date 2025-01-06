@@ -4,16 +4,14 @@ import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.ParameterValues;
 import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.executor.values.ValueException;
-import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.variables.VariableContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-@SuppressWarnings("unchecked")
 public class ArrayValueVariableContainer<V>
-        extends VariableContainer<ClassValue<?>, Value<?>, ParameterValues>
+        extends VariableContainer<ClassValue<?>, Value<?>, ParameterValues, VariableContainer<ClassValue<?>, Value<?>, ParameterValues, ?>>
         implements ValueVariableContainer<V> {
 
     /**
