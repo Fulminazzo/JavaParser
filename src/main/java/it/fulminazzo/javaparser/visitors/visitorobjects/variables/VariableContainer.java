@@ -217,7 +217,7 @@ public abstract class VariableContainer<
 
     @Override
     public boolean equals(Object o) {
-        return this.value.equals(o);
+        return this.value.equals(o instanceof VariableContainer ? ((VariableContainer<?, ?, ?>) o).value : o);
     }
 
     @Override
