@@ -11,7 +11,7 @@ import java.util.Map;
  * Represents a {@link TokenType#STRING_VALUE} literal.
  */
 public class StringValueLiteral extends ValueLiteral {
-    private static final Map<String, String> ESCAPE_CHARACTERS = new HashMap<>() {{
+    private static final Map<String, String> ESCAPE_CHARACTERS = new HashMap<String, String>() {{
         put("\\t", "\t");
         put("\\r", "\r");
         put("\\n", "\n");
