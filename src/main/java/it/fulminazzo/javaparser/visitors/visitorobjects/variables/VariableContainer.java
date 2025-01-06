@@ -5,9 +5,7 @@ import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObjectException;
 import lombok.Getter;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * A variable container is an abstract class that contains the information of a variable.
@@ -24,7 +22,7 @@ public abstract class VariableContainer<
         P extends ParameterVisitorObjects<C, O, P>
         > implements VisitorObject<C, O, P> {
     protected final @NotNull C type;
-    protected @Nullable O value;
+    protected final @NotNull O value;
 
     /**
      * Instantiates a new Variable container.
@@ -33,7 +31,7 @@ public abstract class VariableContainer<
      * @param value the value
      */
     public VariableContainer(final @NotNull C type,
-                             final @Nullable O value) {
+                             final @NotNull O value) {
         this.type = type;
         this.value = value;
     }
@@ -58,17 +56,17 @@ public abstract class VariableContainer<
 
     @Override
     public boolean is(@NotNull Class<?> object) {
-        return this.value.is(object);
+        return VisitorObject.super.is(object) || this.value.is(object);
     }
 
     @Override
     public boolean is(O @NotNull ... objects) {
-        return this.value.is(objects);
+        return VisitorObject.super.is(objects) || this.value.is(objects);
     }
 
     @Override
     public boolean isAssignableFrom(@NotNull ClassVisitorObject<C, O, P> classVisitorObject) {
-        return this.value.isAssignableFrom(classVisitorObject);
+        return VisitorObject.super.isAssignableFrom(classVisitorObject) || this.value.isAssignableFrom(classVisitorObject);
     }
 
     @Override
