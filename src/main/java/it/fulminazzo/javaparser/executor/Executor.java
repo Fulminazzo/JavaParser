@@ -2,8 +2,6 @@ package it.fulminazzo.javaparser.executor;
 
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.environment.Environment;
-import it.fulminazzo.javaparser.environment.NamedEntity;
-import it.fulminazzo.javaparser.environment.ScopeException;
 import it.fulminazzo.javaparser.environment.scopetypes.ScopeType;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.*;
@@ -82,7 +80,7 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
                 Tuple<ExceptionTuple, CodeBlock> keyAndValue = getKeyAndValue(exceptionsMap, exception.toClass());
                 returnedValue = visitScoped(ScopeType.CATCH, () -> {
                     ExceptionTuple key = keyAndValue.getKey();
-                    this.environment.declare(key.getExceptionType(), key.getExceptionName(), exception);
+                    this.environment.declare(key.getExceptionType(), key.getExceptionName().namedEntity(), exception);
                     return keyAndValue.getValue().accept(this);
                 });
             } finally {
