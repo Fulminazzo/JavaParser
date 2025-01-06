@@ -1,5 +1,7 @@
 package it.fulminazzo.javaparser.typechecker.types.variables;
 
+import it.fulminazzo.fulmicollection.objects.Refl;
+import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import it.fulminazzo.javaparser.typechecker.types.ClassType;
 import it.fulminazzo.javaparser.typechecker.types.ParameterTypes;
 import it.fulminazzo.javaparser.typechecker.types.Type;
@@ -9,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 /**
  * An implementation of {@link FieldContainer} for {@link Type}.
@@ -29,6 +32,15 @@ public final class TypeFieldContainer extends FieldContainer<ClassType, Type, Pa
 
     @Override
     public @NotNull Type set(@NotNull Type newValue) {
+        Type container = this.container;
+        ClassType containerClass = container.isClassType() ? (ClassType) container : container.toClass();
+        Field field = new Refl<>(containerClass.toJavaClass()).getField(this.name);
+        if (Modifier.isFinal(field.getModifiers()))
+            try {
+                throw TypeException.cannotModifyFinalField(this.name);
+            } catch (TypeCheckerException e) {
+                throw TypeCheckerException.of(e);
+            }
         return newValue;
     }
 
