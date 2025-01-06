@@ -22,7 +22,7 @@ public class Field extends BinaryOperation implements Literal {
 
     @Override
     public @NotNull String getLiteral() {
-        return this.left + ((Literal) this.right).getLiteral();
+        return String.format("%s.%s", this.left, ((Literal) this.right).getLiteral());
     }
 
 }
