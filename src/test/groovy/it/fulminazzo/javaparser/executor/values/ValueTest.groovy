@@ -17,8 +17,8 @@ class ValueTest extends Specification {
         def fieldValue = value.getField(field)
 
         then:
-        fieldValue.key == expectedClass
-        fieldValue.value == expected
+        fieldValue.getType() == expectedClass
+        fieldValue.getVariable() == expected
 
         where:
         field               | expectedClass               | expected

@@ -563,7 +563,7 @@ class ExecutorTest extends Specification {
         def actual = this.executor.visitReAssign(field, value)
 
         then:
-        actual == PrimitiveValue.of(3.0d)
+        actual == ObjectValue.of(3.0d)
     }
 
     def 'test visit re-assignment not declared'() {
