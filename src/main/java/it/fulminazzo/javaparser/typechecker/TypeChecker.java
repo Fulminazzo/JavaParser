@@ -224,8 +224,8 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
                                                    @NotNull CodeBlock code, @NotNull Node expression) {
         return visitScoped(ScopeType.FOR, () -> {
             ClassType variableType = type.accept(this).checkClass();
-            LiteralType variableName = variable.accept(this).check(LiteralType.class);
-            this.environment.declare(variableType, NamedEntity.of(variableName.getName()), variableType.toType());
+            TypeLiteralVariableContainer variableName = variable.accept(this).check(TypeLiteralVariableContainer.class);
+            this.environment.declare(variableType, variableName.namedEntity(), variableType.toType());
 
             Type expressionType = expression.accept(this);
             if (expressionType.is(ArrayType.class)) {
