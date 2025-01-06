@@ -1,9 +1,9 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
-import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
+import it.fulminazzo.javaparser.typechecker.types.variables.TypeFieldContainer;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -102,13 +102,13 @@ public interface Type extends VisitorObject<ClassType, Type, ParameterTypes> {
     }
 
     @Override
-    default @NotNull Tuple<ClassType, Type> getField(final @NotNull Field field) throws TypeException {
+    default @NotNull TypeFieldContainer getField(final @NotNull Field field) throws TypeException {
         ClassType classType = isClassType() ? (ClassType) this : toClass();
         if (!Modifier.isPublic(field.getModifiers())) throw TypeException.cannotAccessField(classType, field);
         else if (isClassType() && !Modifier.isStatic(field.getModifiers()))
             throw TypeException.cannotAccessStaticField(classType, field.getName());
         ClassType fieldClassType = ClassType.of(field.getType());
-        return new Tuple<>(fieldClassType, fieldClassType.toType());
+        return new TypeFieldContainer(fieldClassType, fieldClassType.toType());
     }
 
     @Override
