@@ -31,4 +31,16 @@ public class StringValueLiteral extends ValueLiteral {
         super(rawValue, TokenType.STRING_VALUE);
     }
 
+    /**
+     * Replaces all the {@link #ESCAPE_CHARACTERS} in the string with their actual values.
+     *
+     * @param string the string
+     * @return the replaced string
+     */
+    static @NotNull String unescapeString(@NotNull String string) {
+        for (String key : ESCAPE_CHARACTERS.keySet())
+            string = string.replace(key, ESCAPE_CHARACTERS.get(key));
+        return string;
+    }
+
 }
