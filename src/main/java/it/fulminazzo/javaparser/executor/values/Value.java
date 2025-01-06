@@ -178,7 +178,7 @@ public interface Value<V> extends VisitorObject<ClassValue<?>, Value<?>, Paramet
      *
      * @return the value
      */
-    @Nullable V getValue();
+    V getValue();
 
     /**
      * Converts the given byte to a {@link Value}.
