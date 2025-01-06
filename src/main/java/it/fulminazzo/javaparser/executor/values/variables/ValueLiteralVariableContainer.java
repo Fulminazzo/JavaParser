@@ -15,8 +15,8 @@ import java.lang.reflect.Method;
  *
  * @param <V> the type of the value
  */
-@SuppressWarnings("unchecked")
-public final class ValueLiteralVariableContainer<V> extends LiteralVariableContainer<ClassValue<?>, Value<?>, ParameterValues> implements Value<V> {
+public final class ValueLiteralVariableContainer<V> extends LiteralVariableContainer<ClassValue<?>, Value<?>, ParameterValues>
+        implements Value<V>, ValueVariableContainer<V> {
 
     /**
      * Instantiates a new value literal variable container.
@@ -43,63 +43,63 @@ public final class ValueLiteralVariableContainer<V> extends LiteralVariableConta
     }
 
     @Override
+    protected @NotNull RuntimeException exceptionWrapper(@NotNull Exception exception) {
+        return ExecutorException.of(exception);
+    }
+
+    @Override
     public V getValue() {
-        return (V) this.variable.getValue();
+        return ValueVariableContainer.super.getValue();
     }
 
     @Override
     public boolean isCharacter() {
-        return this.variable.isCharacter();
+        return ValueVariableContainer.super.isCharacter();
     }
 
     @Override
     public boolean isInteger() {
-        return this.variable.isInteger();
+        return ValueVariableContainer.super.isInteger();
     }
 
     @Override
     public boolean isLong() {
-        return this.variable.isLong();
+        return ValueVariableContainer.super.isLong();
     }
 
     @Override
     public boolean isFloat() {
-        return this.variable.isFloat();
+        return ValueVariableContainer.super.isFloat();
     }
 
     @Override
     public boolean isDouble() {
-        return this.variable.isDouble();
+        return ValueVariableContainer.super.isDouble();
     }
 
     @Override
     public boolean isBoolean() {
-        return this.variable.isBoolean();
+        return ValueVariableContainer.super.isBoolean();
     }
 
     @Override
     public boolean isString() {
-        return this.variable.isString();
+        return ValueVariableContainer.super.isString();
     }
 
     @Override
     public @NotNull ClassValue<V> checkClass() {
-        return (ClassValue<V>) this.variable.checkClass();
+        return ValueVariableContainer.super.checkClass();
     }
 
     @Override
     public @NotNull ValueFieldContainer<V> getField(@NotNull Field field) {
-        return (ValueFieldContainer<V>) this.variable.getField(field);
+        return ValueVariableContainer.super.getField(field);
     }
 
     @Override
     public @NotNull Value<?> invokeMethod(@NotNull Method method, @NotNull ParameterValues parameters) throws ValueException {
-        return this.variable.invokeMethod(method, parameters);
-    }
-
-    @Override
-    protected @NotNull RuntimeException exceptionWrapper(@NotNull Exception exception) {
-        return ExecutorException.of(exception);
+        return ValueVariableContainer.super.invokeMethod(method, parameters);
     }
 
 }
