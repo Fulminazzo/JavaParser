@@ -14,25 +14,33 @@ import org.jetbrains.annotations.NotNull;
  * @param <C> the type of the {@link ClassVisitorObject}
  * @param <O> the type of the {@link VisitorObject}
  * @param <P> the type of the {@link ParameterVisitorObjects}
+ * @param <T> the type of the object containing the variable
  */
 @Getter
 public abstract class VariableContainer<
         C extends ClassVisitorObject<C, O, P>,
         O extends VisitorObject<C, O, P>,
-        P extends ParameterVisitorObjects<C, O, P>
+        P extends ParameterVisitorObjects<C, O, P>,
+        T
         > implements VisitorObject<C, O, P> {
+    protected final @NotNull T container;
     protected final @NotNull C type;
+    protected final @NotNull String name;
     protected final @NotNull O variable;
 
     /**
      * Instantiates a new Variable container.
      *
-     * @param type     the type
-     * @param variable the value
+     * @param container the container
+     * @param type      the type
+     * @param name      the name
+     * @param variable  the value
      */
-    public VariableContainer(final @NotNull C type,
-                             final @NotNull O variable) {
+    public VariableContainer(final @NotNull T container, final @NotNull C type,
+                             final @NotNull String name, final @NotNull O variable) {
+        this.container = container;
         this.type = type;
+        this.name = name;
         this.variable = variable;
     }
 
@@ -217,7 +225,7 @@ public abstract class VariableContainer<
 
     @Override
     public boolean equals(Object o) {
-        return this.variable.equals(o instanceof VariableContainer ? ((VariableContainer<?, ?, ?>) o).variable : o);
+        return this.variable.equals(o instanceof VariableContainer ? ((VariableContainer<?, ?, ?, ?>) o).variable : o);
     }
 
     @Override

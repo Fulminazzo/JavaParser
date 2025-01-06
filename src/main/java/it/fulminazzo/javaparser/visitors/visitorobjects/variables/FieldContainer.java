@@ -16,16 +16,19 @@ public abstract class FieldContainer<
         C extends ClassVisitorObject<C, O, P>,
         O extends VisitorObject<C, O, P>,
         P extends ParameterVisitorObjects<C, O, P>
-        > extends VariableContainer<C, O, P> {
+        > extends VariableContainer<C, O, P, O> {
 
     /**
      * Instantiates a new Field container.
      *
-     * @param type  the type
-     * @param value the value
+     * @param parent   the object where the field is contained
+     * @param type     the type of the field
+     * @param name     the name of the field
+     * @param variable the value of the field
      */
-    public FieldContainer(@NotNull C type, @NotNull O value) {
-        super(type, value);
+    public FieldContainer(final @NotNull O parent, final @NotNull C type,
+                          final @NotNull String name, final @NotNull O variable) {
+        super(parent, type, name, variable);
     }
 
 }
