@@ -834,7 +834,7 @@ public interface Visitor<
                         do {
                             String fieldName = last.removeFirst();
                             if (field == null) field = tuple.getValue().getField(fieldName);
-                            else field = field.getValue().getField(fieldName);
+                            else field = field.getVariable().getField(fieldName);
                         } while (!last.isEmpty());
                         return (O) field;
                     } catch (VisitorObjectException e) {
