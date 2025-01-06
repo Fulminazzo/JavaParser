@@ -509,8 +509,15 @@ public class JavaParser extends Parser {
     protected @NotNull Node parseArrayLiteral(@NotNull Node expression) {
         if (expression.is(Literal.class) && lastToken() == OPEN_BRACKET) {
             consume(OPEN_BRACKET);
-            if (lastToken() == NUMBER_VALUE) ; //TODO: IndexedArray
-            else {
+            if (lastToken() == NUMBER_VALUE) {
+                expression = new ArrayIndex(expression, parseExpression());
+                consume(CLOSE_BRACKET);
+                while (lastToken() == OPEN_BRACKET) {
+                    consume(OPEN_BRACKET);
+                    expression = new ArrayIndex(expression, parseExpression());
+                    consume(CLOSE_BRACKET);
+                }
+            } else {
                 consume(CLOSE_BRACKET);
                 expression = new ArrayLiteral(expression);
                 while (lastToken() == OPEN_BRACKET) {
