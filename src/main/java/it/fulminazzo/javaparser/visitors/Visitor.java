@@ -16,6 +16,7 @@ import it.fulminazzo.javaparser.parser.node.statements.CatchStatement;
 import it.fulminazzo.javaparser.parser.node.statements.Statement;
 import it.fulminazzo.javaparser.visitors.visitorobjects.*;
 import it.fulminazzo.javaparser.visitors.visitorobjects.variables.FieldContainer;
+import it.fulminazzo.javaparser.visitors.visitorobjects.variables.LiteralVariableContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -876,13 +877,13 @@ public interface Visitor<
     }
 
     /**
-     * Gets a new {@link LiteralObject} from the given string compatible with
+     * Gets a new {@link LiteralVariableContainer} from the given string compatible with
      * the parameters of this visitor.
      *
      * @param value the value
      * @return the literal object
      */
-    @NotNull LiteralObject<C, O, P> newLiteralObject(@NotNull String value);
+    @NotNull LiteralVariableContainer<C, O, P> newLiteralObject(@NotNull String value);
 
     /**
      * Converts empty literal and its fields to this visitor type.
