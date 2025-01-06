@@ -115,13 +115,13 @@ public interface Value<V> extends VisitorObject<ClassValue<?>, Value<?>, Paramet
     }
 
     @Override
-    default @NotNull ValueFieldContainer getField(final @NotNull Field field) {
+    default @NotNull ValueFieldContainer<V> getField(final @NotNull Field field) {
         Refl<?> refl = new Refl<>(getValue());
         Object object = refl.getFieldObject(field);
         ClassValue<?> classValue = ClassValue.of(field.getType());
         Value<?> value = of(object);
         if (classValue.isPrimitive()) value = value.toPrimitive();
-        return new ValueFieldContainer(classValue, value);
+        return new ValueFieldContainer<>(classValue, value);
     }
 
     @Override
