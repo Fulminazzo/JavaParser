@@ -67,7 +67,7 @@ final class ParserException extends RuntimeException {
      * Generates a {@link ParserException} with message:
      * <i>Case block with expression '%expression%' already defined</i>
      *
-     * @param parser    the parser
+     * @param parser        the parser
      * @param caseStatement the case block
      * @return the parser exception
      */
@@ -95,8 +95,8 @@ final class ParserException extends RuntimeException {
      * @return the parser exception
      */
     public static @NotNull ParserException invalidNodeProvided(final @NotNull Parser parser,
-                                                                final @NotNull Class<? extends Node> expected,
-                                                                final @NotNull Node actual) {
+                                                               final @NotNull Class<? extends Node> expected,
+                                                               final @NotNull Node actual) {
         return new ParserException(parser, "Expecting '%s' but got %s instead.", expected.getSimpleName(), actual);
     }
 

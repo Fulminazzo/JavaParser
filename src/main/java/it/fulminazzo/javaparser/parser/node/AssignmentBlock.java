@@ -9,7 +9,7 @@ import java.util.List;
  * {@link it.fulminazzo.javaparser.tokenizer.TokenType#SEMICOLON}.
  */
 public class AssignmentBlock extends NodeImpl {
-    private final List<Assignment> assignments;
+    private final @NotNull List<Assignment> assignments;
 
     /**
      * Instantiates a new Assignment block.

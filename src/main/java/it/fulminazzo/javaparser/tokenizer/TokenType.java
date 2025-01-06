@@ -73,13 +73,13 @@ public enum TokenType {
     // Type values
     NULL("null"),
     THIS("this"),
+    CHAR_VALUE("'([^\\r\\n\\t \\\\]|\\\\[rbnft\\\\\"'])'"),
     NUMBER_VALUE("[0-9]+"),
-    LONG_VALUE("[0-9]+[Ll]?"),
+    LONG_VALUE("([0-9]+)[Ll]?"),
     DOUBLE_VALUE("[0-9]+(?:.[0-9]+)?(?:E[-0-9]+)?[Dd]?"),
     FLOAT_VALUE("[0-9]+(?:.[0-9]+)?(?:E[-0-9]+)?[Ff]?"),
     BOOLEAN_VALUE("true|false"),
-    CHAR_VALUE("'([^\\r\\n\\t \\\\]|\\\\[rbnft\\\\\"'])'"),
-    STRING_VALUE("\"((?:[^\"]|\\\")*\")"),
+    STRING_VALUE("\"((?:[^\"]|\\\")*)\""),
 
     // General
     LITERAL("[a-zA-Z_](?:[a-zA-Z0-9._]*[a-zA-Z0-9_])*"),

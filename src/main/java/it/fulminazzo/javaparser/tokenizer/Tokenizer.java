@@ -18,7 +18,7 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
     private final @NotNull InputStream input;
     private @NotNull TokenType lastToken = TokenType.EOF;
     private @NotNull String lastRead = "";
-    private String previousRead = "";
+    private @NotNull String previousRead = "";
     private int line = -1;
     private int column = -1;
 
@@ -165,7 +165,7 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
         return Pattern.compile(regex).matcher(read).matches();
     }
 
-    private String getPreviousRead() {
+    private @NotNull String getPreviousRead() {
         for (char c : this.previousRead.toCharArray()) updateLineCount(c);
         return this.previousRead;
     }

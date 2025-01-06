@@ -1,10 +1,9 @@
 package it.fulminazzo.javaparser.parser.node
 
-import it.fulminazzo.javaparser.parser.node.values.BooleanValueLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
+import it.fulminazzo.javaparser.parser.node.values.BooleanValueLiteral
 import it.fulminazzo.javaparser.parser.node.values.NumberValueLiteral
 import spock.lang.Specification
-
 
 class MethodInvocationTest extends Specification {
 

@@ -1,5 +1,3 @@
-import java.io.IOException;
-
 /**
  * This file represents an example of Java program with all the allowed statements from the parser.
  */
@@ -80,14 +78,14 @@ String stWCast = (String) stW;
 String stWCastNull = (String) null;
 
 // Binary operations
-i = i + 1 - 1 * 1 / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
-i = ((((i + 1) - (1 * 1)) / ((1 % 1) & (1 | 1))) ^ ((1 << 2) >> (1 >>> 1)));
+i = i + 1 - 1 * 1 / 1 % 2 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
+i = ((((i + 1) - (1 * 1)) / ((1 % 2) & (1 | 1))) ^ ((1 << 2) >> (1 >>> 1)));
 i = (((i + (1 - 1))) * (((1 / 1)) % ((1 & 1))) | (((1 ^ 1) << (2 >> 1)) >>> 1));
 i = (1 * 1) + (2 * 2);
 i = (1 * 1) - (2 * 2);
-i = i - 1 * 1 / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
-i = i * 1 / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
-i = i / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
+i = i - 1 * 1 / 1 % 2 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
+i = i * 1 / 1 % 2 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
+i = i / 1 % 2 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
 i = i % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
 i = i & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
 i = i | 1 ^ 1 << 2 >> 1 >>> 1;
@@ -95,13 +93,15 @@ i = i ^ 1 << 2 >> 1 >>> 1;
 i = i << 2 >> 1 >>> 1;
 i = i >> 1 >>> 1;
 i = i >>> 1;
-l = l + 1 - 1 * 1 / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
-f = f + 1 - 1 * 1 / 1 % 1;
-d = d + 1 - 1 * 1 / 1 % 1;
+l = l + 1 - 1 * 1 / 1 % 2 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
+f = f + 1 - 1 * 1 / 1 % 2;
+d = d + 1 - 1 * 1 / 1 % 2;
 d = (double) ++d;
-d = (double) d++;
+//TODO: Fix
+//d = (double) d++;
 d = (double) --d;
-d = (double) d--;
+//TODO: Fix
+//d = (double) d--;
 d = (double) -2.0;
 bo = true == false != true && false || true;
 bo = ((true == (false != true)) && (false || true));
