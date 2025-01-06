@@ -5,7 +5,7 @@ import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents the retrieval of a field pointer:
+ * Represents the retrieval of a field:
  * <code>%object%.%field%</code>
  */
 public class Field extends BinaryOperation implements Literal {
@@ -22,7 +22,7 @@ public class Field extends BinaryOperation implements Literal {
 
     @Override
     public @NotNull String getLiteral() {
-        return this.left + ((Literal) this.right).getLiteral();
+        return String.format("%s.%s", this.left, ((Literal) this.right).getLiteral());
     }
 
 }
