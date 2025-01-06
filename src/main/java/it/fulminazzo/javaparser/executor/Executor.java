@@ -169,7 +169,7 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
                                                        @NotNull CodeBlock code, @NotNull Node expression) {
         return visitScoped(ScopeType.FOR, () -> {
             ClassValue<?> variableType = type.accept(this).to(ClassValue.class);
-            NamedEntity variableName = variable.accept(this).to(LiteralValue.class);
+            ValueLiteralVariableContainer<?> variableName = variable.accept(this).to(ValueLiteralVariableContainer.class);
             Value<?> iterable = expression.accept(this);
 
             final Iterator<?> iterator;
@@ -180,9 +180,9 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
             while (iterator.hasNext()) {
                 Value<?> next = Value.of(iterator.next());
                 try {
-                    this.environment.update(variableName, next);
-                } catch (ScopeException ignored) {
-                    this.environment.declare(variableType, variableName, next);
+                    variableName.set(next);
+                } catch (ExecutorException ignored) {
+                    this.environment.declare(variableType, variableName.namedEntity(), next);
                 }
                 Optional<Value<?>> returnedValue = visitLoopCodeBlock(code);
                 if (returnedValue.isPresent()) return returnedValue.get();
