@@ -16,7 +16,7 @@ public final class Types {
     /**
      * Represents a special type of {@link Type} that appears as a singleton.
      */
-    static final class SingletonType implements Type {
+    static class SingletonType implements Type, ClassType {
         private final @NotNull String typeName;
 
         /**
@@ -29,8 +29,28 @@ public final class Types {
         }
 
         @Override
-        public @NotNull ClassType toClass() {
+        public @NotNull Type cast(@NotNull Type object) {
+            return this;
+        }
+
+        @Override
+        public boolean compatibleWith(@NotNull Type object) {
+            return object.equals(this);
+        }
+
+        @Override
+        public @NotNull Class<?> toJavaClass() {
             throw TypeCheckerException.noClassType(getClass());
+        }
+
+        @Override
+        public @NotNull Type toType() {
+            return this;
+        }
+
+        @Override
+        public @NotNull ClassType toClass() {
+            return this;
         }
 
         @Override
