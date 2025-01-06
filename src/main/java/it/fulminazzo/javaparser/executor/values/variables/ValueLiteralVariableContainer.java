@@ -26,7 +26,7 @@ public final class ValueLiteralVariableContainer<V> extends LiteralVariableConta
      */
     public ValueLiteralVariableContainer(@NotNull Environment<Value<?>> environment,
                                          @NotNull String name) {
-        super(environment, Values.NULL_VALUE, name, Values.NULL_VALUE);
+        super(environment, (ClassValue<?>) Values.NULL_VALUE, name, Values.NULL_VALUE);
     }
 
     /**
