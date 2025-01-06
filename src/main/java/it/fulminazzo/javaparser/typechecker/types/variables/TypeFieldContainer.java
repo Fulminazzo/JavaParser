@@ -16,7 +16,8 @@ import java.lang.reflect.Modifier;
 /**
  * An implementation of {@link FieldContainer} for {@link Type}.
  */
-public final class TypeFieldContainer extends FieldContainer<ClassType, Type, ParameterTypes> implements Type {
+public final class TypeFieldContainer extends FieldContainer<ClassType, Type, ParameterTypes>
+        implements Type, TypeVariableContainer {
 
     /**
      * Instantiates a new Field container.
@@ -46,32 +47,32 @@ public final class TypeFieldContainer extends FieldContainer<ClassType, Type, Pa
 
     @Override
     public boolean isClassType() {
-        return this.variable.isClassType();
+        return TypeVariableContainer.super.isClassType();
     }
 
     @Override
     public @NotNull Type check(Type @NotNull ... expectedTypes) {
-        return this.variable.check(expectedTypes);
+        return TypeVariableContainer.super.check(expectedTypes);
     }
 
     @Override
     public @NotNull Type checkNot(Type @NotNull ... expectedTypes) {
-        return this.variable.checkNot(expectedTypes);
+        return TypeVariableContainer.super.checkNot(expectedTypes);
     }
 
     @Override
     public @NotNull Type checkAssignableFrom(@NotNull ClassType classType) {
-        return this.variable.checkAssignableFrom(classType);
+        return TypeVariableContainer.super.checkAssignableFrom(classType);
     }
 
     @Override
     public @NotNull TypeFieldContainer getField(@NotNull Field field) throws TypeException {
-        return this.variable.getField(field);
+        return TypeVariableContainer.super.getField(field);
     }
 
     @Override
     public @NotNull Type invokeMethod(@NotNull Method method, @NotNull ParameterTypes parameterTypes) throws TypeException {
-        return this.variable.invokeMethod(method, parameterTypes);
+        return TypeVariableContainer.super.invokeMethod(method, parameterTypes);
     }
 
 }
