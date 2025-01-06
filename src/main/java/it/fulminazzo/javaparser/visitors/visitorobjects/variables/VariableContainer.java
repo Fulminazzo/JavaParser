@@ -76,6 +76,11 @@ public abstract class VariableContainer<
     }
 
     @Override
+    public @NotNull C checkClass() {
+        return this.variable.checkClass();
+    }
+
+    @Override
     public @NotNull FieldContainer<C, O, P> getField(@NotNull String fieldName) throws VisitorObjectException {
         return this.variable.getField(fieldName);
     }
