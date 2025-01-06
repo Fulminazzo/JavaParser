@@ -17,6 +17,7 @@ import it.fulminazzo.javaparser.parser.node.statements.Statement;
 import it.fulminazzo.javaparser.visitors.visitorobjects.*;
 import it.fulminazzo.javaparser.visitors.visitorobjects.variables.FieldContainer;
 import it.fulminazzo.javaparser.visitors.visitorobjects.variables.LiteralVariableContainer;
+import it.fulminazzo.javaparser.visitors.visitorobjects.variables.VariableContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -267,16 +268,10 @@ public interface Visitor<
      */
     default @NotNull O visitAssignment(final @NotNull Node type, final @NotNull Literal name, final @NotNull Node value) {
         C variableType = type.accept(this).checkClass();
-        O tempVariableName = name.accept(this);
-        if (!tempVariableName.is(LiteralObject.class))
-            throw exceptionWrapper(ScopeException.alreadyDeclaredVariable(NamedEntity.of(name.getLiteral())));
-        LiteralObject<C, O, P> variableName = tempVariableName.check(LiteralObject.class);
+        VariableContainer<C, O, P> variableName = name.accept(this).check(VariableContainer.class);
         O variable = value.accept(this);
-        try {
-            variable = convertVariable(variableType, variable);
-            getEnvironment().declare(variableType, variableName, variable);
-        } catch (ScopeException ignored) {
-        }
+        variable = convertVariable(variableType, variable);
+        variableName.set(variable);
         return variableType.cast(variable);
     }
 
