@@ -834,7 +834,7 @@ public interface Visitor<
                         do {
                             String fieldName = last.removeFirst();
                             if (field == null) field = tuple.getValue().getField(fieldName);
-                            else field = field.getValue().getField(fieldName);
+                            else field = field.getVariable().getField(fieldName);
                         } while (!last.isEmpty());
                         return (O) field;
                     } catch (VisitorObjectException e) {
@@ -868,7 +868,7 @@ public interface Visitor<
             LiteralVariableContainer<C, O, P> actualVariable = newLiteralObject(literal);
             new Refl<>(actualVariable)
                     .setFieldObject("type", variableType)
-                    .setFieldObject("value", variable);
+                    .setFieldObject("variable", variable);
             tuple.set(variableType, (O) actualVariable);
         } catch (ScopeException ignored) {
         }
