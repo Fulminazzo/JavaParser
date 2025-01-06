@@ -1,6 +1,5 @@
 package it.fulminazzo.javaparser.visitors.visitorobjects.variables;
 
-import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.visitors.visitorobjects.ClassVisitorObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
@@ -63,7 +62,7 @@ abstract class VariableContainer<
     }
 
     @Override
-    public @NotNull Tuple<C, O> getField(@NotNull Field field) throws VisitorObjectException {
+    public @NotNull FieldContainer<C, O, P> getField(@NotNull Field field) throws VisitorObjectException {
         return this.value.getField(field);
     }
 

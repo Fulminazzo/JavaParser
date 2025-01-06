@@ -1,10 +1,10 @@
 package it.fulminazzo.javaparser.visitors.visitorobjects;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
-import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.visitors.Visitor;
+import it.fulminazzo.javaparser.visitors.visitorobjects.variables.FieldContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Executable;
@@ -92,10 +92,10 @@ public interface VisitorObject<
      * Gets the given field from the associated {@link ClassVisitorObject} and returns it.
      *
      * @param fieldName the field name
-     * @return a tuple containing the {@link ClassVisitorObject} and {@link VisitorObject} of the field
+     * @return a {@link FieldContainer} containing the {@link ClassVisitorObject} and {@link VisitorObject} of the field
      * @throws VisitorObjectException the exception thrown in case of errors
      */
-    default @NotNull Tuple<C, O> getField(final @NotNull String fieldName) throws VisitorObjectException {
+    default @NotNull FieldContainer<C, O, P> getField(final @NotNull String fieldName) throws VisitorObjectException {
         if (isPrimitive()) return toWrapper().getField(fieldName);
         C classVisitorObject = is(ClassVisitorObject.class) ? (C) this : toClass();
         try {
@@ -111,10 +111,10 @@ public interface VisitorObject<
      * Gets the given field from the associated {@link ClassVisitorObject} and returns it.
      *
      * @param field the field
-     * @return a tuple containing the {@link ClassVisitorObject} and {@link VisitorObject} of the field
+     * @return a {@link FieldContainer} containing the {@link ClassVisitorObject} and {@link VisitorObject} of the field
      * @throws VisitorObjectException the exception thrown in case of errors
      */
-    @NotNull Tuple<C, O> getField(final @NotNull Field field) throws VisitorObjectException;
+    @NotNull FieldContainer<C, O, P> getField(final @NotNull Field field) throws VisitorObjectException;
 
     /**
      * Searches and invokes the given method from the associated {@link ClassVisitorObject} and
