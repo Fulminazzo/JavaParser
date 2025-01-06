@@ -391,7 +391,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * EXPR := NEW_OBJECT | INCREMENT | DECREMENT | AND | ARRAY_LITERAL
+     * EXPR := NEW_OBJECT | INCREMENT | DECREMENT | AND
      *
      * @return the node
      */
@@ -416,7 +416,7 @@ public class JavaParser extends Parser {
                 expression = parseBinaryComparison();
             }
         }
-        return parseArrayLiteral(expression);
+        return expression;
     }
 
     /**
