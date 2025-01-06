@@ -243,6 +243,8 @@ int[] array = new int[]{1, 2, 3, 4, 5};
 int[] arrayCast = (int[]) array;
 
 for (int a : array) System.out.println(a);
+
+array[4] = array[4] * 4;
 System.out.println("Last element of array is: " + array[4]);
 
 int[][] arrayOfArray = new int[][]{
