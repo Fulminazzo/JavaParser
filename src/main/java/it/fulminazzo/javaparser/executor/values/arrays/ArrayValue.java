@@ -63,7 +63,7 @@ public class ArrayValue<A> extends ObjectWrapper<List<Value<A>>> implements Valu
 
     @Override
     public @NotNull A getValue() {
-        Class<A> componentsType = this.componentsType.getWrapperValue();
+        Class<A> componentsType = this.componentsType.getValue();
         A array = (A) Array.newInstance(componentsType, this.object.size());
         for (int i = 0; i < this.object.size(); i++)
             Array.set(array, i, this.object.get(i).getValue());
