@@ -173,10 +173,9 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
             Value<?> iterable = expression.accept(this);
 
             final Iterator<?> iterator;
-            if (iterable.is(ArrayValue.class)) {
-                ArrayValue<?> arrayValue = (ArrayValue<?>) iterable;
-                iterator = Arrays.stream(arrayValue.getValue()).iterator();
-            } else iterator = ((Iterable<?>) iterable.getValue()).iterator();
+            if (iterable.is(ArrayValue.class))
+                iterator = ((ArrayValue<?>) iterable).getValues().stream().map(Value::getValue).iterator();
+            else iterator = ((Iterable<?>) iterable.getValue()).iterator();
 
             while (iterator.hasNext()) {
                 Value<?> next = Value.of(iterator.next());
