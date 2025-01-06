@@ -38,6 +38,7 @@ public final class ArrayValueVariableContainer<V>
         int index = Integer.parseInt(this.name);
         ArrayValue<?> array = (ArrayValue<?>) this.container.getVariable();
         array.set(index, newValue);
+        this.container.set(array);
         return newValue;
     }
 
