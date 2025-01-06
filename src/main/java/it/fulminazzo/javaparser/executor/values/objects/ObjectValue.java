@@ -162,7 +162,8 @@ public class ObjectValue<V> extends ObjectWrapper<V> implements Value<V> {
                 String name = impliedPackage + "." + className;
                 try {
                     return ReflectionUtils.getClass(name);
-                } catch (IllegalArgumentException ignored) {}
+                } catch (IllegalArgumentException ignored) {
+                }
             }
             throw ValueException.classNotFound(className);
         }

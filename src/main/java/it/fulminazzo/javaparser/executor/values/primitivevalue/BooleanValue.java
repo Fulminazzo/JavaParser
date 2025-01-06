@@ -1,6 +1,5 @@
 package it.fulminazzo.javaparser.executor.values.primitivevalue;
 
-import it.fulminazzo.javaparser.executor.values.Value;
 import org.jetbrains.annotations.NotNull;
 
 /**

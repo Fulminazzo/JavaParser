@@ -338,7 +338,7 @@ public interface Value<V> extends VisitorObject<ClassValue<?>, Value<?>, Paramet
         return OperationUtils.executeObjectComparison(this, other, (a, b) -> {
             if (a instanceof Number && b instanceof Number)
                 return (Boolean) OperationUtils.executeBinaryComparison(this, other,
-                        (f, s) -> f.compareTo(s) == 0)
+                                (f, s) -> f.compareTo(s) == 0)
                         .getValue();
             else return Objects.equals(a, b);
         });
