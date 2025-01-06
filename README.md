@@ -13,9 +13,18 @@
 
 Introduction on what the project is
 
+## Usage
+**Mojito** can be used in two ways:
 
-Usage:
-command line
+### Command Line
+To utilize the parser from command line, simply navigate to the folder containing the latest `.jar` file.
+Then, use the following command:
+
+```
+java -jar mojito-LATEST.jar file_to_read.java
+```
+
+At the moment, the program does not support any command line argument.
 
 import
 
