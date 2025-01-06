@@ -20,7 +20,7 @@ public final class TypeFieldContainer extends FieldContainer<ClassType, Type, Pa
         implements Type, TypeVariableContainer {
 
     /**
-     * Instantiates a new Field container.
+     * Instantiates a new Type field container.
      *
      * @param parent   the parent
      * @param type     the type

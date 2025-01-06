@@ -18,7 +18,7 @@ public final class ArrayTypeVariableContainer
         implements TypeVariableContainer {
 
     /**
-     * Instantiates a new Variable container.
+     * Instantiates a new Array type variable container.
      *
      * @param container the container
      * @param type      the type
