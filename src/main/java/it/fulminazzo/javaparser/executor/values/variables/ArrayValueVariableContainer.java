@@ -10,7 +10,12 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-public class ArrayValueVariableContainer<V>
+/**
+ * Represents the access to an array element with its index.
+ *
+ * @param <V> the type of the value
+ */
+public final class ArrayValueVariableContainer<V>
         extends VariableContainer<ClassValue<?>, Value<?>, ParameterValues, VariableContainer<ClassValue<?>, Value<?>, ParameterValues, ?>>
         implements ValueVariableContainer<V> {
 
