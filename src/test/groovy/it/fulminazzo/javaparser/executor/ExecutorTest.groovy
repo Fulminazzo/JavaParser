@@ -19,6 +19,7 @@ import it.fulminazzo.javaparser.parser.node.container.JavaProgram
 import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
+import it.fulminazzo.javaparser.parser.node.literals.ThisLiteral
 import it.fulminazzo.javaparser.parser.node.operators.binary.*
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
@@ -551,6 +552,18 @@ class ExecutorTest extends Specification {
         'Boolean'   | 'boW' | BOOL_LIT_TRUE  | ObjectValue.of(true)
         'String'    | 'st'  | STRING_LIT     | ObjectValue.of('Hello, world!')
         'Object'    | 'o'   | BOOL_LIT_TRUE  | ObjectValue.of(true)
+    }
+
+    def 'test visit re-assignment of field'() {
+        given:
+        def field = new Field(new ThisLiteral(), Literal.of('publicField'))
+        def value = new NumberValueLiteral('3')
+
+        when:
+        def actual = this.executor.visitReAssign(field, value)
+
+        then:
+        actual == PrimitiveValue.of(3.0d)
     }
 
     def 'test visit re-assignment not declared'() {
