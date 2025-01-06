@@ -6,6 +6,7 @@ import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.executor.values.ValueException;
 import it.fulminazzo.javaparser.visitors.visitorobjects.variables.FieldContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -13,7 +14,8 @@ import java.lang.reflect.Method;
 /**
  * An implementation of {@link FieldContainer} for {@link Value}.
  */
-public final class ValueFieldContainer extends FieldContainer<ClassValue<?>, Value<?>, ParameterValues> implements Value<?> {
+@SuppressWarnings("unchecked")
+public final class ValueFieldContainer<V> extends FieldContainer<ClassValue<?>, Value<?>, ParameterValues> implements Value<V> {
 
     /**
      * Instantiates a new Field container.
@@ -23,6 +25,16 @@ public final class ValueFieldContainer extends FieldContainer<ClassValue<?>, Val
      */
     public ValueFieldContainer(@NotNull ClassValue<?> type, @NotNull Value<?> value) {
         super(type, value);
+    }
+
+    @Override
+    public @NotNull Value<?> set(@NotNull Value<?> newValue) {
+        return newValue;
+    }
+
+    @Override
+    public @Nullable V getValue() {
+        return (V) this.variable.getValue();
     }
 
     @Override
