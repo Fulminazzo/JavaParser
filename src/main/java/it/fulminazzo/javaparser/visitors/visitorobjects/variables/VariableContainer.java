@@ -56,17 +56,17 @@ public abstract class VariableContainer<
 
     @Override
     public boolean is(@NotNull Class<?> object) {
-        return this.value.is(object);
+        return VisitorObject.super.is(object) || this.value.is(object);
     }
 
     @Override
     public boolean is(O @NotNull ... objects) {
-        return this.value.is(objects);
+        return VisitorObject.super.is(objects) || this.value.is(objects);
     }
 
     @Override
     public boolean isAssignableFrom(@NotNull ClassVisitorObject<C, O, P> classVisitorObject) {
-        return this.value.isAssignableFrom(classVisitorObject);
+        return VisitorObject.super.isAssignableFrom(classVisitorObject) || this.value.isAssignableFrom(classVisitorObject);
     }
 
     @Override
