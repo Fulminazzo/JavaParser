@@ -44,11 +44,20 @@ public abstract class LiteralVariableContainer<
     @Override
     public @NotNull O set(final @NotNull O newValue) {
         try {
-            this.environment.update(NamedEntity.of(this.name), newValue);
+            this.environment.update(namedEntity(), newValue);
         } catch (ScopeException e) {
             throw exceptionWrapper(e);
         }
         return newValue;
+    }
+
+    /**
+     * Gets a {@link NamedEntity} from the name.
+     *
+     * @return named entity
+     */
+    public @NotNull NamedEntity namedEntity() {
+        return NamedEntity.of(this.name);
     }
 
     /**
