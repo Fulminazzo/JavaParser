@@ -1,18 +1,46 @@
 package it.fulminazzo.javaparser.executor.values.variables;
 
+import it.fulminazzo.javaparser.environment.Environment;
 import it.fulminazzo.javaparser.executor.ExecutorException;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
-import it.fulminazzo.javaparser.executor.values.ParameterValues;
-import it.fulminazzo.javaparser.executor.values.Value;
-import it.fulminazzo.javaparser.executor.values.ValueException;
+import it.fulminazzo.javaparser.executor.values.*;
 import it.fulminazzo.javaparser.visitors.visitorobjects.variables.LiteralVariableContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+/**
+ * The type Value literal variable container.
+ *
+ * @param <V> the type of the value
+ */
 @SuppressWarnings("unchecked")
 public final class ValueLiteralVariableContainer<V> extends LiteralVariableContainer<ClassValue<?>, Value<?>, ParameterValues> implements Value<V> {
+
+    /**
+     * Instantiates a new value literal variable container.
+     *
+     * @param environment the environment
+     * @param name        the name
+     */
+    public ValueLiteralVariableContainer(@NotNull Environment<Value<?>> environment,
+                                         @NotNull String name) {
+        super(environment, Values.NULL_VALUE, name, Values.NULL_VALUE);
+    }
+
+    /**
+     * Instantiates a new value literal variable container.
+     *
+     * @param environment the environment
+     * @param type        the type
+     * @param name        the name
+     * @param value       the value
+     */
+    public ValueLiteralVariableContainer(@NotNull Environment<Value<?>> environment, @NotNull ClassValue<?> type,
+                                         @NotNull String name, @NotNull Value<?> value) {
+        super(environment, type, name, value);
+    }
 
     @Override
     public V getValue() {
