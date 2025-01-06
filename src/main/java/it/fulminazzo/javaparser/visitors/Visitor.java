@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.visitors;
 
+import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.environment.Environment;
 import it.fulminazzo.javaparser.environment.NamedEntity;
@@ -864,7 +865,11 @@ public interface Visitor<
             NamedEntity string = NamedEntity.of(literal);
             O variable = getEnvironment().lookup(string);
             C variableType = (C) getEnvironment().lookupInfo(string);
-            tuple.set(variableType, variable);
+            LiteralVariableContainer<C, O, P> actualVariable = newLiteralObject(literal);
+            new Refl<>(actualVariable)
+                    .setFieldObject("type", variableType)
+                    .setFieldObject("value", variable);
+            tuple.set(variableType, (O) actualVariable);
         } catch (ScopeException ignored) {
         }
         return tuple;
