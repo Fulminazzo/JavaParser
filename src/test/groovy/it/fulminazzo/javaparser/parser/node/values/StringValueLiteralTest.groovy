@@ -13,7 +13,7 @@ class StringValueLiteralTest extends Specification {
 
         and:
         def literal = new StringValueLiteral('\"Hello\\tworld\\r\\n' +
-                'My \\\'name\\\' is \\"James\\", and I love \\b, \\f and \\\\' +
+                'My \\\'name\\\' is \\"James\\", and I love \\b, \\f and \\\\,' +
                 'but I hate \\a, \\d, \\e, \\g, \\h, \\i, \\l, \\m, \\o,' +
                 '\\p, \\q, \\s, \\u, \\v, \\w, \\x, \\y and \\z\"')
 
