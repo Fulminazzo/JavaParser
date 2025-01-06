@@ -13,13 +13,13 @@ import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
+import it.fulminazzo.javaparser.executor.values.variables.ValueLiteralVariableContainer;
 import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.parser.node.statements.CaseStatement;
 import it.fulminazzo.javaparser.parser.node.statements.CatchStatement;
 import it.fulminazzo.javaparser.visitors.Visitor;
-import it.fulminazzo.javaparser.visitors.visitorobjects.LiteralObject;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -322,8 +322,8 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
     }
 
     @Override
-    public @NotNull LiteralObject<ClassValue<?>, Value<?>, ParameterValues> newLiteralObject(@NotNull String value) {
-        return new LiteralValue(value);
+    public @NotNull ValueLiteralVariableContainer<?> newLiteralObject(@NotNull String value) {
+        return new ValueLiteralVariableContainer<>(this.environment, value);
     }
 
     @Override
