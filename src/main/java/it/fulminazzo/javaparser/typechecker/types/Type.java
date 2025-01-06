@@ -123,12 +123,12 @@ public interface Type extends VisitorObject<ClassType, Type, ParameterTypes> {
     }
 
     @Override
-    default @NotNull PrimitiveType toPrimitive() {
+    default @NotNull Type toPrimitive() {
         throw TypeCheckerException.noPrimitive(this);
     }
 
     @Override
-    default @NotNull ObjectType toWrapper() {
+    default @NotNull Type toWrapper() {
         throw TypeCheckerException.noWrapper(this);
     }
 
