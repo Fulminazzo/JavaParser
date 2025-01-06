@@ -7,6 +7,7 @@ import it.fulminazzo.javaparser.visitors.visitorobjects.ClassVisitorObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.LiteralObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -21,6 +22,7 @@ public abstract class LiteralVariableContainer<
         O extends VisitorObject<C, O, P>,
         P extends ParameterVisitorObjects<C, O, P>
         > extends VariableContainer<C, O, P> implements LiteralObject<C, O, P> {
+    @Getter
     protected final @NotNull String name;
     protected final @NotNull Environment<O> environment;
 
