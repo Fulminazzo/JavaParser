@@ -501,18 +501,25 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ARRAY_LITERAL := LITERAL(\[\])*
+     * ARRAY_LITERAL := LITERAL(\[\])* | LITERAL(\[ [0-9]+ \])+
      *
      * @param expression the expression to start from
      * @return the node
      */
     protected @NotNull Node parseArrayLiteral(@NotNull Node expression) {
-        if (expression.is(Literal.class))
-            while (lastToken() == OPEN_BRACKET) {
-                consume(OPEN_BRACKET);
+        if (expression.is(Literal.class) && lastToken() == OPEN_BRACKET) {
+            consume(OPEN_BRACKET);
+            if (lastToken() == NUMBER_VALUE) ; //TODO: IndexedArray
+            else {
                 consume(CLOSE_BRACKET);
                 expression = new ArrayLiteral(expression);
+                while (lastToken() == OPEN_BRACKET) {
+                    consume(OPEN_BRACKET);
+                    consume(CLOSE_BRACKET);
+                    expression = new ArrayLiteral(expression);
+                }
             }
+        }
         return expression;
     }
 
