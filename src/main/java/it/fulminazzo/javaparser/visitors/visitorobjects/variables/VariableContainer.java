@@ -5,7 +5,9 @@ import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObjectException;
 import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A variable container is an abstract class that contains the information of a variable.
@@ -22,7 +24,7 @@ public abstract class VariableContainer<
         P extends ParameterVisitorObjects<C, O, P>
         > implements VisitorObject<C, O, P> {
     protected final @NotNull C type;
-    protected final @NotNull O value;
+    protected @Nullable O value;
 
     /**
      * Instantiates a new Variable container.
@@ -31,7 +33,7 @@ public abstract class VariableContainer<
      * @param value the value
      */
     public VariableContainer(final @NotNull C type,
-                             final @NotNull O value) {
+                             final @Nullable O value) {
         this.type = type;
         this.value = value;
     }
