@@ -58,6 +58,8 @@ is **mandatory** for these dependencies to work.
   </dependency>
   ```
 
+[//]: # (TODO: program starting point)
+
 ## Grammar
 The following is the grammar respected by the parser:
 
