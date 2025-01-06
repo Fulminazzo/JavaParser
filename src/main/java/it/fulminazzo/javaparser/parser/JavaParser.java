@@ -391,7 +391,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * EXPR := NEW_OBJECT | INCREMENT | DECREMENT | AND | ARRAY_LITERAL
+     * EXPR := NEW_OBJECT | INCREMENT | DECREMENT | AND
      *
      * @return the node
      */
@@ -416,7 +416,7 @@ public class JavaParser extends Parser {
                 expression = parseBinaryComparison();
             }
         }
-        return parseArrayLiteral(expression);
+        return expression;
     }
 
     /**
@@ -501,18 +501,32 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ARRAY_LITERAL := LITERAL(\[\])*
+     * ARRAY_LITERAL := LITERAL(\[\])* | LITERAL(\[ [0-9]+ \])+
      *
      * @param expression the expression to start from
      * @return the node
      */
     protected @NotNull Node parseArrayLiteral(@NotNull Node expression) {
-        if (expression.is(Literal.class))
-            while (lastToken() == OPEN_BRACKET) {
-                consume(OPEN_BRACKET);
+        if (expression.is(Literal.class) && lastToken() == OPEN_BRACKET) {
+            consume(OPEN_BRACKET);
+            if (lastToken() == NUMBER_VALUE) {
+                expression = new ArrayIndex(expression, parseExpression());
+                consume(CLOSE_BRACKET);
+                while (lastToken() == OPEN_BRACKET) {
+                    consume(OPEN_BRACKET);
+                    expression = new ArrayIndex(expression, parseExpression());
+                    consume(CLOSE_BRACKET);
+                }
+            } else {
                 consume(CLOSE_BRACKET);
                 expression = new ArrayLiteral(expression);
+                while (lastToken() == OPEN_BRACKET) {
+                    consume(OPEN_BRACKET);
+                    consume(CLOSE_BRACKET);
+                    expression = new ArrayLiteral(expression);
+                }
             }
+        }
         return expression;
     }
 
@@ -809,7 +823,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ATOM := NULL | THIS | LITERAL | TYPE_VALUE
+     * ATOM := NULL | THIS | ARRAY_LITERAL | TYPE_VALUE
      *
      * @return the node
      */
@@ -820,7 +834,7 @@ public class JavaParser extends Parser {
             case THIS:
                 return parseThis();
             case LITERAL:
-                return parseLiteral();
+                return parseArrayLiteral(parseLiteral());
             default:
                 return parseTypeValue();
         }
