@@ -312,7 +312,7 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
         VariableContainer<ClassType, Type, ParameterTypes, ?> container = array.accept(this).check(VariableContainer.class);
         ArrayType arrayType = container.getVariable().check(ArrayType.class);
         Type componentsType = arrayType.getComponentType();
-        index.accept(this).check(INT);
+        index.accept(this).check(INT, ObjectType.INTEGER);
         return new ArrayTypeVariableContainer(container, componentsType.toClass(), ((NumberValueLiteral) index).getRawValue(), componentsType);
     }
 
