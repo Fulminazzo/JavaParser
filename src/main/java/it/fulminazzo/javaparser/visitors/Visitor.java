@@ -291,19 +291,12 @@ public interface Visitor<
      * @return the re assign
      */
     default @NotNull O visitReAssign(final @NotNull Node name, final @NotNull Node value) {
-        try {
-            // Direct access is unfortunately required, as visitLiteralImpl
-            // will return the value of the variable itself.
-            if (!(name instanceof Literal)) throw invalidType(Literal.class, name);
-            NamedEntity variableName = NamedEntity.of(((Literal) name).getLiteral());
-            C variableType = (C) getEnvironment().lookupInfo(variableName);
-            O variable = value.accept(this);
-            variable = convertVariable(variableType, variable);
-            getEnvironment().update(variableName, variable);
-            return variableType.cast(variable);
-        } catch (ScopeException e) {
-            throw exceptionWrapper(e);
-        }
+        VariableContainer<C, O, P> variableName = name.accept(this).check(VariableContainer.class);
+        C variableType = variableName.getType();
+        O variable = value.accept(this);
+        variable = convertVariable(variableType, variable);
+        variableName.set(variable);
+        return variableType.cast(variable);
     }
 
     /**
