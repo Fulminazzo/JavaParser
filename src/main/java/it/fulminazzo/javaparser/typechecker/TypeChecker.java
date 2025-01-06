@@ -309,8 +309,8 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
 
     @Override
     public @NotNull Type visitArrayIndex(@NotNull Node array, @NotNull Node index) {
-        VariableContainer<ClassType, Type, ParameterTypes, ?> container = array.accept(this).check(TypeLiteralVariableContainer.class);
-        ArrayType arrayType = container.getType().check(ArrayType.class);
+        VariableContainer<ClassType, Type, ParameterTypes, ?> container = array.accept(this).check(VariableContainer.class);
+        ArrayType arrayType = container.getVariable().check(ArrayType.class);
         Type componentsType = arrayType.getComponentType();
         index.accept(this).check(INT);
         return new ArrayTypeVariableContainer(container, componentsType.toClass(), ((NumberValueLiteral) index).getRawValue(), componentsType);
