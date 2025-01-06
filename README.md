@@ -7,7 +7,9 @@
     <img src="https://fulminazzo.it/badge/coverage/Fulminazzo/mojito/gradle.yml" alt="Tests coverage" />
     <a href="https://app.codacy.com/gh/Fulminazzo/mojito/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"><img src="https://app.codacy.com/project/badge/Grade/c9b24e43cb7c4658975624cc9862a8d3" alt="Codacy Grade" /></a>
 </p>
-YES, I LOVE TESTING CODE
+<p align="center">
+    <img src="https://img.shields.io/badge/Yes%2C%20I%20love-writing%20tests-00aa00?style=for-the-badge&labelColor=1FE417" alt="" />
+</p>
 
 Introduction on what the project is
 Grammar
