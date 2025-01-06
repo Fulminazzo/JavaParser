@@ -98,12 +98,6 @@ public final class ValueLiteralVariableContainer<V> extends LiteralVariableConta
     }
 
     @Override
-    public <T extends Value<?>> @NotNull T to(@NotNull Class<T> value) {
-        if (value.isAssignableFrom(getClass())) return value.cast(this);
-        else return this.variable.to(value);
-    }
-
-    @Override
     protected @NotNull RuntimeException exceptionWrapper(@NotNull Exception exception) {
         return ExecutorException.of(exception);
     }

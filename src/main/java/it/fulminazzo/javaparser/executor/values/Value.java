@@ -170,7 +170,7 @@ public interface Value<V> extends VisitorObject<ClassValue<?>, Value<?>, Paramet
      * @return the current value cast to the expected one
      */
     default <T extends Value<?>> @NotNull T to(final @NotNull Class<T> value) {
-        return value.cast(this);
+        return check(value);
     }
 
     /**

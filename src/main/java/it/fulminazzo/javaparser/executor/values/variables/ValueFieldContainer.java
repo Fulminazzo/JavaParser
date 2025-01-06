@@ -87,10 +87,4 @@ public final class ValueFieldContainer<V> extends FieldContainer<ClassValue<?>, 
         return this.variable.invokeMethod(method, parameters);
     }
 
-    @Override
-    public <T extends Value<?>> @NotNull T to(@NotNull Class<T> value) {
-        if (value.isAssignableFrom(getClass())) return value.cast(this);
-        else return this.variable.to(value);
-    }
-
 }

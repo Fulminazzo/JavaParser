@@ -94,7 +94,7 @@ class ObjectValueTest extends Specification {
         value.to(PrimitiveValue)
 
         then:
-        thrown(ClassCastException)
+        thrown(ExecutorException)
     }
 
     def 'test wrapper #wrapper and primitive #primitive should be equal'() {
