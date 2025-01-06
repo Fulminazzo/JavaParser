@@ -12,8 +12,9 @@ import java.lang.reflect.Method;
 /**
  * An implementation of {@link LiteralVariableContainer} with {@link Type}.
  */
-public final class TypeLiteralVariableContainer extends LiteralVariableContainer<ClassType, Type, ParameterTypes> 
-        implements Type, TypeVariableContainer{
+public final class TypeLiteralVariableContainer
+        extends LiteralVariableContainer<ClassType, Type, ParameterTypes>
+        implements TypeVariableContainer {
 
     /**
      * Instantiates a new Type literal variable container.

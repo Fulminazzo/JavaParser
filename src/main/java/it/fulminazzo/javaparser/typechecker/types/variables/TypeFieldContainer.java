@@ -16,8 +16,9 @@ import java.lang.reflect.Modifier;
 /**
  * An implementation of {@link FieldContainer} for {@link Type}.
  */
-public final class TypeFieldContainer extends FieldContainer<ClassType, Type, ParameterTypes>
-        implements Type, TypeVariableContainer {
+public final class TypeFieldContainer
+        extends FieldContainer<ClassType, Type, ParameterTypes>
+        implements TypeVariableContainer {
 
     /**
      * Instantiates a new Type field container.
