@@ -78,6 +78,11 @@ public class MockVisitor implements Visitor {
     }
 
     @Override
+    public @NotNull VisitorObject visitArrayIndex(@NotNull Node array, @NotNull Node index) {
+        return null;
+    }
+
+    @Override
     public @NotNull VisitorObject visitArrayLiteral(@NotNull Node type) {
         return null;
     }
