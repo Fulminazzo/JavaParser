@@ -258,4 +258,9 @@ for (int[] a : arrayOfArray) {
     else continue;
 }
 
+// This
+System.out.println("The previous value was " + this.publicField);
+this.publicField = 10;
+System.out.println("Now it has been updated to " + this.publicField);
+
 return bW.toString().toString().toString();
