@@ -121,7 +121,7 @@ public interface Value<V> extends VisitorObject<ClassValue<?>, Value<?>, Paramet
         ClassValue<?> classValue = ClassValue.of(field.getType());
         Value<?> value = of(object);
         if (classValue.isPrimitive()) value = value.toPrimitive();
-        return new ValueFieldContainer<>(classValue, value);
+        return new ValueFieldContainer<>(this, classValue, field.getName(), value);
     }
 
     @Override

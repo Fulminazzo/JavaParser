@@ -23,8 +23,9 @@ public final class ValueFieldContainer<V> extends FieldContainer<ClassValue<?>, 
      * @param type  the type
      * @param value the value
      */
-    public ValueFieldContainer(@NotNull ClassValue<?> type, @NotNull Value<?> value) {
-        super(type, value);
+    public ValueFieldContainer(@NotNull Value<?> parent, @NotNull ClassValue<?> type,
+                               @NotNull String name, @NotNull Value<?> value) {
+        super(parent, type, name, value);
     }
 
     @Override
