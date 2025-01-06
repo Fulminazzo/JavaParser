@@ -47,6 +47,26 @@ public class ArrayValue<A> extends ObjectWrapper<List<Value<A>>> implements Valu
         for (int i = 0; i < values.size(); i++) this.object.add(list.get(i));
     }
 
+    /**
+     * Gets the corresponding value at the given index.
+     *
+     * @param index the index
+     * @return value
+     */
+    public Value<A> get(final int index) {
+        return this.object.get(index);
+    }
+
+    /**
+     * Allows to manually set a value at the specified index.
+     *
+     * @param index the index
+     * @param value the value
+     */
+    public void set(final int index, final Value<?> value) {
+        this.object.set(index, (Value<A>) value);
+    }
+
     @Override
     public @NotNull ClassValue<A> toClass() {
         return new ArrayClassValue<>(this.componentsType);
