@@ -110,7 +110,7 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
         for (Literal literal : exceptions)
             exceptionTuples.add(new ExceptionTuple(
                     literal.accept(this).checkClass(),
-                    expression.accept(this).check(LiteralValue.class)
+                    expression.accept(this).check(ValueLiteralVariableContainer.class)
             ));
         return new TupleValue<>(exceptionTuples, block);
     }
