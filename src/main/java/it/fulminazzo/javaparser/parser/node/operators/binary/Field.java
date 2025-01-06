@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
  * Represents the retrieval of a field pointer:
  * <code>%object%.%field%</code>
  */
-public class Field extends BinaryOperation {
+public class Field extends BinaryOperation implements Literal {
 
     /**
      * Instantiates a new Field operation.
@@ -18,6 +18,11 @@ public class Field extends BinaryOperation {
      */
     public Field(@NotNull Node object, @NotNull Literal fieldName) {
         super(object, fieldName);
+    }
+
+    @Override
+    public @NotNull String getLiteral() {
+        return this.left + ((Literal) this.right).getLiteral();
     }
 
 }

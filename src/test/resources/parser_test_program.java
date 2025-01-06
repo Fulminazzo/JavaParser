@@ -78,14 +78,14 @@ String stWCast = (String) stW;
 String stWCastNull = (String) null;
 
 // Binary operations
-i = i + 1 - 1 * 1 / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
-i = ((((i + 1) - (1 * 1)) / ((1 % 1) & (1 | 1))) ^ ((1 << 2) >> (1 >>> 1)));
+i = i + 1 - 1 * 1 / 1 % 2 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
+i = ((((i + 1) - (1 * 1)) / ((1 % 2) & (1 | 1))) ^ ((1 << 2) >> (1 >>> 1)));
 i = (((i + (1 - 1))) * (((1 / 1)) % ((1 & 1))) | (((1 ^ 1) << (2 >> 1)) >>> 1));
 i = (1 * 1) + (2 * 2);
 i = (1 * 1) - (2 * 2);
-i = i - 1 * 1 / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
-i = i * 1 / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
-i = i / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
+i = i - 1 * 1 / 1 % 2 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
+i = i * 1 / 1 % 2 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
+i = i / 1 % 2 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
 i = i % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
 i = i & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
 i = i | 1 ^ 1 << 2 >> 1 >>> 1;
@@ -93,9 +93,9 @@ i = i ^ 1 << 2 >> 1 >>> 1;
 i = i << 2 >> 1 >>> 1;
 i = i >> 1 >>> 1;
 i = i >>> 1;
-l = l + 1 - 1 * 1 / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
-f = f + 1 - 1 * 1 / 1 % 1;
-d = d + 1 - 1 * 1 / 1 % 1;
+l = l + 1 - 1 * 1 / 1 % 2 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
+f = f + 1 - 1 * 1 / 1 % 2;
+d = d + 1 - 1 * 1 / 1 % 2;
 d = (double) ++d;
 //TODO: Fix
 //d = (double) d++;
@@ -257,5 +257,10 @@ for (int[] a : arrayOfArray) {
     if (a == null) break;
     else continue;
 }
+
+// This
+System.out.println("The previous value was " + this.publicField);
+this.publicField = 10;
+System.out.println("Now it has been updated to " + this.publicField);
 
 return bW.toString().toString().toString();
