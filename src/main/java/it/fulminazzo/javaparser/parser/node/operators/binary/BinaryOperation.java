@@ -22,22 +22,4 @@ public abstract class BinaryOperation extends Operation {
         this.right = right;
     }
 
-    /**
-     * Gets the left node.
-     *
-     * @return the node
-     */
-    public @NotNull Node left() {
-        return this.left;
-    }
-
-    /**
-     * Gets the right node.
-     *
-     * @return the node
-     */
-    public @NotNull Node right() {
-        return this.right;
-    }
-
 }

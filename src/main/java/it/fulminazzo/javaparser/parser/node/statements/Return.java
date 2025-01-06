@@ -11,10 +11,10 @@ public class Return extends Statement {
     /**
      * Instantiates a new Return.
      *
-     * @param expr the returned exception
+     * @param expression the returned exception
      */
-    public Return(final @NotNull Node expr) {
-        super(expr);
+    public Return(final @NotNull Node expression) {
+        super(expression);
     }
 
 }
