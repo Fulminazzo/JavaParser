@@ -580,6 +580,42 @@ class ExecutorTest extends Specification {
         e.message == ScopeException.noSuchVariable(NamedEntity.of(varName)).message
     }
 
+    def 'test visit increment of #variable should return #expected'() {
+        given:
+        this.environment.declare(PrimitiveClassValue.INT, 'i', PrimitiveValue.of(1))
+
+        when:
+        def value = this.executor.visitIncrement(before, variable)
+
+        then:
+        value == expected
+
+        where:
+        variable                                                | before | expected
+        Literal.of('i')                                         | false  | PrimitiveValue.of(1)
+        Literal.of('i')                                         | true   | PrimitiveValue.of(2)
+        new Field(new ThisLiteral(), Literal.of('publicField')) | false  | ObjectValue.of(1.0d)
+        new Field(new ThisLiteral(), Literal.of('publicField')) | true   | ObjectValue.of(2.0d)
+    }
+
+    def 'test visit decrement of #variable should return #expected'() {
+        given:
+        this.environment.declare(PrimitiveClassValue.INT, 'i', PrimitiveValue.of(1))
+
+        when:
+        def value = this.executor.visitDecrement(before, variable)
+
+        then:
+        value == expected
+
+        where:
+        variable                                                | before | expected
+        Literal.of('i')                                         | false  | PrimitiveValue.of(1)
+        Literal.of('i')                                         | true   | PrimitiveValue.of(0)
+        new Field(new ThisLiteral(), Literal.of('publicField')) | false  | ObjectValue.of(1.0d)
+        new Field(new ThisLiteral(), Literal.of('publicField')) | true   | ObjectValue.of(0.0d)
+    }
+
     def 'test visit dynamic array'() {
         given:
         def value = this.executor.visitDynamicArray(
