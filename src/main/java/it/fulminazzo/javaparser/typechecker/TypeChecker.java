@@ -2,7 +2,6 @@ package it.fulminazzo.javaparser.typechecker;
 
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.environment.Environment;
-import it.fulminazzo.javaparser.environment.NamedEntity;
 import it.fulminazzo.javaparser.environment.ScopeException;
 import it.fulminazzo.javaparser.environment.scopetypes.ScopeType;
 import it.fulminazzo.javaparser.parser.node.Node;
@@ -127,7 +126,7 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
     /**
      * Visits a {@link CatchStatement}.
      * It checks that all the passed exceptions are not duplicated and extend {@link Throwable}.
-     * Then, it obtains a {@link LiteralType} from the expression,
+     * Then, it obtains a {@link TypeLiteralVariableContainer} from the expression,
      * and it declares a new variable with type the first exception and name the one from the literal.
      *
      * @param exceptions the exceptions
@@ -167,13 +166,8 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
             }
 
             try {
-                Literal literal = (Literal) expression;
-                @NotNull NamedEntity exceptionName = NamedEntity.of(literal.getLiteral());
-
-                if (!literal.accept(this).is(LiteralType.class))
-                    throw ScopeException.alreadyDeclaredVariable(exceptionName);
-
-                this.environment.declare(exceptionTypes.get(0), exceptionName, exceptionTypes.get(0).toType());
+                TypeLiteralVariableContainer exceptionName = expression.accept(this).check(TypeLiteralVariableContainer.class);
+                this.environment.declare(exceptionTypes.get(0), exceptionName.namedEntity(), exceptionTypes.get(0).toType());
             } catch (ScopeException e) {
                 throw TypeCheckerException.of(e);
             }
