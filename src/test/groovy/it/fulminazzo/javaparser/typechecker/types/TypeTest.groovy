@@ -114,7 +114,7 @@ class TypeTest extends Specification {
         def actual = this.type.getField(field)
 
         then:
-        actual.getKey() == expected
+        actual.getType() == expected
         actual.getValue() == expected.toType()
 
         where:
@@ -152,7 +152,7 @@ class TypeTest extends Specification {
         def actual = this.classType.getField(field)
 
         then:
-        actual.getKey() == expected
+        actual.getType() == expected
         actual.getValue() == expected.toType()
 
         where:
