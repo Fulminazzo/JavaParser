@@ -9,14 +9,17 @@ import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.parser.node.statements.CaseStatement;
 import it.fulminazzo.javaparser.parser.node.statements.CatchStatement;
+import it.fulminazzo.javaparser.parser.node.values.NumberValueLiteral;
 import it.fulminazzo.javaparser.typechecker.types.*;
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayClassType;
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayType;
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType;
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
+import it.fulminazzo.javaparser.typechecker.types.variables.ArrayTypeVariableContainer;
 import it.fulminazzo.javaparser.typechecker.types.variables.TypeLiteralVariableContainer;
 import it.fulminazzo.javaparser.visitors.Visitor;
 import it.fulminazzo.javaparser.visitors.visitorobjects.variables.LiteralVariableContainer;
+import it.fulminazzo.javaparser.visitors.visitorobjects.variables.VariableContainer;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -302,6 +305,15 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
         ClassType componentType = type.accept(this).checkClass();
         if (size < 0) throw TypeCheckerException.invalidArraySize(size);
         else return new ArrayType(componentType.toType());
+    }
+
+    @Override
+    public @NotNull Type visitArrayIndex(@NotNull Node array, @NotNull Node index) {
+        VariableContainer<ClassType, Type, ParameterTypes, ?> container = array.accept(this).check(TypeLiteralVariableContainer.class);
+        ArrayType arrayType = container.getType().check(ArrayType.class);
+        Type componentsType = arrayType.getComponentType();
+        index.accept(this).check(INT);
+        return new ArrayTypeVariableContainer(container, componentsType.toClass(), ((NumberValueLiteral) index).getRawValue(), componentsType);
     }
 
     @Override
