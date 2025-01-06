@@ -15,7 +15,10 @@ import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.parser.node.statements.CaseStatement;
 import it.fulminazzo.javaparser.parser.node.statements.CatchStatement;
 import it.fulminazzo.javaparser.parser.node.statements.Statement;
-import it.fulminazzo.javaparser.visitors.visitorobjects.*;
+import it.fulminazzo.javaparser.visitors.visitorobjects.ClassVisitorObject;
+import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects;
+import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
+import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObjectException;
 import it.fulminazzo.javaparser.visitors.visitorobjects.variables.FieldContainer;
 import it.fulminazzo.javaparser.visitors.visitorobjects.variables.LiteralVariableContainer;
 import it.fulminazzo.javaparser.visitors.visitorobjects.variables.VariableContainer;
@@ -348,6 +351,15 @@ public interface Visitor<
      * @return the static array
      */
     @NotNull O visitStaticArray(int size, @NotNull Node type);
+
+    /**
+     * Converts array index and its fields to this visitor type.
+     *
+     * @param array the array
+     * @param index the index
+     * @return the array index
+     */
+    @NotNull O visitArrayIndex(@NotNull Node array, @NotNull Node index);
 
     /**
      * Converts array literal and its fields to this visitor type.
