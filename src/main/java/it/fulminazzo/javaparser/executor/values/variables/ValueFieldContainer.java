@@ -73,6 +73,11 @@ public final class ValueFieldContainer<V> extends FieldContainer<ClassValue<?>, 
     }
 
     @Override
+    public @NotNull ClassValue<V> checkClass() {
+        return (ClassValue<V>) this.variable.checkClass();
+    }
+
+    @Override
     public @NotNull ValueFieldContainer<V> getField(@NotNull Field field) {
         return (ValueFieldContainer<V>) this.variable.getField(field);
     }
