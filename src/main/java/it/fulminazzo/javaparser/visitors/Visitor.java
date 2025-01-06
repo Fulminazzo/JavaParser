@@ -445,7 +445,7 @@ public interface Visitor<
         try {
             O actualExecutor = executor.accept(this);
             O actualFieldName = fieldName.accept(this);
-            return actualExecutor.getField(actualFieldName.check(LiteralObject.class).getName()).getValue();
+            return (O) actualExecutor.getField(actualFieldName.check(LiteralObject.class).getName());
         } catch (VisitorObjectException e) {
             throw exceptionWrapper(e);
         }
@@ -840,7 +840,7 @@ public interface Visitor<
                             if (field == null) field = tuple.getValue().getField(fieldName);
                             else field = field.getValue().getField(fieldName);
                         } while (!last.isEmpty());
-                        return field.getValue();
+                        return (O) field;
                     } catch (VisitorObjectException e) {
                         throw exceptionWrapper(e);
                     }
