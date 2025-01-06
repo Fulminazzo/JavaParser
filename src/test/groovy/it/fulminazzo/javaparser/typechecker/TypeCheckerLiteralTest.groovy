@@ -6,6 +6,7 @@ import it.fulminazzo.javaparser.environment.MockEnvironment
 import it.fulminazzo.javaparser.typechecker.types.*
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
+import it.fulminazzo.javaparser.typechecker.types.variables.TypeLiteralVariableContainer
 import spock.lang.Specification
 
 class TypeCheckerLiteralTest extends Specification {
@@ -30,7 +31,7 @@ class TypeCheckerLiteralTest extends Specification {
 
         where:
         code                                                        | expected
-        'val'                                                       | new LiteralType('val')
+        'val'                                                       | new TypeLiteralVariableContainer(this.environment, 'val')
         'int'                                                       | PrimitiveClassType.INT
         'String'                                                    | ObjectClassType.STRING
         'System'                                                    | ClassType.of(System)
