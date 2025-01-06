@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor.values.variables;
 
+import it.fulminazzo.javaparser.executor.ExecutorException;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.ParameterValues;
 import it.fulminazzo.javaparser.executor.values.Value;
@@ -12,6 +13,11 @@ import java.lang.reflect.Method;
 
 @SuppressWarnings("unchecked")
 public final class ValueLiteralVariableContainer<V> extends LiteralVariableContainer<ClassValue<?>, Value<?>, ParameterValues> implements Value<V> {
+
+    @Override
+    public V getValue() {
+        return (V) this.variable.getValue();
+    }
 
     @Override
     public boolean isCharacter() {
@@ -66,6 +72,11 @@ public final class ValueLiteralVariableContainer<V> extends LiteralVariableConta
     @Override
     public <T extends Value<?>> @NotNull T to(@NotNull Class<T> value) {
         return this.variable.to(value);
+    }
+
+    @Override
+    protected @NotNull RuntimeException exceptionWrapper(@NotNull Exception exception) {
+        return ExecutorException.of(exception);
     }
 
 }
