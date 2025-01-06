@@ -11,7 +11,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
- * Represents the access to an array index.
+ * Represents the access to an array element with its index.
  */
 public final class ArrayTypeVariableContainer
         extends VariableContainer<ClassType, Type, ParameterTypes, VariableContainer<ClassType, Type, ParameterTypes, ?>>
