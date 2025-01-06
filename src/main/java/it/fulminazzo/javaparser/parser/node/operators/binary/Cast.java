@@ -18,4 +18,22 @@ public class Cast extends BinaryOperation {
         super(type, expression);
     }
 
+    /**
+     * Gets type.
+     *
+     * @return the type
+     */
+    public @NotNull Node getType() {
+        return this.left;
+    }
+
+    /**
+     * Gets expression.
+     *
+     * @return the expression
+     */
+    public @NotNull Node getExpression() {
+        return this.right;
+    }
+
 }
