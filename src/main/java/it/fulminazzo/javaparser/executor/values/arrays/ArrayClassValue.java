@@ -11,22 +11,22 @@ import java.lang.reflect.Array;
 /**
  * Represents the class value for an array.
  *
- * @param <V> the type of the components
+ * @param <A> the type of the components
  */
 @SuppressWarnings("unchecked")
-public class ArrayClassValue<V> extends ObjectWrapper<ClassValue<V>> implements ClassValue<V[]> {
+public class ArrayClassValue<A> extends ObjectWrapper<ClassValue<A>> implements ClassValue<A> {
 
     /**
      * Instantiates a new Array class value.
      *
      * @param classValue the {@link ClassValue} of the components
      */
-    ArrayClassValue(final ClassValue<V> classValue) {
+    ArrayClassValue(final ClassValue<A> classValue) {
         super(classValue);
     }
 
     @Override
-    public @NotNull Class<V[]> getWrapperValue() {
+    public @NotNull Class<A> getWrapperValue() {
         return of(ClassValue.of(getComponentsType().getWrapperValue())).getValue();
     }
 
@@ -43,15 +43,15 @@ public class ArrayClassValue<V> extends ObjectWrapper<ClassValue<V>> implements 
     public boolean compatibleWith(@NotNull Value<?> value) {
         if (value.is(Values.NULL_VALUE) && !this.object.isPrimitive()) return true;
         if (value.is(ArrayValue.class)) {
-            Class<V> objectClass = this.object.getValue();
+            Class<A> objectClass = this.object.getValue();
             Class<?> componentsClass = ((ArrayValue<?>) value).getComponentsType().getValue();
             return objectClass.isAssignableFrom(componentsClass);
         } else return false;
     }
 
     @Override
-    public @NotNull Class<V[]> getValue() {
-        return (Class<V[]>) Array.newInstance(this.object.getValue(), 0).getClass();
+    public @NotNull Class<A> getValue() {
+        return (Class<A>) Array.newInstance(this.object.getValue(), 0).getClass();
     }
 
     /**
@@ -59,7 +59,7 @@ public class ArrayClassValue<V> extends ObjectWrapper<ClassValue<V>> implements 
      *
      * @return the components type
      */
-    public ClassValue<V> getComponentsType() {
+    public ClassValue<A> getComponentsType() {
         return this.object;
     }
 
