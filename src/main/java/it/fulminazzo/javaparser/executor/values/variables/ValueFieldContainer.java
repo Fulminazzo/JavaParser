@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor.values.variables;
 
+import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.ParameterValues;
 import it.fulminazzo.javaparser.executor.values.Value;
@@ -30,6 +31,8 @@ public final class ValueFieldContainer<V> extends FieldContainer<ClassValue<?>, 
 
     @Override
     public @NotNull Value<?> set(@NotNull Value<?> newValue) {
+        Refl<?> refl = new Refl<>(this.container.getValue());
+        refl.setFieldObject(this.name, newValue.getValue());
         return newValue;
     }
 
