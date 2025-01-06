@@ -1,11 +1,11 @@
 package it.fulminazzo.javaparser.visitors;
 
-import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.visitors.visitorobjects.ClassVisitorObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObjectException;
+import it.fulminazzo.javaparser.visitors.visitorobjects.variables.FieldContainer;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,12 +32,12 @@ public class MockVisitorObject implements VisitorObject {
     }
 
     @Override
-    public @NotNull Tuple getField(@NotNull String fieldName) throws VisitorObjectException {
+    public @NotNull FieldContainer getField(@NotNull String fieldName) throws VisitorObjectException {
         return null;
     }
 
     @Override
-    public @NotNull Tuple getField(@NotNull Field field) throws VisitorObjectException {
+    public @NotNull FieldContainer getField(@NotNull Field field) throws VisitorObjectException {
         return null;
     }
 
