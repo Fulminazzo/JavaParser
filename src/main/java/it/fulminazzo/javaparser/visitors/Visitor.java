@@ -15,6 +15,7 @@ import it.fulminazzo.javaparser.parser.node.statements.CaseStatement;
 import it.fulminazzo.javaparser.parser.node.statements.CatchStatement;
 import it.fulminazzo.javaparser.parser.node.statements.Statement;
 import it.fulminazzo.javaparser.visitors.visitorobjects.*;
+import it.fulminazzo.javaparser.visitors.visitorobjects.variables.FieldContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -833,9 +834,12 @@ public interface Visitor<
                 tuple = getObjectFromLiteral(String.join(fieldsSeparator, first));
                 if (tuple.isPresent())
                     try {
-                        Tuple<C, O> field = tuple.copy();
-                        do field = field.getValue().getField(last.removeFirst());
-                        while (!last.isEmpty());
+                        FieldContainer<C, O, P> field = null;
+                        do {
+                            String fieldName = last.removeFirst();
+                            if (field == null) field = tuple.getValue().getField(fieldName);
+                            else field = field.getValue().getField(fieldName);
+                        } while (!last.isEmpty());
                         return field.getValue();
                     } catch (VisitorObjectException e) {
                         throw exceptionWrapper(e);
