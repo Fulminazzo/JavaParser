@@ -15,12 +15,12 @@ import java.util.List;
 /**
  * Represents a general array {@link Value}.
  *
- * @param <V> the type of the array
+ * @param <A> the type of the array
  */
 @Getter
 @SuppressWarnings("unchecked")
-public class ArrayValue<V> extends ObjectWrapper<List<Value<V>>> implements Value<V[]> {
-    private final @NotNull ClassValue<V> componentsType;
+public class ArrayValue<A> extends ObjectWrapper<List<Value<A>>> implements Value<A> {
+    private final @NotNull ClassValue<A> componentsType;
 
     /**
      * Instantiates a static array value.
@@ -28,7 +28,7 @@ public class ArrayValue<V> extends ObjectWrapper<List<Value<V>>> implements Valu
      * @param componentsType the components type
      * @param size           the size of the array
      */
-    ArrayValue(final @NotNull ClassValue<V> componentsType, final int size) {
+    ArrayValue(final @NotNull ClassValue<A> componentsType, final int size) {
         super(new LinkedList<>());
         this.componentsType = componentsType;
         for (int i = 0; i < size; i++) this.object.add(componentsType.toValue());
@@ -40,23 +40,25 @@ public class ArrayValue<V> extends ObjectWrapper<List<Value<V>>> implements Valu
      * @param componentsType the components type
      * @param values         the values of the array
      */
-    ArrayValue(final @NotNull ClassValue<V> componentsType, final @NotNull Collection<Value<V>> values) {
+    ArrayValue(final @NotNull ClassValue<A> componentsType, final @NotNull Collection<Value<A>> values) {
         super(new LinkedList<>());
         this.componentsType = componentsType;
-        List<Value<V>> list = new LinkedList<>(values);
+        List<Value<A>> list = new LinkedList<>(values);
         for (int i = 0; i < values.size(); i++) this.object.add(list.get(i));
     }
 
     @Override
-    public @NotNull ClassValue<V[]> toClass() {
+    public @NotNull ClassValue<A> toClass() {
         return new ArrayClassValue<>(this.componentsType);
     }
 
     @Override
-    public V @NotNull [] getValue() {
-        Class<V> componentsType = this.componentsType.getWrapperValue();
-        return this.object.stream().map(Value::getValue).toArray(a -> (V[])
-                Array.newInstance(componentsType, this.object.size()));
+    public @NotNull A getValue() {
+        Class<A> componentsType = this.componentsType.getWrapperValue();
+        A array = (A) Array.newInstance(componentsType, this.object.size());
+        for (int i = 0; i < this.object.size(); i++)
+            Array.set(array, i, this.object.get(i).getValue());
+        return array;
     }
 
     @Override
