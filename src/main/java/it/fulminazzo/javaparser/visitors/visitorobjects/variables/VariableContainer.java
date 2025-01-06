@@ -31,8 +31,10 @@ public abstract class VariableContainer<
     /**
      * Instantiates a new Variable container.
      *
-     * @param type     the type
-     * @param variable the value
+     * @param container the container
+     * @param type      the type
+     * @param name      the name
+     * @param variable  the value
      */
     public VariableContainer(final @NotNull T container, final @NotNull C type,
                              final @NotNull String name, final @NotNull O variable) {
