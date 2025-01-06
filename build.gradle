@@ -42,3 +42,15 @@ testCodeCoverageReport {
         csv.required = true
     }
 }
+
+tasks.register('sourcesJar', Jar) {
+    from sourceSets.main.delombokTask
+    archiveClassifier = 'sources'
+}
+
+tasks.register('javadocJar', Jar) {
+    from javadoc
+    archiveClassifier = 'javadoc'
+}
+//TODO: jar
+//TODO: publications
