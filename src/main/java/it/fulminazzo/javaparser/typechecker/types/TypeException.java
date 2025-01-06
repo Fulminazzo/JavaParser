@@ -51,6 +51,17 @@ public class TypeException extends VisitorObjectException {
 
     /**
      * Generates a {@link TypeException} with message:
+     * <i>Cannot assign a value to final variable '%field%'</i>
+     *
+     * @param field the field
+     * @return the type exception
+     */
+    public static @NotNull TypeException cannotModifyFinalField(final @NotNull String field) {
+        return new TypeException("Cannot assign a value to final variable '%s'", field);
+    }
+
+    /**
+     * Generates a {@link TypeException} with message:
      * <i>Type %type% cannot access field '%field%' with access-level '%access-level%'</i>
      *
      * @param type  the type
