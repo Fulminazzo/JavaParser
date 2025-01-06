@@ -21,7 +21,7 @@ public abstract class LiteralVariableContainer<
         C extends ClassVisitorObject<C, O, P>,
         O extends VisitorObject<C, O, P>,
         P extends ParameterVisitorObjects<C, O, P>
-        > extends VariableContainer<C, O, P> implements LiteralObject<C, O, P> {
+        > extends VariableContainer<C, O, P> {
     @Getter
     protected final @NotNull String name;
     protected final @NotNull Environment<O> environment;
