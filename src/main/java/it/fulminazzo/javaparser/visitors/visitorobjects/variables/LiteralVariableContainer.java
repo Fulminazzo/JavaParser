@@ -40,6 +40,19 @@ public abstract class LiteralVariableContainer<
         this.name = name;
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public @NotNull C getType() {
+        if (this.type.isNull()) {
+            try {
+                return (C) this.environment.lookupInfo(namedEntity());
+            } catch (ScopeException e) {
+                throw exceptionWrapper(e);
+            }
+        }
+        else return super.getType();
+    }
+
     @Override
     public @NotNull O set(final @NotNull O newValue) {
         try {
