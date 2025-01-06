@@ -4,14 +4,13 @@ import it.fulminazzo.javaparser.environment.Environment;
 import it.fulminazzo.javaparser.environment.NamedEntity;
 import it.fulminazzo.javaparser.environment.ScopeException;
 import it.fulminazzo.javaparser.visitors.visitorobjects.ClassVisitorObject;
-import it.fulminazzo.javaparser.visitors.visitorobjects.LiteralObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents a {@link VariableContainer} that is also {@link LiteralObject}.
+ * Represents a {@link VariableContainer} with a name associated.
  *
  * @param <C> the type of the {@link ClassVisitorObject}
  * @param <O> the type of the {@link VisitorObject}
@@ -21,7 +20,7 @@ public abstract class LiteralVariableContainer<
         C extends ClassVisitorObject<C, O, P>,
         O extends VisitorObject<C, O, P>,
         P extends ParameterVisitorObjects<C, O, P>
-        > extends VariableContainer<C, O, P> implements LiteralObject<C, O, P> {
+        > extends VariableContainer<C, O, P> {
     @Getter
     protected final @NotNull String name;
     protected final @NotNull Environment<O> environment;
@@ -44,11 +43,20 @@ public abstract class LiteralVariableContainer<
     @Override
     public @NotNull O set(final @NotNull O newValue) {
         try {
-            this.environment.update(NamedEntity.of(this.name), newValue);
+            this.environment.update(namedEntity(), newValue);
         } catch (ScopeException e) {
             throw exceptionWrapper(e);
         }
         return newValue;
+    }
+
+    /**
+     * Gets a {@link NamedEntity} from the name.
+     *
+     * @return named entity
+     */
+    public @NotNull NamedEntity namedEntity() {
+        return NamedEntity.of(this.name);
     }
 
     /**

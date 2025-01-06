@@ -256,8 +256,8 @@ public interface Visitor<
 
     /**
      * Converts assignment and its fields to this visitor type.
-     * Checks if the object resulting from the name is a {@link LiteralObject}.
-     * If it is not, throws a {@link ScopeException#alreadyDeclaredVariable(NamedEntity)}.
+     * Checks if the object resulting from the name is a {@link VariableContainer}.
+     * If it is not, throws an exception.
      * Otherwise, if it is not initialized, converts the variable to its non-initialized form
      * (either with {@link #visitNullLiteral()} or {@link ClassVisitorObject#toObject}.
      * Finally, declares the variable in the {@link #getEnvironment()}.
@@ -272,7 +272,7 @@ public interface Visitor<
         VariableContainer<C, O, P> variableName = name.accept(this).check(VariableContainer.class);
         if (variableName.is(LiteralVariableContainer.class))
             try {
-                getEnvironment().declare(variableType, variableName.check(LiteralVariableContainer.class), variableType.toObject());
+                getEnvironment().declare(variableType, variableName.check(LiteralVariableContainer.class).namedEntity(), variableType.toObject());
             } catch (ScopeException e) {
                 throw exceptionWrapper(e);
             }
@@ -440,8 +440,8 @@ public interface Visitor<
     default @NotNull O visitField(final @NotNull Node executor, final @NotNull Node fieldName) {
         try {
             O actualExecutor = executor.accept(this);
-            O actualFieldName = fieldName.accept(this);
-            return (O) actualExecutor.getField(actualFieldName.check(LiteralObject.class).getName());
+            LiteralVariableContainer<C, O, P> actualFieldName = fieldName.accept(this).check(LiteralVariableContainer.class);
+            return (O) actualExecutor.getField(actualFieldName.getName());
         } catch (VisitorObjectException e) {
             throw exceptionWrapper(e);
         }
