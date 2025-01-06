@@ -10,6 +10,7 @@ import it.fulminazzo.javaparser.executor.values.TestClass
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
+import it.fulminazzo.javaparser.executor.values.variables.ValueLiteralVariableContainer
 import spock.lang.Specification
 
 class ExecutorLiteralTest extends Specification {
@@ -34,7 +35,7 @@ class ExecutorLiteralTest extends Specification {
 
         where:
         code                                                        | expected
-        'val'                                                       | new LiteralValue('val')
+        'val'                                                       | new ValueLiteralVariableContainer<>(this.environment, 'val')
         'int'                                                       | PrimitiveClassValue.INT
         'String'                                                    | ObjectClassValue.STRING
         'System'                                                    | ClassValue.of(System)
