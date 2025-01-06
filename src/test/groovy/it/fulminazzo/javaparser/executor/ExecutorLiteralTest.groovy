@@ -4,7 +4,7 @@ import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple
 import it.fulminazzo.javaparser.environment.MockEnvironment
 import it.fulminazzo.javaparser.executor.values.ClassValue
-import it.fulminazzo.javaparser.executor.values.LiteralValue
+
 import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue
 import it.fulminazzo.javaparser.executor.values.TestClass
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue

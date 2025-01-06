@@ -1,7 +1,6 @@
 package it.fulminazzo.javaparser.executor;
 
 import it.fulminazzo.javaparser.executor.values.ClassValue;
-import it.fulminazzo.javaparser.executor.values.LiteralValue;
 import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import lombok.Getter;
