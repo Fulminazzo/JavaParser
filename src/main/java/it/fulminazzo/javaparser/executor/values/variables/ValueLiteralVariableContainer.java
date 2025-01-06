@@ -15,8 +15,9 @@ import java.lang.reflect.Method;
  *
  * @param <V> the type of the value
  */
-public final class ValueLiteralVariableContainer<V> extends LiteralVariableContainer<ClassValue<?>, Value<?>, ParameterValues>
-        implements Value<V>, ValueVariableContainer<V> {
+public final class ValueLiteralVariableContainer<V>
+        extends LiteralVariableContainer<ClassValue<?>, Value<?>, ParameterValues>
+        implements ValueVariableContainer<V> {
 
     /**
      * Instantiates a new value literal variable container.

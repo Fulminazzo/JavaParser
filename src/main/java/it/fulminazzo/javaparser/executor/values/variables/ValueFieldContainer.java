@@ -14,8 +14,9 @@ import java.lang.reflect.Method;
 /**
  * An implementation of {@link FieldContainer} for {@link Value}.
  */
-public final class ValueFieldContainer<V> extends FieldContainer<ClassValue<?>, Value<?>, ParameterValues>
-        implements Value<V>, ValueVariableContainer<V> {
+public final class ValueFieldContainer<V>
+        extends FieldContainer<ClassValue<?>, Value<?>, ParameterValues>
+        implements ValueVariableContainer<V> {
 
     /**
      * Instantiates a new Field container.
