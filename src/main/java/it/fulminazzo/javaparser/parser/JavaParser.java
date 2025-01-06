@@ -25,6 +25,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
 
 import static it.fulminazzo.javaparser.tokenizer.TokenType.*;
 
@@ -623,6 +624,33 @@ public class JavaParser extends Parser {
             }
             return node;
         }
+    }
+
+    /**
+     * Because of how the grammar works, expressions of the type:
+     * <br>
+     * <i>(double) i++</i>
+     * <br>
+     * will be parsed as:
+     * <br>
+     * <i>Increment(Cast(Double), i)</i>
+     * <br>
+     * while the Java specification asserts the opposite.
+     * To comply with it, this method will unwrap a {@link Cast} node
+     * and update its cast object to the resulting node of the conversion function.
+     *
+     * @param node               the node
+     * @param conversionFunction conversion function
+     * @return the re-wrapped node
+     */
+    @NotNull Node unwrapCast(final @NotNull Node node,
+                             final @NotNull Function<Node, Node> conversionFunction) {
+        if (node.is(Cast.class)) {
+            Cast cast = (Cast) node;
+            Node type = cast.getType();
+            Node expression = cast.getExpression();
+            return new Cast(type, unwrapCast(expression, conversionFunction));
+        } else return conversionFunction.apply(node);
     }
 
     /**
