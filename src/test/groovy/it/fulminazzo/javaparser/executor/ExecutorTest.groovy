@@ -504,7 +504,7 @@ class ExecutorTest extends Specification {
 
         and:
         this.environment.declare(
-                Literal.of(valueClass).accept(this.executor).to(ClassValue),
+                Literal.of(valueClass).accept(this.executor).check(ClassValue),
                 name, val.accept(this.executor)
         )
 

@@ -91,7 +91,7 @@ class ObjectValueTest extends Specification {
         def value = ObjectValue.of(this)
 
         when:
-        value.to(PrimitiveValue)
+        value.check(PrimitiveValue)
 
         then:
         thrown(ExecutorException)

@@ -162,18 +162,6 @@ public interface Value<V> extends VisitorObject<ClassValue<?>, Value<?>, Paramet
     }
 
     /**
-     * Converts the current value is of the specified one.
-     * This operation is unchecked.
-     *
-     * @param <T>   the class of the value
-     * @param value the expected value
-     * @return the current value cast to the expected one
-     */
-    default <T extends Value<?>> @NotNull T to(final @NotNull Class<T> value) {
-        return check(value);
-    }
-
-    /**
      * Gets value.
      *
      * @return the value

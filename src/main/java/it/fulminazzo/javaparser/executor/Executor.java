@@ -166,13 +166,13 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
     public @NotNull Value<?> visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable,
                                                        @NotNull CodeBlock code, @NotNull Node expression) {
         return visitScoped(ScopeType.FOR, () -> {
-            ClassValue<?> variableType = type.accept(this).to(ClassValue.class);
-            ValueLiteralVariableContainer<?> variableName = variable.accept(this).to(ValueLiteralVariableContainer.class);
+            ClassValue<?> variableType = type.accept(this).check(ClassValue.class);
+            ValueLiteralVariableContainer<?> variableName = variable.accept(this).check(ValueLiteralVariableContainer.class);
             Value<?> iterable = expression.accept(this);
 
             final Iterator<?> iterator;
             if (iterable.is(ArrayValue.class))
-                iterator = iterable.to(ArrayValue.class).getValues().stream().map(v -> ((Value<?>) v).getValue()).iterator();
+                iterator = iterable.check(ArrayValue.class).getValues().stream().map(v -> ((Value<?>) v).getValue()).iterator();
             else iterator = ((Iterable<?>) iterable.getValue()).iterator();
 
             while (iterator.hasNext()) {
@@ -232,7 +232,7 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
 
     @Override
     public @NotNull Value<?> visitDynamicArray(@NotNull List<Node> parameters, @NotNull Node type) {
-        ClassValue<Object> componentsType = type.accept(this).to(ArrayClassValue.class).getComponentsType();
+        ClassValue<Object> componentsType = type.accept(this).check(ArrayClassValue.class).getComponentsType();
         Collection<Value<Object>> components = new LinkedList<>();
         for (Node component : parameters) components.add((Value<Object>) component.accept(this));
         return ArrayValue.of(componentsType, components);
@@ -240,13 +240,14 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
 
     @Override
     public @NotNull Value<?> visitStaticArray(int size, @NotNull Node type) {
-        ClassValue<?> componentsType = type.accept(this).to(ClassValue.class);
+        ClassValue<?> componentsType = type.accept(this).check(ClassValue.class);
         return ArrayValue.of(componentsType, size);
     }
 
     @Override
     public @NotNull Value<?> visitArrayLiteral(@NotNull Node type) {
-        return ArrayClassValue.of(type.accept(this).to(ClassValue.class));
+        ClassValue<?> classValue = type.accept(this).check(ClassValue.class);
+        return ArrayClassValue.of(classValue);
     }
 
     @Override
