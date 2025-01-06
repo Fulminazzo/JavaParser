@@ -16,8 +16,8 @@ public interface Node extends Serializable {
      * It does so by looking for a <code>visit%NodeName%</code> method.
      *
      * @param visitor the visitor
+     * @param <T>     the type returned by the visitor
      * @return the node converted
-     * @param <T> the type returned by the visitor
      */
     <T extends VisitorObject<?, T, ?>> T accept(final @NotNull Visitor<?, T, ?> visitor);
 

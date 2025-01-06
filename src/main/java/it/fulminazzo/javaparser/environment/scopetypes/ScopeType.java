@@ -3,7 +3,6 @@ package it.fulminazzo.javaparser.environment.scopetypes;
 import it.fulminazzo.fulmicollection.objects.Refl;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.LinkedList;
 import java.util.stream.Stream;
 
 /**
