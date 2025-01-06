@@ -222,7 +222,7 @@ public abstract class VariableContainer<
 
     @Override
     public String toString() {
-        return String.format("%s(%s)", getClass().getSimpleName(), this.value);
+        return this.value.toString();
     }
 
 }
