@@ -4,6 +4,7 @@ import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.ParameterValues;
 import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.executor.values.ValueException;
+import it.fulminazzo.javaparser.executor.values.arrays.ArrayValue;
 import it.fulminazzo.javaparser.visitors.visitorobjects.variables.VariableContainer;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,7 +35,10 @@ public final class ArrayValueVariableContainer<V>
 
     @Override
     public @NotNull Value<?> set(@NotNull Value<?> newValue) {
-        return null;
+        int index = Integer.parseInt(this.name);
+        ArrayValue<?> array = (ArrayValue<?>) this.container.getVariable();
+        array.set(index, newValue);
+        return newValue;
     }
 
     @Override
