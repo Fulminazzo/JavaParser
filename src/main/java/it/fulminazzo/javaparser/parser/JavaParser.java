@@ -592,13 +592,13 @@ public class JavaParser extends Parser {
      * SUB := MUL ( (- MUL)* | (-= MUL) | -- )
      * MUL := DIV ( (* DIV)* | (*= DIV) )
      * DIV := MOD ( (/ MOD)* | (/= MOD) )
-     * MOD := METHOD_CALL ( (% METHOD_CALL)* | (%= METHOD_CALL) )
+     * MOD := UNARY_OPERATION ( (% UNARY_OPERATION)* | (%= UNARY_OPERATION) )
      *
      * @param operation the {@link TokenType} that corresponds to the operation
      * @return the node
      */
     protected @NotNull Node parseBinaryOperation(final @NotNull TokenType operation) {
-        if (operation.after(MODULO)) return parseMethodCall();
+        if (operation.after(MODULO)) return parseUnaryOperation();
         else {
             final TokenType nextOperation = TokenType.values()[operation.ordinal() + 1];
             Node node = parseBinaryOperation(nextOperation);
@@ -661,6 +661,80 @@ public class JavaParser extends Parser {
     }
 
     /**
+     * UNARY_OPERATION := CAST | MINUS | NOT | METHOD_CALL
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseUnaryOperation() {
+        switch (lastToken()) {
+            case OPEN_PAR:
+                return parseCast();
+            case SUBTRACT:
+                return parseMinus();
+            case NOT:
+                return parseNot();
+            default:
+                return parseMethodCall();
+        }
+    }
+
+    /**
+     * CAST := (PAR_EXPR)* (EXPR | PAR_EXPR)
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseCast() {
+        Node expression = parseParenthesizedExpr();
+        if (lastToken().between(MODULO, SPACE) || lastToken() == OPEN_PAR)
+            expression = new Cast(expression, parseUnaryOperation());
+        else if (lastToken() == ADD) {
+            consume(ADD);
+            if (lastToken() == ADD) expression = new Cast(expression, parseIncrement());
+            else return new Add(expression, parseExpression());
+        } else if (lastToken() == SUBTRACT) {
+            consume(SUBTRACT);
+            if (lastToken() == SUBTRACT) expression = new Cast(expression, parseDecrement());
+            else if (expression.is(Literal.class) &&
+                    (lastToken().between(MODULO, SPACE) || lastToken() == OPEN_PAR))
+                expression = new Cast(expression, new Minus(parseUnaryOperation()));
+            else return new Subtract(expression, parseExpression());
+        }
+        return expression;
+    }
+
+    /**
+     * PAR_EXPR := \( EXPR \)
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseParenthesizedExpr() {
+        consume(OPEN_PAR);
+        Node expression = parseExpression();
+        consume(CLOSE_PAR);
+        return expression;
+    }
+
+    /**
+     * MINUS := - EXPR
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseMinus() {
+        consume(SUBTRACT);
+        return new Minus(parseExpression());
+    }
+
+    /**
+     * NOT := ! EXPR
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseNot() {
+        consume(NOT);
+        return new Not(parseExpression());
+    }
+
+    /**
      * METHOD_CALL := ATOM ( .LITERAL METHOD_INVOCATION? )*
      *
      * @return the node
@@ -707,18 +781,12 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ATOM := CAST | MINUS | NOT | NULL | THIS | LITERAL | TYPE_VALUE
+     * ATOM := NULL | THIS | LITERAL | TYPE_VALUE
      *
      * @return the node
      */
     protected @NotNull Node parseAtom() {
         switch (lastToken()) {
-            case OPEN_PAR:
-                return parseCast();
-            case SUBTRACT:
-                return parseMinus();
-            case NOT:
-                return parseNot();
             case NULL:
                 return parseNull();
             case THIS:
@@ -728,62 +796,6 @@ public class JavaParser extends Parser {
             default:
                 return parseTypeValue();
         }
-    }
-
-    /**
-     * CAST := (PAR_EXPR)* (EXPR | PAR_EXPR)
-     *
-     * @return the node
-     */
-    protected @NotNull Node parseCast() {
-        Node expression = parseParenthesizedExpr();
-        if (lastToken().between(MODULO, SPACE) || lastToken() == OPEN_PAR)
-            expression = new Cast(expression, parseAtom());
-        else if (lastToken() == ADD) {
-            consume(ADD);
-            if (lastToken() == ADD) expression = new Cast(expression, parseIncrement());
-            else return new Add(expression, parseExpression());
-        } else if (lastToken() == SUBTRACT) {
-            consume(SUBTRACT);
-            if (lastToken() == SUBTRACT) expression = new Cast(expression, parseDecrement());
-            else if (expression.is(Literal.class) &&
-                    (lastToken().between(MODULO, SPACE) || lastToken() == OPEN_PAR))
-                expression = new Cast(expression, new Minus(parseAtom()));
-            else return new Subtract(expression, parseExpression());
-        }
-        return expression;
-    }
-
-    /**
-     * PAR_EXPR := \( EXPR \)
-     *
-     * @return the node
-     */
-    protected @NotNull Node parseParenthesizedExpr() {
-        consume(OPEN_PAR);
-        Node expression = parseExpression();
-        consume(CLOSE_PAR);
-        return expression;
-    }
-
-    /**
-     * MINUS := - EXPR
-     *
-     * @return the node
-     */
-    protected @NotNull Node parseMinus() {
-        consume(SUBTRACT);
-        return new Minus(parseExpression());
-    }
-
-    /**
-     * NOT := ! EXPR
-     *
-     * @return the node
-     */
-    protected @NotNull Node parseNot() {
-        consume(NOT);
-        return new Not(parseExpression());
     }
 
     /**
