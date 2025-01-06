@@ -61,7 +61,7 @@ public final class ValueLiteralVariableContainer<V> extends LiteralVariableConta
 
     @Override
     public @NotNull ValueFieldContainer<V> getField(@NotNull Field field) {
-        return this.variable.getField(field);
+        return (ValueFieldContainer<V>) this.variable.getField(field);
     }
 
     @Override
