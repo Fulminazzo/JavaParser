@@ -269,6 +269,12 @@ public interface Visitor<
     default @NotNull O visitAssignment(final @NotNull Node type, final @NotNull Literal name, final @NotNull Node value) {
         C variableType = type.accept(this).checkClass();
         VariableContainer<C, O, P> variableName = name.accept(this).check(VariableContainer.class);
+        if (variableName.is(LiteralVariableContainer.class))
+            try {
+                getEnvironment().declare(variableType, variableName.check(LiteralVariableContainer.class), variableType.toObject());
+            } catch (ScopeException e) {
+                throw exceptionWrapper(e);
+            }
         O variable = value.accept(this);
         variable = convertVariable(variableType, variable);
         variableName.set(variable);
