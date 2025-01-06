@@ -866,8 +866,9 @@ public interface Visitor<
             O variable = getEnvironment().lookup(string);
             C variableType = (C) getEnvironment().lookupInfo(string);
             LiteralVariableContainer<C, O, P> actualVariable = newLiteralObject(literal);
-            new Refl<>(actualVariable).setFieldObject("type", variableType);
-            actualVariable.set(variable);
+            new Refl<>(actualVariable)
+                    .setFieldObject("type", variableType)
+                    .setFieldObject("value", variable);
             tuple.set(variableType, (O) actualVariable);
         } catch (ScopeException ignored) {
         }
