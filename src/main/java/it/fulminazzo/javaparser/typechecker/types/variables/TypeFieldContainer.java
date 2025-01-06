@@ -18,11 +18,13 @@ public final class TypeFieldContainer extends FieldContainer<ClassType, Type, Pa
     /**
      * Instantiates a new Field container.
      *
+     * @param parent   the parent
      * @param type     the type
      * @param variable the value
      */
-    public TypeFieldContainer(@NotNull ClassType type, @NotNull Type variable) {
-        super(type, variable);
+    public TypeFieldContainer(@NotNull Type parent, @NotNull ClassType type,
+                              @NotNull String name, @NotNull Type variable) {
+        super(parent, type, name, variable);
     }
 
     @Override
