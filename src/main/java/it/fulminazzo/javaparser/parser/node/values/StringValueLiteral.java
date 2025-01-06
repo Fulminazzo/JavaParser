@@ -28,7 +28,7 @@ public class StringValueLiteral extends ValueLiteral {
      * @param rawValue the raw value
      */
     public StringValueLiteral(final @NotNull String rawValue) throws NodeException {
-        super(rawValue, TokenType.STRING_VALUE);
+        super(unescapeString(rawValue), TokenType.STRING_VALUE);
     }
 
     /**
