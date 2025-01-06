@@ -15,8 +15,9 @@ import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayClassType;
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayType;
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType;
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
+import it.fulminazzo.javaparser.typechecker.types.variables.TypeLiteralVariableContainer;
 import it.fulminazzo.javaparser.visitors.Visitor;
-import it.fulminazzo.javaparser.visitors.visitorobjects.LiteralObject;
+import it.fulminazzo.javaparser.visitors.visitorobjects.variables.LiteralVariableContainer;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -368,8 +369,8 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
     }
 
     @Override
-    public @NotNull LiteralObject<ClassType, Type, ParameterTypes> newLiteralObject(@NotNull String value) {
-        return new LiteralType(value);
+    public @NotNull LiteralVariableContainer<ClassType, Type, ParameterTypes> newLiteralObject(@NotNull String value) {
+        return new TypeLiteralVariableContainer(this.environment, value);
     }
 
     @Override
