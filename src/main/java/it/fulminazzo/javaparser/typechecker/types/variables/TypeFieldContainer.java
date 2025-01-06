@@ -51,11 +51,6 @@ public final class TypeFieldContainer extends FieldContainer<ClassType, Type, Pa
     }
 
     @Override
-    public @NotNull ClassType checkClass() {
-        return this.variable.checkClass();
-    }
-
-    @Override
     public @NotNull TypeFieldContainer getField(@NotNull Field field) throws TypeException {
         return this.variable.getField(field);
     }
