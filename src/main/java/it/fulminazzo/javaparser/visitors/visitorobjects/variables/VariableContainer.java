@@ -43,8 +43,9 @@ abstract class VariableContainer<
      * Updates the value of the variable.
      *
      * @param newValue the new value
+     * @return the new value set
      */
-    public abstract void set(final @NotNull O newValue);
+    public abstract @NotNull O set(final @NotNull O newValue);
 
     @Override
     public boolean isPrimitive() {
