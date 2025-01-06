@@ -1,5 +1,3 @@
-import java.io.IOException;
-
 /**
  * This file represents an example of Java program with all the allowed statements from the parser.
  */
@@ -80,14 +78,14 @@ String stWCast = (String) stW;
 String stWCastNull = (String) null;
 
 // Binary operations
-i = i + 1 - 1 * 1 / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
-i = ((((i + 1) - (1 * 1)) / ((1 % 1) & (1 | 1))) ^ ((1 << 2) >> (1 >>> 1)));
+i = i + 1 - 1 * 1 / 1 % 2 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
+i = ((((i + 1) - (1 * 1)) / ((1 % 2) & (1 | 1))) ^ ((1 << 2) >> (1 >>> 1)));
 i = (((i + (1 - 1))) * (((1 / 1)) % ((1 & 1))) | (((1 ^ 1) << (2 >> 1)) >>> 1));
 i = (1 * 1) + (2 * 2);
 i = (1 * 1) - (2 * 2);
-i = i - 1 * 1 / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
-i = i * 1 / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
-i = i / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
+i = i - 1 * 1 / 1 % 2 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
+i = i * 1 / 1 % 2 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
+i = i / 1 % 2 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
 i = i % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
 i = i & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
 i = i | 1 ^ 1 << 2 >> 1 >>> 1;
@@ -95,9 +93,9 @@ i = i ^ 1 << 2 >> 1 >>> 1;
 i = i << 2 >> 1 >>> 1;
 i = i >> 1 >>> 1;
 i = i >>> 1;
-l = l + 1 - 1 * 1 / 1 % 1 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
-f = f + 1 - 1 * 1 / 1 % 1;
-d = d + 1 - 1 * 1 / 1 % 1;
+l = l + 1 - 1 * 1 / 1 % 2 & 1 | 1 ^ 1 << 2 >> 1 >>> 1;
+f = f + 1 - 1 * 1 / 1 % 2;
+d = d + 1 - 1 * 1 / 1 % 2;
 d = (double) ++d;
 d = (double) d++;
 d = (double) --d;
@@ -245,6 +243,7 @@ int[] array = new int[]{1, 2, 3, 4, 5};
 int[] arrayCast = (int[]) array;
 
 for (int a : array) System.out.println(a);
+System.out.println("Last element of array is: " + a[4]);
 
 int[][] arrayOfArray = new int[][]{
         new int[]{1, 2, 3},
@@ -257,5 +256,10 @@ for (int[] a : arrayOfArray) {
     if (a == null) break;
     else continue;
 }
+
+// This
+System.out.println("The previous value was " + this.publicField);
+this.publicField = 10;
+System.out.println("Now it has been updated to " + this.publicField);
 
 return bW.toString().toString().toString();

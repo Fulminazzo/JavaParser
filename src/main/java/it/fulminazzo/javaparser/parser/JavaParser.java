@@ -6,7 +6,6 @@ import it.fulminazzo.fulmicollection.utils.StringUtils;
 import it.fulminazzo.javaparser.parser.node.*;
 import it.fulminazzo.javaparser.parser.node.arrays.DynamicArray;
 import it.fulminazzo.javaparser.parser.node.arrays.StaticArray;
-import it.fulminazzo.javaparser.parser.node.AssignmentBlock;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram;
 import it.fulminazzo.javaparser.parser.node.literals.*;
@@ -26,6 +25,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
 
 import static it.fulminazzo.javaparser.tokenizer.TokenType.*;
 
@@ -105,8 +105,8 @@ public class JavaParser extends Parser {
 
     /**
      * STMT := return EXPR; | throw EXPR; break; | continue; |
-     *         TRY_STMT | SWITCH_STMT | FOR_STMT | DO_STMT | WHILE_STMT | IF_STMT
-     *         ASSIGNMENT;
+     * TRY_STMT | SWITCH_STMT | FOR_STMT | DO_STMT | WHILE_STMT | IF_STMT
+     * ASSIGNMENT;
      *
      * @return the node
      */
@@ -135,12 +135,18 @@ public class JavaParser extends Parser {
                 consume(SEMICOLON);
                 return new Continue();
             }
-            case TRY: return parseTryStatement();
-            case SWITCH: return parseSwitchStatement();
-            case FOR: return parseForStatement();
-            case DO: return parseDoStatement();
-            case WHILE: return parseWhileStatement();
-            case IF: return parseIfStatement();
+            case TRY:
+                return parseTryStatement();
+            case SWITCH:
+                return parseSwitchStatement();
+            case FOR:
+                return parseForStatement();
+            case DO:
+                return parseDoStatement();
+            case WHILE:
+                return parseWhileStatement();
+            case IF:
+                return parseIfStatement();
             default: {
                 exp = parseAssignment();
                 consume(SEMICOLON);
@@ -245,6 +251,7 @@ public class JavaParser extends Parser {
      * CASE_BLOCK := case EXPR: ( CODE_BLOCK | SINGLE_STMT* )
      */
     protected @NotNull CaseStatement parseCaseBlock() {
+        //TODO: merged cases
         consume(CASE);
         Node expression = parseExpression();
         consume(COLON);
@@ -289,13 +296,13 @@ public class JavaParser extends Parser {
                 if (!ass.isInitialized() && lastToken() == COLON)
                     return parseEnhancedForStatement(ass);
             }
-        } else assignment = new Statement();
+        } else assignment = new EmptyLiteral();
         consume(SEMICOLON);
 
-        Node condition = lastToken() == SEMICOLON ? new Statement() : parseExpression();
+        Node condition = lastToken() == SEMICOLON ? new EmptyLiteral() : parseExpression();
         consume(SEMICOLON);
 
-        Node increment = lastToken() == CLOSE_PAR ? new Statement() : parseExpression();
+        Node increment = lastToken() == CLOSE_PAR ? new EmptyLiteral() : parseExpression();
         consume(CLOSE_PAR);
 
         CodeBlock block = parseBlock();
@@ -356,7 +363,7 @@ public class JavaParser extends Parser {
                 return new IfStatement(expression, codeBlock, parseIfStatement());
             else return new IfStatement(expression, codeBlock, parseBlock());
         }
-        return new IfStatement(expression, codeBlock, new Statement());
+        return new IfStatement(expression, codeBlock, new EmptyLiteral());
     }
 
     /**
@@ -384,7 +391,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * EXPR := NEW_OBJECT | INCREMENT | DECREMENT | METHOD_CALL | ARRAY_LITERAL
+     * EXPR := NEW_OBJECT | INCREMENT | DECREMENT | AND
      *
      * @return the node
      */
@@ -406,16 +413,16 @@ public class JavaParser extends Parser {
                 break;
             }
             default: {
-                expression = parseMethodCall();
+                expression = parseBinaryComparison();
             }
         }
-        return parseArrayLiteral(expression);
+        return expression;
     }
 
     /**
      * NEW_OBJECT := new LITERAL METHOD_INVOCATION |
-     *               new ARRAY_LITERAL{ (EXPR)? (, EXPR)* \} |
-     *               new LITERAL(\[NUMBER_VALUE\])+
+     * new ARRAY_LITERAL{ (EXPR)? (, EXPR)* \} |
+     * new LITERAL(\[NUMBER_VALUE\])+
      *
      * @return the node
      */
@@ -494,18 +501,32 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ARRAY_LITERAL := LITERAL(\[\])*
+     * ARRAY_LITERAL := LITERAL(\[\])* | LITERAL(\[ [0-9]+ \])+
      *
      * @param expression the expression to start from
      * @return the node
      */
     protected @NotNull Node parseArrayLiteral(@NotNull Node expression) {
-        if (expression.is(Literal.class))
-            while (lastToken() == OPEN_BRACKET) {
-                consume(OPEN_BRACKET);
+        if (expression.is(Literal.class) && lastToken() == OPEN_BRACKET) {
+            consume(OPEN_BRACKET);
+            if (lastToken() == NUMBER_VALUE) {
+                expression = new ArrayIndex(expression, parseExpression());
+                consume(CLOSE_BRACKET);
+                while (lastToken() == OPEN_BRACKET) {
+                    consume(OPEN_BRACKET);
+                    expression = new ArrayIndex(expression, parseExpression());
+                    consume(CLOSE_BRACKET);
+                }
+            } else {
                 consume(CLOSE_BRACKET);
                 expression = new ArrayLiteral(expression);
+                while (lastToken() == OPEN_BRACKET) {
+                    consume(OPEN_BRACKET);
+                    consume(CLOSE_BRACKET);
+                    expression = new ArrayLiteral(expression);
+                }
             }
+        }
         return expression;
     }
 
@@ -528,52 +549,6 @@ public class JavaParser extends Parser {
         if (lastToken() != SUBTRACT) return new Minus(parseExpression());
         consume(SUBTRACT);
         return new Decrement(parseAtom(), true);
-    }
-
-    /**
-     * METHOD_CALL := EQUAL ( .LITERAL METHOD_INVOCATION? )*
-     *
-     * @return the node
-     */
-    protected @NotNull Node parseMethodCall() {
-        Node node = parseBinaryComparison();
-        if (node.is(Literal.class) && lastToken() == OPEN_PAR) {
-            Literal literalNode = (Literal) node;
-            String literal = literalNode.getLiteral();
-            final @NotNull Node executor;
-            final @NotNull String methodName;
-            if (literal.contains(".")) {
-                executor = getLiteralFromString(literal.substring(0, literal.lastIndexOf(".")));
-                methodName = literal.substring(literal.lastIndexOf(".") + 1);
-            } else {
-                executor = new EmptyLiteral();
-                methodName = literal;
-            }
-            node = new MethodCall(executor, methodName, parseMethodInvocation());
-        }
-        while (lastToken() == DOT) {
-            Literal methodName = parseLiteralNoDot();
-            if (lastToken() == OPEN_PAR)
-                node = new MethodCall(node, methodName.getLiteral(), parseMethodInvocation());
-            else node = new Field(node, methodName);
-        }
-        return node;
-    }
-
-    /**
-     * METHOD_INVOCATION := \( (EXPR)? (, EXPR)* \)
-     *
-     * @return the node
-     */
-    protected @NotNull MethodInvocation parseMethodInvocation() {
-        List<Node> parameters = new LinkedList<>();
-        consume(OPEN_PAR);
-        while (lastToken() != CLOSE_PAR) {
-            parameters.add(parseExpression());
-            if (lastToken() == COMMA) consume(COMMA);
-        }
-        consume(CLOSE_PAR);
-        return new MethodInvocation(parameters);
     }
 
     /**
@@ -632,13 +607,13 @@ public class JavaParser extends Parser {
      * SUB := MUL ( (- MUL)* | (-= MUL) | -- )
      * MUL := DIV ( (* DIV)* | (*= DIV) )
      * DIV := MOD ( (/ MOD)* | (/= MOD) )
-     * MOD := ATOM ( (% ATOM)* | (%= ATOM) )
+     * MOD := UNARY_OPERATION ( (% UNARY_OPERATION)* | (%= UNARY_OPERATION) )
      *
      * @param operation the {@link TokenType} that corresponds to the operation
      * @return the node
      */
     protected @NotNull Node parseBinaryOperation(final @NotNull TokenType operation) {
-        if (operation.after(MODULO)) return parseAtom();
+        if (operation.after(MODULO)) return parseUnaryOperation();
         else {
             final TokenType nextOperation = TokenType.values()[operation.ordinal() + 1];
             Node node = parseBinaryOperation(nextOperation);
@@ -647,10 +622,10 @@ public class JavaParser extends Parser {
                 TokenType lastToken = lastToken();
                 if (operation == ADD && lastToken == ADD) {
                     consume(ADD);
-                    return new Increment(node, false);
+                    return unwrapCast(node, n -> new Increment(n, false));
                 } else if (operation == SUBTRACT && lastToken == SUBTRACT) {
                     consume(SUBTRACT);
-                    return new Decrement(node, false);
+                    return unwrapCast(node, n -> new Decrement(n, false));
                 } else if (lastToken == ASSIGN) {
                     consume(ASSIGN);
                     Node nextOperationNode = parseBinaryOperation(nextOperation);
@@ -663,6 +638,33 @@ public class JavaParser extends Parser {
             }
             return node;
         }
+    }
+
+    /**
+     * Because of how the grammar works, expressions of the type:
+     * <br>
+     * <i>(double) i++</i>
+     * <br>
+     * will be parsed as:
+     * <br>
+     * <i>Increment(Cast(Double), i)</i>
+     * <br>
+     * while the Java specification asserts the opposite.
+     * To comply with it, this method will unwrap a {@link Cast} node
+     * and update its cast object to the resulting node of the conversion function.
+     *
+     * @param node               the node
+     * @param conversionFunction conversion function
+     * @return the re-wrapped node
+     */
+    @NotNull Node unwrapCast(final @NotNull Node node,
+                             final @NotNull Function<Node, Node> conversionFunction) {
+        if (node.is(Cast.class)) {
+            Cast cast = (Cast) node;
+            Node type = cast.getType();
+            Node expression = cast.getExpression();
+            return new Cast(type, unwrapCast(expression, conversionFunction));
+        } else return conversionFunction.apply(node);
     }
 
     /**
@@ -690,7 +692,7 @@ public class JavaParser extends Parser {
      * @param className the class name
      * @return the class
      */
-    protected Class<? extends BinaryOperation> findBinaryOperationClass(@NotNull String className) {
+    protected @NotNull Class<? extends BinaryOperation> findBinaryOperationClass(@NotNull String className) {
         if (className.equals(URSHIFT.name())) return URShift.class;
         else if (className.equals(RSHIFT.name())) return RShift.class;
         else if (className.equals(LSHIFT.name())) return LShift.class;
@@ -701,19 +703,20 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ATOM := CAST | MINUS | NOT | NULL | THIS | LITERAL | TYPE_VALUE
+     * UNARY_OPERATION := CAST | MINUS | NOT | METHOD_CALL
      *
      * @return the node
      */
-    protected @NotNull Node parseAtom() {
+    protected @NotNull Node parseUnaryOperation() {
         switch (lastToken()) {
-            case OPEN_PAR: return parseCast();
-            case SUBTRACT: return parseMinus();
-            case NOT: return parseNot();
-            case NULL: return parseNull();
-            case THIS: return parseThis();
-            case LITERAL: return parseLiteral();
-            default: return parseTypeValue();
+            case OPEN_PAR:
+                return parseCast();
+            case SUBTRACT:
+                return parseMinus();
+            case NOT:
+                return parseNot();
+            default:
+                return parseMethodCall();
         }
     }
 
@@ -725,7 +728,7 @@ public class JavaParser extends Parser {
     protected @NotNull Node parseCast() {
         Node expression = parseParenthesizedExpr();
         if (lastToken().between(MODULO, SPACE) || lastToken() == OPEN_PAR)
-            expression = new Cast(expression, parseAtom());
+            expression = new Cast(expression, parseUnaryOperation());
         else if (lastToken() == ADD) {
             consume(ADD);
             if (lastToken() == ADD) expression = new Cast(expression, parseIncrement());
@@ -735,7 +738,7 @@ public class JavaParser extends Parser {
             if (lastToken() == SUBTRACT) expression = new Cast(expression, parseDecrement());
             else if (expression.is(Literal.class) &&
                     (lastToken().between(MODULO, SPACE) || lastToken() == OPEN_PAR))
-                expression = new Cast(expression, new Minus(parseAtom()));
+                expression = new Cast(expression, new Minus(parseUnaryOperation()));
             else return new Subtract(expression, parseExpression());
         }
         return expression;
@@ -771,6 +774,70 @@ public class JavaParser extends Parser {
     protected @NotNull Node parseNot() {
         consume(NOT);
         return new Not(parseExpression());
+    }
+
+    /**
+     * METHOD_CALL := ATOM ( .LITERAL METHOD_INVOCATION? )*
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseMethodCall() {
+        Node node = parseAtom();
+        if (node.is(Literal.class) && lastToken() == OPEN_PAR) {
+            Literal literalNode = (Literal) node;
+            String literal = literalNode.getLiteral();
+            final @NotNull Node executor;
+            final @NotNull String methodName;
+            if (literal.contains(".")) {
+                executor = getLiteralFromString(literal.substring(0, literal.lastIndexOf(".")));
+                methodName = literal.substring(literal.lastIndexOf(".") + 1);
+            } else {
+                executor = new EmptyLiteral();
+                methodName = literal;
+            }
+            node = new MethodCall(executor, methodName, parseMethodInvocation());
+        }
+        while (lastToken() == DOT) {
+            Literal methodName = parseLiteralNoDot();
+            if (lastToken() == OPEN_PAR)
+                node = new MethodCall(node, methodName.getLiteral(), parseMethodInvocation());
+            else node = new Field(node, methodName);
+        }
+        return node;
+    }
+
+    /**
+     * METHOD_INVOCATION := \( (EXPR)? (, EXPR)* \)
+     *
+     * @return the node
+     */
+    protected @NotNull MethodInvocation parseMethodInvocation() {
+        List<Node> parameters = new LinkedList<>();
+        consume(OPEN_PAR);
+        while (lastToken() != CLOSE_PAR) {
+            parameters.add(parseExpression());
+            if (lastToken() == COMMA) consume(COMMA);
+        }
+        consume(CLOSE_PAR);
+        return new MethodInvocation(parameters);
+    }
+
+    /**
+     * ATOM := NULL | THIS | ARRAY_LITERAL | TYPE_VALUE
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseAtom() {
+        switch (lastToken()) {
+            case NULL:
+                return parseNull();
+            case THIS:
+                return parseThis();
+            case LITERAL:
+                return parseArrayLiteral(parseLiteral());
+            default:
+                return parseTypeValue();
+        }
     }
 
     /**
@@ -832,9 +899,9 @@ public class JavaParser extends Parser {
 
     /**
      * TYPE_VALUE := {@link TokenType#NUMBER_VALUE} | {@link TokenType#LONG_VALUE} |
-     *               {@link TokenType#DOUBLE_VALUE} | {@link TokenType#FLOAT_VALUE} |
-     *               {@link TokenType#BOOLEAN_VALUE} | {@link TokenType#CHAR_VALUE} |
-     *               {@link TokenType#STRING_VALUE}
+     * {@link TokenType#DOUBLE_VALUE} | {@link TokenType#FLOAT_VALUE} |
+     * {@link TokenType#BOOLEAN_VALUE} | {@link TokenType#CHAR_VALUE} |
+     * {@link TokenType#STRING_VALUE}
      *
      * @return the node
      */
@@ -883,8 +950,8 @@ public class JavaParser extends Parser {
      *
      * @param literalType the type of the literal
      * @param rawValue    the raw value
+     * @param <L>         the type of the literal
      * @return the literal
-     * @param <L> the type of the literal
      */
     protected <L extends ValueLiteral> @NotNull L createLiteral(final @NotNull Class<L> literalType,
                                                                 final @NotNull String rawValue) {

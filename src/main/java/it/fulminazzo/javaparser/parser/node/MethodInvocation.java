@@ -8,7 +8,7 @@ import java.util.List;
  * Represents the parameters invoked during a method invocation.
  */
 public class MethodInvocation extends NodeImpl {
-    private final List<Node> parameters;
+    private final @NotNull List<Node> parameters;
 
     /**
      * Instantiates a new Method invocation.

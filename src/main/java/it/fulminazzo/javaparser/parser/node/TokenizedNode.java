@@ -15,8 +15,8 @@ public abstract class TokenizedNode extends NodeImpl {
     /**
      * Instantiates a new Tokenized node.
      *
-     * @param rawValue  the raw value
-     * @param type      the token of this node
+     * @param rawValue the raw value
+     * @param type     the token of this node
      */
     public TokenizedNode(final @NotNull String rawValue,
                          final @NotNull TokenType type) throws NodeException {
