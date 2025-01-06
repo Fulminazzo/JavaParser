@@ -832,7 +832,7 @@ class JavaParserTest extends Specification {
     def 'test parseAtom: #code'() {
         when:
         startReading(code)
-        def parsed = this.parser.parseAtom()
+        def parsed = this.parser.parseExpression()
 
         then:
         parsed == expected
