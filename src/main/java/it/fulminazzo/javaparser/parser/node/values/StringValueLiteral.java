@@ -4,10 +4,23 @@ import it.fulminazzo.javaparser.parser.node.NodeException;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Represents a {@link TokenType#STRING_VALUE} literal.
  */
 public class StringValueLiteral extends ValueLiteral {
+    private static final Map<String, String> ESCAPE_CHARACTERS = new HashMap<>(){{
+        put("\\t", "\t");
+        put("\\r", "\r");
+        put("\\n", "\n");
+        put("\\f", "\f");
+        put("\\b", "\b");
+        put("\\'", "'");
+        put("\\\"", "\"");
+        put("\\\\", "\\");
+    }};
 
     /**
      * Instantiates a new String literal.
