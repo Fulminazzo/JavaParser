@@ -868,7 +868,7 @@ public interface Visitor<
             LiteralVariableContainer<C, O, P> actualVariable = newLiteralObject(literal);
             new Refl<>(actualVariable)
                     .setFieldObject("type", variableType)
-                    .setFieldObject("value", variable);
+                    .setFieldObject("variable", variable);
             tuple.set(variableType, (O) actualVariable);
         } catch (ScopeException ignored) {
         }
