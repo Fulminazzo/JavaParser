@@ -52,6 +52,15 @@ public class ArrayValue<A> extends ObjectWrapper<List<Value<A>>> implements Valu
         return new ArrayClassValue<>(this.componentsType);
     }
 
+    /**
+     * Gets values.
+     *
+     * @return the values
+     */
+    public @NotNull List<Value<A>> getValues() {
+        return this.object;
+    }
+
     @Override
     public @NotNull A getValue() {
         Class<A> componentsType = this.componentsType.getWrapperValue();
