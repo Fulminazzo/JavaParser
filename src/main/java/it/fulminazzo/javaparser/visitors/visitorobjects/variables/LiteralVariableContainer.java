@@ -4,14 +4,13 @@ import it.fulminazzo.javaparser.environment.Environment;
 import it.fulminazzo.javaparser.environment.NamedEntity;
 import it.fulminazzo.javaparser.environment.ScopeException;
 import it.fulminazzo.javaparser.visitors.visitorobjects.ClassVisitorObject;
-import it.fulminazzo.javaparser.visitors.visitorobjects.LiteralObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents a {@link VariableContainer} that is also {@link LiteralObject}.
+ * Represents a {@link VariableContainer} with a name associated.
  *
  * @param <C> the type of the {@link ClassVisitorObject}
  * @param <O> the type of the {@link VisitorObject}
