@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * An utility class for {@link ArrayValue} objects.
+ * A utility class for {@link ArrayValue} objects.
  */
 final class ArrayUtils {
 
