@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
  * @param <P> the type of the {@link ParameterVisitorObjects}
  */
 @Getter
-abstract class VariableContainer<
+public abstract class VariableContainer<
         C extends ClassVisitorObject<C, O, P>,
         O extends VisitorObject<C, O, P>,
         P extends ParameterVisitorObjects<C, O, P>
