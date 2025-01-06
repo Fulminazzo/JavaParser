@@ -608,10 +608,10 @@ public class JavaParser extends Parser {
                 TokenType lastToken = lastToken();
                 if (operation == ADD && lastToken == ADD) {
                     consume(ADD);
-                    return new Increment(node, false);
+                    return unwrapCast(node, n -> new Increment(n, false));
                 } else if (operation == SUBTRACT && lastToken == SUBTRACT) {
                     consume(SUBTRACT);
-                    return new Decrement(node, false);
+                    return unwrapCast(node, n -> new Decrement(n, false));
                 } else if (lastToken == ASSIGN) {
                     consume(ASSIGN);
                     Node nextOperationNode = parseBinaryOperation(nextOperation);
