@@ -27,52 +27,52 @@ public final class ValueFieldContainer extends FieldContainer<ClassValue<?>, Val
 
     @Override
     public boolean isCharacter() {
-        return this.value.isCharacter();
+        return this.variable.isCharacter();
     }
 
     @Override
     public boolean isInteger() {
-        return this.value.isInteger();
+        return this.variable.isInteger();
     }
 
     @Override
     public boolean isLong() {
-        return this.value.isLong();
+        return this.variable.isLong();
     }
 
     @Override
     public boolean isFloat() {
-        return this.value.isFloat();
+        return this.variable.isFloat();
     }
 
     @Override
     public boolean isDouble() {
-        return this.value.isDouble();
+        return this.variable.isDouble();
     }
 
     @Override
     public boolean isBoolean() {
-        return this.value.isBoolean();
+        return this.variable.isBoolean();
     }
 
     @Override
     public boolean isString() {
-        return this.value.isString();
+        return this.variable.isString();
     }
 
     @Override
     public @NotNull ValueFieldContainer getField(@NotNull Field field) {
-        return this.value.getField(field);
+        return this.variable.getField(field);
     }
 
     @Override
     public @NotNull Value<?> invokeMethod(@NotNull Method method, @NotNull ParameterValues parameters) throws ValueException {
-        return this.value.invokeMethod(method, parameters);
+        return this.variable.invokeMethod(method, parameters);
     }
 
     @Override
     public <T extends Value<?>> @NotNull T to(@NotNull Class<T> value) {
-        return this.value.to(value);
+        return this.variable.to(value);
     }
 
 }
