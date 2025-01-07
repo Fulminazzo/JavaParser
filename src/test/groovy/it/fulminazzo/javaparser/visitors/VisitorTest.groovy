@@ -36,6 +36,21 @@ class VisitorTest extends Specification {
         this.environment = this.visitor.environment as MockEnvironment
     }
 
+    def 'test visitAssignment'() {
+        given:
+        def type = Literal.of(Integer.simpleName)
+        def name = 'i'
+        def value = new NumberValueLiteral('1')
+
+        when:
+        def element = this.visitor.visitAssignment(type, Literal.of(name), value)
+
+        then:
+        element == Element.of(1)
+        this.environment.lookupInfo(name) == ClassElement.of(Integer)
+        this.environment.lookup(name) == Element.of(1)
+    }
+
     def 'test visitNewObject TestClass(#parameters) should have fields #i, #b'() {
         given:
         def type = Literal.of(TestClass.canonicalName)
