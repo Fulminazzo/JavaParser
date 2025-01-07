@@ -95,22 +95,22 @@ class VisitorTest extends Specification {
 
     def 'test visitReAssign #literal = #newValue should return #expected'() {
         given:
-        this.environment.declare(ClassElement.of(Double), 'i', Element.of(1.0))
+        this.environment.declare(ClassElement.of(Double), 'i', Element.of(1.0d))
 
         when:
         def element = this.visitor.visitReAssign(literal, newValue)
         def actual = closure(this.visitor)
 
         then:
-        element == Element.of(2.0)
+        element == Element.of(2.0d)
         actual == expected
 
         where:
         literal                                                 | newValue                       | expected        | closure
-        Literal.of('i')                                         | new DoubleValueLiteral('2.0d') | Element.of(2.0) | { v ->
+        Literal.of('i')                                         | new DoubleValueLiteral('2.0d') | Element.of(2.0d) | { v ->
             return v.environment.lookup('i')
         }
-        new Field(new ThisLiteral(), Literal.of('publicField')) | new DoubleValueLiteral('2.0d') | Element.of(2.0) | { v ->
+        new Field(new ThisLiteral(), Literal.of('publicField')) | new DoubleValueLiteral('2.0d') | Element.of(2.0d) | { v ->
             return Element.of(v.executingObject.publicField)
         }
     }
