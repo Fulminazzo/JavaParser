@@ -3,7 +3,6 @@ package it.fulminazzo.javaparser.environment.scopetypes;
 import it.fulminazzo.fulmicollection.objects.Refl;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.LinkedList;
 import java.util.stream.Stream;
 
 /**
@@ -52,6 +51,7 @@ public interface ScopeType {
         Refl<?> refl = new Refl<>(ScopeType.class);
         return refl.getStaticFields().stream()
                 .map(refl::getFieldObject)
+                .filter(o -> o instanceof ScopeType)
                 .map(o -> (ScopeType) o)
                 .toArray(ScopeType[]::new);
     }
