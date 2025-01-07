@@ -21,6 +21,7 @@ import it.fulminazzo.javaparser.parser.node.MockNode
 import it.fulminazzo.javaparser.parser.node.Node
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
+import it.fulminazzo.javaparser.parser.node.literals.NullLiteral
 import it.fulminazzo.javaparser.parser.node.literals.ThisLiteral
 import it.fulminazzo.javaparser.parser.node.operators.binary.Field
 import it.fulminazzo.javaparser.parser.node.values.*
@@ -38,6 +39,27 @@ class VisitorTest extends Specification {
     void setup() {
         this.visitor = new Handler(new TestClass())
         this.environment = this.visitor.environment as MockEnvironment
+    }
+
+    def 'test visitReturn(#node) should return #expected'() {
+        when:
+        def element = this.visitor.visitReturn(node)
+
+        then:
+        element == expected
+
+        where:
+        node                                        | expected
+        new CharValueLiteral('\'a\'')               | Element.of('a' as char)
+        new NumberValueLiteral('1')                 | Element.of(1)
+        new LongValueLiteral('2L')                  | Element.of(2L)
+        new FloatValueLiteral('3.0f')               | Element.of(3.0f)
+        new DoubleValueLiteral('4.0d')              | Element.of(4.0d)
+        new BooleanValueLiteral('true')             | Element.of(true)
+        new BooleanValueLiteral('false')            | Element.of(false)
+        new StringValueLiteral('\"Hello, world!\"') | Element.of('Hello, world!')
+        new NullLiteral()                           | Element.of(null)
+        new ThisLiteral()                           | Element.of(new TestClass())
     }
 
     def 'test visitStatement should not return anything'() {
