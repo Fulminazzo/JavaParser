@@ -129,8 +129,10 @@ public final class OperationUtils {
         final Object obj;
         if (first instanceof Double || second instanceof Double)
             obj = doubleOperation.apply(first.doubleValue(), second.doubleValue());
-        else if (first instanceof Float || second instanceof Float) obj = floatOperation.apply(first.floatValue(), second.floatValue());
-        else if (first instanceof Long || second instanceof Long) obj = longOperation.apply(first.longValue(), second.longValue());
+        else if (first instanceof Float || second instanceof Float)
+            obj = floatOperation.apply(first.floatValue(), second.floatValue());
+        else if (first instanceof Long || second instanceof Long)
+            obj = longOperation.apply(first.longValue(), second.longValue());
         else obj = integerOperation.apply(first.intValue(), second.intValue());
         return PrimitiveValue.of(obj);
     }

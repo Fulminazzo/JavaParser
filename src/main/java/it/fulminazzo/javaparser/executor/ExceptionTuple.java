@@ -1,7 +1,7 @@
 package it.fulminazzo.javaparser.executor;
 
 import it.fulminazzo.javaparser.executor.values.ClassValue;
-import it.fulminazzo.javaparser.executor.values.LiteralValue;
+import it.fulminazzo.javaparser.executor.values.variables.ValueLiteralVariableContainer;
 import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 final class ExceptionTuple {
     private final @NotNull ClassValue<?> exceptionType;
-    private final @NotNull LiteralValue exceptionName;
+    private final @NotNull ValueLiteralVariableContainer<?> exceptionName;
 
     /**
      * Instantiates a new Exception tuple.
@@ -24,7 +24,7 @@ final class ExceptionTuple {
      * @param exceptionName the exception name
      */
     public ExceptionTuple(final @NotNull ClassValue<?> exceptionType,
-                          final @NotNull LiteralValue exceptionName) {
+                          final @NotNull ValueLiteralVariableContainer<?> exceptionName) {
         this.exceptionType = exceptionType;
         this.exceptionName = exceptionName;
     }

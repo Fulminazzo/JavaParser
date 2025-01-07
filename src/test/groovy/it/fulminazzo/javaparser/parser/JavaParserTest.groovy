@@ -560,6 +560,23 @@ class JavaParserTest extends Specification {
         output == expected
     }
 
+    def 'test array index'() {
+        given:
+        def expected = new ArrayIndex(new ArrayIndex(
+                new ArrayIndex(
+                        Literal.of('i'), new NumberValueLiteral('0')
+                ), new NumberValueLiteral('1')
+        ), new NumberValueLiteral('2'))
+        def code = 'i[0][1][2]'
+
+        when:
+        startReading(code)
+        def output = this.parser.parseExpression()
+
+        then:
+        output == expected
+    }
+
     def 'test parse new object'() {
         given:
         def expected = new NewObject(
@@ -832,7 +849,7 @@ class JavaParserTest extends Specification {
     def 'test parseAtom: #code'() {
         when:
         startReading(code)
-        def parsed = this.parser.parseAtom()
+        def parsed = this.parser.parseExpression()
 
         then:
         parsed == expected

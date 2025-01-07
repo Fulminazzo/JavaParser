@@ -2,24 +2,24 @@ package it.fulminazzo.javaparser.executor;
 
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.environment.Environment;
-import it.fulminazzo.javaparser.environment.NamedEntity;
-import it.fulminazzo.javaparser.environment.ScopeException;
 import it.fulminazzo.javaparser.environment.scopetypes.ScopeType;
-import it.fulminazzo.javaparser.executor.values.*;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
+import it.fulminazzo.javaparser.executor.values.*;
 import it.fulminazzo.javaparser.executor.values.arrays.ArrayClassValue;
 import it.fulminazzo.javaparser.executor.values.arrays.ArrayValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
+import it.fulminazzo.javaparser.executor.values.variables.ArrayValueVariableContainer;
+import it.fulminazzo.javaparser.executor.values.variables.ValueLiteralVariableContainer;
 import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.parser.node.statements.CaseStatement;
 import it.fulminazzo.javaparser.parser.node.statements.CatchStatement;
 import it.fulminazzo.javaparser.visitors.Visitor;
-import it.fulminazzo.javaparser.visitors.visitorobjects.LiteralObject;
+import it.fulminazzo.javaparser.visitors.visitorobjects.variables.VariableContainer;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -82,7 +82,7 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
                 Tuple<ExceptionTuple, CodeBlock> keyAndValue = getKeyAndValue(exceptionsMap, exception.toClass());
                 returnedValue = visitScoped(ScopeType.CATCH, () -> {
                     ExceptionTuple key = keyAndValue.getKey();
-                    this.environment.declare(key.getExceptionType(), key.getExceptionName(), exception);
+                    this.environment.declare(key.getExceptionType(), key.getExceptionName().namedEntity(), exception);
                     return keyAndValue.getValue().accept(this);
                 });
             } finally {
@@ -110,7 +110,7 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
         for (Literal literal : exceptions)
             exceptionTuples.add(new ExceptionTuple(
                     literal.accept(this).checkClass(),
-                    expression.accept(this).check(LiteralValue.class)
+                    expression.accept(this).check(ValueLiteralVariableContainer.class)
             ));
         return new TupleValue<>(exceptionTuples, block);
     }
@@ -168,21 +168,21 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
     public @NotNull Value<?> visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable,
                                                        @NotNull CodeBlock code, @NotNull Node expression) {
         return visitScoped(ScopeType.FOR, () -> {
-            ClassValue<?> variableType = type.accept(this).to(ClassValue.class);
-            NamedEntity variableName = variable.accept(this).to(LiteralValue.class);
+            ClassValue<?> variableType = type.accept(this).check(ClassValue.class);
+            ValueLiteralVariableContainer<?> variableName = variable.accept(this).check(ValueLiteralVariableContainer.class);
             Value<?> iterable = expression.accept(this);
 
             final Iterator<?> iterator;
             if (iterable.is(ArrayValue.class))
-                iterator = ((ArrayValue<?>) iterable).getValues().stream().map(Value::getValue).iterator();
+                iterator = iterable.check(ArrayValue.class).getValues().stream().map(v -> ((Value<?>) v).getValue()).iterator();
             else iterator = ((Iterable<?>) iterable.getValue()).iterator();
 
             while (iterator.hasNext()) {
                 Value<?> next = Value.of(iterator.next());
                 try {
-                    this.environment.update(variableName, next);
-                } catch (ScopeException ignored) {
-                    this.environment.declare(variableType, variableName, next);
+                    variableName.set(next);
+                } catch (ExecutorException ignored) {
+                    this.environment.declare(variableType, variableName.namedEntity(), next);
                 }
                 Optional<Value<?>> returnedValue = visitLoopCodeBlock(code);
                 if (returnedValue.isPresent()) return returnedValue.get();
@@ -234,7 +234,7 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
 
     @Override
     public @NotNull Value<?> visitDynamicArray(@NotNull List<Node> parameters, @NotNull Node type) {
-        ClassValue<Object> componentsType = type.accept(this).to(ArrayClassValue.class).getComponentsType();
+        ClassValue<Object> componentsType = type.accept(this).check(ArrayClassValue.class).getComponentsType();
         Collection<Value<Object>> components = new LinkedList<>();
         for (Node component : parameters) components.add((Value<Object>) component.accept(this));
         return ArrayValue.of(componentsType, components);
@@ -242,13 +242,23 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
 
     @Override
     public @NotNull Value<?> visitStaticArray(int size, @NotNull Node type) {
-        ClassValue<?> componentsType = type.accept(this).to(ClassValue.class);
+        ClassValue<?> componentsType = type.accept(this).check(ClassValue.class);
         return ArrayValue.of(componentsType, size);
     }
 
     @Override
+    public @NotNull Value<?> visitArrayIndex(@NotNull Node array, @NotNull Node index) {
+        VariableContainer<ClassValue<?>, Value<?>, ParameterValues, ?> container = array.accept(this).check(VariableContainer.class);
+        ArrayValue<?> arrayValue = container.getVariable().check(ArrayValue.class);
+        ClassValue<?> componentsType = arrayValue.getComponentsType();
+        Integer value = (Integer) index.accept(this).getValue();
+        return new ArrayValueVariableContainer<>(container, componentsType, value.toString(), componentsType.cast(arrayValue.get(value)));
+    }
+
+    @Override
     public @NotNull Value<?> visitArrayLiteral(@NotNull Node type) {
-        return ArrayClassValue.of(type.accept(this).to(ClassValue.class));
+        ClassValue<?> classValue = type.accept(this).check(ClassValue.class);
+        return ArrayClassValue.of(classValue);
     }
 
     @Override
@@ -322,8 +332,8 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
     }
 
     @Override
-    public @NotNull LiteralObject<ClassValue<?>, Value<?>, ParameterValues> newLiteralObject(@NotNull String value) {
-        return new LiteralValue(value);
+    public @NotNull ValueLiteralVariableContainer<?> newLiteralObject(@NotNull String value) {
+        return new ValueLiteralVariableContainer<>(this.environment, value);
     }
 
     @Override

@@ -2,8 +2,8 @@ package it.fulminazzo.javaparser.executor.values.objects;
 
 import it.fulminazzo.fulmicollection.objects.EnumObject;
 import it.fulminazzo.fulmicollection.utils.StringUtils;
-import it.fulminazzo.javaparser.executor.values.*;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
+import it.fulminazzo.javaparser.executor.values.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -52,7 +52,7 @@ public final class ObjectClassValue<V> extends EnumObject implements ClassValue<
      * {@link java.lang.Object}
      */
     public static final ObjectClassValue<Object> OBJECT = new ObjectClassValue<>(Object.class);
-    
+
     private final @NotNull Class<V> value;
     @Getter(AccessLevel.NONE)
     private final @Nullable ClassValue<V> associatedValue;

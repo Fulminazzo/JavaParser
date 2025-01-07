@@ -1,11 +1,11 @@
 package it.fulminazzo.javaparser.executor.values;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
-import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.executor.ExecutorException;
 import it.fulminazzo.javaparser.executor.values.arrays.ArrayValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
+import it.fulminazzo.javaparser.executor.values.variables.ValueFieldContainer;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
 import org.jetbrains.annotations.NotNull;
@@ -115,13 +115,13 @@ public interface Value<V> extends VisitorObject<ClassValue<?>, Value<?>, Paramet
     }
 
     @Override
-    default @NotNull Tuple<ClassValue<?>, Value<?>> getField(final @NotNull Field field) {
+    default @NotNull ValueFieldContainer<V> getField(final @NotNull Field field) {
         Refl<?> refl = new Refl<>(getValue());
         Object object = refl.getFieldObject(field);
         ClassValue<?> classValue = ClassValue.of(field.getType());
         Value<?> value = of(object);
         if (classValue.isPrimitive()) value = value.toPrimitive();
-        return new Tuple<>(classValue, value);
+        return new ValueFieldContainer<>(this, classValue, field.getName(), value);
     }
 
     @Override
@@ -162,23 +162,11 @@ public interface Value<V> extends VisitorObject<ClassValue<?>, Value<?>, Paramet
     }
 
     /**
-     * Converts the current value is of the specified one.
-     * This operation is unchecked.
-     *
-     * @param <T>   the class of the value
-     * @param value the expected value
-     * @return the current value cast to the expected one
-     */
-    default <T extends Value<?>> @NotNull T to(final @NotNull Class<T> value) {
-        return value.cast(this);
-    }
-
-    /**
      * Gets value.
      *
      * @return the value
      */
-    @Nullable V getValue();
+    V getValue();
 
     /**
      * Converts the given byte to a {@link Value}.
@@ -338,7 +326,7 @@ public interface Value<V> extends VisitorObject<ClassValue<?>, Value<?>, Paramet
         return OperationUtils.executeObjectComparison(this, other, (a, b) -> {
             if (a instanceof Number && b instanceof Number)
                 return (Boolean) OperationUtils.executeBinaryComparison(this, other,
-                        (f, s) -> f.compareTo(s) == 0)
+                                (f, s) -> f.compareTo(s) == 0)
                         .getValue();
             else return Objects.equals(a, b);
         });

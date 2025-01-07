@@ -2,9 +2,11 @@ package it.fulminazzo.javaparser.executor.values.objects;
 
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
+import it.fulminazzo.javaparser.executor.values.ParameterValues;
 import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.executor.values.ValueException;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
+import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
@@ -70,11 +72,11 @@ public class ObjectValue<V> extends ObjectWrapper<V> implements Value<V> {
     }
 
     @Override
-    public <T extends Value<?>> @NotNull T to(@NotNull Class<T> value) {
-        if (PrimitiveValue.class.isAssignableFrom(value))
+    public <T extends VisitorObject<ClassValue<?>, Value<?>, ParameterValues>> @NotNull T check(@NotNull Class<T> classValue) {
+        if (PrimitiveValue.class.isAssignableFrom(classValue))
             if (ReflectionUtils.isWrapper(getValue().getClass()))
                 return (T) toPrimitive();
-        return Value.super.to(value);
+        return Value.super.check(classValue);
     }
 
     @Override
@@ -162,7 +164,8 @@ public class ObjectValue<V> extends ObjectWrapper<V> implements Value<V> {
                 String name = impliedPackage + "." + className;
                 try {
                     return ReflectionUtils.getClass(name);
-                } catch (IllegalArgumentException ignored) {}
+                } catch (IllegalArgumentException ignored) {
+                }
             }
             throw ValueException.classNotFound(className);
         }

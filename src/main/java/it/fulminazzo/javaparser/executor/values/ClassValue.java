@@ -128,7 +128,7 @@ public interface ClassValue<V> extends Value<Class<V>>, ClassVisitorObject<Class
     }
 
     @Override
-    @NotNull Class<V> getValue();
+    Class<V> getValue();
 
     /**
      * Gets a new {@link ClassValue} from the given class.

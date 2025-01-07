@@ -4,12 +4,13 @@ import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple
 import it.fulminazzo.javaparser.environment.MockEnvironment
 import it.fulminazzo.javaparser.executor.values.ClassValue
-import it.fulminazzo.javaparser.executor.values.LiteralValue
+
 import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue
 import it.fulminazzo.javaparser.executor.values.TestClass
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
+import it.fulminazzo.javaparser.executor.values.variables.ValueLiteralVariableContainer
 import spock.lang.Specification
 
 class ExecutorLiteralTest extends Specification {
@@ -34,7 +35,7 @@ class ExecutorLiteralTest extends Specification {
 
         where:
         code                                                        | expected
-        'val'                                                       | new LiteralValue('val')
+        'val'                                                       | new ValueLiteralVariableContainer<>(this.environment, 'val')
         'int'                                                       | PrimitiveClassValue.INT
         'String'                                                    | ObjectClassValue.STRING
         'System'                                                    | ClassValue.of(System)

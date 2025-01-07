@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.visitors;
 
+import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.environment.Environment;
 import it.fulminazzo.javaparser.environment.NamedEntity;
@@ -14,7 +15,13 @@ import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.parser.node.statements.CaseStatement;
 import it.fulminazzo.javaparser.parser.node.statements.CatchStatement;
 import it.fulminazzo.javaparser.parser.node.statements.Statement;
-import it.fulminazzo.javaparser.visitors.visitorobjects.*;
+import it.fulminazzo.javaparser.visitors.visitorobjects.ClassVisitorObject;
+import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects;
+import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
+import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObjectException;
+import it.fulminazzo.javaparser.visitors.visitorobjects.variables.FieldContainer;
+import it.fulminazzo.javaparser.visitors.visitorobjects.variables.LiteralVariableContainer;
+import it.fulminazzo.javaparser.visitors.visitorobjects.variables.VariableContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -252,8 +259,8 @@ public interface Visitor<
 
     /**
      * Converts assignment and its fields to this visitor type.
-     * Checks if the object resulting from the name is a {@link LiteralObject}.
-     * If it is not, throws a {@link ScopeException#alreadyDeclaredVariable(NamedEntity)}.
+     * Checks if the object resulting from the name is a {@link VariableContainer}.
+     * If it is not, throws an exception.
      * Otherwise, if it is not initialized, converts the variable to its non-initialized form
      * (either with {@link #visitNullLiteral()} or {@link ClassVisitorObject#toObject}.
      * Finally, declares the variable in the {@link #getEnvironment()}.
@@ -265,16 +272,16 @@ public interface Visitor<
      */
     default @NotNull O visitAssignment(final @NotNull Node type, final @NotNull Literal name, final @NotNull Node value) {
         C variableType = type.accept(this).checkClass();
-        O tempVariableName = name.accept(this);
-        if (!tempVariableName.is(LiteralObject.class))
-            throw exceptionWrapper(ScopeException.alreadyDeclaredVariable(NamedEntity.of(name.getLiteral())));
-        LiteralObject<C, O, P> variableName = tempVariableName.check(LiteralObject.class);
+        VariableContainer<C, O, P, ?> variableName = name.accept(this).check(VariableContainer.class);
+        if (variableName.is(LiteralVariableContainer.class))
+            try {
+                getEnvironment().declare(variableType, variableName.check(LiteralVariableContainer.class).namedEntity(), variableType.toObject());
+            } catch (ScopeException e) {
+                throw exceptionWrapper(e);
+            }
         O variable = value.accept(this);
-        try {
-            variable = convertVariable(variableType, variable);
-            getEnvironment().declare(variableType, variableName, variable);
-        } catch (ScopeException ignored) {
-        }
+        variable = convertVariable(variableType, variable);
+        variableName.set(variable);
         return variableType.cast(variable);
     }
 
@@ -288,19 +295,12 @@ public interface Visitor<
      * @return the re assign
      */
     default @NotNull O visitReAssign(final @NotNull Node name, final @NotNull Node value) {
-        try {
-            // Direct access is unfortunately required, as visitLiteralImpl
-            // will return the value of the variable itself.
-            if (!(name instanceof Literal)) throw invalidType(Literal.class, name);
-            NamedEntity variableName = NamedEntity.of(((Literal) name).getLiteral());
-            C variableType = (C) getEnvironment().lookupInfo(variableName);
-            O variable = value.accept(this);
-            variable = convertVariable(variableType, variable);
-            getEnvironment().update(variableName, variable);
-            return variableType.cast(variable);
-        } catch (ScopeException e) {
-            throw exceptionWrapper(e);
-        }
+        VariableContainer<C, O, P, ?> variableName = name.accept(this).check(VariableContainer.class);
+        C variableType = variableName.getType();
+        O variable = value.accept(this);
+        variable = convertVariable(variableType, variable);
+        variableName.set(variable);
+        return variableType.cast(variable);
     }
 
     /**
@@ -353,6 +353,15 @@ public interface Visitor<
     @NotNull O visitStaticArray(int size, @NotNull Node type);
 
     /**
+     * Converts array index and its fields to this visitor type.
+     *
+     * @param array the array
+     * @param index the index
+     * @return the array index
+     */
+    @NotNull O visitArrayIndex(@NotNull Node array, @NotNull Node index);
+
+    /**
      * Converts array literal and its fields to this visitor type.
      *
      * @param type the type
@@ -393,23 +402,16 @@ public interface Visitor<
     default @NotNull O visitPrefixedOperation(final boolean before, final @NotNull Node operand,
                                               final @NotNull BiFunction<O, O, O> actualOperation) {
         final O incrementValue = visitNumberValueLiteral("1");
-        //TODO: This will not working in case of a cast or a field access
-        //TODO: more work is required
-        Literal literal = (Literal) operand;
-        NamedEntity variableName = NamedEntity.of(literal.getLiteral());
-        O object = operand.accept(this);
-        try {
-            C variableType = (C) getEnvironment().lookupInfo(variableName);
-            if (before) {
-                object = actualOperation.apply(object, incrementValue);
-                getEnvironment().update(variableName, object);
-            } else {
-                getEnvironment().update(variableName, actualOperation.apply(object, incrementValue));
-            }
-            return variableType.cast(object);
-        } catch (ScopeException e) {
-            throw exceptionWrapper(e);
+        VariableContainer<C, O, P, ?> object = operand.accept(this).check(VariableContainer.class);
+        final O returned;
+        if (before) {
+            returned = actualOperation.apply(object.getVariable(), incrementValue);
+            object.set(returned);
+        } else {
+            returned = object.getVariable();
+            object.set(actualOperation.apply(returned, incrementValue));
         }
+        return object.getType().cast(returned);
     }
 
     /**
@@ -443,8 +445,8 @@ public interface Visitor<
     default @NotNull O visitField(final @NotNull Node executor, final @NotNull Node fieldName) {
         try {
             O actualExecutor = executor.accept(this);
-            O actualFieldName = fieldName.accept(this);
-            return actualExecutor.getField(actualFieldName.check(LiteralObject.class).getName()).getValue();
+            LiteralVariableContainer<C, O, P> actualFieldName = fieldName.accept(this).check(LiteralVariableContainer.class);
+            return (O) actualExecutor.getField(actualFieldName.getName());
         } catch (VisitorObjectException e) {
             throw exceptionWrapper(e);
         }
@@ -714,7 +716,9 @@ public interface Visitor<
      */
     default @NotNull O visitCast(final @NotNull Node left, final @NotNull Node right) {
         O cast = left.accept(this);
-        return cast.checkClass().cast(right.accept(this));
+        O value = right.accept(this);
+        if (value.is(VariableContainer.class)) value = (O) value.check(VariableContainer.class).getVariable();
+        return cast.checkClass().cast(value);
     }
 
     /**
@@ -833,10 +837,13 @@ public interface Visitor<
                 tuple = getObjectFromLiteral(String.join(fieldsSeparator, first));
                 if (tuple.isPresent())
                     try {
-                        Tuple<C, O> field = tuple.copy();
-                        do field = field.getValue().getField(last.removeFirst());
-                        while (!last.isEmpty());
-                        return field.getValue();
+                        FieldContainer<C, O, P> field = null;
+                        do {
+                            String fieldName = last.removeFirst();
+                            if (field == null) field = tuple.getValue().getField(fieldName);
+                            else field = field.getVariable().getField(fieldName);
+                        } while (!last.isEmpty());
+                        return (O) field;
                     } catch (VisitorObjectException e) {
                         throw exceptionWrapper(e);
                     }
@@ -865,20 +872,24 @@ public interface Visitor<
             NamedEntity string = NamedEntity.of(literal);
             O variable = getEnvironment().lookup(string);
             C variableType = (C) getEnvironment().lookupInfo(string);
-            tuple.set(variableType, variable);
+            LiteralVariableContainer<C, O, P> actualVariable = newLiteralObject(literal);
+            new Refl<>(actualVariable)
+                    .setFieldObject("type", variableType)
+                    .setFieldObject("variable", variable);
+            tuple.set(variableType, (O) actualVariable);
         } catch (ScopeException ignored) {
         }
         return tuple;
     }
 
     /**
-     * Gets a new {@link LiteralObject} from the given string compatible with
+     * Gets a new {@link LiteralVariableContainer} from the given string compatible with
      * the parameters of this visitor.
      *
      * @param value the value
      * @return the literal object
      */
-    @NotNull LiteralObject<C, O, P> newLiteralObject(@NotNull String value);
+    @NotNull LiteralVariableContainer<C, O, P> newLiteralObject(@NotNull String value);
 
     /**
      * Converts empty literal and its fields to this visitor type.

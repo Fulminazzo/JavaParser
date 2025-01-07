@@ -19,6 +19,7 @@ import it.fulminazzo.javaparser.parser.node.container.JavaProgram
 import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
+import it.fulminazzo.javaparser.parser.node.literals.ThisLiteral
 import it.fulminazzo.javaparser.parser.node.operators.binary.*
 import it.fulminazzo.javaparser.parser.node.operators.unary.Decrement
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
@@ -77,23 +78,23 @@ class ExecutorTest extends Specification {
         value == expected
 
         where:
-        expression         | block                                | catchBlocks                  | finallyBlock    | expected
-        new EmptyLiteral() | CODE_BLOCK_1                         | []                           | new CodeBlock() | PrimitiveValue.of(1)
-        new EmptyLiteral() | CODE_BLOCK_1                         | []                           | CODE_BLOCK_3    | PrimitiveValue.of(3)
-        new EmptyLiteral() | CODE_BLOCK_1                         | [
+        expression         | block                               | catchBlocks | finallyBlock    | expected
+        new EmptyLiteral() | CODE_BLOCK_1                        | []          | new CodeBlock() | PrimitiveValue.of(1)
+        new EmptyLiteral() | CODE_BLOCK_1                        | []          | CODE_BLOCK_3    | PrimitiveValue.of(3)
+        new EmptyLiteral() | CODE_BLOCK_1                        | [
                 new CatchStatement([IAEx], Literal.of('e'), CODE_BLOCK_2)
-        ]                                                                                        | new CodeBlock() | PrimitiveValue.of(1)
-        new EmptyLiteral() | CODE_BLOCK_1                         | [
+        ]                                                                      | new CodeBlock() | PrimitiveValue.of(1)
+        new EmptyLiteral() | CODE_BLOCK_1                        | [
                 new CatchStatement([IAEx], Literal.of('e'), CODE_BLOCK_2)
-        ]                                                                                        | CODE_BLOCK_3    | PrimitiveValue.of(3)
+        ]                                                                      | CODE_BLOCK_3    | PrimitiveValue.of(3)
         new EmptyLiteral() | new CodeBlock(new Throw(new NewObject(IAEx,
-                new MethodInvocation([]))))                       | [
+                new MethodInvocation([]))))                      | [
                 new CatchStatement([IAEx], Literal.of('e'), CODE_BLOCK_2)
-        ]                                                                                        | new CodeBlock() | PrimitiveValue.of(2)
+        ]                                                                      | new CodeBlock() | PrimitiveValue.of(2)
         new EmptyLiteral() | new CodeBlock(new Throw(new NewObject(IAEx,
-                new MethodInvocation([]))))                       | [
+                new MethodInvocation([]))))                      | [
                 new CatchStatement([IAEx], Literal.of('e'), CODE_BLOCK_2)
-        ]                                                                                        | CODE_BLOCK_3    | PrimitiveValue.of(3)
+        ]                                                                      | CODE_BLOCK_3    | PrimitiveValue.of(3)
     }
 
     def 'test visit switch statement of #expression (#cases, #defaultBlock) should return #expected'() {
@@ -503,7 +504,7 @@ class ExecutorTest extends Specification {
 
         and:
         this.environment.declare(
-                Literal.of(valueClass).accept(this.executor).to(ClassValue),
+                Literal.of(valueClass).accept(this.executor).check(ClassValue),
                 name, val.accept(this.executor)
         )
 
@@ -553,6 +554,18 @@ class ExecutorTest extends Specification {
         'Object'    | 'o'   | BOOL_LIT_TRUE  | ObjectValue.of(true)
     }
 
+    def 'test visit re-assignment of field'() {
+        given:
+        def field = new Field(new ThisLiteral(), Literal.of('publicField'))
+        def value = new NumberValueLiteral('3')
+
+        when:
+        def actual = this.executor.visitReAssign(field, value)
+
+        then:
+        actual == ObjectValue.of(3.0d)
+    }
+
     def 'test visit re-assignment not declared'() {
         given:
         def varName = 'visit_re_assignment_declared'
@@ -565,6 +578,42 @@ class ExecutorTest extends Specification {
         then:
         def e = thrown(ExecutorException)
         e.message == ScopeException.noSuchVariable(NamedEntity.of(varName)).message
+    }
+
+    def 'test visit increment of #variable should return #expected'() {
+        given:
+        this.environment.declare(PrimitiveClassValue.INT, 'i', PrimitiveValue.of(1))
+
+        when:
+        def value = this.executor.visitIncrement(before, variable)
+
+        then:
+        value == expected
+
+        where:
+        variable                                                | before | expected
+        Literal.of('i')                                         | false  | PrimitiveValue.of(1)
+        Literal.of('i')                                         | true   | PrimitiveValue.of(2)
+        new Field(new ThisLiteral(), Literal.of('publicField')) | false  | ObjectValue.of(1.0d)
+        new Field(new ThisLiteral(), Literal.of('publicField')) | true   | ObjectValue.of(2.0d)
+    }
+
+    def 'test visit decrement of #variable should return #expected'() {
+        given:
+        this.environment.declare(PrimitiveClassValue.INT, 'i', PrimitiveValue.of(1))
+
+        when:
+        def value = this.executor.visitDecrement(before, variable)
+
+        then:
+        value == expected
+
+        where:
+        variable                                                | before | expected
+        Literal.of('i')                                         | false  | PrimitiveValue.of(1)
+        Literal.of('i')                                         | true   | PrimitiveValue.of(0)
+        new Field(new ThisLiteral(), Literal.of('publicField')) | false  | ObjectValue.of(1.0d)
+        new Field(new ThisLiteral(), Literal.of('publicField')) | true   | ObjectValue.of(0.0d)
     }
 
     def 'test visit dynamic array'() {

@@ -4,7 +4,6 @@ import it.fulminazzo.javaparser.executor.ExecutorException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * A collection of static immutable {@link Value}s.
@@ -17,7 +16,7 @@ public final class Values {
     /**
      * Represents a special value of {@link Value} that appears as a singleton.
      */
-    static final class SingletonValue implements Value<Object> {
+    static final class SingletonValue implements Value<Class<Object>>, ClassValue<Object> {
         private final @NotNull String valueName;
 
         /**
@@ -30,12 +29,17 @@ public final class Values {
         }
 
         @Override
-        public @NotNull ClassValue<Object> toClass() {
+        public boolean compatibleWith(@NotNull Value<?> object) {
+            return object.equals(this);
+        }
+
+        @Override
+        public @NotNull ClassValue<Class<Object>> toClass() {
             throw ExecutorException.noClassValue(getClass());
         }
 
         @Override
-        public @Nullable Object getValue() {
+        public @NotNull Class<Object> getValue() {
             return null;
         }
 

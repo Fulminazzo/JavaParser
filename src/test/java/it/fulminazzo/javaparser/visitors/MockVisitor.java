@@ -4,9 +4,9 @@ import it.fulminazzo.javaparser.environment.Environment;
 import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.visitors.visitorobjects.ClassVisitorObject;
-import it.fulminazzo.javaparser.visitors.visitorobjects.LiteralObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
+import it.fulminazzo.javaparser.visitors.visitorobjects.variables.LiteralVariableContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -78,6 +78,11 @@ public class MockVisitor implements Visitor {
     }
 
     @Override
+    public @NotNull VisitorObject visitArrayIndex(@NotNull Node array, @NotNull Node index) {
+        return null;
+    }
+
+    @Override
     public @NotNull VisitorObject visitArrayLiteral(@NotNull Node type) {
         return null;
     }
@@ -133,7 +138,7 @@ public class MockVisitor implements Visitor {
     }
 
     @Override
-    public @NotNull LiteralObject newLiteralObject(@NotNull String value) {
+    public @NotNull LiteralVariableContainer newLiteralObject(@NotNull String value) {
         return null;
     }
 
