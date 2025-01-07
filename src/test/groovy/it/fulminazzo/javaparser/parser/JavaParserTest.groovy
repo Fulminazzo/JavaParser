@@ -728,17 +728,17 @@ class JavaParserTest extends Specification {
 
         where:
         operation | expectedClass
-        '+'       | Add.class
-        '-'       | Subtract.class
-        '*'       | Multiply.class
-        '/'       | Divide.class
-        '%'       | Modulo.class
-        '&'       | BitAnd.class
-        '|'       | BitOr.class
-        '^'       | BitXor.class
-        '<<'      | LShift.class
-        '>>'      | RShift.class
-        '>>>'     | URShift.class
+        '+'       | Add
+        '-'       | Subtract
+        '*'       | Multiply
+        '/'       | Divide
+        '%'       | Modulo
+        '&'       | BitAnd
+        '|'       | BitOr
+        '^'       | BitXor
+        '<<'      | LShift
+        '>>'      | RShift
+        '>>>'     | URShift
     }
 
     def 'test parseReAssign with no operation'() {
@@ -833,17 +833,17 @@ class JavaParserTest extends Specification {
 
         where:
         operation | expectedClass
-        '+'       | Add.class
-        '-'       | Subtract.class
-        '*'       | Multiply.class
-        '/'       | Divide.class
-        '%'       | Modulo.class
-        '&'       | BitAnd.class
-        '|'       | BitOr.class
-        '^'       | BitXor.class
-        '<<'      | LShift.class
-        '>>'      | RShift.class
-        '>>>'     | URShift.class
+        '+'       | Add
+        '-'       | Subtract
+        '*'       | Multiply
+        '/'       | Divide
+        '%'       | Modulo
+        '&'       | BitAnd
+        '|'       | BitOr
+        '^'       | BitXor
+        '<<'      | LShift
+        '>>'      | RShift
+        '>>>'     | URShift
     }
 
     def 'test parseAtom: #code'() {
