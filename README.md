@@ -79,6 +79,10 @@ is **mandatory** for these dependencies to work.
 
 [//]: # (TODO: program starting point)
 
+## Roadmap
+- [ ] diamond operator (generics);
+- [ ] lambda expressions.
+
 ## Grammar
 The following is the grammar respected by the parser:
 
