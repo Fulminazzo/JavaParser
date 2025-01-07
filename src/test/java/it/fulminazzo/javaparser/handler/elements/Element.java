@@ -1,6 +1,8 @@
 package it.fulminazzo.javaparser.handler.elements;
 
+import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.javaparser.handler.HandlerException;
+import it.fulminazzo.javaparser.handler.elements.variables.ElementFieldContainer;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObjectException;
@@ -45,7 +47,10 @@ public interface Element extends VisitorObject<ClassElement, Element, ParameterE
 
     @Override
     default @NotNull FieldContainer<ClassElement, Element, ParameterElements> getField(@NotNull Field field) throws VisitorObjectException {
-        return null;
+        Refl<?> refl = new Refl<>(getElement());
+        ClassElement classElement = new ClassElement(field.getType());
+        Element value = new ElementImpl(refl.getFieldObject(field));
+        return new ElementFieldContainer(this, classElement, field.getName(), value);
     }
 
     @Override
