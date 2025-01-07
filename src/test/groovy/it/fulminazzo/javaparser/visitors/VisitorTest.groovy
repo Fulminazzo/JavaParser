@@ -4,6 +4,7 @@ import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple
 import it.fulminazzo.fulmicollection.utils.ClassUtils
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils
+import it.fulminazzo.fulmicollection.utils.StringUtils
 import it.fulminazzo.javaparser.environment.MockEnvironment
 import it.fulminazzo.javaparser.environment.scopetypes.ScopeType
 import it.fulminazzo.javaparser.handler.Handler
@@ -12,6 +13,11 @@ import it.fulminazzo.javaparser.handler.elements.Element
 import it.fulminazzo.javaparser.handler.elements.ElementException
 import it.fulminazzo.javaparser.parser.node.MockNode
 import it.fulminazzo.javaparser.parser.node.Node
+import it.fulminazzo.javaparser.parser.node.values.BooleanValueLiteral
+import it.fulminazzo.javaparser.parser.node.values.DoubleValueLiteral
+import it.fulminazzo.javaparser.parser.node.values.NumberValueLiteral
+import it.fulminazzo.javaparser.parser.node.values.StringValueLiteral
+import it.fulminazzo.javaparser.tokenizer.TokenType
 import spock.lang.Specification
 
 import java.lang.reflect.Modifier
@@ -23,6 +29,53 @@ class VisitorTest extends Specification {
     void setup() {
         this.visitor = new Handler(this)
         this.environment = this.visitor.environment as MockEnvironment
+    }
+
+    def 'test visit#token(#parameters) should throw unsupported operation exception'() {
+        given:
+        def methodName = StringUtils.capitalize(token.toString())
+                .replace('_', '')
+                .replace('shift', 'Shift')
+                .replace('rShift', 'RShift')
+        if (parameters.size() < 2 && token == TokenType.SUBTRACT) methodName = 'Minus'
+
+        and:
+        def message = Element.of(null).unsupportedOperation([token, operands].flatten()).message
+
+        when:
+        this.visitor."visit${methodName}"(parameters)
+
+        then:
+        def e = thrown(HandlerException)
+        e.message == message
+
+        where:
+        token                        | parameters                                                                 | operands
+        // Comparisons
+        TokenType.AND                | [new BooleanValueLiteral('true'), new BooleanValueLiteral('false')]        | [Element.of(true), Element.of(false)]
+        TokenType.OR                 | [new BooleanValueLiteral('true'), new BooleanValueLiteral('false')]        | [Element.of(true), Element.of(false)]
+        TokenType.EQUAL              | [new NumberValueLiteral('1'), new StringValueLiteral('\"Hello, world!\"')] | [Element.of(1), Element.of('Hello, world!')]
+        TokenType.NOT_EQUAL          | [new DoubleValueLiteral('1.0d'), new BooleanValueLiteral('false')]         | [Element.of(1.0d), Element.of(false)]
+        TokenType.LESS_THAN          | [new NumberValueLiteral('1'), new NumberValueLiteral('2')]                 | [Element.of(1), Element.of(2)]
+        TokenType.LESS_THAN_EQUAL    | [new NumberValueLiteral('1'), new NumberValueLiteral('2')]                 | [Element.of(1), Element.of(2)]
+        TokenType.GREATER_THAN       | [new NumberValueLiteral('1'), new NumberValueLiteral('2')]                 | [Element.of(1), Element.of(2)]
+        TokenType.GREATER_THAN_EQUAL | [new NumberValueLiteral('1'), new NumberValueLiteral('2')]                 | [Element.of(1), Element.of(2)]
+        // Bit operations
+        TokenType.BIT_AND            | [new NumberValueLiteral('1'), new NumberValueLiteral('2')]                 | [Element.of(1), Element.of(2)]
+        TokenType.BIT_OR             | [new NumberValueLiteral('1'), new NumberValueLiteral('2')]                 | [Element.of(1), Element.of(2)]
+        TokenType.BIT_XOR            | [new NumberValueLiteral('1'), new NumberValueLiteral('2')]                 | [Element.of(1), Element.of(2)]
+        TokenType.LSHIFT             | [new NumberValueLiteral('1'), new NumberValueLiteral('2')]                 | [Element.of(1), Element.of(2)]
+        TokenType.RSHIFT             | [new NumberValueLiteral('1'), new NumberValueLiteral('2')]                 | [Element.of(1), Element.of(2)]
+        TokenType.URSHIFT            | [new NumberValueLiteral('1'), new NumberValueLiteral('2')]                 | [Element.of(1), Element.of(2)]
+        // Operations
+        TokenType.ADD                | [new DoubleValueLiteral('4.0d'), new NumberValueLiteral('2')]              | [Element.of(4.0), Element.of(2)]
+        TokenType.SUBTRACT           | [new DoubleValueLiteral('4.0d'), new NumberValueLiteral('2')]              | [Element.of(4.0), Element.of(2)]
+        TokenType.MULTIPLY           | [new DoubleValueLiteral('4.0d'), new NumberValueLiteral('2')]              | [Element.of(4.0), Element.of(2)]
+        TokenType.DIVIDE             | [new DoubleValueLiteral('4.0d'), new NumberValueLiteral('2')]              | [Element.of(4.0), Element.of(2)]
+        TokenType.MODULO             | [new DoubleValueLiteral('4.0d'), new NumberValueLiteral('2')]              | [Element.of(4.0), Element.of(2)]
+        // Unary
+        TokenType.SUBTRACT           | [new NumberValueLiteral('1')]                                              | [Element.of(1)]
+        TokenType.NOT                | [new BooleanValueLiteral('true')]                                          | [Element.of(true)]
     }
 
     def 'test visitScoped of #scopeType'() {
@@ -63,8 +116,10 @@ class VisitorTest extends Specification {
         where:
         tuple << ScopeType.values()
                 .findAll { it != ScopeType.MAIN }
-                .collect {[ElementException, HandlerException]
-                        .collect { ex -> new Tuple<>(it, ex) }  }
+                .collect {
+                    [ElementException, HandlerException]
+                            .collect { ex -> new Tuple<>(it, ex) }
+                }
                 .flatten()
     }
 
@@ -86,9 +141,9 @@ class VisitorTest extends Specification {
 
         when:
         def method = Visitor.class.getDeclaredMethods()
-            .findAll { it.name == methodName }
-            .findAll { it.parameterCount == parameters.length }
-            .find { parameters.collect { f -> f.type } == it.parameterTypes.toList() }
+                .findAll { it.name == methodName }
+                .findAll { it.parameterCount == parameters.length }
+                .find { parameters.collect { f -> f.type } == it.parameterTypes.toList() }
 
         then:
         if (method == null) writeMethod(methodName, parameters)
@@ -99,7 +154,7 @@ class VisitorTest extends Specification {
         parameters << nodeClasses()
                 .collect { new Refl<>(it) }
                 .collect { it.nonStaticFields }
-                .collect{ it.toArray() }
+                .collect { it.toArray() }
     }
 
     static writeMethod(def methodName, Object[] fieldParameters) {
