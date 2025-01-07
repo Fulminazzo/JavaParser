@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 @SuppressWarnings("unchecked")
-interface IElement extends VisitorObject<ClassElement, Element, ParameterElements> {
+public interface IElement extends VisitorObject<ClassElement, Element, ParameterElements> {
 
     @Override
     default boolean isPrimitive() {
