@@ -10,7 +10,7 @@ import java.lang.reflect.Constructor;
 
 public class ClassElement extends ElementImpl implements ClassVisitorObject<ClassElement, Element, ParameterElements> {
 
-    public ClassElement(Class<?> clazz) {
+    private ClassElement(Class<?> clazz) {
         super(clazz);
     }
 
@@ -54,6 +54,10 @@ public class ClassElement extends ElementImpl implements ClassVisitorObject<Clas
             else if (clazz.equals(double.class)) return Element.of(0d);
             else return Element.of(false);
         } else return Element.of(null);
+    }
+
+    public static ClassElement of(Class<?> clazz) {
+        return new ClassElement(clazz);
     }
 
 }
