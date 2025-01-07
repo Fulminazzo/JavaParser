@@ -35,6 +35,7 @@ class VisitorTest extends Specification {
         then:
         element == expected
         this.environment.enteredScope(scopeType)
+        this.environment.scopeType() != scopeType
 
         where:
         scopeType << ScopeType.values().findAll { it != ScopeType.MAIN }
@@ -57,6 +58,7 @@ class VisitorTest extends Specification {
         def e = thrown(HandlerException)
         e.message == message
         this.environment.enteredScope(scopeType)
+        this.environment.scopeType() != scopeType
 
         where:
         tuple << ScopeType.values()
