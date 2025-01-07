@@ -174,12 +174,12 @@ public class Handler implements Visitor<ClassElement, Element, ParameterElements
 
     @Override
     public @NotNull RuntimeException exceptionWrapper(@NotNull Exception exception) {
-        return null;
+        return new HandlerException(exception);
     }
 
     @Override
     public @NotNull RuntimeException cannotResolveSymbol(@NotNull String symbol) {
-        return null;
+        return new HandlerException("Cannot resolve symbol '%s'", symbol);
     }
 
 }
