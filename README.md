@@ -33,9 +33,11 @@ To verify all the capabilities available, please check the [grammar](#grammar), 
 - constants (`final`) are **not** supported.
 
 ## Usage
+
 **Mojito** can be used in two ways:
 
 ### Command Line
+
 To utilize the parser from command line, simply navigate to the folder containing the latest `.jar` file.
 Then, use the following command:
 
@@ -46,6 +48,7 @@ java -jar mojito-LATEST.jar file_to_read.java
 At the moment, the program does not support any command line argument.
 
 ### Import
+
 **Mojito** can be imported using one of the most common **three methods** ([Gradle](https://gradle.org/),
 [Maven](https://maven.apache.org/) or **JAR**) using `it.fulminazzo` as **group id** and `mojito` as **artifact**.
 
@@ -53,6 +56,7 @@ The [Fulminazzo repository (https://repo.fulminazzo.it/releases)](https://repo.f
 is **mandatory** for these dependencies to work.
 
 - **Gradle**:
+
   ```groovy
   repositories {
       maven { url = 'https://repo.fulminazzo.it/releases' }
@@ -62,13 +66,16 @@ is **mandatory** for these dependencies to work.
       implementation 'it.fulminazzo:mojito:latest.release'
   }
   ```
+
 - **Maven**:
+
   ```xml
   <repository>
       <id>fulminazzo</id>
       <url>https://repo.fulminazzo.it/releases</url>
   </repository>
   ```
+
   ```xml
   <dependency>
       <groupId>it.fulminazzo</groupId>
@@ -80,10 +87,12 @@ is **mandatory** for these dependencies to work.
 [//]: # (TODO: program starting point)
 
 ## Roadmap
+
 - [ ] diamond operator (generics);
 - [ ] lambda expressions.
 
 ## Grammar
+
 The following is the grammar respected by the parser:
 
 ```
