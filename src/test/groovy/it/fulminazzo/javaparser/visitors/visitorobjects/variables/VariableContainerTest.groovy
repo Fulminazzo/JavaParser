@@ -74,9 +74,9 @@ class VariableContainerTest extends Specification {
         container."${method.name}"(*parameters)
 
         then:
-//        if (parameters.isEmpty()) 1 * variable."${method.name}"()
-//        else 1 * variable."${method.name}"(*parameters)
-true
+        if (parameters.isEmpty()) 1 * variable."${method.name}"()
+        else 1 * variable."${method.name}"(*parameters)
+
         where:
         method << VariableContainer.methods
                 .findAll { it.declaringClass == VariableContainer }
