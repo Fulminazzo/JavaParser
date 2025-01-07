@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.handler.elements;
 
+import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.visitors.visitorobjects.ClassVisitorObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObjectException;
@@ -30,7 +31,9 @@ public class ClassElement extends ElementImpl implements ClassVisitorObject<Clas
 
     @Override
     public @NotNull Element newObject(@NotNull Constructor<?> constructor, @NotNull ParameterElements parameters) throws VisitorObjectException {
-        return null;
+        Refl<?> refl = new Refl<>(toJavaClass(), constructor.getParameterTypes(), parameters.stream()
+                .map(Element::getElement).toArray(Object[]::new));
+        return new ElementImpl(refl.getObject());
     }
 
     @Override
