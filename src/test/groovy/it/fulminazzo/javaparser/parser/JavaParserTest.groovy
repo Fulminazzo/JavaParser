@@ -268,7 +268,7 @@ class JavaParserTest extends Specification {
 
         when:
         startReading(code)
-        def block = this.parser.parseCatchStatement()
+        this.parser.parseCatchStatement()
 
         then:
         thrown(ParserException)

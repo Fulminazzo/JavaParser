@@ -64,10 +64,10 @@ public class Tokenizer implements Iterable<TokenType>, Iterator<TokenType> {
      */
     public @NotNull TokenType readUntil(final @NotNull TokenType tokenType) {
         try {
-            String read = getPreviousRead();
-            while (this.input.available() > 0 && !read.matches("(.|\n)*" + tokenType.regex() + "$"))
-                read += updateLineCount(this.input.read());
-            this.lastRead = read;
+            StringBuilder read = new StringBuilder(getPreviousRead());
+            while (this.input.available() > 0 && !read.toString().matches("(.|\n)*" + tokenType.regex() + "$"))
+                read.append(updateLineCount(this.input.read()));
+            this.lastRead = read.toString();
             this.previousRead = "";
             return nextSpaceless();
         } catch (IOException e) {
