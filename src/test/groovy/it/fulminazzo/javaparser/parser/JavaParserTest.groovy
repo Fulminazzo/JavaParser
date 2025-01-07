@@ -99,7 +99,7 @@ class JavaParserTest extends Specification {
                 '//First line\n',
                 '//First line\n//Second line\n//Third line\n',
                 '/*\nComment block\n*/',
-                '/**\n *Javadoc block\n */'
+                '/**\n *Javadoc block\n */',
         ]
     }
 
@@ -118,7 +118,7 @@ class JavaParserTest extends Specification {
                 '//First line',
                 '//First line\n//Second line\n//Third line',
                 '/*\nComment block\n',
-                '/**\n *Javadoc block\n '
+                '/**\n *Javadoc block\n ',
         ]
     }
 
@@ -560,7 +560,7 @@ class JavaParserTest extends Specification {
                 Literal.of('int')
         ))), [
                 new NumberValueLiteral('1'),
-                new NumberValueLiteral('2')
+                new NumberValueLiteral('2'),
         ])
         def code = 'new int[][][]{1, 2}'
 
@@ -613,7 +613,7 @@ class JavaParserTest extends Specification {
                 new MethodInvocation([
                         new StringValueLiteral('\"%s, %s!\"'),
                         new StringValueLiteral('\"Hello\"'),
-                        new StringValueLiteral('\"world\"')
+                        new StringValueLiteral('\"world\"'),
                 ])
         ))
         def code = 'System.out.printf(\"%s, %s!\", \"Hello\", \"world\");'
