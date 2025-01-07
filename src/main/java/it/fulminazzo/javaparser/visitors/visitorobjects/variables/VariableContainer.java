@@ -76,7 +76,7 @@ public abstract class VariableContainer<
 
     @Override
     public boolean isAssignableFrom(@NotNull ClassVisitorObject<C, O, P> classVisitorObject) {
-        return VisitorObject.super.isAssignableFrom(classVisitorObject) || this.variable.isAssignableFrom(classVisitorObject);
+        return this.variable.isAssignableFrom(classVisitorObject);
     }
 
     @Override
