@@ -29,7 +29,7 @@ public final class VisitorObjectUtils {
         if (parameterCount == parameterSize) return true;
         // These checks are necessary for var args methods.
         if (parameterCount > parameterSize || parameterCount == 0) return false;
-        return executable.isVarArgs() && executable.getParameterTypes()[parameterCount - 1].isArray();
+        return executable.isVarArgs();
     }
 
 }
