@@ -265,14 +265,14 @@ class VisitorTest extends Specification {
 
         where:
         operation   | before | operand                                                 | expected
-        'Increment' | true   | Literal.of('i')                                         | 2.0
-        'Increment' | false  | Literal.of('i')                                         | 1.0
-        'Increment' | true   | new Field(new ThisLiteral(), Literal.of('publicField')) | 2.0
-        'Increment' | false  | new Field(new ThisLiteral(), Literal.of('publicField')) | 1.0
-        'Decrement' | true   | Literal.of('i')                                         | 0.0
-        'Decrement' | false  | Literal.of('i')                                         | 1.0
-        'Decrement' | true   | new Field(new ThisLiteral(), Literal.of('publicField')) | 0.0
-        'Decrement' | false  | new Field(new ThisLiteral(), Literal.of('publicField')) | 1.0
+        'Increment' | true   | Literal.of('i')                                         | 2.0d
+        'Increment' | false  | Literal.of('i')                                         | 1.0d
+        'Increment' | true   | new Field(new ThisLiteral(), Literal.of('publicField')) | 2.0d
+        'Increment' | false  | new Field(new ThisLiteral(), Literal.of('publicField')) | 1.0d
+        'Decrement' | true   | Literal.of('i')                                         | 0.0d
+        'Decrement' | false  | Literal.of('i')                                         | 1.0d
+        'Decrement' | true   | new Field(new ThisLiteral(), Literal.of('publicField')) | 0.0d
+        'Decrement' | false  | new Field(new ThisLiteral(), Literal.of('publicField')) | 1.0d
     }
 
     def 'test visitMethodCall #executor #methodName(#parameters) should return #expected'() {
@@ -376,7 +376,7 @@ class VisitorTest extends Specification {
         if (parameters.size() < 2 && token == TokenType.SUBTRACT) methodName = 'Minus'
 
         and:
-        def message = Element.of(null).unsupportedOperation([token, operands].flatten()).message
+        def message = Element.of(null).unsupportedOperation(*[token, operands].flatten()).message
 
         when:
         def e = this.visitor."visit${methodName}"(parameters)
@@ -403,9 +403,9 @@ class VisitorTest extends Specification {
         TokenType.RSHIFT             | [new NumberValueLiteral('1'), new NumberValueLiteral('2')]                 | [Element.of(1), Element.of(2)]
         TokenType.URSHIFT            | [new NumberValueLiteral('1'), new NumberValueLiteral('2')]                 | [Element.of(1), Element.of(2)]
         // Operations
-        TokenType.MULTIPLY           | [new DoubleValueLiteral('4.0d'), new NumberValueLiteral('2')]              | [Element.of(4.0), Element.of(2)]
-        TokenType.DIVIDE             | [new DoubleValueLiteral('4.0d'), new NumberValueLiteral('2')]              | [Element.of(4.0), Element.of(2)]
-        TokenType.MODULO             | [new DoubleValueLiteral('4.0d'), new NumberValueLiteral('2')]              | [Element.of(4.0), Element.of(2)]
+        TokenType.MULTIPLY           | [new DoubleValueLiteral('4.0d'), new NumberValueLiteral('2')]              | [Element.of(4.0d), Element.of(2)]
+        TokenType.DIVIDE             | [new DoubleValueLiteral('4.0d'), new NumberValueLiteral('2')]              | [Element.of(4.0d), Element.of(2)]
+        TokenType.MODULO             | [new DoubleValueLiteral('4.0d'), new NumberValueLiteral('2')]              | [Element.of(4.0d), Element.of(2)]
         // Unary
         TokenType.SUBTRACT           | [new NumberValueLiteral('1')]                                              | [Element.of(1)]
         TokenType.NOT                | [new BooleanValueLiteral('true')]                                          | [Element.of(true)]
