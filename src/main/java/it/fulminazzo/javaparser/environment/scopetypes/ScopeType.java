@@ -52,6 +52,7 @@ public interface ScopeType {
         Refl<?> refl = new Refl<>(ScopeType.class);
         return refl.getStaticFields().stream()
                 .map(refl::getFieldObject)
+                .filter(o -> o instanceof ScopeType)
                 .map(o -> (ScopeType) o)
                 .toArray(ScopeType[]::new);
     }
