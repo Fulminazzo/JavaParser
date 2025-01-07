@@ -22,4 +22,20 @@ class BinaryOperationTest extends Specification {
         literal == expected
     }
 
+    def 'test field literal'() {
+        given:
+        def object = Literal.of('object')
+        def fieldName = Literal.of('field')
+
+        and:
+        def field = new Field(object, fieldName)
+        def expected = "${object}.${fieldName.literal}"
+
+        when:
+        def literal = field.getLiteral()
+
+        then:
+        literal == expected
+    }
+
 }
