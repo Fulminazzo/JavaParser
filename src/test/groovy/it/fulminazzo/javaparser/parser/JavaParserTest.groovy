@@ -999,6 +999,16 @@ class JavaParserTest extends Specification {
         e.message == ParserException.unexpectedToken(this.parser, TokenType.LITERAL).message
     }
 
+    def 'test parse of eof'() {
+        when:
+        startReading('')
+        this.parser.parseThis()
+
+        then:
+        def e = thrown(ParserException)
+        e.message == ParserException.unexpectedToken(this.parser, TokenType.THIS, TokenType.EOF).message
+    }
+
     def 'test parse literal'() {
         when:
         def literal = this.parser.createLiteral(BooleanValueLiteral, 'true')
