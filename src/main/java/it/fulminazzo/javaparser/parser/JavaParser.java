@@ -703,7 +703,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * UNARY_OPERATION := CAST | MINUS | NOT | METHOD_CALL
+     * UNARY_OPERATION := CAST |  NOT | METHOD_CALL
      *
      * @return the node
      */
@@ -711,8 +711,6 @@ public class JavaParser extends Parser {
         switch (lastToken()) {
             case OPEN_PAR:
                 return parseCast();
-            case SUBTRACT:
-                return parseMinus();
             case NOT:
                 return parseNot();
             default:
