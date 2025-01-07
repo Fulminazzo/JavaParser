@@ -1009,7 +1009,7 @@ class JavaParserTest extends Specification {
 
     def 'test parse literal LiteralException'() {
         given:
-        this.parser.setInput('true')
+        this.parser.input = 'true'
         this.parser.tokenizer.next()
 
         when:
