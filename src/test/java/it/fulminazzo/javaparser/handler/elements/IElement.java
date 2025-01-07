@@ -80,17 +80,122 @@ interface IElement extends VisitorObject<ClassElement, Element, ParameterElement
         return new HandlerException("%s does not have a class", type.getCanonicalName());
     }
 
-    @Override
     default @NotNull RuntimeException unsupportedOperation(@NotNull TokenType operator,
                                                           @NotNull VisitorObject<ClassElement, Element, ParameterElements> left,
                                                           @NotNull VisitorObject<ClassElement, Element, ParameterElements> right) {
         return new HandlerException("Operator '%s' cannot be applied to '%s', '%s'", operator, left, right);
     }
 
-    @Override
     default @NotNull RuntimeException unsupportedOperation(@NotNull TokenType operator,
                                                           @NotNull VisitorObject<ClassElement, Element, ParameterElements> operand) {
         return new HandlerException("Operator '%s' cannot be applied to '%s'", operator, operand);
+    }
+    
+    @Override
+    default @NotNull Element and(final @NotNull Element other) {
+        throw unsupportedOperation(TokenType.AND, this, other);
+    }
+
+    @Override
+    default @NotNull Element or(final @NotNull Element other) {
+        throw unsupportedOperation(TokenType.OR, this, other);
+    }
+
+    @Override
+    default @NotNull Element equal(final @NotNull Element other) {
+        throw unsupportedOperation(TokenType.EQUAL, this, other);
+    }
+
+    @Override
+    default @NotNull Element notEqual(final @NotNull Element other) {
+        throw unsupportedOperation(TokenType.NOT_EQUAL, this, other);
+    }
+
+    @Override
+    default @NotNull Element lessThan(final @NotNull Element other) {
+        throw unsupportedOperation(TokenType.LESS_THAN, this, other);
+    }
+
+    @Override
+    default @NotNull Element lessThanEqual(final @NotNull Element other) {
+        throw unsupportedOperation(TokenType.LESS_THAN_EQUAL, this, other);
+    }
+
+    @Override
+    default @NotNull Element greaterThan(final @NotNull Element other) {
+        throw unsupportedOperation(TokenType.GREATER_THAN, this, other);
+    }
+
+    @Override
+    default @NotNull Element greaterThanEqual(final @NotNull Element other) {
+        throw unsupportedOperation(TokenType.GREATER_THAN_EQUAL, this, other);
+    }
+
+
+    @Override
+    default @NotNull Element bitAnd(final @NotNull Element other) {
+        throw unsupportedOperation(TokenType.BIT_AND, this, other);
+    }
+
+    @Override
+    default @NotNull Element bitOr(final @NotNull Element other) {
+        throw unsupportedOperation(TokenType.BIT_OR, this, other);
+    }
+
+    @Override
+    default @NotNull Element bitXor(final @NotNull Element other) {
+        throw unsupportedOperation(TokenType.BIT_XOR, this, other);
+    }
+
+    @Override
+    default @NotNull Element lshift(final @NotNull Element other) {
+        throw unsupportedOperation(TokenType.LSHIFT, this, other);
+    }
+
+    @Override
+    default @NotNull Element rshift(final @NotNull Element other) {
+        throw unsupportedOperation(TokenType.RSHIFT, this, other);
+    }
+
+    @Override
+    default @NotNull Element urshift(final @NotNull Element other) {
+        throw unsupportedOperation(TokenType.URSHIFT, this, other);
+    }
+
+
+    @Override
+    default @NotNull Element add(final @NotNull Element other) {
+        throw unsupportedOperation(TokenType.ADD, this, other);
+    }
+
+    @Override
+    default @NotNull Element subtract(final @NotNull Element other) {
+        throw unsupportedOperation(TokenType.SUBTRACT, this, other);
+    }
+
+    @Override
+    default @NotNull Element multiply(final @NotNull Element other) {
+        throw unsupportedOperation(TokenType.MULTIPLY, this, other);
+    }
+
+    @Override
+    default @NotNull Element divide(final @NotNull Element other) {
+        throw unsupportedOperation(TokenType.DIVIDE, this, other);
+    }
+
+    @Override
+    default @NotNull Element modulo(final @NotNull Element other) {
+        throw unsupportedOperation(TokenType.MODULO, this, other);
+    }
+
+    @Override
+    default @NotNull Element minus() {
+        throw unsupportedOperation(TokenType.SUBTRACT, this);
+    }
+
+    @Override
+    default @NotNull Element not() {
+        throw unsupportedOperation(TokenType.NOT, this);
     }
 
 }
