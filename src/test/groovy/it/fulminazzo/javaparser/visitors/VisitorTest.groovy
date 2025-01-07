@@ -18,6 +18,7 @@ import it.fulminazzo.javaparser.parser.node.values.DoubleValueLiteral
 import it.fulminazzo.javaparser.parser.node.values.NumberValueLiteral
 import it.fulminazzo.javaparser.parser.node.values.StringValueLiteral
 import it.fulminazzo.javaparser.tokenizer.TokenType
+import it.fulminazzo.javaparser.visitors.visitorobjects.TestClass
 import spock.lang.Specification
 
 import java.lang.reflect.Modifier
@@ -27,7 +28,7 @@ class VisitorTest extends Specification {
     private MockEnvironment environment
 
     void setup() {
-        this.visitor = new Handler(this)
+        this.visitor = new Handler(new TestClass())
         this.environment = this.visitor.environment as MockEnvironment
     }
 
