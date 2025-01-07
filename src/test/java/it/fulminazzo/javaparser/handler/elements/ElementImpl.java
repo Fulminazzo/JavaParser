@@ -28,7 +28,7 @@ class ElementImpl implements VisitorObject<ClassElement, Element, ParameterEleme
     @Override
     public @NotNull Element toPrimitive() {
         if (!isNull() && ReflectionUtils.isPrimitiveOrWrapper(getElementClass()))
-            if (!isPrimitive()) return new ElementImpl(ReflectionUtils.getPrimitiveClass(getElementClass()).cast(this.element));
+            if (!isPrimitive()) return Element.of(ReflectionUtils.getPrimitiveClass(getElementClass()).cast(this.element));
         return Element.super.toPrimitive();
     }
 
@@ -36,7 +36,7 @@ class ElementImpl implements VisitorObject<ClassElement, Element, ParameterEleme
     public @NotNull Element toWrapper() {
         if (isPrimitive()) {
             Object newObject = ReflectionUtils.getWrapperClass(getElementClass()).cast(this.element);
-            return new ElementImpl(newObject);
+            return Element.of(newObject);
         } else return Element.super.toWrapper();
     }
 

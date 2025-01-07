@@ -8,6 +8,7 @@ import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObjectException;
 import it.fulminazzo.javaparser.visitors.visitorobjects.variables.FieldContainer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
@@ -49,7 +50,7 @@ public interface Element extends VisitorObject<ClassElement, Element, ParameterE
     default @NotNull FieldContainer<ClassElement, Element, ParameterElements> getField(@NotNull Field field) throws VisitorObjectException {
         Refl<?> refl = new Refl<>(getElement());
         ClassElement classElement = new ClassElement(field.getType());
-        Element value = new ElementImpl(refl.getFieldObject(field));
+        Element value = Element.of(refl.getFieldObject(field));
         return new ElementFieldContainer(this, classElement, field.getName(), value);
     }
 
@@ -58,7 +59,7 @@ public interface Element extends VisitorObject<ClassElement, Element, ParameterE
         Refl<?> refl = new Refl<>(getElement());
         Object returned = refl.invokeMethod(method.getReturnType(), method.getName(), method.getParameterTypes(),
                 parameters.stream().map(Element::getElement).toArray(Object[]::new));
-        return new ElementImpl(returned);
+        return Element.of(returned);
     }
 
     @Override
@@ -69,6 +70,10 @@ public interface Element extends VisitorObject<ClassElement, Element, ParameterE
     @Override
     default @NotNull Element toWrapper() {
         throw new HandlerException("%s is not a primitive type", this);
+    }
+
+    static Element of(@Nullable Object object) {
+        return new ElementImpl(object);
     }
 
     @Override

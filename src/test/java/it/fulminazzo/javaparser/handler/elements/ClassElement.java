@@ -21,7 +21,7 @@ public class ClassElement extends ElementImpl implements ClassVisitorObject<Clas
 
     @Override
     public @NotNull Element cast(@NotNull Element object) {
-        return new ElementImpl(toJavaClass().cast(object));
+        return Element.of(toJavaClass().cast(object));
     }
 
     @Override
@@ -33,7 +33,7 @@ public class ClassElement extends ElementImpl implements ClassVisitorObject<Clas
     public @NotNull Element newObject(@NotNull Constructor<?> constructor, @NotNull ParameterElements parameters) throws VisitorObjectException {
         Refl<?> refl = new Refl<>(toJavaClass(), constructor.getParameterTypes(), parameters.stream()
                 .map(Element::getElement).toArray(Object[]::new));
-        return new ElementImpl(refl.getObject());
+        return Element.of(refl.getObject());
     }
 
     @Override
@@ -45,15 +45,15 @@ public class ClassElement extends ElementImpl implements ClassVisitorObject<Clas
     public @NotNull Element toObject() {
         if (isPrimitive()) {
             Class<?> clazz = toJavaClass();
-            if (clazz.equals(byte.class)) return new ElementImpl((byte) 0);
-            else if (clazz.equals(char.class)) return new ElementImpl((char) 0);
-            else if (clazz.equals(short.class)) return new ElementImpl((short) 0);
-            else if (clazz.equals(int.class)) return new ElementImpl(0);
-            else if (clazz.equals(long.class)) return new ElementImpl(0L);
-            else if (clazz.equals(float.class)) return new ElementImpl(0f);
-            else if (clazz.equals(double.class)) return new ElementImpl(0d);
-            else return new ElementImpl(false);
-        } else return new ElementImpl(null);
+            if (clazz.equals(byte.class)) return Element.of((byte) 0);
+            else if (clazz.equals(char.class)) return Element.of((char) 0);
+            else if (clazz.equals(short.class)) return Element.of((short) 0);
+            else if (clazz.equals(int.class)) return Element.of(0);
+            else if (clazz.equals(long.class)) return Element.of(0L);
+            else if (clazz.equals(float.class)) return Element.of(0f);
+            else if (clazz.equals(double.class)) return Element.of(0d);
+            else return Element.of(false);
+        } else return Element.of(null);
     }
 
 }
