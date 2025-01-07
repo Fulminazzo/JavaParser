@@ -34,10 +34,13 @@ class VariableContainerTest extends Specification {
         result == expected
 
         where:
-        method  | parameters               | expected
-        'is'    | ElementVariableContainer | true
-        'is'    | container                | true
-        'check' | VariableContainer        | container
+        method  | parameters                             | expected
+        'is'    | ElementVariableContainer               | true
+        'is'    | Element                                | true
+        'is'    | new Element[]{container}               | true
+        'is'    | new Element[]{variable}                | true
+        'is'    | new Element[]{ClassElement.of(String)} | false
+        'check' | VariableContainer                      | container
     }
 
     def 'test container.#method.name(#method.parameterTypes) should call variable.#method.name(#method.parameterTypes)'() {
