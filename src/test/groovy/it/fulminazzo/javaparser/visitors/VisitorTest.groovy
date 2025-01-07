@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.visitors
 
+
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple
 import it.fulminazzo.fulmicollection.utils.ClassUtils
@@ -297,6 +298,25 @@ class VisitorTest extends Specification {
         new ThisLiteral()                   | 'publicMethod'       | [new DoubleValueLiteral('2.0'), new BooleanValueLiteral('true')] | Element.of(2.0d)
         new ThisLiteral()                   | 'publicMethod'       | [new DoubleValueLiteral('1.0'), new BooleanValueLiteral('true')] | Element.of(1.0d)
         new NumberValueLiteral('1')         | 'toString'           | []                                                               | Element.of('1')
+    }
+
+    def 'test visitMethodCall invalid parameters'() {
+        given:
+        def executor = new ThisLiteral()
+        def methodName = 'publicMethod'
+        def parameters = new ParameterElements([Element.of(1), Element.of(true)])
+
+        and:
+        def expected = Element.of(null).typesMismatch(ClassElement.of(TestClass),
+                TestClass.getMethod(methodName, double, Boolean), parameters).message
+
+        when:
+        this.visitor.visitMethodCall(executor, methodName,
+                new MethodInvocation([new NumberValueLiteral('1'), new BooleanValueLiteral('true')]))
+
+        then:
+        def e = thrown(HandlerException)
+        e.message == expected
     }
 
     def 'test visitMethodCall not found'() {
