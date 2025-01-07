@@ -13,13 +13,13 @@ import java.lang.reflect.Modifier
 
 class VariableContainerTest extends Specification {
 
-    static ElementVariableContainer getContainer() {
+    static ElementVariableContainer generateContainer() {
         return new ElementVariableContainer(null, ClassElement.of(Class), 'variable', ClassElement.of(Double))
     }
 
     def 'test method #method(#parameters) should first be invoked on container'() {
         given:
-        def container = getContainer()
+        def container = generateContainer()
 
         when:
         def result = container."${method}"(parameters)
@@ -31,10 +31,10 @@ class VariableContainerTest extends Specification {
         method  | parameters                             | expected
         'is'    | ElementVariableContainer               | true
         'is'    | ClassElement                           | true
-        'is'    | new Element[]{getContainer()}          | true
+        'is'    | new Element[]{generateContainer()}     | true
         'is'    | new Element[]{ClassElement.of(Double)} | true
         'is'    | new Element[]{ClassElement.of(String)} | false
-        'check' | VariableContainer                      | getContainer()
+        'check' | VariableContainer                      | generateContainer()
     }
 
     def 'test container.invokeMethod should call variable.invokeMethod'() {
