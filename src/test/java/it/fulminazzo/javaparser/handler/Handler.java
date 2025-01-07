@@ -30,62 +30,67 @@ public class Handler implements Visitor<ClassElement, Element, ParameterElements
 
     @Override
     public @NotNull Element visitThrow(@NotNull Node expression) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public @NotNull Element visitBreak(@NotNull Node expression) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public @NotNull Element visitContinue(@NotNull Node expression) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public @NotNull Element visitTryStatement(@NotNull CodeBlock block, @NotNull List<CatchStatement> catchBlocks, @NotNull CodeBlock finallyBlock, @NotNull Node expression) {
-        return null;
+    public @NotNull Element visitTryStatement(@NotNull CodeBlock block, @NotNull List<CatchStatement> catchBlocks,
+                                              @NotNull CodeBlock finallyBlock, @NotNull Node expression) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public @NotNull Element visitCatchStatement(@NotNull List<Literal> exceptions, @NotNull CodeBlock block, @NotNull Node expression) {
-        return null;
+    public @NotNull Element visitCatchStatement(@NotNull List<Literal> exceptions, @NotNull CodeBlock block,
+                                                @NotNull Node expression) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public @NotNull Element visitSwitchStatement(@NotNull List<CaseStatement> cases, @NotNull CodeBlock defaultBlock, @NotNull Node expression) {
-        return null;
+    public @NotNull Element visitSwitchStatement(@NotNull List<CaseStatement> cases, @NotNull CodeBlock defaultBlock,
+                                                 @NotNull Node expression) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public @NotNull Element visitCaseStatement(@NotNull CodeBlock block, @NotNull Node expression) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public @NotNull Element visitForStatement(@NotNull Node assignment, @NotNull Node increment, @NotNull CodeBlock code, @NotNull Node expression) {
-        return null;
+    public @NotNull Element visitForStatement(@NotNull Node assignment, @NotNull Node increment,
+                                              @NotNull CodeBlock code, @NotNull Node expression) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public @NotNull Element visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable, @NotNull CodeBlock code, @NotNull Node expression) {
-        return null;
+    public @NotNull Element visitEnhancedForStatement(@NotNull Node type, @NotNull Node variable,
+                                                      @NotNull CodeBlock code, @NotNull Node expression) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public @NotNull Element visitDoStatement(@NotNull CodeBlock code, @NotNull Node expression) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public @NotNull Element visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expression) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public @NotNull Element visitIfStatement(@NotNull CodeBlock then, @NotNull Node elseBranch, @NotNull Node expression) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -95,22 +100,22 @@ public class Handler implements Visitor<ClassElement, Element, ParameterElements
 
     @Override
     public @NotNull Element visitDynamicArray(@NotNull List<Node> parameters, @NotNull Node type) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public @NotNull Element visitStaticArray(int size, @NotNull Node type) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public @NotNull Element visitArrayIndex(@NotNull Node array, @NotNull Node index) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public @NotNull Element visitArrayLiteral(@NotNull Node type) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
