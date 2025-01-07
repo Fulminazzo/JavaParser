@@ -181,6 +181,22 @@ class VisitorTest extends Specification {
         }
     }
 
+    def 'test visitReAssign invalid type'() {
+        given:
+        this.environment.declare(ClassElement.of(Double), 'i', Element.of(1.0d))
+
+        and:
+        def name = 'i'
+        def value = new StringValueLiteral('\"Hello, world!\"')
+
+        when:
+        this.visitor.visitReAssign(Literal.of(name), value)
+
+        then:
+        def e = thrown(HandlerException)
+        e.message == ScopeException.cannotAssignValue(Element.of('Hello, world!'), ClassElement.of(Double)).message
+    }
+
     def 'test visitReAssign of undeclared'() {
         given:
         def name = 'i'
