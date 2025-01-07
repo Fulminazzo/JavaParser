@@ -83,13 +83,13 @@ public interface Element extends VisitorObject<ClassElement, Element, ParameterE
 
     @Override
     default @NotNull VisitorObjectException methodNotFound(@NotNull ClassElement classVisitorObject, @NotNull String method,
-                                                          @NotNull ParameterElements parameters) {
+                                                           @NotNull ParameterElements parameters) {
         return new ElementException("Could not find method %s(%s) in type %s", method, parameters, classVisitorObject);
     }
 
     @Override
     default @NotNull VisitorObjectException typesMismatch(@NotNull ClassElement classVisitorObject, @NotNull Executable method,
-                                                         @NotNull ParameterElements parameters) {
+                                                          @NotNull ParameterElements parameters) {
         return new ElementException("Types mismatch: cannot apply parameters %s to method %s%s in type %s",
                 parameters, method.getName(), Arrays.toString(method.getParameterTypes()), classVisitorObject);
     }
@@ -100,16 +100,16 @@ public interface Element extends VisitorObject<ClassElement, Element, ParameterE
     }
 
     default @NotNull RuntimeException unsupportedOperation(@NotNull TokenType operator,
-                                                          @NotNull VisitorObject<ClassElement, Element, ParameterElements> left,
-                                                          @NotNull VisitorObject<ClassElement, Element, ParameterElements> right) {
+                                                           @NotNull VisitorObject<ClassElement, Element, ParameterElements> left,
+                                                           @NotNull VisitorObject<ClassElement, Element, ParameterElements> right) {
         return new HandlerException("Operator '%s' cannot be applied to '%s', '%s'", operator, left, right);
     }
 
     default @NotNull RuntimeException unsupportedOperation(@NotNull TokenType operator,
-                                                          @NotNull VisitorObject<ClassElement, Element, ParameterElements> operand) {
+                                                           @NotNull VisitorObject<ClassElement, Element, ParameterElements> operand) {
         return new HandlerException("Operator '%s' cannot be applied to '%s'", operator, operand);
     }
-    
+
     @Override
     default @NotNull Element and(final @NotNull Element other) {
         throw unsupportedOperation(TokenType.AND, this, other);
