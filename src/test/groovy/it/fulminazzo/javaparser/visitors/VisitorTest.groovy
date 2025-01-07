@@ -43,11 +43,10 @@ class VisitorTest extends Specification {
         def message = Element.of(null).unsupportedOperation([token, operands].flatten()).message
 
         when:
-        this.visitor."visit${methodName}"(parameters)
+        def e = this.visitor."visit${methodName}"(parameters)
 
         then:
-        def e = thrown(HandlerException)
-        e.message == message
+        e.element.message == message
 
         where:
         token                        | parameters                                                                 | operands
