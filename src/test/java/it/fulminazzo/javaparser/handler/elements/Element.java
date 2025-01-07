@@ -21,7 +21,7 @@ public interface Element extends VisitorObject<ClassElement, Element, ParameterE
     Object getElement();
 
     default @NotNull Class<?> getElementClass() {
-        return (Class<?>) toClass().getElement();
+        return getElement().getClass();
     }
 
     @Override
