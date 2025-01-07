@@ -3,16 +3,21 @@ package it.fulminazzo.javaparser.handler.elements;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.handler.HandlerException;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
+import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @Getter
-class ElementImpl implements VisitorObject<ClassElement, Element, ParameterElements>, Element {
-    protected final @Nullable Object element;
+class ElementImpl extends ObjectWrapper<Object> implements VisitorObject<ClassElement, Element, ParameterElements>, Element {
 
     public ElementImpl(final @Nullable Object element) {
-        this.element = element;
+        super(element);
+    }
+
+    @Override
+    public Object getElement() {
+        return this.object;
     }
 
     @Override
@@ -22,20 +27,20 @@ class ElementImpl implements VisitorObject<ClassElement, Element, ParameterEleme
 
     @Override
     public boolean isNull() {
-        return this.element == null;
+        return getElement() == null;
     }
 
     @Override
     public @NotNull Element toPrimitive() {
         if (!isNull() && ReflectionUtils.isPrimitiveOrWrapper(getElementClass()))
-            if (!isPrimitive()) return Element.of(ReflectionUtils.getPrimitiveClass(getElementClass()).cast(this.element));
+            if (!isPrimitive()) return Element.of(ReflectionUtils.getPrimitiveClass(getElementClass()).cast(getElement()));
         return Element.super.toPrimitive();
     }
 
     @Override
     public @NotNull Element toWrapper() {
         if (isPrimitive()) {
-            Object newObject = ReflectionUtils.getWrapperClass(getElementClass()).cast(this.element);
+            Object newObject = ReflectionUtils.getWrapperClass(getElementClass()).cast(getElement());
             return Element.of(newObject);
         } else return Element.super.toWrapper();
     }
