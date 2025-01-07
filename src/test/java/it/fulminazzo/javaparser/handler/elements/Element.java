@@ -184,12 +184,16 @@ public interface Element extends VisitorObject<ClassElement, Element, ParameterE
 
     @Override
     default @NotNull Element add(final @NotNull Element other) {
-        return of(unsupportedOperation(TokenType.ADD, this, other));
+        Double first = Double.valueOf(getElement().toString());
+        Double second = Double.valueOf(other.getElement().toString());
+        return Element.of(first + second);
     }
 
     @Override
     default @NotNull Element subtract(final @NotNull Element other) {
-        return of(unsupportedOperation(TokenType.SUBTRACT, this, other));
+        Double first = Double.valueOf(getElement().toString());
+        Double second = Double.valueOf(other.getElement().toString());
+        return Element.of(first - second);
     }
 
     @Override
