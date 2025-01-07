@@ -24,7 +24,7 @@ public class Element implements VisitorObject<ClassElement, Element, ParameterEl
 
     @Override
     public boolean isPrimitive() {
-        return this.object != null && ReflectionUtils.isPrimitive(this.object.getClass());
+        return this.object != null && ReflectionUtils.isPrimitive(getObjectClass());
     }
 
     @Override
@@ -56,15 +56,15 @@ public class Element implements VisitorObject<ClassElement, Element, ParameterEl
 
     @Override
     public @NotNull Element toPrimitive() {
-        if (this.object != null && ReflectionUtils.isPrimitiveOrWrapper(this.object.getClass()))
-            if (!isPrimitive()) return new Element(ReflectionUtils.getPrimitiveClass(this.object.getClass()).cast(this.object));
+        if (this.object != null && ReflectionUtils.isPrimitiveOrWrapper(getObjectClass()))
+            if (!isPrimitive()) return new Element(ReflectionUtils.getPrimitiveClass(getObjectClass()).cast(this.object));
         throw new HandlerException("%s is not a wrapper type", this);
     }
 
     @Override
     public @NotNull Element toWrapper() {
         if (isPrimitive()) {
-            Object newObject = ReflectionUtils.getWrapperClass(this.object.getClass()).cast(this.object);
+            Object newObject = ReflectionUtils.getWrapperClass(getObjectClass()).cast(this.object);
             return new Element(newObject);
         } else throw new HandlerException("%s is not a primitive type", this);
     }
@@ -72,7 +72,11 @@ public class Element implements VisitorObject<ClassElement, Element, ParameterEl
     @Override
     public @NotNull ClassElement toClass() {
         if (isNull()) throw new HandlerException("%s is null", this);
-        else return new ClassElement(this.object.getClass());
+        else return new ClassElement(getObjectClass());
+    }
+
+    protected @NotNull Class<?> getObjectClass() {
+        return (Class<?>) toClass().object;
     }
 
     @Override
