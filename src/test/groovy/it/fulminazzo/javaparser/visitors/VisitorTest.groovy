@@ -163,7 +163,7 @@ class VisitorTest extends Specification {
 
     def 'test visitCast of #node should return #expected'() {
         given:
-        def cast = Literal.of('double')
+        def cast = Literal.of('Integer')
 
         when:
         def element = this.visitor.visitCast(cast, node)
@@ -173,8 +173,8 @@ class VisitorTest extends Specification {
 
         where:
         node                                                          | expected
-        new NumberValueLiteral('2')                                   | Element.of(2.0d)
-        new Field(new ThisLiteral(), Literal.of('publicStaticField')) | Element.of(1.0d)
+        new NumberValueLiteral('2')                                   | Element.of(2)
+        new Field(new ThisLiteral(), Literal.of('publicStaticField')) | Element.of(1)
     }
 
     def 'test visitScoped of #scopeType'() {
