@@ -55,7 +55,10 @@ public interface Element extends VisitorObject<ClassElement, Element, ParameterE
 
     @Override
     default @NotNull Element invokeMethod(@NotNull Method method, @NotNull ParameterElements parameters) throws VisitorObjectException {
-        return null;
+        Refl<?> refl = new Refl<>(getElement());
+        Object returned = refl.invokeMethod(method.getReturnType(), method.getName(), method.getParameterTypes(),
+                parameters.stream().map(Element::getElement).toArray(Object[]::new));
+        return new ElementImpl(returned);
     }
 
     @Override
