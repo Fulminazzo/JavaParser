@@ -105,8 +105,8 @@ public class JavaParser extends Parser {
 
     /**
      * STMT := return EXPR; | throw EXPR; break; | continue; |
-     * TRY_STMT | SWITCH_STMT | FOR_STMT | DO_STMT | WHILE_STMT | IF_STMT
-     * ASSIGNMENT;
+     *         TRY_STMT | SWITCH_STMT | FOR_STMT | DO_STMT | WHILE_STMT | IF_STMT
+     *         ASSIGNMENT;
      *
      * @return the node
      */
@@ -191,7 +191,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ASSIGNMENT_BLOCK := (ARRAY_LITERAL LITERAL (=EXPR?);)+
+     * ASSIGNMENT_BLOCK := (ARRAY_LITERAL LITERAL ( = EXPR? ); )+
      *
      * @return the node
      */
@@ -206,7 +206,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * CATCH := catch \( (LITERAL \| )* LITERAL LITERAL \) CODE_BLOCK
+     * CATCH := catch \( ( LITERAL \| )* LITERAL LITERAL \) CODE_BLOCK
      *
      * @return the node
      */
@@ -349,7 +349,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * IF_STMT := if PAR_EXPR BLOCK (else IF_STMT)* (else BLOCK)?
+     * IF_STMT := if PAR_EXPR BLOCK ( else IF_STMT )* ( else BLOCK )?
      *
      * @return the node
      */
@@ -367,7 +367,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ASSIGNMENT := ARRAY_LITERAL LITERAL (=EXPR?) | LITERAL = EXPR | EXPR
+     * ASSIGNMENT := ARRAY_LITERAL LITERAL ( = EXPR? ) | LITERAL = EXPR | EXPR
      *
      * @return the node
      */
@@ -421,8 +421,8 @@ public class JavaParser extends Parser {
 
     /**
      * NEW_OBJECT := new LITERAL METHOD_INVOCATION |
-     * new ARRAY_LITERAL{ (EXPR)? (, EXPR)* \} |
-     * new LITERAL(\[NUMBER_VALUE\])+
+     *               new ARRAY_LITERAL{ ( EXPR )? ( , EXPR )* \} |
+     *               new LITERAL ( \[ NUMBER_VALUE \] )+
      *
      * @return the node
      */
@@ -501,13 +501,13 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ARRAY_LITERAL := LITERAL(\[\])* | LITERAL(\[ [0-9]+ \])+
+     * ARRAY_LITERAL := LITERAL ( \[\] )* | LITERAL ( \[ [0-9]+ \] )+
      *
      * @param expression the expression to start from
      * @return the node
      */
     protected @NotNull Node parseArrayLiteral(@NotNull Node expression) {
-        if (expression.is(Literal.class) && lastToken() == OPEN_BRACKET) {
+        if (lastToken() == OPEN_BRACKET) {
             consume(OPEN_BRACKET);
             if (lastToken() == NUMBER_VALUE) {
                 expression = new ArrayIndex(expression, parseExpression());
@@ -588,7 +588,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * BIT_AND := BIT_OR (& BIT_OR)*
+     * BIT_AND := BIT_OR ( (& BIT_OR)* | (&= BIT_OR) )
      *
      * @return the node
      */
@@ -703,7 +703,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * UNARY_OPERATION := CAST | MINUS | NOT | METHOD_CALL
+     * UNARY_OPERATION := CAST |  NOT | METHOD_CALL
      *
      * @return the node
      */
@@ -711,8 +711,6 @@ public class JavaParser extends Parser {
         switch (lastToken()) {
             case OPEN_PAR:
                 return parseCast();
-            case SUBTRACT:
-                return parseMinus();
             case NOT:
                 return parseNot();
             default:
@@ -899,9 +897,9 @@ public class JavaParser extends Parser {
 
     /**
      * TYPE_VALUE := {@link TokenType#NUMBER_VALUE} | {@link TokenType#LONG_VALUE} |
-     * {@link TokenType#DOUBLE_VALUE} | {@link TokenType#FLOAT_VALUE} |
-     * {@link TokenType#BOOLEAN_VALUE} | {@link TokenType#CHAR_VALUE} |
-     * {@link TokenType#STRING_VALUE}
+     *               {@link TokenType#DOUBLE_VALUE} | {@link TokenType#FLOAT_VALUE} |
+     *               {@link TokenType#BOOLEAN_VALUE} | {@link TokenType#CHAR_VALUE} |
+     *               {@link TokenType#STRING_VALUE}
      *
      * @return the node
      */

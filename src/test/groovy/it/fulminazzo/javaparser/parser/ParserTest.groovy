@@ -7,12 +7,12 @@ class ParserTest extends Specification {
     private Parser parser
 
     void setup() {
-        this.parser = new Parser() {}
+        this.parser = new Parser() { }
     }
 
     def 'test match method exception'() {
         given:
-        this.parser.setInput('mock input')
+        this.parser.input = 'mock input'
 
         when:
         this.parser.match(TokenType.DIVIDE)

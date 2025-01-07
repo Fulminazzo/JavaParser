@@ -17,14 +17,14 @@ import org.jetbrains.annotations.NotNull
 import spock.lang.Specification
 
 class JavaParserTest extends Specification {
-    JavaParser parser
+    private JavaParser parser
 
     void setup() {
         this.parser = new JavaParser()
     }
 
     void startReading(final String code) {
-        this.parser.setInput(code)
+        this.parser.input = code
         this.parser.tokenizer.nextSpaceless()
     }
 
@@ -37,8 +37,8 @@ class JavaParserTest extends Specification {
         def parser = new JavaParser(file.newInputStream())
 
         and:
-        def nextTestFile = new File(cwd, "src/test/resources/typechecker_test_program.dat")
-        if (nextTestFile.isFile()) nextTestFile.delete()
+        def nextTestFile = new File(cwd, 'src/test/resources/typechecker_test_program.dat')
+        if (nextTestFile.file) nextTestFile.delete()
 
         when:
         def parsed = parser.parseProgram()
@@ -260,6 +260,18 @@ class JavaParserTest extends Specification {
                 [Literal.of('FirstException')],
                 Literal.of('e'), new CodeBlock(new Return(new NumberValueLiteral('1')))
         )
+    }
+
+    def 'test parse invalid catch statement'() {
+        given:
+        def code = 'catch(Exception | 1)'
+
+        when:
+        startReading(code)
+        def block = this.parser.parseCatchStatement()
+
+        then:
+        thrown(ParserException)
     }
 
     def 'test parse switch statement of code: #code'() {
@@ -702,7 +714,7 @@ class JavaParserTest extends Specification {
 
         then:
         output == expected
-        output.isBefore() == before
+        output.before == before
 
         where:
         code    | expected                                | before
@@ -728,17 +740,17 @@ class JavaParserTest extends Specification {
 
         where:
         operation | expectedClass
-        '+'       | Add.class
-        '-'       | Subtract.class
-        '*'       | Multiply.class
-        '/'       | Divide.class
-        '%'       | Modulo.class
-        '&'       | BitAnd.class
-        '|'       | BitOr.class
-        '^'       | BitXor.class
-        '<<'      | LShift.class
-        '>>'      | RShift.class
-        '>>>'     | URShift.class
+        '+'       | Add
+        '-'       | Subtract
+        '*'       | Multiply
+        '/'       | Divide
+        '%'       | Modulo
+        '&'       | BitAnd
+        '|'       | BitOr
+        '^'       | BitXor
+        '<<'      | LShift
+        '>>'      | RShift
+        '>>>'     | URShift
     }
 
     def 'test parseReAssign with no operation'() {
@@ -833,17 +845,17 @@ class JavaParserTest extends Specification {
 
         where:
         operation | expectedClass
-        '+'       | Add.class
-        '-'       | Subtract.class
-        '*'       | Multiply.class
-        '/'       | Divide.class
-        '%'       | Modulo.class
-        '&'       | BitAnd.class
-        '|'       | BitOr.class
-        '^'       | BitXor.class
-        '<<'      | LShift.class
-        '>>'      | RShift.class
-        '>>>'     | URShift.class
+        '+'       | Add
+        '-'       | Subtract
+        '*'       | Multiply
+        '/'       | Divide
+        '%'       | Modulo
+        '&'       | BitAnd
+        '|'       | BitOr
+        '^'       | BitXor
+        '<<'      | LShift
+        '>>'      | RShift
+        '>>>'     | URShift
     }
 
     def 'test parseAtom: #code'() {
@@ -881,7 +893,7 @@ class JavaParserTest extends Specification {
 
     def 'test invalid cast'() {
         given:
-        def code = "(int) -+1"
+        def code = '(int) -+1'
 
         when:
         startReading(code)
@@ -964,7 +976,7 @@ class JavaParserTest extends Specification {
 
     def 'test invalid literal'() {
         given:
-        this.parser.setInput('$$$')
+        this.parser.input = '$$$'
 
         and:
         def exceptionMessage = ParserException.invalidValueProvided(this.parser, '').message

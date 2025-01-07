@@ -1,6 +1,5 @@
 package it.fulminazzo.javaparser.parser.node
 
-
 import it.fulminazzo.javaparser.tokenizer.TokenType
 import org.jetbrains.annotations.NotNull
 import spock.lang.Specification

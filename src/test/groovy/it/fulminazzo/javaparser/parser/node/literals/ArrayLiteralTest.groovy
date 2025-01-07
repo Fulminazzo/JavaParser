@@ -9,7 +9,7 @@ class ArrayLiteralTest extends Specification {
         def literal = new ArrayLiteral(Literal.of('a'))
 
         when:
-        literal.getLiteral()
+        literal.literal
 
         then:
         thrown(IllegalArgumentException)
