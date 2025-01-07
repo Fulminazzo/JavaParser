@@ -1008,12 +1008,16 @@ class JavaParserTest extends Specification {
     }
 
     def 'test parse literal LiteralException'() {
+        given:
+        this.parser.setInput('true')
+        this.parser.tokenizer.next()
+
         when:
         this.parser.createLiteral(BooleanValueLiteral, 'a')
 
         then:
         def e = thrown(ParserException)
-        e.message == ParserException.noInputProvided().message
+        e.message == ParserException.invalidValueProvided(this.parser, 'a').message
     }
 
     def 'test parse literal RuntimeException'() {
