@@ -12,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 @SuppressWarnings("unchecked")
 public class Element implements VisitorObject<ClassElement, Element, ParameterElements> {
@@ -70,24 +71,26 @@ public class Element implements VisitorObject<ClassElement, Element, ParameterEl
 
     @Override
     public @NotNull ClassElement toClass() {
-        return null;
+        if (isNull()) throw new HandlerException("%s is null", this);
+        else return new ClassElement(this.object.getClass());
     }
 
     @Override
     public @NotNull VisitorObjectException fieldNotFound(@NotNull ClassElement classVisitorObject, @NotNull String field) {
-        return null;
+        return new ElementException("Could not find field '%s' in type %s", field, classVisitorObject);
     }
 
     @Override
-    public @NotNull VisitorObjectException methodNotFound(@NotNull ClassElement classObject, @NotNull String method,
+    public @NotNull VisitorObjectException methodNotFound(@NotNull ClassElement classVisitorObject, @NotNull String method,
                                                           @NotNull ParameterElements parameters) {
-        return null;
+        return new ElementException("Could not find method %s(%s) in type %s", method, parameters, classVisitorObject);
     }
 
     @Override
-    public @NotNull VisitorObjectException typesMismatch(@NotNull ClassElement classObject, @NotNull Executable method,
+    public @NotNull VisitorObjectException typesMismatch(@NotNull ClassElement classVisitorObject, @NotNull Executable method,
                                                          @NotNull ParameterElements parameters) {
-        return null;
+        return new ElementException("Types mismatch: cannot apply parameters %s to method %s%s in type %s",
+                parameters, method.getName(), Arrays.toString(method.getParameterTypes()), classVisitorObject);
     }
 
     @Override
