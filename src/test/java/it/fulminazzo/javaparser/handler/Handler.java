@@ -95,7 +95,7 @@ public class Handler implements Visitor<ClassElement, Element, ParameterElements
 
     @Override
     public @NotNull Element convertVariable(@NotNull ClassElement variableType, @NotNull Element variable) {
-        return null;
+        return variableType.cast(variable);
     }
 
     @Override
