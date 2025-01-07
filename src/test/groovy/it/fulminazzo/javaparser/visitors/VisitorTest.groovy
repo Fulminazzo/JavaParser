@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.visitors
 
 import it.fulminazzo.fulmicollection.objects.Refl
+import it.fulminazzo.fulmicollection.structures.tuples.Tuple
 import it.fulminazzo.fulmicollection.utils.ClassUtils
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils
 import it.fulminazzo.javaparser.environment.MockEnvironment
@@ -39,21 +40,30 @@ class VisitorTest extends Specification {
         scopeType << ScopeType.values().findAll { it != ScopeType.MAIN }
     }
 
-    def 'test visitScoped of #scopeType should throw #exception'() {
+    def 'test visitScoped of #tuple.key should throw #tuple.value.simpleName'() {
         given:
+        def scopeType = tuple.key
+        def exception = tuple.value
+
+        and:
         def message = 'this is the message'
 
         when:
-        this.visitor.visitScoped(scopeType, () -> exception.newInstance(message))
+        this.visitor.visitScoped(scopeType, () -> {
+            throw exception.newInstance(message)
+        })
 
         then:
-        def e = thrown(exception)
+        def e = thrown(HandlerException)
         e.message == message
         this.environment.enteredScope(scopeType)
 
         where:
-        scopeType << ScopeType.values().findAll { it != ScopeType.MAIN }
-        exception << [ElementException, HandlerException]
+        tuple << ScopeType.values()
+                .findAll { it != ScopeType.MAIN }
+                .collect {[ElementException, HandlerException]
+                        .collect { ex -> new Tuple<>(it, ex) }  }
+                .flatten()
     }
 
     def 'test accept mock node'() {
