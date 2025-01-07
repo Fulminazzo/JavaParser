@@ -142,7 +142,7 @@ class VisitorTest extends Specification {
         this.environment.lookup(name) == Element.of(1)
     }
 
-    def 'test visitAssignment exception'() {
+    def 'test visitAssignment already declared'() {
         given:
         def type = Literal.of(Integer.simpleName)
         def name = 'i'
@@ -181,7 +181,7 @@ class VisitorTest extends Specification {
         }
     }
 
-    def 'test visitReAssign exception'() {
+    def 'test visitReAssign of undeclared'() {
         given:
         def name = 'i'
         def value = new NumberValueLiteral('1')
@@ -214,7 +214,7 @@ class VisitorTest extends Specification {
         [new NumberValueLiteral('2'), new BooleanValueLiteral('false')] | 2 | false
     }
 
-    def 'test visitNewObject exception'() {
+    def 'test visitNewObject constructor not found'() {
         given:
         def type = Literal.of(TestClass.canonicalName)
         def parameters = new MethodInvocation([
@@ -280,7 +280,7 @@ class VisitorTest extends Specification {
         new NumberValueLiteral('1') | 'toString'     | []                                                               | Element.of('1')
     }
 
-    def 'test visitMethodCall exception'() {
+    def 'test visitMethodCall not found'() {
         given:
         def executor = new ThisLiteral()
         def methodName = 'invalid'
@@ -319,7 +319,7 @@ class VisitorTest extends Specification {
         field.variable == value
     }
 
-    def 'test visitField exception'() {
+    def 'test visitField not found'() {
         given:
         def executor = new ThisLiteral()
         def fieldLiteral = Literal.of('invalid')
