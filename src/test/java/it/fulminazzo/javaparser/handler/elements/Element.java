@@ -24,7 +24,7 @@ public class Element implements VisitorObject<ClassElement, Element, ParameterEl
 
     @Override
     public boolean isPrimitive() {
-        return this.object != null && ReflectionUtils.isPrimitive(getObjectClass());
+        return !isNull() && ReflectionUtils.isPrimitive(getObjectClass());
     }
 
     @Override
@@ -56,7 +56,7 @@ public class Element implements VisitorObject<ClassElement, Element, ParameterEl
 
     @Override
     public @NotNull Element toPrimitive() {
-        if (this.object != null && ReflectionUtils.isPrimitiveOrWrapper(getObjectClass()))
+        if (!isNull() && ReflectionUtils.isPrimitiveOrWrapper(getObjectClass()))
             if (!isPrimitive()) return new Element(ReflectionUtils.getPrimitiveClass(getObjectClass()).cast(this.object));
         throw new HandlerException("%s is not a wrapper type", this);
     }
