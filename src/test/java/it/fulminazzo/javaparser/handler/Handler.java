@@ -17,6 +17,9 @@ import it.fulminazzo.javaparser.visitors.visitorobjects.variables.LiteralVariabl
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -189,15 +192,34 @@ public class Handler implements Visitor<ClassElement, Element, ParameterElements
         try {
             Tuple<ClassElement, Element> tuple = new Tuple<>();
             if (literal.endsWith(".class")) {
-                ClassElement element = ClassElement.of(ReflectionUtils.getClass(literal.substring(0, literal.length() - 6)));
+                ClassElement element = ClassElement.of(getClass(literal.substring(0, literal.length() - 6)));
                 tuple.set(element.toClass(), element.toClass());
             } else {
-                ClassElement element = ClassElement.of(ReflectionUtils.getClass(literal));
+                ClassElement element = ClassElement.of(getClass(literal));
                 tuple.set(element, element);
             }
             return tuple;
         } catch (IllegalArgumentException e) {
             return Visitor.super.getObjectFromLiteral(literal);
+        }
+    }
+
+    private @NotNull Class<?> getClass(@NotNull String literal) {
+        try {
+            return ReflectionUtils.getClass(literal);
+        } catch (IllegalArgumentException e) {
+            if (!literal.contains(".")) {
+                for (String p : Arrays.asList(
+                        String.class.getPackage().getName(),
+                        HashMap.class.getPackage().getName(),
+                        IOException.class.getPackage().getName()
+                ))
+                    try {
+                        return ReflectionUtils.getClass(p + "." + literal);
+                    } catch (IllegalArgumentException ignored) {
+                    }
+            }
+            throw new IllegalArgumentException("Could not find class: " + literal);
         }
     }
 
