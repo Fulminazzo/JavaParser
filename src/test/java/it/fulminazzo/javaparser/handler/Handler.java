@@ -15,6 +15,7 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class Handler implements Visitor<ClassElement, Element, ParameterElements> {
@@ -113,7 +114,7 @@ public class Handler implements Visitor<ClassElement, Element, ParameterElements
 
     @Override
     public @NotNull ParameterElements visitMethodInvocation(@NotNull List<Node> parameters) {
-        return null;
+        return new ParameterElements(parameters.stream().map(n -> n.accept(this)).collect(Collectors.toList()));
     }
 
     @Override
