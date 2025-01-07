@@ -1,4 +1,4 @@
-package it.fulminazzo.javaparser.typechecker.types;
+package it.fulminazzo.javaparser.visitors.visitorobjects;
 
 @SuppressWarnings({"unused", "FieldMayBeFinal"})
 public class TestClass {
