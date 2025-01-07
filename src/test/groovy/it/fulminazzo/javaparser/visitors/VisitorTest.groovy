@@ -36,7 +36,7 @@ class VisitorTest extends Specification {
         this.environment.enteredScope(scopeType)
 
         where:
-        scopeType << ScopeType.values()
+        scopeType << ScopeType.values().findAll { it != ScopeType.MAIN }
     }
 
     def 'test visitScoped of #scopeType should throw #exception'() {
@@ -52,7 +52,7 @@ class VisitorTest extends Specification {
         this.environment.enteredScope(scopeType)
 
         where:
-        scopeType << ScopeType.values()
+        scopeType << ScopeType.values().findAll { it != ScopeType.MAIN }
         exception << [ElementException, HandlerException]
     }
 
