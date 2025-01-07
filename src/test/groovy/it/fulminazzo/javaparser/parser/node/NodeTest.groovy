@@ -2,7 +2,6 @@ package it.fulminazzo.javaparser.parser.node
 
 import spock.lang.Specification
 
-
 class NodeTest extends Specification {
 
     def 'test hashCode'() {

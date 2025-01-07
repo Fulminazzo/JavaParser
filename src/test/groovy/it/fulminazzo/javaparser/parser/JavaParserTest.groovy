@@ -17,14 +17,14 @@ import org.jetbrains.annotations.NotNull
 import spock.lang.Specification
 
 class JavaParserTest extends Specification {
-    JavaParser parser
+    private JavaParser parser
 
     void setup() {
         this.parser = new JavaParser()
     }
 
     void startReading(final String code) {
-        this.parser.setInput(code)
+        this.parser.input = code
         this.parser.tokenizer.nextSpaceless()
     }
 
@@ -37,8 +37,8 @@ class JavaParserTest extends Specification {
         def parser = new JavaParser(file.newInputStream())
 
         and:
-        def nextTestFile = new File(cwd, "src/test/resources/typechecker_test_program.dat")
-        if (nextTestFile.isFile()) nextTestFile.delete()
+        def nextTestFile = new File(cwd, 'src/test/resources/typechecker_test_program.dat')
+        if (nextTestFile.file) nextTestFile.delete()
 
         when:
         def parsed = parser.parseProgram()
@@ -714,7 +714,7 @@ class JavaParserTest extends Specification {
 
         then:
         output == expected
-        output.isBefore() == before
+        output.before == before
 
         where:
         code    | expected                                | before
@@ -893,7 +893,7 @@ class JavaParserTest extends Specification {
 
     def 'test invalid cast'() {
         given:
-        def code = "(int) -+1"
+        def code = '(int) -+1'
 
         when:
         startReading(code)
@@ -976,7 +976,7 @@ class JavaParserTest extends Specification {
 
     def 'test invalid literal'() {
         given:
-        this.parser.setInput('$$$')
+        this.parser.input = '$$$'
 
         and:
         def exceptionMessage = ParserException.invalidValueProvided(this.parser, '').message

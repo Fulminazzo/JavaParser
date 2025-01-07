@@ -5,7 +5,7 @@ import spock.lang.Specification
 import static it.fulminazzo.javaparser.tokenizer.TokenType.*
 
 class TokenTypeTest extends Specification {
-    static final BETWEEN_TOKENS = [
+    private static final BETWEEN_TOKENS = [
             THIS, NULL,
             NUMBER_VALUE, LONG_VALUE, DOUBLE_VALUE,
             FLOAT_VALUE, BOOLEAN_VALUE, CHAR_VALUE,
