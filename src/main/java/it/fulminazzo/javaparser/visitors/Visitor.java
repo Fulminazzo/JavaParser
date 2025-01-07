@@ -939,17 +939,6 @@ public interface Visitor<
 
     /**
      * Generates a {@link RuntimeException} with message:
-     * <i>Invalid type received: expected %expected% but got %actual% instead</i>
-     *
-     * @param expected the expected type
-     * @param actual   the actual type
-     * @return the type checker exception
-     */
-    @NotNull RuntimeException invalidType(final @NotNull Class<?> expected,
-                                          final @NotNull Object actual);
-
-    /**
-     * Generates a {@link RuntimeException} with message:
      * <i>Cannot resolve symbol '%symbol%'</i>
      *
      * @param symbol the symbol

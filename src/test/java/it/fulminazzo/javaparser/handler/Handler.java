@@ -177,11 +177,6 @@ public class Handler implements Visitor<ClassElement, Element, ParameterElements
     }
 
     @Override
-    public @NotNull RuntimeException invalidType(@NotNull Class<?> expected, @NotNull Object actual) {
-        return null;
-    }
-
-    @Override
     public @NotNull RuntimeException cannotResolveSymbol(@NotNull String symbol) {
         return null;
     }
