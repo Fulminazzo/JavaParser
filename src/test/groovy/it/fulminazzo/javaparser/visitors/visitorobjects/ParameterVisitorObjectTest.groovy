@@ -11,7 +11,7 @@ class ParameterVisitorObjectTest extends Specification {
     void setup() {
         this.parameters = new ParameterElements([
                 Element.of(1), Element.of(2.0d), Element.of(3.0f),
-                Element.of('Hello'), Element.of(new TestClass()), Element.of(null)
+                Element.of('Hello'), Element.of(new TestClass()), Element.of(null),
         ])
     }
 

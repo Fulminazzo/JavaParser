@@ -50,7 +50,7 @@ class VisitorTest extends Specification {
         def element = this.visitor.visitProgram(program)
 
         then:
-        if (expected == 'none') !element.isPresent()
+        if (expected == 'none') !element.present
         else element.get() == expected
 
         where:
@@ -529,7 +529,7 @@ class VisitorTest extends Specification {
         def methodName = "visit${clazz.simpleName}"
 
         when:
-        def method = Visitor.class.getDeclaredMethods()
+        def method = Visitor.declaredMethods
                 .findAll { it.name == methodName }
                 .findAll { it.parameterCount == parameters.length }
                 .find { parameters.collect { f -> f.type } == it.parameterTypes.toList() }
@@ -548,8 +548,8 @@ class VisitorTest extends Specification {
 
     static writeMethod(def methodName, Object[] fieldParameters) {
         def cwd = System.getProperty('user.dir')
-        def path = "${VisitorTest.class.package.name.replace('.', File.separator)}"
-        def file = new File(cwd, "src/main/java/${path}${File.separator}${Visitor.class.simpleName}.java")
+        def path = "${VisitorTest.package.name.replace('.', File.separator)}"
+        def file = new File(cwd, "src/main/java/${path}${File.separator}${Visitor.simpleName}.java")
 
         def lines = file.readLines()
         def toWrite = lines.subList(0, lines.size() - 2)
@@ -564,13 +564,13 @@ class VisitorTest extends Specification {
         file.delete()
         toWrite.each { file << "${it}\n" }
 
-        println "Updated ${Visitor.class.simpleName} class with method ${methodName}"
+        println "Updated ${Visitor.simpleName} class with method ${methodName}"
     }
 
     static nodeClasses() {
-        ClassUtils.findClassesInPackage(Node.class.package.name)
+        ClassUtils.findClassesInPackage(Node.package.name)
                 .findAll { !Modifier.isAbstract(it.modifiers) }
-                .findAll { !it.isInterface() }
+                .findAll { !it.interface }
                 .findAll { !it.simpleName.contains('Test') }
                 .findAll { !it.simpleName.contains('Exception') }
                 .findAll { !it.simpleName.contains('Mock') }

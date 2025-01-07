@@ -33,7 +33,8 @@ class ElementImpl extends ObjectWrapper<Object> implements VisitorObject<ClassEl
     @Override
     public @NotNull Element toPrimitive() {
         if (!isNull() && ReflectionUtils.isPrimitiveOrWrapper(getElementClass()))
-            if (!isPrimitive()) return Element.of(ReflectionUtils.getPrimitiveClass(getElementClass()).cast(getElement()));
+            if (!isPrimitive())
+                return Element.of(ReflectionUtils.getPrimitiveClass(getElementClass()).cast(getElement()));
         return Element.super.toPrimitive();
     }
 

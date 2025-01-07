@@ -62,8 +62,8 @@ class TestUtils {
         if (bodyGenerator == null) methodDeclaration += ";"
         else {
             def body = bodyGenerator.apply(enumObject)
-                .collect { '        ' + it }
-                .join('\n')
+                    .collect { '        ' + it }
+                    .join('\n')
             methodDeclaration += " {\n${body}\n    }"
         }
 

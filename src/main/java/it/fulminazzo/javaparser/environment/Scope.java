@@ -67,7 +67,6 @@ class Scope<T> implements Scoped<T> {
 
     /**
      * Represents the information of an object.
-     *
      */
     static class ObjectData extends BiObjectWrapper<Info, NamedEntity> {
 

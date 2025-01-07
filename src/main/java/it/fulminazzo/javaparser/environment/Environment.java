@@ -89,7 +89,8 @@ public class Environment<T> implements Scoped<T> {
         for (Scope<T> scope : this.scopes)
             try {
                 return scope.lookupInfo(name);
-            } catch (ScopeException ignored) {}
+            } catch (ScopeException ignored) {
+            }
         throw ScopeException.noSuchVariable(name);
     }
 
@@ -120,7 +121,8 @@ public class Environment<T> implements Scoped<T> {
             try {
                 scope.check(scopeTypes);
                 return this;
-            } catch (ScopeException ignored) {}
+            } catch (ScopeException ignored) {
+            }
         throw ScopeException.scopeTypeMismatch(scopeTypes);
     }
 
