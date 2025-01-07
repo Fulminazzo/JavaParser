@@ -262,6 +262,18 @@ class JavaParserTest extends Specification {
         )
     }
 
+    def 'test parse invalid catch statement'() {
+        given:
+        def code = 'catch(Exception | 1)'
+
+        when:
+        startReading(code)
+        def block = this.parser.parseCatchStatement()
+
+        then:
+        thrown(ParserException)
+    }
+
     def 'test parse switch statement of code: #code'() {
         when:
         startReading(code)
