@@ -2,7 +2,6 @@ package it.fulminazzo.javaparser.visitors.visitorobjects;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
-import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.visitors.Visitor;
 import it.fulminazzo.javaparser.visitors.visitorobjects.variables.FieldContainer;
 import org.jetbrains.annotations.NotNull;
@@ -234,30 +233,6 @@ public interface VisitorObject<
      * @return the type runtime exception
      */
     @NotNull RuntimeException noClassType(final @NotNull Class<?> type);
-
-    /**
-     * Generates a {@link RuntimeException} with message:
-     * <i>Operator '%operator%' cannot be applied to '%left%', '%right%'</i>
-     *
-     * @param operator the operator
-     * @param left     the left operand
-     * @param right    the right operand
-     * @return the runtime exception
-     */
-    @NotNull RuntimeException unsupportedOperation(final @NotNull TokenType operator,
-                                                   final @NotNull VisitorObject<C, O, P> left,
-                                                   final @NotNull VisitorObject<C, O, P> right);
-
-    /**
-     * Generates a {@link RuntimeException} with message:
-     * <i>Operator '%operator%' cannot be applied to '%operand%'</i>
-     *
-     * @param operator the operator
-     * @param operand  the operand
-     * @return the runtime exception
-     */
-    @NotNull RuntimeException unsupportedOperation(final @NotNull TokenType operator,
-                                                   final @NotNull VisitorObject<C, O, P> operand);
     
     /*
         BINARY COMPARISONS
