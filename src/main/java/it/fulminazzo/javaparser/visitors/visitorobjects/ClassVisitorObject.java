@@ -35,16 +35,6 @@ public interface ClassVisitorObject<
     @NotNull O cast(final @NotNull O object);
 
     /**
-     * Checks if the current class is extending the provided class.
-     *
-     * @param classObject the class object
-     * @return true if it is
-     */
-    default boolean isExtending(final @NotNull C classObject) {
-        return classObject.toJavaClass().isAssignableFrom(toJavaClass());
-    }
-
-    /**
      * Verifies that the current class is compatible with the provided object.
      *
      * @param object the object
