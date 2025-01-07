@@ -95,20 +95,20 @@ public class Element implements VisitorObject<ClassElement, Element, ParameterEl
 
     @Override
     public @NotNull RuntimeException noClassType(@NotNull Class<?> type) {
-        return null;
+        return new HandlerException("%s does not have a class", type.getCanonicalName());
     }
 
     @Override
     public @NotNull RuntimeException unsupportedOperation(@NotNull TokenType operator,
                                                           @NotNull VisitorObject<ClassElement, Element, ParameterElements> left,
                                                           @NotNull VisitorObject<ClassElement, Element, ParameterElements> right) {
-        return null;
+        return new HandlerException("Operator '%s' cannot be applied to '%s', '%s'", operator, left, right);
     }
 
     @Override
     public @NotNull RuntimeException unsupportedOperation(@NotNull TokenType operator,
                                                           @NotNull VisitorObject<ClassElement, Element, ParameterElements> operand) {
-        return null;
+        return new HandlerException("Operator '%s' cannot be applied to '%s'", operator, operand);
     }
 
 }
