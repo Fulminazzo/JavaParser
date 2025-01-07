@@ -48,7 +48,7 @@ class ElementImpl extends ObjectWrapper<Object> implements VisitorObject<ClassEl
     @Override
     public @NotNull ClassElement toClass() {
         if (isNull()) throw new HandlerException("%s is null", this);
-        else return new ClassElement(getElementClass());
+        else return ClassElement.of(getElementClass());
     }
 
 }

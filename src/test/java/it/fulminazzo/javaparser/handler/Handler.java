@@ -174,7 +174,7 @@ public class Handler implements Visitor<ClassElement, Element, ParameterElements
 
     @Override
     public @NotNull LiteralVariableContainer<ClassElement, Element, ParameterElements> newLiteralObject(@NotNull String value) {
-        return new ElementLiteralVariableContainer(this.environment, new ClassElement(null), value, visitNullLiteral());
+        return new ElementLiteralVariableContainer(this.environment, ClassElement.of(null), value, visitNullLiteral());
     }
 
     @Override

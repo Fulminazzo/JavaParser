@@ -49,7 +49,7 @@ public interface Element extends VisitorObject<ClassElement, Element, ParameterE
     @Override
     default @NotNull FieldContainer<ClassElement, Element, ParameterElements> getField(@NotNull Field field) throws VisitorObjectException {
         Refl<?> refl = new Refl<>(getElement());
-        ClassElement classElement = new ClassElement(field.getType());
+        ClassElement classElement = ClassElement.of(field.getType());
         Element value = Element.of(refl.getFieldObject(field));
         return new ElementFieldContainer(this, classElement, field.getName(), value);
     }
