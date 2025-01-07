@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.handler.elements;
 
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
+import it.fulminazzo.javaparser.handler.HandlerException;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObjectException;
@@ -12,6 +13,7 @@ import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+@SuppressWarnings("unchecked")
 public class Element implements VisitorObject<ClassElement, Element, ParameterElements> {
     private final @Nullable Object object;
 
@@ -32,12 +34,13 @@ public class Element implements VisitorObject<ClassElement, Element, ParameterEl
     @Override
     public <T extends VisitorObject<ClassElement, Element, ParameterElements>> @NotNull T check(@NotNull Class<T> clazz) {
         if (clazz.isInstance(this)) return (T) this;
-
+        else throw new HandlerException("%s is not an instance of %s", this, clazz.getCanonicalName());
     }
 
     @Override
     public @NotNull ClassElement checkClass() {
-
+        if (this instanceof ClassElement) return (ClassElement) this;
+        else throw new HandlerException("%s is not a %s", this, ClassElement.class.getSimpleName());
     }
 
     @Override
