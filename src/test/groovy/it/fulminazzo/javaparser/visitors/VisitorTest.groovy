@@ -246,6 +246,22 @@ class VisitorTest extends Specification {
         e.message == expected
     }
 
+    def 'test visit#token(#parameters) should return #expected'() {
+        given:
+        def methodName = StringUtils.capitalize(token.toString())
+
+        when:
+        def e = this.visitor."visit${methodName}"(parameters)
+
+        then:
+        e.element == expected
+
+        where:
+        token              | parameters                                                       | expected
+        TokenType.ADD      | [new DoubleValueLiteral('4.0d'), new DoubleValueLiteral('2.0d')] | 6.0d
+        TokenType.SUBTRACT | [new DoubleValueLiteral('4.0d'), new DoubleValueLiteral('2.0d')] | 2.0d
+    }
+
     def 'test visit#token(#parameters) should throw unsupported operation exception'() {
         given:
         def methodName = StringUtils.capitalize(token.toString())
@@ -282,8 +298,6 @@ class VisitorTest extends Specification {
         TokenType.RSHIFT             | [new NumberValueLiteral('1'), new NumberValueLiteral('2')]                 | [Element.of(1), Element.of(2)]
         TokenType.URSHIFT            | [new NumberValueLiteral('1'), new NumberValueLiteral('2')]                 | [Element.of(1), Element.of(2)]
         // Operations
-        TokenType.ADD                | [new DoubleValueLiteral('4.0d'), new NumberValueLiteral('2')]              | [Element.of(4.0), Element.of(2)]
-        TokenType.SUBTRACT           | [new DoubleValueLiteral('4.0d'), new NumberValueLiteral('2')]              | [Element.of(4.0), Element.of(2)]
         TokenType.MULTIPLY           | [new DoubleValueLiteral('4.0d'), new NumberValueLiteral('2')]              | [Element.of(4.0), Element.of(2)]
         TokenType.DIVIDE             | [new DoubleValueLiteral('4.0d'), new NumberValueLiteral('2')]              | [Element.of(4.0), Element.of(2)]
         TokenType.MODULO             | [new DoubleValueLiteral('4.0d'), new NumberValueLiteral('2')]              | [Element.of(4.0), Element.of(2)]
