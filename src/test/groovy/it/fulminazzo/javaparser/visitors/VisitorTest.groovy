@@ -9,10 +9,13 @@ import it.fulminazzo.javaparser.environment.MockEnvironment
 import it.fulminazzo.javaparser.environment.scopetypes.ScopeType
 import it.fulminazzo.javaparser.handler.Handler
 import it.fulminazzo.javaparser.handler.HandlerException
+import it.fulminazzo.javaparser.handler.elements.ClassElement
 import it.fulminazzo.javaparser.handler.elements.Element
 import it.fulminazzo.javaparser.handler.elements.ElementException
 import it.fulminazzo.javaparser.parser.node.MockNode
 import it.fulminazzo.javaparser.parser.node.Node
+import it.fulminazzo.javaparser.parser.node.literals.Literal
+import it.fulminazzo.javaparser.parser.node.literals.ThisLiteral
 import it.fulminazzo.javaparser.parser.node.values.BooleanValueLiteral
 import it.fulminazzo.javaparser.parser.node.values.DoubleValueLiteral
 import it.fulminazzo.javaparser.parser.node.values.NumberValueLiteral
@@ -30,6 +33,27 @@ class VisitorTest extends Specification {
     void setup() {
         this.visitor = new Handler(new TestClass())
         this.environment = this.visitor.environment as MockEnvironment
+    }
+
+    def 'test visitField'() {
+        given:
+        def parent = Element.of(this.visitor.executingObject)
+        def type = new ClassElement(double)
+        def fieldName = 'publicField'
+        def value = Element.of(1.0d)
+
+        and:
+        def executor = new ThisLiteral()
+        def fieldLiteral = Literal.of(fieldName)
+
+        when:
+        def field = this.visitor.visitField(executor, fieldLiteral)
+
+        then:
+        field.container == parent
+        field.type == type
+        field.name == fieldName
+        field.variable == value
     }
 
     def 'test visit#token(#parameters) should throw unsupported operation exception'() {
