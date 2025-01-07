@@ -19,6 +19,7 @@ import it.fulminazzo.javaparser.parser.node.Node
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.literals.ThisLiteral
+import it.fulminazzo.javaparser.parser.node.operators.binary.Field
 import it.fulminazzo.javaparser.parser.node.values.BooleanValueLiteral
 import it.fulminazzo.javaparser.parser.node.values.DoubleValueLiteral
 import it.fulminazzo.javaparser.parser.node.values.NumberValueLiteral
@@ -158,6 +159,22 @@ class VisitorTest extends Specification {
         // Unary
         TokenType.SUBTRACT           | [new NumberValueLiteral('1')]                                              | [Element.of(1)]
         TokenType.NOT                | [new BooleanValueLiteral('true')]                                          | [Element.of(true)]
+    }
+
+    def 'test visitCast of #node should return #expected'() {
+        given:
+        def cast = Literal.of('double')
+
+        when:
+        def element = this.visitor.visitCast(cast, node)
+
+        then:
+        element == expected
+
+        where:
+        node                                                          | expected
+        new NumberValueLiteral('2')                                   | Element.of(2.0d)
+        new Field(new ThisLiteral(), Literal.of('publicStaticField')) | Element.of(1.0d)
     }
 
     def 'test visitScoped of #scopeType'() {
