@@ -118,47 +118,47 @@ public class Handler implements Visitor<ClassElement, Element, ParameterElements
 
     @Override
     public @NotNull Element visitNullLiteral() {
-        return null;
+        return Element.of(null);
     }
 
     @Override
     public @NotNull Element visitThisLiteral() {
-        return null;
+        return Element.of(this.executingObject);
     }
 
     @Override
     public @NotNull Element visitCharValueLiteral(@NotNull String rawValue) {
-        return null;
+        return Element.of(rawValue.charAt(0));
     }
 
     @Override
     public @NotNull Element visitNumberValueLiteral(@NotNull String rawValue) {
-        return null;
+        return Element.of(Integer.valueOf(rawValue));
     }
 
     @Override
     public @NotNull Element visitLongValueLiteral(@NotNull String rawValue) {
-        return null;
+        return Element.of(Long.valueOf(rawValue));
     }
 
     @Override
     public @NotNull Element visitDoubleValueLiteral(@NotNull String rawValue) {
-        return null;
+        return Element.of(Double.valueOf(rawValue));
     }
 
     @Override
     public @NotNull Element visitFloatValueLiteral(@NotNull String rawValue) {
-        return null;
+        return Element.of(Float.valueOf(rawValue));
     }
 
     @Override
     public @NotNull Element visitBooleanValueLiteral(@NotNull String rawValue) {
-        return null;
+        return Element.of(Boolean.valueOf(rawValue));
     }
 
     @Override
     public @NotNull Element visitStringValueLiteral(@NotNull String rawValue) {
-        return null;
+        return Element.of(rawValue);
     }
 
     @Override
@@ -168,7 +168,7 @@ public class Handler implements Visitor<ClassElement, Element, ParameterElements
 
     @Override
     public @NotNull Element visitEmptyLiteral() {
-        return null;
+        return Element.of(null);
     }
 
     @Override
