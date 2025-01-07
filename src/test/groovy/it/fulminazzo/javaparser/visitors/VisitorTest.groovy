@@ -22,6 +22,7 @@ import it.fulminazzo.javaparser.parser.node.literals.ThisLiteral
 import it.fulminazzo.javaparser.parser.node.operators.binary.Field
 import it.fulminazzo.javaparser.parser.node.values.BooleanValueLiteral
 import it.fulminazzo.javaparser.parser.node.values.DoubleValueLiteral
+import it.fulminazzo.javaparser.parser.node.values.LongValueLiteral
 import it.fulminazzo.javaparser.parser.node.values.NumberValueLiteral
 import it.fulminazzo.javaparser.parser.node.values.StringValueLiteral
 import it.fulminazzo.javaparser.tokenizer.TokenType
@@ -37,6 +38,29 @@ class VisitorTest extends Specification {
     void setup() {
         this.visitor = new Handler(new TestClass())
         this.environment = this.visitor.environment as MockEnvironment
+    }
+
+    def 'test visitNewObject exception'() {
+        given:
+        def type = Literal.of(TestClass.canonicalName)
+        def parameters = new MethodInvocation([
+                new DoubleValueLiteral('1.0d'),
+                new NumberValueLiteral('2'),
+                new LongValueLiteral('3L'),
+        ])
+
+        and:
+        def expected = Element.of(null).methodNotFound(ClassElement.of(TestClass),
+                '<init>', new ParameterElements([
+                Element.of(1.0d), Element.of(2), Element.of(3L),
+        ])).message
+
+        when:
+        this.visitor.visitNewObject(type, parameters)
+
+        then:
+        def e = thrown(HandlerException)
+        e.message == expected
     }
 
     def 'test visitMethodCall #executor #methodName(#parameters) should return #expected'() {
