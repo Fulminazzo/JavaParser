@@ -15,6 +15,7 @@ import it.fulminazzo.javaparser.handler.elements.ClassElement
 import it.fulminazzo.javaparser.handler.elements.Element
 import it.fulminazzo.javaparser.handler.elements.ElementException
 import it.fulminazzo.javaparser.handler.elements.ParameterElements
+import it.fulminazzo.javaparser.parser.node.Assignment
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.MockNode
 import it.fulminazzo.javaparser.parser.node.Node
@@ -28,6 +29,7 @@ import it.fulminazzo.javaparser.visitors.visitorobjects.TestClass
 import spock.lang.Specification
 
 import java.lang.reflect.Modifier
+import java.util.stream.Collectors
 
 class VisitorTest extends Specification {
     private Visitor visitor
@@ -36,6 +38,27 @@ class VisitorTest extends Specification {
     void setup() {
         this.visitor = new Handler(new TestClass())
         this.environment = this.visitor.environment as MockEnvironment
+    }
+
+    def 'test visitAssignmentBlock'() {
+        given:
+        def assignments = [
+                new Assignment(Literal.of('Integer'), Literal.of('i'), new NumberValueLiteral('1')),
+                new Assignment(Literal.of('Integer'), Literal.of('j'), new NumberValueLiteral('2')),
+                new Assignment(Literal.of('Integer'), Literal.of('k'), new NumberValueLiteral('3')),
+        ]
+
+        when:
+        ParameterElements element = this.visitor.visitAssignmentBlock(assignments) as ParameterElements
+        def actual = element.stream().collect(Collectors.toList())
+
+        then:
+        actual.get(0) == Element.of(1)
+        this.environment.lookup('i').element == 1
+        actual.get(1) == Element.of(2)
+        this.environment.lookup('j').element == 2
+        actual.get(2) == Element.of(3)
+        this.environment.lookup('k').element == 3
     }
 
     def 'test visitAssignment'() {
@@ -79,8 +102,8 @@ class VisitorTest extends Specification {
         def actual = closure(this.visitor)
 
         then:
-        element.element == Element.of(2.0).element
-        actual.element == expected.element
+        element == Element.of(2.0)
+        actual == expected
 
         where:
         literal                                                 | newValue                       | expected        | closure
