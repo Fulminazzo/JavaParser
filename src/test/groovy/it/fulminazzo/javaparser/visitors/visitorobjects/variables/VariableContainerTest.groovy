@@ -11,22 +11,15 @@ import java.lang.reflect.Array
 import java.lang.reflect.Modifier
 
 class VariableContainerTest extends Specification {
-    private static def variable
-    private static def container
 
-    void setupSpec() {
-        def tuple = setupVariableContainer()
-        variable = tuple[0]
-        container = tuple[1]
-    }
-
-    def setupVariableContainer() {
-        def variable = Mock(Element)
-        def container = new ElementVariableContainer(null, ClassElement.of(Double), 'variable', variable)
-        return new Tuple<>(variable, container)
+    static ElementVariableContainer getContainer() {
+        return new ElementVariableContainer(null, ClassElement.of(Class), 'variable', ClassElement.of(Double))
     }
 
     def 'test method #method(#parameters) should first be invoked on container'() {
+        given:
+        def container = getContainer()
+
         when:
         def result = container."${method}"(parameters)
 
@@ -36,18 +29,17 @@ class VariableContainerTest extends Specification {
         where:
         method  | parameters                             | expected
         'is'    | ElementVariableContainer               | true
-        'is'    | Element                                | true
-        'is'    | new Element[]{container}               | true
-        'is'    | new Element[]{variable}                | true
+        'is'    | ClassElement                           | true
+        'is'    | new Element[]{getContainer()}          | true
+        'is'    | new Element[]{ClassElement.of(Double)} | true
         'is'    | new Element[]{ClassElement.of(String)} | false
-        'check' | VariableContainer                      | container
+        'check' | VariableContainer                      | getContainer()
     }
 
     def 'test container.#method.name(#method.parameterTypes) should call variable.#method.name(#method.parameterTypes)'() {
         given:
-        def tuple = setupVariableContainer()
-        def variable = tuple[0]
-        def container = tuple[1]
+        def variable = Mock(Element)
+        def container = new ElementVariableContainer(null, ClassElement.of(Double), 'variable', variable)
 
         and:
         def parameters = method.parameterTypes
