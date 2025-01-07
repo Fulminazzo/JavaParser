@@ -51,4 +51,11 @@ class ElementImpl extends ObjectWrapper<Object> implements VisitorObject<ClassEl
         else return ClassElement.of(getElementClass());
     }
 
+    @Override
+    public String toString() {
+        Object element = getElement();
+        String elementClass = element == null ? null : element.getClass().getCanonicalName();
+        return String.format("%s(%s: %s)", getClass().getCanonicalName(), elementClass, element);
+    }
+
 }
