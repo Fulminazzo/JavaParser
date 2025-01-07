@@ -70,6 +70,41 @@ class VisitorTest extends Specification {
         e.message == ScopeException.alreadyDeclaredVariable(NamedEntity.of(name)).message
     }
 
+    def 'test visitReAssign #literal = #newValue should return #expected'() {
+        given:
+        this.environment.declare(ClassElement.of(Double), 'i', Element.of(1.0))
+
+        when:
+        def element = this.visitor.visitReAssign(literal, newValue)
+        def actual = closure(this.visitor)
+
+        then:
+        element.element == Element.of(2.0).element
+        actual.element == expected.element
+
+        where:
+        literal                                                 | newValue                       | expected        | closure
+        Literal.of('i')                                         | new DoubleValueLiteral('2.0d') | Element.of(2.0) | { v ->
+            return v.environment.lookup('i')
+        }
+        new Field(new ThisLiteral(), Literal.of('publicField')) | new DoubleValueLiteral('2.0d') | Element.of(2.0) | { v ->
+            return Element.of(v.executingObject.publicField)
+        }
+    }
+
+    def 'test visitReAssign exception'() {
+        given:
+        def name = 'i'
+        def value = new NumberValueLiteral('1')
+
+        when:
+        this.visitor.visitReAssign(Literal.of(name), value)
+
+        then:
+        def e = thrown(HandlerException)
+        e.message == ScopeException.noSuchVariable(NamedEntity.of(name)).message
+    }
+
     def 'test visitNewObject TestClass(#parameters) should have fields #i, #b'() {
         given:
         def type = Literal.of(TestClass.canonicalName)
