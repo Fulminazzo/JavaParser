@@ -21,7 +21,7 @@ public class ClassElement extends ElementImpl implements ClassVisitorObject<Clas
 
     @Override
     public @NotNull Element cast(@NotNull Element object) {
-        return Element.of(toJavaClass().cast(object));
+        return Element.of(toJavaClass().cast(object.getElement()));
     }
 
     @Override
