@@ -148,6 +148,28 @@ class VisitorTest extends Specification {
         e.message == expected
     }
 
+    def 'test visit#operation (#before) of #operand should return #expected'() {
+        given:
+        this.environment.declare(ClassElement.of(Double), 'i', Element.of(1.0d))
+
+        when:
+        def value = this.visitor."visit${operation}"(before, operand)
+
+        then:
+        value.element == expected
+
+        where:
+        operation   | before | operand                                                 | expected
+        'Increment' | true   | Literal.of('i')                                         | 2.0
+        'Increment' | false  | Literal.of('i')                                         | 1.0
+        'Increment' | true   | new Field(new ThisLiteral(), Literal.of('publicField')) | 2.0
+        'Increment' | false  | new Field(new ThisLiteral(), Literal.of('publicField')) | 1.0
+        'Decrement' | true   | Literal.of('i')                                         | 0.0
+        'Decrement' | false  | Literal.of('i')                                         | 1.0
+        'Decrement' | true   | new Field(new ThisLiteral(), Literal.of('publicField')) | 0.0
+        'Decrement' | false  | new Field(new ThisLiteral(), Literal.of('publicField')) | 1.0
+    }
+
     def 'test visitMethodCall #executor #methodName(#parameters) should return #expected'() {
         given:
         def methodInvocation = new MethodInvocation(parameters)
