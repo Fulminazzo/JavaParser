@@ -202,27 +202,27 @@ public interface VisitorObject<
 
     /**
      * Generates a {@link VisitorObjectException} with message:
-     * <i>Could not find method %method_format% in type %type%</i>
+     * <i>Could not find method %method_format% in type %classVisitorObject%</i>
      *
-     * @param classObject the class object
-     * @param method      the method
-     * @param parameters  the parameters
+     * @param classVisitorObject the class object
+     * @param method             the method
+     * @param parameters         the parameters
      * @return the visitor object exception
      */
-    @NotNull VisitorObjectException methodNotFound(final @NotNull C classObject,
+    @NotNull VisitorObjectException methodNotFound(final @NotNull C classVisitorObject,
                                                    final @NotNull String method,
                                                    final @NotNull P parameters);
 
     /**
      * Generates a {@link VisitorObjectException} with message:
-     * <i>Types mismatch: cannot apply parameters %parameter_types_format% to method %method_format% in type %type%</i>
+     * <i>Types mismatch: cannot apply parameters %parameter_types_format% to method %method_format% in type %classVisitorObject%</i>
      *
-     * @param classObject the class object
-     * @param method      the method
-     * @param parameters  the parameters
+     * @param classVisitorObject the class object
+     * @param method             the method
+     * @param parameters         the parameters
      * @return the visitor object exception
      */
-    @NotNull VisitorObjectException typesMismatch(final @NotNull C classObject,
+    @NotNull VisitorObjectException typesMismatch(final @NotNull C classVisitorObject,
                                                   final @NotNull Executable method,
                                                   final @NotNull P parameters);
 
