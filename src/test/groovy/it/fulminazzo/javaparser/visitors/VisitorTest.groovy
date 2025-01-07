@@ -20,11 +20,7 @@ import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.literals.ThisLiteral
 import it.fulminazzo.javaparser.parser.node.operators.binary.Field
-import it.fulminazzo.javaparser.parser.node.values.BooleanValueLiteral
-import it.fulminazzo.javaparser.parser.node.values.DoubleValueLiteral
-import it.fulminazzo.javaparser.parser.node.values.LongValueLiteral
-import it.fulminazzo.javaparser.parser.node.values.NumberValueLiteral
-import it.fulminazzo.javaparser.parser.node.values.StringValueLiteral
+import it.fulminazzo.javaparser.parser.node.values.*
 import it.fulminazzo.javaparser.tokenizer.TokenType
 import it.fulminazzo.javaparser.visitors.visitorobjects.TestClass
 import spock.lang.Specification
@@ -38,6 +34,26 @@ class VisitorTest extends Specification {
     void setup() {
         this.visitor = new Handler(new TestClass())
         this.environment = this.visitor.environment as MockEnvironment
+    }
+
+    def 'test visitNewObject TestClass(#parameters) should have fields #i, #b'() {
+        given:
+        def type = Literal.of(TestClass.canonicalName)
+        def methodInvocation = new MethodInvocation(parameters)
+
+        when:
+        def element = this.visitor.visitNewObject(type, methodInvocation)
+        def o = element.element
+
+        then:
+        o.i == i
+        o.b == b
+
+        where:
+        parameters                                                      | i | b
+        []                                                              | 0 | null
+        [new NumberValueLiteral('1'), new BooleanValueLiteral('true')]  | 1 | true
+        [new NumberValueLiteral('2'), new BooleanValueLiteral('false')] | 2 | false
     }
 
     def 'test visitNewObject exception'() {
