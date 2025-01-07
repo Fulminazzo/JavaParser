@@ -59,7 +59,7 @@ final class ParserException extends RuntimeException {
     public static @NotNull ParserException unexpectedToken(final @NotNull Parser parser,
                                                            final @NotNull TokenType expected,
                                                            final @NotNull TokenType actual) {
-        if (expected == TokenType.EOF) return unexpectedEndOfInput(parser);
+        if (actual == TokenType.EOF) return unexpectedEndOfInput(parser);
         else return new ParserException(parser, "Expected token %s but found %s", expected, actual);
     }
 
