@@ -16,6 +16,7 @@ import it.fulminazzo.javaparser.handler.elements.ParameterElements
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.MockNode
 import it.fulminazzo.javaparser.parser.node.Node
+import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.literals.ThisLiteral
 import it.fulminazzo.javaparser.parser.node.values.BooleanValueLiteral
@@ -37,7 +38,28 @@ class VisitorTest extends Specification {
         this.environment = this.visitor.environment as MockEnvironment
     }
 
-    def 'test visitMethod exception'() {
+    def 'test visitMethodCall #executor #methodName(#parameters) should return #expected'() {
+        given:
+        def methodInvocation = new MethodInvocation(parameters)
+
+        when:
+        def element = this.visitor.visitMethodCall(executor, methodName, methodInvocation)
+
+        then:
+        element == expected
+
+        where:
+        executor                    | methodName     | parameters                                                       | expected
+        new EmptyLiteral()          | 'publicMethod' | []                                                               | Element.of(1.0d)
+        new EmptyLiteral()          | 'publicMethod' | [new DoubleValueLiteral('2.0'), new BooleanValueLiteral('true')] | Element.of(2.0d)
+        new EmptyLiteral()          | 'publicMethod' | [new DoubleValueLiteral('1.0'), new BooleanValueLiteral('true')] | Element.of(1.0d)
+        new ThisLiteral()           | 'publicMethod' | []                                                               | Element.of(1.0d)
+        new ThisLiteral()           | 'publicMethod' | [new DoubleValueLiteral('2.0'), new BooleanValueLiteral('true')] | Element.of(2.0d)
+        new ThisLiteral()           | 'publicMethod' | [new DoubleValueLiteral('1.0'), new BooleanValueLiteral('true')] | Element.of(1.0d)
+        new NumberValueLiteral('1') | 'toString'     | []                                                               | Element.of('1')
+    }
+
+    def 'test visitMethodCall exception'() {
         given:
         def executor = new ThisLiteral()
         def methodName = 'invalid'
