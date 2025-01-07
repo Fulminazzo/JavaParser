@@ -106,7 +106,7 @@ class VisitorTest extends Specification {
         actual == expected
 
         where:
-        literal                                                 | newValue                       | expected        | closure
+        literal                                                 | newValue                       | expected         | closure
         Literal.of('i')                                         | new DoubleValueLiteral('2.0d') | Element.of(2.0d) | { v ->
             return v.environment.lookup('i')
         }
