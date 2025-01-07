@@ -40,6 +40,14 @@ class VisitorTest extends Specification {
         this.environment = this.visitor.environment as MockEnvironment
     }
 
+    def 'test visitStatement should not return anything'() {
+        when:
+        def element = this.visitor.visitStatement(new NumberValueLiteral('1'))
+
+        then:
+        element == this.visitor.visitEmptyLiteral()
+    }
+
     def 'test visitAssignmentBlock'() {
         given:
         def assignments = [
