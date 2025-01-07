@@ -1,5 +1,7 @@
 package it.fulminazzo.javaparser.handler;
 
+import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
+import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.environment.MockEnvironment;
 import it.fulminazzo.javaparser.handler.elements.ClassElement;
 import it.fulminazzo.javaparser.handler.elements.Element;
@@ -180,6 +182,23 @@ public class Handler implements Visitor<ClassElement, Element, ParameterElements
     @Override
     public @NotNull Element visitEmptyLiteral() {
         return Element.of(null);
+    }
+
+    @Override
+    public @NotNull Tuple<ClassElement, Element> getObjectFromLiteral(@NotNull String literal) {
+        try {
+            Tuple<ClassElement, Element> tuple = new Tuple<>();
+            if (literal.endsWith(".class")) {
+                ClassElement element = ClassElement.of(ReflectionUtils.getClass(literal.substring(0, literal.length() - 6)));
+                tuple.set(element.toClass(), element.toClass());
+            } else {
+                ClassElement element = ClassElement.of(ReflectionUtils.getClass(literal));
+                tuple.set(element, element);
+            }
+            return tuple;
+        } catch (IllegalArgumentException e) {
+            return Visitor.super.getObjectFromLiteral(literal);
+        }
     }
 
     @Override
