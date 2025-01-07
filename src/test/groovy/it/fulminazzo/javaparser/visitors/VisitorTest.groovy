@@ -24,6 +24,8 @@ import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.literals.NullLiteral
 import it.fulminazzo.javaparser.parser.node.literals.ThisLiteral
 import it.fulminazzo.javaparser.parser.node.operators.binary.Field
+import it.fulminazzo.javaparser.parser.node.statements.Return
+import it.fulminazzo.javaparser.parser.node.statements.Statement
 import it.fulminazzo.javaparser.parser.node.values.*
 import it.fulminazzo.javaparser.tokenizer.TokenType
 import it.fulminazzo.javaparser.visitors.visitorobjects.TestClass
@@ -39,6 +41,23 @@ class VisitorTest extends Specification {
     void setup() {
         this.visitor = new Handler(new TestClass())
         this.environment = this.visitor.environment as MockEnvironment
+    }
+
+    def 'test visit#node of #statements should return #expected'() {
+        when:
+        def element = this.visitor."visit${node}"(new LinkedList<>(statements))
+
+        then:
+        element == expected
+
+        where:
+        node          | statements                                | expected
+        'CodeBlock'   | []                                        | Element.of(null)
+        'JavaProgram' | []                                        | Element.of(null)
+        'CodeBlock'   | [new Statement()]                         | Element.of(null)
+        'JavaProgram' | [new Statement()]                         | Element.of(null)
+        'CodeBlock'   | [new Return(new NumberValueLiteral('1'))] | Element.of(1)
+        'JavaProgram' | [new Return(new NumberValueLiteral('1'))] | Element.of(1)
     }
 
     def 'test visitReturn(#node) should return #expected'() {
