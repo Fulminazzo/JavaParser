@@ -64,6 +64,11 @@ public class TestClass {
         return b ? n : 1.0;
     }
 
+    public double publicMethod(Boolean ... booleans) {
+        for (boolean b : booleans) if (!b) return 1;
+        return booleans.length;
+    }
+
     double packageMethod() {
         return 1.0;
     }
