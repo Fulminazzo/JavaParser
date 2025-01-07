@@ -7,6 +7,16 @@ import spock.lang.Specification
 
 class VisitorObjectTest extends Specification {
 
+    def 'test getField of primitive'() {
+        given:
+        def element = new PrimitiveElement(1)
+
+        when:
+        def val = element.getField('MAX_VALUE')
+
+        then:
+        val.variable.element == Integer.MAX_VALUE
+    }
 
     static class PrimitiveElement<T> implements Element {
         private final T element;
