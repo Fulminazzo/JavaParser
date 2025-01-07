@@ -84,4 +84,9 @@ public class TestClass {
         return null;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof TestClass && this.i == ((TestClass) o).i && this.b == ((TestClass) o).b;
+    }
+
 }
