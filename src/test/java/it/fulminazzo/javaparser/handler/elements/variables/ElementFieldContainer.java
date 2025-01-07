@@ -7,7 +7,9 @@ import it.fulminazzo.javaparser.handler.elements.ParameterElements;
 import it.fulminazzo.javaparser.visitors.visitorobjects.variables.FieldContainer;
 import org.jetbrains.annotations.NotNull;
 
-public final class ElementFieldContainer extends FieldContainer<ClassElement, Element, ParameterElements> implements Element {
+public final class ElementFieldContainer
+        extends FieldContainer<ClassElement, Element, ParameterElements>
+        implements ElementContainer {
 
     /**
      * Instantiates a new Element field container.
@@ -25,11 +27,6 @@ public final class ElementFieldContainer extends FieldContainer<ClassElement, El
     public @NotNull Element set(@NotNull Element newValue) {
         new Refl<>(this.container.getElement()).setFieldObject(this.name, newValue.getElement());
         return this.type.cast(newValue);
-    }
-
-    @Override
-    public Object getElement() {
-        return this.variable.getElement();
     }
 
 }
