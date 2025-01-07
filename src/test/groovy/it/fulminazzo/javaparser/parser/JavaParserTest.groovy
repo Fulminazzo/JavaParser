@@ -1028,6 +1028,15 @@ class JavaParserTest extends Specification {
         thrown(IllegalArgumentException)
     }
 
+    def 'test parse EOF'() {
+        when:
+        this.parser.tokenizer
+
+        then:
+        def e = thrown(ParserException)
+        e.message == ParserException.noInputProvided().message
+    }
+
     static class MockLiteral extends ValueLiteral {
 
         MockLiteral(@NotNull String rawValue, @NotNull TokenType type) throws NodeException {
