@@ -1,7 +1,7 @@
 <p align="center">
-    <a href="https://app.codacy.com/gh/Fulminazzo/mojito/"><img src="https://tokei.rs/b1/github/Fulminazzo/mojito?category=code&style=flat" alt="Lines of Code" /></a>
+    <a href="https://app.codacy.com/gh/Fulminazzo/mojito/"><img src="https://fulminazzo.it/badge/code/Fulminazzo/mojito?type=code" alt="Lines of Code" /></a>
     <a href="../../releases/latest"><img src="https://img.shields.io/github/v/release/Fulminazzo/mojito?display_name=tag&color=red" alt="Latest version" /></a>
-    <!--<a href="https://app.codacy.com/gh/Fulminazzo/mojito/"><img src="https://tokei.rs/b1/github/Fulminazzo/mojito?category=test&style=flat" alt="Lines of Tests" /></a>-->
+    <a href="https://app.codacy.com/gh/Fulminazzo/mojito/"><img src="https://fulminazzo.it/badge/code/Fulminazzo/mojito?type=test" alt="Lines of Code" /></a>
 </p>
 <p align="center">
     <img src="https://fulminazzo.it/badge/coverage/Fulminazzo/mojito/gradle.yml" alt="Tests coverage" />
