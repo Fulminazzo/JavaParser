@@ -35,11 +35,11 @@ public class ClassElement extends ElementImpl implements ClassVisitorObject<Clas
 
     @Override
     public @NotNull Class<?> toJavaClass() {
-        return (Class<?>) this.object;
+        return (Class<?>) getElement();
     }
 
     @Override
-    public @NotNull ElementImpl toObject() {
+    public @NotNull Element toObject() {
         if (isPrimitive()) {
             Class<?> clazz = toJavaClass();
             if (clazz.equals(byte.class)) return new ElementImpl((byte) 0);

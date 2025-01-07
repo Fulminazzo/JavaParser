@@ -15,6 +15,12 @@ import java.util.Arrays;
 @SuppressWarnings("unchecked")
 public interface Element extends VisitorObject<ClassElement, Element, ParameterElements> {
 
+    Object getElement();
+
+    default @NotNull Class<?> getElementClass() {
+        return (Class<?>) toClass().element;
+    }
+
     @Override
     default boolean isPrimitive() {
         return false;

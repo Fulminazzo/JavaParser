@@ -16,4 +16,9 @@ public class ParameterElements extends ParameterVisitorObjects<ClassElement, Ele
         super(parameters);
     }
 
+    @Override
+    public Object getElement() {
+        return this.object;
+    }
+
 }
