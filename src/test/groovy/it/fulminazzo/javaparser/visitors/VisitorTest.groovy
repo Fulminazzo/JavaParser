@@ -12,6 +12,8 @@ import it.fulminazzo.javaparser.handler.HandlerException
 import it.fulminazzo.javaparser.handler.elements.ClassElement
 import it.fulminazzo.javaparser.handler.elements.Element
 import it.fulminazzo.javaparser.handler.elements.ElementException
+import it.fulminazzo.javaparser.handler.elements.ParameterElements
+import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.MockNode
 import it.fulminazzo.javaparser.parser.node.Node
 import it.fulminazzo.javaparser.parser.node.literals.Literal
@@ -33,6 +35,24 @@ class VisitorTest extends Specification {
     void setup() {
         this.visitor = new Handler(new TestClass())
         this.environment = this.visitor.environment as MockEnvironment
+    }
+
+    def 'test visitMethod exception'() {
+        given:
+        def executor = new ThisLiteral()
+        def methodName = 'invalid'
+        def parameters = new ParameterElements([])
+
+        and:
+        def expected = Element.of(null).methodNotFound(ClassElement.of(TestClass),
+                methodName, parameters).message
+
+        when:
+        this.visitor.visitMethodCall(executor, methodName, new MethodInvocation([]))
+
+        then:
+        def e = thrown(HandlerException)
+        e.message == expected
     }
 
     def 'test visitField'() {
