@@ -38,7 +38,7 @@ class VisitorTest extends Specification {
     def 'test visitField'() {
         given:
         def parent = Element.of(this.visitor.executingObject)
-        def type = new ClassElement(double)
+        def type = ClassElement.of(double)
         def fieldName = 'publicField'
         def value = Element.of(1.0d)
 
@@ -54,6 +54,22 @@ class VisitorTest extends Specification {
         field.type == type
         field.name == fieldName
         field.variable == value
+    }
+
+    def 'test visitField exception'() {
+        given:
+        def executor = new ThisLiteral()
+        def fieldLiteral = Literal.of('invalid')
+
+        and:
+        def expected = Element.of(null).fieldNotFound(ClassElement.of(TestClass), 'invalid').message
+
+        when:
+        this.visitor.visitField(executor, fieldLiteral)
+
+        then:
+        def e = thrown(HandlerException)
+        e.message == expected
     }
 
     def 'test visit#token(#parameters) should throw unsupported operation exception'() {
