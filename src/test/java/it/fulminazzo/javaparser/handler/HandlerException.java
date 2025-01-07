@@ -8,4 +8,8 @@ public class HandlerException extends RuntimeException {
         super(String.format(message, args));
     }
 
+    public HandlerException(@NotNull Exception exception) {
+        this(exception.getMessage());
+    }
+
 }
