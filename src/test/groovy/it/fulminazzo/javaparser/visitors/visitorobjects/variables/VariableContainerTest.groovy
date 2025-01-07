@@ -11,37 +11,42 @@ import java.lang.reflect.Array
 import java.lang.reflect.Modifier
 
 class VariableContainerTest extends Specification {
-    private Element variable
-    private ElementVariableContainer container
+    private static def variable
+    private static def container
 
-    void setup() {
-        this.variable = Mock(Element)
-        this.variable.toClass() >> ClassElement.of(String)
+    void setupSpec() {
+        def tuple = setupVariableContainer()
+        variable = tuple[0]
+        container = tuple[1]
+    }
 
-        this.container = new ElementVariableContainer(null, ClassElement.of(Double),
-                'variable', this.variable)
+    def setupVariableContainer() {
+        def variable = Mock(Element)
+        def container = new ElementVariableContainer(null, ClassElement.of(Double), 'variable', variable)
+        return new Tuple<>(variable, container)
     }
 
     def 'test method #method(#parameters) should first be invoked on container'() {
-        given:
-        if (parameters == null) parameters = this.container
-        if (expected == null) expected = this.container
-
         when:
-        def result = this.container."${method}"(parameters)
+        def result = container."${method}"(parameters)
 
         then:
         result == expected
 
         where:
-        method             | parameters                                | expected
-        'is'               | ElementVariableContainer                  | true
-        'is'               | null                                      | true
-        'check'            | VariableContainer                         | null
+        method  | parameters               | expected
+        'is'    | ElementVariableContainer | true
+        'is'    | container                | true
+        'check' | VariableContainer        | container
     }
 
     def 'test container.#method.name(#method.parameterTypes) should call variable.#method.name(#method.parameterTypes)'() {
         given:
+        def tuple = setupVariableContainer()
+        def variable = tuple[0]
+        def container = tuple[1]
+
+        and:
         def parameters = method.parameterTypes
                 .collect {
                     if (it == Class) return String
@@ -54,11 +59,11 @@ class VariableContainerTest extends Specification {
                 }
 
         when:
-        this.container."${method.name}"(*parameters)
+        container."${method.name}"(*parameters)
 
         then:
-        if (parameters.isEmpty()) 1 * this.variable."${method.name}"()
-        else 1 * this.variable."${method.name}"(*parameters)
+        if (parameters.isEmpty()) 1 * variable."${method.name}"()
+        else 1 * variable."${method.name}"(*parameters)
 
         where:
         method << VariableContainer.methods
