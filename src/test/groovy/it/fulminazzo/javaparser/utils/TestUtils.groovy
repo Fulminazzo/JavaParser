@@ -59,7 +59,7 @@ class TestUtils {
         // Exception
         if (exception != null) methodDeclaration += " throws ${exception.simpleName}"
         // Body
-        if (bodyGenerator == null) methodDeclaration += ";"
+        if (bodyGenerator == null) methodDeclaration += ';'
         else {
             def body = bodyGenerator.apply(enumObject)
                 .collect { '        ' + it }

@@ -18,7 +18,7 @@ class ScopeTypeTest extends Specification {
 
         then:
         actual == expected
-        actual.getCaughtExceptions() == expectedClasses
+        actual.caughtExceptions == expectedClasses
     }
 
 }

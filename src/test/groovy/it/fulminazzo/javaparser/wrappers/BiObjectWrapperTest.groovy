@@ -42,7 +42,7 @@ class BiObjectWrapperTest extends Specification {
 
     def 'test toString'() {
         expect:
-        this.wrapper.toString() == "${MockWrapper.class.simpleName}(${this.name}, ${this.age})"
+        this.wrapper.toString() == "${MockWrapper.simpleName}(${this.name}, ${this.age})"
     }
 
     static class MockWrapper extends BiObjectWrapper<String, Integer> {

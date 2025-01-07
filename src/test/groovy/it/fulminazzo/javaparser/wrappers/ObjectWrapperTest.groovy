@@ -32,13 +32,13 @@ class ObjectWrapperTest extends Specification {
         object << [
                 null,
                 new ObjectWrapper<>(10),
-                new MockWrapper('Hello, enemy!')
+                new MockWrapper('Hello, enemy!'),
         ]
     }
 
     def 'test toString'() {
         expect:
-        this.wrapper.toString() == "${MockWrapper.class.simpleName}(${this.string})"
+        this.wrapper.toString() == "${MockWrapper.simpleName}(${this.string})"
     }
 
     static class MockWrapper extends ObjectWrapper<String> {
