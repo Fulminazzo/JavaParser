@@ -19,6 +19,7 @@ import it.fulminazzo.javaparser.parser.node.Assignment
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.MockNode
 import it.fulminazzo.javaparser.parser.node.Node
+import it.fulminazzo.javaparser.parser.node.container.JavaProgram
 import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
 import it.fulminazzo.javaparser.parser.node.literals.Literal
 import it.fulminazzo.javaparser.parser.node.literals.NullLiteral
@@ -41,6 +42,22 @@ class VisitorTest extends Specification {
     void setup() {
         this.visitor = new Handler(new TestClass())
         this.environment = this.visitor.environment as MockEnvironment
+    }
+
+    def 'test visitProgram of #program should return #expected'() {
+        when:
+        def element = this.visitor.visitProgram(program)
+
+        then:
+        if (expected == 'none') !element.isPresent()
+        else element.get() == expected
+
+        where:
+        program                                                                                             | expected
+        new JavaProgram([] as LinkedList<Statement>)                                                        | 'none'
+        new JavaProgram([new Statement()] as LinkedList<Statement>)                                         | 'none'
+        new JavaProgram([new Return(new StringValueLiteral('\"Hello, world!\"'))] as LinkedList<Statement>) | 'Hello, world!'
+        new JavaProgram([new Return(new NullLiteral())] as LinkedList<Statement>)                           | null
     }
 
     def 'test visit#node of #statements should return #expected'() {
