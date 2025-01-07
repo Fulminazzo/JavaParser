@@ -7,7 +7,7 @@ class ParserTest extends Specification {
     private Parser parser
 
     void setup() {
-        this.parser = new Parser() {}
+        this.parser = new Parser() { }
     }
 
     def 'test match method exception'() {
