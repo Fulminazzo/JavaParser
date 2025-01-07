@@ -3,7 +3,12 @@ package it.fulminazzo.javaparser.visitors
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.fulmicollection.utils.ClassUtils
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils
+import it.fulminazzo.javaparser.environment.MockEnvironment
+import it.fulminazzo.javaparser.environment.scopetypes.ScopeType
 import it.fulminazzo.javaparser.handler.Handler
+import it.fulminazzo.javaparser.handler.HandlerException
+import it.fulminazzo.javaparser.handler.elements.Element
+import it.fulminazzo.javaparser.handler.elements.ElementException
 import it.fulminazzo.javaparser.parser.node.MockNode
 import it.fulminazzo.javaparser.parser.node.Node
 import spock.lang.Specification
@@ -11,6 +16,45 @@ import spock.lang.Specification
 import java.lang.reflect.Modifier
 
 class VisitorTest extends Specification {
+    private Visitor visitor
+    private MockEnvironment environment
+
+    void setup() {
+        this.visitor = new Handler(this)
+        this.environment = this.visitor.environment as MockEnvironment
+    }
+
+    def 'test visitScoped of #scopeType'() {
+        given:
+        def expected = Element.of('Hello, world!')
+
+        when:
+        def element = this.visitor.visitScoped(scopeType, () -> expected)
+
+        then:
+        element == expected
+        this.environment.enteredScope(scopeType)
+
+        where:
+        scopeType << ScopeType.values()
+    }
+
+    def 'test visitScoped of #scopeType should throw #exception'() {
+        given:
+        def message = 'this is the message'
+
+        when:
+        this.visitor.visitScoped(scopeType, () -> exception.newInstance(message))
+
+        then:
+        def e = thrown(exception)
+        e.message == message
+        this.environment.enteredScope(scopeType)
+
+        where:
+        scopeType << ScopeType.values()
+        exception << [ElementException, HandlerException]
+    }
 
     def 'test accept mock node'() {
         given:
