@@ -1,6 +1,5 @@
 package it.fulminazzo.javaparser.visitors
 
-
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple
 import it.fulminazzo.fulmicollection.utils.ClassUtils
@@ -44,6 +43,59 @@ class VisitorTest extends Specification {
         this.visitor = new Handler(new TestClass())
         this.environment = this.visitor.environment as MockEnvironment
     }
+
+    static writeMethod(def methodName, Object[] fieldParameters) {
+        def cwd = System.getProperty('user.dir')
+        def path = "${VisitorTest.package.name.replace('.', File.separator)}"
+        def file = new File(cwd, "src/main/java/${path}${File.separator}${Visitor.simpleName}.java")
+
+        def lines = file.readLines()
+        def toWrite = lines.subList(0, lines.size() - 2)
+        def stringParameters = fieldParameters.collect {
+            def value = "${it.type.simpleName} ${it.name}"
+            if (!ReflectionUtils.isPrimitive(it.type)) value = '@NotNull ' + value
+            return value
+        }.join(', ')
+        toWrite.add("    @NotNull T ${methodName}(${stringParameters});\n")
+        toWrite.add('\n}')
+
+        file.delete()
+        toWrite.each { file << "${it}\n" }
+
+        println "Updated ${Visitor.simpleName} class with method ${methodName}"
+    }
+
+    static nodeClasses() {
+        ClassUtils.findClassesInPackage(Node.package.name)
+                .findAll { !Modifier.isAbstract(it.modifiers) }
+                .findAll { !it.interface }
+                .findAll { !it.simpleName.contains('Test') }
+                .findAll { !it.simpleName.contains('Exception') }
+                .findAll { !it.simpleName.contains('Mock') }
+    }
+
+    def "visitor should have method: visit#clazz.simpleName(#parameters.type.simpleName) "() {
+        given:
+        def methodName = "visit${clazz.simpleName}"
+
+        when:
+        def method = Visitor.declaredMethods
+                .findAll { it.name == methodName }
+                .findAll { it.parameterCount == parameters.length }
+                .find { parameters.collect { f -> f.type } == it.parameterTypes.toList() }
+
+        then:
+        if (method == null) writeMethod(methodName, parameters)
+        method != null
+
+        where:
+        clazz << nodeClasses()
+        parameters << nodeClasses()
+                .collect { new Refl<>(it) }
+                .collect { it.nonStaticFields }
+                .collect { it.toArray() }
+    }
+
 
     def 'test visitProgram of #program should return #expected'() {
         when:
@@ -522,58 +574,6 @@ class VisitorTest extends Specification {
 
         then:
         converted == "${node.name}${node.version}"
-    }
-
-    def "visitor should have method: visit#clazz.simpleName(#parameters.type.simpleName) "() {
-        given:
-        def methodName = "visit${clazz.simpleName}"
-
-        when:
-        def method = Visitor.declaredMethods
-                .findAll { it.name == methodName }
-                .findAll { it.parameterCount == parameters.length }
-                .find { parameters.collect { f -> f.type } == it.parameterTypes.toList() }
-
-        then:
-        if (method == null) writeMethod(methodName, parameters)
-        method != null
-
-        where:
-        clazz << nodeClasses()
-        parameters << nodeClasses()
-                .collect { new Refl<>(it) }
-                .collect { it.nonStaticFields }
-                .collect { it.toArray() }
-    }
-
-    static writeMethod(def methodName, Object[] fieldParameters) {
-        def cwd = System.getProperty('user.dir')
-        def path = "${VisitorTest.package.name.replace('.', File.separator)}"
-        def file = new File(cwd, "src/main/java/${path}${File.separator}${Visitor.simpleName}.java")
-
-        def lines = file.readLines()
-        def toWrite = lines.subList(0, lines.size() - 2)
-        def stringParameters = fieldParameters.collect {
-            def value = "${it.type.simpleName} ${it.name}"
-            if (!ReflectionUtils.isPrimitive(it.type)) value = '@NotNull ' + value
-            return value
-        }.join(', ')
-        toWrite.add("    @NotNull T ${methodName}(${stringParameters});\n")
-        toWrite.add('\n}')
-
-        file.delete()
-        toWrite.each { file << "${it}\n" }
-
-        println "Updated ${Visitor.simpleName} class with method ${methodName}"
-    }
-
-    static nodeClasses() {
-        ClassUtils.findClassesInPackage(Node.package.name)
-                .findAll { !Modifier.isAbstract(it.modifiers) }
-                .findAll { !it.interface }
-                .findAll { !it.simpleName.contains('Test') }
-                .findAll { !it.simpleName.contains('Exception') }
-                .findAll { !it.simpleName.contains('Mock') }
     }
 
 }

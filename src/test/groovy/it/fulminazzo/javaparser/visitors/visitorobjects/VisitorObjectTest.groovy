@@ -44,10 +44,10 @@ class VisitorObjectTest extends Specification {
     }
 
     static class PrimitiveElement<T> implements Element {
-        private final T element;
+        private final T element
 
         PrimitiveElement(T element) {
-            this.element = element;
+            this.element = element
         }
 
         @Override
@@ -57,18 +57,18 @@ class VisitorObjectTest extends Specification {
 
         @Override
         boolean isPrimitive() {
-            return true;
+            return true
         }
 
         @Override
         Object getElement() {
-            return this.element;
+            return this.element
         }
 
         @Override
         @NotNull
         ClassElement toClass() {
-            return ClassElement.of(this.element.getClass());
+            return ClassElement.of(this.element.getClass())
         }
 
     }
