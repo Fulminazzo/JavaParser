@@ -231,6 +231,23 @@ class VisitorTest extends Specification {
         [new NumberValueLiteral('2'), new BooleanValueLiteral('false')] | 2 | false
     }
 
+    def 'test visitNewObject invalid parameters'() {
+        given:
+        def parameters = new ParameterElements([Element.of(1.0d), Element.of(true)])
+
+        and:
+        def expected = Element.of(null).typesMismatch(ClassElement.of(TestClass),
+                TestClass.getConstructor(int, Boolean), parameters).message
+
+        when:
+        this.visitor.visitNewObject(Literal.of(TestClass.canonicalName),
+                new MethodInvocation([new DoubleValueLiteral('1.0d'), new BooleanValueLiteral('true')]))
+
+        then:
+        def e = thrown(HandlerException)
+        e.message == expected
+    }
+
     def 'test visitNewObject constructor not found'() {
         given:
         def type = Literal.of(TestClass.canonicalName)
