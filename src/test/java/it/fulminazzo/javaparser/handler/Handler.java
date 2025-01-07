@@ -184,7 +184,7 @@ public class Handler implements Visitor<ClassElement, Element, ParameterElements
 
     @Override
     public @NotNull Element visitEmptyLiteral() {
-        return Element.of(null);
+        return Element.of("EMPTY");
     }
 
     @Override
