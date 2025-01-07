@@ -8,6 +8,19 @@ import spock.lang.Specification
 
 class VisitorObjectTest extends Specification {
 
+    def 'test #object isAssignableFrom #clazz should return #expected'() {
+        when:
+        def actual = object.isAssignableFrom(clazz)
+
+        then:
+        actual == expected
+
+        where:
+        object           | clazz                    | expected
+        Element.of(1.0d) | ClassElement.of(Double)  | true
+        Element.of(1.0d) | ClassElement.of(Integer) | false
+    }
+
     def 'test getField of primitive'() {
         given:
         def element = new PrimitiveElement(1)
@@ -53,7 +66,8 @@ class VisitorObjectTest extends Specification {
         }
 
         @Override
-        @NotNull ClassElement toClass() {
+        @NotNull
+        ClassElement toClass() {
             return ClassElement.of(this.element.getClass());
         }
 
