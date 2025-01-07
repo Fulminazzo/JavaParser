@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser.visitors
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.fulmicollection.utils.ClassUtils
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils
+import it.fulminazzo.javaparser.handler.Handler
 import it.fulminazzo.javaparser.parser.node.MockNode
 import it.fulminazzo.javaparser.parser.node.Node
 import spock.lang.Specification
@@ -14,10 +15,10 @@ class VisitorTest extends Specification {
     def 'test accept mock node'() {
         given:
         def node = new MockNode('mock', 1)
-        def visitor = new MockVisitor()
+        def visitor = new Handler(this)
 
         when:
-        def converted = node.accept(visitor).getString()
+        def converted = node.accept(visitor).element
 
         then:
         converted == "${node.name}${node.version}"

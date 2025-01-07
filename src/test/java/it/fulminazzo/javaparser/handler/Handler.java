@@ -28,6 +28,10 @@ public class Handler implements Visitor<ClassElement, Element, ParameterElements
         this.environment = new Environment<>();
     }
 
+    public Element visitMockNode(String name, int version) {
+        return Element.of(name + version);
+    }
+
     @Override
     public @NotNull Element visitThrow(@NotNull Node expression) {
         throw new UnsupportedOperationException();
