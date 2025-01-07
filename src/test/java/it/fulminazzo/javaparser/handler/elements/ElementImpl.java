@@ -27,7 +27,7 @@ class ElementImpl extends ObjectWrapper<Object> implements VisitorObject<ClassEl
 
     @Override
     public boolean isNull() {
-        return getElement() == null;
+        return this.object == null;
     }
 
     @Override
