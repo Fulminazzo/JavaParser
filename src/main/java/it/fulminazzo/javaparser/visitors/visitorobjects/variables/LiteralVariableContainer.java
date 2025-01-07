@@ -37,14 +37,11 @@ public abstract class LiteralVariableContainer<
     @SuppressWarnings("unchecked")
     @Override
     public @NotNull C getType() {
-        if (this.type.isNull()) {
-            try {
-                return (C) this.container.lookupInfo(namedEntity());
-            } catch (ScopeException e) {
-                throw exceptionWrapper(e);
-            }
+        try {
+            return (C) this.container.lookupInfo(namedEntity());
+        } catch (ScopeException e) {
+            throw exceptionWrapper(e);
         }
-        else return super.getType();
     }
 
     @Override
