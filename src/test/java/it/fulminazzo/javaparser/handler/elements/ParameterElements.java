@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class ParameterElements extends ParameterVisitorObjects<ClassElement, Element, ParameterElements> implements IElement {
+public class ParameterElements extends ParameterVisitorObjects<ClassElement, Element, ParameterElements> implements Element {
 
     /**
      * Instantiates a new Parameter elements.

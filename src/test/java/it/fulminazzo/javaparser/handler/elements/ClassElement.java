@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Constructor;
 
-public class ClassElement extends Element implements ClassVisitorObject<ClassElement, Element, ParameterElements> {
+public class ClassElement extends ElementImpl implements ClassVisitorObject<ClassElement, Element, ParameterElements> {
 
     public ClassElement(Class<?> clazz) {
         super(clazz);
@@ -20,12 +20,12 @@ public class ClassElement extends Element implements ClassVisitorObject<ClassEle
 
     @Override
     public @NotNull Element cast(@NotNull Element object) {
-        return new Element(toJavaClass().cast(object));
+        return new ElementImpl(toJavaClass().cast(object));
     }
 
     @Override
     public boolean compatibleWith(@NotNull Element object) {
-        return toJavaClass().isAssignableFrom(object.getObjectClass());
+        return toJavaClass().isAssignableFrom(object.toClass().toJavaClass());
     }
 
     @Override
@@ -39,18 +39,18 @@ public class ClassElement extends Element implements ClassVisitorObject<ClassEle
     }
 
     @Override
-    public @NotNull Element toObject() {
+    public @NotNull ElementImpl toObject() {
         if (isPrimitive()) {
             Class<?> clazz = toJavaClass();
-            if (clazz.equals(byte.class)) return new Element((byte) 0);
-            else if (clazz.equals(char.class)) return new Element((char) 0);
-            else if (clazz.equals(short.class)) return new Element((short) 0);
-            else if (clazz.equals(int.class)) return new Element(0);
-            else if (clazz.equals(long.class)) return new Element(0L);
-            else if (clazz.equals(float.class)) return new Element(0f);
-            else if (clazz.equals(double.class)) return new Element(0d);
-            else return new Element(false);
-        } else return new Element(null);
+            if (clazz.equals(byte.class)) return new ElementImpl((byte) 0);
+            else if (clazz.equals(char.class)) return new ElementImpl((char) 0);
+            else if (clazz.equals(short.class)) return new ElementImpl((short) 0);
+            else if (clazz.equals(int.class)) return new ElementImpl(0);
+            else if (clazz.equals(long.class)) return new ElementImpl(0L);
+            else if (clazz.equals(float.class)) return new ElementImpl(0f);
+            else if (clazz.equals(double.class)) return new ElementImpl(0d);
+            else return new ElementImpl(false);
+        } else return new ElementImpl(null);
     }
 
 }
