@@ -17,8 +17,27 @@ class VariableContainerTest extends Specification {
     void setup() {
         this.variable = Mock(Element)
         this.variable.toClass() >> ClassElement.of(String)
+
         this.container = new ElementVariableContainer(null, ClassElement.of(Double),
                 'variable', this.variable)
+    }
+
+    def 'test method #method(#parameters) should first be invoked on container'() {
+        given:
+        if (parameters == null) parameters = this.container
+        if (expected == null) expected = this.container
+
+        when:
+        def result = this.container."${method}"(parameters)
+
+        then:
+        result == expected
+
+        where:
+        method             | parameters                                | expected
+        'is'               | ElementVariableContainer                  | true
+        'is'               | null                                      | true
+        'check'            | VariableContainer                         | null
     }
 
     def 'test container.#method.name(#method.parameterTypes) should call variable.#method.name(#method.parameterTypes)'() {
