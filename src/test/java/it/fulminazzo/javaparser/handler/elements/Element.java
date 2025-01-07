@@ -1,4 +1,4 @@
-package it.fulminazzo.javaparser.elements;
+package it.fulminazzo.javaparser.handler.elements;
 
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.tokenizer.TokenType;
@@ -31,6 +31,7 @@ public class Element implements VisitorObject<ClassElement, Element, ParameterEl
 
     @Override
     public <T extends VisitorObject<ClassElement, Element, ParameterElements>> @NotNull T check(@NotNull Class<T> clazz) {
+        if (clazz.isInstance(this)) return (T) this;
 
     }
 

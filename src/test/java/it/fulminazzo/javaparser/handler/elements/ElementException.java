@@ -1,4 +1,4 @@
-package it.fulminazzo.javaparser.elements;
+package it.fulminazzo.javaparser.handler.elements;
 
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObjectException;
 import org.jetbrains.annotations.NotNull;
