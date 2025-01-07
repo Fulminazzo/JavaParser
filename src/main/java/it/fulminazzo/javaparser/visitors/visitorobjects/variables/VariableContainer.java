@@ -4,6 +4,7 @@ import it.fulminazzo.javaparser.visitors.visitorobjects.ClassVisitorObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObjectException;
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,6 +24,7 @@ public abstract class VariableContainer<
         P extends ParameterVisitorObjects<C, O, P>,
         T
         > implements VisitorObject<C, O, P> {
+    @Getter(AccessLevel.NONE)
     protected final @NotNull T container;
     protected final @NotNull C type;
     protected final @NotNull String name;
