@@ -194,26 +194,26 @@ class JavaParserTest extends Specification {
         'int i = 1; int j = 2; int k = 3;' | new AssignmentBlock([
                 new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1')),
                 new Assignment(Literal.of('int'), Literal.of('j'), new NumberValueLiteral('2')),
-                new Assignment(Literal.of('int'), Literal.of('k'), new NumberValueLiteral('3'))
+                new Assignment(Literal.of('int'), Literal.of('k'), new NumberValueLiteral('3')),
         ])
         'int i = 1; int j = 2; int k = 3'  | new AssignmentBlock([
                 new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1')),
                 new Assignment(Literal.of('int'), Literal.of('j'), new NumberValueLiteral('2')),
-                new Assignment(Literal.of('int'), Literal.of('k'), new NumberValueLiteral('3'))
+                new Assignment(Literal.of('int'), Literal.of('k'), new NumberValueLiteral('3')),
         ])
         'int i = 1; int j = 2;'            | new AssignmentBlock([
                 new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1')),
-                new Assignment(Literal.of('int'), Literal.of('j'), new NumberValueLiteral('2'))
+                new Assignment(Literal.of('int'), Literal.of('j'), new NumberValueLiteral('2')),
         ])
         'int i = 1; int j = 2'             | new AssignmentBlock([
                 new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1')),
-                new Assignment(Literal.of('int'), Literal.of('j'), new NumberValueLiteral('2'))
+                new Assignment(Literal.of('int'), Literal.of('j'), new NumberValueLiteral('2')),
         ])
         'int i = 1;'                       | new AssignmentBlock([
-                new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1'))
+                new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1')),
         ])
         'int i = 1'                        | new AssignmentBlock([
-                new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1'))
+                new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1')),
         ])
     }
 
@@ -286,37 +286,37 @@ class JavaParserTest extends Specification {
         code                                                                  | expected
         'switch (1) {case 1: return 1; case 2: return 2; default: return 3;}' |
                 new SwitchStatement(new NumberValueLiteral('1'),
-                        Arrays.asList(
+                        [
                                 new CaseStatement(new NumberValueLiteral('1'), new CodeBlock(new Return(new NumberValueLiteral('1')))),
                                 new CaseStatement(new NumberValueLiteral('2'), new CodeBlock(new Return(new NumberValueLiteral('2')))),
-                        ),
+                        ],
                         new CodeBlock(new Return(new NumberValueLiteral('3'))))
         'switch (1) {case 1: return 1; default: return 3; case 2: return 2;}' |
                 new SwitchStatement(new NumberValueLiteral('1'),
-                        Arrays.asList(
+                        [
                                 new CaseStatement(new NumberValueLiteral('1'), new CodeBlock(new Return(new NumberValueLiteral('1')))),
-                                new CaseStatement(new NumberValueLiteral('2'), new CodeBlock(new Return(new NumberValueLiteral('2'))))
-                        ),
+                                new CaseStatement(new NumberValueLiteral('2'), new CodeBlock(new Return(new NumberValueLiteral('2')))),
+                        ],
                         new CodeBlock(new Return(new NumberValueLiteral('3'))))
         'switch (1) {case 1: return 1; default: return 3;}'                   |
                 new SwitchStatement(new NumberValueLiteral('1'),
-                        Arrays.asList(
-                                new CaseStatement(new NumberValueLiteral('1'), new CodeBlock(new Return(new NumberValueLiteral('1'))))
-                        ),
+                        [
+                                new CaseStatement(new NumberValueLiteral('1'), new CodeBlock(new Return(new NumberValueLiteral('1')))),
+                        ],
                         new CodeBlock(new Return(new NumberValueLiteral('3'))))
         'switch (1) {case 1: return 1;}'                                      |
                 new SwitchStatement(new NumberValueLiteral('1'),
-                        Arrays.asList(
-                                new CaseStatement(new NumberValueLiteral('1'), new CodeBlock(new Return(new NumberValueLiteral('1'))))
-                        ),
+                        [
+                                new CaseStatement(new NumberValueLiteral('1'), new CodeBlock(new Return(new NumberValueLiteral('1')))),
+                        ],
                         new CodeBlock())
         'switch (1) {default: return 3;}'                                     |
                 new SwitchStatement(new NumberValueLiteral('1'),
-                        new LinkedList<>(),
+                        [],
                         new CodeBlock(new Return(new NumberValueLiteral('3'))))
         'switch (1) {}'                                                       |
                 new SwitchStatement(new NumberValueLiteral('1'),
-                        new LinkedList<>(),
+                        [],
                         new CodeBlock())
     }
 
@@ -1030,6 +1030,7 @@ class JavaParserTest extends Specification {
             super(rawValue, type)
             throw new IllegalArgumentException()
         }
+
     }
 
 }

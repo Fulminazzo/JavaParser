@@ -8,11 +8,11 @@ class DynamicArrayTest extends Specification {
     private DynamicArray array
 
     void setup() {
-        this.array = new DynamicArray(Literal.of('int'), Arrays.asList(
+        this.array = new DynamicArray(Literal.of('int'), [
                 new NumberValueLiteral('1'),
                 new NumberValueLiteral('2'),
                 new NumberValueLiteral('3'),
-        ))
+        ])
     }
 
     def 'test size method'() {
