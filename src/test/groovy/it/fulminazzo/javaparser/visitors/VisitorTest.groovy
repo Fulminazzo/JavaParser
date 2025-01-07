@@ -286,14 +286,17 @@ class VisitorTest extends Specification {
         element == expected
 
         where:
-        executor                    | methodName     | parameters                                                       | expected
-        new EmptyLiteral()          | 'publicMethod' | []                                                               | Element.of(1.0d)
-        new EmptyLiteral()          | 'publicMethod' | [new DoubleValueLiteral('2.0'), new BooleanValueLiteral('true')] | Element.of(2.0d)
-        new EmptyLiteral()          | 'publicMethod' | [new DoubleValueLiteral('1.0'), new BooleanValueLiteral('true')] | Element.of(1.0d)
-        new ThisLiteral()           | 'publicMethod' | []                                                               | Element.of(1.0d)
-        new ThisLiteral()           | 'publicMethod' | [new DoubleValueLiteral('2.0'), new BooleanValueLiteral('true')] | Element.of(2.0d)
-        new ThisLiteral()           | 'publicMethod' | [new DoubleValueLiteral('1.0'), new BooleanValueLiteral('true')] | Element.of(1.0d)
-        new NumberValueLiteral('1') | 'toString'     | []                                                               | Element.of('1')
+        executor                            | methodName           | parameters                                                       | expected
+        Literal.of(TestClass.canonicalName) | 'publicStaticMethod' | []                                                               | Element.of(1)
+        Literal.of(TestClass.canonicalName) | 'publicStaticMethod' | [new NumberValueLiteral('2'), new BooleanValueLiteral('true')]   | Element.of(2)
+        Literal.of(TestClass.canonicalName) | 'publicStaticMethod' | [new NumberValueLiteral('1'), new BooleanValueLiteral('true')]   | Element.of(1)
+        new EmptyLiteral()                  | 'publicMethod'       | []                                                               | Element.of(1.0d)
+        new EmptyLiteral()                  | 'publicMethod'       | [new DoubleValueLiteral('2.0'), new BooleanValueLiteral('true')] | Element.of(2.0d)
+        new EmptyLiteral()                  | 'publicMethod'       | [new DoubleValueLiteral('1.0'), new BooleanValueLiteral('true')] | Element.of(1.0d)
+        new ThisLiteral()                   | 'publicMethod'       | []                                                               | Element.of(1.0d)
+        new ThisLiteral()                   | 'publicMethod'       | [new DoubleValueLiteral('2.0'), new BooleanValueLiteral('true')] | Element.of(2.0d)
+        new ThisLiteral()                   | 'publicMethod'       | [new DoubleValueLiteral('1.0'), new BooleanValueLiteral('true')] | Element.of(1.0d)
+        new NumberValueLiteral('1')         | 'toString'           | []                                                               | Element.of('1')
     }
 
     def 'test visitMethodCall not found'() {
