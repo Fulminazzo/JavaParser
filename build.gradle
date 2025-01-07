@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'groovy'
+    id 'jacoco-report-aggregation'
     id 'io.freefair.lombok' version libs.versions.delombok
 }
 
@@ -33,3 +34,23 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+testCodeCoverageReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        csv.required = true
+    }
+}
+
+tasks.register('sourcesJar', Jar) {
+    from sourceSets.main.delombokTask
+    archiveClassifier = 'sources'
+}
+
+tasks.register('javadocJar', Jar) {
+    from javadoc
+    archiveClassifier = 'javadoc'
+}
+//TODO: jar
+//TODO: publications
