@@ -4,6 +4,7 @@ import it.fulminazzo.javaparser.environment.Environment;
 import it.fulminazzo.javaparser.handler.elements.ClassElement;
 import it.fulminazzo.javaparser.handler.elements.Element;
 import it.fulminazzo.javaparser.handler.elements.ParameterElements;
+import it.fulminazzo.javaparser.handler.elements.variables.ElementLiteralVariableContainer;
 import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
@@ -164,7 +165,7 @@ public class Handler implements Visitor<ClassElement, Element, ParameterElements
 
     @Override
     public @NotNull LiteralVariableContainer<ClassElement, Element, ParameterElements> newLiteralObject(@NotNull String value) {
-        return null;
+        return new ElementLiteralVariableContainer(this.environment, new ClassElement(null), value, visitNullLiteral());
     }
 
     @Override
