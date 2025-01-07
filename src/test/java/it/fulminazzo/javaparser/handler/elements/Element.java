@@ -16,7 +16,7 @@ import java.util.Arrays;
 
 @SuppressWarnings("unchecked")
 public class Element implements VisitorObject<ClassElement, Element, ParameterElements> {
-    private final @Nullable Object object;
+    protected final @Nullable Object object;
 
     public Element(final @Nullable Object object) {
         this.object = object;
