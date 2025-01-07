@@ -1,6 +1,6 @@
 package it.fulminazzo.javaparser.handler;
 
-import it.fulminazzo.javaparser.environment.Environment;
+import it.fulminazzo.javaparser.environment.MockEnvironment;
 import it.fulminazzo.javaparser.handler.elements.ClassElement;
 import it.fulminazzo.javaparser.handler.elements.Element;
 import it.fulminazzo.javaparser.handler.elements.ParameterElements;
@@ -21,11 +21,11 @@ import java.util.stream.Collectors;
 @Getter
 public class Handler implements Visitor<ClassElement, Element, ParameterElements> {
     private final Object executingObject;
-    private final Environment<Element> environment;
+    private final MockEnvironment<Element> environment;
 
     public Handler(Object executingObject) {
         this.executingObject = executingObject;
-        this.environment = new Environment<>();
+        this.environment = new MockEnvironment<>();
     }
 
     public Element visitMockNode(String name, int version) {
