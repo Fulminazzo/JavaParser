@@ -121,7 +121,7 @@ class VisitorTest extends Specification {
     def 'test visitField'() {
         given:
         def parent = Element.of(this.visitor.executingObject)
-        def type = ClassElement.of(double)
+        def type = ClassElement.of(Double)
         def fieldName = 'publicField'
         def value = Element.of(1.0d)
 
