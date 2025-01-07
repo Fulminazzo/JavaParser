@@ -507,7 +507,7 @@ public class JavaParser extends Parser {
      * @return the node
      */
     protected @NotNull Node parseArrayLiteral(@NotNull Node expression) {
-        if (expression.is(Literal.class) && lastToken() == OPEN_BRACKET) {
+        if (lastToken() == OPEN_BRACKET) {
             consume(OPEN_BRACKET);
             if (lastToken() == NUMBER_VALUE) {
                 expression = new ArrayIndex(expression, parseExpression());
