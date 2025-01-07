@@ -6,6 +6,8 @@ import it.fulminazzo.fulmicollection.utils.ClassUtils
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils
 import it.fulminazzo.fulmicollection.utils.StringUtils
 import it.fulminazzo.javaparser.environment.MockEnvironment
+import it.fulminazzo.javaparser.environment.NamedEntity
+import it.fulminazzo.javaparser.environment.ScopeException
 import it.fulminazzo.javaparser.environment.scopetypes.ScopeType
 import it.fulminazzo.javaparser.handler.Handler
 import it.fulminazzo.javaparser.handler.HandlerException
@@ -49,6 +51,23 @@ class VisitorTest extends Specification {
         element == Element.of(1)
         this.environment.lookupInfo(name) == ClassElement.of(Integer)
         this.environment.lookup(name) == Element.of(1)
+    }
+
+    def 'test visitAssignment exception'() {
+        given:
+        def type = Literal.of(Integer.simpleName)
+        def name = 'i'
+        def value = new NumberValueLiteral('1')
+
+        and:
+        this.environment.declare(ClassElement.of(Integer), name, Element.of(1))
+
+        when:
+        this.visitor.visitAssignment(type, Literal.of(name), value)
+
+        then:
+        def e = thrown(HandlerException)
+        e.message == ScopeException.alreadyDeclaredVariable(NamedEntity.of(name)).message
     }
 
     def 'test visitNewObject TestClass(#parameters) should have fields #i, #b'() {
