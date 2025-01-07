@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.visitors.visitorobjects
 
 import it.fulminazzo.javaparser.handler.elements.ClassElement
 import it.fulminazzo.javaparser.handler.elements.Element
+import it.fulminazzo.javaparser.handler.elements.ParameterElements
 import org.jetbrains.annotations.NotNull
 import spock.lang.Specification
 
@@ -16,6 +17,17 @@ class VisitorObjectTest extends Specification {
 
         then:
         val.variable.element == Integer.MAX_VALUE
+    }
+
+    def 'test invokeMethod of primitive'() {
+        given:
+        def element = new PrimitiveElement(1)
+
+        when:
+        def val = element.invokeMethod('toString', new ParameterElements([]))
+
+        then:
+        val.element == '1'
     }
 
     static class PrimitiveElement<T> implements Element {
