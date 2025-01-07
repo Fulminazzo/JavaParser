@@ -80,7 +80,7 @@ public abstract class VariableContainer<
     }
 
     @Override
-    public <T extends VisitorObject<C, O, P>> @NotNull T check(@NotNull Class<T> clazz) {
+    public <V extends VisitorObject<C, O, P>> @NotNull V check(@NotNull Class<V> clazz) {
         if (clazz.isAssignableFrom(getClass())) return clazz.cast(this);
         else return this.variable.check(clazz);
     }
