@@ -43,7 +43,7 @@ public final class ObjectType extends ObjectWrapper<Class<?>> implements Type {
     }
 
     @Override
-    public @NotNull PrimitiveType toPrimitive() {
+    public @NotNull Type toPrimitive() {
         if (equals(BYTE)) return PrimitiveType.BYTE;
         else if (equals(SHORT)) return PrimitiveType.SHORT;
         else if (equals(CHARACTER)) return PrimitiveType.CHAR;

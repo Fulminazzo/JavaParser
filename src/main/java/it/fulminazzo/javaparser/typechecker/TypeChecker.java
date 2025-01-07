@@ -2,7 +2,6 @@ package it.fulminazzo.javaparser.typechecker;
 
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple;
 import it.fulminazzo.javaparser.environment.Environment;
-import it.fulminazzo.javaparser.environment.NamedEntity;
 import it.fulminazzo.javaparser.environment.ScopeException;
 import it.fulminazzo.javaparser.environment.scopetypes.ScopeType;
 import it.fulminazzo.javaparser.parser.node.Node;
@@ -10,13 +9,17 @@ import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.parser.node.statements.CaseStatement;
 import it.fulminazzo.javaparser.parser.node.statements.CatchStatement;
+import it.fulminazzo.javaparser.parser.node.values.NumberValueLiteral;
 import it.fulminazzo.javaparser.typechecker.types.*;
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayClassType;
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayType;
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType;
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType;
+import it.fulminazzo.javaparser.typechecker.types.variables.ArrayTypeVariableContainer;
+import it.fulminazzo.javaparser.typechecker.types.variables.TypeLiteralVariableContainer;
 import it.fulminazzo.javaparser.visitors.Visitor;
-import it.fulminazzo.javaparser.visitors.visitorobjects.LiteralObject;
+import it.fulminazzo.javaparser.visitors.visitorobjects.variables.LiteralVariableContainer;
+import it.fulminazzo.javaparser.visitors.visitorobjects.variables.VariableContainer;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -126,7 +129,7 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
     /**
      * Visits a {@link CatchStatement}.
      * It checks that all the passed exceptions are not duplicated and extend {@link Throwable}.
-     * Then, it obtains a {@link LiteralType} from the expression,
+     * Then, it obtains a {@link TypeLiteralVariableContainer} from the expression,
      * and it declares a new variable with type the first exception and name the one from the literal.
      *
      * @param exceptions the exceptions
@@ -166,13 +169,8 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
             }
 
             try {
-                Literal literal = (Literal) expression;
-                @NotNull NamedEntity exceptionName = NamedEntity.of(literal.getLiteral());
-
-                if (!literal.accept(this).is(LiteralType.class))
-                    throw ScopeException.alreadyDeclaredVariable(exceptionName);
-
-                this.environment.declare(exceptionTypes.get(0), exceptionName, exceptionTypes.get(0).toType());
+                TypeLiteralVariableContainer exceptionName = expression.accept(this).check(TypeLiteralVariableContainer.class);
+                this.environment.declare(exceptionTypes.get(0), exceptionName.namedEntity(), exceptionTypes.get(0).toType());
             } catch (ScopeException e) {
                 throw TypeCheckerException.of(e);
             }
@@ -223,8 +221,8 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
                                                    @NotNull CodeBlock code, @NotNull Node expression) {
         return visitScoped(ScopeType.FOR, () -> {
             ClassType variableType = type.accept(this).checkClass();
-            LiteralType variableName = variable.accept(this).check(LiteralType.class);
-            this.environment.declare(variableType, NamedEntity.of(variableName.getName()), variableType.toType());
+            TypeLiteralVariableContainer variableName = variable.accept(this).check(TypeLiteralVariableContainer.class);
+            this.environment.declare(variableType, variableName.namedEntity(), variableType.toType());
 
             Type expressionType = expression.accept(this);
             if (expressionType.is(ArrayType.class)) {
@@ -310,6 +308,15 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
     }
 
     @Override
+    public @NotNull Type visitArrayIndex(@NotNull Node array, @NotNull Node index) {
+        VariableContainer<ClassType, Type, ParameterTypes, ?> container = array.accept(this).check(VariableContainer.class);
+        ArrayType arrayType = container.getVariable().check(ArrayType.class);
+        Type componentsType = arrayType.getComponentType();
+        index.accept(this).check(INT, ObjectType.INTEGER);
+        return new ArrayTypeVariableContainer(container, componentsType.toClass(), ((NumberValueLiteral) index).getRawValue(), componentsType);
+    }
+
+    @Override
     public @NotNull Type visitArrayLiteral(@NotNull Node type) {
         return new ArrayClassType(type.accept(this).checkClass());
     }
@@ -368,8 +375,8 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
     }
 
     @Override
-    public @NotNull LiteralObject<ClassType, Type, ParameterTypes> newLiteralObject(@NotNull String value) {
-        return new LiteralType(value);
+    public @NotNull LiteralVariableContainer<ClassType, Type, ParameterTypes> newLiteralObject(@NotNull String value) {
+        return new TypeLiteralVariableContainer(this.environment, value);
     }
 
     @Override

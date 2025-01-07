@@ -41,7 +41,7 @@ public enum PrimitiveType implements Type {
     ;
 
     @Override
-    public @NotNull ObjectType toWrapper() {
+    public @NotNull Type toWrapper() {
         switch (this) {
             case BYTE:
                 return ObjectType.BYTE;

@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.typechecker
 
+
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.environment.MockEnvironment
 import it.fulminazzo.javaparser.environment.NamedEntity
@@ -10,10 +11,9 @@ import it.fulminazzo.javaparser.parser.node.AssignmentBlock
 import it.fulminazzo.javaparser.parser.node.MethodInvocation
 import it.fulminazzo.javaparser.parser.node.container.CodeBlock
 import it.fulminazzo.javaparser.parser.node.container.JavaProgram
-import it.fulminazzo.javaparser.parser.node.literals.ArrayLiteral
-import it.fulminazzo.javaparser.parser.node.literals.EmptyLiteral
-import it.fulminazzo.javaparser.parser.node.literals.Literal
-import it.fulminazzo.javaparser.parser.node.literals.NullLiteral
+import it.fulminazzo.javaparser.parser.node.literals.*
+import it.fulminazzo.javaparser.parser.node.operators.binary.ArrayIndex
+import it.fulminazzo.javaparser.parser.node.operators.binary.Field
 import it.fulminazzo.javaparser.parser.node.operators.binary.NewObject
 import it.fulminazzo.javaparser.parser.node.operators.unary.Increment
 import it.fulminazzo.javaparser.parser.node.statements.*
@@ -23,6 +23,8 @@ import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayClassType
 import it.fulminazzo.javaparser.typechecker.types.arrays.ArrayType
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
+import it.fulminazzo.javaparser.typechecker.types.variables.ArrayTypeVariableContainer
+import it.fulminazzo.javaparser.typechecker.types.variables.TypeLiteralVariableContainer
 import spock.lang.Specification
 
 import java.util.concurrent.Callable
@@ -955,6 +957,18 @@ class TypeCheckerTest extends Specification {
         'Object'    | 'o'   | BOOL_LIT   | ObjectType.OBJECT
     }
 
+    def 'test visit re-assignment of field'() {
+        given:
+        def field = new Field(new ThisLiteral(), Literal.of('publicField'))
+        def value = new NumberValueLiteral('3')
+
+        when:
+        def type = this.typeChecker.visitReAssign(field, value)
+
+        then:
+        type == PrimitiveType.DOUBLE
+    }
+
     def 'test visit re-assignment not declared'() {
         given:
         def varName = 'visit_re_assignment_declared'
@@ -1108,6 +1122,52 @@ class TypeCheckerTest extends Specification {
 
         then:
         type == new ArrayClassType(ObjectClassType.INTEGER)
+    }
+
+    def 'test visit array index'() {
+        given:
+        this.environment.declare(
+                new ArrayClassType(new ArrayClassType(new ArrayClassType(PrimitiveClassType.INT))),
+                'i',
+                new ArrayType(new ArrayType(new ArrayType(PrimitiveType.INT)))
+        )
+
+        and:
+        def array = new ArrayIndex(
+                new ArrayIndex(
+                        Literal.of('i'), new NumberValueLiteral('0')
+                ), new NumberValueLiteral('1')
+        )
+        def index = new NumberValueLiteral('2')
+
+        and:
+        def expected = new ArrayTypeVariableContainer(
+                new ArrayTypeVariableContainer(
+                        new ArrayTypeVariableContainer(
+                                new TypeLiteralVariableContainer(
+                                        this.environment,
+                                        new ArrayClassType(new ArrayClassType(new ArrayClassType(PrimitiveClassType.INT))),
+                                        'i',
+                                        new ArrayType(new ArrayType(new ArrayType(PrimitiveType.INT)))
+                                ),
+                                new ArrayClassType(new ArrayClassType(PrimitiveClassType.INT)),
+                                '0',
+                                new ArrayType(new ArrayType(PrimitiveType.INT))
+                        ),
+                        new ArrayClassType(PrimitiveClassType.INT),
+                        '1',
+                        new ArrayType(PrimitiveType.INT)
+                ),
+                PrimitiveClassType.INT,
+                '2',
+                PrimitiveType.INT
+        )
+
+        when:
+        def type = this.typeChecker.visitArrayIndex(array, index)
+
+        then:
+        type == expected
     }
 
     def 'test decrement should return #expected'() {
