@@ -17,6 +17,7 @@ import java.util.Arrays;
 
 @SuppressWarnings("unchecked")
 public interface Element extends VisitorObject<ClassElement, Element, ParameterElements> {
+    Element EMPTY = of("EMPTY");
 
     Object getElement();
 

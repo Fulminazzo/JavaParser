@@ -69,10 +69,10 @@ class VisitorTest extends Specification {
 
         where:
         node          | statements                                | expected
-        'CodeBlock'   | []                                        | Element.of('EMPTY')
-        'JavaProgram' | []                                        | Element.of('EMPTY')
-        'CodeBlock'   | [new Statement()]                         | Element.of('EMPTY')
-        'JavaProgram' | [new Statement()]                         | Element.of('EMPTY')
+        'CodeBlock'   | []                                        | Element.EMPTY
+        'JavaProgram' | []                                        | Element.EMPTY
+        'CodeBlock'   | [new Statement()]                         | Element.EMPTY
+        'JavaProgram' | [new Statement()]                         | Element.EMPTY
         'CodeBlock'   | [new Return(new NumberValueLiteral('1'))] | Element.of(1)
         'JavaProgram' | [new Return(new NumberValueLiteral('1'))] | Element.of(1)
     }
