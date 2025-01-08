@@ -1,7 +1,5 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
-import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects;
-import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObjectException;
 import org.jetbrains.annotations.NotNull;
 
@@ -175,30 +173,6 @@ public class TypeException extends VisitorObjectException {
         return formatMethod(method.getName(), new ParameterTypes(Arrays.stream(method.getParameterTypes())
                 .map(ClassType::of)
                 .collect(Collectors.toList())));
-    }
-
-    /**
-     * Formats the given method and parameters to a string.
-     *
-     * @param method     the method
-     * @param parameters the parameters
-     * @return the string
-     */
-    protected static @NotNull String formatMethod(final @NotNull String method,
-                                                  final @NotNull ParameterVisitorObjects<?, ?, ?> parameters) {
-        return String.format("%s%s", method, formatParameters(parameters));
-    }
-
-    /**
-     * Formats the given parameters to a string.
-     *
-     * @param parameters the parameters
-     * @return the string
-     */
-    protected static @NotNull String formatParameters(final @NotNull ParameterVisitorObjects<?, ?, ?> parameters) {
-        return "(" + parameters.stream()
-                .map(VisitorObject::toString)
-                .collect(Collectors.joining(", ")) + ")";
     }
 
 }
