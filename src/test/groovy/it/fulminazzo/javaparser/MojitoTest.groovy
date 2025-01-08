@@ -18,6 +18,15 @@ class MojitoTest extends Specification {
         System.out.println(this.output)
     }
 
+    def 'test main with invalid program should show error message'() {
+        when:
+        Mojito.main(new String[]{'--code', '17'})
+        def out = this.output.toString()
+
+        then:
+        out.contains('An error occurred while running the program')
+    }
+
     def 'test main with invalid variables should show error message'() {
         when:
         Mojito.main(new String[]{'MockFile', 'invalid key:1'})
