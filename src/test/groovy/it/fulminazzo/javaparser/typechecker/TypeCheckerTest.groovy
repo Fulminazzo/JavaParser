@@ -75,7 +75,7 @@ class TypeCheckerTest extends Specification {
         def cwd = System.getProperty('user.dir')
 
         and:
-        def file = new File(cwd, 'build/resources/test/typechecker_test_program.dat')
+        def file = new File(cwd, 'build/resources/test/parsed_test_program.dat')
         JavaProgram program = file.newObjectInputStream().readObject() as JavaProgram
 
         when:

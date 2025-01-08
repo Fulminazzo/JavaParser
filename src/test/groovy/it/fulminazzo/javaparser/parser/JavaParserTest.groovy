@@ -37,7 +37,7 @@ class JavaParserTest extends Specification {
         def parser = new JavaParser(file.newInputStream())
 
         and:
-        def nextTestFile = new File(cwd, 'src/test/resources/typechecker_test_program.dat')
+        def nextTestFile = new File(cwd, 'src/test/resources/parsed_test_program.dat')
         if (nextTestFile.file) nextTestFile.delete()
 
         when:
