@@ -73,7 +73,7 @@ public final class Mojito {
 
             try {
                 executeTimed(
-                        String.format("Starting program with %s environment variables", variables.size()),
+                        String.format("Starting program with %s environment variables.", variables.size()),
                         "Successfully terminated program execution. (%time%)",
                         () -> {
                             if (code instanceof File) runner.run((File) code, variables);
