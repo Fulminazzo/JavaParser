@@ -1,9 +1,6 @@
 package it.fulminazzo.javaparser;
 
-import it.fulminazzo.javaparser.parser.ParserException;
 import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
 
 /**
  * Starting point of the program.
@@ -12,21 +9,22 @@ public final class Mojito {
     private static final String[] HELP_OPTIONS = new String[] {"-h", "--help", "/?"};
 
     public static void main(final String @NotNull [] args) {
-        String argument = (args.length == 0 ? HELP_OPTIONS : args)[0];
-
-        for (String o : HELP_OPTIONS)
-            if (argument.equalsIgnoreCase(o)) {
-                System.out.println("Usage:");
-                System.out.println("java -jar mojito.jar <filename>");
-                System.out.println("java -jar mojito.jar \"code to run\"");
-                return;
-            }
-
-        Runner runner = newRunner();
         try {
-            runner.run(argument);
-        } catch (ParserException e) {
-            runner.run(new File(argument));
+            if (args.length == 0) throw new NotEnoughArgumentException();
+            String argument = args[0];
+
+            for (String o : HELP_OPTIONS)
+                if (argument.equalsIgnoreCase(o))
+                    throw new NotEnoughArgumentException();
+
+            Runner runner = newRunner();
+
+            if (argument.equalsIgnoreCase("--code")); //TODO:
+            else; //TODO:
+        } catch (NotEnoughArgumentException e) {
+            System.out.println("Usage:");
+            System.out.println("java -jar mojito.jar <filename> <var1:val1> <var2:val2>...");
+            System.out.println("java -jar mojito.jar --code \"code to run\" <var1:val1> <var2:val2>...");
         }
     }
 
@@ -48,5 +46,7 @@ public final class Mojito {
     public static @NotNull Runner newRunner(final @NotNull Object executor) {
         return new MojitoRunner(executor);
     }
+
+    private static class NotEnoughArgumentException extends RuntimeException {}
 
 }
