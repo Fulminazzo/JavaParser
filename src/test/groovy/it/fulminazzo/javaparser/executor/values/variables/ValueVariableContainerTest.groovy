@@ -5,6 +5,7 @@ import it.fulminazzo.javaparser.executor.values.ClassValue
 import it.fulminazzo.javaparser.executor.values.ParameterValues
 import it.fulminazzo.javaparser.executor.values.TestClass
 import it.fulminazzo.javaparser.executor.values.Value
+import org.jetbrains.annotations.NotNull
 import spock.lang.Specification
 
 import java.lang.reflect.Field
@@ -15,6 +16,7 @@ class ValueVariableContainerTest extends Specification {
     static newContainer(def variable) {
         return new ValueVariableContainer<?>() {
 
+            @NotNull
             @Override
             Value<?> getVariable() {
                 return variable
