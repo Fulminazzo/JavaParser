@@ -16,7 +16,7 @@ class BinaryOperationTest extends Specification {
         def expected = "${array}[${index}]"
 
         when:
-        def literal = arrayIndex.getLiteral()
+        def literal = arrayIndex.literal
 
         then:
         literal == expected
@@ -32,7 +32,7 @@ class BinaryOperationTest extends Specification {
         def expected = "${object}.${fieldName.literal}"
 
         when:
-        def literal = field.getLiteral()
+        def literal = field.literal
 
         then:
         literal == expected

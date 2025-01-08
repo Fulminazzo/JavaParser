@@ -35,7 +35,7 @@ class NodeTest extends Specification {
                 new MockNode('MockNode', 2),
                 'Invalid object',
                 new NodeImpl() { },
-                null
+                null,
         ]
     }
 

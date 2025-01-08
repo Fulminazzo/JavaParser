@@ -99,7 +99,7 @@ class JavaParserTest extends Specification {
                 '//First line\n',
                 '//First line\n//Second line\n//Third line\n',
                 '/*\nComment block\n*/',
-                '/**\n *Javadoc block\n */'
+                '/**\n *Javadoc block\n */',
         ]
     }
 
@@ -118,7 +118,7 @@ class JavaParserTest extends Specification {
                 '//First line',
                 '//First line\n//Second line\n//Third line',
                 '/*\nComment block\n',
-                '/**\n *Javadoc block\n '
+                '/**\n *Javadoc block\n ',
         ]
     }
 
@@ -194,26 +194,26 @@ class JavaParserTest extends Specification {
         'int i = 1; int j = 2; int k = 3;' | new AssignmentBlock([
                 new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1')),
                 new Assignment(Literal.of('int'), Literal.of('j'), new NumberValueLiteral('2')),
-                new Assignment(Literal.of('int'), Literal.of('k'), new NumberValueLiteral('3'))
+                new Assignment(Literal.of('int'), Literal.of('k'), new NumberValueLiteral('3')),
         ])
         'int i = 1; int j = 2; int k = 3'  | new AssignmentBlock([
                 new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1')),
                 new Assignment(Literal.of('int'), Literal.of('j'), new NumberValueLiteral('2')),
-                new Assignment(Literal.of('int'), Literal.of('k'), new NumberValueLiteral('3'))
+                new Assignment(Literal.of('int'), Literal.of('k'), new NumberValueLiteral('3')),
         ])
         'int i = 1; int j = 2;'            | new AssignmentBlock([
                 new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1')),
-                new Assignment(Literal.of('int'), Literal.of('j'), new NumberValueLiteral('2'))
+                new Assignment(Literal.of('int'), Literal.of('j'), new NumberValueLiteral('2')),
         ])
         'int i = 1; int j = 2'             | new AssignmentBlock([
                 new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1')),
-                new Assignment(Literal.of('int'), Literal.of('j'), new NumberValueLiteral('2'))
+                new Assignment(Literal.of('int'), Literal.of('j'), new NumberValueLiteral('2')),
         ])
         'int i = 1;'                       | new AssignmentBlock([
-                new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1'))
+                new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1')),
         ])
         'int i = 1'                        | new AssignmentBlock([
-                new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1'))
+                new Assignment(Literal.of('int'), Literal.of('i'), new NumberValueLiteral('1')),
         ])
     }
 
@@ -268,7 +268,7 @@ class JavaParserTest extends Specification {
 
         when:
         startReading(code)
-        def block = this.parser.parseCatchStatement()
+        this.parser.parseCatchStatement()
 
         then:
         thrown(ParserException)
@@ -286,37 +286,37 @@ class JavaParserTest extends Specification {
         code                                                                  | expected
         'switch (1) {case 1: return 1; case 2: return 2; default: return 3;}' |
                 new SwitchStatement(new NumberValueLiteral('1'),
-                        Arrays.asList(
+                        [
                                 new CaseStatement(new NumberValueLiteral('1'), new CodeBlock(new Return(new NumberValueLiteral('1')))),
                                 new CaseStatement(new NumberValueLiteral('2'), new CodeBlock(new Return(new NumberValueLiteral('2')))),
-                        ),
+                        ],
                         new CodeBlock(new Return(new NumberValueLiteral('3'))))
         'switch (1) {case 1: return 1; default: return 3; case 2: return 2;}' |
                 new SwitchStatement(new NumberValueLiteral('1'),
-                        Arrays.asList(
+                        [
                                 new CaseStatement(new NumberValueLiteral('1'), new CodeBlock(new Return(new NumberValueLiteral('1')))),
-                                new CaseStatement(new NumberValueLiteral('2'), new CodeBlock(new Return(new NumberValueLiteral('2'))))
-                        ),
+                                new CaseStatement(new NumberValueLiteral('2'), new CodeBlock(new Return(new NumberValueLiteral('2')))),
+                        ],
                         new CodeBlock(new Return(new NumberValueLiteral('3'))))
         'switch (1) {case 1: return 1; default: return 3;}'                   |
                 new SwitchStatement(new NumberValueLiteral('1'),
-                        Arrays.asList(
-                                new CaseStatement(new NumberValueLiteral('1'), new CodeBlock(new Return(new NumberValueLiteral('1'))))
-                        ),
+                        [
+                                new CaseStatement(new NumberValueLiteral('1'), new CodeBlock(new Return(new NumberValueLiteral('1')))),
+                        ],
                         new CodeBlock(new Return(new NumberValueLiteral('3'))))
         'switch (1) {case 1: return 1;}'                                      |
                 new SwitchStatement(new NumberValueLiteral('1'),
-                        Arrays.asList(
-                                new CaseStatement(new NumberValueLiteral('1'), new CodeBlock(new Return(new NumberValueLiteral('1'))))
-                        ),
+                        [
+                                new CaseStatement(new NumberValueLiteral('1'), new CodeBlock(new Return(new NumberValueLiteral('1')))),
+                        ],
                         new CodeBlock())
         'switch (1) {default: return 3;}'                                     |
                 new SwitchStatement(new NumberValueLiteral('1'),
-                        new LinkedList<>(),
+                        [],
                         new CodeBlock(new Return(new NumberValueLiteral('3'))))
         'switch (1) {}'                                                       |
                 new SwitchStatement(new NumberValueLiteral('1'),
-                        new LinkedList<>(),
+                        [],
                         new CodeBlock())
     }
 
@@ -560,7 +560,7 @@ class JavaParserTest extends Specification {
                 Literal.of('int')
         ))), [
                 new NumberValueLiteral('1'),
-                new NumberValueLiteral('2')
+                new NumberValueLiteral('2'),
         ])
         def code = 'new int[][][]{1, 2}'
 
@@ -613,7 +613,7 @@ class JavaParserTest extends Specification {
                 new MethodInvocation([
                         new StringValueLiteral('\"%s, %s!\"'),
                         new StringValueLiteral('\"Hello\"'),
-                        new StringValueLiteral('\"world\"')
+                        new StringValueLiteral('\"world\"'),
                 ])
         ))
         def code = 'System.out.printf(\"%s, %s!\", \"Hello\", \"world\");'
@@ -1008,12 +1008,16 @@ class JavaParserTest extends Specification {
     }
 
     def 'test parse literal LiteralException'() {
+        given:
+        this.parser.input = 'true'
+        this.parser.tokenizer.next()
+
         when:
         this.parser.createLiteral(BooleanValueLiteral, 'a')
 
         then:
         def e = thrown(ParserException)
-        e.message == ParserException.noInputProvided().message
+        e.message == ParserException.invalidValueProvided(this.parser, 'a').message
     }
 
     def 'test parse literal RuntimeException'() {
@@ -1024,12 +1028,22 @@ class JavaParserTest extends Specification {
         thrown(IllegalArgumentException)
     }
 
+    def 'test parse EOF'() {
+        when:
+        this.parser.tokenizer
+
+        then:
+        def e = thrown(ParserException)
+        e.message == ParserException.noInputProvided().message
+    }
+
     static class MockLiteral extends ValueLiteral {
 
         MockLiteral(@NotNull String rawValue, @NotNull TokenType type) throws NodeException {
             super(rawValue, type)
             throw new IllegalArgumentException()
         }
+
     }
 
 }

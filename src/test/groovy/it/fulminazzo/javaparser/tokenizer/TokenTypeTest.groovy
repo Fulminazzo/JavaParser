@@ -9,7 +9,7 @@ class TokenTypeTest extends Specification {
             THIS, NULL,
             NUMBER_VALUE, LONG_VALUE, DOUBLE_VALUE,
             FLOAT_VALUE, BOOLEAN_VALUE, CHAR_VALUE,
-            STRING_VALUE, LITERAL
+            STRING_VALUE, LITERAL,
     ]
 
     def 'test #token between NOT and SPACE'() {
