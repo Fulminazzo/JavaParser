@@ -387,6 +387,35 @@ class ExecutorTest extends Specification {
         'method_call_val_prim' | 'toString'           | []                                           | ObjectValue.of('1')
     }
 
+    def 'test values mismatch visit method call should throw exception'() {
+        given:
+        def expected = ValueException.valuesMismatch(ClassValue.of(TestClass),
+                TestClass.getMethod('publicMethod', double, Boolean),
+                new ParameterValues([Value.of('Hello, world'), Value.of(true)])).message
+
+        when:
+        this.executor.visitMethodCall(new ThisLiteral(), 'publicMethod', new MethodInvocation([
+                new StringValueLiteral('\"Hello, world\"'),
+                new BooleanValueLiteral('true')
+        ]))
+
+        then:
+        def e = thrown(ExecutorException)
+        e.message == expected
+    }
+
+    def 'test not found visit method call should throw exception'() {
+        given:
+        def expected = ValueException.methodNotFound(ClassValue.of(TestClass), 'not_existing', new ParameterValues([])).message
+
+        when:
+        this.executor.visitMethodCall(new ThisLiteral(), 'not_existing', new MethodInvocation([]))
+
+        then:
+        def e = thrown(ExecutorException)
+        e.message == expected
+    }
+
     def 'test visit field of #field should return #expected'() {
         given:
         this.environment.declare(
@@ -409,6 +438,18 @@ class ExecutorTest extends Specification {
         field               | expected
         'publicStaticField' | PrimitiveValue.of(1)
         'publicField'       | ObjectValue.of(1.0d)
+    }
+
+    def 'test not found visit field should throw exception'() {
+        given:
+        def expected = ValueException.fieldNotFound(ClassValue.of(TestClass), 'not_existing').message
+
+        when:
+        this.executor.visitField(new ThisLiteral(), Literal.of('not_existing'))
+
+        then:
+        def e = thrown(ExecutorException)
+        e.message == expected
     }
 
     def 'test visit assignment: #valueClass #name = #val should return value #expected'() {
@@ -675,7 +716,10 @@ class ExecutorTest extends Specification {
         where:
         first      | second     | expected
         NUMBER_LIT | NUMBER_LIT | BooleanValue.TRUE
+        STRING_LIT | STRING_LIT | BooleanValue.TRUE
         CHAR_LIT   | NUMBER_LIT | BooleanValue.FALSE
+        STRING_LIT | NUMBER_LIT | BooleanValue.FALSE
+        NUMBER_LIT | STRING_LIT | BooleanValue.FALSE
     }
 
     def 'test not equal'() {
@@ -853,6 +897,29 @@ class ExecutorTest extends Specification {
         first      | second     | expected
         LONG_LIT   | NUMBER_LIT | PrimitiveValue.of(2L >>> 1)
         NUMBER_LIT | LONG_LIT   | PrimitiveValue.of((1 >>> 2L) as long)
+    }
+
+    def 'test #operation of #first, #second should throw exception'() {
+        when:
+        this.executor."visit${operation}"(first, second)
+
+        then:
+        thrown(UnsupportedOperationException)
+
+        where:
+        operation | first                          | second
+        'LShift'  | new DoubleValueLiteral('2.0d') | new NumberValueLiteral('1')
+        'LShift'  | new FloatValueLiteral('3.0f')  | new NumberValueLiteral('1')
+        'LShift'  | new NumberValueLiteral('1')    | new DoubleValueLiteral('2.0d')
+        'LShift'  | new NumberValueLiteral('1')    | new FloatValueLiteral('3.0f')
+        'RShift'  | new DoubleValueLiteral('2.0d') | new NumberValueLiteral('1')
+        'RShift'  | new FloatValueLiteral('3.0f')  | new NumberValueLiteral('1')
+        'RShift'  | new NumberValueLiteral('1')    | new DoubleValueLiteral('2.0d')
+        'RShift'  | new NumberValueLiteral('1')    | new FloatValueLiteral('3.0f')
+        'URShift' | new DoubleValueLiteral('2.0d') | new NumberValueLiteral('1')
+        'URShift' | new FloatValueLiteral('3.0f')  | new NumberValueLiteral('1')
+        'URShift' | new NumberValueLiteral('1')    | new DoubleValueLiteral('2.0d')
+        'URShift' | new NumberValueLiteral('1')    | new FloatValueLiteral('3.0f')
     }
 
     def 'test add'() {

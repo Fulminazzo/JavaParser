@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor.values
 
+import it.fulminazzo.javaparser.executor.ExecutorException
 import it.fulminazzo.javaparser.executor.values.arrays.ArrayValue
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue
@@ -8,6 +9,22 @@ import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
 import spock.lang.Specification
 
 class ValueTest extends Specification {
+
+    def 'test is#object should be false by default'() {
+        given:
+        def value = Mock(Value)
+
+        and:
+        value."is${object}"() >> { callRealMethod() }
+
+        expect:
+        !value."is${object}"()
+
+        where:
+        object << [
+                Character, Integer, Long, Float, Double, Boolean, String
+        ]*.simpleName
+    }
 
     def 'test access to field #field should return #expected'() {
         given:
@@ -80,6 +97,36 @@ class ValueTest extends Specification {
         new boolean[]{true}             | ArrayValue.of(PrimitiveClassValue.BOOLEAN, [true].collect { Value.of(it) })
         new String[]{'Hello', 'world!'} | ArrayValue.of(ObjectClassValue.STRING, ['Hello', 'world!']
                 .collect { Value.of(it) })
+    }
+
+    def 'test toPrimitive should throw exception'() {
+        given:
+        def value = Mock(Value)
+
+        and:
+        value.toPrimitive() >> { callRealMethod() }
+
+        when:
+        value.toPrimitive()
+
+        then:
+        def e = thrown(ExecutorException)
+        e.message == ExecutorException.noPrimitive(value).message
+    }
+
+    def 'test toWrapper should throw exception'() {
+        given:
+        def value = Mock(Value)
+
+        and:
+        value.toWrapper() >> { callRealMethod() }
+
+        when:
+        value.toWrapper()
+
+        then:
+        def e = thrown(ExecutorException)
+        e.message == ExecutorException.noWrapper(value).message
     }
 
 }

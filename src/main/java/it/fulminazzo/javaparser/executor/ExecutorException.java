@@ -98,14 +98,4 @@ public class ExecutorException extends RuntimeException {
         return new ExecutorException("Value %s is not a valid primitive type", value);
     }
 
-    /**
-     * Generates a {@link ExecutorException} with message:
-     * <i>Not implemented</i>
-     *
-     * @return the executor exception
-     */
-    public static @NotNull ExecutorException notImplemented() {
-        return new ExecutorException("Not implemented");
-    }
-
 }

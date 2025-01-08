@@ -13,7 +13,6 @@ import java.util.Arrays;
  *
  * @param <V> the type of the primitive
  */
-@Getter
 public final class PrimitiveClassValue<V> extends EnumObject implements ClassValue<V> {
     public static final ClassValue<Byte> BYTE = new PrimitiveClassValue<>(byte.class,
             Byte.class, Integer.class);
@@ -32,6 +31,7 @@ public final class PrimitiveClassValue<V> extends EnumObject implements ClassVal
     public static final ClassValue<Boolean> BOOLEAN = new PrimitiveClassValue<>(boolean.class,
             Boolean.class);
 
+    @Getter
     private final @NotNull Class<V> value;
     private final Class<?> @NotNull [] compatibleValues;
 
@@ -41,7 +41,7 @@ public final class PrimitiveClassValue<V> extends EnumObject implements ClassVal
      * @param clazz            the clazz
      * @param compatibleValues the compatible values
      */
-    public PrimitiveClassValue(final @NotNull Class<V> clazz, Class<?> @NotNull ... compatibleValues) {
+    private PrimitiveClassValue(final @NotNull Class<V> clazz, Class<?> @NotNull ... compatibleValues) {
         this.value = clazz;
         this.compatibleValues = Arrays.stream(compatibleValues)
                 .map(c -> new Class[]{c, ReflectionUtils.getPrimitiveClass(c)})
@@ -68,7 +68,6 @@ public final class PrimitiveClassValue<V> extends EnumObject implements ClassVal
     public boolean compatibleWith(@NotNull Value<?> value) {
         Object actual = value.getValue();
         if (actual == null) return false;
-        else if (getValue().isAssignableFrom(actual.getClass())) return true;
         else for (Class<?> compatibleValue : this.compatibleValues)
                 if (compatibleValue.isAssignableFrom(actual.getClass()))
                     return !value.isInteger() || (value.isPrimitive() ||

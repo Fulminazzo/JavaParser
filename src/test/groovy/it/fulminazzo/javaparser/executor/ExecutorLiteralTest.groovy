@@ -4,7 +4,6 @@ import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple
 import it.fulminazzo.javaparser.environment.MockEnvironment
 import it.fulminazzo.javaparser.executor.values.ClassValue
-
 import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue
 import it.fulminazzo.javaparser.executor.values.TestClass
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue
@@ -47,6 +46,18 @@ class ExecutorLiteralTest extends Specification {
         "${FirstInnerClass.canonicalName}.second.version"           | PrimitiveValue.of(2)
         "${FirstInnerClass.SecondInnerClass.canonicalName}"         | ClassValue.of(FirstInnerClass.SecondInnerClass)
         "${FirstInnerClass.SecondInnerClass.canonicalName}.version" | PrimitiveValue.of(2)
+    }
+
+    def 'test visitLiteralImpl of invalid field'() {
+        given:
+        def code = 'not.existing'
+
+        when:
+        this.executor.visitLiteralImpl(code)
+
+        then:
+        def e = thrown(ExecutorException)
+        e.message == ExecutorException.cannotResolveSymbol(code).message
     }
 
     def 'test getObjectFromLiteral #literal'() {

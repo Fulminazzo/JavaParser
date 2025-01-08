@@ -1,6 +1,5 @@
 package it.fulminazzo.javaparser.executor.values;
 
-import it.fulminazzo.javaparser.executor.ExecutorException;
 import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,11 +17,6 @@ public final class ParameterValues extends ParameterVisitorObjects<ClassValue<?>
      */
     public ParameterValues(final @NotNull List<Value<?>> parameters) {
         super(parameters);
-    }
-
-    @Override
-    public @NotNull ClassValue<List<Value<?>>> toClass() {
-        throw ExecutorException.noClassValue(getClass());
     }
 
     @Override

@@ -1,9 +1,7 @@
 package it.fulminazzo.javaparser.executor.values.variables;
 
+import it.fulminazzo.javaparser.executor.values.*;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
-import it.fulminazzo.javaparser.executor.values.ParameterValues;
-import it.fulminazzo.javaparser.executor.values.Value;
-import it.fulminazzo.javaparser.executor.values.ValueException;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;

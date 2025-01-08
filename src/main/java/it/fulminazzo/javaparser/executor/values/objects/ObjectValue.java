@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.executor.values.objects;
 
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
+import it.fulminazzo.javaparser.executor.ExecutorException;
 import it.fulminazzo.javaparser.executor.values.ClassValue;
 import it.fulminazzo.javaparser.executor.values.ParameterValues;
 import it.fulminazzo.javaparser.executor.values.Value;
@@ -84,7 +85,7 @@ public class ObjectValue<V> extends ObjectWrapper<V> implements Value<V> {
         V value = getValue();
         Class<?> primitiveClass = ReflectionUtils.getPrimitiveClass(value.getClass());
         if (!primitiveClass.equals(value.getClass())) return PrimitiveValue.of(value);
-        else return Value.super.toPrimitive();
+        else throw ExecutorException.noPrimitive(this);
     }
 
     @Override
