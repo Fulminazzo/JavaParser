@@ -14,9 +14,11 @@ import java.util.Map;
 public final class MapUtils {
 
     /**
-     * Searches the key in the given {@link Map}.
-     * If found, returns a {@link Tuple} with the key and value found.
-     * Otherwise, throws {@link IllegalArgumentException}.
+     * Loops through every key in the given {@link Map}.
+     * If a key matches with the given one (a.k.a. {@link Object#equals(Object)} to the other),
+     * then a {@link Tuple} is returned with the found key and value in it.
+     * <br>
+     * Otherwise, throws a {@link IllegalArgumentException}.
      *
      * @param <K> the type of the key
      * @param <V> the type of the value
