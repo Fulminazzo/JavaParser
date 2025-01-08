@@ -1,6 +1,12 @@
 package it.fulminazzo.javaparser;
 
+import it.fulminazzo.javaparser.parser.node.NodeException;
+import it.fulminazzo.javaparser.parser.node.values.StringValueLiteral;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Starting point of the program.
@@ -26,6 +32,35 @@ public final class Mojito {
             System.out.println("java -jar mojito.jar <filename> <var1:val1> <var2:val2>...");
             System.out.println("java -jar mojito.jar --code \"code to run\" <var1:val1> <var2:val2>...");
         }
+    }
+
+    /**
+     * Uses {@link Runner} to read the given array expecting a <code>key:value</code>
+     * pair for each element.
+     *
+     * @param arguments the array
+     * @param start     the index to start from
+     * @return a map with the parsed variables
+     */
+    static @NotNull Map<String, Object> parseVariables(final String @NotNull [] arguments, int start) {
+        Map<String, Object> variables = new HashMap<>();
+
+        for (int i = start; i < arguments.length; i++) {
+            String argument = arguments[i];
+            try {
+                if (argument.contains(":")) {
+                    String[] parts = argument.split(":");
+                    String name = new StringValueLiteral(String.format("\"%s\"", parts[0])).getRawValue();
+                    String value = String.join(":", Arrays.copyOfRange(parts, 1, parts.length));
+
+                    //TODO: value logic
+                } else throw new ArgumentsException("Expected 'key:value' pair");
+            } catch (ArgumentsException | NodeException e) {
+                throw new RunnerException("Error for variable '%s' at index %s: %s", arguments, i, e.getMessage());
+            }
+        }
+
+        return variables;
     }
 
     /**
