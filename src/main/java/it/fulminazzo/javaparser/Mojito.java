@@ -1,7 +1,7 @@
 package it.fulminazzo.javaparser;
 
 import it.fulminazzo.javaparser.parser.node.NodeException;
-import it.fulminazzo.javaparser.parser.node.values.StringValueLiteral;
+import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -50,7 +50,7 @@ public final class Mojito {
             try {
                 if (argument.contains(":")) {
                     String[] parts = argument.split(":");
-                    String name = new StringValueLiteral(String.format("\"%s\"", parts[0])).getRawValue();
+                    String name = Literal.of(parts[0]).getLiteral();
                     String value = String.join(":", Arrays.copyOfRange(parts, 1, parts.length));
 
                     //TODO: value logic
