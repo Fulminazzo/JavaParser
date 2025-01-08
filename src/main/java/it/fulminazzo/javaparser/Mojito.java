@@ -6,22 +6,22 @@ import org.jetbrains.annotations.NotNull;
  * Starting point of the program.
  */
 public final class Mojito {
-    private static final String[] HELP_OPTIONS = new String[] {"-h", "--help", "/?"};
+    private static final String[] HELP_OPTIONS = new String[]{"-h", "--help", "/?"};
 
     public static void main(final String @NotNull [] args) {
         try {
-            if (args.length == 0) throw new NotEnoughArgumentException();
+            if (args.length == 0) throw new ArgumentsException();
             String argument = args[0];
 
             for (String o : HELP_OPTIONS)
                 if (argument.equalsIgnoreCase(o))
-                    throw new NotEnoughArgumentException();
+                    throw new ArgumentsException();
 
             Runner runner = newRunner();
 
-            if (argument.equalsIgnoreCase("--code")); //TODO:
-            else; //TODO:
-        } catch (NotEnoughArgumentException e) {
+            if (argument.equalsIgnoreCase("--code")) ; //TODO:
+            else ; //TODO:
+        } catch (ArgumentsException e) {
             System.out.println("Usage:");
             System.out.println("java -jar mojito.jar <filename> <var1:val1> <var2:val2>...");
             System.out.println("java -jar mojito.jar --code \"code to run\" <var1:val1> <var2:val2>...");
