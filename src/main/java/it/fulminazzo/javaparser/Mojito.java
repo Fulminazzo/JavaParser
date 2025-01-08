@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.javaparser.executor.Executor;
+import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.parser.JavaParser;
 import it.fulminazzo.javaparser.parser.ParserException;
 import it.fulminazzo.javaparser.parser.node.Node;
@@ -15,6 +16,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Starting point of the program.
@@ -22,6 +24,7 @@ import java.util.Map;
 public final class Mojito {
     private static final String[] HELP_OPTIONS = new String[]{"-h", "--help", "/?"};
 
+    @SuppressWarnings("unchecked")
     public static void main(final String @NotNull [] args) {
         try {
             if (args.length == 0) throw new ArgumentsException();
@@ -43,6 +46,10 @@ public final class Mojito {
                 @NotNull Map<String, Object> variables = parseVariables(args, 1);
                 runner.run(file, variables);
             }
+
+            Optional<?> result = ((Optional<Value<?>>) runner.latestResult()).map(Value::getValue);
+            if (result.isPresent()) System.out.println(result.get());
+            else System.out.println("Nothing was returned");
         } catch (ArgumentsException e) {
             System.out.println("Usage:");
             System.out.println("java -jar mojito.jar <filename> <var1:val1> <var2:val2>...");
