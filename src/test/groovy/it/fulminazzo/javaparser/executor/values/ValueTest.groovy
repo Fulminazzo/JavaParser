@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor.values
 
+import it.fulminazzo.javaparser.executor.ExecutorException
 import it.fulminazzo.javaparser.executor.values.arrays.ArrayValue
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue
@@ -96,6 +97,36 @@ class ValueTest extends Specification {
         new boolean[]{true}             | ArrayValue.of(PrimitiveClassValue.BOOLEAN, [true].collect { Value.of(it) })
         new String[]{'Hello', 'world!'} | ArrayValue.of(ObjectClassValue.STRING, ['Hello', 'world!']
                 .collect { Value.of(it) })
+    }
+
+    def 'test toPrimitive should throw exception'() {
+        given:
+        def value = Mock(Value)
+
+        and:
+        value.toPrimitive() >> { callRealMethod() }
+
+        when:
+        value.toPrimitive()
+
+        then:
+        def e = thrown(ExecutorException)
+        e.message == ExecutorException.noPrimitive(value).message
+    }
+
+    def 'test toWrapper should throw exception'() {
+        given:
+        def value = Mock(Value)
+
+        and:
+        value.toWrapper() >> { callRealMethod() }
+
+        when:
+        value.toWrapper()
+
+        then:
+        def e = thrown(ExecutorException)
+        e.message == ExecutorException.noWrapper(value).message
     }
 
 }
