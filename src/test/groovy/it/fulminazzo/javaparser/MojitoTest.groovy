@@ -19,7 +19,7 @@ class MojitoTest extends Specification {
         ['code', 'a1:true', 'invalid key:value'] | 'Error for variable \'invalid key:value\' at index 2: ' +
                 "Invalid value invalid key for token${TokenType.LITERAL}(${TokenType.LITERAL.regex()})"
         ['code', 'a1:true', 'a2:false', 'key:;'] | 'Error for variable \'invalid_variable\' at index 3: ' +
-                'No value was returned from key:;'
+                'No value was returned from key'
     }
 
 }
