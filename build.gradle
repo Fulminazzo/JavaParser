@@ -57,11 +57,10 @@ jar {
     manifest {
         attributes (
                 'Manifest-Version': "${rootProject.version}",
-                'Main-Class': "${rootProject.group}.${project.name.toLowerCase()}.${project.name}"
+                'Main-Class': "${rootProject.group}.${project.name}.${project.name.capitalize()}"
         )
     }
 }
-
 
 tasks.register('sourcesJar', Jar) {
     from sourceSets.main.delombokTask
