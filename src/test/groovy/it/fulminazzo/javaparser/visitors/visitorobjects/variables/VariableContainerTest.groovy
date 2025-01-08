@@ -63,13 +63,13 @@ class VariableContainerTest extends Specification {
         def parameters = method.parameterTypes
                 .collect {
                     switch (it) {
-                        case Class: return String
-                        case String: return 'Hello, world!'
-                        case ClassVisitorObject: return ClassElement.of(Integer)
-                        case VisitorObject: return Element.of(1)
-                        case Object: return Element.of(1)
-                        case it.array: return Array.newInstance(it.componentType, 1)
-                        default: throw new IllegalArgumentException(it.toString())
+                        case Class -> String
+                        case String -> 'Hello, world!'
+                        case ClassVisitorObject -> ClassElement.of(Integer)
+                        case VisitorObject -> Element.of(1)
+                        case Object -> Element.of(1)
+                        case it.array -> Array.newInstance(it.componentType, 1)
+                        default -> throw new IllegalArgumentException(it.toString())
                     }
                 }
 
