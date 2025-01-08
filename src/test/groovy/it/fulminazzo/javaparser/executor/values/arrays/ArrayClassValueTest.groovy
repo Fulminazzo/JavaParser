@@ -33,6 +33,29 @@ class ArrayClassValueTest extends Specification {
         new ArrayClassValue<>(PrimitiveClassValue.INT)  | Value.of('Hello, world!')
     }
 
+    def 'test ArrayClassValue(#classValue) toWrapper should return #expected'() {
+        given:
+        def array = new ArrayClassValue<>(classValue)
+
+        when:
+        def wrapper = array.getWrapperValue()
+
+        then:
+        wrapper == expected
+
+        where:
+        classValue                        | expected
+        PrimitiveClassValue.of(Byte)      | Byte
+        PrimitiveClassValue.of(Short)     | Short
+        PrimitiveClassValue.of(Character) | Character
+        PrimitiveClassValue.of(Integer)   | Integer
+        PrimitiveClassValue.of(Long)      | Long
+        PrimitiveClassValue.of(Float)     | Float
+        PrimitiveClassValue.of(Double)    | Double
+        PrimitiveClassValue.of(Boolean)   | Boolean
+        PrimitiveClassValue.of(Boolean)   | Boolean
+    }
+
     def 'test getValue should return class'() {
         given:
         def arrayClassValue = new ArrayClassValue(ObjectClassValue.STRING)
