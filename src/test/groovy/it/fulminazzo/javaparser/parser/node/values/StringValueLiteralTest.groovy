@@ -4,7 +4,7 @@ import spock.lang.Specification
 
 class StringValueLiteralTest extends Specification {
 
-    def 'test escape characters are parsed'() {
+    def 'test escape characters should be parsed'() {
         given:
         def expected = 'Hello\tworld\r\nMy \'name\' is \"James\", ' +
                 'and I love \b, \f and \\,' +
