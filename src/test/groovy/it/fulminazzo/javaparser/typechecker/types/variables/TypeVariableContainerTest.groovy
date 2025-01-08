@@ -60,10 +60,10 @@ class TypeVariableContainerTest extends Specification {
                 .findAll { it.name != 'invokeMethod' }
     }
 
-    def 'test invokeMethod'() {
+    def 'test container invokeMethod should be called to internal variable'() {
         given:
-        def container = newContainer(Mock(Type))
-        def variable = container.getVariable()
+        def variable = Mock(Type)
+        def container = generateContainer(variable)
 
         and:
         def method = TestClass.getMethod('publicMethod')
@@ -74,6 +74,14 @@ class TypeVariableContainerTest extends Specification {
 
         then:
         1 * variable.invokeMethod(method, types)
+
+        where:
+        generateContainer << [
+                { v -> newContainer(v) },
+                { v -> new ArrayTypeVariableContainer(null, PrimitiveClassType.INT, '0', v) },
+                { v -> new TypeFieldContainer(null, PrimitiveClassType.INT, 'publicField', v) },
+                { v -> new TypeLiteralVariableContainer(null, PrimitiveClassType.INT, 'i', v) },
+        ]
     }
 
 }
