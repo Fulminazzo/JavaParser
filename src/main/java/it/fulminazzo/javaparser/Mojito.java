@@ -47,6 +47,27 @@ public final class Mojito {
         return new MojitoRunner(executor);
     }
 
-    private static class NotEnoughArgumentException extends RuntimeException {}
+    /**
+     * A helper exception for many functions of this class.
+     */
+    private static class ArgumentsException extends Exception {
+
+        /**
+         * Instantiates a new Arguments exception.
+         */
+        public ArgumentsException() {
+        }
+
+        /**
+         * Instantiates a new Arguments exception.
+         *
+         * @param message the message
+         * @param args    the arguments to add in the message format
+         */
+        public ArgumentsException(final @NotNull String message, final Object @NotNull ... args) {
+            super(String.format(message, args));
+        }
+
+    }
 
 }
