@@ -88,6 +88,7 @@ is **mandatory** for these dependencies to work.
 
 ## Roadmap
 
+- [ ] ternary operator (`a ? b : c`);
 - [ ] diamond operator (generics);
 - [ ] lambda expressions.
 
