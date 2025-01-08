@@ -3,28 +3,29 @@ package it.fulminazzo.mojito.parser;
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.fulmicollection.utils.StringUtils;
-import it.fulminazzo.mojito.parser.node.Assignment;
-import it.fulminazzo.mojito.parser.node.MethodCall;
-import it.fulminazzo.mojito.parser.node.MethodInvocation;
-import it.fulminazzo.mojito.parser.node.Node;
+import it.fulminazzo.mojito.parser.node.*;
 import it.fulminazzo.mojito.parser.node.arrays.DynamicArray;
 import it.fulminazzo.mojito.parser.node.arrays.StaticArray;
 import it.fulminazzo.mojito.parser.node.container.CodeBlock;
+import it.fulminazzo.mojito.parser.node.container.JavaProgram;
+import it.fulminazzo.mojito.parser.node.literals.*;
 import it.fulminazzo.mojito.parser.node.operators.binary.*;
 import it.fulminazzo.mojito.parser.node.operators.unary.Decrement;
 import it.fulminazzo.mojito.parser.node.operators.unary.Increment;
 import it.fulminazzo.mojito.parser.node.operators.unary.Minus;
 import it.fulminazzo.mojito.parser.node.operators.unary.Not;
 import it.fulminazzo.mojito.parser.node.statements.*;
-import it.fulminazzo.mojito.parser.node.types.*;
+import it.fulminazzo.mojito.parser.node.values.*;
 import it.fulminazzo.mojito.tokenizer.TokenType;
 import it.fulminazzo.mojito.tokenizer.Tokenizer;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
 
 import static it.fulminazzo.mojito.tokenizer.TokenType.*;
 
@@ -43,10 +44,16 @@ public class JavaParser extends Parser {
         super(input);
     }
 
-    protected void startReading() {
-        //TODO: temporary method
-        //TODO: for testing purposes only
-        getTokenizer().nextSpaceless();
+    /**
+     * JAVA_PROGRAM := SINGLE_STMT*
+     *
+     * @return the node
+     */
+    public @NotNull JavaProgram parseProgram() {
+        final LinkedList<Statement> statements = new LinkedList<>();
+        nextSpaceless();
+        while (lastToken() != EOF) statements.add(parseSingleStatement());
+        return new JavaProgram(statements);
     }
 
     /**
@@ -73,25 +80,33 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * SINGLE_STMT := STMT?;
+     * SINGLE_STMT := STMT | ;
      *
      * @return the node
      */
     protected @NotNull Statement parseSingleStatement() {
         final Statement statement;
-        if (lastToken() == SEMICOLON) statement = new Statement();
-        else {
-            statement = parseStatement();
-            nextSpaceless();
+        // Read comments
+        @NotNull Tokenizer tokenizer = this.getTokenizer();
+        if (lastToken() == COMMENT_INLINE) {
+            tokenizer.readUntilNextLine();
+            return parseSingleStatement();
+        } else if (lastToken() == COMMENT_BLOCK_START) {
+            getTokenizer().readUntil(COMMENT_BLOCK_END);
+            return parseSingleStatement();
         }
-        consume(SEMICOLON);
+
+        if (lastToken() == SEMICOLON) {
+            consume(SEMICOLON);
+            statement = new Statement();
+        } else statement = parseStatement();
         return statement;
     }
 
     /**
-     * STMT := new Return(EXPR) | break | continue |
-     *         SWITCH_STMT | FOR_STMT | DO_STMT | WHILE_STMT | IF_STMT
-     *         METHOD_CALL | RE_ASSIGN
+     * STMT := return EXPR; | throw EXPR; break; | continue; |
+     *         TRY_STMT | SWITCH_STMT | FOR_STMT | DO_STMT | WHILE_STMT | IF_STMT
+     *         ASSIGNMENT;
      *
      * @return the node
      */
@@ -100,36 +115,176 @@ public class JavaParser extends Parser {
         switch (lastToken()) {
             case RETURN: {
                 consume(RETURN);
-                return new Return(parseExpression());
+                Statement returnNode = new Return(parseExpression());
+                if (lastToken() == SEMICOLON) consume(SEMICOLON);
+                return returnNode;
             }
-            case BREAK: return new Break();
-            case CONTINUE: return new Continue();
-            case SWITCH: return parseSwitchStatement();
-            case FOR: return parseForStatement();
-            case DO: return parseDoStatement();
-            case WHILE: return parseWhileStatement();
-            case IF: return parseIfStatement();
-            case LITERAL: {
-                exp = parseExpression();
-                break;
+            case THROW: {
+                consume(THROW);
+                Statement throwNode = new Throw(parseExpression());
+                consume(SEMICOLON);
+                return throwNode;
             }
-            default: throw new ParserException("Unexpected token: " + lastToken());
+            case BREAK: {
+                consume(BREAK);
+                consume(SEMICOLON);
+                return new Break();
+            }
+            case CONTINUE: {
+                consume(CONTINUE);
+                consume(SEMICOLON);
+                return new Continue();
+            }
+            case TRY:
+                return parseTryStatement();
+            case SWITCH:
+                return parseSwitchStatement();
+            case FOR:
+                return parseForStatement();
+            case DO:
+                return parseDoStatement();
+            case WHILE:
+                return parseWhileStatement();
+            case IF:
+                return parseIfStatement();
+            default: {
+                exp = parseAssignment();
+                consume(SEMICOLON);
+            }
         }
         return new Statement(exp);
     }
 
     /**
-     * SWITCH_STMT := switch ...
+     * TRY_STMT := try ( \( ASSIGNMENT_BLOCK \) )? CODE_BLOCK CATCH+ ( finally CODE_BLOCK )?
+     *
+     * @return the node
+     */
+    protected @NotNull TryStatement parseTryStatement() {
+        consume(TRY);
+
+        final AssignmentBlock assignmentBlock;
+        if (lastToken() == OPEN_PAR) {
+            consume(OPEN_PAR);
+            assignmentBlock = parseAssignmentBlock();
+            consume(CLOSE_PAR);
+        } else assignmentBlock = new AssignmentBlock(new LinkedList<>());
+
+        final CodeBlock block = parseCodeBlock();
+
+        final List<CatchStatement> catchBlocks = new LinkedList<>();
+        while (lastToken() == CATCH) catchBlocks.add(parseCatchStatement());
+
+        CodeBlock finallyBlock = null;
+        if (lastToken() == FINALLY) {
+            consume(FINALLY);
+            finallyBlock = parseCodeBlock();
+        }
+
+        // If no catch and no finally block was specified, throw error
+        if (finallyBlock == null) {
+            if (catchBlocks.isEmpty()) throw ParserException.invalidTryStatement(this);
+            else finallyBlock = new CodeBlock();
+        }
+
+        return new TryStatement(assignmentBlock, block, catchBlocks, finallyBlock);
+    }
+
+    /**
+     * ASSIGNMENT_BLOCK := (ARRAY_LITERAL LITERAL ( = EXPR? ); )+
+     *
+     * @return the node
+     */
+    protected @NotNull AssignmentBlock parseAssignmentBlock() {
+        List<Assignment> assignments = new LinkedList<>();
+        do {
+            Node node = parseAssignment();
+            if (node.is(Assignment.class)) assignments.add((Assignment) node);
+            else throw ParserException.invalidNodeProvided(this, Assignment.class, node);
+        } while (lastToken() == SEMICOLON && consume(SEMICOLON) == LITERAL);
+        return new AssignmentBlock(assignments);
+    }
+
+    /**
+     * CATCH := catch \( ( LITERAL \| )* LITERAL LITERAL \) CODE_BLOCK
+     *
+     * @return the node
+     */
+    protected @NotNull CatchStatement parseCatchStatement() {
+        consume(CATCH);
+        consume(OPEN_PAR);
+        List<Literal> exceptions = new LinkedList<>();
+        do exceptions.add(parseLiteral());
+        while (lastToken() == BIT_OR && consume(BIT_OR) == LITERAL);
+        Literal exceptionsName = parseLiteral();
+        consume(CLOSE_PAR);
+        CodeBlock block = parseCodeBlock();
+        return new CatchStatement(exceptions, exceptionsName, block);
+    }
+
+    /**
+     * SWITCH_STMT := switch \( EXPR \) \{ (CASE_BLOCK)* (DEFAULT_BLOCK)? \}
      *
      * @return the node
      */
     protected @NotNull Statement parseSwitchStatement() {
-        //TODO:
-        throw new UnsupportedOperationException("Not implemented");
+        consume(SWITCH);
+        Node expression = parseExpression();
+        List<CaseStatement> caseStatements = new LinkedList<>();
+        CodeBlock defaultBlock = null;
+        consume(OPEN_BRACE);
+        while (lastToken() != CLOSE_BRACE) {
+            if (lastToken() == CASE) {
+                CaseStatement caseStatement = parseCaseBlock();
+                if (caseStatements.stream().anyMatch(c -> c.getExpression().equals(caseStatement.getExpression())))
+                    throw ParserException.caseBlockAlreadyDefined(this, caseStatement);
+                else caseStatements.add(caseStatement);
+            } else if (defaultBlock == null) defaultBlock = parseDefaultBlock();
+            else throw ParserException.defaultBlockAlreadyDefined(this);
+        }
+        if (defaultBlock == null) defaultBlock = new CodeBlock();
+        consume(CLOSE_BRACE);
+        return new SwitchStatement(expression, caseStatements, defaultBlock);
     }
 
     /**
-     * FOR_STMT := for \( ASSIGNMENT?; EXPR?; EXPR? \) BLOCK | ENHANCED_FOR
+     * CASE_BLOCK := case EXPR: ( CODE_BLOCK | SINGLE_STMT* )
+     *
+     * @return the node
+     */
+    protected @NotNull CaseStatement parseCaseBlock() {
+        //TODO: merged cases
+        consume(CASE);
+        Node expression = parseExpression();
+        consume(COLON);
+        LinkedList<Statement> statements = new LinkedList<>();
+        if (lastToken() == OPEN_BRACE)
+            statements.addAll(parseCodeBlock().getStatements());
+        else while (tokenIsValidForCaseDefaultBlock()) statements.add(parseSingleStatement());
+        return new CaseStatement(expression, new CodeBlock(statements));
+    }
+
+    /**
+     * DEFAULT_BLOCK := default: ( CODE_BLOCK | SINGLE_STMT* )
+     *
+     * @return the node
+     */
+    protected @NotNull CodeBlock parseDefaultBlock() {
+        consume(DEFAULT);
+        consume(COLON);
+        LinkedList<Statement> statements = new LinkedList<>();
+        if (lastToken() == OPEN_BRACE)
+            statements.addAll(parseCodeBlock().getStatements());
+        else while (tokenIsValidForCaseDefaultBlock()) statements.add(parseSingleStatement());
+        return new CodeBlock(statements);
+    }
+
+    private boolean tokenIsValidForCaseDefaultBlock() {
+        return lastToken() != CLOSE_BRACE && lastToken() != CASE && lastToken() != DEFAULT;
+    }
+
+    /**
+     * FOR_STMT := for \( ASSIGNMENT?; EXPR?; EXPR? \) BLOCK | ENHANCED_FOR_STMT
      *
      * @return the node
      */
@@ -139,19 +294,19 @@ public class JavaParser extends Parser {
 
         Node assignment;
         if (lastToken() != SEMICOLON) {
-            final Literal literal = parseLiteral();
-            if (lastToken() == LITERAL) {
-                final Literal second = parseLiteral();
-                if (lastToken() == COLON) return parseEnhancedForStatement(literal, second);
-                else assignment = new Assignment(literal, parseReAssign(second));
-            } else assignment = parseAssignmentPartial(literal);
-        } else assignment = new Statement();
+            assignment = parseAssignment();
+            if (assignment.is(Assignment.class)) {
+                Assignment ass = (Assignment) assignment;
+                if (!ass.isInitialized() && lastToken() == COLON)
+                    return parseEnhancedForStatement(ass);
+            }
+        } else assignment = new EmptyLiteral();
         consume(SEMICOLON);
 
-        Node condition = lastToken() == SEMICOLON ? new Statement() : parseExpression();
+        Node condition = lastToken() == SEMICOLON ? new EmptyLiteral() : parseExpression();
         consume(SEMICOLON);
 
-        Node increment = lastToken() == CLOSE_PAR ? new Statement() : parseExpression();
+        Node increment = lastToken() == CLOSE_PAR ? new EmptyLiteral() : parseExpression();
         consume(CLOSE_PAR);
 
         CodeBlock block = parseBlock();
@@ -159,21 +314,20 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ENHANCED_FOR_STMT := for \( LITERAL LITERAL : EXPR \) BLOCK
+     * ENHANCED_FOR_STMT := for \( ARRAY_LITERAL LITERAL : EXPR \) BLOCK
      *
      * @return the node
      */
-    private @NotNull EnhancedForStatement parseEnhancedForStatement(final @NotNull Literal type,
-                                                                    final @NotNull Literal variable) {
+    private @NotNull EnhancedForStatement parseEnhancedForStatement(final @NotNull Assignment assignment) {
         consume(COLON);
-        Node expr = parseExpression();
+        Node expression = parseExpression();
         consume(CLOSE_PAR);
         CodeBlock block = parseBlock();
-        return new EnhancedForStatement(type, variable, expr, block);
+        return new EnhancedForStatement(assignment.getType(), assignment.getName(), expression, block);
     }
 
     /**
-     * DO_STMT := do BLOCK while \( EXPR \)
+     * DO_STMT := do BLOCK while PAR_EXPR
      *
      * @return the node
      */
@@ -181,37 +335,31 @@ public class JavaParser extends Parser {
         consume(DO);
         CodeBlock codeBlock = parseBlock();
         consume(WHILE);
-        consume(OPEN_PAR);
-        Node expression = parseExpression();
-        consume(CLOSE_PAR);
+        Node expression = parseParenthesizedExpr();
         consume(SEMICOLON);
         return new DoStatement(expression, codeBlock);
     }
 
     /**
-     * WHILE_STMT := while \( EXPR \) BLOCK
+     * WHILE_STMT := while PAR_EXPR BLOCK
      *
      * @return the node
      */
     protected @NotNull WhileStatement parseWhileStatement() {
         consume(WHILE);
-        consume(OPEN_PAR);
-        Node expression = parseExpression();
-        consume(CLOSE_PAR);
+        Node expression = parseParenthesizedExpr();
         CodeBlock codeBlock = parseBlock();
         return new WhileStatement(expression, codeBlock);
     }
 
     /**
-     * IF_STMT := if \( EXPR \) BLOCK (else IF_STMT)* (else BLOCK)?
+     * IF_STMT := if PAR_EXPR BLOCK ( else IF_STMT )* ( else BLOCK )?
      *
      * @return the node
      */
     protected @NotNull IfStatement parseIfStatement() {
         consume(IF);
-        consume(OPEN_PAR);
-        Node expression = parseExpression();
-        consume(CLOSE_PAR);
+        Node expression = parseParenthesizedExpr();
         CodeBlock codeBlock = parseBlock();
         if (lastToken() == ELSE) {
             consume(ELSE);
@@ -219,26 +367,66 @@ public class JavaParser extends Parser {
                 return new IfStatement(expression, codeBlock, parseIfStatement());
             else return new IfStatement(expression, codeBlock, parseBlock());
         }
-        return new IfStatement(expression, codeBlock, new Statement());
+        return new IfStatement(expression, codeBlock, new EmptyLiteral());
     }
 
     /**
-     * EXPR := ASSIGNMENT | INCREMENT | DECREMENT | EQUAL
+     * ASSIGNMENT := ARRAY_LITERAL LITERAL ( = EXPR? ) | LITERAL = EXPR | EXPR
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseAssignment() {
+        Node expression = parseExpression();
+        if (expression.is(Literal.class)) {
+            if (lastToken() == LITERAL || expression.is(ArrayLiteral.class)) {
+                Literal name = parseLiteral();
+                Node value = new EmptyLiteral();
+                if (lastToken() == ASSIGN) {
+                    consume(ASSIGN);
+                    value = parseExpression();
+                }
+                expression = new Assignment(expression, name, value);
+            } else {
+                consume(ASSIGN);
+                expression = new ReAssign(expression, parseExpression());
+            }
+        }
+        return expression;
+    }
+
+    /**
+     * EXPR := NEW_OBJECT | INCREMENT | DECREMENT | AND
      *
      * @return the node
      */
     protected @NotNull Node parseExpression() {
+        Node expression;
         switch (lastToken()) {
-            case NEW: return parseNewObject();
-            case LITERAL: return parseAssignment();
-            case ADD: return parseIncrement();
-            case SUBTRACT: return parseDecrement();
-            default: return parseBinaryOperation(EQUAL);
+            case NEW: {
+                expression = parseNewObject();
+                break;
+            }
+            case ADD: {
+                consume(ADD);
+                expression = parseIncrement();
+                break;
+            }
+            case SUBTRACT: {
+                consume(SUBTRACT);
+                expression = parseDecrement();
+                break;
+            }
+            default: {
+                expression = parseBinaryComparison();
+            }
         }
+        return expression;
     }
 
     /**
-     * NEW_OBJECT := new LITERAL METHOD_INVOCATION | new LITERAL\[\]\{ (EXPR)? (, EXPR)* \} | new LITERAL\[NUMBER_VALUE\]
+     * NEW_OBJECT := new LITERAL METHOD_INVOCATION |
+     *               new ARRAY_LITERAL{ ( EXPR )? ( , EXPR )* \} |
+     *               new LITERAL ( \[ NUMBER_VALUE \] )+
      *
      * @return the node
      */
@@ -246,70 +434,378 @@ public class JavaParser extends Parser {
         match(NEW);
         next(); // Necessary space
         consume(SPACE);
-        Node literal = parseAtom();
-        switch (lastToken()) {
-            case OPEN_BRACKET: {
+        Node literal = parseLiteral();
+
+        if (lastToken() == OPEN_BRACKET) {
+            // array initialization
+            while (lastToken() == OPEN_BRACKET) {
                 consume(OPEN_BRACKET);
-                if (lastToken() == NUMBER_VALUE) {
-                    NumberLiteral size = (NumberLiteral) parseTypeValue();
+                if (lastToken() == CLOSE_BRACKET) {
                     consume(CLOSE_BRACKET);
-                    return new StaticArray(literal, size);
-                } else {
-                    consume(CLOSE_BRACKET);
-                    List<Node> parameters = new LinkedList<>();
-                    consume(OPEN_BRACE);
-                    while (lastToken() != CLOSE_BRACE) {
-                        parameters.add(parseExpression());
-                        if (lastToken() == COMMA) consume(COMMA);
+                    literal = new ArrayLiteral(literal);
+                } else break;
+            }
+
+            if (lastToken() == OPEN_BRACE) {
+                // dynamic array initialization
+                List<Node> parameters = new LinkedList<>();
+                consume(OPEN_BRACE);
+                while (lastToken() != CLOSE_BRACE) {
+                    parameters.add(parseExpression());
+                    if (lastToken() == COMMA) consume(COMMA);
+                }
+                consume(CLOSE_BRACE);
+                return new DynamicArray(literal, parameters);
+            } else {
+                // static array initialization
+                StaticArray array = null;
+                if (literal.is(ArrayLiteral.class)) {
+                    while (literal.is(ArrayLiteral.class)) {
+                        literal = ((ArrayLiteral) literal).getType();
+                        StaticArray innerArray = new StaticArray(literal,
+                                createLiteral(NumberValueLiteral.class, "0"));
+                        if (array == null) array = innerArray;
+                        else array.updateComponentType(innerArray);
                     }
-                    consume(CLOSE_BRACE);
-                    return new DynamicArray(literal, parameters);
+                }
+
+                array = parseStaticArray(array, literal);
+                consume(CLOSE_BRACKET);
+
+                while (lastToken() == OPEN_BRACKET) {
+                    consume(OPEN_BRACKET);
+                    array = parseStaticArray(array, literal);
+                    consume(CLOSE_BRACKET);
+                }
+                return array;
+            }
+        } else {
+            // new object
+            MethodInvocation invocation = parseMethodInvocation();
+            return new NewObject(literal, invocation);
+        }
+    }
+
+    /**
+     * Support method for parsing {@link StaticArray} in {@link #parseNewObject()}.
+     * Does NOT check for {@link TokenType#OPEN_BRACKET} or {@link TokenType#CLOSE_BRACKET}.
+     *
+     * @param array the previously parsed {@link StaticArray}
+     * @param type  the type of the elements
+     * @return the newly parsed {@link StaticArray}
+     */
+    protected @NotNull StaticArray parseStaticArray(@Nullable StaticArray array,
+                                                    final @NotNull Node type) {
+        NumberValueLiteral size;
+        if (lastToken() != CLOSE_BRACKET) size = (NumberValueLiteral) parseTypeValue();
+        else size = createLiteral(NumberValueLiteral.class, "0");
+        if (array == null) array = new StaticArray(type, size);
+        else array.updateComponentType(new StaticArray(type, size));
+        return array;
+    }
+
+    /**
+     * ARRAY_LITERAL := LITERAL ( \[\] )* | LITERAL ( \[ [0-9]+ \] )+
+     *
+     * @param expression the expression to start from
+     * @return the node
+     */
+    protected @NotNull Node parseArrayLiteral(@NotNull Node expression) {
+        if (lastToken() == OPEN_BRACKET) {
+            consume(OPEN_BRACKET);
+            if (lastToken() == NUMBER_VALUE) {
+                expression = new ArrayIndex(expression, parseExpression());
+                consume(CLOSE_BRACKET);
+                while (lastToken() == OPEN_BRACKET) {
+                    consume(OPEN_BRACKET);
+                    expression = new ArrayIndex(expression, parseExpression());
+                    consume(CLOSE_BRACKET);
+                }
+            } else {
+                consume(CLOSE_BRACKET);
+                expression = new ArrayLiteral(expression);
+                while (lastToken() == OPEN_BRACKET) {
+                    consume(OPEN_BRACKET);
+                    consume(CLOSE_BRACKET);
+                    expression = new ArrayLiteral(expression);
                 }
             }
-            default: {
-                MethodInvocation invocation = parseMethodInvocation();
-                return new NewObject(literal, invocation);
+        }
+        return expression;
+    }
+
+    /**
+     * INCREMENT := ++ATOM
+     *
+     * @return the node
+     */
+    protected @NotNull Increment parseIncrement() {
+        consume(ADD);
+        return new Increment(parseAtom(), true);
+    }
+
+    /**
+     * DECREMENT := --ATOM | MINUS
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseDecrement() {
+        if (lastToken() != SUBTRACT) return new Minus(parseExpression());
+        consume(SUBTRACT);
+        return new Decrement(parseAtom(), true);
+    }
+
+    /**
+     * AND := OR (&amp;&amp; OR)*
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseBinaryComparison() {
+        return parseBinaryComparison(AND);
+    }
+
+    /**
+     * AND := OR (&amp;&amp; OR)* <br>
+     * OR := EQUAL (|| EQUAL)* <br>
+     * EQUAL := NOT_EQUAL (== NOT_EQUAL)* <br>
+     * NOT_EQUAL := LESS_THAN (!= LESS_THAN)* <br>
+     * LESS_THAN := LESS_THAN_EQUAL (&lt; LESS_THAN_EQUAL)* <br>
+     * LESS_THAN_EQUAL := GREATER_THAN (&lt;= GREATER_THAN)* <br>
+     * GREATER_THAN := GREATER_THAN_EQUAL (&gt; GREATER_THAN_EQUAL)* <br>
+     * GREATER_THAN_EQUAL := BIT_AND (&gt;= BIT_AND)*
+     *
+     * @param comparison the {@link TokenType} that corresponds to the comparison
+     * @return the node
+     */
+    protected @NotNull Node parseBinaryComparison(final @NotNull TokenType comparison) {
+        if (comparison.after(GREATER_THAN_EQUAL)) return parseBinaryOperation();
+        else {
+            final TokenType nextOperation = TokenType.values()[comparison.ordinal() + 1];
+            Node node = parseBinaryComparison(nextOperation);
+            while (lastToken() == comparison) {
+                consume(comparison);
+                Node tmp = parseBinaryComparison(nextOperation);
+                node = generateBinaryOperationFromToken(comparison, node, tmp);
             }
+            return node;
         }
     }
 
     /**
-     * ASSIGNMENT := (EXPR)? RE_ASSIGN | METHOD_CALL
+     * BIT_AND := BIT_OR ( (&amp; BIT_OR)* | (&amp;= BIT_OR) )
      *
      * @return the node
      */
-    protected @NotNull Node parseAssignment() {
-        final Literal literal = parseLiteral();
-        return parseAssignmentPartial(literal);
+    protected @NotNull Node parseBinaryOperation() {
+        return parseBinaryOperation(BIT_AND);
     }
 
     /**
-     * Support function for {@link #parseAssignment()}
+     * BIT_AND := BIT_OR ( (&amp; BIT_OR)* | (&amp;= BIT_OR) ) <br>
+     * BIT_OR := BIT_XOR ( (| BIT_XOR)* | (|= BIT_XOR) ) <br>
+     * BIT_XOR := LSHIFT ( (^ LSHIFT)* | (^= LSHIFT) ) <br>
+     * LSHIFT := RSHIFT ( (&lt;&lt; RSHIFT)* | (&lt;&lt;= RSHIFT) ) <br>
+     * RSHIFT := URSHIFT ( (&gt;&gt; URSHIFT)* | (&gt;&gt;= URSHIFT) ) <br>
+     * URSHIFT := ADD ( (&gt;&gt;&gt; ADD)* | (&gt;&gt;&gt;= ADD) ) <br>
+     * ADD := SUB ( (+ SUB)* | (+= SUB) | ++ ) <br>
+     * SUB := MUL ( (- MUL)* | (-= MUL) | -- ) <br>
+     * MUL := DIV ( (* DIV)* | (*= DIV) ) <br>
+     * DIV := MOD ( (/ MOD)* | (/= MOD) ) <br>
+     * MOD := UNARY_OPERATION ( (% UNARY_OPERATION)* | (%= UNARY_OPERATION) )
      *
-     * @param literal the literal
+     * @param operation the {@link TokenType} that corresponds to the operation
      * @return the node
      */
-    protected @NotNull Node parseAssignmentPartial(final @NotNull Literal literal) {
+    protected @NotNull Node parseBinaryOperation(final @NotNull TokenType operation) {
+        if (operation.after(MODULO)) return parseUnaryOperation();
+        else {
+            final TokenType nextOperation = TokenType.values()[operation.ordinal() + 1];
+            Node node = parseBinaryOperation(nextOperation);
+            while (lastToken() == operation) {
+                consume(operation);
+                TokenType lastToken = lastToken();
+                if (operation == ADD && lastToken == ADD) {
+                    consume(ADD);
+                    return unwrapCast(node, n -> new Increment(n, false));
+                } else if (operation == SUBTRACT && lastToken == SUBTRACT) {
+                    consume(SUBTRACT);
+                    return unwrapCast(node, n -> new Decrement(n, false));
+                } else if (lastToken == ASSIGN) {
+                    consume(ASSIGN);
+                    Node nextOperationNode = parseBinaryOperation(nextOperation);
+                    Node newNode = generateBinaryOperationFromToken(operation, node, nextOperationNode);
+                    node = new ReAssign(node, newNode);
+                } else {
+                    Node nextOperationNode = parseBinaryOperation(nextOperation);
+                    node = generateBinaryOperationFromToken(operation, node, nextOperationNode);
+                }
+            }
+            return node;
+        }
+    }
+
+    /**
+     * Because of how the grammar works, expressions of the type:
+     * <br>
+     * <i>(double) i++</i>
+     * <br>
+     * will be parsed as:
+     * <br>
+     * <i>Increment(Cast(Double), i)</i>
+     * <br>
+     * while the Java specification asserts the opposite.
+     * To comply with it, this method will unwrap a {@link Cast} node
+     * and update its cast object to the resulting node of the conversion function.
+     *
+     * @param node               the node
+     * @param conversionFunction conversion function
+     * @return the re-wrapped node
+     */
+    @NotNull Node unwrapCast(final @NotNull Node node,
+                             final @NotNull Function<Node, Node> conversionFunction) {
+        if (node.is(Cast.class)) {
+            Cast cast = (Cast) node;
+            Node type = cast.getType();
+            Node expression = cast.getExpression();
+            return new Cast(type, unwrapCast(expression, conversionFunction));
+        } else return conversionFunction.apply(node);
+    }
+
+    /**
+     * Creates a new {@link BinaryOperation} object from the given {@link TokenType}.
+     * <br>
+     * Uses {@link #findBinaryOperationClass(String)} to search the most appropriate class.
+     *
+     * @param operation the token that identifies the binary operation
+     * @param left      the left operand
+     * @param right     the right operand
+     * @return the node object
+     */
+    protected @NotNull Node generateBinaryOperationFromToken(final @NotNull TokenType operation,
+                                                             final @NotNull Node left,
+                                                             final @NotNull Node right) {
+        Class<? extends BinaryOperation> clazz = findBinaryOperationClass(operation.name());
+        return new Refl<>(clazz, left, right).getObject();
+    }
+
+    /**
+     * Finds the most appropriate {@link BinaryOperation} class from the given string.
+     * <br>
+     * Throws {@link IllegalArgumentException} if not found.
+     *
+     * @param className the class name
+     * @return the class
+     */
+    protected @NotNull Class<? extends BinaryOperation> findBinaryOperationClass(@NotNull String className) {
+        if (className.equals(URSHIFT.name())) return URShift.class;
+        else if (className.equals(RSHIFT.name())) return RShift.class;
+        else if (className.equals(LSHIFT.name())) return LShift.class;
+        else {
+            className = StringUtils.capitalize(className).replace("_", "");
+            return ReflectionUtils.getClass(BinaryOperation.class.getPackage().getName() + "." + className);
+        }
+    }
+
+    /**
+     * UNARY_OPERATION := CAST |  NOT | METHOD_CALL
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseUnaryOperation() {
         switch (lastToken()) {
-            case LITERAL: {
-                final Literal second = parseLiteral();
-                return new Assignment(literal, parseReAssign(second));
-            }
             case OPEN_PAR:
-                return parseMethodCall(literal);
+                return parseCast();
+            case NOT:
+                return parseNot();
             default:
-                return parseReAssign(literal);
+                return parseMethodCall();
         }
     }
 
     /**
-     * METHOD_CALL := LITERAL . METHOD_INVOCATION
+     * CAST := (PAR_EXPR)* (EXPR | PAR_EXPR)
      *
-     * @param literal the literal to start from
      * @return the node
      */
-    protected @NotNull MethodCall parseMethodCall(final @NotNull Literal literal) {
-        return new MethodCall(literal, parseMethodInvocation());
+    protected @NotNull Node parseCast() {
+        Node expression = parseParenthesizedExpr();
+        if (lastToken().between(MODULO, SPACE) || lastToken() == OPEN_PAR)
+            expression = new Cast(expression, parseUnaryOperation());
+        else if (lastToken() == ADD) {
+            consume(ADD);
+            if (lastToken() == ADD) expression = new Cast(expression, parseIncrement());
+            else return new Add(expression, parseExpression());
+        } else if (lastToken() == SUBTRACT) {
+            consume(SUBTRACT);
+            if (lastToken() == SUBTRACT) expression = new Cast(expression, parseDecrement());
+            else if (expression.is(Literal.class) &&
+                    (lastToken().between(MODULO, SPACE) || lastToken() == OPEN_PAR))
+                expression = new Cast(expression, new Minus(parseUnaryOperation()));
+            else return new Subtract(expression, parseExpression());
+        }
+        return expression;
+    }
+
+    /**
+     * PAR_EXPR := \( EXPR \)
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseParenthesizedExpr() {
+        consume(OPEN_PAR);
+        Node expression = parseExpression();
+        consume(CLOSE_PAR);
+        return expression;
+    }
+
+    /**
+     * MINUS := - EXPR
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseMinus() {
+        consume(SUBTRACT);
+        return new Minus(parseExpression());
+    }
+
+    /**
+     * NOT := ! EXPR
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseNot() {
+        consume(NOT);
+        return new Not(parseExpression());
+    }
+
+    /**
+     * METHOD_CALL := ATOM ( .LITERAL METHOD_INVOCATION? )*
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseMethodCall() {
+        Node node = parseAtom();
+        if (node.is(Literal.class) && lastToken() == OPEN_PAR) {
+            Literal literalNode = (Literal) node;
+            String literal = literalNode.getLiteral();
+            final @NotNull Node executor;
+            final @NotNull String methodName;
+            if (literal.contains(".")) {
+                executor = getLiteralFromString(literal.substring(0, literal.lastIndexOf(".")));
+                methodName = literal.substring(literal.lastIndexOf(".") + 1);
+            } else {
+                executor = new EmptyLiteral();
+                methodName = literal;
+            }
+            node = new MethodCall(executor, methodName, parseMethodInvocation());
+        }
+        while (lastToken() == DOT) {
+            Literal methodName = parseLiteralNoDot();
+            if (lastToken() == OPEN_PAR)
+                node = new MethodCall(node, methodName.getLiteral(), parseMethodInvocation());
+            else node = new Field(node, methodName);
+        }
+        return node;
     }
 
     /**
@@ -329,168 +825,78 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * INCREMENT := ++LITERAL
-     *
-     * @return the node
-     */
-    protected @NotNull Increment parseIncrement() {
-        consume(ADD);
-        consume(ADD);
-        return new Increment(parseLiteral(), true);
-    }
-
-    /**
-     * DECREMENT := --LITERAL
-     *
-     * @return the node
-     */
-    protected @NotNull Decrement parseDecrement() {
-        consume(SUBTRACT);
-        consume(SUBTRACT);
-        return new Decrement(parseLiteral(), true);
-    }
-
-    /**
-     * RE_ASSIGN := LITERAL (+|-|*|/|%|&|\||^|<<|>>|>>>)?= EXPR | LITERAL(++|--)
-     *
-     * @param literal the literal to start from
-     * @return the node
-     */
-    protected @NotNull Node parseReAssign(final @NotNull Literal literal) {
-        final Node expr;
-        final TokenType token = lastToken();
-        switch (token) {
-            case ADD:
-            case SUBTRACT: {
-                consume(token);
-                if (lastToken() == token) {
-                    consume(token);
-                    if (token == ADD) return new Increment(literal, false);
-                    else return new Decrement(literal, false);
-                } else expr = parseOperationReAssign(token, literal);
-                break;
-            }
-            case MULTIPLY:
-            case DIVIDE:
-            case MODULO:
-            case BIT_AND:
-            case BIT_OR:
-            case BIT_XOR:
-            case LSHIFT:
-            case RSHIFT:
-            case URSHIFT: {
-                consume(token);
-                expr = parseOperationReAssign(token, literal);
-                break;
-            }
-            case ASSIGN: {
-                consume(ASSIGN);
-                expr = parseExpression();
-                break;
-            }
-            default:
-                // Probably something else, return the literal itself
-                return literal;
-        }
-        return new ReAssign(literal, expr);
-    }
-
-    private @NotNull Node parseOperationReAssign(final @NotNull TokenType token,
-                                                 final @NotNull Node literal) {
-        consume(ASSIGN);
-        Node tmp = parseExpression();
-        return generateBinaryOperationFromToken(token, literal, tmp);
-    }
-
-    /**
-     * EQUAL := NOT_EQUAL (== NOT_EQUAL)* <br/>
-     * NOT_EQUAL := LESS_THAN (!= LESS_THAN)* <br/>
-     * LESS_THAN := LESS_THAN_OR_EQUAL (< LESS_THAN_OR_EQUAL)* <br/>
-     * LESS_THAN_OR_EQUAL := GREATER_THAN (<= GREATER_THAN)* <br/>
-     * GREATER_THAN := GREATER_THAN_OR_EQUAL (> GREATER_THAN_OR_EQUAL)* <br/>
-     * GREATER_THAN_OR_EQUAL := AND (>= AND)* <br/>
-     * AND := OR (&& OR)* <br/>
-     * OR := BIT_AND (|| BIT_AND)* <br/>
-     * <br/>
-     * BIT_AND := BIT_OR (& BIT_OR)* <br/>
-     * BIT_OR := BIT_XOR (| BIT_XOR)* <br/>
-     * BIT_XOR := LSHIFT (^ LSHIFT)* <br/>
-     * LSHIFT := RSHIFT (<< RSHIFT)* <br/>
-     * RSHIFT := URSHIFT (>> URSHIFT)* <br/>
-     * URSHIFT := ADD (>>> ADD)* <br/>
-     * <br/>
-     * ADD := SUB (+ SUB)* <br/>
-     * SUB := MUL (- MUL)* <br/>
-     * MUL := DIV (* DIV)* <br/>
-     * DIV := MOD (/ MOD)* <br/>
-     * MOD := MINUS (% MINUS)* <br/>
-     *
-     * @param operation the {@link TokenType} that corresponds to the operation
-     * @return the node
-     */
-    protected @NotNull Node parseBinaryOperation(final @NotNull TokenType operation) {
-        if (operation.ordinal() > MODULO.ordinal()) return parseAtom();
-        else {
-            final TokenType nextOperation = TokenType.values()[operation.ordinal() + 1];
-            Node node = parseBinaryOperation(nextOperation);
-            while (lastToken() == operation) {
-                consume(operation);
-                Node tmp = parseBinaryOperation(nextOperation);
-                node = generateBinaryOperationFromToken(operation, node, tmp);
-            }
-            return node;
-        }
-    }
-
-    private @NotNull Node generateBinaryOperationFromToken(final @NotNull TokenType operation,
-                                                           final @NotNull Node left,
-                                                           final @NotNull Node right) {
-        Class<? extends BinaryOperation> clazz = findOperationClass(operation.name());
-        return new Refl<>(clazz, left, right).getObject();
-    }
-
-    private Class<? extends BinaryOperation> findOperationClass(@NotNull String className) {
-        if (className.equals(URSHIFT.name())) return URShift.class;
-        else if (className.equals(RSHIFT.name())) return RShift.class;
-        else if (className.equals(LSHIFT.name())) return LShift.class;
-        else {
-            className = StringUtils.capitalize(className).replace("_", "");
-            return ReflectionUtils.getClass(BinaryOperation.class.getPackage().getName() + "." + className);
-        }
-    }
-
-    /**
-     * ATOM := MINUS | NOT | LITERAL | TYPE_VALUE
+     * ATOM := NULL | THIS | ARRAY_LITERAL | TYPE_VALUE
      *
      * @return the node
      */
     protected @NotNull Node parseAtom() {
         switch (lastToken()) {
-            case MINUS: return parseMinus();
-            case NOT: return parseNot();
-            case LITERAL: return parseLiteral();
-            default: return parseTypeValue();
+            case NULL:
+                return parseNull();
+            case THIS:
+                return parseThis();
+            case LITERAL:
+                return parseArrayLiteral(parseLiteral());
+            default:
+                return parseTypeValue();
         }
     }
 
     /**
-     * MINUS := - EXPR
+     * NULL := {@link TokenType#NULL}
      *
      * @return the node
      */
-    protected @NotNull Node parseMinus() {
-        consume(MINUS);
-        return new Minus(parseExpression());
+    protected @NotNull Node parseNull() {
+        consume(NULL);
+        return new NullLiteral();
     }
 
     /**
-     * NOT := ! EXPR
+     * THIS := {@link TokenType#THIS}
      *
      * @return the node
      */
-    protected @NotNull Node parseNot() {
-        consume(NOT);
-        return new Not(parseExpression());
+    protected @NotNull Node parseThis() {
+        consume(THIS);
+        return new ThisLiteral();
+    }
+
+    /**
+     * LITERAL := {@link TokenType#LITERAL}
+     *
+     * @return the node
+     */
+    protected @NotNull Literal parseLiteral() {
+        final String literal = getTokenizer().lastRead();
+        Literal l = getLiteralFromString(literal);
+        consume(LITERAL);
+        return l;
+    }
+
+    /**
+     * Converts the given string to a {@link Literal}.
+     * Throws {@link ParserException#invalidValueProvided(Parser, String)} in case of error.
+     *
+     * @param literal the string
+     * @return the literal
+     */
+    @NotNull Literal getLiteralFromString(final @NotNull String literal) {
+        try {
+            return Literal.of(literal);
+        } catch (NodeException e) {
+            throw ParserException.invalidValueProvided(this, literal);
+        }
+    }
+
+    /**
+     * Parses {@link #parseLiteral()} with no {@link TokenType#DOT}
+     *
+     * @return the node
+     */
+    protected @NotNull Literal parseLiteralNoDot() {
+        getTokenizer().nextUntil(DOT);
+        return parseLiteral();
     }
 
     /**
@@ -501,54 +907,64 @@ public class JavaParser extends Parser {
      *
      * @return the node
      */
-    protected @NotNull BaseTypeLiteral parseTypeValue() {
+    protected @NotNull ValueLiteral parseTypeValue() {
         final String read = getTokenizer().lastRead();
-        final BaseTypeLiteral literal;
+        final ValueLiteral literal;
         switch (lastToken()) {
             case NUMBER_VALUE: {
-                literal = new NumberLiteral(read);
+                literal = createLiteral(NumberValueLiteral.class, read);
                 break;
             }
             case LONG_VALUE: {
-                literal = new LongLiteral(read);
+                literal = createLiteral(LongValueLiteral.class, read);
                 break;
             }
             case DOUBLE_VALUE: {
-                literal = new DoubleLiteral(read);
+                literal = createLiteral(DoubleValueLiteral.class, read);
                 break;
             }
             case FLOAT_VALUE: {
-                literal = new FloatLiteral(read);
+                literal = createLiteral(FloatValueLiteral.class, read);
                 break;
             }
             case BOOLEAN_VALUE: {
-                literal = new BooleanLiteral(read);
+                literal = createLiteral(BooleanValueLiteral.class, read);
                 break;
             }
             case CHAR_VALUE: {
-                literal = new CharLiteral(read);
+                literal = createLiteral(CharValueLiteral.class, read);
                 break;
             }
             case STRING_VALUE: {
-                literal = new StringLiteral(read);
+                literal = createLiteral(StringValueLiteral.class, read);
                 break;
             }
             default:
-                throw new ParserException("Unexpected token: " + lastToken());
+                throw ParserException.unexpectedToken(this, lastToken());
         }
         nextSpaceless();
         return literal;
     }
 
     /**
-     * LITERAL := {@link TokenType#LITERAL}
+     * Creates a new {@link ValueLiteral} from the given class and rawValue.
+     * Throws {@link ParserException} in case a {@link NodeException} occurs.
      *
-     * @return the node
+     * @param literalType the type of the literal
+     * @param rawValue    the raw value
+     * @param <L>         the type of the literal
+     * @return the literal
      */
-    protected @NotNull Literal parseLiteral() {
-        final String literal = getTokenizer().lastRead();
-        consume(LITERAL);
-        return new Literal(literal);
+    protected <L extends ValueLiteral> @NotNull L createLiteral(final @NotNull Class<L> literalType,
+                                                                final @NotNull String rawValue) {
+        try {
+            return new Refl<>(literalType, rawValue).getObject();
+        } catch (RuntimeException e) {
+            Throwable cause = e.getCause();
+            if (cause instanceof NodeException)
+                throw ParserException.invalidValueProvided(this, rawValue);
+            else throw e;
+        }
     }
 
 }

@@ -39,11 +39,9 @@ abstract class Parser {
     /**
      * Returns the next {@link TokenType} from the {@link Tokenizer}.
      * Uses {@link #getTokenizer()}.
-     *
-     * @return the token type
      */
-    protected @NotNull TokenType next() {
-        return getTokenizer().next();
+    protected void next() {
+        getTokenizer().next();
     }
 
     /**
@@ -65,7 +63,7 @@ abstract class Parser {
     protected void match(final @NotNull TokenType tokenType) {
         TokenType lastToken = lastToken();
         if (lastToken != tokenType)
-            throw new ParserException("Expected token " + tokenType + " but found " + lastToken);
+            throw ParserException.unexpectedToken(this, tokenType, lastToken);
     }
 
     /**
@@ -104,9 +102,8 @@ abstract class Parser {
      * @return the tokenizer
      */
     protected @NotNull Tokenizer getTokenizer() {
-        if (this.tokenizer == null)
-            throw new ParserException("No input was provided!");
-        return this.tokenizer;
+        if (this.tokenizer == null) throw ParserException.noInputProvided();
+        else return this.tokenizer;
     }
 
 }

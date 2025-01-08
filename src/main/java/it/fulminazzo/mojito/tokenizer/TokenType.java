@@ -7,12 +7,23 @@ import org.jetbrains.annotations.NotNull;
  */
 public enum TokenType {
 
+    // Miscellaneous
+    COMMENT_INLINE("\\/\\/"),
+    COMMENT_BLOCK_START("\\/\\*"),
+    COMMENT_BLOCK_END("\\*\\/"),
+
     // Statement
     RETURN("return"),
+    THROW("throw"),
     BREAK("break"),
     CONTINUE("continue"),
     NEW("new"),
+    TRY("try"),
+    CATCH("catch"),
+    FINALLY("finally"),
     SWITCH("switch"),
+    CASE("case"),
+    DEFAULT("default"),
     FOR("for"),
     DO("do"),
     WHILE("while"),
@@ -31,7 +42,10 @@ public enum TokenType {
     SEMICOLON(";"),
     COLON(":"),
 
-    // Binary Operations
+    // Binary Comparisons
+    AND("&&"),
+    OR("\\|\\|"),
+
     EQUAL("=="),
     NOT_EQUAL("!="),
     LESS_THAN("<"),
@@ -39,9 +53,7 @@ public enum TokenType {
     GREATER_THAN(">"),
     GREATER_THAN_EQUAL(">="),
 
-    AND("&&"),
-    OR("\\|\\|"),
-
+    // Binary Operations
     BIT_AND("&"),
     BIT_OR("\\|"),
     BIT_XOR("\\^"),
@@ -56,28 +68,65 @@ public enum TokenType {
     MODULO("%"),
 
     // Unary Operations
-    MINUS("\\-"),
     NOT("!"),
 
     // Type values
+    NULL("null"),
+    THIS("this"),
     NUMBER_VALUE("[0-9]+"),
-    LONG_VALUE("[0-9]+[Ll]?"),
+    LONG_VALUE("([0-9]+)[Ll]?"),
     DOUBLE_VALUE("[0-9]+(?:.[0-9]+)?(?:E[-0-9]+)?[Dd]?"),
     FLOAT_VALUE("[0-9]+(?:.[0-9]+)?(?:E[-0-9]+)?[Ff]?"),
     BOOLEAN_VALUE("true|false"),
-    CHAR_VALUE("'([^\\r\\n\\t \\\\]|\\\\[rbnft\\\\\"'])'"),
-    STRING_VALUE("\"((?:[^\"]|\\\")*\")"),
+    CHAR_VALUE("'(.|[\r\n])'"),
+    STRING_VALUE("\"((?:[^\"]|\\\")*)\""),
 
     // General
-    LITERAL("[a-zA-Z][a-zA-Z0-9_.]*"),
+    LITERAL("[a-zA-Z_](?:[a-zA-Z0-9._]*[a-zA-Z0-9_])*"),
     SPACE("[\r\t\n ]"),
-    EOF("")
+    DOT("\\."),
+    NEW_LINE("\n"),
+    EOF(""),
+    /**
+     * A token returned by {@link Tokenizer#next(String)} upon reading the regex.
+     */
+    NONE(""),
     ;
 
     private final @NotNull String regex;
 
     TokenType(final @NotNull String regex) {
         this.regex = regex;
+    }
+
+    /**
+     * Gets the regex used by the current type.
+     *
+     * @return the regex
+     */
+    public @NotNull String regex() {
+        return this.regex;
+    }
+
+    /**
+     * Checks whether the current token is declared after <b>token</b> (NON-INCLUSIVE).
+     *
+     * @param token the token
+     * @return true if it is
+     */
+    public boolean after(final @NotNull TokenType token) {
+        return ordinal() > token.ordinal();
+    }
+
+    /**
+     * Checks whether the current token is declared between <b>start</b> and <b>end</b> (NON-INCLUSIVE).
+     *
+     * @param start the start token
+     * @param end   the end token
+     * @return true if it is
+     */
+    public boolean between(final @NotNull TokenType start, final @NotNull TokenType end) {
+        return after(start) && end.after(this);
     }
 
     /**

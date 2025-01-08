@@ -16,7 +16,7 @@ public class ForStatement extends Statement {
      * Instantiates a new For statement.
      *
      * @param assignment the assignment
-     * @param condition the condition
+     * @param condition  the condition
      * @param increment  the increment
      * @param code       the code that will be executed
      */

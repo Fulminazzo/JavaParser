@@ -1,6 +1,9 @@
 package it.fulminazzo.mojito.parser.node;
 
-class MockNode extends Node {
+import lombok.Getter;
+
+@Getter
+public class MockNode extends NodeImpl {
     final static String IGNORE = "Should be ignored";
     final String name;
     final int version;

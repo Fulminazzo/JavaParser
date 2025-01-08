@@ -1,7 +1,8 @@
 [versions]
 delombok = "8.4"
+shadow = "8.1.1"
 
-fulmicollection = "1.6.1"
+fulmicollection = "latest.release"
 
 lombok = "1.18.30"
 annotations = "24.1.0"
@@ -17,3 +18,7 @@ annotations = { module = "org.jetbrains:annotations", version.ref = "annotations
 
 spock = { module = "org.spockframework:spock-core", version.ref = "spock" }
 byte_buddy = { module = "net.bytebuddy:byte-buddy", version.ref = "byte_buddy" }
+
+[plugins]
+delombok = { id = "io.freefair.lombok", version.ref = "delombok" }
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }

@@ -13,8 +13,8 @@ public class DoStatement extends Statement {
     /**
      * Instantiates a new Do statement.
      *
-     * @param condition  the condition
-     * @param code       the code that will be executed
+     * @param condition the condition
+     * @param code      the code that will be executed
      */
     public DoStatement(final @NotNull Node condition,
                        final @NotNull CodeBlock code) {

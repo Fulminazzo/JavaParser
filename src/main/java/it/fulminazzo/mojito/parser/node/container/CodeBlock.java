@@ -7,12 +7,17 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 /**
- * Represents a general code block contained in braces.
+ * Represents a general code block contained in curly braces.
  */
 public class CodeBlock extends StatementContainer {
 
+    /**
+     * Instantiates a new Code block.
+     *
+     * @param statements the statements
+     */
     public CodeBlock(final Statement @NotNull ... statements) {
-        super(new LinkedList<>(Arrays.asList(statements)));
+        this(new LinkedList<>(Arrays.asList(statements)));
     }
 
     /**

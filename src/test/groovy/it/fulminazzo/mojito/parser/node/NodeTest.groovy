@@ -2,7 +2,6 @@ package it.fulminazzo.mojito.parser.node
 
 import spock.lang.Specification
 
-
 class NodeTest extends Specification {
 
     def 'test hashCode'() {
@@ -22,13 +21,22 @@ class NodeTest extends Specification {
         node == other
     }
 
+    @SuppressWarnings('ChangeToOperator')
     def 'test not equals'() {
         given:
         def node = new MockNode('MockNode', 1)
-        def other = new MockNode('MockNode', 2)
 
         expect:
-        node != other
+        // Necessary for 100% coverage
+        !node.equals(other)
+
+        where:
+        other << [
+                new MockNode('MockNode', 2),
+                'Invalid object',
+                new NodeImpl() { },
+                null,
+        ]
     }
 
     def 'test toString'() {
@@ -37,6 +45,14 @@ class NodeTest extends Specification {
 
         expect:
         node.toString() == 'MockNode(MockNode, 1)'
+    }
+
+    def 'test toString null'() {
+        given:
+        def node = new MockNode(null, 1)
+
+        expect:
+        node.toString() == 'MockNode(null, 1)'
     }
 
 }

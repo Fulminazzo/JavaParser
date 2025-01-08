@@ -1,25 +1,44 @@
 package it.fulminazzo.mojito.parser.node;
 
-import it.fulminazzo.mojito.parser.node.types.Literal;
+import it.fulminazzo.mojito.parser.node.literals.EmptyLiteral;
+import it.fulminazzo.mojito.parser.node.literals.Literal;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents an assignment statement.
  */
-public class Assignment extends Node {
-    private final @NotNull Literal type;
-    private final @NotNull Node assignment;
+public class Assignment extends NodeImpl {
+    @Getter
+    private final @NotNull Node type;
+    @Getter
+    private final @NotNull Literal name;
+    private final @NotNull Node value;
 
     /**
      * Instantiates a new Assignment.
      *
-     * @param type       the type
-     * @param assignment the assignment
+     * @param type  the type
+     * @param name  the name
+     * @param value the value
      */
-    public Assignment(final @NotNull Literal type,
-                      final @NotNull Node assignment) {
+    public Assignment(final @NotNull Node type,
+                      final @NotNull Literal name,
+                      final @NotNull Node value) {
         this.type = type;
-        this.assignment = assignment;
+        this.name = name;
+        this.value = value;
+    }
+
+    /**
+     * Checks whether the current assignment is initialized.
+     * An uninitialized assignment is of type:
+     * <code>LITERAL LITERAL;</code>
+     *
+     * @return true if it is
+     */
+    public boolean isInitialized() {
+        return !this.value.is(EmptyLiteral.class);
     }
 
 }

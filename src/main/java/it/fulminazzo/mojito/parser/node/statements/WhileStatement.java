@@ -13,8 +13,8 @@ public class WhileStatement extends Statement {
     /**
      * Instantiates a new While statement.
      *
-     * @param condition  the condition
-     * @param code       the code that will be executed
+     * @param condition the condition
+     * @param code      the code that will be executed
      */
     public WhileStatement(final @NotNull Node condition,
                           final @NotNull CodeBlock code) {
