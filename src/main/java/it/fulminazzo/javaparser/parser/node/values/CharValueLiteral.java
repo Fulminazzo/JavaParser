@@ -15,7 +15,23 @@ public class CharValueLiteral extends ValueLiteral {
      * @param rawValue the raw value
      */
     public CharValueLiteral(final @NotNull String rawValue) throws NodeException {
-        super(rawValue, TokenType.CHAR_VALUE);
+        super(prepareString(rawValue), TokenType.CHAR_VALUE);
+    }
+
+    /**
+     * Because of conflicts that may arise from the character <code>'\\'</code>,
+     * this function removes the quotes, invokes {@link #unescapeString(String)} on
+     * the remaining value, and puts those quotes back before returning the value.
+     *
+     * @param rawValue the raw value
+     * @return the unescaped value
+     */
+    static @NotNull String prepareString(@NotNull String rawValue) {
+        if (rawValue.startsWith("'") && rawValue.endsWith("'")) {
+            rawValue = rawValue.substring(1, rawValue.length() - 1);
+            rawValue = unescapeString(rawValue);
+            return String.format("'%s'", rawValue);
+        } else return rawValue;
     }
 
 }
