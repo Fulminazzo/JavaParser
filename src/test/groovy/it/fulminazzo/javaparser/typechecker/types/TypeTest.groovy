@@ -135,7 +135,7 @@ class TypeTest extends Specification {
         where:
         field               | expected
         'publicStaticField' | PrimitiveClassType.INT
-        'publicField'       | PrimitiveClassType.DOUBLE
+        'publicField'       | ObjectClassType.DOUBLE
     }
 
     def 'test cannot access field #field from getField'() {

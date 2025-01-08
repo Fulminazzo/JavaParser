@@ -865,7 +865,7 @@ class TypeCheckerTest extends Specification {
         where:
         field               | expected
         'publicStaticField' | PrimitiveType.INT
-        'publicField'       | PrimitiveType.DOUBLE
+        'publicField'       | ObjectType.DOUBLE
     }
 
     def 'test invalid visit field of #field should throw exception'() {
@@ -965,7 +965,7 @@ class TypeCheckerTest extends Specification {
         def type = this.typeChecker.visitReAssign(field, value)
 
         then:
-        type == PrimitiveType.DOUBLE
+        type == ObjectType.DOUBLE
     }
 
     def 'test visit re-assignment not declared'() {
