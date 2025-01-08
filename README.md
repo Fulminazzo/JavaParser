@@ -19,7 +19,7 @@ To verify all the capabilities available, please check the [grammar](#grammar), 
   a **class declaration**;
 - **functions are NOT supported**, however it is still possible to invoke methods and access fields from other classes;
 - **imports are NOT supported**, but one could use the canonical declaration to access non-default classes.
-  **Non-default classes** are, among the **primitive** and **wrapper** types, are all those classes whose **package**
+  **Non-default classes** are, among the **primitive** and **wrapper** types, all those classes whose **package**
   starts with either `java.lang`, `java.util` or `java.io`. Therefore, it is **not required** to specify the full
   package for classes like [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html),
   [IOException](https://docs.oracle.com/javase/8/docs/api/java/io/IOException.html) or
