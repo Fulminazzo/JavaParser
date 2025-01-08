@@ -26,4 +26,12 @@ class MapUtilsTest extends Specification {
         2   | new Tuple<>(2, 'world')
     }
 
+    def 'test getKeyAndValue of not present should throw exception'() {
+        when:
+        MapUtils.getKeyAndValue(this.map, 3)
+
+        then:
+        thrown(IllegalArgumentException)
+    }
+
 }
