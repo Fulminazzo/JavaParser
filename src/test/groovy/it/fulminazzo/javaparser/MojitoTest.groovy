@@ -22,4 +22,20 @@ class MojitoTest extends Specification {
                 'No value was returned from key'
     }
 
+    def 'test parseExpression #expected'() {
+        given:
+        def code = "${expected}"
+
+        when:
+        def actual = Mojito.parseExpression(code)
+
+        then:
+        actual == expected
+
+        where:
+        expected << [
+                1, 2L, 3.0f, 4.0d, true, false, 'Hello, world!'
+        ]
+    }
+
 }
