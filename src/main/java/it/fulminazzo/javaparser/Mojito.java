@@ -86,7 +86,7 @@ public final class Mojito {
         parsed.accept(checker);
 
         Executor executor = new Executor(executingObject);
-        return parsed.accept(executor);
+        return parsed.accept(executor).getValue();
     }
 
     /**
