@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.executor.values.objects
 
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.executor.ExecutorException
+import it.fulminazzo.javaparser.executor.values.ParameterValues
 import it.fulminazzo.javaparser.executor.values.primitivevalue.BooleanValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
 import spock.lang.Specification
@@ -52,6 +53,19 @@ class ObjectValueTest extends Specification {
         ObjectValue.of('Object: ')       | BooleanValue.FALSE                | 'Object: false'
         ObjectValue.of('Object: ')       | ObjectValue.of(Boolean.FALSE)     | 'Object: false'
         ObjectValue.of(Boolean.FALSE)    | ObjectValue.of(' is the object!') | 'false is the object!'
+    }
+
+    def 'test #object check #classValue should throw exception'() {
+        when:
+        object.check(classValue)
+
+        then:
+        thrown(ExecutorException)
+
+        where:
+        object                          | classValue
+        ObjectValue.of('Hello, world!') | PrimitiveValue
+        ObjectValue.of('Hello, world!') | ParameterValues
     }
 
     def 'test toPrimitive should return #expected'() {
