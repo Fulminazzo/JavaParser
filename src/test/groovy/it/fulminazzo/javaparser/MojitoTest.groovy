@@ -25,6 +25,7 @@ class MojitoTest extends Specification {
     def 'test parseExpression #expected'() {
         given:
         def code = "${expected}"
+        if (expected instanceof String) code = "\"${code}\""
 
         when:
         def actual = Mojito.parseExpression(code)
