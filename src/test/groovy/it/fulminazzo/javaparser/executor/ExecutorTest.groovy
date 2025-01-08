@@ -387,6 +387,23 @@ class ExecutorTest extends Specification {
         'method_call_val_prim' | 'toString'           | []                                           | ObjectValue.of('1')
     }
 
+    def 'test values mismatch visit method call should throw exception'() {
+        given:
+        def expected = ValueException.valuesMismatch(ClassValue.of(TestClass),
+                TestClass.getMethod('publicMethod', double, Boolean),
+                new ParameterValues([Value.of('Hello, world'), Value.of(true)])).message
+
+        when:
+        this.executor.visitMethodCall(new ThisLiteral(), 'publicMethod', new MethodInvocation([
+                new StringValueLiteral('\"Hello, world\"'),
+                new BooleanValueLiteral('true')
+        ]))
+
+        then:
+        def e = thrown(ExecutorException)
+        e.message == expected
+    }
+
     def 'test not found visit method call should throw exception'() {
         given:
         def expected = ValueException.methodNotFound(ClassValue.of(TestClass), 'not_existing', new ParameterValues([])).message
