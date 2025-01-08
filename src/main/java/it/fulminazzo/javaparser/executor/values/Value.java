@@ -257,7 +257,7 @@ public interface Value<V> extends VisitorObject<ClassValue<?>, Value<?>, Paramet
     @SuppressWarnings("unchecked")
     static <T> @NotNull Value<T> of(final @Nullable T value) {
         if (value == null) return (Value<T>) Values.NULL_VALUE;
-        else if (value.getClass().isArray()) return (Value<T>) ArrayValue.of(value);
+        else if (value.getClass().isArray()) return ArrayValue.of(value);
         else return ObjectValue.of(value);
     }
 
