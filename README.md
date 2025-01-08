@@ -11,7 +11,7 @@
     <img src="https://img.shields.io/badge/Yes%2C%20I%20love-writing%20tests-00aa00?style=for-the-badge&labelColor=1FE417" alt="" />
 </p>
 
-**My Own Java Is Too Overtested** (**mojito** for short) is a combination of **parser**, **typechecker** and **executor**
+**My Own Java Is Totally Overtested** (**mojito** for short) is a combination of **parser**, **typechecker** and **executor**
 capable of **run** a **simplified version of Java**.
 
 To verify all the capabilities available, please check the [grammar](#grammar), but in summary:
