@@ -48,17 +48,33 @@ public final class Mojito {
 
             Runner runner = newRunner();
 
+            final Object code;
+            final int start;
             if (argument.equalsIgnoreCase("--code")) {
                 if (args.length == 1) throw new ArgumentsException();
-                String code = args[1];
-                @NotNull Map<String, Object> variables = parseVariables(args, 2);
-                runner.run(code, variables);
+                code = args[1];
+                start = 2;
             } else {
-                File file = new File(argument);
-                @NotNull Map<String, Object> variables = parseVariables(args, 1);
-                runner.run(file, variables);
+                code = new File(argument);
+                start = 1;
             }
 
+            Map<String, Object> variables = executeTimed(
+                    "Beginning reading of variables from command line...",
+                    "Finished parsing of variables. (%time%)",
+                    () -> parseVariables(args, start));
+
+            executeTimed(
+                    String.format("Starting program with %s environment variables", variables.size()),
+                    "Successfully terminated program execution. (%time%)",
+                    () -> {
+                        if (code instanceof File) runner.run((File) code, variables);
+                        else runner.run((String) code, variables);
+                        return null;
+                    }
+            );
+
+            info("Program execution returned:");
             Optional<?> result = ((Optional<Value<?>>) runner.latestResult()).map(Value::getValue);
             System.out.println(result.isPresent() ? result.get() : "Nothing was returned");
         } catch (ArgumentsException e) {
