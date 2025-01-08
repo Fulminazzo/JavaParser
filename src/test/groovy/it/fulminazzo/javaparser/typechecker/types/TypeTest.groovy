@@ -105,6 +105,15 @@ class TypeTest extends Specification {
         ].flatten()
     }
 
+    def 'test toPrimitive of invalid should throw'() {
+        when:
+        this.type.toPrimitive()
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.noPrimitive(this.type).message
+    }
+
     /**
      * GET FIELD
      */
