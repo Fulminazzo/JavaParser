@@ -9,6 +9,22 @@ import spock.lang.Specification
 
 class ValueTest extends Specification {
 
+    def 'test is#object should be false by default'() {
+        given:
+        def value = Mock(Value)
+
+        and:
+        value."is${object}"() >> { callRealMethod() }
+
+        expect:
+        !value."is${object}"()
+
+        where:
+        object << [
+                Character, Integer, Long, Float, Double, Boolean, String
+        ]*.simpleName
+    }
+
     def 'test access to field #field should return #expected'() {
         given:
         def value = Value.of(new TestClass())
