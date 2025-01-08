@@ -1,6 +1,6 @@
 package it.fulminazzo.javaparser.parser.node.values
 
-
+import it.fulminazzo.javaparser.parser.node.NodeException
 import spock.lang.Specification
 
 class CharValueLiteralTest extends Specification {
@@ -27,4 +27,16 @@ class CharValueLiteralTest extends Specification {
         'backslash'       | '\\\\'    | '\\' as char
     }
 
+    def 'test new char value literal from #character should throw exception'() {
+        when:
+        new CharValueLiteral(character)
+
+        then:
+        thrown(NodeException)
+
+        where:
+        character << ['\'a', 'a\'', '\'invalid\'', 'invalid']
+    }
+
 }
+
