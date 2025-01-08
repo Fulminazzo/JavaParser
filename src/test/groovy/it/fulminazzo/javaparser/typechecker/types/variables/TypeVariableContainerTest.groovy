@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.typechecker.types.variables
 
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple
 import it.fulminazzo.javaparser.typechecker.types.*
+import org.jetbrains.annotations.NotNull
 import spock.lang.Specification
 
 import java.lang.reflect.Field
@@ -14,7 +15,7 @@ class TypeVariableContainerTest extends Specification {
         return new TypeVariableContainer() {
 
             @Override
-            Type getVariable() {
+            @NotNull Type getVariable() {
                 return variable
             }
 
