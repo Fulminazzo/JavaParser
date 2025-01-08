@@ -32,9 +32,9 @@ public final class Mojito {
     }
 
     /**
-     * Main.
+     * The main function of the program.
      *
-     * @param args the args
+     * @param args the command line arguments
      */
     @SuppressWarnings("unchecked")
     public static void main(final String @NotNull [] args) {
