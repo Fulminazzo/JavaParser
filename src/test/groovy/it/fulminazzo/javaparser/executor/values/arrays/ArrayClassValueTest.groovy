@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor.values.arrays
 
+import it.fulminazzo.javaparser.executor.values.ClassValue
 import it.fulminazzo.javaparser.executor.values.PrimitiveClassValue
 import it.fulminazzo.javaparser.executor.values.Value
 import it.fulminazzo.javaparser.executor.values.Values
@@ -38,22 +39,22 @@ class ArrayClassValueTest extends Specification {
         def array = new ArrayClassValue<>(classValue)
 
         when:
-        def wrapper = array.getWrapperValue()
+        def wrapper = array.wrapperValue
 
         then:
-        wrapper == expected
+        wrapper == Array.newInstance(expected, 0).class
 
         where:
-        classValue                        | expected
-        PrimitiveClassValue.of(Byte)      | Byte
-        PrimitiveClassValue.of(Short)     | Short
-        PrimitiveClassValue.of(Character) | Character
-        PrimitiveClassValue.of(Integer)   | Integer
-        PrimitiveClassValue.of(Long)      | Long
-        PrimitiveClassValue.of(Float)     | Float
-        PrimitiveClassValue.of(Double)    | Double
-        PrimitiveClassValue.of(Boolean)   | Boolean
-        PrimitiveClassValue.of(Boolean)   | Boolean
+        classValue             | expected
+        ClassValue.of(byte)    | Byte
+        ClassValue.of(short)   | Short
+        ClassValue.of(char)    | Character
+        ClassValue.of(int)     | Integer
+        ClassValue.of(long)    | Long
+        ClassValue.of(float)   | Float
+        ClassValue.of(double)  | Double
+        ClassValue.of(boolean) | Boolean
+        ClassValue.of(boolean) | Boolean
     }
 
     def 'test getValue should return class'() {
