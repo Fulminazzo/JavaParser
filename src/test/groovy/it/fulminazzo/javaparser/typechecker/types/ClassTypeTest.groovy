@@ -33,17 +33,17 @@ class ClassTypeTest extends Specification {
 
         where:
         className << [
-                PrimitiveClassType.values().collect { it.name().toLowerCase() },
-                ObjectClassType.values().collect { it.name() }.collect {
+                PrimitiveClassType.values()*.name()*.toLowerCase(),
+                ObjectClassType.values()*.name().collect {
                     "${it[0]}${it.substring(1).toLowerCase()}"
                 },
-                Map.class.simpleName
+                Map.simpleName,
         ].flatten()
         expected << [
                 PrimitiveClassType.values(),
                 ObjectClassType.values(),
                 new Refl<>("${ObjectClassType.package.name}.CustomObjectClassType",
-                        ObjectType.of('Map')).getObject()
+                        ObjectType.of('Map')).object,
         ].flatten()
     }
 
@@ -53,7 +53,7 @@ class ClassTypeTest extends Specification {
         def classType = new MockClassType()
 
         when:
-        Method method = ClassVisitorObject.getDeclaredMethod('compatibleWith', Object.class)
+        Method method = ClassVisitorObject.getDeclaredMethod('compatibleWith', Object)
 
         then:
         type.isAssignableFrom(classType)
@@ -65,7 +65,7 @@ class ClassTypeTest extends Specification {
         def classType = new MockClassType()
 
         when:
-        Method method = ClassVisitorObject.getDeclaredMethod('compatibleWith', Object.class)
+        Method method = ClassVisitorObject.getDeclaredMethod('compatibleWith', Object)
 
         then:
         !method.invoke(classType, object)
@@ -73,13 +73,15 @@ class ClassTypeTest extends Specification {
         where:
         object << [
                 new Type() {
-                    @NotNull
+
                     @Override
+                    @NotNull
                     ClassType toClass() {
                         return null
                     }
+
                 },
-                new Object()
+                new Object(),
         ]
     }
 

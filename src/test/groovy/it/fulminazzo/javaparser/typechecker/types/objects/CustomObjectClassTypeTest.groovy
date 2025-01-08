@@ -1,6 +1,5 @@
 package it.fulminazzo.javaparser.typechecker.types.objects
 
-
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException
 import it.fulminazzo.javaparser.typechecker.types.ClassType
 import it.fulminazzo.javaparser.typechecker.types.PrimitiveClassType
@@ -41,7 +40,7 @@ class CustomObjectClassTypeTest extends Specification {
                 ObjectType.values().findAll { it != ObjectType.OBJECT },
                 ObjectType.of(Map),
                 ObjectType.of(HashMap),
-                ObjectType.of(Exception)
+                ObjectType.of(Exception),
         ].flatten()
     }
 
@@ -80,7 +79,7 @@ class CustomObjectClassTypeTest extends Specification {
         type << [
                 PrimitiveClassType.values(),
                 [ObjectType.BYTE, ObjectType.SHORT, ObjectType.OBJECT],
-                ObjectType.of(getClass().canonicalName)
+                ObjectType.of(getClass().canonicalName),
         ].flatten()
     }
 
@@ -109,7 +108,7 @@ class CustomObjectClassTypeTest extends Specification {
                 null,
                 PrimitiveClassType.values(),
                 ObjectClassType.values(),
-                new CustomObjectClassType(ObjectType.STRING)
+                new CustomObjectClassType(ObjectType.STRING),
         ].flatten()
     }
 

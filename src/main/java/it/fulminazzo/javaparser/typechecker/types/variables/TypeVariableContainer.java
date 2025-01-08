@@ -50,5 +50,5 @@ interface TypeVariableContainer extends Type {
      * @return the variable
      */
     @NotNull Type getVariable();
-    
+
 }

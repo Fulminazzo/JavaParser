@@ -1,6 +1,5 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
-import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,11 +18,6 @@ public final class ParameterTypes extends ParameterVisitorObjects<ClassType, Typ
      */
     public ParameterTypes(final @NotNull List<Type> parameters) {
         super(new LinkedList<>(parameters));
-    }
-
-    @Override
-    public @NotNull ClassType toClass() {
-        throw TypeCheckerException.noClassType(getClass());
     }
 
 }

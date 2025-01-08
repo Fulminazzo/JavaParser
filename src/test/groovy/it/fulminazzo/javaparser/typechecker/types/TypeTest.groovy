@@ -6,7 +6,7 @@ import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
 
 class TypeTest extends Specification {
-    private static ParameterTypes NO_PARAMETERS = new ParameterTypes([])
+    private static final ParameterTypes NO_PARAMETERS = new ParameterTypes([])
 
     private Type type
     private ClassType classType
@@ -87,7 +87,7 @@ class TypeTest extends Specification {
                 ObjectClassType.values(),
                 ObjectClassType.values(),
                 ObjectClassType.of(TestClass),
-                ObjectClassType.of(TestClass)
+                ObjectClassType.of(TestClass),
         ].flatten()
         clazz << [
                 PrimitiveType.values().collect { PrimitiveType },
@@ -101,8 +101,23 @@ class TypeTest extends Specification {
                 ObjectClassType.values().collect { ClassType },
                 ObjectClassType.values().collect { Type },
                 ClassType,
-                Type
+                Type,
         ].flatten()
+    }
+
+    def 'test toPrimitive of invalid should throw'() {
+        given:
+        def type = Mock(Type)
+
+        and:
+        type.toPrimitive() >> { callRealMethod() }
+
+        when:
+        type.toPrimitive()
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.noPrimitive(type).message
     }
 
     /**
@@ -114,8 +129,8 @@ class TypeTest extends Specification {
         def actual = this.type.getField(field)
 
         then:
-        actual.getType() == expected
-        actual.getVariable() == expected.toType()
+        actual.type == expected
+        actual.variable == expected.toType()
 
         where:
         field               | expected
@@ -134,7 +149,7 @@ class TypeTest extends Specification {
         where:
         field << [
                 'packageStaticField', 'protectedStaticField', 'privateStaticField',
-                'packageField', 'protectedField', 'privateField'
+                'packageField', 'protectedField', 'privateField',
         ]
     }
 
@@ -183,7 +198,7 @@ class TypeTest extends Specification {
         where:
         field << [
                 'packageStaticField', 'protectedStaticField', 'privateStaticField',
-                'packageField', 'protectedField', 'privateField'
+                'packageField', 'protectedField', 'privateField',
         ]
     }
 
@@ -245,7 +260,7 @@ class TypeTest extends Specification {
         where:
         method << [
                 'packageStaticMethod', 'protectedStaticMethod', 'privateStaticMethod',
-                'packageMethod', 'protectedMethod', 'privateMethod'
+                'packageMethod', 'protectedMethod', 'privateMethod',
         ]
     }
 
@@ -296,7 +311,7 @@ class TypeTest extends Specification {
         where:
         method << [
                 'packageStaticMethod', 'protectedStaticMethod', 'privateStaticMethod',
-                'packageMethod', 'protectedMethod', 'privateMethod'
+                'packageMethod', 'protectedMethod', 'privateMethod',
         ]
     }
 

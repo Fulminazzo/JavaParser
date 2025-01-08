@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.typechecker.types.objects;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
+import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import it.fulminazzo.javaparser.typechecker.types.*;
 import it.fulminazzo.javaparser.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
@@ -44,15 +45,13 @@ public final class ObjectType extends ObjectWrapper<Class<?>> implements Type {
 
     @Override
     public @NotNull Type toPrimitive() {
-        if (equals(BYTE)) return PrimitiveType.BYTE;
-        else if (equals(SHORT)) return PrimitiveType.SHORT;
-        else if (equals(CHARACTER)) return PrimitiveType.CHAR;
-        else if (equals(INTEGER)) return PrimitiveType.INT;
-        else if (equals(LONG)) return PrimitiveType.LONG;
-        else if (equals(FLOAT)) return PrimitiveType.FLOAT;
-        else if (equals(DOUBLE)) return PrimitiveType.DOUBLE;
-        else if (equals(BOOLEAN)) return PrimitiveType.BOOLEAN;
-        else return Type.super.toPrimitive();
+        try {
+            if (equals(CHARACTER)) return PrimitiveType.CHAR;
+            else if (equals(INTEGER)) return PrimitiveType.INT;
+            else return PrimitiveType.valueOf(getInnerClass().getSimpleName().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw TypeCheckerException.noPrimitive(this);
+        }
     }
 
     @Override

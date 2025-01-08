@@ -47,11 +47,6 @@ public final class TypeFieldContainer
     }
 
     @Override
-    public boolean isClassType() {
-        return TypeVariableContainer.super.isClassType();
-    }
-
-    @Override
     public @NotNull Type check(Type @NotNull ... expectedTypes) {
         return TypeVariableContainer.super.check(expectedTypes);
     }

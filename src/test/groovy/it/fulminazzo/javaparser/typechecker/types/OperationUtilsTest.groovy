@@ -86,7 +86,8 @@ class OperationUtilsTest extends Specification {
         OperationUtils.executeObjectComparison(TokenType.EQUAL, a, b)
 
         then:
-        thrown(TypeCheckerException)
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.unsupportedOperation(TokenType.EQUAL, a, b).message
 
         where:
         a                 | b
@@ -347,7 +348,8 @@ class OperationUtilsTest extends Specification {
         OperationUtils.executeBinaryComparison(TokenType.LESS_THAN, a, b)
 
         then:
-        thrown(TypeCheckerException)
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.unsupportedOperation(TokenType.LESS_THAN, a, b).message
 
         where:
         a                  | b
@@ -450,7 +452,8 @@ class OperationUtilsTest extends Specification {
         OperationUtils.executeBinaryBitOperation(TokenType.BIT_AND, a, b)
 
         then:
-        thrown(TypeCheckerException)
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.unsupportedOperation(TokenType.BIT_AND, a, b).message
 
         where:
         a                    | b
@@ -647,7 +650,8 @@ class OperationUtilsTest extends Specification {
         OperationUtils.executeBinaryOperation(TokenType.LSHIFT, a, b)
 
         then:
-        thrown(TypeCheckerException)
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.unsupportedOperation(TokenType.LSHIFT, a, b).message
 
         where:
         a                 | b
@@ -927,7 +931,8 @@ class OperationUtilsTest extends Specification {
         OperationUtils.executeBinaryOperationDecimal(TokenType.ADD, a, b)
 
         then:
-        thrown(TypeCheckerException)
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.unsupportedOperation(TokenType.ADD, a, b).message
 
         where:
         a                  | b
@@ -947,6 +952,38 @@ class OperationUtilsTest extends Specification {
         BOOLEAN            | ObjectType.BOOLEAN
         ObjectType.BOOLEAN | BOOLEAN
         ObjectType.BOOLEAN | ObjectType.BOOLEAN
+    }
+
+    def 'test invalid execute unary operation boolean: #a'() {
+        when:
+        OperationUtils.executeUnaryOperationBoolean(TokenType.NOT, a)
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.unsupportedOperation(TokenType.NOT, a).message
+
+        where:
+        a << [
+                values(),
+                ObjectType.values(),
+                ObjectType.of(TestClass),
+        ].flatten().findAll { !OperationUtils.isBoolean(it) }
+    }
+
+    def 'test invalid execute unary operation decimal: #a'() {
+        when:
+        OperationUtils.executeUnaryOperationDecimal(TokenType.SUBTRACT, a)
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.unsupportedOperation(TokenType.SUBTRACT, a).message
+
+        where:
+        a << [
+                values(),
+                ObjectType.values(),
+                ObjectType.of(TestClass),
+        ].flatten().findAll { !OperationUtils.decimalTypes.contains(it) }
     }
 
 }

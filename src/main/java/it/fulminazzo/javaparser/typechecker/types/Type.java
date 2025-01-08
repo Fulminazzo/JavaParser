@@ -171,19 +171,6 @@ public interface Type extends VisitorObject<ClassType, Type, ParameterTypes> {
         return TypeCheckerException.noClassType(type);
     }
 
-    @Override
-    default @NotNull RuntimeException unsupportedOperation(final @NotNull TokenType operator,
-                                                           final @NotNull VisitorObject<ClassType, Type, ParameterTypes> left,
-                                                           final @NotNull VisitorObject<ClassType, Type, ParameterTypes> right) {
-        return TypeCheckerException.unsupportedOperation(operator, (Type) left, (Type) right);
-    }
-
-    @Override
-    default @NotNull RuntimeException unsupportedOperation(final @NotNull TokenType operator,
-                                                           final @NotNull VisitorObject<ClassType, Type, ParameterTypes> operand) {
-        return TypeCheckerException.unsupportedOperation(operator, (Type) operand);
-    }
-
     /*
         OPERATIONS
      */

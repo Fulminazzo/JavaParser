@@ -32,13 +32,7 @@ public final class ArrayTypeVariableContainer
 
     @Override
     public @NotNull Type set(@NotNull Type newValue) {
-        //TODO: invalid index
-        return this.container.getType().cast(newValue);
-    }
-
-    @Override
-    public boolean isClassType() {
-        return TypeVariableContainer.super.isClassType();
+        return this.type.cast(newValue);
     }
 
     @Override
