@@ -64,7 +64,7 @@ class ClassValueTest extends Specification {
 
     def 'test method #toClass should always return a wrapper for java.lang.Class'() {
         given:
-        def classValue = new MockClassValue().toClass()
+        def classValue = ClassValue.of(String).toClass()
 
         expect:
         classValue == ObjectClassValue.of(Class)
