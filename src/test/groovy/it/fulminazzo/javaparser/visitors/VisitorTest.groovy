@@ -557,11 +557,10 @@ class VisitorTest extends Specification {
         where:
         tuple << ScopeType.values()
                 .findAll { it != ScopeType.MAIN }
-                .collect {
+                .collectMany {
                     [ElementException, HandlerException]
                             .collect { ex -> new Tuple<>(it, ex) }
                 }
-                .flatten()
     }
 
     def 'test accept mock node'() {

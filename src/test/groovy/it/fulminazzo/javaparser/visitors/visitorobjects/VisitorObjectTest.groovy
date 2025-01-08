@@ -50,6 +50,7 @@ class VisitorObjectTest extends Specification {
             this.element = element
         }
 
+        @NotNull
         @Override
         Element toWrapper() {
             return Element.of(this.element)

@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.visitors.visitorobjects.variables
 
+
 import it.fulminazzo.javaparser.handler.elements.ClassElement
 import it.fulminazzo.javaparser.handler.elements.Element
 import it.fulminazzo.javaparser.handler.elements.ParameterElements
@@ -61,13 +62,15 @@ class VariableContainerTest extends Specification {
         and:
         def parameters = method.parameterTypes
                 .collect {
-                    if (it == Class) return String
-                    else if (it == String) return 'Hello, world!'
-                    else if (it == ClassVisitorObject) return ClassElement.of(Integer)
-                    else if (it == VisitorObject) return Element.of(1)
-                    else if (it == Object) return Element.of(1)
-                    else if (it.array) return Array.newInstance(it.componentType, 1)
-                    else throw new IllegalArgumentException(it.toString())
+                    switch (it) {
+                        case Class: return String
+                        case String: return 'Hello, world!'
+                        case ClassVisitorObject: return ClassElement.of(Integer)
+                        case VisitorObject: return Element.of(1)
+                        case Object: return Element.of(1)
+                        case it.array: return Array.newInstance(it.componentType, 1)
+                        default: throw new IllegalArgumentException(it.toString())
+                    }
                 }
 
         when:
