@@ -1394,6 +1394,16 @@ class TypeCheckerTest extends Specification {
         FLOAT_LIT  | FLOAT_LIT  | PrimitiveType.FLOAT
         DOUBLE_LIT | DOUBLE_LIT | PrimitiveType.DOUBLE
         STRING_LIT | STRING_LIT | ObjectType.STRING
+        STRING_LIT | CHAR_LIT   | ObjectType.STRING
+        STRING_LIT | NUMBER_LIT | ObjectType.STRING
+        STRING_LIT | LONG_LIT   | ObjectType.STRING
+        STRING_LIT | FLOAT_LIT  | ObjectType.STRING
+        STRING_LIT | DOUBLE_LIT | ObjectType.STRING
+        CHAR_LIT   | STRING_LIT | ObjectType.STRING
+        NUMBER_LIT | STRING_LIT | ObjectType.STRING
+        LONG_LIT   | STRING_LIT | ObjectType.STRING
+        FLOAT_LIT  | STRING_LIT | ObjectType.STRING
+        DOUBLE_LIT | STRING_LIT | ObjectType.STRING
     }
 
     def 'test visit subtract of #first and #second should return #expected'() {
