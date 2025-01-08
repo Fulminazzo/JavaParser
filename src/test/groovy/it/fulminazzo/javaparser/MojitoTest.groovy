@@ -18,6 +18,21 @@ class MojitoTest extends Specification {
         System.out.println(this.output)
     }
 
+    def 'test main with "#arguments" should show result in output'() {
+        when:
+        Mojito.main(arguments.toArray(new String[arguments.size()]))
+        def out = this.output.toString()
+
+        then:
+        out.contains('Hello, world!')
+
+        where:
+        arguments << [
+                ['build/resources/test/runner_test_variable.java', 'variable:\"Hello, world!\"'],
+                ['--code', "return variable;", 'variable:\"Hello, world!\"'],
+        ]
+    }
+
     def 'test main with invalid program should show error message'() {
         when:
         Mojito.main(new String[]{'--code', '17'})
