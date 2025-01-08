@@ -716,7 +716,10 @@ class ExecutorTest extends Specification {
         where:
         first      | second     | expected
         NUMBER_LIT | NUMBER_LIT | BooleanValue.TRUE
+        STRING_LIT | STRING_LIT | BooleanValue.TRUE
         CHAR_LIT   | NUMBER_LIT | BooleanValue.FALSE
+        STRING_LIT | NUMBER_LIT | BooleanValue.FALSE
+        NUMBER_LIT | STRING_LIT | BooleanValue.FALSE
     }
 
     def 'test not equal'() {
