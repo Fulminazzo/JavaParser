@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Starting point of the program.
@@ -53,7 +54,10 @@ public final class Mojito {
                     String name = Literal.of(parts[0]).getLiteral();
                     String value = String.join(":", Arrays.copyOfRange(parts, 1, parts.length));
 
-                    //TODO: value logic
+                    Runner runner = newRunner();
+                    Optional<?> actualValue = runner.run(value, variables);
+                    if (actualValue.isPresent()) variables.put(name, actualValue.get());
+                    else throw new ArgumentsException("No value was returned from key");
                 } else throw new ArgumentsException("Expected 'key:value' pair");
             } catch (ArgumentsException | NodeException e) {
                 throw new RunnerException("Error for variable '%s' at index %s: %s", argument, i, e.getMessage());
