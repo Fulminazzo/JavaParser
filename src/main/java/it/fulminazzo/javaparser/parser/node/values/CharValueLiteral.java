@@ -15,7 +15,7 @@ public class CharValueLiteral extends ValueLiteral {
      * @param rawValue the raw value
      */
     public CharValueLiteral(final @NotNull String rawValue) throws NodeException {
-        super(rawValue, TokenType.CHAR_VALUE);
+        super(unescapeString(rawValue), TokenType.CHAR_VALUE);
     }
 
 }
