@@ -407,11 +407,6 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
     }
 
     @Override
-    public @NotNull RuntimeException invalidType(@NotNull Class<?> expected, @NotNull Object actual) {
-        return TypeCheckerException.invalidType(expected, actual);
-    }
-
-    @Override
     public @NotNull RuntimeException cannotResolveSymbol(@NotNull String symbol) {
         return TypeCheckerException.cannotResolveSymbol(symbol);
     }

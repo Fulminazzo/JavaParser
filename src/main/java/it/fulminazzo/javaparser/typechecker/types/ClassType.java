@@ -18,11 +18,6 @@ public interface ClassType extends Type, ClassVisitorObject<ClassType, Type, Par
         return this instanceof PrimitiveClassType;
     }
 
-    @Override
-    default boolean isExtending(@NotNull ClassType classType) {
-        return classType.toJavaClass().isAssignableFrom(toJavaClass());
-    }
-
     /**
      * Checks whether the current class type extends the provided type.
      * If not, throws a {@link TypeCheckerException}.
@@ -30,7 +25,7 @@ public interface ClassType extends Type, ClassVisitorObject<ClassType, Type, Par
      * @param classType the class type
      */
     default void checkExtends(final @NotNull ClassType classType) {
-        if (!isExtending(classType))
+        if (!classType.toJavaClass().isAssignableFrom(toJavaClass()))
             throw TypeCheckerException.invalidType(classType, this);
     }
 
