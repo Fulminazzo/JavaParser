@@ -1,11 +1,31 @@
 package it.fulminazzo.javaparser.typechecker.types.objects
 
 import it.fulminazzo.javaparser.typechecker.types.PrimitiveClassType
+import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
 import it.fulminazzo.javaparser.typechecker.types.Type
 import it.fulminazzo.javaparser.typechecker.types.TypeException
 import spock.lang.Specification
 
 class ObjectTypeTest extends Specification {
+
+    def 'test #object toPrimitive should return #expected'() {
+        when:
+        def actual = object.toPrimitive()
+
+        then:
+        actual == expected
+
+        where:
+        object               | expected
+        ObjectType.BYTE      | PrimitiveType.BYTE
+        ObjectType.SHORT     | PrimitiveType.SHORT
+        ObjectType.CHARACTER | PrimitiveType.CHAR
+        ObjectType.INTEGER   | PrimitiveType.INT
+        ObjectType.LONG      | PrimitiveType.LONG
+        ObjectType.FLOAT     | PrimitiveType.FLOAT
+        ObjectType.DOUBLE    | PrimitiveType.DOUBLE
+        ObjectType.BOOLEAN   | PrimitiveType.BOOLEAN
+    }
 
     def 'test value #actual from values function did not match #expected'() {
         expect:
