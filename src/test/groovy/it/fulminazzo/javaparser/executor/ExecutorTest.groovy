@@ -423,6 +423,18 @@ class ExecutorTest extends Specification {
         'publicField'       | ObjectValue.of(1.0d)
     }
 
+    def 'test not found visit field should throw exception'() {
+        given:
+        def expected = ValueException.fieldNotFound(ClassValue.of(TestClass), 'not_existing').message
+
+        when:
+        this.executor.visitField(new ThisLiteral(), Literal.of('not_existing'))
+
+        then:
+        def e = thrown(ExecutorException)
+        e.message == expected
+    }
+
     def 'test visit assignment: #valueClass #name = #val should return value #expected'() {
         given:
         def literalType = Literal.of(valueClass)
