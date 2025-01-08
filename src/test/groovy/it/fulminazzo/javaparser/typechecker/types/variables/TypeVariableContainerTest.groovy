@@ -6,6 +6,7 @@ import spock.lang.Specification
 
 import java.lang.reflect.Field
 import java.lang.reflect.Method
+import java.lang.reflect.Modifier
 
 class TypeVariableContainerTest extends Specification {
 
@@ -41,6 +42,7 @@ class TypeVariableContainerTest extends Specification {
         where:
         method << TypeVariableContainer.methods
                 .findAll { it.declaringClass == TypeVariableContainer }
+                .findAll { !Modifier.isAbstract(it.modifiers) }
     }
 
 }
