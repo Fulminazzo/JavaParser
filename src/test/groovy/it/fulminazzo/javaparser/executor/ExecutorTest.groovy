@@ -896,6 +896,29 @@ class ExecutorTest extends Specification {
         NUMBER_LIT | LONG_LIT   | PrimitiveValue.of((1 >>> 2L) as long)
     }
 
+    def 'test #operation of #first, #second should throw exception'() {
+        when:
+        this.executor."visit${operation}"(first, second)
+
+        then:
+        thrown(UnsupportedOperationException)
+
+        where:
+        operation | first                          | second
+        'LShift'  | new DoubleValueLiteral('2.0d') | new NumberValueLiteral('1')
+        'LShift'  | new FloatValueLiteral('3.0f')  | new NumberValueLiteral('1')
+        'LShift'  | new NumberValueLiteral('1')    | new DoubleValueLiteral('2.0d')
+        'LShift'  | new NumberValueLiteral('1')    | new FloatValueLiteral('3.0f')
+        'RShift'  | new DoubleValueLiteral('2.0d') | new NumberValueLiteral('1')
+        'RShift'  | new FloatValueLiteral('3.0f')  | new NumberValueLiteral('1')
+        'RShift'  | new NumberValueLiteral('1')    | new DoubleValueLiteral('2.0d')
+        'RShift'  | new NumberValueLiteral('1')    | new FloatValueLiteral('3.0f')
+        'URShift' | new DoubleValueLiteral('2.0d') | new NumberValueLiteral('1')
+        'URShift' | new FloatValueLiteral('3.0f')  | new NumberValueLiteral('1')
+        'URShift' | new NumberValueLiteral('1')    | new DoubleValueLiteral('2.0d')
+        'URShift' | new NumberValueLiteral('1')    | new FloatValueLiteral('3.0f')
+    }
+
     def 'test add'() {
         given:
         def result = this.executor.visitAdd(first, second)
