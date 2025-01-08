@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.typechecker.types.objects
 
+import it.fulminazzo.javaparser.typechecker.TypeCheckerException
 import it.fulminazzo.javaparser.typechecker.types.PrimitiveClassType
 import it.fulminazzo.javaparser.typechecker.types.PrimitiveType
 import it.fulminazzo.javaparser.typechecker.types.Type
@@ -25,6 +26,18 @@ class ObjectTypeTest extends Specification {
         ObjectType.FLOAT     | PrimitiveType.FLOAT
         ObjectType.DOUBLE    | PrimitiveType.DOUBLE
         ObjectType.BOOLEAN   | PrimitiveType.BOOLEAN
+    }
+
+    def 'test toPrimitive of invalid should throw exception'() {
+        when:
+        object.toPrimitive()
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.noPrimitive(object).message
+
+        where:
+        object << [ObjectType.STRING, ObjectType.OBJECT, ObjectType.of(Map)]
     }
 
     def 'test value #actual from values function did not match #expected'() {
