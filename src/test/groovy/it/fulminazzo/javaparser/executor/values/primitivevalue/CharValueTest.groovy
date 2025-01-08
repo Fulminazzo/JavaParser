@@ -284,7 +284,7 @@ class CharValueTest extends Specification {
 
     def 'test #first * #second = #third'() {
         when:
-        def eval = first.multiply(second)
+        def eval = first * second
 
         then:
         eval == third

@@ -38,7 +38,7 @@ class BooleanValueTest extends Specification {
 
     def 'test #first && #second = #third'() {
         when:
-        def eval = first.and(second)
+        def eval = first & second
 
         then:
         eval == third
@@ -53,7 +53,7 @@ class BooleanValueTest extends Specification {
 
     def 'test #first || #second = #third'() {
         when:
-        def eval = first.or(second)
+        def eval = first | second
 
         then:
         eval == third
