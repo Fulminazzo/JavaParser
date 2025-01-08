@@ -964,4 +964,19 @@ class OperationUtilsTest extends Specification {
         ].flatten().findAll { !OperationUtils.isBoolean(it) }
     }
 
+    def 'test invalid execute unary operation decimal: #a'() {
+        when:
+        OperationUtils.executeUnaryOperationDecimal(TokenType.SUBTRACT, a)
+
+        then:
+        thrown(TypeCheckerException)
+
+        where:
+        a << [
+                values(),
+                ObjectType.values(),
+                ObjectType.of(TestClass)
+        ].flatten().findAll { !OperationUtils.decimalTypes.contains(it) }
+    }
+
 }
