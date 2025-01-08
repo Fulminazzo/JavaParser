@@ -384,11 +384,6 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
     }
 
     @Override
-    public @NotNull RuntimeException invalidType(@NotNull Class<?> expected, @NotNull Object actual) {
-        return ExecutorException.invalidValue(expected, actual);
-    }
-
-    @Override
     public @NotNull RuntimeException cannotResolveSymbol(@NotNull String symbol) {
         return ExecutorException.cannotResolveSymbol(symbol);
     }

@@ -6,7 +6,6 @@ import it.fulminazzo.javaparser.executor.values.arrays.ArrayValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
 import it.fulminazzo.javaparser.executor.values.variables.ValueFieldContainer;
-import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -289,19 +288,6 @@ public interface Value<V> extends VisitorObject<ClassValue<?>, Value<?>, Paramet
     @Override
     default @NotNull RuntimeException noClassType(final @NotNull Class<?> type) {
         return ExecutorException.noClassValue(type);
-    }
-
-    @Override
-    default @NotNull RuntimeException unsupportedOperation(final @NotNull TokenType operator,
-                                                           final @NotNull VisitorObject<ClassValue<?>, Value<?>, ParameterValues> left,
-                                                           final @NotNull VisitorObject<ClassValue<?>, Value<?>, ParameterValues> right) {
-        return ExecutorException.notImplemented();
-    }
-
-    @Override
-    default @NotNull RuntimeException unsupportedOperation(final @NotNull TokenType operator,
-                                                           final @NotNull VisitorObject<ClassValue<?>, Value<?>, ParameterValues> operand) {
-        return ExecutorException.notImplemented();
     }
 
     /*
