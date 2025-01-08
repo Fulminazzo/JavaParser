@@ -18,6 +18,15 @@ class MojitoTest extends Specification {
         System.out.println(this.output)
     }
 
+    def 'test main with invalid variables should show error message'() {
+        when:
+        Mojito.main(new String[]{'MockFile', 'invalid key:1'})
+        def out = this.output.toString()
+
+        then:
+        out.contains('An error occurred while parsing variables')
+    }
+
     def 'test main with #arguments should show usage'() {
         when:
         Mojito.main(arguments.toArray(new String[arguments.size()]))
