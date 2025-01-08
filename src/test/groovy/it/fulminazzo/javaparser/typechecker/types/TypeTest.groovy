@@ -167,8 +167,8 @@ class TypeTest extends Specification {
         def actual = this.classType.getField(field)
 
         then:
-        actual.getType() == expected
-        actual.getVariable() == expected.toType()
+        actual.type == expected
+        actual.variable == expected.toType()
 
         where:
         field               | expected

@@ -411,7 +411,7 @@ class TypeCheckerTest extends Specification {
         then:
         type == expected
         this.environment.enteredScope(ScopeType.FOR)
-        this.environment.isMainScope()
+        this.environment.mainScope
 
         where:
         expected              | codeBlock        | expression
@@ -468,7 +468,7 @@ class TypeCheckerTest extends Specification {
         then:
         type == expected
         this.environment.enteredScope(ScopeType.FOR)
-        this.environment.isMainScope()
+        this.environment.mainScope
 
         where:
         expected              | codeBlock        | expression
@@ -485,7 +485,7 @@ class TypeCheckerTest extends Specification {
         then:
         type == expected
         this.environment.enteredScope(ScopeType.DO)
-        this.environment.isMainScope()
+        this.environment.mainScope
 
         where:
         expected              | codeBlock        | expression
@@ -502,7 +502,7 @@ class TypeCheckerTest extends Specification {
         then:
         type == expected
         this.environment.enteredScope(ScopeType.WHILE)
-        this.environment.isMainScope()
+        this.environment.mainScope
 
         where:
         expected              | codeBlock        | expression
@@ -524,7 +524,7 @@ class TypeCheckerTest extends Specification {
         when:
         def type = this.typeChecker.visitIfStatement(then, elseBranch, expression)
         this.environment.enteredScope(ScopeType.CODE_BLOCK)
-        this.environment.isMainScope()
+        this.environment.mainScope
 
         then:
         type == expected
@@ -1112,7 +1112,7 @@ class TypeCheckerTest extends Specification {
         then:
         type == PrimitiveType.INT
         this.environment.enteredScope(ScopeType.CODE_BLOCK)
-        this.environment.isMainScope()
+        this.environment.mainScope
     }
 
     def 'test visit array literal'() {
