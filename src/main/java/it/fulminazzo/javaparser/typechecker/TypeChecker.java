@@ -28,8 +28,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import static it.fulminazzo.javaparser.typechecker.types.PrimitiveType.*;
-
 /**
  * A {@link Visitor} that checks and verifies all the types of the parsed code.
  */
@@ -210,7 +208,7 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
                                            @NotNull CodeBlock code, @NotNull Node expression) {
         return visitScoped(ScopeType.FOR, () -> {
             assignment.accept(this);
-            expression.accept(this).check(BOOLEAN, ObjectType.BOOLEAN, Types.NO_TYPE);
+            expression.accept(this).check(PrimitiveType.BOOLEAN, ObjectType.BOOLEAN, Types.NO_TYPE);
             increment.accept(this);
             return code.accept(this);
         });
@@ -242,7 +240,7 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
     @Override
     public @NotNull Type visitDoStatement(@NotNull CodeBlock code, @NotNull Node expression) {
         return visitScoped(ScopeType.DO, () -> {
-            expression.accept(this).check(BOOLEAN, ObjectType.BOOLEAN);
+            expression.accept(this).check(PrimitiveType.BOOLEAN, ObjectType.BOOLEAN);
             return code.accept(this);
         });
     }
@@ -250,14 +248,14 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
     @Override
     public @NotNull Type visitWhileStatement(@NotNull CodeBlock code, @NotNull Node expression) {
         return visitScoped(ScopeType.WHILE, () -> {
-            expression.accept(this).check(BOOLEAN, ObjectType.BOOLEAN);
+            expression.accept(this).check(PrimitiveType.BOOLEAN, ObjectType.BOOLEAN);
             return code.accept(this);
         });
     }
 
     @Override
     public @NotNull Type visitIfStatement(@NotNull CodeBlock then, @NotNull Node elseBranch, @NotNull Node expression) {
-        expression.accept(this).check(BOOLEAN, ObjectType.BOOLEAN);
+        expression.accept(this).check(PrimitiveType.BOOLEAN, ObjectType.BOOLEAN);
         Type first = then.accept(this);
         Type second = elseBranch.accept(this);
         // it is impossible to know if, when the elseBranch is declared empty, the then block was invoked
@@ -289,7 +287,7 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
     @NotNull Type convertByteAndShort(final @NotNull ClassType variableType,
                                       final @NotNull Type variableValue) {
         if (variableType.is(PrimitiveClassType.BYTE, ObjectClassType.BYTE, PrimitiveClassType.SHORT, ObjectClassType.SHORT))
-            if (variableValue.is(INT) || variableValue.is(CHAR)) return variableType.toType();
+            if (variableValue.is(PrimitiveType.INT) || variableValue.is(PrimitiveType.CHAR)) return variableType.toType();
         return variableValue;
     }
 
@@ -312,7 +310,7 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
         VariableContainer<ClassType, Type, ParameterTypes, ?> container = array.accept(this).check(VariableContainer.class);
         ArrayType arrayType = container.getVariable().check(ArrayType.class);
         Type componentsType = arrayType.getComponentType();
-        index.accept(this).check(INT, ObjectType.INTEGER);
+        index.accept(this).check(PrimitiveType.INT, ObjectType.INTEGER);
         return new ArrayTypeVariableContainer(container, componentsType.toClass(), ((NumberValueLiteral) index).getRawValue(), componentsType);
     }
 
