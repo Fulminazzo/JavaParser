@@ -32,8 +32,8 @@ class ClassValueTest extends Specification {
         ObjectValue.of(Float.valueOf(6.0f))           | PrimitiveClassValue.FLOAT   | PrimitiveValue.of(6.0f)
         PrimitiveValue.of(7.0d)                       | ObjectClassValue.DOUBLE     | ObjectValue.of(Double.valueOf(7.0d))
         ObjectValue.of(Double.valueOf(7.0d))          | PrimitiveClassValue.DOUBLE  | PrimitiveValue.of(7.0d)
-        PrimitiveValue.of(true)                       | ObjectClassValue.BOOLEAN    | ObjectValue.of(Boolean.valueOf(true))
-        ObjectValue.of(Boolean.valueOf(true))         | PrimitiveClassValue.BOOLEAN | PrimitiveValue.of(true)
+        PrimitiveValue.of(true)                       | ObjectClassValue.BOOLEAN    | ObjectValue.of(true)
+        ObjectValue.of(true)                          | PrimitiveClassValue.BOOLEAN | PrimitiveValue.of(true)
         PrimitiveValue.of((byte) 1)                   | PrimitiveClassValue.INT     | PrimitiveValue.of(1)
         PrimitiveValue.of((short) 2)                  | PrimitiveClassValue.INT     | PrimitiveValue.of(2)
         PrimitiveValue.of((char) 'a')                 | PrimitiveClassValue.INT     | PrimitiveValue.of(97)
@@ -80,17 +80,17 @@ class ClassValueTest extends Specification {
 
         where:
         className << [
-                PrimitiveClassValue.values().collect { it.name().toLowerCase() },
-                ObjectClassValue.values().collect { it.name() }.collect {
+                PrimitiveClassValue.values()*.name()*.toLowerCase(),
+                ObjectClassValue.values()*.name().collect {
                     "${it[0]}${it.substring(1).toLowerCase()}"
                 },
-                Map.class.simpleName
+                Map.class.simpleName,
         ].flatten()
         expected << [
                 PrimitiveClassValue.values(),
                 ObjectClassValue.values(),
                 new Refl<>("${ObjectClassValue.package.name}.CustomObjectClassValue",
-                        Map).getObject()
+                        Map).object,
         ].flatten()
     }
 

@@ -24,7 +24,7 @@ class StringObjectValueTest extends Specification {
         def result = first.add(second)
 
         then:
-        result.getValue() == 'Hello, world!'
+        result.value == 'Hello, world!'
     }
 
 }
