@@ -1085,7 +1085,7 @@ class TypeCheckerTest extends Specification {
                         CODE_BLOCK_CHAR,
                         new EmptyLiteral(),
                 ),
-                RETURN_NUMBER
+                RETURN_NUMBER,
         ])
 
         when:

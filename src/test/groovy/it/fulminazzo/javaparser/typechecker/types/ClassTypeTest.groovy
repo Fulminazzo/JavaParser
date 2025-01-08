@@ -53,7 +53,7 @@ class ClassTypeTest extends Specification {
         def classType = new MockClassType()
 
         when:
-        Method method = ClassVisitorObject.getDeclaredMethod('compatibleWith', Object.class)
+        Method method = ClassVisitorObject.getDeclaredMethod('compatibleWith', Object)
 
         then:
         type.isAssignableFrom(classType)
@@ -65,7 +65,7 @@ class ClassTypeTest extends Specification {
         def classType = new MockClassType()
 
         when:
-        Method method = ClassVisitorObject.getDeclaredMethod('compatibleWith', Object.class)
+        Method method = ClassVisitorObject.getDeclaredMethod('compatibleWith', Object)
 
         then:
         !method.invoke(classType, object)

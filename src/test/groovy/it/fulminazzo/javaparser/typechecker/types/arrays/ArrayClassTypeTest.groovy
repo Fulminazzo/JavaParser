@@ -12,7 +12,7 @@ class ArrayClassTypeTest extends Specification {
     static final VALUE_TYPES = [
             PrimitiveType.BYTE, PrimitiveType.SHORT, PrimitiveType.CHAR,
             PrimitiveType.INT, PrimitiveType.LONG, PrimitiveType.FLOAT,
-            PrimitiveType.DOUBLE, PrimitiveType.BOOLEAN
+            PrimitiveType.DOUBLE, PrimitiveType.BOOLEAN,
     ]
 
     def 'test cast of #cast to #type should return #cast'() {

@@ -87,7 +87,7 @@ class TypeTest extends Specification {
                 ObjectClassType.values(),
                 ObjectClassType.values(),
                 ObjectClassType.of(TestClass),
-                ObjectClassType.of(TestClass)
+                ObjectClassType.of(TestClass),
         ].flatten()
         clazz << [
                 PrimitiveType.values().collect { PrimitiveType },
@@ -101,7 +101,7 @@ class TypeTest extends Specification {
                 ObjectClassType.values().collect { ClassType },
                 ObjectClassType.values().collect { Type },
                 ClassType,
-                Type
+                Type,
         ].flatten()
     }
 
