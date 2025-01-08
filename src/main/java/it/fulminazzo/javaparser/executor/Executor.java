@@ -276,7 +276,7 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
 
     @Override
     public @NotNull Value<?> visitThisLiteral() {
-        return ObjectValue.of(this.executingObject);
+        return ObjectValue.of(getExecutingObject());
     }
 
     @Override
