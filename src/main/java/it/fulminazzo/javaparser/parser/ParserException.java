@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Exception used to notify about errors coming from {@link JavaParser}.
  */
-final class ParserException extends RuntimeException {
+public final class ParserException extends RuntimeException {
 
     /**
      * Instantiates a new Parser exception.
