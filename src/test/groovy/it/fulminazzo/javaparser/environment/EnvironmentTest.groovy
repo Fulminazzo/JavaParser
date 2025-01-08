@@ -37,7 +37,7 @@ class EnvironmentTest extends Specification {
         where:
         exception << [
                 RuntimeException, Exception, InstantiationException, ConcurrentModificationException,
-                NullPointerException, Throwable
+                NullPointerException, Throwable,
         ]
     }
 

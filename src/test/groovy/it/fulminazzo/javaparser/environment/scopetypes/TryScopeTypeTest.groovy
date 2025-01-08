@@ -1,6 +1,5 @@
 package it.fulminazzo.javaparser.environment.scopetypes
 
-
 import it.fulminazzo.javaparser.environment.ScopeException
 import spock.lang.Specification
 
@@ -12,7 +11,7 @@ class TryScopeTypeTest extends Specification {
     void setup() {
         this.type = new TryScopeType([
                 IllegalArgumentException, IllegalStateException,
-                IllegalAccessException, ScopeException
+                IllegalAccessException, ScopeException,
         ].stream() as Stream<Class<Throwable>>)
     }
 
@@ -30,15 +29,15 @@ class TryScopeTypeTest extends Specification {
         other << [
                 new TryScopeType([
                         IllegalArgumentException, IllegalStateException,
-                        IllegalAccessException, ScopeException
+                        IllegalAccessException, ScopeException,
                 ].stream() as Stream<Class<Throwable>>),
                 new TryScopeType([
                         ScopeException, IllegalAccessException,
-                        IllegalStateException, IllegalArgumentException
+                        IllegalStateException, IllegalArgumentException,
                 ].stream() as Stream<Class<Throwable>>),
                 new TryScopeType([
                         ScopeException, IllegalStateException,
-                        IllegalAccessException, IllegalArgumentException
+                        IllegalAccessException, IllegalArgumentException,
                 ].stream() as Stream<Class<Throwable>>),
         ]
     }
@@ -54,7 +53,7 @@ class TryScopeTypeTest extends Specification {
                 new TryScopeType([
                         IllegalArgumentException, IllegalStateException,
                         IllegalAccessException
-                ].stream() as Stream<Class<Throwable>>)
+                ].stream() as Stream<Class<Throwable>>),
         ].flatten()
     }
 

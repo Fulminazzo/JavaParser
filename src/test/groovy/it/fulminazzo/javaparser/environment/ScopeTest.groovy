@@ -29,7 +29,7 @@ class ScopeTest extends Specification {
 
         then:
         def e = thrown(ScopeException)
-        e.getMessage() == ScopeException.alreadyDeclaredVariable(NamedEntity.of('var')).message
+        e.message == ScopeException.alreadyDeclaredVariable(NamedEntity.of('var')).message
     }
 
     def 'update should throw ScopeException on not declared variable'() {
@@ -38,7 +38,7 @@ class ScopeTest extends Specification {
 
         then:
         def e = thrown(ScopeException)
-        e.getMessage() == ScopeException.noSuchVariable(NamedEntity.of('var')).message
+        e.message == ScopeException.noSuchVariable(NamedEntity.of('var')).message
     }
 
     def 'update should throw ScopeException on invalid variable'() {
@@ -48,7 +48,7 @@ class ScopeTest extends Specification {
 
         then:
         def e = thrown(ScopeException)
-        e.getMessage() == 'Cannot assign 10 to WrapperInfo(String)'
+        e.message == 'Cannot assign 10 to WrapperInfo(String)'
     }
 
     def 'test object data equality'() {
@@ -71,7 +71,7 @@ class ScopeTest extends Specification {
                 new Scope.ObjectData(new WrapperInfo<>(Integer), NamedEntity.of('var')),
                 new Scope.ObjectData(new WrapperInfo<>(String), NamedEntity.of('other')),
                 new Scope.ObjectData(new WrapperInfo<>(Integer), NamedEntity.of('other')),
-                new WrapperInfo<>(Integer)
+                new WrapperInfo<>(Integer),
         ]
     }
 
@@ -80,7 +80,7 @@ class ScopeTest extends Specification {
         def data = new Scope.ObjectData(new WrapperInfo<>(String), NamedEntity.of('var'))
 
         expect:
-        data.toString() == "${Scope.ObjectData.simpleName}(${new WrapperInfo<>(String).toString()}, var)"
+        data.toString() == "${Scope.ObjectData.simpleName}(${new WrapperInfo<>(String)}, var)"
     }
 
 }
