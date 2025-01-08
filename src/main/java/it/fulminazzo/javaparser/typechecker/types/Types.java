@@ -35,7 +35,7 @@ public final class Types {
 
         @Override
         public boolean compatibleWith(@NotNull Type object) {
-            return object.equals(this);
+            return equals(object);
         }
 
         @Override
