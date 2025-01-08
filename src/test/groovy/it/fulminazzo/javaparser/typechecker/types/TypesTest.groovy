@@ -1,6 +1,6 @@
 package it.fulminazzo.javaparser.typechecker.types
 
-
+import it.fulminazzo.javaparser.typechecker.TypeCheckerException
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
@@ -32,6 +32,15 @@ class TypesTest extends Specification {
 
         where:
         classType << PrimitiveClassType.values()
+    }
+
+    def 'test SingletonType should not have any class associated'() {
+        when:
+        this.type.toJavaClass()
+
+        then:
+        def e = thrown(TypeCheckerException)
+        e.message == TypeCheckerException.noClassType(Types.SingletonType).message
     }
 
     def 'test SingletonType absorption'() {
