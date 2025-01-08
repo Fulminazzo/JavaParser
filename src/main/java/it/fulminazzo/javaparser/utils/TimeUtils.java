@@ -22,7 +22,9 @@ public final class TimeUtils {
         }
         if (seconds > 0 || format.isEmpty()) {
             if (!format.isEmpty()) format += ", ";
-            format += seconds + " seconds";
+            if (seconds == Math.round(seconds)) format += (long) seconds;
+            else format += seconds;
+            format += " seconds";
         }
 
         return format;
