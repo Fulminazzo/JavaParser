@@ -387,6 +387,18 @@ class ExecutorTest extends Specification {
         'method_call_val_prim' | 'toString'           | []                                           | ObjectValue.of('1')
     }
 
+    def 'test not found visit method call should throw exception'() {
+        given:
+        def expected = ValueException.methodNotFound(ClassValue.of(TestClass), 'not_existing', new ParameterValues([])).message
+
+        when:
+        this.executor.visitMethodCall(new ThisLiteral(), 'not_existing', new MethodInvocation([]))
+
+        then:
+        def e = thrown(ExecutorException)
+        e.message == expected
+    }
+
     def 'test visit field of #field should return #expected'() {
         given:
         this.environment.declare(
