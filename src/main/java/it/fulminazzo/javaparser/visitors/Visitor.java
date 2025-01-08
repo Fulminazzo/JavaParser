@@ -898,9 +898,10 @@ public interface Visitor<
         try {
             getEnvironment().enterScope(scope);
             return function.call();
+        } catch (RuntimeException e) {
+            throw e;
         } catch (Exception e) {
-            if (e instanceof RuntimeException) throw (RuntimeException) e;
-            else throw exceptionWrapper(e);
+            throw exceptionWrapper(e);
         } finally {
             getEnvironment().exitScope();
         }
