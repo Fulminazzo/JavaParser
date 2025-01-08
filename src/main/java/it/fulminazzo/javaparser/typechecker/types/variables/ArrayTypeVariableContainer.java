@@ -32,8 +32,7 @@ public final class ArrayTypeVariableContainer
 
     @Override
     public @NotNull Type set(@NotNull Type newValue) {
-        //TODO: invalid index
-        return this.container.getType().cast(newValue);
+        return this.type.cast(newValue);
     }
 
     @Override
