@@ -2,6 +2,8 @@ package it.fulminazzo.javaparser.executor.values.arrays;
 
 import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import java.util.List;
 /**
  * A utility class for {@link ArrayValue} objects.
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 final class ArrayUtils {
 
     /**
