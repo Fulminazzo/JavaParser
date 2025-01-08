@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'groovy'
+    id 'maven-publish'
     id 'jacoco-report-aggregation'
     alias(libs.plugins.shadow)
     alias(libs.plugins.delombok)
@@ -71,4 +72,30 @@ tasks.register('javadocJar', Jar) {
     from javadoc
     archiveClassifier = 'javadoc'
 }
-//TODO: publications
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = rootProject.group
+            artifactId = rootProject.name
+            version = rootProject.version
+
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
+
+    repositories {
+        maven {
+            url 'https://repo.fulminazzo.it/releases'
+            credentials {
+                username = System.getenv('REPO_USERNAME')
+                password = System.getenv('REPO_PASSWORD')
+            }
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+    }
+}
