@@ -1,8 +1,6 @@
 package it.fulminazzo.javaparser.typechecker.types.variables
 
-
 import it.fulminazzo.javaparser.typechecker.types.*
-import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects
 import spock.lang.Specification
 
 import java.lang.reflect.Field
@@ -18,6 +16,7 @@ class TypeVariableContainerTest extends Specification {
         and:
         def variable = Mock(Type)
         def container = new TypeVariableContainer() {
+
             @Override
             Type getVariable() {
                 return variable
@@ -27,6 +26,7 @@ class TypeVariableContainerTest extends Specification {
             ClassType toClass() {
                 return null
             }
+
         }
 
         and:
@@ -36,8 +36,6 @@ class TypeVariableContainerTest extends Specification {
                 case ClassType -> PrimitiveClassType.INT
                 case Method -> TestClass.getMethod('publicMethod')
                 case Field -> TestClass.getField('publicField')
-                case ParameterVisitorObjects -> new ParameterTypes([])
-                case ParameterTypes -> new ParameterTypes([])
                 default -> throw new IllegalArgumentException(it.canonicalName)
             }
         }
@@ -54,6 +52,35 @@ class TypeVariableContainerTest extends Specification {
         method << TypeVariableContainer.methods
                 .findAll { it.declaringClass == TypeVariableContainer }
                 .findAll { !Modifier.isAbstract(it.modifiers) }
+                .findAll { it.name != 'invokeMethod' }
+    }
+
+    def 'test invokeMethod'() {
+        given:
+        def variable = Mock(Type)
+        def container = new TypeVariableContainer() {
+
+            @Override
+            Type getVariable() {
+                return variable
+            }
+
+            @Override
+            ClassType toClass() {
+                return null
+            }
+
+        }
+
+        and:
+        def method = TestClass.getMethod('publicMethod')
+        def types = new ParameterTypes([])
+
+        when:
+        container.invokeMethod(method, types)
+
+        then:
+        1 * variable.invokeMethod(method, types)
     }
 
 }
