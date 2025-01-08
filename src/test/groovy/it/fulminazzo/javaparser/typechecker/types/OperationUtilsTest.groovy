@@ -949,4 +949,19 @@ class OperationUtilsTest extends Specification {
         ObjectType.BOOLEAN | ObjectType.BOOLEAN
     }
 
+    def 'test invalid execute unary operation boolean: #a'() {
+        when:
+        OperationUtils.executeUnaryOperationBoolean(TokenType.NOT, a)
+
+        then:
+        thrown(TypeCheckerException)
+
+        where:
+        a << [
+                values(),
+                ObjectType.values(),
+                ObjectType.of(TestClass)
+        ].flatten().findAll { !OperationUtils.isBoolean(it) }
+    }
+
 }
