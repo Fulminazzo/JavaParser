@@ -9,20 +9,24 @@ import java.io.File;
  * Starting point of the program.
  */
 public final class Mojito {
+    private static final String[] HELP_OPTIONS = new String[] {"-h", "--help", "/?"};
 
     public static void main(final String @NotNull [] args) {
-        String code = args.length == 0 ? "-h" : args[0];
-        if (code.equals("-h") || code.equals("--help")) {
-            System.out.println("Usage:");
-            System.out.println("java -jar mojito.jar <filename>");
-            System.out.println("java -jar mojito.jar \"code to run\"");
-        } else {
-            Runner runner = newRunner();
-            try {
-                runner.run(code);
-            } catch (ParserException e) {
-                runner.run(new File(code));
+        String argument = (args.length == 0 ? HELP_OPTIONS : args)[0];
+
+        for (String o : HELP_OPTIONS)
+            if (argument.equalsIgnoreCase(o)) {
+                System.out.println("Usage:");
+                System.out.println("java -jar mojito.jar <filename>");
+                System.out.println("java -jar mojito.jar \"code to run\"");
+                return;
             }
+
+        Runner runner = newRunner();
+        try {
+            runner.run(argument);
+        } catch (ParserException e) {
+            runner.run(new File(argument));
         }
     }
 
