@@ -1,5 +1,7 @@
 package it.fulminazzo.javaparser.typechecker.types;
 
+import java.util.Objects;
+
 @SuppressWarnings({"unused", "FieldMayBeFinal"})
 public class TestClass {
     public static int publicStaticField = 1;
@@ -7,21 +9,32 @@ public class TestClass {
     protected static int protectedStaticField = 1;
     private static int privateStaticField = 1;
 
-    public double publicField = 1.0;
+    public Double publicField = 1.0;
     double packageField = 1.0;
     protected double protectedField = 1.0;
     private double privateField = 1.0;
 
+    private final int i;
+    private final Boolean b;
+
     public TestClass() {
+        i = 0;
+        b = null;
     }
 
     public TestClass(int i, Boolean b) {
+        this.i = i;
+        this.b = b;
     }
 
     TestClass(boolean b) {
+        i = 0;
+        this.b = b;
     }
 
     private TestClass(float f) {
+        i = (int) f;
+        b = null;
     }
 
     public static int publicStaticMethod() {
@@ -53,6 +66,11 @@ public class TestClass {
         return b ? n : 1.0;
     }
 
+    public double publicMethod(Boolean... booleans) {
+        for (boolean b : booleans) if (!b) return 1;
+        return booleans.length;
+    }
+
     double packageMethod() {
         return 1.0;
     }
@@ -63,6 +81,19 @@ public class TestClass {
 
     private double privateMethod() {
         return 1.0;
+    }
+
+    public void wave(String name) {
+        System.out.println("Hello, " + name + "!");
+    }
+
+    public Object returnNull() {
+        return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof TestClass && this.i == ((TestClass) o).i && Objects.equals(this.b, ((TestClass) o).b);
     }
 
 }
