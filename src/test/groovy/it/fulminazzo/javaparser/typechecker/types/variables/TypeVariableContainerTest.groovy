@@ -9,13 +9,8 @@ import java.lang.reflect.Modifier
 
 class TypeVariableContainerTest extends Specification {
 
-    def 'test container.#method.name(#method.parameterTypes) should call variable.#method.name(#method.parameterTypes)'() {
-        given:
-        def methodName = method.name
-
-        and:
-        def variable = Mock(Type)
-        def container = new TypeVariableContainer() {
+    static newContainer(def variable) {
+        return new TypeVariableContainer() {
 
             @Override
             Type getVariable() {
@@ -28,6 +23,16 @@ class TypeVariableContainerTest extends Specification {
             }
 
         }
+
+    }
+
+    def 'test container.#method.name(#method.parameterTypes) should call variable.#method.name(#method.parameterTypes)'() {
+        given:
+        def methodName = method.name
+
+        and:
+        def container = newContainer(Mock(Type))
+        def variable = container.getVariable()
 
         and:
         def parameters = method.parameterTypes.collect {
@@ -57,20 +62,8 @@ class TypeVariableContainerTest extends Specification {
 
     def 'test invokeMethod'() {
         given:
-        def variable = Mock(Type)
-        def container = new TypeVariableContainer() {
-
-            @Override
-            Type getVariable() {
-                return variable
-            }
-
-            @Override
-            ClassType toClass() {
-                return null
-            }
-
-        }
+        def container = newContainer(Mock(Type))
+        def variable = container.getVariable()
 
         and:
         def method = TestClass.getMethod('publicMethod')
