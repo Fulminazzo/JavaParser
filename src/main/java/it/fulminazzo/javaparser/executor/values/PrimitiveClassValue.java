@@ -13,7 +13,6 @@ import java.util.Arrays;
  *
  * @param <V> the type of the primitive
  */
-@Getter
 public final class PrimitiveClassValue<V> extends EnumObject implements ClassValue<V> {
     public static final ClassValue<Byte> BYTE = new PrimitiveClassValue<>(byte.class,
             Byte.class, Integer.class);
@@ -32,6 +31,7 @@ public final class PrimitiveClassValue<V> extends EnumObject implements ClassVal
     public static final ClassValue<Boolean> BOOLEAN = new PrimitiveClassValue<>(boolean.class,
             Boolean.class);
 
+    @Getter
     private final @NotNull Class<V> value;
     private final Class<?> @NotNull [] compatibleValues;
 
