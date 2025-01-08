@@ -26,6 +26,15 @@ class TypeVariableContainerTest extends Specification {
 
     }
 
+    static containersGenerator() {
+        return [
+                { v -> newContainer(v) },
+                { v -> new ArrayTypeVariableContainer(null, PrimitiveClassType.INT, '0', v) },
+                { v -> new TypeFieldContainer(null, PrimitiveClassType.INT, 'publicField', v) },
+                { v -> new TypeLiteralVariableContainer(null, PrimitiveClassType.INT, 'i', v) },
+        ]
+    }
+
     def 'test container.#method.name(#method.parameterTypes) should call variable.#method.name(#method.parameterTypes)'() {
         given:
         def methodName = method.name
@@ -76,12 +85,7 @@ class TypeVariableContainerTest extends Specification {
         1 * variable.invokeMethod(method, types)
 
         where:
-        generateContainer << [
-                { v -> newContainer(v) },
-                { v -> new ArrayTypeVariableContainer(null, PrimitiveClassType.INT, '0', v) },
-                { v -> new TypeFieldContainer(null, PrimitiveClassType.INT, 'publicField', v) },
-                { v -> new TypeLiteralVariableContainer(null, PrimitiveClassType.INT, 'i', v) },
-        ]
+        generateContainer << containersGenerator()
     }
 
 }
