@@ -1,4 +1,4 @@
-package it.fulminazzo.javaparser.typechecker.types;
+package it.fulminazzo.javaparser;
 
 import java.util.Objects;
 
