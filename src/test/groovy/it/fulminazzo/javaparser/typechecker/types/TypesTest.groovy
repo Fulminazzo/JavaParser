@@ -6,7 +6,7 @@ import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
 
 class TypesTest extends Specification {
-    private Type type
+    private ClassType type
 
     void setup() {
         this.type = new Types.SingletonType('TEST_TYPE')
