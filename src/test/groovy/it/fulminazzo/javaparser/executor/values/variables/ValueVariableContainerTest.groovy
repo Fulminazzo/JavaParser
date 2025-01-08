@@ -3,7 +3,7 @@ package it.fulminazzo.javaparser.executor.values.variables
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple
 import it.fulminazzo.javaparser.executor.values.ClassValue
 import it.fulminazzo.javaparser.executor.values.ParameterValues
-import it.fulminazzo.javaparser.executor.values.TestClass
+import it.fulminazzo.javaparser.TestClass
 import it.fulminazzo.javaparser.executor.values.Value
 import org.jetbrains.annotations.NotNull
 import spock.lang.Specification

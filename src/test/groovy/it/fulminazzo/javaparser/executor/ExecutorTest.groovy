@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.executor
 
 import it.fulminazzo.fulmicollection.objects.Refl
+import it.fulminazzo.javaparser.TestClass
 import it.fulminazzo.javaparser.environment.MockEnvironment
 import it.fulminazzo.javaparser.environment.NamedEntity
 import it.fulminazzo.javaparser.environment.ScopeException

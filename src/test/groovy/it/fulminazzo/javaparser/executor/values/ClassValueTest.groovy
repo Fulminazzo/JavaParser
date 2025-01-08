@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.executor.values
 
 import it.fulminazzo.fulmicollection.objects.Refl
+import it.fulminazzo.javaparser.TestClass
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue
 import it.fulminazzo.javaparser.executor.values.objects.ObjectValue
 import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue

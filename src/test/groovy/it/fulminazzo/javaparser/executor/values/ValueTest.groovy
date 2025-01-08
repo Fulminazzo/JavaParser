@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor.values
 
+import it.fulminazzo.javaparser.TestClass
 import it.fulminazzo.javaparser.executor.ExecutorException
 import it.fulminazzo.javaparser.executor.values.arrays.ArrayValue
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue
