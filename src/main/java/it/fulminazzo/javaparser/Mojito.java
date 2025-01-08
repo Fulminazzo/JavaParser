@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.javaparser.executor.Executor;
+import it.fulminazzo.javaparser.executor.ExecutorException;
 import it.fulminazzo.javaparser.executor.values.Value;
 import it.fulminazzo.javaparser.parser.JavaParser;
 import it.fulminazzo.javaparser.parser.ParserException;
@@ -9,6 +10,7 @@ import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.NodeException;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.typechecker.TypeChecker;
+import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import it.fulminazzo.javaparser.utils.TimeUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -81,7 +83,7 @@ public final class Mojito {
                             return null;
                         }
                 );
-            } catch (RunnerException e) {
+            } catch (RunnerException | ParserException | TypeCheckerException | ExecutorException e) {
                 info("An error occurred while running the program.");
                 info(e.getMessage());
                 return;
