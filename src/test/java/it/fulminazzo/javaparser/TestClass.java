@@ -66,9 +66,12 @@ public class TestClass {
         return b ? n : 1.0;
     }
 
-    public double publicMethod(Boolean... booleans) {
-        for (boolean b : booleans) if (!b) return 1;
-        return booleans.length;
+    public double publicMethod(String... strings) {
+        for (int i = 0; i < strings.length; i++) {
+            String s = strings[i];
+            if (s == null || s.isEmpty()) return i;
+        }
+        return strings.length;
     }
 
     double packageMethod() {
