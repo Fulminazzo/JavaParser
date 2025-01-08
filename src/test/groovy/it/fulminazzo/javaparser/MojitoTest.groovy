@@ -4,6 +4,19 @@ import it.fulminazzo.javaparser.tokenizer.TokenType
 import spock.lang.Specification
 
 class MojitoTest extends Specification {
+    private ByteArrayOutputStream output
+    private PrintStream previousOut
+
+    void setup() {
+        this.previousOut = System.out
+        this.output = new ByteArrayOutputStream()
+        System.out = new PrintStream(this.output)
+    }
+
+    void cleanup() {
+        System.out = this.previousOut
+        System.out.println(this.output)
+    }
 
     def 'test parseVariables of #arguments should throw exception with message: #expected'() {
         when:
