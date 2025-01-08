@@ -106,12 +106,18 @@ class TypeTest extends Specification {
     }
 
     def 'test toPrimitive of invalid should throw'() {
+        given:
+        def type = Mock(Type)
+
+        and:
+        type.toPrimitive() >> { callRealMethod() }
+
         when:
-        this.type.toPrimitive()
+        type.toPrimitive()
 
         then:
         def e = thrown(TypeCheckerException)
-        e.message == TypeCheckerException.noPrimitive(this.type).message
+        e.message == TypeCheckerException.noPrimitive(type).message
     }
 
     /**
