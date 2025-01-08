@@ -62,14 +62,14 @@ class TokenTypeTest extends Specification {
         BOOLEAN_VALUE | 'true'
         BOOLEAN_VALUE | 'false'
         CHAR_VALUE    | "'c'"
-        CHAR_VALUE    | "'\\r'"
-        CHAR_VALUE    | "'\\b'"
-        CHAR_VALUE    | "'\\f'"
-        CHAR_VALUE    | "'\\t'"
-        CHAR_VALUE    | "'\\n'"
-        CHAR_VALUE    | "'\\''"
-        CHAR_VALUE    | "'\\\"'"
-        CHAR_VALUE    | "'\\\\'"
+        CHAR_VALUE    | "'\r'"
+        CHAR_VALUE    | "'\b\'"
+        CHAR_VALUE    | "'\f'"
+        CHAR_VALUE    | "'\t'"
+        CHAR_VALUE    | "'\n'"
+        CHAR_VALUE    | "'\''"
+        CHAR_VALUE    | "'\"'"
+        CHAR_VALUE    | "'\\'"
         STRING_VALUE  | '\"\"'
         STRING_VALUE  | '\"Hello\"'
         STRING_VALUE  | '\"Hello \\\"friend\\\"\"'
