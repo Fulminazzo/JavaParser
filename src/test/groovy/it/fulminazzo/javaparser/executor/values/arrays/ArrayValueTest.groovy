@@ -15,7 +15,7 @@ class ArrayValueTest extends Specification {
         def expected = new int[]{0, 0, 0}
 
         when:
-        def actual = value.getValue()
+        def actual = value.value
 
         then:
         Arrays.equals(actual, expected)
@@ -29,10 +29,10 @@ class ArrayValueTest extends Specification {
         def value = new ArrayValue<>(ObjectClassValue.STRING, array)
 
         and:
-        def expected = array.collect { it.getValue() }.toArray(String[]::new)
+        def expected = array*.value.toArray(String[]::new)
 
         when:
-        def actual = value.getValue()
+        def actual = value.value
 
         then:
         Arrays.equals(actual, expected)

@@ -380,7 +380,7 @@ class ExecutorTest extends Specification {
         )
 
         and:
-        def nodeExecutor = object.isEmpty() ? new EmptyLiteral() : Literal.of(object)
+        def nodeExecutor = object.empty ? new EmptyLiteral() : Literal.of(object)
         def methodInvocation = new MethodInvocation(parameters)
 
         when:
@@ -410,7 +410,7 @@ class ExecutorTest extends Specification {
         when:
         this.executor.visitMethodCall(new ThisLiteral(), 'publicMethod', new MethodInvocation([
                 new StringValueLiteral('\"Hello, world\"'),
-                new BooleanValueLiteral('true')
+                new BooleanValueLiteral('true'),
         ]))
 
         then:
@@ -1123,7 +1123,7 @@ class ExecutorTest extends Specification {
         BOOL_LIT_TRUE                              | Literal.of('Object')                | ObjectValue.of(true)
         BOOL_LIT_FALSE                             | Literal.of('Object')                | ObjectValue.of(false)
         // string
-        STRING_LIT                                 | Literal.of('String')                | ObjectValue.of((String) 'Hello, world!')
+        STRING_LIT                                 | Literal.of('String')                | ObjectValue.of('Hello, world!')
         STRING_LIT                                 | Literal.of('Object')                | ObjectValue.of('Hello, world!')
         // custom class
         new NewObject(Literal.of(TestClass.canonicalName),

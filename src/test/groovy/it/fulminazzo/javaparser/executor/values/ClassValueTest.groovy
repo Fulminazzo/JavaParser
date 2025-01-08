@@ -83,13 +83,13 @@ class ClassValueTest extends Specification {
                 ObjectClassValue.values()*.name().collect {
                     "${it[0]}${it.substring(1).toLowerCase()}"
                 },
-                Map.class.simpleName
+                Map.class.simpleName,
         ].flatten()
         expected << [
                 PrimitiveClassValue.values(),
                 ObjectClassValue.values(),
                 new Refl<>("${ObjectClassValue.package.name}.CustomObjectClassValue",
-                        Map).getObject()
+                        Map).object,
         ].flatten()
     }
 
