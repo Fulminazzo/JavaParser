@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.typechecker.types.variables
 
+import it.fulminazzo.fulmicollection.structures.tuples.Tuple
 import it.fulminazzo.javaparser.typechecker.types.*
 import spock.lang.Specification
 
@@ -35,13 +36,15 @@ class TypeVariableContainerTest extends Specification {
         ]
     }
 
-    def 'test container.#method.name(#method.parameterTypes) should call variable.#method.name(#method.parameterTypes)'() {
+    def 'test container.#tuple.value.name(#tuple.value.parameterTypes) should call variable.#tuple.value.name(#tuple.value.parameterTypes)'() {
         given:
+        def containerGenerator = tuple.key
+        def method = tuple.value
         def methodName = method.name
 
         and:
-        def container = newContainer(Mock(Type))
-        def variable = container.getVariable()
+        def variable = Mock(Type)
+        def container = containerGenerator(variable)
 
         and:
         def parameters = method.parameterTypes.collect {
@@ -63,10 +66,11 @@ class TypeVariableContainerTest extends Specification {
         else 1 * variable."${methodName}"(*parameters)
 
         where:
-        method << TypeVariableContainer.methods
+        tuple << TypeVariableContainer.methods
                 .findAll { it.declaringClass == TypeVariableContainer }
                 .findAll { !Modifier.isAbstract(it.modifiers) }
                 .findAll { it.name != 'invokeMethod' }
+                .collectMany { containersGenerator().collect { c -> new Tuple<>(c, it) } }
     }
 
     def 'test container invokeMethod should be called to internal variable'() {
