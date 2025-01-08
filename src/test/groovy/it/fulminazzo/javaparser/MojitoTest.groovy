@@ -18,19 +18,20 @@ class MojitoTest extends Specification {
         System.out.println(this.output)
     }
 
-    def 'test main with "#arguments" should show result in output'() {
+    def 'test main with "#arguments" should show #expected in output'() {
         when:
         Mojito.main(arguments.toArray(new String[arguments.size()]))
         def out = this.output.toString()
 
         then:
-        out.contains('Hello, world!')
+        out.endsWith(expected + '\n')
 
         where:
-        arguments << [
-                ['build/resources/test/runner_test_variable.java', 'variable:\"Hello, world!\"'],
-                ['--code', "return variable;", 'variable:\"Hello, world!\"'],
-        ]
+        arguments                                                                        | expected
+        ['build/resources/test/runner_test_variable.java', 'variable:\"Hello, world!\"'] | 'Hello, world!'
+        ['build/resources/test/runner_test_variable.java']                               | 'Nothing was returned'
+        ['--code', 'return variable;', 'variable:\"Hello, world!\"']                     | 'Hello, world!'
+        ['--code', 'return variable;']                                                   | 'Nothing was returned'
     }
 
     def 'test main with invalid program should show error message'() {
