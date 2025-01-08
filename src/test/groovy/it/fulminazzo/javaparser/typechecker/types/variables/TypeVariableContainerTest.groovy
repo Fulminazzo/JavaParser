@@ -30,7 +30,7 @@ class TypeVariableContainerTest extends Specification {
         }
 
         and:
-        def parameters = method.parameterTypes.findAll {
+        def parameters = method.parameterTypes.collect {
             switch (it) {
                 case Type[] -> new Type[]{PrimitiveType.INT}
                 case ClassType -> PrimitiveClassType.INT
