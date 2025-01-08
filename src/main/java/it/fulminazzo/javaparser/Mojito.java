@@ -11,6 +11,7 @@ import it.fulminazzo.javaparser.typechecker.TypeChecker;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +34,11 @@ public final class Mojito {
             Runner runner = newRunner();
 
             if (argument.equalsIgnoreCase("--code")) ; //TODO:
-            else ; //TODO:
+            else {
+                File file = new File(argument);
+                @NotNull Map<String, Object> variables = parseVariables(args, 1);
+                runner.run(file, variables);
+            }
         } catch (ArgumentsException e) {
             System.out.println("Usage:");
             System.out.println("java -jar mojito.jar <filename> <var1:val1> <var2:val2>...");
