@@ -84,7 +84,32 @@ is **mandatory** for these dependencies to work.
   </dependency>
   ```
 
-[//]: # (TODO: program starting point)
+Then, it is possible to start reading and executing code thanks to the 
+[Mojito](./src/main/java/it/fulminazzo/mojito/Mojito.java) class, which provides two important functions:
+
+- `newRunner()`: allows creating a new runner with an empty object;
+- `newRunner(Object)`: allows creating a new runner and setting the given object as the result of the `this` keyword.
+
+A [Runner](./src/main/java/it/fulminazzo/mojito/Runner.java) is a special entity capable of handling Java code
+from **files**, **strings** or **input streams** thanks to the many versions of the `run` function.
+
+It is also possible to pass default variables which will be initialized before executing the main program.
+
+As an example, the code:
+
+```java
+String code = "return name;";
+Map<String, Object> variables = new HashMap<>();
+variables.put("name", "fulminazzo");
+
+Runner runner = Mojito.newRunner();
+runner.run(code, variables);
+
+Optional<?> returnedValue = runner.latestResult();
+```
+
+will return the parsed variable `name` (`fulminazzo`) in the _returnedValue_ 
+[Optional](https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html).
 
 ## Roadmap
 
