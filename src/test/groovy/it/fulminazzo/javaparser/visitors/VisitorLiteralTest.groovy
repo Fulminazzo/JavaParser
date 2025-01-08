@@ -5,7 +5,7 @@ import it.fulminazzo.javaparser.handler.Handler
 import it.fulminazzo.javaparser.handler.HandlerException
 import it.fulminazzo.javaparser.handler.elements.ClassElement
 import it.fulminazzo.javaparser.handler.elements.Element
-import it.fulminazzo.javaparser.visitors.visitorobjects.TestClass
+import it.fulminazzo.javaparser.TestClass
 import spock.lang.Specification
 
 class VisitorLiteralTest extends Specification {

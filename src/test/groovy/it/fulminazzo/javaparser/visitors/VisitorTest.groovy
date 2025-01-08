@@ -29,7 +29,7 @@ import it.fulminazzo.javaparser.parser.node.statements.Return
 import it.fulminazzo.javaparser.parser.node.statements.Statement
 import it.fulminazzo.javaparser.parser.node.values.*
 import it.fulminazzo.javaparser.tokenizer.TokenType
-import it.fulminazzo.javaparser.visitors.visitorobjects.TestClass
+import it.fulminazzo.javaparser.TestClass
 import spock.lang.Specification
 
 import java.lang.reflect.Modifier

@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.visitors.visitorobjects
 
+import it.fulminazzo.javaparser.TestClass
 import it.fulminazzo.javaparser.handler.HandlerException
 import it.fulminazzo.javaparser.handler.elements.Element
 import it.fulminazzo.javaparser.handler.elements.ParameterElements
