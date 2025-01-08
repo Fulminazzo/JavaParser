@@ -56,7 +56,7 @@ public class ValueException extends VisitorObjectException {
     public static @NotNull ValueException methodNotFound(final @NotNull ClassValue<?> value,
                                                          final @NotNull String method,
                                                          final @NotNull ParameterValues parameterValues) {
-        return new ValueException("Could not find method %s%s in value %s", method, parameterValues, value);
+        return new ValueException("Could not find method %s%s in value %s", formatMethod(method, parameterValues), value);
     }
 
     /**
@@ -71,9 +71,8 @@ public class ValueException extends VisitorObjectException {
     public static @NotNull ValueException valuesMismatch(final @NotNull ClassValue<?> value,
                                                          final @NotNull Executable method,
                                                          final @NotNull ParameterValues parameterValues) {
-        //TODO: proper formatting from TypeException
         return new ValueException("Types mismatch: cannot apply parameters %s to method %s in value %s",
-                parameterValues, method.getName(), value);
+                formatParameters(parameterValues), method.getName(), value);
     }
 
 }
