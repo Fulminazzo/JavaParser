@@ -114,5 +114,4 @@ class TypesTest extends Specification {
         string == 'TEST_TYPE'
     }
 
-
 }

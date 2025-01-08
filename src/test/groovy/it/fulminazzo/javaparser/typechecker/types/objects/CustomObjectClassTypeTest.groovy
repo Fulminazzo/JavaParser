@@ -1,6 +1,5 @@
 package it.fulminazzo.javaparser.typechecker.types.objects
 
-
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException
 import it.fulminazzo.javaparser.typechecker.types.ClassType
 import it.fulminazzo.javaparser.typechecker.types.PrimitiveClassType

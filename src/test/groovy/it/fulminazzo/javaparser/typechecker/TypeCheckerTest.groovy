@@ -1,6 +1,5 @@
 package it.fulminazzo.javaparser.typechecker
 
-
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.javaparser.environment.MockEnvironment
 import it.fulminazzo.javaparser.environment.NamedEntity
@@ -1030,8 +1029,8 @@ class TypeCheckerTest extends Specification {
                 ObjectClassType.of(getClass())
         ].flatten()
         type << [
-                PrimitiveClassType.values().collect { it.toType() },
-                PrimitiveClassType.values().collect { it.toType() },
+                PrimitiveClassType.values()*.toType(),
+                PrimitiveClassType.values()*.toType(),
                 ObjectType.STRING,
                 ObjectType.of(Object),
                 ObjectType.of(getClass())

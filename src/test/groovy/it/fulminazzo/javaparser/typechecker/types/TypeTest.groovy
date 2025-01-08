@@ -6,7 +6,7 @@ import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import spock.lang.Specification
 
 class TypeTest extends Specification {
-    private static ParameterTypes NO_PARAMETERS = new ParameterTypes([])
+    private static final ParameterTypes NO_PARAMETERS = new ParameterTypes([])
 
     private Type type
     private ClassType classType

@@ -33,8 +33,8 @@ class ClassTypeTest extends Specification {
 
         where:
         className << [
-                PrimitiveClassType.values().collect { it.name().toLowerCase() },
-                ObjectClassType.values().collect { it.name() }.collect {
+                PrimitiveClassType.values()*.name()*.toLowerCase(),
+                ObjectClassType.values()*.name().collect {
                     "${it[0]}${it.substring(1).toLowerCase()}"
                 },
                 Map.class.simpleName
@@ -73,11 +73,12 @@ class ClassTypeTest extends Specification {
         where:
         object << [
                 new Type() {
-                    @NotNull
+
                     @Override
-                    ClassType toClass() {
+                    @NotNull ClassType toClass() {
                         return null
                     }
+
                 },
                 new Object()
         ]
