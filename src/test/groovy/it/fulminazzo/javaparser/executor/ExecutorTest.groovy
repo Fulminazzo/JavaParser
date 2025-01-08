@@ -392,12 +392,12 @@ class ExecutorTest extends Specification {
         given:
         def expected = ValueException.valuesMismatch(ClassValue.of(TestClass),
                 TestClass.getMethod('publicMethod', double, Boolean),
-                new ParameterValues([Value.of('Hello, world'), Value.of(true)])).message
+                new ParameterValues([Value.of(true), Value.of(true)])).message
 
         when:
         this.executor.visitMethodCall(new ThisLiteral(), 'publicMethod', new MethodInvocation([
-                new StringValueLiteral('\"Hello, world\"'),
-                new BooleanValueLiteral('true')
+                new BooleanValueLiteral('true'),
+                new BooleanValueLiteral('true'),
         ]))
 
         then:

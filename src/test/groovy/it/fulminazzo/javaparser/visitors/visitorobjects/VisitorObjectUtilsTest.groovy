@@ -16,10 +16,10 @@ class VisitorObjectUtilsTest extends Specification {
 
         where:
         parameters                                    | executable                                           | expected
-        []                                            | TestClass.getMethod('publicMethod') | true
+        []                                            | TestClass.getMethod('publicMethod')                  | true
         [Element.of(1)]                               | TestClass.getMethod('publicMethod')                  | false
         [Element.of(1)]                               | TestClass.getMethod('publicMethod', double, Boolean) | false
-        [Element.of(1), Element.of(2), Element.of(3)] | TestClass.getMethod('publicMethod', Boolean[])       | true
+        [Element.of(1), Element.of(2), Element.of(3)] | TestClass.getMethod('publicMethod', String[])        | true
         [Element.of(1), Element.of(2), Element.of(3)] | TestClass.getMethod('publicMethod', double, Boolean) | false
     }
 
