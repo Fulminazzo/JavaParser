@@ -1,5 +1,7 @@
 package it.fulminazzo.javaparser.visitors.visitorobjects;
 
+import java.util.Objects;
+
 @SuppressWarnings({"unused", "FieldMayBeFinal"})
 public class TestClass {
     public static int publicStaticField = 1;
@@ -91,7 +93,7 @@ public class TestClass {
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof TestClass && this.i == ((TestClass) o).i && this.b == ((TestClass) o).b;
+        return o instanceof TestClass && this.i == ((TestClass) o).i && Objects.equals(this.b, ((TestClass) o).b);
     }
 
 }
