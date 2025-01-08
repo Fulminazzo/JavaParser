@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
  * Represents a wrapper for a {@link Throwable} value.
  */
 @Getter
-final class ExceptionWrapper extends RuntimeException {
+public final class ExceptionWrapper extends RuntimeException {
     private final @NotNull Value<? extends Throwable> actualException;
 
     /**
