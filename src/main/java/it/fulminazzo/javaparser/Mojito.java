@@ -71,15 +71,21 @@ public final class Mojito {
                 return;
             }
 
-            executeTimed(
-                    String.format("Starting program with %s environment variables", variables.size()),
-                    "Successfully terminated program execution. (%time%)",
-                    () -> {
-                        if (code instanceof File) runner.run((File) code, variables);
-                        else runner.run((String) code, variables);
-                        return null;
-                    }
-            );
+            try {
+                executeTimed(
+                        String.format("Starting program with %s environment variables", variables.size()),
+                        "Successfully terminated program execution. (%time%)",
+                        () -> {
+                            if (code instanceof File) runner.run((File) code, variables);
+                            else runner.run((String) code, variables);
+                            return null;
+                        }
+                );
+            } catch (RunnerException e) {
+                info("An error occurred while running the program.");
+                info(e.getMessage());
+                return;
+            }
 
             info("Program execution returned:");
             Optional<?> result = ((Optional<Value<?>>) runner.latestResult()).map(Value::getValue);
