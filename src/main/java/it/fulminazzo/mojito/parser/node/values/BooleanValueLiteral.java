@@ -13,6 +13,7 @@ public class BooleanValueLiteral extends ValueLiteral {
      * Instantiates a new Boolean literal.
      *
      * @param rawValue the raw value
+     * @throws NodeException in case the value does not match with the {@link TokenType#regex()}
      */
     public BooleanValueLiteral(final @NotNull String rawValue) throws NodeException {
         super(rawValue, TokenType.BOOLEAN_VALUE);

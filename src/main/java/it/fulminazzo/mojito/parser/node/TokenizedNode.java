@@ -17,6 +17,7 @@ public abstract class TokenizedNode extends NodeImpl {
      *
      * @param rawValue the raw value
      * @param type     the token of this node
+     * @throws NodeException in case the value does not match with the {@link TokenType#regex()}
      */
     public TokenizedNode(final @NotNull String rawValue,
                          final @NotNull TokenType type) throws NodeException {

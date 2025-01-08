@@ -9,6 +9,11 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Represents the wrappers, {@link String} and {@link Object} classes.
+ *
+ * @param <V> the type of the value
+ */
 @SuppressWarnings("unchecked")
 @Getter
 public final class ObjectClassValue<V> extends EnumObject implements ClassValue<V> {
@@ -104,6 +109,7 @@ public final class ObjectClassValue<V> extends EnumObject implements ClassValue<
     /**
      * Gets a new {@link ClassValue} from the given class name.
      *
+     * @param <V>       the type of the value
      * @param className the class name
      * @return the class value
      * @throws ValueException the exception thrown in case the class is not found
@@ -115,6 +121,7 @@ public final class ObjectClassValue<V> extends EnumObject implements ClassValue<
     /**
      * Gets a new {@link ClassValue} from the given class name.
      *
+     * @param <V>   the type of the value
      * @param clazz the class
      * @return the respective class value
      */

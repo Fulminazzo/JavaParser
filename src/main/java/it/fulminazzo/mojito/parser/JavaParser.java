@@ -249,6 +249,8 @@ public class JavaParser extends Parser {
 
     /**
      * CASE_BLOCK := case EXPR: ( CODE_BLOCK | SINGLE_STMT* )
+     *
+     * @return the node
      */
     protected @NotNull CaseStatement parseCaseBlock() {
         //TODO: merged cases
@@ -264,6 +266,8 @@ public class JavaParser extends Parser {
 
     /**
      * DEFAULT_BLOCK := default: ( CODE_BLOCK | SINGLE_STMT* )
+     *
+     * @return the node
      */
     protected @NotNull CodeBlock parseDefaultBlock() {
         consume(DEFAULT);
@@ -552,7 +556,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * AND := OR (&& OR)*
+     * AND := OR (&amp;&amp; OR)*
      *
      * @return the node
      */
@@ -561,14 +565,14 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * AND := OR (&& OR)* <br/>
-     * OR := EQUAL (|| EQUAL)*
-     * EQUAL := NOT_EQUAL (== NOT_EQUAL)* <br/>
-     * NOT_EQUAL := LESS_THAN (!= LESS_THAN)* <br/>
-     * LESS_THAN := LESS_THAN_EQUAL (< LESS_THAN_EQUAL)* <br/>
-     * LESS_THAN_EQUAL := GREATER_THAN (<= GREATER_THAN)* <br/>
-     * GREATER_THAN := GREATER_THAN_EQUAL (> GREATER_THAN_EQUAL)* <br/>
-     * GREATER_THAN_EQUAL := BIT_AND (>= BIT_AND)*
+     * AND := OR (&amp;&amp; OR)* <br>
+     * OR := EQUAL (|| EQUAL)* <br>
+     * EQUAL := NOT_EQUAL (== NOT_EQUAL)* <br>
+     * NOT_EQUAL := LESS_THAN (!= LESS_THAN)* <br>
+     * LESS_THAN := LESS_THAN_EQUAL (&lt; LESS_THAN_EQUAL)* <br>
+     * LESS_THAN_EQUAL := GREATER_THAN (&lt;= GREATER_THAN)* <br>
+     * GREATER_THAN := GREATER_THAN_EQUAL (&gt; GREATER_THAN_EQUAL)* <br>
+     * GREATER_THAN_EQUAL := BIT_AND (&gt;= BIT_AND)*
      *
      * @param comparison the {@link TokenType} that corresponds to the comparison
      * @return the node
@@ -588,7 +592,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * BIT_AND := BIT_OR ( (& BIT_OR)* | (&= BIT_OR) )
+     * BIT_AND := BIT_OR ( (&amp; BIT_OR)* | (&amp;= BIT_OR) )
      *
      * @return the node
      */
@@ -597,16 +601,16 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * BIT_AND := BIT_OR ( (& BIT_OR)* | (&= BIT_OR) )
-     * BIT_OR := BIT_XOR ( (| BIT_XOR)* | (|= BIT_XOR) )
-     * BIT_XOR := LSHIFT ( (^ LSHIFT)* | (^= LSHIFT) )
-     * LSHIFT := RSHIFT ( (<< RSHIFT)* | (<<= RSHIFT) )
-     * RSHIFT := URSHIFT ( (>> URSHIFT)* | (>>= URSHIFT) )
-     * URSHIFT := ADD ( (>>> ADD)* | (>>>= ADD) )
-     * ADD := SUB ( (+ SUB)* | (+= SUB) | ++ )
-     * SUB := MUL ( (- MUL)* | (-= MUL) | -- )
-     * MUL := DIV ( (* DIV)* | (*= DIV) )
-     * DIV := MOD ( (/ MOD)* | (/= MOD) )
+     * BIT_AND := BIT_OR ( (&amp; BIT_OR)* | (&amp;= BIT_OR) ) <br>
+     * BIT_OR := BIT_XOR ( (| BIT_XOR)* | (|= BIT_XOR) ) <br>
+     * BIT_XOR := LSHIFT ( (^ LSHIFT)* | (^= LSHIFT) ) <br>
+     * LSHIFT := RSHIFT ( (&lt;&lt; RSHIFT)* | (&lt;&lt;= RSHIFT) ) <br>
+     * RSHIFT := URSHIFT ( (&gt;&gt; URSHIFT)* | (&gt;&gt;= URSHIFT) ) <br>
+     * URSHIFT := ADD ( (&gt;&gt;&gt; ADD)* | (&gt;&gt;&gt;= ADD) ) <br>
+     * ADD := SUB ( (+ SUB)* | (+= SUB) | ++ ) <br>
+     * SUB := MUL ( (- MUL)* | (-= MUL) | -- ) <br>
+     * MUL := DIV ( (* DIV)* | (*= DIV) ) <br>
+     * DIV := MOD ( (/ MOD)* | (/= MOD) ) <br>
      * MOD := UNARY_OPERATION ( (% UNARY_OPERATION)* | (%= UNARY_OPERATION) )
      *
      * @param operation the {@link TokenType} that corresponds to the operation

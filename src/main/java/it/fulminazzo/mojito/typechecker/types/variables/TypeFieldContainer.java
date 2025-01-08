@@ -25,6 +25,7 @@ public final class TypeFieldContainer
      *
      * @param parent   the parent
      * @param type     the type
+     * @param name     the name
      * @param variable the value
      */
     public TypeFieldContainer(@NotNull Type parent, @NotNull ClassType type,

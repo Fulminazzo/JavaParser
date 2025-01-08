@@ -13,6 +13,7 @@ public class DoubleValueLiteral extends ValueLiteral {
      * Instantiates a new Double literal.
      *
      * @param rawValue the raw value
+     * @throws NodeException in case the value does not match with the {@link TokenType#regex()}
      */
     public DoubleValueLiteral(final @NotNull String rawValue) throws NodeException {
         super(rawValue, TokenType.DOUBLE_VALUE);

@@ -91,7 +91,9 @@ public final class ParserException extends RuntimeException {
      * Generates a {@link ParserException} with message:
      * <i>Expecting '%expected%' but got %actual% instead.</i>
      *
-     * @param parser the parser
+     * @param parser   the parser
+     * @param expected the expected
+     * @param actual   the actual
      * @return the parser exception
      */
     public static @NotNull ParserException invalidNodeProvided(final @NotNull Parser parser,
@@ -127,6 +129,7 @@ public final class ParserException extends RuntimeException {
      * Generates a {@link ParserException} with message:
      * <i>Unexpected end of input. Last read token: %token% (%last_read%)</i>
      *
+     * @param parser the parser
      * @return the parser exception
      */
     public static @NotNull ParserException unexpectedEndOfInput(final @NotNull Parser parser) {
@@ -138,6 +141,7 @@ public final class ParserException extends RuntimeException {
      * Generates a {@link ParserException} with message:
      * <i>Invalid try statement: no catch or finally block specified</i>
      *
+     * @param parser the parser
      * @return the parser exception
      */
     public static @NotNull ParserException invalidTryStatement(final @NotNull Parser parser) {

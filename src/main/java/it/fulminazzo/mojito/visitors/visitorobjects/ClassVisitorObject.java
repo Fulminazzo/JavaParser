@@ -88,7 +88,8 @@ public interface ClassVisitorObject<
      * Creates a new object from the current class with
      * the given constructor and parameters.
      *
-     * @param parameters the parameters
+     * @param constructor the constructor
+     * @param parameters  the parameters
      * @return the object associated with this class
      * @throws VisitorObjectException the exception thrown in case of errors
      */

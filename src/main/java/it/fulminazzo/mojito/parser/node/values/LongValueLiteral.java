@@ -13,6 +13,7 @@ public class LongValueLiteral extends ValueLiteral {
      * Instantiates a new Long literal.
      *
      * @param rawValue the raw value
+     * @throws NodeException in case the value does not match with the {@link TokenType#regex()}
      */
     public LongValueLiteral(final @NotNull String rawValue) throws NodeException {
         super(rawValue, TokenType.LONG_VALUE);

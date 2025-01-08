@@ -13,6 +13,7 @@ public class StringValueLiteral extends ValueLiteral {
      * Instantiates a new String literal.
      *
      * @param rawValue the raw value
+     * @throws NodeException in case the value does not match with the {@link TokenType#regex()}
      */
     public StringValueLiteral(final @NotNull String rawValue) throws NodeException {
         super(unescapeString(rawValue), TokenType.STRING_VALUE);

@@ -13,6 +13,7 @@ public class CharValueLiteral extends ValueLiteral {
      * Instantiates a new Char literal.
      *
      * @param rawValue the raw value
+     * @throws NodeException in case the value does not match with the {@link TokenType#regex()}
      */
     public CharValueLiteral(final @NotNull String rawValue) throws NodeException {
         super(prepareString(rawValue), TokenType.CHAR_VALUE);

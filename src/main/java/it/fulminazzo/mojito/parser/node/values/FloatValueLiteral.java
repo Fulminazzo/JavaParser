@@ -13,6 +13,7 @@ public class FloatValueLiteral extends ValueLiteral {
      * Instantiates a new Float literal.
      *
      * @param rawValue the raw value
+     * @throws NodeException in case the value does not match with the {@link TokenType#regex()}
      */
     public FloatValueLiteral(final @NotNull String rawValue) throws NodeException {
         super(rawValue, TokenType.FLOAT_VALUE);
