@@ -59,10 +59,17 @@ public final class Mojito {
                 start = 1;
             }
 
-            Map<String, Object> variables = executeTimed(
-                    "Beginning reading of variables from command line...",
-                    "Finished parsing of variables. (%time%)",
-                    () -> parseVariables(args, start));
+            final Map<String, Object> variables;
+            try {
+                variables = executeTimed(
+                        "Beginning reading of variables from command line...",
+                        "Finished parsing of variables. (%time%)",
+                        () -> parseVariables(args, start));
+            } catch (RunnerException e) {
+                info("An error occurred while parsing variables from command line.");
+                info(e.getMessage());
+                return;
+            }
 
             executeTimed(
                     String.format("Starting program with %s environment variables", variables.size()),
