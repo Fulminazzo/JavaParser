@@ -33,8 +33,12 @@ public final class Mojito {
 
             Runner runner = newRunner();
 
-            if (argument.equalsIgnoreCase("--code")) ; //TODO:
-            else {
+            if (argument.equalsIgnoreCase("--code")) {
+                if (args.length == 1) throw new ArgumentsException();
+                String code = args[1];
+                @NotNull Map<String, Object> variables = parseVariables(args, 2);
+                runner.run(code, variables);
+            } else {
                 File file = new File(argument);
                 @NotNull Map<String, Object> variables = parseVariables(args, 1);
                 runner.run(file, variables);
