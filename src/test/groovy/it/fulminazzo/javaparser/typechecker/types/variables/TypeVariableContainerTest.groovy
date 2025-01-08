@@ -52,7 +52,6 @@ class TypeVariableContainerTest extends Specification {
             switch (it) {
                 case Type[] -> new Type[]{PrimitiveType.INT}
                 case ClassType -> PrimitiveClassType.INT
-                case Method -> TestClass.getMethod('publicMethod')
                 case Field -> TestClass.getField('publicField')
                 default -> throw new IllegalArgumentException(it.canonicalName)
             }
