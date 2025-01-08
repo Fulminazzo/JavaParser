@@ -55,6 +55,27 @@ class ObjectValueTest extends Specification {
         ObjectValue.of(Boolean.FALSE)    | ObjectValue.of(' is the object!') | 'false is the object!'
     }
 
+    def 'test #object check #classValue should return #expected'() {
+        when:
+        def actual = object.check(classValue)
+
+        then:
+        actual == expected
+
+        where:
+        object                          | classValue     | expected
+        ObjectValue.of(1 as byte)       | PrimitiveValue | PrimitiveValue.of(1 as byte)
+        ObjectValue.of(2 as short)      | PrimitiveValue | PrimitiveValue.of(2 as short)
+        ObjectValue.of('a' as char)     | PrimitiveValue | PrimitiveValue.of('a' as char)
+        ObjectValue.of(4)               | PrimitiveValue | PrimitiveValue.of(4)
+        ObjectValue.of(5L)              | PrimitiveValue | PrimitiveValue.of(5L)
+        ObjectValue.of(6.0f)            | PrimitiveValue | PrimitiveValue.of(6.0f)
+        ObjectValue.of(7.0d)            | PrimitiveValue | PrimitiveValue.of(7.0d)
+        ObjectValue.of(true)            | PrimitiveValue | PrimitiveValue.of(true)
+        ObjectValue.of(false)           | PrimitiveValue | PrimitiveValue.of(false)
+        ObjectValue.of('Hello, world!') | ObjectValue    | ObjectValue.of('Hello, world!')
+    }
+
     def 'test #object check #classValue should throw exception'() {
         when:
         object.check(classValue)
