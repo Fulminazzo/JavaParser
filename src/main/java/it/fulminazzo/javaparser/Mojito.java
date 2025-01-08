@@ -16,6 +16,7 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.Supplier;
 
 /**
  * Starting point of the program.
@@ -29,6 +30,11 @@ public final class Mojito {
         System.out.printf(format, dateFormat.format(new Date()), message);
     }
 
+    /**
+     * Main.
+     *
+     * @param args the args
+     */
     @SuppressWarnings("unchecked")
     public static void main(final String @NotNull [] args) {
         try {
@@ -59,6 +65,24 @@ public final class Mojito {
             System.out.println("java -jar mojito.jar <filename> <var1:val1> <var2:val2>...");
             System.out.println("java -jar mojito.jar --code \"code to run\" <var1:val1> <var2:val2>...");
         }
+    }
+
+    /**
+     * Executes the given function and computes the time that it took to run.
+     *
+     * @param <T>          the type returned by the function
+     * @param startMessage the message to send before execution
+     * @param endMessage   the message to send after execution
+     * @param function     the function executed
+     * @return the result of the function
+     */
+    static <T> T executeTimed(final @NotNull String startMessage, final @NotNull String endMessage, final @NotNull Supplier<T> function) {
+        long start = System.currentTimeMillis();
+        info(startMessage);
+        T result = function.get();
+        long end = System.currentTimeMillis();
+        info(endMessage.replace("%time%", formatTime(end - start)));
+        return result;
     }
 
     /**
