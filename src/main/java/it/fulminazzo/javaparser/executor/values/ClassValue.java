@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.executor.values;
 
+import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
 import it.fulminazzo.javaparser.executor.values.arrays.ArrayClassValue;
 import it.fulminazzo.javaparser.executor.values.objects.ObjectClassValue;
@@ -9,7 +10,6 @@ import it.fulminazzo.javaparser.visitors.visitorobjects.ClassVisitorObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Represents the class of a {@link Value}.
@@ -46,8 +46,7 @@ public interface ClassValue<V> extends Value<Class<V>>, ClassVisitorObject<Class
                     return (Value<V>) PrimitiveValue.of(numberValue.longValue());
                 else if (is(PrimitiveClassValue.FLOAT))
                     return (Value<V>) PrimitiveValue.of(numberValue.floatValue());
-                else if (is(PrimitiveClassValue.DOUBLE))
-                    return (Value<V>) PrimitiveValue.of(numberValue.doubleValue());
+                else return (Value<V>) PrimitiveValue.of(numberValue.doubleValue());
             }
         else if (is(ObjectClassValue.class))
             if (is(ObjectClassValue.OBJECT))
@@ -70,8 +69,7 @@ public interface ClassValue<V> extends Value<Class<V>>, ClassVisitorObject<Class
                     return (Value<V>) ObjectValue.of(numberValue.longValue());
                 else if (is(ObjectClassValue.FLOAT))
                     return (Value<V>) ObjectValue.of(numberValue.floatValue());
-                else if (is(ObjectClassValue.DOUBLE))
-                    return (Value<V>) ObjectValue.of(numberValue.doubleValue());
+                else return (Value<V>) ObjectValue.of(numberValue.doubleValue());
             }
         return Value.of(getValue().cast(object));
     }
@@ -85,12 +83,7 @@ public interface ClassValue<V> extends Value<Class<V>>, ClassVisitorObject<Class
     default @NotNull Value<?> newObject(final @NotNull Constructor<?> constructor,
                                         final @NotNull ParameterValues parameterValues) {
         Object[] parameters = parameterValues.stream().map(Value::getValue).toArray(Object[]::new);
-        Object object = null;
-        try {
-            object = constructor.newInstance(parameters);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException ignored) {
-            // if everything done correctly, should be impossible
-        }
+        Object object = new Refl<>(constructor).invokeMethod("newInstance", (Object) parameters);
         return Value.of(object);
     }
 
