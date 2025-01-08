@@ -15,6 +15,6 @@ while (i < arr.length) {
 }
 
 // Custom class that should be provided by tests
-String output = new it.fulminazzo.javaparser.parser.Printer().print(arr);
+String output = new it.fulminazzo.mojito.parser.Printer().print(arr);
 
 return output

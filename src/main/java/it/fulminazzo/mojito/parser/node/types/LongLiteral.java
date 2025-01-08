@@ -1,0 +1,20 @@
+package it.fulminazzo.mojito.parser.node.types;
+
+import it.fulminazzo.mojito.tokenizer.TokenType;
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * Represents a {@link TokenType#LONG_VALUE} literal.
+ */
+public class LongLiteral extends BaseTypeLiteral {
+
+    /**
+     * Instantiates a new Long literal.
+     *
+     * @param rawValue the raw value
+     */
+    public LongLiteral(final @NotNull String rawValue) {
+        super(rawValue, TokenType.LONG_VALUE);
+    }
+
+}
