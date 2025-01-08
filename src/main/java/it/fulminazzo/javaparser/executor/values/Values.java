@@ -30,17 +30,17 @@ public final class Values {
 
         @Override
         public boolean compatibleWith(@NotNull Value<?> object) {
-            return object.equals(this);
+            return equals(object);
+        }
+
+        @Override
+        public Class<Object> getValue() {
+            return null;
         }
 
         @Override
         public @NotNull ClassValue<Class<Object>> toClass() {
             throw ExecutorException.noClassValue(getClass());
-        }
-
-        @Override
-        public @NotNull Class<Object> getValue() {
-            return null;
         }
 
         @Override
