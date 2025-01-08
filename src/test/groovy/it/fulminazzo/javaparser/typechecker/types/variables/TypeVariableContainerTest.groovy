@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.typechecker.types.variables
 
 
 import it.fulminazzo.javaparser.typechecker.types.*
+import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects
 import spock.lang.Specification
 
 import java.lang.reflect.Field
@@ -27,6 +28,8 @@ class TypeVariableContainerTest extends Specification {
                 case ClassType -> PrimitiveClassType.INT
                 case Method -> TestClass.getMethod('publicMethod')
                 case Field -> TestClass.getField('publicField')
+                case ParameterVisitorObjects -> new ParameterTypes([])
+                case ParameterTypes -> new ParameterTypes([])
                 default -> throw new IllegalArgumentException(it.canonicalName)
             }
         }
