@@ -273,12 +273,15 @@ public interface Visitor<
     default @NotNull O visitAssignment(final @NotNull Node type, final @NotNull Literal name, final @NotNull Node value) {
         C variableType = type.accept(this).checkClass();
         VariableContainer<C, O, P, ?> variableName = name.accept(this).check(VariableContainer.class);
-        if (variableName.is(LiteralVariableContainer.class))
-            try {
-                getEnvironment().declare(variableType, variableName.check(LiteralVariableContainer.class).namedEntity(), variableType.toObject());
-            } catch (ScopeException e) {
-                throw exceptionWrapper(e);
-            }
+        try {
+            getEnvironment().declare(
+                    variableType,
+                    variableName.check(LiteralVariableContainer.class).namedEntity(),
+                    variableType.toObject()
+            );
+        } catch (ScopeException e) {
+            throw exceptionWrapper(e);
+        }
         O variable = value.accept(this);
         variable = convertVariable(variableType, variable);
         variableName.set(variable);
@@ -469,8 +472,7 @@ public interface Visitor<
      */
     @NotNull
     default O visitAnd(@NotNull Node left, @NotNull Node right) {
-        O o = left.accept(this);
-        return o.and(right.accept(this));
+        return left.accept(this).and(right.accept(this));
     }
 
     /**
@@ -482,8 +484,7 @@ public interface Visitor<
      */
     @NotNull
     default O visitOr(@NotNull Node left, @NotNull Node right) {
-        O o = left.accept(this);
-        return o.or(right.accept(this));
+        return left.accept(this).or(right.accept(this));
     }
 
     /**
@@ -495,8 +496,7 @@ public interface Visitor<
      */
     @NotNull
     default O visitEqual(@NotNull Node left, @NotNull Node right) {
-        O o = left.accept(this);
-        return o.equal(right.accept(this));
+        return left.accept(this).equal(right.accept(this));
     }
 
     /**
@@ -508,8 +508,7 @@ public interface Visitor<
      */
     @NotNull
     default O visitNotEqual(@NotNull Node left, @NotNull Node right) {
-        O o = left.accept(this);
-        return o.notEqual(right.accept(this));
+        return left.accept(this).notEqual(right.accept(this));
     }
 
     /**
@@ -521,8 +520,7 @@ public interface Visitor<
      */
     @NotNull
     default O visitLessThan(@NotNull Node left, @NotNull Node right) {
-        O o = left.accept(this);
-        return o.lessThan(right.accept(this));
+        return left.accept(this).lessThan(right.accept(this));
     }
 
     /**
@@ -534,8 +532,7 @@ public interface Visitor<
      */
     @NotNull
     default O visitLessThanEqual(@NotNull Node left, @NotNull Node right) {
-        O o = left.accept(this);
-        return o.lessThanEqual(right.accept(this));
+        return left.accept(this).lessThanEqual(right.accept(this));
     }
 
     /**
@@ -547,8 +544,7 @@ public interface Visitor<
      */
     @NotNull
     default O visitGreaterThan(@NotNull Node left, @NotNull Node right) {
-        O o = left.accept(this);
-        return o.greaterThan(right.accept(this));
+        return left.accept(this).greaterThan(right.accept(this));
     }
 
     /**
@@ -560,8 +556,7 @@ public interface Visitor<
      */
     @NotNull
     default O visitGreaterThanEqual(@NotNull Node left, @NotNull Node right) {
-        O o = left.accept(this);
-        return o.greaterThanEqual(right.accept(this));
+        return left.accept(this).greaterThanEqual(right.accept(this));
     }
 
     /**
@@ -573,8 +568,7 @@ public interface Visitor<
      */
     @NotNull
     default O visitBitAnd(@NotNull Node left, @NotNull Node right) {
-        O o = left.accept(this);
-        return o.bitAnd(right.accept(this));
+        return left.accept(this).bitAnd(right.accept(this));
     }
 
     /**
@@ -586,8 +580,7 @@ public interface Visitor<
      */
     @NotNull
     default O visitBitOr(@NotNull Node left, @NotNull Node right) {
-        O o = left.accept(this);
-        return o.bitOr(right.accept(this));
+        return left.accept(this).bitOr(right.accept(this));
     }
 
     /**
@@ -599,8 +592,7 @@ public interface Visitor<
      */
     @NotNull
     default O visitBitXor(@NotNull Node left, @NotNull Node right) {
-        O o = left.accept(this);
-        return o.bitXor(right.accept(this));
+        return left.accept(this).bitXor(right.accept(this));
     }
 
     /**
@@ -612,8 +604,7 @@ public interface Visitor<
      */
     @NotNull
     default O visitLShift(@NotNull Node left, @NotNull Node right) {
-        O o = left.accept(this);
-        return o.lshift(right.accept(this));
+        return left.accept(this).lshift(right.accept(this));
     }
 
     /**
@@ -625,8 +616,7 @@ public interface Visitor<
      */
     @NotNull
     default O visitRShift(@NotNull Node left, @NotNull Node right) {
-        O o = left.accept(this);
-        return o.rshift(right.accept(this));
+        return left.accept(this).rshift(right.accept(this));
     }
 
     /**
@@ -638,8 +628,7 @@ public interface Visitor<
      */
     @NotNull
     default O visitURShift(@NotNull Node left, @NotNull Node right) {
-        O o = left.accept(this);
-        return o.urshift(right.accept(this));
+        return left.accept(this).urshift(right.accept(this));
     }
 
     /**
@@ -651,8 +640,7 @@ public interface Visitor<
      */
     @NotNull
     default O visitAdd(@NotNull Node left, @NotNull Node right) {
-        O o = left.accept(this);
-        return o.add(right.accept(this));
+        return left.accept(this).add(right.accept(this));
     }
 
     /**
@@ -664,8 +652,7 @@ public interface Visitor<
      */
     @NotNull
     default O visitSubtract(@NotNull Node left, @NotNull Node right) {
-        O o = left.accept(this);
-        return o.subtract(right.accept(this));
+        return left.accept(this).subtract(right.accept(this));
     }
 
     /**
@@ -677,8 +664,7 @@ public interface Visitor<
      */
     @NotNull
     default O visitMultiply(@NotNull Node left, @NotNull Node right) {
-        O o = left.accept(this);
-        return o.multiply(right.accept(this));
+        return left.accept(this).multiply(right.accept(this));
     }
 
     /**
@@ -690,8 +676,7 @@ public interface Visitor<
      */
     @NotNull
     default O visitDivide(@NotNull Node left, @NotNull Node right) {
-        O o = left.accept(this);
-        return o.divide(right.accept(this));
+        return left.accept(this).divide(right.accept(this));
     }
 
     /**
@@ -703,8 +688,7 @@ public interface Visitor<
      */
     @NotNull
     default O visitModulo(@NotNull Node left, @NotNull Node right) {
-        O o = left.accept(this);
-        return o.modulo(right.accept(this));
+        return left.accept(this).modulo(right.accept(this));
     }
 
     /**
@@ -729,8 +713,7 @@ public interface Visitor<
      */
     @NotNull
     default O visitMinus(@NotNull Node operand) {
-        O o = operand.accept(this);
-        return o.minus();
+        return operand.accept(this).minus();
     }
 
     /**
@@ -741,8 +724,7 @@ public interface Visitor<
      */
     @NotNull
     default O visitNot(@NotNull Node operand) {
-        O o = operand.accept(this);
-        return o.not();
+        return operand.accept(this).not();
     }
 
     /**
@@ -916,9 +898,10 @@ public interface Visitor<
         try {
             getEnvironment().enterScope(scope);
             return function.call();
+        } catch (RuntimeException e) {
+            throw e;
         } catch (Exception e) {
-            if (e instanceof RuntimeException) throw (RuntimeException) e;
-            else throw exceptionWrapper(e);
+            throw exceptionWrapper(e);
         } finally {
             getEnvironment().exitScope();
         }
@@ -936,17 +919,6 @@ public interface Visitor<
      * @return the runtime exception
      */
     @NotNull RuntimeException exceptionWrapper(final @NotNull Exception exception);
-
-    /**
-     * Generates a {@link RuntimeException} with message:
-     * <i>Invalid type received: expected %expected% but got %actual% instead</i>
-     *
-     * @param expected the expected type
-     * @param actual   the actual type
-     * @return the type checker exception
-     */
-    @NotNull RuntimeException invalidType(final @NotNull Class<?> expected,
-                                          final @NotNull Object actual);
 
     /**
      * Generates a {@link RuntimeException} with message:

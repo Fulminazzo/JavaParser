@@ -2,7 +2,6 @@ package it.fulminazzo.javaparser.visitors.visitorobjects;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.fulmicollection.utils.ReflectionUtils;
-import it.fulminazzo.javaparser.tokenizer.TokenType;
 import it.fulminazzo.javaparser.visitors.Visitor;
 import it.fulminazzo.javaparser.visitors.visitorobjects.variables.FieldContainer;
 import org.jetbrains.annotations.NotNull;
@@ -202,27 +201,27 @@ public interface VisitorObject<
 
     /**
      * Generates a {@link VisitorObjectException} with message:
-     * <i>Could not find method %method_format% in type %type%</i>
+     * <i>Could not find method %method_format% in type %classVisitorObject%</i>
      *
-     * @param classObject the class object
-     * @param method      the method
-     * @param parameters  the parameters
+     * @param classVisitorObject the class object
+     * @param method             the method
+     * @param parameters         the parameters
      * @return the visitor object exception
      */
-    @NotNull VisitorObjectException methodNotFound(final @NotNull C classObject,
+    @NotNull VisitorObjectException methodNotFound(final @NotNull C classVisitorObject,
                                                    final @NotNull String method,
                                                    final @NotNull P parameters);
 
     /**
      * Generates a {@link VisitorObjectException} with message:
-     * <i>Types mismatch: cannot apply parameters %parameter_types_format% to method %method_format% in type %type%</i>
+     * <i>Types mismatch: cannot apply parameters %parameter_types_format% to method %method_format% in type %classVisitorObject%</i>
      *
-     * @param classObject the class object
-     * @param method      the method
-     * @param parameters  the parameters
+     * @param classVisitorObject the class object
+     * @param method             the method
+     * @param parameters         the parameters
      * @return the visitor object exception
      */
-    @NotNull VisitorObjectException typesMismatch(final @NotNull C classObject,
+    @NotNull VisitorObjectException typesMismatch(final @NotNull C classVisitorObject,
                                                   final @NotNull Executable method,
                                                   final @NotNull P parameters);
 
@@ -234,30 +233,6 @@ public interface VisitorObject<
      * @return the type runtime exception
      */
     @NotNull RuntimeException noClassType(final @NotNull Class<?> type);
-
-    /**
-     * Generates a {@link RuntimeException} with message:
-     * <i>Operator '%operator%' cannot be applied to '%left%', '%right%'</i>
-     *
-     * @param operator the operator
-     * @param left     the left operand
-     * @param right    the right operand
-     * @return the runtime exception
-     */
-    @NotNull RuntimeException unsupportedOperation(final @NotNull TokenType operator,
-                                                   final @NotNull VisitorObject<C, O, P> left,
-                                                   final @NotNull VisitorObject<C, O, P> right);
-
-    /**
-     * Generates a {@link RuntimeException} with message:
-     * <i>Operator '%operator%' cannot be applied to '%operand%'</i>
-     *
-     * @param operator the operator
-     * @param operand  the operand
-     * @return the runtime exception
-     */
-    @NotNull RuntimeException unsupportedOperation(final @NotNull TokenType operator,
-                                                   final @NotNull VisitorObject<C, O, P> operand);
     
     /*
         BINARY COMPARISONS
@@ -269,9 +244,7 @@ public interface VisitorObject<
      * @param other the other object
      * @return a boolean object
      */
-    default @NotNull O and(final @NotNull O other) {
-        throw unsupportedOperation(TokenType.AND, this, other);
-    }
+    @NotNull O and(@NotNull O other);
 
     /**
      * Executes or comparison.
@@ -279,9 +252,7 @@ public interface VisitorObject<
      * @param other the other object
      * @return a boolean object
      */
-    default @NotNull O or(final @NotNull O other) {
-        throw unsupportedOperation(TokenType.OR, this, other);
-    }
+    @NotNull O or(@NotNull O other);
 
     /**
      * Executes equal comparison.
@@ -289,9 +260,7 @@ public interface VisitorObject<
      * @param other the other object
      * @return a boolean object
      */
-    default @NotNull O equal(final @NotNull O other) {
-        throw unsupportedOperation(TokenType.EQUAL, this, other);
-    }
+    @NotNull O equal(@NotNull O other);
 
     /**
      * Executes not equal comparison.
@@ -299,9 +268,7 @@ public interface VisitorObject<
      * @param other the other object
      * @return a boolean object
      */
-    default @NotNull O notEqual(final @NotNull O other) {
-        throw unsupportedOperation(TokenType.NOT_EQUAL, this, other);
-    }
+    @NotNull O notEqual(@NotNull O other);
 
     /**
      * Executes less than comparison.
@@ -309,9 +276,7 @@ public interface VisitorObject<
      * @param other the other object
      * @return a boolean object
      */
-    default @NotNull O lessThan(final @NotNull O other) {
-        throw unsupportedOperation(TokenType.LESS_THAN, this, other);
-    }
+    @NotNull O lessThan(@NotNull O other);
 
     /**
      * Executes less than equal comparison.
@@ -319,9 +284,7 @@ public interface VisitorObject<
      * @param other the other object
      * @return a boolean object
      */
-    default @NotNull O lessThanEqual(final @NotNull O other) {
-        throw unsupportedOperation(TokenType.LESS_THAN_EQUAL, this, other);
-    }
+    @NotNull O lessThanEqual(@NotNull O other);
 
     /**
      * Executes greater than comparison.
@@ -329,9 +292,7 @@ public interface VisitorObject<
      * @param other the other object
      * @return a boolean object
      */
-    default @NotNull O greaterThan(final @NotNull O other) {
-        throw unsupportedOperation(TokenType.GREATER_THAN, this, other);
-    }
+    @NotNull O greaterThan(@NotNull O other);
 
     /**
      * Executes greater than equal comparison.
@@ -339,9 +300,7 @@ public interface VisitorObject<
      * @param other the other object
      * @return a boolean object
      */
-    default @NotNull O greaterThanEqual(final @NotNull O other) {
-        throw unsupportedOperation(TokenType.GREATER_THAN_EQUAL, this, other);
-    }
+    @NotNull O greaterThanEqual(@NotNull O other);
 
     /*
         BINARY OPERATIONS
@@ -353,9 +312,7 @@ public interface VisitorObject<
      * @param other the other object
      * @return the resulting object
      */
-    default @NotNull O bitAnd(final @NotNull O other) {
-        throw unsupportedOperation(TokenType.BIT_AND, this, other);
-    }
+    @NotNull O bitAnd(@NotNull O other);
 
     /**
      * Executes bit or operation.
@@ -363,9 +320,7 @@ public interface VisitorObject<
      * @param other the other object
      * @return the resulting object
      */
-    default @NotNull O bitOr(final @NotNull O other) {
-        throw unsupportedOperation(TokenType.BIT_OR, this, other);
-    }
+    @NotNull O bitOr(@NotNull O other);
 
     /**
      * Executes bit xor operation.
@@ -373,9 +328,7 @@ public interface VisitorObject<
      * @param other the other object
      * @return the resulting object
      */
-    default @NotNull O bitXor(final @NotNull O other) {
-        throw unsupportedOperation(TokenType.BIT_XOR, this, other);
-    }
+    @NotNull O bitXor(@NotNull O other);
 
     /**
      * Executes lshift operation.
@@ -383,9 +336,7 @@ public interface VisitorObject<
      * @param other the other object
      * @return the resulting object
      */
-    default @NotNull O lshift(final @NotNull O other) {
-        throw unsupportedOperation(TokenType.LSHIFT, this, other);
-    }
+    @NotNull O lshift(@NotNull O other);
 
     /**
      * Executes rshift operation.
@@ -393,9 +344,7 @@ public interface VisitorObject<
      * @param other the other object
      * @return the resulting object
      */
-    default @NotNull O rshift(final @NotNull O other) {
-        throw unsupportedOperation(TokenType.RSHIFT, this, other);
-    }
+    @NotNull O rshift(@NotNull O other);
 
     /**
      * Executes urshift operation.
@@ -403,9 +352,7 @@ public interface VisitorObject<
      * @param other the other object
      * @return the resulting object
      */
-    default @NotNull O urshift(final @NotNull O other) {
-        throw unsupportedOperation(TokenType.URSHIFT, this, other);
-    }
+    @NotNull O urshift(@NotNull O other);
 
 
     /**
@@ -414,9 +361,7 @@ public interface VisitorObject<
      * @param other the other object
      * @return the resulting object
      */
-    default @NotNull O add(final @NotNull O other) {
-        throw unsupportedOperation(TokenType.ADD, this, other);
-    }
+    @NotNull O add(@NotNull O other);
 
     /**
      * Executes subtract operation.
@@ -424,9 +369,7 @@ public interface VisitorObject<
      * @param other the other object
      * @return the resulting object
      */
-    default @NotNull O subtract(final @NotNull O other) {
-        throw unsupportedOperation(TokenType.SUBTRACT, this, other);
-    }
+    @NotNull O subtract(@NotNull O other);
 
     /**
      * Executes multiply operation.
@@ -434,9 +377,7 @@ public interface VisitorObject<
      * @param other the other object
      * @return the resulting object
      */
-    default @NotNull O multiply(final @NotNull O other) {
-        throw unsupportedOperation(TokenType.MULTIPLY, this, other);
-    }
+    @NotNull O multiply(@NotNull O other);
 
     /**
      * Executes divide operation.
@@ -444,9 +385,7 @@ public interface VisitorObject<
      * @param other the other object
      * @return the resulting object
      */
-    default @NotNull O divide(final @NotNull O other) {
-        throw unsupportedOperation(TokenType.DIVIDE, this, other);
-    }
+    @NotNull O divide(@NotNull O other);
 
     /**
      * Executes modulo operation.
@@ -454,26 +393,20 @@ public interface VisitorObject<
      * @param other the other object
      * @return the resulting object
      */
-    default @NotNull O modulo(final @NotNull O other) {
-        throw unsupportedOperation(TokenType.MODULO, this, other);
-    }
+    @NotNull O modulo(@NotNull O other);
 
     /**
      * Executes minus operation.
      *
      * @return a boolean object
      */
-    default @NotNull O minus() {
-        throw unsupportedOperation(TokenType.SUBTRACT, this);
-    }
+    @NotNull O minus();
 
     /**
      * Executes not operation.
      *
      * @return a boolean object
      */
-    default @NotNull O not() {
-        throw unsupportedOperation(TokenType.NOT, this);
-    }
+    @NotNull O not();
 
 }

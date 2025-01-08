@@ -4,6 +4,7 @@ import it.fulminazzo.javaparser.visitors.visitorobjects.ClassVisitorObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.ParameterVisitorObjects;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObject;
 import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObjectException;
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,6 +24,7 @@ public abstract class VariableContainer<
         P extends ParameterVisitorObjects<C, O, P>,
         T
         > implements VisitorObject<C, O, P> {
+    @Getter(AccessLevel.NONE)
     protected final @NotNull T container;
     protected final @NotNull C type;
     protected final @NotNull String name;
@@ -68,17 +70,12 @@ public abstract class VariableContainer<
     }
 
     @Override
-    public boolean is(O @NotNull ... objects) {
-        return VisitorObject.super.is(objects) || this.variable.is(objects);
-    }
-
-    @Override
     public boolean isAssignableFrom(@NotNull ClassVisitorObject<C, O, P> classVisitorObject) {
-        return VisitorObject.super.isAssignableFrom(classVisitorObject) || this.variable.isAssignableFrom(classVisitorObject);
+        return this.variable.isAssignableFrom(classVisitorObject);
     }
 
     @Override
-    public <T extends VisitorObject<C, O, P>> @NotNull T check(@NotNull Class<T> clazz) {
+    public <V extends VisitorObject<C, O, P>> @NotNull V check(@NotNull Class<V> clazz) {
         if (clazz.isAssignableFrom(getClass())) return clazz.cast(this);
         else return this.variable.check(clazz);
     }
