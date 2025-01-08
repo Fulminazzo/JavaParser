@@ -1,13 +1,18 @@
 package it.fulminazzo.javaparser;
 
+import it.fulminazzo.fulmicollection.objects.Refl;
+import it.fulminazzo.javaparser.executor.Executor;
+import it.fulminazzo.javaparser.parser.JavaParser;
+import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.NodeException;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
+import it.fulminazzo.javaparser.typechecker.TypeChecker;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Starting point of the program.
@@ -54,10 +59,7 @@ public final class Mojito {
                     String name = Literal.of(parts[0]).getLiteral();
                     String value = String.join(":", Arrays.copyOfRange(parts, 1, parts.length));
 
-                    Runner runner = newRunner();
-                    Optional<?> actualValue = runner.run(value, variables);
-                    if (actualValue.isPresent()) variables.put(name, actualValue.get());
-                    else throw new ArgumentsException("No value was returned from key");
+                    variables.put(name, parseExpression(value));
                 } else throw new ArgumentsException("Expected 'key:value' pair");
             } catch (ArgumentsException | NodeException e) {
                 throw new RunnerException("Error for variable '%s' at index %s: %s", argument, i, e.getMessage());
@@ -65,6 +67,26 @@ public final class Mojito {
         }
 
         return variables;
+    }
+
+    /**
+     * Reads a simple Java expression and converts it to a value.
+     *
+     * @param expression the expression
+     * @return the object returned
+     */
+    static @Nullable Object parseExpression(final @NotNull String expression) {
+        final Object executingObject = new Object();
+
+        JavaParser parser = new JavaParser();
+        parser.setInput(expression);
+        Node parsed = new Refl<>(parser).callMethod("nextSpaceless").invokeMethod("parseExpression");
+
+        TypeChecker checker = new TypeChecker(executingObject);
+        parsed.accept(checker);
+
+        Executor executor = new Executor(executingObject);
+        return parsed.accept(executor);
     }
 
     /**
