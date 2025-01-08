@@ -56,7 +56,7 @@ public final class Mojito {
                     //TODO: value logic
                 } else throw new ArgumentsException("Expected 'key:value' pair");
             } catch (ArgumentsException | NodeException e) {
-                throw new RunnerException("Error for variable '%s' at index %s: %s", arguments, i, e.getMessage());
+                throw new RunnerException("Error for variable '%s' at index %s: %s", argument, i, e.getMessage());
             }
         }
 
