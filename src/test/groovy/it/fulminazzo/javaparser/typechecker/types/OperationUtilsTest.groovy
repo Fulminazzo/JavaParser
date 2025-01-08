@@ -966,7 +966,7 @@ class OperationUtilsTest extends Specification {
         a << [
                 values(),
                 ObjectType.values(),
-                ObjectType.of(TestClass)
+                ObjectType.of(TestClass),
         ].flatten().findAll { !OperationUtils.isBoolean(it) }
     }
 
@@ -982,7 +982,7 @@ class OperationUtilsTest extends Specification {
         a << [
                 values(),
                 ObjectType.values(),
-                ObjectType.of(TestClass)
+                ObjectType.of(TestClass),
         ].flatten().findAll { !OperationUtils.decimalTypes.contains(it) }
     }
 

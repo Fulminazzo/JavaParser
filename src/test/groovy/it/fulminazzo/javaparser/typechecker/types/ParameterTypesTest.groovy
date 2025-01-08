@@ -21,12 +21,12 @@ class ParameterTypesTest extends Specification {
         parameter << [
                 PrimitiveType.values(),
                 ObjectType.values(),
-                ObjectType.of(getClass())
+                ObjectType.of(getClass()),
         ].flatten()
         expected << [
                 [char, int, long, float, double, boolean, byte, short],
                 [Byte, Short, Character, Integer, Long, Float, Double, Boolean, String, Object],
-                getClass()
+                getClass(),
         ].flatten()
     }
 

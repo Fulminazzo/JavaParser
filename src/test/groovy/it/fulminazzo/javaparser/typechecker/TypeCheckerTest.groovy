@@ -109,42 +109,42 @@ class TypeCheckerTest extends Specification {
         // Everything
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
-                new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral())
+                new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
         ])                                                                                                       | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        CODE_BLOCK_BOOL)
+                        CODE_BLOCK_BOOL),
         ]                                                                                                                                        | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // Everything no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
-                new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral())
+                new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
         ])                                                                                                       | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        CODE_BLOCK_BOOL)
+                        CODE_BLOCK_BOOL),
         ]                                                                                                                                        | CODE_BLOCK_EMPTY  | PrimitiveType.BOOLEAN
         // Everything with different types
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
-                new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral())
+                new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
         ])                                                                                                       | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        CODE_BLOCK_FLOAT)
+                        CODE_BLOCK_FLOAT),
         ]                                                                                                                                        | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // Everything with different types and no finally
         new AssignmentBlock([
                 new Assignment(Literal.of(InputStream.canonicalName), Literal.of('input'), new NullLiteral()),
-                new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral())
+                new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
         ])                                                                                                       | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        CODE_BLOCK_FLOAT)
+                        CODE_BLOCK_FLOAT),
         ]                                                                                                                                        | CODE_BLOCK_EMPTY  | Types.NO_TYPE
         // Just one assignment
         new AssignmentBlock([
@@ -153,7 +153,7 @@ class TypeCheckerTest extends Specification {
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        CODE_BLOCK_BOOL)
+                        CODE_BLOCK_BOOL),
         ]                                                                                                                                        | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // Just one assignment no finally
         new AssignmentBlock([
@@ -162,7 +162,7 @@ class TypeCheckerTest extends Specification {
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        CODE_BLOCK_BOOL)
+                        CODE_BLOCK_BOOL),
         ]                                                                                                                                        | CODE_BLOCK_EMPTY  | PrimitiveType.BOOLEAN
         // Just one assignment with different types
         new AssignmentBlock([
@@ -171,7 +171,7 @@ class TypeCheckerTest extends Specification {
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        CODE_BLOCK_FLOAT)
+                        CODE_BLOCK_FLOAT),
         ]                                                                                                                                        | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // Just one assignment with different types and no finally
         new AssignmentBlock([
@@ -180,7 +180,7 @@ class TypeCheckerTest extends Specification {
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        CODE_BLOCK_FLOAT)
+                        CODE_BLOCK_FLOAT),
         ]                                                                                                                                        | CODE_BLOCK_EMPTY  | Types.NO_TYPE
         // No assignments
         new AssignmentBlock([
@@ -188,7 +188,7 @@ class TypeCheckerTest extends Specification {
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        CODE_BLOCK_BOOL)
+                        CODE_BLOCK_BOOL),
         ]                                                                                                                                        | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // No assignments no finally
         new AssignmentBlock([
@@ -196,7 +196,7 @@ class TypeCheckerTest extends Specification {
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_BOOL),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        CODE_BLOCK_BOOL)
+                        CODE_BLOCK_BOOL),
         ]                                                                                                                                        | CODE_BLOCK_EMPTY  | PrimitiveType.BOOLEAN
         // No assignments with different types
         new AssignmentBlock([
@@ -204,7 +204,7 @@ class TypeCheckerTest extends Specification {
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        CODE_BLOCK_FLOAT)
+                        CODE_BLOCK_FLOAT),
         ]                                                                                                                                        | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // No assignments with different types and no finally
         new AssignmentBlock([
@@ -212,7 +212,7 @@ class TypeCheckerTest extends Specification {
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
                         CODE_BLOCK_DOUBLE),
                 new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'),
-                        CODE_BLOCK_FLOAT)
+                        CODE_BLOCK_FLOAT),
         ]                                                                                                                                        | CODE_BLOCK_EMPTY  | Types.NO_TYPE
         // Just one catch
         new AssignmentBlock([
@@ -220,7 +220,7 @@ class TypeCheckerTest extends Specification {
                 new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
         ])                                                                                                       | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
-                        CODE_BLOCK_BOOL)
+                        CODE_BLOCK_BOOL),
         ]                                                                                                                                        | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // Just one catch no finally
         new AssignmentBlock([
@@ -228,7 +228,7 @@ class TypeCheckerTest extends Specification {
                 new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
         ])                                                                                                       | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
-                        CODE_BLOCK_BOOL)
+                        CODE_BLOCK_BOOL),
         ]                                                                                                                                        | CODE_BLOCK_EMPTY  | PrimitiveType.BOOLEAN
         // Just one catch with different types
         new AssignmentBlock([
@@ -236,7 +236,7 @@ class TypeCheckerTest extends Specification {
                 new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
         ])                                                                                                       | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
-                        CODE_BLOCK_DOUBLE)
+                        CODE_BLOCK_DOUBLE),
         ]                                                                                                                                        | CODE_BLOCK_NUMBER | PrimitiveType.INT
         // Just one catch with different types and no finally
         new AssignmentBlock([
@@ -244,7 +244,7 @@ class TypeCheckerTest extends Specification {
                 new Assignment(Literal.of(OutputStream.canonicalName), Literal.of('output'), new NullLiteral()),
         ])                                                                                                       | CODE_BLOCK_BOOL | [
                 new CatchStatement([Literal.of(IOException.canonicalName)], Literal.of('e'),
-                        CODE_BLOCK_DOUBLE)
+                        CODE_BLOCK_DOUBLE),
         ]                                                                                                                                        | CODE_BLOCK_EMPTY  | Types.NO_TYPE
         // No catches
         new AssignmentBlock([
@@ -268,7 +268,7 @@ class TypeCheckerTest extends Specification {
 
         then:
         def e = thrown(TypeCheckerException)
-        e.message == TypeCheckerException.invalidType(ClassType.of(AutoCloseable.class), PrimitiveClassType.INT).message
+        e.message == TypeCheckerException.invalidType(ClassType.of(AutoCloseable), PrimitiveClassType.INT).message
     }
 
     def 'test visit try statement of already caught: #catchBlocks'() {
@@ -283,11 +283,11 @@ class TypeCheckerTest extends Specification {
         expected                               | catchBlocks
         ClassType.of(RuntimeException)         | [
                 new CatchStatement([Literal.of(RuntimeException.canonicalName)], Literal.of('e'), CODE_BLOCK_EMPTY),
-                new CatchStatement([Literal.of(RuntimeException.canonicalName)], Literal.of('e'), CODE_BLOCK_EMPTY)
+                new CatchStatement([Literal.of(RuntimeException.canonicalName)], Literal.of('e'), CODE_BLOCK_EMPTY),
         ]
         ClassType.of(IllegalArgumentException) | [
                 new CatchStatement([Literal.of(RuntimeException.canonicalName)], Literal.of('e'), CODE_BLOCK_EMPTY),
-                new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'), CODE_BLOCK_EMPTY)
+                new CatchStatement([Literal.of(IllegalArgumentException.canonicalName)], Literal.of('e'), CODE_BLOCK_EMPTY),
         ]
     }
 
@@ -339,7 +339,7 @@ class TypeCheckerTest extends Specification {
         where:
         exceptions                                                               | variable        | expected
         [Literal.of('String')]                                                   | Literal.of('e') |
-                TypeCheckerException.invalidType(ClassType.of(Throwable.class), ObjectType.STRING)
+                TypeCheckerException.invalidType(ClassType.of(Throwable), ObjectType.STRING)
         [Literal.of('Exception'), Literal.of('Exception')]                       | Literal.of('e') |
                 TypeCheckerException.exceptionAlreadyCaught(ObjectClassType.of('Exception'))
         [Literal.of('IllegalArgumentException'), Literal.of('RuntimeException')] | Literal.of('e') |
@@ -359,7 +359,7 @@ class TypeCheckerTest extends Specification {
         then:
         type == expected
         this.environment.enteredScope(ScopeType.SWITCH)
-        this.environment.isMainScope()
+        this.environment.mainScope
 
         where:
         expression | cases                                                                                                | defaultBlock | expected
@@ -454,7 +454,7 @@ class TypeCheckerTest extends Specification {
 
         then:
         def e = thrown(TypeCheckerException)
-        e.message == TypeCheckerException.invalidType(classType.getComponentType(), PrimitiveClassType.BOOLEAN).message
+        e.message == TypeCheckerException.invalidType(classType.componentType, PrimitiveClassType.BOOLEAN).message
     }
 
     def 'test visit for statement of (#expression) #codeBlock should return #expected'() {
@@ -763,7 +763,7 @@ class TypeCheckerTest extends Specification {
         where:
         parameters << [
                 [],
-                [NUMBER_LIT, BOOL_LIT]
+                [NUMBER_LIT, BOOL_LIT],
         ]
     }
 
@@ -799,7 +799,7 @@ class TypeCheckerTest extends Specification {
         )
 
         and:
-        def nodeExecutor = executor.isEmpty() ? new EmptyLiteral() : Literal.of(executor)
+        def nodeExecutor = executor.empty ? new EmptyLiteral() : Literal.of(executor)
         def methodInvocation = new MethodInvocation(parameters)
 
         when:
@@ -897,7 +897,7 @@ class TypeCheckerTest extends Specification {
         where:
         field << [
                 'packageStaticField', 'protectedStaticField', 'privateStaticField',
-                'packageField', 'protectedField', 'privateField'
+                'packageField', 'protectedField', 'privateField',
         ]
     }
 
@@ -994,7 +994,7 @@ class TypeCheckerTest extends Specification {
         this.environment.declare(
                 actualType,
                 varName,
-                val.accept(this.typeChecker)
+                val.accept(this.typeChecker),
         )
 
         when:
@@ -1026,14 +1026,14 @@ class TypeCheckerTest extends Specification {
         classType << [
                 PrimitiveClassType.values(),
                 ObjectClassType.values(),
-                ObjectClassType.of(getClass())
+                ObjectClassType.of(getClass()),
         ].flatten()
         type << [
                 PrimitiveClassType.values()*.toType(),
                 PrimitiveClassType.values()*.toType(),
                 ObjectType.STRING,
                 ObjectType.of(Object),
-                ObjectType.of(getClass())
+                ObjectType.of(getClass()),
         ].flatten()
     }
 
@@ -1041,7 +1041,7 @@ class TypeCheckerTest extends Specification {
         given:
         def type = this.typeChecker.visitDynamicArray(
                 Arrays.asList(BOOL_LIT, BOOL_LIT),
-                new ArrayLiteral(Literal.of('boolean'))
+                new ArrayLiteral(Literal.of('boolean')),
         )
 
         and:
@@ -1055,7 +1055,7 @@ class TypeCheckerTest extends Specification {
         given:
         def type = this.typeChecker.visitStaticArray(
                 1,
-                Literal.of('boolean')
+                Literal.of('boolean'),
         )
 
         and:
@@ -1069,7 +1069,7 @@ class TypeCheckerTest extends Specification {
         when:
         this.typeChecker.visitStaticArray(
                 -1,
-                Literal.of('boolean')
+                Literal.of('boolean'),
         )
 
         then:
@@ -1083,7 +1083,7 @@ class TypeCheckerTest extends Specification {
                 new IfStatement(
                         BOOL_LIT,
                         CODE_BLOCK_CHAR,
-                        new EmptyLiteral()
+                        new EmptyLiteral(),
                 ),
                 RETURN_NUMBER
         ])
@@ -1101,7 +1101,7 @@ class TypeCheckerTest extends Specification {
                 new IfStatement(
                         BOOL_LIT,
                         CODE_BLOCK_CHAR,
-                        new EmptyLiteral()
+                        new EmptyLiteral(),
                 ),
                 RETURN_NUMBER
         ])
@@ -1500,7 +1500,7 @@ class TypeCheckerTest extends Specification {
         scope << [
                 ScopeType.WHILE, ScopeType.DO,
                 ScopeType.FOR, ScopeType.SWITCH,
-                ScopeType.CASE
+                ScopeType.CASE,
         ]
     }
 
@@ -1521,7 +1521,7 @@ class TypeCheckerTest extends Specification {
 
         where:
         scope << [
-                ScopeType.MAIN, ScopeType.CODE_BLOCK
+                ScopeType.MAIN, ScopeType.CODE_BLOCK,
         ]
     }
 
@@ -1561,7 +1561,7 @@ class TypeCheckerTest extends Specification {
         where:
         scope << [
                 ScopeType.MAIN, ScopeType.CODE_BLOCK,
-                ScopeType.SWITCH
+                ScopeType.SWITCH,
         ]
     }
 

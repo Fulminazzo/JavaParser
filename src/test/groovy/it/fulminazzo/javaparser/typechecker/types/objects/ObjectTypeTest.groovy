@@ -49,7 +49,7 @@ class ObjectTypeTest extends Specification {
                 ObjectType.BYTE, ObjectType.SHORT, ObjectType.CHARACTER,
                 ObjectType.INTEGER, ObjectType.LONG, ObjectType.FLOAT,
                 ObjectType.DOUBLE, ObjectType.BOOLEAN, ObjectType.STRING,
-                ObjectType.OBJECT
+                ObjectType.OBJECT,
         ].toArray(ObjectType[])
         actual << ObjectType.values()
     }
@@ -75,7 +75,7 @@ class ObjectTypeTest extends Specification {
         second << [
                 ObjectType.of('Object'),
                 PrimitiveClassType.BYTE,
-                ObjectType.STRING
+                ObjectType.STRING,
         ]
     }
 
@@ -90,12 +90,12 @@ class ObjectTypeTest extends Specification {
         string == Type.print(expected)
 
         where:
-        raw                           | expected
-        'String'                      | 'String'
-        'java.lang.String'            | 'String'
-        'Map'                         | 'Map'
-        'java.util.Map'               | 'Map'
-        getClass().getCanonicalName() | getClass().getCanonicalName()
+        raw                      | expected
+        'String'                 | 'String'
+        'java.lang.String'       | 'String'
+        'Map'                    | 'Map'
+        'java.util.Map'          | 'Map'
+        getClass().canonicalName | getClass().canonicalName
     }
 
     def 'test of method invalid class'() {

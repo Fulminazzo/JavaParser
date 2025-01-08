@@ -287,7 +287,8 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
     @NotNull Type convertByteAndShort(final @NotNull ClassType variableType,
                                       final @NotNull Type variableValue) {
         if (variableType.is(PrimitiveClassType.BYTE, ObjectClassType.BYTE, PrimitiveClassType.SHORT, ObjectClassType.SHORT))
-            if (variableValue.is(PrimitiveType.INT) || variableValue.is(PrimitiveType.CHAR)) return variableType.toType();
+            if (variableValue.is(PrimitiveType.INT) || variableValue.is(PrimitiveType.CHAR))
+                return variableType.toType();
         return variableValue;
     }
 

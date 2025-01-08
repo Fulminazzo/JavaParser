@@ -37,13 +37,13 @@ class ClassTypeTest extends Specification {
                 ObjectClassType.values()*.name().collect {
                     "${it[0]}${it.substring(1).toLowerCase()}"
                 },
-                Map.class.simpleName
+                Map.simpleName,
         ].flatten()
         expected << [
                 PrimitiveClassType.values(),
                 ObjectClassType.values(),
                 new Refl<>("${ObjectClassType.package.name}.CustomObjectClassType",
-                        ObjectType.of('Map')).getObject()
+                        ObjectType.of('Map')).object,
         ].flatten()
     }
 
@@ -75,12 +75,13 @@ class ClassTypeTest extends Specification {
                 new Type() {
 
                     @Override
-                    @NotNull ClassType toClass() {
+                    @NotNull
+                    ClassType toClass() {
                         return null
                     }
 
                 },
-                new Object()
+                new Object(),
         ]
     }
 

@@ -129,8 +129,8 @@ class TypeTest extends Specification {
         def actual = this.type.getField(field)
 
         then:
-        actual.getType() == expected
-        actual.getVariable() == expected.toType()
+        actual.type == expected
+        actual.variable == expected.toType()
 
         where:
         field               | expected
@@ -149,7 +149,7 @@ class TypeTest extends Specification {
         where:
         field << [
                 'packageStaticField', 'protectedStaticField', 'privateStaticField',
-                'packageField', 'protectedField', 'privateField'
+                'packageField', 'protectedField', 'privateField',
         ]
     }
 
@@ -198,7 +198,7 @@ class TypeTest extends Specification {
         where:
         field << [
                 'packageStaticField', 'protectedStaticField', 'privateStaticField',
-                'packageField', 'protectedField', 'privateField'
+                'packageField', 'protectedField', 'privateField',
         ]
     }
 
@@ -260,7 +260,7 @@ class TypeTest extends Specification {
         where:
         method << [
                 'packageStaticMethod', 'protectedStaticMethod', 'privateStaticMethod',
-                'packageMethod', 'protectedMethod', 'privateMethod'
+                'packageMethod', 'protectedMethod', 'privateMethod',
         ]
     }
 
@@ -311,7 +311,7 @@ class TypeTest extends Specification {
         where:
         method << [
                 'packageStaticMethod', 'protectedStaticMethod', 'privateStaticMethod',
-                'packageMethod', 'protectedMethod', 'privateMethod'
+                'packageMethod', 'protectedMethod', 'privateMethod',
         ]
     }
 

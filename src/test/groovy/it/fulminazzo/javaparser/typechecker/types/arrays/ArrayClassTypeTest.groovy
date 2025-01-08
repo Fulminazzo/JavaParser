@@ -28,14 +28,14 @@ class ArrayClassTypeTest extends Specification {
                 ObjectClassType.values().collect { new ArrayClassType(it) },
                 new ArrayClassType(ObjectClassType.of('Map')),
                 new ArrayClassType(ObjectClassType.of('Collection')),
-                new ArrayClassType(ObjectClassType.of('List'))
+                new ArrayClassType(ObjectClassType.of('List')),
         ].flatten()
         type << [
                 VALUE_TYPES.collect { new ArrayType(it) },
                 ObjectType.values().collect { new ArrayType(it) },
                 new ArrayType(ObjectType.of('List')),
                 new ArrayType(ObjectType.of('List')),
-                new ArrayType(ObjectType.of('List'))
+                new ArrayType(ObjectType.of('List')),
         ].flatten()
     }
 
@@ -50,7 +50,7 @@ class ArrayClassTypeTest extends Specification {
         where:
         cast << [
                 PrimitiveClassType.values(),
-                ObjectClassType.values()
+                ObjectClassType.values(),
         ].flatten().collect { new ArrayClassType(it) }
         type << [
                 VALUE_TYPES.reverse(),
@@ -123,7 +123,7 @@ class ArrayClassTypeTest extends Specification {
         where:
         type << [
                 PrimitiveType.values(),
-                new ArrayType(PrimitiveType.BOOLEAN)
+                new ArrayType(PrimitiveType.BOOLEAN),
         ].flatten()
     }
 
