@@ -17,9 +17,17 @@ class TypeVariableContainerTest extends Specification {
 
         and:
         def variable = Mock(Type)
-        def container = Mock(TypeVariableContainer)
-        container."${methodName}"(_) >> { callRealMethod() }
-        container.getVariable() >> variable
+        def container = new TypeVariableContainer() {
+            @Override
+            Type getVariable() {
+                return variable
+            }
+
+            @Override
+            ClassType toClass() {
+                return null
+            }
+        }
 
         and:
         def parameters = method.parameterTypes.findAll {
