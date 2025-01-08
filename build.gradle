@@ -2,7 +2,7 @@ plugins {
     id 'java-library'
     id 'groovy'
     id 'jacoco-report-aggregation'
-    id 'io.freefair.lombok' version libs.versions.delombok
+    alias(libs.plugins.delombok)
 }
 
 group = 'it.fulminazzo'

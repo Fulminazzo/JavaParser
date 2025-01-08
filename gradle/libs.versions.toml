@@ -17,3 +17,6 @@ annotations = { module = "org.jetbrains:annotations", version.ref = "annotations
 
 spock = { module = "org.spockframework:spock-core", version.ref = "spock" }
 byte_buddy = { module = "net.bytebuddy:byte-buddy", version.ref = "byte_buddy" }
+
+[plugins]
+delombok = { id = "io.freefair.lombok", version.ref = "delombok" }
