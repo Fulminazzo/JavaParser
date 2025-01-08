@@ -2,6 +2,7 @@ plugins {
     id 'java-library'
     id 'groovy'
     id 'jacoco-report-aggregation'
+    alias(libs.plugins.shadow)
     alias(libs.plugins.delombok)
 }
 
@@ -43,6 +44,24 @@ testCodeCoverageReport {
     }
 }
 
+shadowJar {
+    archiveFileName = "${project.name}-${project.version}.jar"
+}
+
+jar {
+    enabled = true
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    archiveFileName = "${project.name}-${project.version}-original.jar"
+    dependsOn(shadowJar)
+    manifest {
+        attributes (
+                'Manifest-Version': "${rootProject.version}",
+                'Main-Class': "${rootProject.group}.${project.name.toLowerCase()}.${project.name}"
+        )
+    }
+}
+
+
 tasks.register('sourcesJar', Jar) {
     from sourceSets.main.delombokTask
     archiveClassifier = 'sources'
@@ -52,5 +71,4 @@ tasks.register('javadocJar', Jar) {
     from javadoc
     archiveClassifier = 'javadoc'
 }
-//TODO: jar
 //TODO: publications
