@@ -18,6 +18,7 @@ import it.fulminazzo.javaparser.parser.node.container.CodeBlock;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.parser.node.statements.CaseStatement;
 import it.fulminazzo.javaparser.parser.node.statements.CatchStatement;
+import it.fulminazzo.javaparser.utils.MapUtils;
 import it.fulminazzo.javaparser.visitors.Visitor;
 import it.fulminazzo.javaparser.visitors.visitorobjects.variables.VariableContainer;
 import lombok.Getter;
@@ -79,7 +80,7 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
                 returnedValue = block.accept(this);
             } catch (ExceptionWrapper e) {
                 Value<? extends Throwable> exception = e.getActualException();
-                Tuple<ExceptionTuple, CodeBlock> keyAndValue = getKeyAndValue(exceptionsMap, exception.toClass());
+                Tuple<ExceptionTuple, CodeBlock> keyAndValue = MapUtils.getKeyAndValue(exceptionsMap, exception.toClass());
                 returnedValue = visitScoped(ScopeType.CATCH, () -> {
                     ExceptionTuple key = keyAndValue.getKey();
                     this.environment.declare(key.getExceptionType(), key.getExceptionName().namedEntity(), exception);
@@ -339,25 +340,6 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
     @Override
     public @NotNull Value<?> visitEmptyLiteral() {
         return Values.NO_VALUE;
-    }
-
-    /**
-     * Searches the key in the given {@link Map}.
-     * If found, returns a {@link Tuple} with the key and value found.
-     * Otherwise, throws {@link IllegalArgumentException}.
-     *
-     * @param <K> the type of the key
-     * @param <V> the type of the value
-     * @param map the map
-     * @param key the key
-     * @return the tuple
-     */
-    <K, V> @NotNull Tuple<K, V> getKeyAndValue(final @NotNull Map<K, V> map,
-                                               final @NotNull Object key) {
-        for (Map.Entry<K, V> entry : map.entrySet())
-            if (entry.getKey().equals(key))
-                return new Tuple<>(entry.getKey(), entry.getValue());
-        throw new IllegalArgumentException("Could not find key " + key);
     }
 
     /**
