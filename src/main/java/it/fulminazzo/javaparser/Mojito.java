@@ -13,16 +13,21 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Starting point of the program.
  */
 public final class Mojito {
     private static final String[] HELP_OPTIONS = new String[]{"-h", "--help", "/?"};
+    
+    private static void info(final @NotNull Object message) {
+        final String format = "[%s] - %s%n";
+        final DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        System.out.printf(format, dateFormat.format(new Date()), message);
+    }
 
     @SuppressWarnings("unchecked")
     public static void main(final String @NotNull [] args) {
@@ -48,8 +53,7 @@ public final class Mojito {
             }
 
             Optional<?> result = ((Optional<Value<?>>) runner.latestResult()).map(Value::getValue);
-            if (result.isPresent()) System.out.println(result.get());
-            else System.out.println("Nothing was returned");
+            System.out.println(result.isPresent() ? result.get() : "Nothing was returned");
         } catch (ArgumentsException e) {
             System.out.println("Usage:");
             System.out.println("java -jar mojito.jar <filename> <var1:val1> <var2:val2>...");
