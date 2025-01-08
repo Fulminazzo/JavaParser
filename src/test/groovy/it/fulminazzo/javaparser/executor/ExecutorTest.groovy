@@ -71,6 +71,20 @@ class ExecutorTest extends Specification {
         noExceptionThrown()
     }
 
+    def 'test visit program with throw'() {
+        given:
+        def code = new Throw(new NewObject(Literal.of(IllegalArgumentException.canonicalName),
+                new MethodInvocation([new StringValueLiteral('\"Hello, world!\"')])))
+
+        when:
+        code.accept(this.executor)
+
+        then:
+        def e = thrown(ExceptionWrapper)
+        def actual = e.actualException.value
+        actual.message == 'Hello, world!'
+    }
+
     def 'test visit try statement: (#expression) #block #catchBlocks #finallyBlock should return #expected'() {
         when:
         def value = this.executor.visitTryStatement(block, catchBlocks, finallyBlock, expression)
