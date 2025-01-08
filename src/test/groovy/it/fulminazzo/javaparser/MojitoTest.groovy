@@ -18,6 +18,24 @@ class MojitoTest extends Specification {
         System.out.println(this.output)
     }
 
+    def 'test main with #arguments should show usage'() {
+        when:
+        Mojito.main(arguments.toArray(new String[arguments.size()]))
+        def out = this.output.toString()
+
+        then:
+        out.contains('Usage:')
+
+        where:
+        arguments << [
+                [],
+                ['-h'],
+                ['--help'],
+                ['/?'],
+                ['--code'],
+        ]
+    }
+
     def 'test parseVariables of #arguments should throw exception with message: #expected'() {
         when:
         Mojito.parseVariables(arguments.toArray(new String[arguments.size()]), 1)
