@@ -34,6 +34,38 @@ class TypesTest extends Specification {
         classType << PrimitiveClassType.values()
     }
 
+    def 'test SingletonType absorption'() {
+        given:
+        def type = PrimitiveType.BOOLEAN
+
+        when:
+        def cast = this.type.cast(type)
+
+        then:
+        cast == this.type
+    }
+
+    def 'test SingletonType compatibleWith #other should be #expected'() {
+        when:
+        def actual = this.type.compatibleWith(other)
+
+        then:
+        actual == expected
+
+        where:
+        other                                | expected
+        new Types.SingletonType('TEST_TYPE') | true
+        Types.NULL_TYPE                      | false
+        null                                 | false
+        PrimitiveType.BOOLEAN                | false
+        ObjectType.BOOLEAN                   | false
+    }
+
+    def 'test SingletonType toType'() {
+        expect:
+        this.type == this.type.toType()
+    }
+
     def 'test SingletonType toClass'() {
         expect:
         this.type == this.type.toClass()
