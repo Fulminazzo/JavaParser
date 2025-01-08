@@ -3,6 +3,7 @@ package it.fulminazzo.javaparser;
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.javaparser.executor.Executor;
 import it.fulminazzo.javaparser.parser.JavaParser;
+import it.fulminazzo.javaparser.parser.ParserException;
 import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.NodeException;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
@@ -59,7 +60,11 @@ public final class Mojito {
                     String name = Literal.of(parts[0]).getLiteral();
                     String value = String.join(":", Arrays.copyOfRange(parts, 1, parts.length));
 
-                    variables.put(name, parseExpression(value));
+                    try {
+                        variables.put(name, parseExpression(value));
+                    } catch (ParserException e) {
+                        throw new ArgumentsException("No value was returned from key");
+                    }
                 } else throw new ArgumentsException("Expected 'key:value' pair");
             } catch (ArgumentsException | NodeException e) {
                 throw new RunnerException("Error for variable '%s' at index %s: %s", argument, i, e.getMessage());
