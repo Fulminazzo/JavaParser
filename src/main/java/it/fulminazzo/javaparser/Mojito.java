@@ -12,6 +12,8 @@ import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.typechecker.TypeChecker;
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException;
 import it.fulminazzo.javaparser.utils.TimeUtils;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,6 +26,7 @@ import java.util.function.Supplier;
 /**
  * Starting point of the program.
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Mojito {
     private static final String[] HELP_OPTIONS = new String[]{"-h", "--help", "/?"};
     
