@@ -4,6 +4,8 @@ import it.fulminazzo.javaparser.visitors.visitorobjects.VisitorObjectException;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Executable;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * An exception thrown by {@link Value} objects.
@@ -56,7 +58,7 @@ public class ValueException extends VisitorObjectException {
     public static @NotNull ValueException methodNotFound(final @NotNull ClassValue<?> value,
                                                          final @NotNull String method,
                                                          final @NotNull ParameterValues parameterValues) {
-        return new ValueException("Could not find method %s%s in value %s", formatMethod(method, parameterValues), value);
+        return new ValueException("Could not find method %s in value %s", formatMethod(method, parameterValues), value);
     }
 
     /**
@@ -72,7 +74,19 @@ public class ValueException extends VisitorObjectException {
                                                          final @NotNull Executable method,
                                                          final @NotNull ParameterValues parameterValues) {
         return new ValueException("Types mismatch: cannot apply parameters %s to method %s in value %s",
-                formatParameters(parameterValues), method.getName(), value);
+                formatParameters(parameterValues), formatMethod(method), value);
+    }
+
+    /**
+     * Formats the given method and parameter values to a string.
+     *
+     * @param method the method
+     * @return the string
+     */
+    static @NotNull String formatMethod(final @NotNull Executable method) {
+        return formatMethod(method.getName(), new ParameterValues(Arrays.stream(method.getParameterTypes())
+                .map(ClassValue::of)
+                .collect(Collectors.toList())));
     }
 
 }
