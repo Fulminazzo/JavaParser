@@ -98,7 +98,7 @@ public abstract class PrimitiveValue<V> extends ObjectWrapper<V> implements Valu
         else if (value instanceof Byte) primitiveValue = new ByteValue(Byte.parseByte(value.toString()));
         else if (value instanceof Short) primitiveValue = new ShortValue(Short.parseShort(value.toString()));
         else if (value instanceof Integer) primitiveValue = new IntValue(Integer.parseInt(value.toString()));
-        else throw it.fulminazzo.javaparser.executor.ExecutorException.invalidPrimitiveValue(value);
+        else throw ExecutorException.invalidPrimitiveValue(value);
         return (PrimitiveValue<V>) primitiveValue;
     }
 

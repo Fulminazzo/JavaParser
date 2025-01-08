@@ -23,7 +23,7 @@ class ValueTest extends Specification {
 
         where:
         object << [
-                Character, Integer, Long, Float, Double, Boolean, String
+                Character, Integer, Long, Float, Double, Boolean, String,
         ]*.simpleName
     }
 
@@ -35,8 +35,8 @@ class ValueTest extends Specification {
         def fieldValue = value.getField(field)
 
         then:
-        fieldValue.getType() == expectedClass
-        fieldValue.getVariable() == expected
+        fieldValue.type == expectedClass
+        fieldValue.variable == expected
 
         where:
         field               | expectedClass               | expected

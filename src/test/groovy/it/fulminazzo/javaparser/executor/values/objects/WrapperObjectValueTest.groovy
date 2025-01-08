@@ -5,7 +5,7 @@ import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
 import spock.lang.Specification
 
 class WrapperObjectValueTest extends Specification {
-    private static int INT_CHAR = (int) 'a'
+    private static final int INT_CHAR = (int) 'a'
 
     def 'test #first < #second = #third'() {
         when:

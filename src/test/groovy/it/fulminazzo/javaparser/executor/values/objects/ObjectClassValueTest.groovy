@@ -7,28 +7,28 @@ import it.fulminazzo.javaparser.executor.values.primitivevalue.PrimitiveValue
 import spock.lang.Specification
 
 class ObjectClassValueTest extends Specification {
-    static final BYTE = PrimitiveValue.of((byte) 1)
-    static final SHORT = PrimitiveValue.of((short) 1)
-    static final CHAR = PrimitiveValue.of((char) 'c')
-    static final INT = PrimitiveValue.of((int) 1)
-    static final LONG = PrimitiveValue.of((long) 1)
-    static final FLOAT = PrimitiveValue.of((float) 1)
-    static final DOUBLE = PrimitiveValue.of((double) 1)
-    static final BOOLEAN = PrimitiveValue.of(true)
+    private static final BYTE = PrimitiveValue.of((byte) 1)
+    private static final SHORT = PrimitiveValue.of((short) 1)
+    private static final CHAR = PrimitiveValue.of((char) 'c')
+    private static final INT = PrimitiveValue.of(1)
+    private static final LONG = PrimitiveValue.of(1L)
+    private static final FLOAT = PrimitiveValue.of(1.0f)
+    private static final DOUBLE = PrimitiveValue.of(1.0d)
+    private static final BOOLEAN = PrimitiveValue.of(true)
 
-    static final BYTE_WRAPPER = ObjectValue.of(Byte.valueOf((byte) 1))
-    static final SHORT_WRAPPER = ObjectValue.of(Short.valueOf((short) 1))
-    static final CHARACTER = ObjectValue.of(Character.valueOf((char) 'c'))
-    static final INTEGER = ObjectValue.of(Integer.valueOf((int) 1))
-    static final LONG_WRAPPER = ObjectValue.of(Long.valueOf((long) 1))
-    static final FLOAT_WRAPPER = ObjectValue.of(Float.valueOf((float) 1))
-    static final DOUBLE_WRAPPER = ObjectValue.of(Double.valueOf((double) 1))
-    static final BOOLEAN_WRAPPER = ObjectValue.of(Boolean.valueOf(true))
-    static final STRING = ObjectValue.of("Hello")
+    private static final BYTE_WRAPPER = ObjectValue.of((byte) 1)
+    private static final SHORT_WRAPPER = ObjectValue.of((short) 1)
+    private static final CHARACTER = ObjectValue.of((char) 'c')
+    private static final INTEGER = ObjectValue.of(1)
+    private static final LONG_WRAPPER = ObjectValue.of(1L)
+    private static final FLOAT_WRAPPER = ObjectValue.of(1.0f)
+    private static final DOUBLE_WRAPPER = ObjectValue.of(1.0d)
+    private static final BOOLEAN_WRAPPER = ObjectValue.of(true)
+    private static final STRING = ObjectValue.of('Hello')
 
     def 'test #value getValue should return #clazz'() {
         given:
-        def actual = value.getValue()
+        def actual = value.value
 
         expect:
         actual == clazz

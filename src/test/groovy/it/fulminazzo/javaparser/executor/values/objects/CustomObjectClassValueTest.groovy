@@ -38,7 +38,7 @@ class CustomObjectClassValueTest extends Specification {
                 PrimitiveClassValue.values(),
                 [new ObjectValue<>(Byte.valueOf((byte) 1)), new ObjectValue<>(Short.valueOf((short) 1)),
                  new ObjectValue<>(new Object())],
-                new ObjectValue<>(this)
+                new ObjectValue<>(this),
         ].flatten()
     }
 
