@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.typechecker.types
 
+import it.fulminazzo.javaparser.TestClass
 import it.fulminazzo.javaparser.tokenizer.TokenType
 import it.fulminazzo.javaparser.typechecker.TypeCheckerException
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType

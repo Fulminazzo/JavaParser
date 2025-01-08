@@ -1,5 +1,6 @@
 package it.fulminazzo.javaparser.typechecker.types
 
+import it.fulminazzo.javaparser.TestClass
 import spock.lang.Specification
 
 class TypeExceptionTest extends Specification {

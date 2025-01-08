@@ -2,6 +2,7 @@ package it.fulminazzo.javaparser.typechecker
 
 import it.fulminazzo.fulmicollection.objects.Refl
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple
+import it.fulminazzo.javaparser.TestClass
 import it.fulminazzo.javaparser.environment.MockEnvironment
 import it.fulminazzo.javaparser.typechecker.types.*
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType

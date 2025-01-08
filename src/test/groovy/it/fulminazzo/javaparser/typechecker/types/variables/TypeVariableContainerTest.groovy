@@ -1,12 +1,12 @@
 package it.fulminazzo.javaparser.typechecker.types.variables
 
 import it.fulminazzo.fulmicollection.structures.tuples.Tuple
+import it.fulminazzo.javaparser.TestClass
 import it.fulminazzo.javaparser.typechecker.types.*
 import org.jetbrains.annotations.NotNull
 import spock.lang.Specification
 
 import java.lang.reflect.Field
-import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
 class TypeVariableContainerTest extends Specification {

@@ -1,6 +1,7 @@
 package it.fulminazzo.javaparser.typechecker.types
 
 import it.fulminazzo.fulmicollection.objects.Refl
+import it.fulminazzo.javaparser.TestClass
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectClassType
 import it.fulminazzo.javaparser.typechecker.types.objects.ObjectType
 import it.fulminazzo.javaparser.visitors.visitorobjects.ClassVisitorObject
