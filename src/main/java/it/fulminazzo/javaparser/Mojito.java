@@ -9,6 +9,7 @@ import it.fulminazzo.javaparser.parser.node.Node;
 import it.fulminazzo.javaparser.parser.node.NodeException;
 import it.fulminazzo.javaparser.parser.node.literals.Literal;
 import it.fulminazzo.javaparser.typechecker.TypeChecker;
+import it.fulminazzo.javaparser.utils.TimeUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -81,7 +82,7 @@ public final class Mojito {
         info(startMessage);
         T result = function.get();
         long end = System.currentTimeMillis();
-        info(endMessage.replace("%time%", formatTime(end - start)));
+        info(endMessage.replace("%time%", TimeUtils.formatTime(end - start)));
         return result;
     }
 
