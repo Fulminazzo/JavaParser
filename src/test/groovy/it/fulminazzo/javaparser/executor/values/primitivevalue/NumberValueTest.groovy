@@ -3,7 +3,7 @@ package it.fulminazzo.javaparser.executor.values.primitivevalue
 import spock.lang.Specification
 
 class NumberValueTest extends Specification {
-    private static int INT_CHAR = (int) 'a'
+    private static final int INT_CHAR = (int) 'a'
 
     def 'test #first == #second = #third'() {
         when:

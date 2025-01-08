@@ -44,7 +44,7 @@ class ExecutorTest extends Specification {
     private static final CODE_BLOCK_2 = new CodeBlock(new Return(new NumberValueLiteral('2')))
     private static final CODE_BLOCK_3 = new CodeBlock(new Return(new NumberValueLiteral('3')))
 
-    private static final IAEx = Literal.of('IllegalArgumentException')
+    private static final IAEX = Literal.of('IllegalArgumentException')
 
     private Executor executor
     private MockEnvironment environment
@@ -96,18 +96,18 @@ class ExecutorTest extends Specification {
         new EmptyLiteral() | CODE_BLOCK_1                        | []          | new CodeBlock() | PrimitiveValue.of(1)
         new EmptyLiteral() | CODE_BLOCK_1                        | []          | CODE_BLOCK_3    | PrimitiveValue.of(3)
         new EmptyLiteral() | CODE_BLOCK_1                        | [
-                new CatchStatement([IAEx], Literal.of('e'), CODE_BLOCK_2)
+                new CatchStatement([IAEX], Literal.of('e'), CODE_BLOCK_2)
         ]                                                                      | new CodeBlock() | PrimitiveValue.of(1)
         new EmptyLiteral() | CODE_BLOCK_1                        | [
-                new CatchStatement([IAEx], Literal.of('e'), CODE_BLOCK_2)
+                new CatchStatement([IAEX], Literal.of('e'), CODE_BLOCK_2)
         ]                                                                      | CODE_BLOCK_3    | PrimitiveValue.of(3)
-        new EmptyLiteral() | new CodeBlock(new Throw(new NewObject(IAEx,
+        new EmptyLiteral() | new CodeBlock(new Throw(new NewObject(IAEX,
                 new MethodInvocation([]))))                      | [
-                new CatchStatement([IAEx], Literal.of('e'), CODE_BLOCK_2)
+                new CatchStatement([IAEX], Literal.of('e'), CODE_BLOCK_2)
         ]                                                                      | new CodeBlock() | PrimitiveValue.of(2)
-        new EmptyLiteral() | new CodeBlock(new Throw(new NewObject(IAEx,
+        new EmptyLiteral() | new CodeBlock(new Throw(new NewObject(IAEX,
                 new MethodInvocation([]))))                      | [
-                new CatchStatement([IAEx], Literal.of('e'), CODE_BLOCK_2)
+                new CatchStatement([IAEX], Literal.of('e'), CODE_BLOCK_2)
         ]                                                                      | CODE_BLOCK_3    | PrimitiveValue.of(3)
     }
 
@@ -492,23 +492,23 @@ class ExecutorTest extends Specification {
         'char'      | 'ci'  | NUMBER_LIT     | Value.of((char) 1)
         'Character' | 'cW'  | CHAR_LIT       | ObjectValue.of(Character.valueOf(97 as char))
         'Character' | 'ciW' | NUMBER_LIT     | ObjectValue.of(Character.valueOf(1 as char))
-        'int'       | 'ic'  | CHAR_LIT       | Value.of((int) 97)
-        'int'       | 'i'   | NUMBER_LIT     | Value.of((int) 1)
+        'int'       | 'ic'  | CHAR_LIT       | Value.of(97)
+        'int'       | 'i'   | NUMBER_LIT     | Value.of(1)
         'Integer'   | 'iW'  | NUMBER_LIT     | ObjectValue.of((Integer) 1)
         'long'      | 'lc'  | CHAR_LIT       | Value.of((long) 97)
         'long'      | 'li'  | NUMBER_LIT     | Value.of((long) 1)
-        'long'      | 'l'   | LONG_LIT       | Value.of((long) 2L)
+        'long'      | 'l'   | LONG_LIT       | Value.of(2L)
         'Long'      | 'lW'  | LONG_LIT       | ObjectValue.of((Long) 2L)
         'float'     | 'fc'  | CHAR_LIT       | Value.of((float) 97)
         'float'     | 'fi'  | NUMBER_LIT     | Value.of((float) 1)
         'float'     | 'fl'  | LONG_LIT       | Value.of((float) 2L)
-        'float'     | 'f'   | FLOAT_LIT      | Value.of((float) 3.0f)
+        'float'     | 'f'   | FLOAT_LIT      | Value.of(3.0f)
         'Float'     | 'fW'  | FLOAT_LIT      | ObjectValue.of((Float) 3.0f)
         'double'    | 'dc'  | CHAR_LIT       | Value.of((double) 97)
         'double'    | 'di'  | NUMBER_LIT     | Value.of((double) 1)
         'double'    | 'dl'  | LONG_LIT       | Value.of((double) 2L)
         'double'    | 'df'  | FLOAT_LIT      | Value.of((double) 3.0f)
-        'double'    | 'd'   | DOUBLE_LIT     | Value.of((double) 4.0d)
+        'double'    | 'd'   | DOUBLE_LIT     | Value.of(4.0d)
         'Double'    | 'dW'  | DOUBLE_LIT     | ObjectValue.of((Double) 4.0d)
         'boolean'   | 'bo'  | BOOL_LIT_FALSE | BooleanValue.FALSE
         'boolean'   | 'bo'  | BOOL_LIT_TRUE  | BooleanValue.TRUE
@@ -540,13 +540,13 @@ class ExecutorTest extends Specification {
         'Character' | 'cW'  | Values.NULL_VALUE
         'int'       | 'i'   | PrimitiveValue.of(0)
         'Integer'   | 'iW'  | Values.NULL_VALUE
-        'long'      | 'l'   | PrimitiveValue.of((long) 0)
+        'long'      | 'l'   | PrimitiveValue.of(0L)
         'Long'      | 'lW'  | Values.NULL_VALUE
-        'float'     | 'f'   | PrimitiveValue.of((float) 0)
+        'float'     | 'f'   | PrimitiveValue.of(0.0f)
         'Float'     | 'fW'  | Values.NULL_VALUE
-        'double'    | 'd'   | PrimitiveValue.of((double) 0)
+        'double'    | 'd'   | PrimitiveValue.of(0.0d)
         'Double'    | 'dW'  | Values.NULL_VALUE
-        'boolean'   | 'bo'  | PrimitiveValue.of((boolean) false)
+        'boolean'   | 'bo'  | PrimitiveValue.of(false)
         'Boolean'   | 'boW' | Values.NULL_VALUE
         'String'    | 'st'  | Values.NULL_VALUE
         'Object'    | 'o'   | Values.NULL_VALUE
@@ -583,23 +583,23 @@ class ExecutorTest extends Specification {
         'char'      | 'ci'  | NUMBER_LIT     | Value.of((char) 1)
         'Character' | 'cW'  | CHAR_LIT       | ObjectValue.of(Character.valueOf(97 as char))
         'Character' | 'ciW' | NUMBER_LIT     | ObjectValue.of(Character.valueOf(1 as char))
-        'int'       | 'ic'  | CHAR_LIT       | Value.of((int) 97)
-        'int'       | 'i'   | NUMBER_LIT     | Value.of((int) 1)
+        'int'       | 'ic'  | CHAR_LIT       | Value.of(97)
+        'int'       | 'i'   | NUMBER_LIT     | Value.of(1)
         'Integer'   | 'iW'  | NUMBER_LIT     | ObjectValue.of((Integer) 1)
         'long'      | 'lc'  | CHAR_LIT       | Value.of((long) 97)
         'long'      | 'li'  | NUMBER_LIT     | Value.of((long) 1)
-        'long'      | 'l'   | LONG_LIT       | Value.of((long) 2L)
+        'long'      | 'l'   | LONG_LIT       | Value.of(2L)
         'Long'      | 'lW'  | LONG_LIT       | ObjectValue.of((Long) 2L)
         'float'     | 'fc'  | CHAR_LIT       | Value.of((float) 97)
         'float'     | 'fi'  | NUMBER_LIT     | Value.of((float) 1)
         'float'     | 'fl'  | LONG_LIT       | Value.of((float) 2L)
-        'float'     | 'f'   | FLOAT_LIT      | Value.of((float) 3.0f)
+        'float'     | 'f'   | FLOAT_LIT      | Value.of(3.0f)
         'Float'     | 'fW'  | FLOAT_LIT      | ObjectValue.of((Float) 3.0f)
         'double'    | 'dc'  | CHAR_LIT       | Value.of((double) 97)
         'double'    | 'di'  | NUMBER_LIT     | Value.of((double) 1)
         'double'    | 'dl'  | LONG_LIT       | Value.of((double) 2L)
         'double'    | 'df'  | FLOAT_LIT      | Value.of((double) 3.0f)
-        'double'    | 'd'   | DOUBLE_LIT     | Value.of((double) 4.0d)
+        'double'    | 'd'   | DOUBLE_LIT     | Value.of(4.0d)
         'Double'    | 'dW'  | DOUBLE_LIT     | ObjectValue.of((Double) 4.0d)
         'boolean'   | 'bo'  | BOOL_LIT_FALSE | BooleanValue.FALSE
         'boolean'   | 'bo'  | BOOL_LIT_TRUE  | BooleanValue.TRUE
@@ -1079,7 +1079,7 @@ class ExecutorTest extends Specification {
         NUMBER_LIT                                 | Literal.of('byte')                  | PrimitiveValue.of((byte) 1)
         NUMBER_LIT                                 | Literal.of('short')                 | PrimitiveValue.of((short) 1)
         NUMBER_LIT                                 | Literal.of('char')                  | PrimitiveValue.of((char) 1)
-        NUMBER_LIT                                 | Literal.of('int')                   | PrimitiveValue.of((int) 1)
+        NUMBER_LIT                                 | Literal.of('int')                   | PrimitiveValue.of(1)
         NUMBER_LIT                                 | Literal.of('Integer')               | ObjectValue.of((Integer) 1)
         NUMBER_LIT                                 | Literal.of('long')                  | PrimitiveValue.of((long) 1)
         NUMBER_LIT                                 | Literal.of('float')                 | PrimitiveValue.of((float) 1)
@@ -1090,8 +1090,8 @@ class ExecutorTest extends Specification {
         LONG_LIT                                   | Literal.of('short')                 | PrimitiveValue.of((short) 2L)
         LONG_LIT                                   | Literal.of('char')                  | PrimitiveValue.of((char) 2L)
         LONG_LIT                                   | Literal.of('int')                   | PrimitiveValue.of((int) 2L)
-        LONG_LIT                                   | Literal.of('long')                  | PrimitiveValue.of((long) 2L)
-        LONG_LIT                                   | Literal.of('Long')                  | ObjectValue.of((long) 2L)
+        LONG_LIT                                   | Literal.of('long')                  | PrimitiveValue.of(2L)
+        LONG_LIT                                   | Literal.of('Long')                  | ObjectValue.of(2L)
         LONG_LIT                                   | Literal.of('float')                 | PrimitiveValue.of((float) 2L)
         LONG_LIT                                   | Literal.of('double')                | PrimitiveValue.of((double) 2L)
         LONG_LIT                                   | Literal.of('Object')                | ObjectValue.of(2L)
@@ -1101,8 +1101,8 @@ class ExecutorTest extends Specification {
         FLOAT_LIT                                  | Literal.of('char')                  | PrimitiveValue.of((char) 3.0f)
         FLOAT_LIT                                  | Literal.of('int')                   | PrimitiveValue.of((int) 3.0f)
         FLOAT_LIT                                  | Literal.of('long')                  | PrimitiveValue.of((long) 3.0f)
-        FLOAT_LIT                                  | Literal.of('float')                 | PrimitiveValue.of((float) 3.0f)
-        FLOAT_LIT                                  | Literal.of('Float')                 | ObjectValue.of((float) 3.0f)
+        FLOAT_LIT                                  | Literal.of('float')                 | PrimitiveValue.of(3.0f)
+        FLOAT_LIT                                  | Literal.of('Float')                 | ObjectValue.of(3.0f)
         FLOAT_LIT                                  | Literal.of('double')                | PrimitiveValue.of((double) 3.0f)
         FLOAT_LIT                                  | Literal.of('Object')                | ObjectValue.of(3.0f)
         // double
@@ -1112,8 +1112,8 @@ class ExecutorTest extends Specification {
         DOUBLE_LIT                                 | Literal.of('int')                   | PrimitiveValue.of((int) 4.0d)
         DOUBLE_LIT                                 | Literal.of('long')                  | PrimitiveValue.of((long) 4.0d)
         DOUBLE_LIT                                 | Literal.of('float')                 | PrimitiveValue.of((float) 4.0d)
-        DOUBLE_LIT                                 | Literal.of('double')                | PrimitiveValue.of((double) 4.0d)
-        DOUBLE_LIT                                 | Literal.of('Double')                | ObjectValue.of((double) 4.0d)
+        DOUBLE_LIT                                 | Literal.of('double')                | PrimitiveValue.of(4.0d)
+        DOUBLE_LIT                                 | Literal.of('Double')                | ObjectValue.of(4.0d)
         DOUBLE_LIT                                 | Literal.of('Object')                | ObjectValue.of(4.0d)
         // boolean
         BOOL_LIT_TRUE                              | Literal.of('boolean')               | PrimitiveValue.of(true)
