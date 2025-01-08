@@ -13,7 +13,7 @@ class StringObjectValue extends ObjectValue<String> {
      *
      * @param string the string
      */
-    StringObjectValue(final @NotNull String string) {
+    public StringObjectValue(final @NotNull String string) {
         super(string);
     }
 

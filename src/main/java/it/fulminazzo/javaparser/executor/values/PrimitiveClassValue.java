@@ -41,7 +41,7 @@ public final class PrimitiveClassValue<V> extends EnumObject implements ClassVal
      * @param clazz            the clazz
      * @param compatibleValues the compatible values
      */
-    public PrimitiveClassValue(final @NotNull Class<V> clazz, Class<?> @NotNull ... compatibleValues) {
+    private PrimitiveClassValue(final @NotNull Class<V> clazz, Class<?> @NotNull ... compatibleValues) {
         this.value = clazz;
         this.compatibleValues = Arrays.stream(compatibleValues)
                 .map(c -> new Class[]{c, ReflectionUtils.getPrimitiveClass(c)})
