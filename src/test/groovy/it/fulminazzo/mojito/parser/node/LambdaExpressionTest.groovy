@@ -1,5 +1,6 @@
-package it.fulminazzo.mojito.parser.node.container
+package it.fulminazzo.mojito.parser.node
 
+import it.fulminazzo.mojito.parser.node.container.CodeBlock
 import it.fulminazzo.mojito.parser.node.literals.Literal
 import it.fulminazzo.mojito.parser.node.statements.Return
 import it.fulminazzo.mojito.parser.node.values.BooleanValueLiteral

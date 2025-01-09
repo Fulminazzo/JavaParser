@@ -1,6 +1,6 @@
-package it.fulminazzo.mojito.parser.node.container;
+package it.fulminazzo.mojito.parser.node;
 
-import it.fulminazzo.mojito.parser.node.Node;
+import it.fulminazzo.mojito.parser.node.container.CodeBlock;
 import it.fulminazzo.mojito.parser.node.statements.Return;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,8 +11,9 @@ import java.util.List;
 /**
  * Represents a lambda expression with its parameters.
  */
-public class LambdaExpression extends StatementContainer {
+public class LambdaExpression extends NodeImpl {
     private final @NotNull List<Node> parameters;
+    private final @NotNull CodeBlock code;
 
     /**
      * Instantiates a new Lambda expression with no parameters
@@ -53,13 +54,13 @@ public class LambdaExpression extends StatementContainer {
      * @param codeBlock  the code block
      */
     public LambdaExpression(final @NotNull List<Node> parameters, final @NotNull CodeBlock codeBlock) {
-        super(codeBlock.getStatements());
+        this.code = codeBlock;
         this.parameters = parameters;
     }
 
     @Override
     public @NotNull String toString() {
-        return String.format("%s(%s -> %s)", getClass().getSimpleName(), this.parameters, new CodeBlock(this.statements));
+        return String.format("%s(%s -> %s)", getClass().getSimpleName(), this.parameters, this.code);
     }
 
 }
