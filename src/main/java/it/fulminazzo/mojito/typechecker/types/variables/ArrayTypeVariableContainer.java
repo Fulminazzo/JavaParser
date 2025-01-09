@@ -20,10 +20,10 @@ public final class ArrayTypeVariableContainer
     /**
      * Instantiates a new Array type variable container.
      *
-     * @param container the container
-     * @param type      the type
-     * @param index     the index
-     * @param variable  the value
+     * @param container the actual array
+     * @param type      the class type of the components
+     * @param index     the index of the current component
+     * @param variable  the type returned by the current component
      */
     public ArrayTypeVariableContainer(@NotNull VariableContainer<ClassType, Type, ParameterTypes, ?> container,
                                       @NotNull ClassType type, @NotNull String index, @NotNull Type variable) {

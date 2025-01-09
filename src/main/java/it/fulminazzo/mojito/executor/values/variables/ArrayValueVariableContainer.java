@@ -10,23 +10,23 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents the access to an array element with its index.
  *
- * @param <V> the type of the value
+ * @param <V> the type of the components
  */
 public final class ArrayValueVariableContainer<V>
         extends VariableContainer<ClassValue<?>, Value<?>, ParameterValues, VariableContainer<ClassValue<?>, Value<?>, ParameterValues, ?>>
         implements ValueVariableContainer<V> {
 
     /**
-     * Instantiates a new Variable container.
+     * Instantiates a new Array value variable container.
      *
-     * @param container the container
-     * @param type      the type
-     * @param name      the name
-     * @param variable  the value
+     * @param container the actual array
+     * @param type      the class value of the components
+     * @param index     the index of the current component
+     * @param variable  the value returned by the current component
      */
     public ArrayValueVariableContainer(@NotNull VariableContainer<ClassValue<?>, Value<?>, ParameterValues, ?> container,
-                                       @NotNull ClassValue<?> type, @NotNull String name, @NotNull Value<?> variable) {
-        super(container, type, name, variable);
+                                       @NotNull ClassValue<?> type, @NotNull String index, @NotNull Value<?> variable) {
+        super(container, type, index, variable);
     }
 
     @Override
