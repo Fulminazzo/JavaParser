@@ -874,6 +874,19 @@ public class JavaParser extends Parser {
     }
 
     /**
+     * LAMBDA_CODE := -> CODE_BLOCK | EXPR
+     *
+     * @return the node
+     */
+    protected @NotNull Node parseLambdaCode() {
+        consume(ARROW);
+        final Node code;
+        if (lastToken() == OPEN_BRACE) code = parseCodeBlock();
+        else code = parseExpression();
+        return code;
+    }
+
+    /**
      * Converts the given string to a {@link Literal}.
      * Throws {@link ParserException#invalidValueProvided(Parser, String)} in case of error.
      *
