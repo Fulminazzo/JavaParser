@@ -45,6 +45,12 @@ testCodeCoverageReport {
     }
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
+}
+
 shadowJar {
     archiveFileName = "${project.name}-${project.version}.jar"
 }
