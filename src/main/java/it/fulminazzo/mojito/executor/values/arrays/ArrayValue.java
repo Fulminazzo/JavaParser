@@ -110,8 +110,8 @@ public class ArrayValue<A> extends ObjectWrapper<List<Value<A>>> implements Valu
     /**
      * Instantiates a static array value.
      *
-     * @param <V>            the type of the value
-     * @param componentsType the components type
+     * @param <V>            the type of the components
+     * @param componentsType the components class value
      * @param size           the size of the array
      * @return the array value
      */
@@ -123,8 +123,8 @@ public class ArrayValue<A> extends ObjectWrapper<List<Value<A>>> implements Valu
     /**
      * Instantiates a dynamic array value.
      *
-     * @param <V>            the type of the value
-     * @param componentsType the components type
+     * @param <V>            the type of the components
+     * @param componentsType the components class value
      * @param values         the values of the array
      * @return the array value
      */
@@ -134,11 +134,12 @@ public class ArrayValue<A> extends ObjectWrapper<List<Value<A>>> implements Valu
     }
 
     /**
-     * Instantiates a new array value from the given array.
+     * Uses {@link ArrayUtils} to create the most appropriate array value
+     * from the given raw object (useful for arrays with primitive components).
      *
-     * @param <V>    the components type
+     * @param <V>    the type of the components
      * @param <T>    the type of the object
-     * @param object the object
+     * @param object the object (should be an array)
      * @return the array value
      */
     public static <V, T> @NotNull ArrayValue<V> of(final @NotNull T object) {
