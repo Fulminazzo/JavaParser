@@ -455,7 +455,7 @@ class TypeCheckerTest extends Specification {
 
         then:
         def e = thrown(TypeCheckerException)
-        e.message == TypeCheckerException.invalidType(classType.componentType, PrimitiveClassType.BOOLEAN).message
+        e.message == TypeCheckerException.invalidType(classType.componentsType, PrimitiveClassType.BOOLEAN).message
     }
 
     def 'test visit for statement of (#expression) #codeBlock should return #expected'() {

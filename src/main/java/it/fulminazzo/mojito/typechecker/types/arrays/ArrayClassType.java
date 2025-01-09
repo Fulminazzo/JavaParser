@@ -28,7 +28,7 @@ public class ArrayClassType extends TypeWrapper implements ClassType {
      *
      * @return the class type
      */
-    public @NotNull ClassType getComponentType() {
+    public @NotNull ClassType getComponentsType() {
         return (ClassType) this.object;
     }
 
@@ -37,7 +37,7 @@ public class ArrayClassType extends TypeWrapper implements ClassType {
         ArrayType arrayType = type.check(ArrayType.class);
         Type componentType = arrayType.getComponentType();
         if (componentType.isPrimitive() || componentType.toClass().is(ObjectClassType.class)) {
-            if (!getComponentType().is(componentType.toClass()))
+            if (!getComponentsType().is(componentType.toClass()))
                 throw TypeCheckerException.invalidCast(this, type);
         }
         return toType();
@@ -50,12 +50,12 @@ public class ArrayClassType extends TypeWrapper implements ClassType {
 
     @Override
     public @NotNull Type toType() {
-        return new ArrayType(getComponentType().toType());
+        return new ArrayType(getComponentsType().toType());
     }
 
     @Override
     public @NotNull Class<?> toJavaClass() {
-        return Array.newInstance(getComponentType().toJavaClass(), 0).getClass();
+        return Array.newInstance(getComponentsType().toJavaClass(), 0).getClass();
     }
 
     @Override
