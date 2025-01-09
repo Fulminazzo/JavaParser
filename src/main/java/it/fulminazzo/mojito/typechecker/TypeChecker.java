@@ -317,7 +317,7 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
 
     @Override
     public @NotNull Type visitArrayLiteral(@NotNull Node type) {
-        return new ArrayClassType(type.accept(this).checkClass());
+        return ArrayClassType.of(type.accept(this).checkClass());
     }
 
     @Override
