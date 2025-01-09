@@ -747,7 +747,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * PAR_EXPR := \( EXPR \) | \( \) LAMBDA_CODE
+     * PAR_EXPR := \( EXPR \) | \( (EXPR, )+ EXPR \) LAMBDA_CODE
      *
      * @return the node
      */
@@ -758,6 +758,16 @@ public class JavaParser extends Parser {
             return new LambdaExpression(parseLambdaCode());
         }
         Node expression = parseExpression();
+        if (lastToken() == COMMA) {
+            List<Node> parameters = new LinkedList<>();
+            parameters.add(expression);
+            while (lastToken() == COMMA) {
+                consume(COMMA);
+                parameters.add(parseExpression());
+            }
+            consume(CLOSE_PAR);
+            return new LambdaExpression(parameters, parseLambdaCode());
+        }
         consume(CLOSE_PAR);
         return expression;
     }
