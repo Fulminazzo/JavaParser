@@ -11,8 +11,9 @@ import java.util.function.Function;
 
 /**
  * A collection of utility functions for handling operations.
+ * <br>
  * <b>No value in this class is checked</b>,
- * as that role is delegated to the TypeChecker.
+ * as that role is delegated to the {@link it.fulminazzo.mojito.typechecker.TypeChecker}.
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class OperationUtils {
