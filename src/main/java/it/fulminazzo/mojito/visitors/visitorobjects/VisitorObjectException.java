@@ -1,5 +1,6 @@
 package it.fulminazzo.mojito.visitors.visitorobjects;
 
+import it.fulminazzo.mojito.exceptions.FormatException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Collectors;
@@ -7,7 +8,7 @@ import java.util.stream.Collectors;
 /**
  * A general {@link Exception} associated with a {@link VisitorObject}.
  */
-public abstract class VisitorObjectException extends Exception {
+public abstract class VisitorObjectException extends FormatException {
 
     /**
      * Instantiates a new Visitor object exception.
@@ -16,7 +17,7 @@ public abstract class VisitorObjectException extends Exception {
      * @param args    the arguments to add in the message format
      */
     protected VisitorObjectException(final @NotNull String message, final Object @NotNull ... args) {
-        super(String.format(message, args));
+        super(message, args);
     }
 
     /**
