@@ -9,25 +9,49 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 
 /**
- * Represents a primitive {@link ClassValue}.
+ * Represents the class of a primitive {@link ClassValue}.
  *
  * @param <V> the type of the primitive
  */
 public final class PrimitiveClassValue<V> extends EnumObject implements ClassValue<V> {
+    /**
+     * <code>byte</code>
+     */
     public static final ClassValue<Byte> BYTE = new PrimitiveClassValue<>(byte.class,
             Byte.class, Integer.class);
+    /**
+     * <code>short</code>
+     */
     public static final ClassValue<Short> SHORT = new PrimitiveClassValue<>(short.class,
             Byte.class, Short.class, Integer.class);
+    /**
+     * <code>char</code>
+     */
     public static final ClassValue<Character> CHAR = new PrimitiveClassValue<>(char.class,
             Integer.class, Character.class);
+    /**
+     * <code>int</code>
+     */
     public static final ClassValue<Integer> INT = new PrimitiveClassValue<>(int.class,
             Byte.class, Short.class, Character.class, Integer.class);
+    /**
+     * <code>long</code>
+     */
     public static final ClassValue<Long> LONG = new PrimitiveClassValue<>(long.class,
             Byte.class, Short.class, Character.class, Integer.class, Long.class);
+    /**
+     * <code>float</code>
+     */
     public static final ClassValue<Float> FLOAT = new PrimitiveClassValue<>(float.class,
             Byte.class, Short.class, Character.class, Integer.class, Long.class, Float.class);
+    /**
+     * <code>double</code>
+     */
     public static final ClassValue<Double> DOUBLE = new PrimitiveClassValue<>(double.class,
             Byte.class, Short.class, Character.class, Integer.class, Long.class, Float.class, Double.class);
+    /**
+     * <code>boolean</code>
+     */
     public static final ClassValue<Boolean> BOOLEAN = new PrimitiveClassValue<>(boolean.class,
             Boolean.class);
 
@@ -41,7 +65,7 @@ public final class PrimitiveClassValue<V> extends EnumObject implements ClassVal
      * @param clazz            the clazz
      * @param compatibleValues the compatible values
      */
-    private PrimitiveClassValue(final @NotNull Class<V> clazz, Class<?> @NotNull ... compatibleValues) {
+    private PrimitiveClassValue(final @NotNull Class<V> clazz, final Class<?> @NotNull ... compatibleValues) {
         this.value = clazz;
         this.compatibleValues = Arrays.stream(compatibleValues)
                 .map(c -> new Class[]{c, ReflectionUtils.getPrimitiveClass(c)})

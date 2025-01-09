@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 
 /**
- * Represents a primitive {@link Type} name.
+ * Represents the class of a primitive {@link Type}.
  */
 public enum PrimitiveClassType implements ClassType {
     /**
