@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Represents an {@link Object} class type.
+ * Represents the wrappers, {@link String} and {@link Object} classes.
  */
 public enum ObjectClassType implements ClassType {
     /**
@@ -53,7 +53,7 @@ public enum ObjectClassType implements ClassType {
     OBJECT,
     ;
 
-    private final @Nullable PrimitiveClassType associatedType;
+    private final @Nullable ClassType associatedType;
 
     ObjectClassType() {
         this(null);
@@ -61,11 +61,6 @@ public enum ObjectClassType implements ClassType {
 
     ObjectClassType(final @Nullable PrimitiveClassType associatedType) {
         this.associatedType = associatedType;
-    }
-
-    @Override
-    public @NotNull Type toType() {
-        return ObjectType.of(toJavaClass());
     }
 
     @Override
@@ -80,19 +75,23 @@ public enum ObjectClassType implements ClassType {
     }
 
     @Override
-    public @NotNull Class<?> toJavaClass() {
-        return ReflectionUtils.getClass("java.lang." + StringUtils.capitalize(name()));
-    }
-
-    @Override
     public boolean compatibleWith(@NotNull Type type) {
         if (type.equals(Types.NULL_TYPE)) return true;
         else if (this.associatedType != null) return this.associatedType.compatibleWith(type);
         else {
             // Either STRING or OBJECT
-            if (this.equals(STRING)) return ObjectType.STRING.is(type);
-            else return true;
+            return !equals(STRING) || ObjectType.STRING.is(type);
         }
+    }
+
+    @Override
+    public @NotNull Type toType() {
+        return ObjectType.of(toJavaClass());
+    }
+
+    @Override
+    public @NotNull Class<?> toJavaClass() {
+        return ReflectionUtils.getClass("java.lang." + StringUtils.capitalize(name()));
     }
 
     @Override
@@ -112,7 +111,9 @@ public enum ObjectClassType implements ClassType {
     }
 
     /**
-     * Gets a new {@link ClassType} from the given class name.
+     * Gets a new {@link ClassType} from the given class.
+     * If it is present in this class, the corresponding field will be returned.
+     * Otherwise, a new {@link CustomObjectClassType} will be created.
      *
      * @param clazz the class
      * @return the respective class type

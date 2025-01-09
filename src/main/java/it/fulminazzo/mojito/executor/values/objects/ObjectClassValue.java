@@ -4,7 +4,6 @@ import it.fulminazzo.fulmicollection.objects.EnumObject;
 import it.fulminazzo.fulmicollection.utils.StringUtils;
 import it.fulminazzo.mojito.executor.values.ClassValue;
 import it.fulminazzo.mojito.executor.values.*;
-import lombok.AccessLevel;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,10 +11,9 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Represents the wrappers, {@link String} and {@link Object} classes.
  *
- * @param <V> the type of the value
+ * @param <V> the type of the actual class
  */
 @SuppressWarnings("unchecked")
-@Getter
 public final class ObjectClassValue<V> extends EnumObject implements ClassValue<V> {
     /**
      * {@link java.lang.Byte}
@@ -58,8 +56,8 @@ public final class ObjectClassValue<V> extends EnumObject implements ClassValue<
      */
     public static final ObjectClassValue<Object> OBJECT = new ObjectClassValue<>(Object.class);
 
+    @Getter
     private final @NotNull Class<V> value;
-    @Getter(AccessLevel.NONE)
     private final @Nullable ClassValue<V> associatedValue;
 
     private ObjectClassValue(final @NotNull Class<V> value) {
@@ -120,6 +118,8 @@ public final class ObjectClassValue<V> extends EnumObject implements ClassValue<
 
     /**
      * Gets a new {@link ClassValue} from the given class name.
+     * If it is present in this class, the corresponding field will be returned.
+     * Otherwise, a new {@link CustomObjectClassValue} will be created.
      *
      * @param <V>   the type of the value
      * @param clazz the class
