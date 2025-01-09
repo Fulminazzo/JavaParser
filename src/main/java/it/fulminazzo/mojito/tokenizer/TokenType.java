@@ -11,6 +11,7 @@ public enum TokenType {
     COMMENT_INLINE("\\/\\/"),
     COMMENT_BLOCK_START("\\/\\*"),
     COMMENT_BLOCK_END("\\*\\/"),
+    ARROW("->"),
 
     // Statement
     RETURN("return"),
