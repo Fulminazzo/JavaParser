@@ -38,6 +38,23 @@ public interface ClassType extends Type, ClassVisitorObject<ClassType, Type, Par
     }
 
     /**
+     * Converts the current {@link ClassType} to the matching {@link Type}.
+     *
+     * @return the type
+     */
+    @NotNull Type toType();
+
+    @Override
+    default @NotNull Type toObject() {
+        return toType();
+    }
+
+    @Override
+    default @NotNull ClassType toClass() {
+        return ClassType.of(Class.class);
+    }
+
+    /**
      * Gets a new {@link ClassType} from the given class name.
      * Tries first to obtain from {@link PrimitiveClassType}.
      * If it fails, uses the fields of {@link ObjectClassType}.
@@ -69,23 +86,6 @@ public interface ClassType extends Type, ClassVisitorObject<ClassType, Type, Par
         for (PrimitiveClassType type : PrimitiveClassType.values())
             if (type.toJavaClass().equals(clazz)) return type;
         return ObjectClassType.of(clazz);
-    }
-
-    /**
-     * Converts the current {@link ClassType} to the matching {@link Type}.
-     *
-     * @return the type
-     */
-    @NotNull Type toType();
-
-    @Override
-    default @NotNull Type toObject() {
-        return toType();
-    }
-
-    @Override
-    default @NotNull ClassType toClass() {
-        return ClassType.of(Class.class);
     }
 
     /**

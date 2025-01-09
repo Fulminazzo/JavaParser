@@ -19,6 +19,11 @@ import java.lang.reflect.Constructor;
 @SuppressWarnings("unchecked")
 public interface ClassValue<V> extends Value<Class<V>>, ClassVisitorObject<ClassValue<?>, Value<?>, ParameterValues> {
 
+    @Override
+    default boolean isPrimitive() {
+        return is(PrimitiveClassValue.class);
+    }
+
     /**
      * Converts the given value to the current class.
      *
@@ -75,11 +80,6 @@ public interface ClassValue<V> extends Value<Class<V>>, ClassVisitorObject<Class
     }
 
     @Override
-    default boolean isPrimitive() {
-        return is(PrimitiveClassValue.class);
-    }
-
-    @Override
     default @NotNull Value<?> newObject(final @NotNull Constructor<?> constructor,
                                         final @NotNull ParameterValues parameterValues) {
         Object[] parameters = parameterValues.stream().map(Value::getValue).toArray(Object[]::new);
@@ -88,13 +88,15 @@ public interface ClassValue<V> extends Value<Class<V>>, ClassVisitorObject<Class
     }
 
     @Override
-    default @NotNull ClassValue<Class<V>> toClass() {
-        return (ClassValue<Class<V>>) (Object) of(Class.class);
-    }
+    Class<V> getValue();
 
-    @Override
-    default @NotNull Class<?> toJavaClass() {
-        return getValue();
+    /**
+     * Converts the {@link #getValue()} to its respective wrapper type.
+     *
+     * @return the wrapper value
+     */
+    default @NotNull Class<V> getWrapperValue() {
+        return (Class<V>) ReflectionUtils.getWrapperClass(getValue());
     }
 
     /**
@@ -111,17 +113,15 @@ public interface ClassValue<V> extends Value<Class<V>>, ClassVisitorObject<Class
         return toValue();
     }
 
-    /**
-     * Converts the {@link #getValue()} to its respective wrapper type.
-     *
-     * @return the wrapper value
-     */
-    default @NotNull Class<V> getWrapperValue() {
-        return (Class<V>) ReflectionUtils.getWrapperClass(getValue());
+    @Override
+    default @NotNull Class<?> toJavaClass() {
+        return getValue();
     }
 
     @Override
-    Class<V> getValue();
+    default @NotNull ClassValue<Class<V>> toClass() {
+        return (ClassValue<Class<V>>) (Object) of(Class.class);
+    }
 
     /**
      * Gets a new {@link ClassValue} from the given class.
@@ -129,7 +129,7 @@ public interface ClassValue<V> extends Value<Class<V>>, ClassVisitorObject<Class
      * If it fails, uses the fields of {@link ObjectClassValue}.
      * Otherwise, a new value is created.
      *
-     * @param <V>       the type parameter
+     * @param <V>       the type of the value
      * @param className the class name
      * @return the class type
      * @throws ValueException the exception thrown in case the class is not found
@@ -150,7 +150,7 @@ public interface ClassValue<V> extends Value<Class<V>>, ClassVisitorObject<Class
      * If it fails, uses the fields of {@link ObjectClassValue}.
      * Otherwise, a new value is created.
      *
-     * @param <V>   the type parameter
+     * @param <V>   the type of the value
      * @param clazz the class
      * @return the class value
      */
