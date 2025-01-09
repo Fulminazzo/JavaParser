@@ -19,7 +19,7 @@ public class ArrayClassType extends TypeWrapper implements ClassType {
      *
      * @param componentType the component type
      */
-    public ArrayClassType(@NotNull ClassType componentType) {
+    ArrayClassType(@NotNull ClassType componentType) {
         super(componentType);
     }
 
@@ -61,6 +61,16 @@ public class ArrayClassType extends TypeWrapper implements ClassType {
     @Override
     public @NotNull String toString() {
         return getInternalType().toString().replace(".class", "[].class");
+    }
+
+    /**
+     * Instantiates a new {@link ArrayClassType} from the given {@link ClassType}.
+     *
+     * @param classType the class type of the components
+     * @return the array class type
+     */
+    public static @NotNull ArrayClassType of(final @NotNull ClassType classType) {
+        return new ArrayClassType(classType);
     }
 
 }
