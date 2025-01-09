@@ -26,7 +26,7 @@ public class ArrayClassValue<A> extends ObjectWrapper<ClassValue<A>> implements 
     }
 
     /**
-     * Gets the components type.
+     * Gets the components class value.
      *
      * @return the components type
      */
