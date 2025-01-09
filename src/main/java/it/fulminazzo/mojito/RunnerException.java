@@ -1,11 +1,12 @@
 package it.fulminazzo.mojito;
 
+import it.fulminazzo.mojito.exceptions.FormatRuntimeException;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * An exception thrown by {@link Runner}.
  */
-final class RunnerException extends RuntimeException {
+final class RunnerException extends FormatRuntimeException {
 
     /**
      * Instantiates a new Runner exception.
@@ -14,7 +15,7 @@ final class RunnerException extends RuntimeException {
      * @param args    the arguments to add in the message format
      */
     RunnerException(final @NotNull String message, final Object @NotNull ... args) {
-        super(String.format(message, args));
+        super(message, args);
     }
 
     /**
