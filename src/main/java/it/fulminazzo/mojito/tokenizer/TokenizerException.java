@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * An exception wrapper for {@link Tokenizer}
  */
-public class TokenizerException extends RuntimeException {
+public final class TokenizerException extends RuntimeException {
 
     /**
      * Instantiates a new Tokenizer exception.
