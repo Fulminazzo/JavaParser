@@ -57,4 +57,9 @@ public class LambdaExpression extends StatementContainer {
         this.parameters = parameters;
     }
 
+    @Override
+    public @NotNull String toString() {
+        return String.format("%s(%s -> %s)", getClass().getSimpleName(), this.parameters, new CodeBlock(this.statements));
+    }
+
 }
