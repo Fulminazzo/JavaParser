@@ -1,12 +1,13 @@
 package it.fulminazzo.mojito.executor;
 
+import it.fulminazzo.mojito.exceptions.FormatRuntimeException;
 import it.fulminazzo.mojito.executor.values.Value;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * An exception thrown by the {@link it.fulminazzo.mojito.executor.Executor}.
  */
-public class ExecutorException extends RuntimeException {
+public final class ExecutorException extends FormatRuntimeException {
 
     /**
      * Instantiates a new Executor exception.
@@ -15,7 +16,16 @@ public class ExecutorException extends RuntimeException {
      * @param args    the arguments to add in the message format
      */
     private ExecutorException(final @NotNull String message, final Object @NotNull ... args) {
-        super(String.format(message, args));
+        super(message, args);
+    }
+
+    /**
+     * Instantiates a new Executor exception.
+     *
+     * @param cause the inner exception
+     */
+    private ExecutorException(final @NotNull Throwable cause) {
+        super(cause);
     }
 
     /**
@@ -25,7 +35,7 @@ public class ExecutorException extends RuntimeException {
      * @return the executor exception
      */
     public static @NotNull ExecutorException of(final @NotNull Throwable cause) {
-        return new ExecutorException(cause.getMessage());
+        return new ExecutorException(cause);
     }
 
     /**
