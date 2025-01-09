@@ -18,13 +18,13 @@ import java.lang.reflect.Modifier;
 public interface Type extends VisitorObject<ClassType, Type, ParameterTypes> {
 
     @Override
-    default boolean isPrimitive() {
-        return is(PrimitiveType.class);
+    default boolean isNull() {
+        return is(Types.NULL_TYPE);
     }
 
     @Override
-    default boolean isNull() {
-        return is(Types.NULL_TYPE);
+    default boolean isPrimitive() {
+        return is(PrimitiveType.class);
     }
 
     /**

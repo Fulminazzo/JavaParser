@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Represents a general value.
+ * Represents a general value parsed by the {@link it.fulminazzo.mojito.executor.Executor}.
  *
  * @param <V> the type of the value
  */
@@ -103,14 +103,14 @@ public interface Value<V> extends VisitorObject<ClassValue<?>, Value<?>, Paramet
     }
 
     @Override
-    default <T extends VisitorObject<ClassValue<?>, Value<?>, ParameterValues>> @NotNull T check(final @NotNull Class<T> classValue) {
-        if (is(classValue)) return classValue.cast(this);
-        else throw ExecutorException.invalidValue(classValue, this);
+    default @NotNull ClassValue<V> checkClass() {
+        return (ClassValue<V>) check(ClassValue.class);
     }
 
     @Override
-    default @NotNull ClassValue<V> checkClass() {
-        return (ClassValue<V>) check(ClassValue.class);
+    default <T extends VisitorObject<ClassValue<?>, Value<?>, ParameterValues>> @NotNull T check(final @NotNull Class<T> classValue) {
+        if (is(classValue)) return classValue.cast(this);
+        else throw ExecutorException.invalidValue(classValue, this);
     }
 
     @Override
