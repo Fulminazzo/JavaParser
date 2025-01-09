@@ -12,12 +12,12 @@ import org.jetbrains.annotations.NotNull;
 class CustomObjectClassValue<V> extends ObjectWrapper<Class<V>> implements ClassValue<V> {
 
     /**
-     * Instantiates a new Object value.
+     * Instantiates a new Custom class object value.
      *
-     * @param clazz the class
+     * @param internalClass the internal class
      */
-    public CustomObjectClassValue(@NotNull Class<V> clazz) {
-        super(clazz);
+    public CustomObjectClassValue(@NotNull Class<V> internalClass) {
+        super(internalClass);
     }
 
     @Override

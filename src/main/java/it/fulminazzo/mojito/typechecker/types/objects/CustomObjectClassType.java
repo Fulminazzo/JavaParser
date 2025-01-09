@@ -39,15 +39,15 @@ class CustomObjectClassType extends TypeWrapper implements ClassType {
     }
 
     @Override
-    public @NotNull Class<?> toJavaClass() {
-        return ((ObjectType) getInternalType()).getInnerClass();
-    }
-
-    @Override
     public boolean compatibleWith(@NotNull Type type) {
         if (type instanceof ObjectType)
             return toJavaClass().isAssignableFrom(((ObjectType) type).getInnerClass());
         else return type.equals(Types.NULL_TYPE);
+    }
+
+    @Override
+    public @NotNull Class<?> toJavaClass() {
+        return ((ObjectType) getInternalType()).getInnerClass();
     }
 
     @Override
