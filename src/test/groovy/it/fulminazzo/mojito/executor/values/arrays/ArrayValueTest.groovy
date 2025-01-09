@@ -2,10 +2,33 @@ package it.fulminazzo.mojito.executor.values.arrays
 
 import it.fulminazzo.mojito.executor.values.PrimitiveClassValue
 import it.fulminazzo.mojito.executor.values.Value
+import it.fulminazzo.mojito.executor.values.ValueException
 import it.fulminazzo.mojito.executor.values.objects.ObjectClassValue
 import spock.lang.Specification
 
 class ArrayValueTest extends Specification {
+    private ArrayValue<?> array
+
+    void setup() {
+        this.array = new ArrayValue<>(PrimitiveClassValue.DOUBLE, 3)
+    }
+
+    def 'test getField of "length" should return actual size'() {
+        when:
+        def field = this.array.getField('length')
+
+        then:
+        field.variable.value == 3
+    }
+
+    def 'test getField should have normal behaviour in any other case'() {
+        when:
+        this.array.getField('not_existing')
+
+        then:
+        def e = thrown(ValueException)
+        e.message == ValueException.fieldNotFound(this.array.toClass(), 'not_existing').message
+    }
 
     def 'test static array initialization should have equal parameters'() {
         given:
