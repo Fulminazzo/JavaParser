@@ -8,6 +8,7 @@ import it.fulminazzo.mojito.parser.node.arrays.DynamicArray;
 import it.fulminazzo.mojito.parser.node.arrays.StaticArray;
 import it.fulminazzo.mojito.parser.node.container.CodeBlock;
 import it.fulminazzo.mojito.parser.node.container.JavaProgram;
+import it.fulminazzo.mojito.parser.node.container.LambdaExpression;
 import it.fulminazzo.mojito.parser.node.literals.*;
 import it.fulminazzo.mojito.parser.node.operators.binary.*;
 import it.fulminazzo.mojito.parser.node.operators.unary.Decrement;
@@ -746,12 +747,16 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * PAR_EXPR := \( EXPR \)
+     * PAR_EXPR := \( EXPR \) | \( \) LAMBDA_CODE
      *
      * @return the node
      */
     protected @NotNull Node parseParenthesizedExpr() {
         consume(OPEN_PAR);
+        if (lastToken() == CLOSE_PAR) {
+            consume(CLOSE_PAR);
+            return new LambdaExpression(parseLambdaCode());
+        }
         Node expression = parseExpression();
         consume(CLOSE_PAR);
         return expression;
