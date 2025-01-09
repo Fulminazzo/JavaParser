@@ -10,7 +10,6 @@ import it.fulminazzo.mojito.visitors.visitorobjects.variables.FieldContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 /**
@@ -45,31 +44,6 @@ public final class TypeFieldContainer
                 throw TypeCheckerException.of(e);
             }
         return newValue;
-    }
-
-    @Override
-    public @NotNull Type check(Type @NotNull ... expectedTypes) {
-        return TypeVariableContainer.super.check(expectedTypes);
-    }
-
-    @Override
-    public @NotNull Type checkNot(Type @NotNull ... expectedTypes) {
-        return TypeVariableContainer.super.checkNot(expectedTypes);
-    }
-
-    @Override
-    public @NotNull Type checkAssignableFrom(@NotNull ClassType classType) {
-        return TypeVariableContainer.super.checkAssignableFrom(classType);
-    }
-
-    @Override
-    public @NotNull TypeFieldContainer getField(@NotNull Field field) throws TypeException {
-        return TypeVariableContainer.super.getField(field);
-    }
-
-    @Override
-    public @NotNull Type invokeMethod(@NotNull Method method, @NotNull ParameterTypes parameterTypes) throws TypeException {
-        return TypeVariableContainer.super.invokeMethod(method, parameterTypes);
     }
 
 }

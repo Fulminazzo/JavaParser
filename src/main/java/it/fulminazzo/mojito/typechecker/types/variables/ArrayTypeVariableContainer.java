@@ -3,12 +3,8 @@ package it.fulminazzo.mojito.typechecker.types.variables;
 import it.fulminazzo.mojito.typechecker.types.ClassType;
 import it.fulminazzo.mojito.typechecker.types.ParameterTypes;
 import it.fulminazzo.mojito.typechecker.types.Type;
-import it.fulminazzo.mojito.typechecker.types.TypeException;
 import it.fulminazzo.mojito.visitors.visitorobjects.variables.VariableContainer;
 import org.jetbrains.annotations.NotNull;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 /**
  * Represents the access to an array element with its index.
@@ -33,31 +29,6 @@ public final class ArrayTypeVariableContainer
     @Override
     public @NotNull Type set(@NotNull Type newValue) {
         return this.type.cast(newValue);
-    }
-
-    @Override
-    public @NotNull Type check(Type @NotNull ... expectedTypes) {
-        return TypeVariableContainer.super.check(expectedTypes);
-    }
-
-    @Override
-    public @NotNull Type checkNot(Type @NotNull ... expectedTypes) {
-        return TypeVariableContainer.super.checkNot(expectedTypes);
-    }
-
-    @Override
-    public @NotNull Type checkAssignableFrom(@NotNull ClassType classType) {
-        return TypeVariableContainer.super.checkAssignableFrom(classType);
-    }
-
-    @Override
-    public @NotNull TypeFieldContainer getField(@NotNull Field field) throws TypeException {
-        return TypeVariableContainer.super.getField(field);
-    }
-
-    @Override
-    public @NotNull Type invokeMethod(@NotNull Method method, @NotNull ParameterTypes parameterTypes) throws TypeException {
-        return TypeVariableContainer.super.invokeMethod(method, parameterTypes);
     }
 
 }
