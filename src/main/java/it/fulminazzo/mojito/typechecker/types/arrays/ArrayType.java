@@ -25,9 +25,9 @@ public class ArrayType extends TypeWrapper implements Type {
     /**
      * Gets the components type.
      *
-     * @return the type
+     * @return the components type
      */
-    public @NotNull Type getComponentType() {
+    public @NotNull Type getComponentsType() {
         return this.object;
     }
 
@@ -40,7 +40,7 @@ public class ArrayType extends TypeWrapper implements Type {
 
     @Override
     public @NotNull ClassType toClass() {
-        return new ArrayClassType(getComponentType().toClass());
+        return new ArrayClassType(getComponentsType().toClass());
     }
 
 }

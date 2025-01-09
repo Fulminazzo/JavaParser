@@ -35,7 +35,7 @@ public class ArrayClassType extends TypeWrapper implements ClassType {
     @Override
     public @NotNull Type cast(@NotNull Type type) {
         ArrayType arrayType = type.check(ArrayType.class);
-        Type componentType = arrayType.getComponentType();
+        Type componentType = arrayType.getComponentsType();
         if (componentType.isPrimitive() || componentType.toClass().is(ObjectClassType.class)) {
             if (!getComponentsType().is(componentType.toClass()))
                 throw TypeCheckerException.invalidCast(this, type);

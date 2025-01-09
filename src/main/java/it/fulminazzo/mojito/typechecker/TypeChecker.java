@@ -224,7 +224,7 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
 
             Type expressionType = expression.accept(this);
             if (expressionType.is(ArrayType.class)) {
-                Type componentType = expressionType.check(ArrayType.class).getComponentType();
+                Type componentType = expressionType.check(ArrayType.class).getComponentsType();
                 if (!componentType.isAssignableFrom(variableType))
                     throw TypeCheckerException.invalidType(componentType.toClass(), variableType);
             } else {
@@ -310,7 +310,7 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
     public @NotNull Type visitArrayIndex(@NotNull Node array, @NotNull Node index) {
         VariableContainer<ClassType, Type, ParameterTypes, ?> container = array.accept(this).check(VariableContainer.class);
         ArrayType arrayType = container.getVariable().check(ArrayType.class);
-        Type componentsType = arrayType.getComponentType();
+        Type componentsType = arrayType.getComponentsType();
         index.accept(this).check(PrimitiveType.INT, ObjectType.INTEGER);
         return new ArrayTypeVariableContainer(container, componentsType.toClass(), ((NumberValueLiteral) index).getRawValue(), componentsType);
     }
