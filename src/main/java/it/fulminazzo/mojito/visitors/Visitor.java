@@ -150,6 +150,15 @@ public interface Visitor<
     }
 
     /**
+     * Converts lambda expression and its fields to this visitor type.
+     *
+     * @param parameters the parameters
+     * @param code       the code
+     * @return the lambda expression
+     */
+    @NotNull O visitLambdaExpression(final @NotNull List<Node> parameters, final @NotNull CodeBlock code);
+
+    /**
      * Converts try statement and its fields to this visitor type.
      *
      * @param block        the block
@@ -843,10 +852,7 @@ public interface Visitor<
      * {@link ClassVisitorObject} search logic.
      *
      * @param literal the literal
-     * @return if a {@link ClassVisitorObject} is found, the tuple key and value will both be equal to the value itself.
-     * If a variable is found, the tuple key will have the value in which the variable was declared,
-     * while the value its actual value.
-     * Otherwise, the tuple will be empty.
+     * @return if a {@link ClassVisitorObject} is found, the tuple key and value will both be equal to the value itself. If a variable is found, the tuple key will have the value in which the variable was declared, while the value its actual value. Otherwise, the tuple will be empty.
      */
     default @NotNull Tuple<C, O> getObjectFromLiteral(final @NotNull String literal) {
         Tuple<C, O> tuple = new Tuple<>();
