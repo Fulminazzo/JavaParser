@@ -1,11 +1,11 @@
 package it.fulminazzo.mojito.visitors
 
+import it.fulminazzo.mojito.TestClass
 import it.fulminazzo.mojito.environment.MockEnvironment
 import it.fulminazzo.mojito.handler.Handler
 import it.fulminazzo.mojito.handler.HandlerException
 import it.fulminazzo.mojito.handler.elements.ClassElement
 import it.fulminazzo.mojito.handler.elements.Element
-import it.fulminazzo.mojito.TestClass
 import spock.lang.Specification
 
 class VisitorLiteralTest extends Specification {
@@ -28,11 +28,11 @@ class VisitorLiteralTest extends Specification {
         element == expected
 
         where:
-        value                                       | expected
-        'i'                                         | Element.of(1)
-        'System'                                    | ClassElement.of(System)
-        'System.out'                                | Element.of(System.out)
-        "${SystemWrapper.canonicalName}.system.out" | Element.of(SystemWrapper.system.out)
+        value                                      | expected
+        'i'                                        | Element.of(1)
+        'System'                                   | ClassElement.of(System)
+        'System.out'                               | Element.of(System.out)
+        "${FirstClass.canonicalName}.second.value" | Element.of(FirstClass.second.value)
     }
 
     def 'test visitLiteralImpl of #value should throw exception #exception'() {
@@ -50,9 +50,12 @@ class VisitorLiteralTest extends Specification {
         'not.existing'        | new Handler(null).cannotResolveSymbol(value)
     }
 
-    class SystemWrapper {
-        static System system = new System()
+    private static class FirstClass {
+        static SecondClass second = new SecondClass()
+    }
 
+    private static class SecondClass {
+        int value = 1
     }
 
 }
