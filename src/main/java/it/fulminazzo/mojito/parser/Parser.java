@@ -13,7 +13,7 @@ import java.io.InputStream;
  * A general parser with an internal {@link Tokenizer}.
  */
 @NoArgsConstructor
-abstract class Parser {
+public abstract class Parser {
     private @Nullable Tokenizer tokenizer;
 
     /**
