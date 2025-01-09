@@ -18,7 +18,7 @@ import java.util.Map;
  * Represents an {@link Object} value, declared from its value.
  * It acts as a wrapper for values.
  *
- * @param <V> the type parameter
+ * @param <V> the type of the value
  */
 @SuppressWarnings("unchecked")
 public class ObjectValue<V> extends ObjectWrapper<V> implements Value<V> {
