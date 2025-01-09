@@ -20,19 +20,19 @@ public final class TypeLiteralVariableContainer
      * Instantiates a new Type literal variable container.
      *
      * @param environment the environment
-     * @param name        the name
+     * @param name        the name of the variable
      */
     public TypeLiteralVariableContainer(@NotNull Environment<Type> environment, @NotNull String name) {
         super(environment, Types.NULL_TYPE.checkClass(), name, Types.NULL_TYPE);
     }
 
     /**
-     * Instantiates a new type literal variable container.
+     * Instantiates a new Type literal variable container.
      *
      * @param environment the environment
-     * @param type        the type
-     * @param name        the name
-     * @param variable    the value
+     * @param type        the class type of the variable
+     * @param name        the name of the variable
+     * @param variable    the type of the variable
      */
     public TypeLiteralVariableContainer(@NotNull Environment<Type> environment, @NotNull ClassType type,
                                         @NotNull String name, @NotNull Type variable) {

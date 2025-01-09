@@ -10,7 +10,7 @@ import it.fulminazzo.mojito.visitors.visitorobjects.variables.LiteralVariableCon
 import org.jetbrains.annotations.NotNull;
 
 /**
- * The type Value literal variable container.
+ * An implementation of {@link LiteralVariableContainer} with {@link Value}.
  *
  * @param <V> the type of the value
  */
@@ -19,10 +19,10 @@ public final class ValueLiteralVariableContainer<V>
         implements ValueVariableContainer<V> {
 
     /**
-     * Instantiates a new value literal variable container.
+     * Instantiates a new Value literal variable container.
      *
      * @param environment the environment
-     * @param name        the name
+     * @param name        the name of the variable
      */
     public ValueLiteralVariableContainer(@NotNull Environment<Value<?>> environment,
                                          @NotNull String name) {
@@ -30,16 +30,16 @@ public final class ValueLiteralVariableContainer<V>
     }
 
     /**
-     * Instantiates a new value literal variable container.
+     * Instantiates a new Value literal variable container.
      *
      * @param environment the environment
-     * @param type        the type
-     * @param name        the name
-     * @param value       the value
+     * @param type        the class value of the variable
+     * @param name        the name of the variable
+     * @param variable    the value of the variable
      */
     public ValueLiteralVariableContainer(@NotNull Environment<Value<?>> environment, @NotNull ClassValue<?> type,
-                                         @NotNull String name, @NotNull Value<?> value) {
-        super(environment, type, name, value);
+                                         @NotNull String name, @NotNull Value<?> variable) {
+        super(environment, type, name, variable);
     }
 
     @Override
