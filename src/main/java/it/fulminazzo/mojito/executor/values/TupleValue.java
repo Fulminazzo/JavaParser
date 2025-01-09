@@ -8,8 +8,8 @@ import org.jetbrains.annotations.NotNull;
  * An instance of {@link Tuple} that implements {@link Value}.
  * For internal use only.
  *
- * @param <F> the first type
- * @param <S> the second type
+ * @param <F> the type of the first object
+ * @param <S> the type of the second object
  */
 public class TupleValue<F, S> extends Tuple<F, S> implements Value<S> {
 
