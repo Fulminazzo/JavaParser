@@ -62,12 +62,12 @@ public class ArrayClassValue<A> extends ObjectWrapper<ClassValue<A>> implements 
     /**
      * Instantiates a new {@link ArrayClassValue} from the given {@link ClassValue}.
      *
-     * @param <V>        the type of the components
-     * @param classValue the class value of the components
+     * @param <V>             the type of the components
+     * @param componentsClass the class value of the components
      * @return the array class value
      */
-    public static <V> @NotNull ArrayClassValue<V> of(final @NotNull ClassValue<V> classValue) {
-        return new ArrayClassValue<>(classValue);
+    public static <V> @NotNull ArrayClassValue<V> of(final @NotNull ClassValue<V> componentsClass) {
+        return new ArrayClassValue<>(componentsClass);
     }
 
 }

@@ -66,11 +66,11 @@ public class ArrayClassType extends TypeWrapper implements ClassType {
     /**
      * Instantiates a new {@link ArrayClassType} from the given {@link ClassType}.
      *
-     * @param classType the class type of the components
+     * @param componentsClass the class type of the components
      * @return the array class type
      */
-    public static @NotNull ArrayClassType of(final @NotNull ClassType classType) {
-        return new ArrayClassType(classType);
+    public static @NotNull ArrayClassType of(final @NotNull ClassType componentsClass) {
+        return new ArrayClassType(componentsClass);
     }
 
 }
