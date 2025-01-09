@@ -10,7 +10,7 @@ import it.fulminazzo.mojito.wrappers.ObjectWrapper;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents a primitive {@link Value}.
+ * Represents a primitive {@link Value} in Java.
  *
  * @param <V> the type of the value
  */

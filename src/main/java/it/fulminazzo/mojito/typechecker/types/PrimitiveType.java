@@ -4,7 +4,7 @@ import it.fulminazzo.mojito.typechecker.types.objects.ObjectType;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Contains all the values accepted by Java.
+ * Represents a primitive {@link Type} in Java.
  */
 public enum PrimitiveType implements Type {
     /**
