@@ -1,5 +1,6 @@
 package it.fulminazzo.mojito.parser;
 
+import it.fulminazzo.mojito.exceptions.FormatRuntimeException;
 import it.fulminazzo.mojito.parser.node.Node;
 import it.fulminazzo.mojito.parser.node.statements.CaseStatement;
 import it.fulminazzo.mojito.tokenizer.TokenType;
@@ -9,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Exception used to notify about errors coming from {@link JavaParser}.
  */
-public final class ParserException extends RuntimeException {
+public final class ParserException extends FormatRuntimeException {
 
     /**
      * Instantiates a new Parser exception.
@@ -20,11 +21,10 @@ public final class ParserException extends RuntimeException {
      */
     private ParserException(final @Nullable Parser parser, final @NotNull String message,
                             final Object @NotNull ... args) {
-        super(String.format("At line %s, column %s: %s",
+        super("At line %s, column %s: %s",
                 parser == null ? "0" : parser.getTokenizer().line(),
                 parser == null ? "0" : parser.getTokenizer().column(),
-                String.format(message, args))
-        );
+                String.format(message, args));
     }
 
     /**
