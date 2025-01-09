@@ -12,7 +12,7 @@
 </p>
 
 **My Own Java Is Totally Overtested** (**mojito** for short) is a combination of **parser**, **typechecker** and **executor**
-capable of **run** a **simplified version of Java**.
+capable of **run** a **simplified version of Java 1.8**.
 
 To verify all the capabilities available, please check the [grammar](#grammar), but in summary:
 - **classes are NOT supported**. Only one file at a time might be read, and it will **not require** (nor it should be added)
