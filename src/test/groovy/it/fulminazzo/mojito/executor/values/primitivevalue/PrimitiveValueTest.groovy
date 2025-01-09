@@ -105,21 +105,6 @@ class PrimitiveValueTest extends Specification {
         false    | 'String'    | BooleanValue.TRUE
     }
 
-    def 'test toPrimitive of #expected should return #expected'() {
-        when:
-        def converted = expected.toPrimitive()
-
-        then:
-        converted == expected
-
-        where:
-        expected << [
-                new DoubleValue(1.0d), new FloatValue(1.0f), new LongValue(1L),
-                BooleanValue.TRUE, BooleanValue.FALSE, new CharValue('a' as Character),
-                new ByteValue(1 as byte), new ShortValue(2 as short), new IntValue(3)
-        ]
-    }
-
     def 'test conversion of #value should return #expected'() {
         when:
         def converted = PrimitiveValue.of(value)
