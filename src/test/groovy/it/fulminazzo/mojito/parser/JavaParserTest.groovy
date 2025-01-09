@@ -4,6 +4,7 @@ import it.fulminazzo.mojito.parser.node.*
 import it.fulminazzo.mojito.parser.node.arrays.DynamicArray
 import it.fulminazzo.mojito.parser.node.arrays.StaticArray
 import it.fulminazzo.mojito.parser.node.container.CodeBlock
+import it.fulminazzo.mojito.parser.node.container.LambdaExpression
 import it.fulminazzo.mojito.parser.node.literals.*
 import it.fulminazzo.mojito.parser.node.operators.binary.*
 import it.fulminazzo.mojito.parser.node.operators.unary.Decrement
@@ -50,6 +51,28 @@ class JavaParserTest extends Specification {
 
         then:
         noExceptionThrown()
+    }
+
+    def 'test code #code should be parsed to lambda expression'() {
+        when:
+        startReading(code)
+        def output = this.parser.parseExpression()
+
+        then:
+        output == expected
+
+        where:
+        code                       | expected
+        '() -> 1'                  | new LambdaExpression(new NumberValueLiteral('1'))
+        '() -> {return 1;}'        | new LambdaExpression(new NumberValueLiteral('1'))
+        'a -> 1'                   | new LambdaExpression(Literal.of('a'), new NumberValueLiteral('1'))
+        'a -> {return 1;}'         | new LambdaExpression(Literal.of('a'), new NumberValueLiteral('1'))
+        '(a) -> 1'                 | new LambdaExpression(Literal.of('a'), new NumberValueLiteral('1'))
+        '(a) -> {return 1;}'       | new LambdaExpression(Literal.of('a'), new NumberValueLiteral('1'))
+        '(a, b) -> 1'              | new LambdaExpression([Literal.of('a'), Literal.of('b')], new NumberValueLiteral('1'))
+        '(a, b) -> {return 1;}'    | new LambdaExpression([Literal.of('a'), Literal.of('b')], new NumberValueLiteral('1'))
+        '(a, b, c) -> 1'           | new LambdaExpression([Literal.of('a'), Literal.of('b'), Literal.of('c')], new NumberValueLiteral('1'))
+        '(a, b, c) -> {return 1;}' | new LambdaExpression([Literal.of('a'), Literal.of('b'), Literal.of('c')], new NumberValueLiteral('1'))
     }
 
     def 'test parseBlock: #code'() {
