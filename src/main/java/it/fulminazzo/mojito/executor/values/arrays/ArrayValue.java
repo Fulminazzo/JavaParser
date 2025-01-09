@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Represents a general array {@link Value}.
  *
- * @param <A> the type of the array
+ * @param <A> the type of the components
  */
 @Getter
 @SuppressWarnings("unchecked")
@@ -28,7 +28,7 @@ public class ArrayValue<A> extends ObjectWrapper<List<Value<A>>> implements Valu
     private final @NotNull ClassValue<A> componentsType;
 
     /**
-     * Instantiates a static array value.
+     * Instantiates a static Array value.
      *
      * @param componentsType the components type
      * @param size           the size of the array
@@ -40,7 +40,7 @@ public class ArrayValue<A> extends ObjectWrapper<List<Value<A>>> implements Valu
     }
 
     /**
-     * Instantiates a dynamic array value.
+     * Instantiates a dynamic Array value.
      *
      * @param componentsType the components type
      * @param values         the values of the array
@@ -81,13 +81,13 @@ public class ArrayValue<A> extends ObjectWrapper<List<Value<A>>> implements Valu
 
     @Override
     public @NotNull ClassValue<A> toClass() {
-        return new ArrayClassValue<>(this.componentsType);
+        return new ArrayClassValue<>(getComponentsType());
     }
 
     /**
-     * Gets values.
+     * Gets the components of the array in a list format.
      *
-     * @return the values
+     * @return the components
      */
     public @NotNull List<Value<A>> getValues() {
         return this.object;

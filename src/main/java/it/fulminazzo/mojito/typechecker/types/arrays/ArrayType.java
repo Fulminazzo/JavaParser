@@ -8,7 +8,7 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents an initialized array.
+ * Represents a general array {@link Type}.
  */
 @Getter
 public class ArrayType extends TypeWrapper implements Type {
