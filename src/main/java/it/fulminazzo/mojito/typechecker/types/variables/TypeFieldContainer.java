@@ -23,10 +23,10 @@ public final class TypeFieldContainer
     /**
      * Instantiates a new Type field container.
      *
-     * @param parent   the parent
-     * @param type     the type
-     * @param name     the name
-     * @param variable the value
+     * @param parent the holder of this field
+     * @param type   the class type of the field
+     * @param name   the name of the field
+     * @param variable  the type of the field
      */
     public TypeFieldContainer(@NotNull Type parent, @NotNull ClassType type,
                               @NotNull String name, @NotNull Type variable) {

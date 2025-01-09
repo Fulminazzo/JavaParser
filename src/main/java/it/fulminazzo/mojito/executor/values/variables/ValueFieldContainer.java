@@ -17,16 +17,16 @@ public final class ValueFieldContainer<V>
         implements ValueVariableContainer<V> {
 
     /**
-     * Instantiates a new Field container.
+     * Instantiates a new Type field container.
      *
-     * @param parent the parent
-     * @param type   the type
-     * @param name   the name
-     * @param value  the value
+     * @param parent   the holder of this field
+     * @param type     the class value of the field
+     * @param name     the name of the field
+     * @param variable the value of the field
      */
     public ValueFieldContainer(@NotNull Value<?> parent, @NotNull ClassValue<?> type,
-                               @NotNull String name, @NotNull Value<?> value) {
-        super(parent, type, name, value);
+                               @NotNull String name, @NotNull Value<?> variable) {
+        super(parent, type, name, variable);
     }
 
     @Override
