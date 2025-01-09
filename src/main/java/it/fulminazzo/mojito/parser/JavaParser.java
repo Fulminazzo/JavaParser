@@ -24,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
@@ -747,7 +748,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * PAR_EXPR := \( EXPR \) | \( (EXPR, )+ EXPR \) LAMBDA_CODE
+     * PAR_EXPR := \( EXPR \) | \( (EXPR, )* EXPR \) LAMBDA_CODE
      *
      * @return the node
      */
@@ -757,19 +758,17 @@ public class JavaParser extends Parser {
             consume(CLOSE_PAR);
             return new LambdaExpression(parseLambdaCode());
         }
-        Node expression = parseExpression();
+        List<Node> parameters = new LinkedList<>(Collections.singletonList(parseExpression()));
         if (lastToken() == COMMA) {
-            List<Node> parameters = new LinkedList<>();
-            parameters.add(expression);
             while (lastToken() == COMMA) {
                 consume(COMMA);
                 parameters.add(parseExpression());
             }
-            consume(CLOSE_PAR);
-            return new LambdaExpression(parameters, parseLambdaCode());
         }
         consume(CLOSE_PAR);
-        return expression;
+        if (lastToken() == ARROW || parameters.size() != 1)
+            return new LambdaExpression(parameters, parseLambdaCode());
+        else return parameters.get(0);
     }
 
     /**
