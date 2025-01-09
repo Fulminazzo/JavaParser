@@ -1,8 +1,9 @@
 package it.fulminazzo.mojito.typechecker.types.arrays;
 
-import it.fulminazzo.mojito.typechecker.types.ClassType;
-import it.fulminazzo.mojito.typechecker.types.Type;
-import it.fulminazzo.mojito.typechecker.types.TypeWrapper;
+import it.fulminazzo.mojito.typechecker.types.*;
+import it.fulminazzo.mojito.typechecker.types.variables.TypeFieldContainer;
+import it.fulminazzo.mojito.visitors.visitorobjects.VisitorObjectException;
+import it.fulminazzo.mojito.visitors.visitorobjects.variables.FieldContainer;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,6 +29,13 @@ public class ArrayType extends TypeWrapper implements Type {
      */
     public @NotNull Type getComponentType() {
         return this.object;
+    }
+
+    @Override
+    public @NotNull FieldContainer<ClassType, Type, ParameterTypes> getField(@NotNull String fieldName) throws VisitorObjectException {
+        if (fieldName.equals("length"))
+            return new TypeFieldContainer(this, PrimitiveClassType.INT, "length", PrimitiveType.INT);
+        else return Type.super.getField(fieldName);
     }
 
     @Override
