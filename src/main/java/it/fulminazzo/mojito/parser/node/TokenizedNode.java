@@ -22,8 +22,7 @@ public abstract class TokenizedNode extends NodeImpl {
     public TokenizedNode(final @NotNull String rawValue,
                          final @NotNull TokenType type) throws NodeException {
         if (!type.matches(rawValue))
-            throw new NodeException(String.format("Invalid value %s for token %s(%s)",
-                    rawValue, type, type.regex()));
+            throw new NodeException("Invalid value %s for token %s(%s)", rawValue, type, type.regex());
     }
 
 }
