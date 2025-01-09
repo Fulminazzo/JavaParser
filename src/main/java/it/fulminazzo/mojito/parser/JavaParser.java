@@ -839,7 +839,7 @@ public class JavaParser extends Parser {
     }
 
     /**
-     * ATOM := NULL | THIS | ARRAY_LITERAL | TYPE_VALUE
+     * ATOM := NULL | THIS | ARRAY_LITERAL | LITERAL LAMBDA_CODE | TYPE_VALUE
      *
      * @return the node
      */
@@ -849,8 +849,11 @@ public class JavaParser extends Parser {
                 return parseNull();
             case THIS:
                 return parseThis();
-            case LITERAL:
-                return parseArrayLiteral(parseLiteral());
+            case LITERAL: {
+                Literal literal = parseLiteral();
+                if (lastToken() == ARROW) return new LambdaExpression(literal, parseLambdaCode());
+                else return parseArrayLiteral(literal);
+            }
             default:
                 return parseTypeValue();
         }
