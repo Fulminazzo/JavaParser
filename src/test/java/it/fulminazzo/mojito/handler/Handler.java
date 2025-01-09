@@ -53,6 +53,11 @@ public class Handler implements Visitor<ClassElement, Element, ParameterElements
     }
 
     @Override
+    public @NotNull Element visitLambdaExpression(@NotNull List<Node> parameters, @NotNull CodeBlock code) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public @NotNull Element visitTryStatement(@NotNull CodeBlock block, @NotNull List<CatchStatement> catchBlocks,
                                               @NotNull CodeBlock finallyBlock, @NotNull Node expression) {
         throw new UnsupportedOperationException();

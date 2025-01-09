@@ -62,6 +62,12 @@ public class Executor implements Visitor<ClassValue<?>, Value<?>, ParameterValue
     }
 
     @Override
+    public @NotNull Value<?> visitLambdaExpression(@NotNull List<Node> parameters, @NotNull CodeBlock code) {
+        //TODO:
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public @NotNull Value<?> visitTryStatement(@NotNull CodeBlock block, @NotNull List<CatchStatement> catchBlocks,
                                                @NotNull CodeBlock finallyBlock, @NotNull Node assignments) {
         return visitScoped(ScopeType.TRY, () -> {

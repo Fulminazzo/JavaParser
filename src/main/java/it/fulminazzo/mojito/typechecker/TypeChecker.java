@@ -90,6 +90,12 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
     }
 
     @Override
+    public @NotNull Type visitLambdaExpression(@NotNull List<Node> parameters, @NotNull CodeBlock code) {
+        //TODO:
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public @NotNull Type visitTryStatement(@NotNull CodeBlock block, @NotNull List<CatchStatement> catchBlocks,
                                            @NotNull CodeBlock finallyBlock, @NotNull Node expression) {
         return visitScoped(ScopeType.TRY, () -> {
