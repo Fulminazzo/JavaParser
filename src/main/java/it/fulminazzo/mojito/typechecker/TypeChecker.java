@@ -296,14 +296,14 @@ public class TypeChecker implements Visitor<ClassType, Type, ParameterTypes> {
     public @NotNull Type visitDynamicArray(@NotNull List<Node> parameters, @NotNull Node type) {
         ClassType componentType = type.accept(this).check(ArrayClassType.class).getComponentsType();
         for (Node parameter : parameters) parameter.accept(this).isAssignableFrom(componentType);
-        return new ArrayType(componentType.toType());
+        return ArrayType.of(componentType.toType());
     }
 
     @Override
     public @NotNull Type visitStaticArray(int size, @NotNull Node type) {
         ClassType componentType = type.accept(this).checkClass();
         if (size < 0) throw TypeCheckerException.invalidArraySize(size);
-        else return new ArrayType(componentType.toType());
+        else return ArrayType.of(componentType.toType());
     }
 
     @Override
