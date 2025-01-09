@@ -2,7 +2,11 @@ package it.fulminazzo.mojito.executor.values.arrays;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
 import it.fulminazzo.mojito.executor.values.ClassValue;
+import it.fulminazzo.mojito.executor.values.ParameterValues;
 import it.fulminazzo.mojito.executor.values.Value;
+import it.fulminazzo.mojito.executor.values.variables.ValueFieldContainer;
+import it.fulminazzo.mojito.visitors.visitorobjects.VisitorObjectException;
+import it.fulminazzo.mojito.visitors.visitorobjects.variables.FieldContainer;
 import it.fulminazzo.mojito.wrappers.ObjectWrapper;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -65,6 +69,13 @@ public class ArrayValue<A> extends ObjectWrapper<List<Value<A>>> implements Valu
      */
     public void set(final int index, final Value<?> value) {
         this.object.set(index, (Value<A>) value);
+    }
+
+    @Override
+    public @NotNull FieldContainer<ClassValue<?>, Value<?>, ParameterValues> getField(@NotNull String fieldName) throws VisitorObjectException {
+        if (fieldName.equals("length"))
+            return new ValueFieldContainer<>(this, ClassValue.of(int.class), "length", Value.of(this.object.size()));
+        else return Value.super.getField(fieldName);
     }
 
     @Override
