@@ -19,7 +19,7 @@ public class ArrayClassType extends TypeWrapper implements ClassType {
      *
      * @param componentType the component type
      */
-    ArrayClassType(@NotNull ClassType componentType) {
+    ArrayClassType(final @NotNull ClassType componentType) {
         super(componentType);
     }
 

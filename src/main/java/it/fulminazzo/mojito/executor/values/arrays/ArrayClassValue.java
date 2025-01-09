@@ -21,7 +21,7 @@ public class ArrayClassValue<A> extends ObjectWrapper<ClassValue<A>> implements 
      *
      * @param classValue the {@link ClassValue} of the components
      */
-    ArrayClassValue(final ClassValue<A> classValue) {
+    ArrayClassValue(final @NotNull ClassValue<A> classValue) {
         super(classValue);
     }
 
@@ -30,7 +30,7 @@ public class ArrayClassValue<A> extends ObjectWrapper<ClassValue<A>> implements 
      *
      * @return the components type
      */
-    public ClassValue<A> getComponentsType() {
+    public @NotNull ClassValue<A> getComponentsType() {
         return this.object;
     }
 
@@ -66,7 +66,7 @@ public class ArrayClassValue<A> extends ObjectWrapper<ClassValue<A>> implements 
      * @param classValue the class value of the components
      * @return the array class value
      */
-    public static <V> @NotNull ArrayClassValue<V> of(final ClassValue<V> classValue) {
+    public static <V> @NotNull ArrayClassValue<V> of(final @NotNull ClassValue<V> classValue) {
         return new ArrayClassValue<>(classValue);
     }
 
