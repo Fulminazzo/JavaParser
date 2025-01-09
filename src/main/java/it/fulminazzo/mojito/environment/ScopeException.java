@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 /**
  * An exception thrown by {@link Scoped} objects.
  */
-public class ScopeException extends Exception {
+public final class ScopeException extends Exception {
 
     /**
      * Instantiates a new Scope exception.
