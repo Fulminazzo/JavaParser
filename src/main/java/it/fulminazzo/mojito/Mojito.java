@@ -1,6 +1,7 @@
 package it.fulminazzo.mojito;
 
 import it.fulminazzo.fulmicollection.objects.Refl;
+import it.fulminazzo.mojito.exceptions.FormatException;
 import it.fulminazzo.mojito.executor.Executor;
 import it.fulminazzo.mojito.executor.ExecutorException;
 import it.fulminazzo.mojito.executor.values.Value;
@@ -195,12 +196,13 @@ public final class Mojito {
     /**
      * A helper exception for many functions of this class.
      */
-    private static class ArgumentsException extends Exception {
+    private static class ArgumentsException extends FormatException {
 
         /**
          * Instantiates a new Arguments exception.
          */
         public ArgumentsException() {
+            super("");
         }
 
         /**
@@ -210,7 +212,7 @@ public final class Mojito {
          * @param args    the arguments to add in the message format
          */
         public ArgumentsException(final @NotNull String message, final Object @NotNull ... args) {
-            super(String.format(message, args));
+            super(message, args);
         }
 
     }
