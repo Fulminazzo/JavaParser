@@ -18,7 +18,7 @@ public class ArrayType extends TypeWrapper implements Type {
      *
      * @param componentType the component type
      */
-    public ArrayType(@NotNull Type componentType) {
+    ArrayType(final @NotNull Type componentType) {
         super(componentType);
     }
 
@@ -41,6 +41,16 @@ public class ArrayType extends TypeWrapper implements Type {
     @Override
     public @NotNull ClassType toClass() {
         return new ArrayClassType(getComponentsType().toClass());
+    }
+
+    /**
+     * Instantiates a new array value from the given type.
+     *
+     * @param componentsType the type of the components
+     * @return the array type
+     */
+    public static @NotNull ArrayType of(final @NotNull Type componentsType) {
+        return new ArrayType(componentsType);
     }
 
 }
