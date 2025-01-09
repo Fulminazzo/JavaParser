@@ -25,6 +25,15 @@ public class ArrayClassValue<A> extends ObjectWrapper<ClassValue<A>> implements 
         super(classValue);
     }
 
+    /**
+     * Gets the components type.
+     *
+     * @return the components type
+     */
+    public ClassValue<A> getComponentsType() {
+        return this.object;
+    }
+
     @Override
     public @NotNull Class<A> getWrapperValue() {
         return of(ClassValue.of(getComponentsType().getWrapperValue())).getValue();
@@ -45,15 +54,6 @@ public class ArrayClassValue<A> extends ObjectWrapper<ClassValue<A>> implements 
         return (Class<A>) Array.newInstance(this.object.getValue(), 0).getClass();
     }
 
-    /**
-     * Gets the components type.
-     *
-     * @return the components type
-     */
-    public ClassValue<A> getComponentsType() {
-        return this.object;
-    }
-
     @Override
     public @NotNull String toString() {
         return getComponentsType().toString().replace(".class", "[].class");
@@ -62,8 +62,8 @@ public class ArrayClassValue<A> extends ObjectWrapper<ClassValue<A>> implements 
     /**
      * Instantiates a new {@link ArrayClassValue} from the given {@link ClassValue}.
      *
-     * @param <V>        the type of the value
-     * @param classValue the class value
+     * @param <V>        the type of the components
+     * @param classValue the class value of the components
      * @return the array class value
      */
     public static <V> @NotNull ArrayClassValue<V> of(final ClassValue<V> classValue) {
