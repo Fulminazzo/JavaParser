@@ -35,7 +35,7 @@ public class ArrayType extends TypeWrapper implements Type {
     public @NotNull FieldContainer<ClassType, Type, ParameterTypes> getField(@NotNull String fieldName) throws VisitorObjectException {
         if (fieldName.equals("length"))
             return new TypeFieldContainer(this, PrimitiveClassType.INT, "length", PrimitiveType.INT);
-        else return Type.super.getField(fieldName);
+        else throw TypeException.fieldNotFound(toClass(), fieldName);
     }
 
     @Override
