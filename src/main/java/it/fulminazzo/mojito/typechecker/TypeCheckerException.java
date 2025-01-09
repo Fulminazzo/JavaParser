@@ -1,5 +1,6 @@
 package it.fulminazzo.mojito.typechecker;
 
+import it.fulminazzo.mojito.exceptions.FormatRuntimeException;
 import it.fulminazzo.mojito.tokenizer.TokenType;
 import it.fulminazzo.mojito.typechecker.types.ClassType;
 import it.fulminazzo.mojito.typechecker.types.Type;
@@ -8,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * An exception thrown by the {@link it.fulminazzo.mojito.typechecker.TypeChecker}.
  */
-public class TypeCheckerException extends RuntimeException {
+public final class TypeCheckerException extends FormatRuntimeException {
 
     /**
      * Instantiates a new Type checker exception.
@@ -17,7 +18,16 @@ public class TypeCheckerException extends RuntimeException {
      * @param args    the arguments to add in the message format
      */
     private TypeCheckerException(final @NotNull String message, final Object @NotNull ... args) {
-        super(String.format(message, args));
+        super(message, args);
+    }
+
+    /**
+     * Instantiates a new Type checker exception.
+     *
+     * @param cause the inner exception
+     */
+    private TypeCheckerException(final @NotNull Throwable cause) {
+        super(cause);
     }
 
     /**
@@ -27,7 +37,7 @@ public class TypeCheckerException extends RuntimeException {
      * @return the type checker exception
      */
     public static @NotNull TypeCheckerException of(final @NotNull Throwable cause) {
-        return new TypeCheckerException(cause.getMessage());
+        return new TypeCheckerException(cause);
     }
 
     /**
